@@ -1,0 +1,27 @@
+=== Develop ===
+
+A) Install Eclipse Oxygen for RCP/RAP Developers [1]
+B) IDE: SWTChart "Install New Software" via Orbit [2]
+C) IDE: RCPTT "Install New Software" [3]
+D) Clone EAVP repository -> branch "chemclipse" [4]
+E) Import bundles org.eclipse.swtchart.extensions* into workspace
+F) Run Application -> org.eclipse.swtchart.extensions.demos/EAVP SWTChart Demos.launch
+G) Select Demo perspectives
+
+[1] http://www.eclipse.org
+[2] http://download.eclipse.org/tools/orbit/R-builds/R20170516192513/repository
+[3] http://download.eclipse.org/rcptt/release/2.2.0/repository
+[4] https://github.com/eclipse/swtchart
+
+
+=== Build ===
+
+mvn -f org.eclipse.swtchart.extensions/pom.xml clean install
+
+
+=== Test ===
+
+A) Download Eclipse for RCP and RAP Developers
+B) org.eclipse.swtchart.extensions.demos.updatesite/site.xml -> Build All
+C) Copy features and plugins folder -> dropins folder of "Eclipse for RCP and RAP Developers"
+D) Run RCPTT tests

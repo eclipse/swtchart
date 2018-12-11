@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<site>
+   <feature url="features/org.eclipse.swtchart.feature_0.7.0.qualifier.jar" id="org.eclipse.swtchart.feature" version="0.7.0.qualifier">
+      <category name="org.eclipse.swtchart"/>
+   </feature>
+   <category-def name="org.eclipse.swtchart" label="Eclipse SWTChart"/>
+</site>

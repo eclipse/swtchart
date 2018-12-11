@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<plugin>
+
+   <extension
+         id="org.eclipse.swtchart.extensions.demos.fragment"
+         point="org.eclipse.e4.workbench.model">
+      <fragment
+            uri="fragment.e4xmi">
+      </fragment>
+   </extension>
+   <extension
+         point="org.eclipse.ui.preferencePages">
+      <page
+            class="org.eclipse.swtchart.extensions.examples.preferences.PreferencePage"
+            id="org.eclipse.swtchart.extensions.demos.preferences.PreferencePage"
+            name="EAVP Demo Settings">
+      </page>
+      <!-- Line -->
+      <page
+      		category="org.eclipse.swtchart.extensions.demos.preferences.PreferencePage"
+            class="org.eclipse.swtchart.extensions.examples.preferences.LineSeriesPreferencePage"
+            id="org.eclipse.swtchart.extensions.demos.preferences.LineSeriesPreferencePage"
+            name="Line Series">
+      </page>
+      <page
+            category="org.eclipse.swtchart.extensions.demos.preferences.LineSeriesPreferencePage"
+            class="org.eclipse.swtchart.extensions.examples.preferences.LineSeriesPrimaryAxesPreferencePage"
+            id="org.eclipse.swtchart.extensions.demos.preferences.LineSeriesPrimaryAxesPreferencePage"
+            name="Primary Axes">
+      </page>    
+      <page
+            category="org.eclipse.swtchart.extensions.demos.preferences.LineSeriesPreferencePage"
+            class="org.eclipse.swtchart.extensions.examples.preferences.LineSeriesSecondaryAxesPreferencePage"
+            id="org.eclipse.swtchart.extensions.demos.preferences.LineSeriesSecondaryAxesPreferencePage"
+            name="Secondary Axes">
+      </page>
+      <page
+            category="org.eclipse.swtchart.extensions.demos.preferences.LineSeriesPreferencePage"
+            class="org.eclipse.swtchart.extensions.examples.preferences.LineSeriesDataPreferencePage"
+            id="org.eclipse.swtchart.extensions.demos.preferences.LineSeriesDataPreferencePage"
+            name="Series Data">
+      </page>
+      <!-- Bar -->
+      <page
+      		category="org.eclipse.swtchart.extensions.demos.preferences.PreferencePage"
+            class="org.eclipse.swtchart.extensions.examples.preferences.BarSeriesPreferencePage"
+            id="org.eclipse.swtchart.extensions.demos.preferences.BarSeriesPreferencePage"
+            name="Bar Series">
+      </page>
+      <page
+            category="org.eclipse.swtchart.extensions.demos.preferences.BarSeriesPreferencePage"
+            class="org.eclipse.swtchart.extensions.examples.preferences.BarSeriesPrimaryAxesPreferencePage"
+            id="org.eclipse.swtchart.extensions.demos.preferences.BarSeriesPrimaryAxesPreferencePage"
+            name="Primary Axes">
+      </page>    
+      <page
+            category="org.eclipse.swtchart.extensions.demos.preferences.BarSeriesPreferencePage"
+            class="org.eclipse.swtchart.extensions.examples.preferences.BarSeriesSecondaryAxesPreferencePage"
+            id="org.eclipse.swtchart.extensions.demos.preferences.BarSeriesSecondaryAxesPreferencePage"
+            name="Secondary Axes">
+      </page>
+      <page
+            category="org.eclipse.swtchart.extensions.demos.preferences.BarSeriesPreferencePage"
+            class="org.eclipse.swtchart.extensions.examples.preferences.BarSeriesDataPreferencePage"
+            id="org.eclipse.swtchart.extensions.demos.preferences.BarSeriesDataPreferencePage"
+            name="Series Data">
+      </page>
+      <!-- Scatter -->     
+      <page
+      		category="org.eclipse.swtchart.extensions.demos.preferences.PreferencePage"
+            class="org.eclipse.swtchart.extensions.examples.preferences.ScatterSeriesPreferencePage"
+            id="org.eclipse.swtchart.extensions.demos.preferences.ScatterSeriesPreferencePage"
+            name="Scatter Series">
+      </page>
+      <page
+            category="org.eclipse.swtchart.extensions.demos.preferences.ScatterSeriesPreferencePage"
+            class="org.eclipse.swtchart.extensions.examples.preferences.ScatterSeriesPrimaryAxesPreferencePage"
+            id="org.eclipse.swtchart.extensions.demos.preferences.ScatterSeriesPrimaryAxesPreferencePage"
+            name="Primary Axes">
+      </page>
+      <page
+            category="org.eclipse.swtchart.extensions.demos.preferences.ScatterSeriesPreferencePage"
+            class="org.eclipse.swtchart.extensions.examples.preferences.ScatterSeriesDataPreferencePage"
+            id="org.eclipse.swtchart.extensions.demos.preferences.ScatterSeriesDataPreferencePage"
+            name="Series Data">
+      </page>                          
+   </extension>
+   <extension
+         point="org.eclipse.core.runtime.preferences">
+      <initializer
+            class="org.eclipse.swtchart.extensions.examples.preferences.LineSeriesPreferenceInitializer">
+      </initializer>
+      <initializer
+            class="org.eclipse.swtchart.extensions.examples.preferences.BarSeriesPreferenceInitializer">
+      </initializer>
+      <initializer
+            class="org.eclipse.swtchart.extensions.examples.preferences.ScatterSeriesPreferenceInitializer">
+      </initializer>      
+   </extension>
+   <extension
+         point="org.eclipse.swtchart.extensions.menuitems">
+      <MenuItemSupplier
+            MenuEntry="org.eclipse.swtchart.extensions.examples.menu.ResetXAxisHandler">
+      </MenuItemSupplier>
+      <MenuItemSupplier
+            MenuEntry="org.eclipse.swtchart.extensions.examples.menu.ResetYAxisHandler">
+      </MenuItemSupplier>
+   </extension>
+
+</plugin>
