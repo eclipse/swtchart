@@ -38,7 +38,7 @@ import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swtchart.extensions.axisconverter.RelativeIntensityConverter;
+import org.eclipse.swtchart.extensions.axisconverter.PercentageConverter;
 import org.eclipse.swtchart.extensions.barcharts.BarChart;
 import org.eclipse.swtchart.extensions.barcharts.BarSeriesData;
 import org.eclipse.swtchart.extensions.barcharts.IBarSeriesData;
@@ -244,7 +244,7 @@ public class BarSeries_Preferences_Part extends Composite {
 		 * Secondary Y-Axes
 		 */
 		chartSettings.getSecondaryAxisSettingsListY().clear();
-		ISecondaryAxisSettings secondaryAxisSettingsY = new SecondaryAxisSettings(preferenceStore.getString(BarSeriesPreferenceConstants.P_SECONDARY_Y_AXIS_TITLE), new RelativeIntensityConverter(SWT.VERTICAL, true));
+		ISecondaryAxisSettings secondaryAxisSettingsY = new SecondaryAxisSettings(preferenceStore.getString(BarSeriesPreferenceConstants.P_SECONDARY_Y_AXIS_TITLE), new PercentageConverter(SWT.VERTICAL, true));
 		secondaryAxisSettingsY.setDescription(preferenceStore.getString(BarSeriesPreferenceConstants.P_SECONDARY_Y_AXIS_DESCRIPTION));
 		secondaryAxisSettingsY.setDecimalFormat(new DecimalFormat((preferenceStore.getString(BarSeriesPreferenceConstants.P_SECONDARY_Y_AXIS_DECIMAL_FORMAT_PATTERN)), new DecimalFormatSymbols(localeSecondaryYAxis)));
 		secondaryAxisSettingsY.setColor(colorSecondaryYAxis);

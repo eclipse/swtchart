@@ -12,14 +12,14 @@
 package org.eclipse.swtchart.extensions.axisconverter;
 
 import org.eclipse.swt.SWT;
-import org.eclipse.swtchart.extensions.axisconverter.RelativeIntensityConverter;
+import org.eclipse.swtchart.extensions.axisconverter.PercentageConverter;
 import org.eclipse.swtchart.extensions.core.IChartDataCoordinates;
 
 import junit.framework.TestCase;
 
 public class RelativeIntensityConverter_1_Test extends TestCase {
 
-	private RelativeIntensityConverter relativeIntensityConverter;
+	private PercentageConverter relativeIntensityConverter;
 
 	private class TestChartDataCoordinates implements IChartDataCoordinates {
 
@@ -58,7 +58,7 @@ public class RelativeIntensityConverter_1_Test extends TestCase {
 	protected void setUp() throws Exception {
 
 		super.setUp();
-		relativeIntensityConverter = new RelativeIntensityConverter(SWT.VERTICAL, true);
+		relativeIntensityConverter = new PercentageConverter(SWT.VERTICAL, true);
 		relativeIntensityConverter.setChartDataCoordinates(new TestChartDataCoordinates());
 	}
 
