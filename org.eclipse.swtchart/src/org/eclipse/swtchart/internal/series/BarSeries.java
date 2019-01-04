@@ -98,7 +98,7 @@ public class BarSeries extends Series implements IBarSeries {
 	 */
 	public void setBarWidth(int width) {
 
-		if(padding <= 0) {
+		if(width <= 0) {
 			SWT.error(SWT.ERROR_INVALID_ARGUMENT);
 		}
 		this.barWidth = width;
