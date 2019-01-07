@@ -38,6 +38,8 @@ public class BarSeries extends Series implements IBarSeries {
 	private int barWidth;
 	/** the padding */
 	private int padding;
+	/** the overlay style */
+	private boolean barOverlay;
 	/** the bar width style */
 	private BarWidthStyle barWidthStyle;
 	/** the initial bar width in pixels */
@@ -50,7 +52,6 @@ public class BarSeries extends Series implements IBarSeries {
 	private static final int MARGIN_AT_MIN_MAX_PLOT = 6;
 	/** the default bar color */
 	private static final int DEFAULT_BAR_COLOR = SWT.COLOR_CYAN;
-	private boolean overlay;
 
 	/**
 	 * Constructor.
@@ -66,6 +67,7 @@ public class BarSeries extends Series implements IBarSeries {
 		barWidthStyle = BarWidthStyle.STRETCHED;
 		barWidth = INITIAL_PADDING;
 		padding = INITIAL_PADDING;
+		barOverlay = false;
 		type = SeriesType.BAR;
 		compressor = new CompressBarSeries();
 	}
@@ -122,6 +124,18 @@ public class BarSeries extends Series implements IBarSeries {
 			SWT.error(SWT.ERROR_INVALID_ARGUMENT);
 		}
 		this.padding = padding;
+	}
+
+	@Override
+	public boolean isBarOverlay() {
+
+		return barOverlay;
+	}
+
+	@Override
+	public void setBarOverlay(boolean barOverlay) {
+
+		this.barOverlay = barOverlay;
 	}
 
 	/*
@@ -202,7 +216,7 @@ public class BarSeries extends Series implements IBarSeries {
 			double riserHeight = Math.abs(yAxis.getPixelCoordinate(yseries[i], yRange.lower, yRange.upper) - yAxis.getPixelCoordinate(yAxis.isLogScaleEnabled() ? yRange.lower : baseYCoordinate, yRange.lower, yRange.upper));
 			// adjust riser x coordinate and riser width for multiple series
 			int riserCnt = xAxis.getNumRisers();
-			if(riserCnt > 1 && !overlay) {
+			if(riserCnt > 1 && !barOverlay) {
 				if(xAxis.isHorizontalAxis()) {
 					x = (int)(x - riserwidth / 2d + riserwidth / riserCnt * (riserIndex + 0.5));
 				} else {
@@ -463,16 +477,5 @@ public class BarSeries extends Series implements IBarSeries {
 		gc.setAlpha(alpha);
 		gc.setBackground(oldBackground);
 		gc.setForeground(oldForeground);
-	}
-
-	@Override
-	public void enableOverlayBars(boolean overlay) {
-		this.overlay = overlay;
-	}
-
-	@Override
-	public boolean isOverlayBarsEnabled() {
-
-		return overlay;
 	}
 }

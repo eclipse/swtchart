@@ -30,12 +30,6 @@ import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Event;
-import org.eclipse.swtchart.extensions.barcharts.IBarSeriesSettings;
-import org.eclipse.swtchart.extensions.events.IEventProcessor;
-import org.eclipse.swtchart.extensions.events.IHandledEventProcessor;
-import org.eclipse.swtchart.extensions.exceptions.SeriesException;
-import org.eclipse.swtchart.extensions.linecharts.ILineSeriesSettings;
-import org.eclipse.swtchart.extensions.scattercharts.IScatterSeriesSettings;
 import org.eclipse.swtchart.IAxis;
 import org.eclipse.swtchart.IAxis.Position;
 import org.eclipse.swtchart.IAxisSet;
@@ -44,6 +38,12 @@ import org.eclipse.swtchart.ILineSeries;
 import org.eclipse.swtchart.ISeries;
 import org.eclipse.swtchart.LineStyle;
 import org.eclipse.swtchart.Range;
+import org.eclipse.swtchart.extensions.barcharts.IBarSeriesSettings;
+import org.eclipse.swtchart.extensions.events.IEventProcessor;
+import org.eclipse.swtchart.extensions.events.IHandledEventProcessor;
+import org.eclipse.swtchart.extensions.exceptions.SeriesException;
+import org.eclipse.swtchart.extensions.linecharts.ILineSeriesSettings;
+import org.eclipse.swtchart.extensions.scattercharts.IScatterSeriesSettings;
 
 public class BaseChart extends AbstractExtendedChart implements IChartDataCoordinates, IRangeSupport, IExtendedChart {
 
@@ -770,6 +770,7 @@ public class BaseChart extends AbstractExtendedChart implements IChartDataCoordi
 		barSeries.setBarColor(barSeriesSettings.getBarColor());
 		barSeries.setBarPadding(barSeriesSettings.getBarPadding());
 		barSeries.setBarWidth(barSeriesSettings.getBarWidth());
+		barSeries.setBarOverlay(barSeriesSettings.isBarOverlay());
 	}
 
 	public List<double[]> getDataShiftHistory(String selectedSeriesId) {

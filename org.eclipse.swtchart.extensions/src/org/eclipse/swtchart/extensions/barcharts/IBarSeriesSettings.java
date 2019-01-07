@@ -12,8 +12,8 @@
 package org.eclipse.swtchart.extensions.barcharts;
 
 import org.eclipse.swt.graphics.Color;
-import org.eclipse.swtchart.extensions.core.ISeriesSettings;
 import org.eclipse.swtchart.IBarSeries.BarWidthStyle;
+import org.eclipse.swtchart.extensions.core.ISeriesSettings;
 
 public interface IBarSeriesSettings extends ISeriesSettings {
 
@@ -38,4 +38,8 @@ public interface IBarSeriesSettings extends ISeriesSettings {
 	 * @param barWidthStyle
 	 */
 	void setBarWidthStyle(BarWidthStyle barWidthStyle);
+
+	boolean isBarOverlay();
+
+	void setBarOverlay(boolean barOverlay);
 }

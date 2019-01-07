@@ -14,24 +14,18 @@ package org.eclipse.swtchart.extensions.barcharts;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.widgets.Display;
+import org.eclipse.swtchart.IBarSeries.BarWidthStyle;
 import org.eclipse.swtchart.extensions.core.AbstractSeriesSettings;
 import org.eclipse.swtchart.extensions.core.ISeriesSettings;
-import org.eclipse.swtchart.IBarSeries.BarWidthStyle;
 
 public class BarSeriesSettings extends AbstractSeriesSettings implements IBarSeriesSettings {
 
-	private Color barColor;
-	private int barPadding;
-	private int barWidth;
-	private BarWidthStyle barWidthStyle;
+	private Color barColor = Display.getDefault().getSystemColor(SWT.COLOR_RED);
+	private int barPadding = 20;
+	private int barWidth = 1;
+	private BarWidthStyle barWidthStyle = BarWidthStyle.FIXED;
+	private boolean barOverlay = false;
 	private IBarSeriesSettings seriesSettingsHighlight = null;
-
-	public BarSeriesSettings() {
-		barColor = Display.getDefault().getSystemColor(SWT.COLOR_RED);
-		barPadding = 20;
-		barWidth = 1;
-		barWidthStyle = BarWidthStyle.FIXED;
-	}
 
 	@Override
 	public Color getBarColor() {
@@ -79,6 +73,18 @@ public class BarSeriesSettings extends AbstractSeriesSettings implements IBarSer
 	public void setBarWidthStyle(BarWidthStyle barWidthStyle) {
 
 		this.barWidthStyle = barWidthStyle;
+	}
+
+	@Override
+	public boolean isBarOverlay() {
+
+		return barOverlay;
+	}
+
+	@Override
+	public void setBarOverlay(boolean barOverlay) {
+
+		this.barOverlay = barOverlay;
 	}
 
 	@Override

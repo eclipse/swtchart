@@ -80,6 +80,20 @@ public interface IBarSeries extends ISeries {
 	void setBarPadding(int padding);
 
 	/**
+	 * 
+	 * @return <code>true</code> if overlay is enabled, <code>false</code> otherwise
+	 */
+	boolean isBarOverlay();
+
+	/**
+	 * Set the bars to overlay each other, the default is <code>false</code>
+	 * 
+	 * @param overlay
+	 *            <code>true</code> if overlay is desired, <code>false</code> otherwise
+	 */
+	void setBarOverlay(boolean overlay);
+
+	/**
 	 * Gets the bar color.
 	 * 
 	 * @return the bar color
@@ -93,20 +107,6 @@ public interface IBarSeries extends ISeries {
 	 *            the bar color
 	 */
 	void setBarColor(Color color);
-
-	/**
-	 * Set the bars to overlay each other, the default is <code>false</code>
-	 * 
-	 * @param overlay
-	 *            <code>true</code> if overlay is desired, <code>false</code> otherwise
-	 */
-	void enableOverlayBars(boolean overlay);
-
-	/**
-	 * 
-	 * @return <code>true</code> if overlay is enabled, <code>false</code> otherwise
-	 */
-	boolean isOverlayBarsEnabled();
 
 	/**
 	 * Gets the array of bar rectangles. This method is typically used for mouse
