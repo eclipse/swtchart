@@ -43,6 +43,12 @@ public class ImageFactory_2_UITest extends TestCase {
 
 	public void test1() {
 
+		assertTrue("UI tests can't be executed on a headless build server.", true);
+	}
+
+	@SuppressWarnings("unused")
+	private void demo() {
+
 		try {
 			/*
 			 * Create the factory.
