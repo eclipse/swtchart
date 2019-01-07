@@ -95,6 +95,20 @@ public interface IBarSeries extends ISeries {
 	void setBarColor(Color color);
 
 	/**
+	 * Set the bars to overlay each other, the default is <code>false</code>
+	 * 
+	 * @param overlay
+	 *            <code>true</code> if overlay is desired, <code>false</code> otherwise
+	 */
+	void enableOverlayBars(boolean overlay);
+
+	/**
+	 * 
+	 * @return <code>true</code> if overlay is enabled, <code>false</code> otherwise
+	 */
+	boolean isOverlayBarsEnabled();
+
+	/**
 	 * Gets the array of bar rectangles. This method is typically used for mouse
 	 * listener to check whether mouse cursor is on bar.
 	 * <p>
