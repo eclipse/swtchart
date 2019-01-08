@@ -26,6 +26,7 @@ import org.eclipse.swtchart.extensions.menu.SeriesConverter;
 import org.eclipse.swtchart.extensions.scattercharts.IScatterSeriesData;
 import org.eclipse.swtchart.extensions.scattercharts.IScatterSeriesSettings;
 import org.eclipse.swtchart.extensions.scattercharts.ScatterSeriesData;
+import org.junit.Ignore;
 
 import junit.framework.TestCase;
 
@@ -50,8 +51,8 @@ public class ImageFactory_3_UITest extends TestCase {
 		assertTrue("UI tests can't be executed on a headless build server.", true);
 	}
 
-	@SuppressWarnings("unused")
-	private void demo() {
+	@Ignore
+	public void test2() {
 
 		try {
 			/*

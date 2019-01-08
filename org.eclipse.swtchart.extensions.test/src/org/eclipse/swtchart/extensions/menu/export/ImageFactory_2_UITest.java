@@ -24,6 +24,7 @@ import org.eclipse.swtchart.extensions.core.ISeriesData;
 import org.eclipse.swtchart.extensions.customcharts.MassSpectrumChart;
 import org.eclipse.swtchart.extensions.images.ImageFactory;
 import org.eclipse.swtchart.extensions.menu.SeriesConverter;
+import org.junit.Ignore;
 
 import junit.framework.TestCase;
 
@@ -46,8 +47,8 @@ public class ImageFactory_2_UITest extends TestCase {
 		assertTrue("UI tests can't be executed on a headless build server.", true);
 	}
 
-	@SuppressWarnings("unused")
-	private void demo() {
+	@Ignore
+	public void test2() {
 
 		try {
 			/*
