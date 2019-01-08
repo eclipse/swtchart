@@ -28,6 +28,7 @@ import org.junit.Ignore;
 
 import junit.framework.TestCase;
 
+@Ignore
 public class ImageFactory_2_UITest extends TestCase {
 
 	@Override
@@ -47,7 +48,6 @@ public class ImageFactory_2_UITest extends TestCase {
 		assertTrue("UI tests can't be executed on a headless build server.", true);
 	}
 
-	@Ignore
 	public void test2() {
 
 		try {

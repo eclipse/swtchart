@@ -30,6 +30,7 @@ import org.junit.Ignore;
 
 import junit.framework.TestCase;
 
+@Ignore
 public class ImageFactory_3_UITest extends TestCase {
 
 	private int SYMBOL_SIZE = 8;
@@ -51,7 +52,6 @@ public class ImageFactory_3_UITest extends TestCase {
 		assertTrue("UI tests can't be executed on a headless build server.", true);
 	}
 
-	@Ignore
 	public void test2() {
 
 		try {
