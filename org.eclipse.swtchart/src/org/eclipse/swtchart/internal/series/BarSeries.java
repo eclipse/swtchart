@@ -359,7 +359,9 @@ public class BarSeries extends Series implements IBarSeries {
 	 * @return the raiser width in pixels
 	 */
 	private int getRiserWidth(double[] series, int index, Axis xAxis, double min, double max) {
-
+		if (series.length == 0) {
+			return 1;
+		}
 		// get two x coordinates
 		double upper;
 		double lower;
