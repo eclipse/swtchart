@@ -70,6 +70,8 @@ public class Axis implements IAxis {
 	private boolean logScaleEnabled;
 	/** the state indicating if axis type is category */
 	private boolean categoryAxisEnabled;
+	/** the state indicating if axis is reversed */
+	private boolean reversed;
 	/** the category series */
 	private String[] categorySeries;
 	/** the number of riser per category */
@@ -112,6 +114,7 @@ public class Axis implements IAxis {
 		}
 		logScaleEnabled = false;
 		categoryAxisEnabled = false;
+		reversed = false;
 	}
 
 	/*
@@ -565,6 +568,27 @@ public class Axis implements IAxis {
 	}
 
 	/*
+	 * @see IAxis#setReversed(boolean)
+	 */
+	@Override
+	public void setReversed(boolean reversed) {
+
+		if(this.reversed == reversed) {
+			return;
+		}
+		this.reversed = reversed;
+		chart.updateLayout();
+	}
+
+	/*
+	 * @see IAxis#isReversed()
+	 */
+	@Override
+	public boolean isReversed() {
+		return reversed;
+	}
+
+	/*
 	 * @see IAxis#getPixelCoordinate(double)
 	 */
 	public int getPixelCoordinate(double dataCoordinate) {
@@ -586,21 +610,41 @@ public class Axis implements IAxis {
 	public int getPixelCoordinate(double dataCoordinate, double lower, double upper) {
 
 		int pixelCoordinate;
-		if(isHorizontalAxis) {
-			if(logScaleEnabled) {
-				pixelCoordinate = (int)((Math.log10(dataCoordinate) - Math.log10(lower)) / (Math.log10(upper) - Math.log10(lower)) * width);
-			} else if(categoryAxisEnabled) {
-				pixelCoordinate = (int)((dataCoordinate + 0.5 - lower) / (upper + 1 - lower) * width);
+		if(isReversed()) {
+			if(isHorizontalAxis) {
+				if(logScaleEnabled) {
+					pixelCoordinate = (int)((Math.log10(upper) - Math.log10(dataCoordinate)) / (Math.log10(upper) - Math.log10(lower)) * width);
+				} else if(categoryAxisEnabled) {
+					pixelCoordinate = (int)((upper - dataCoordinate + 0.5) / (upper + 1 - lower) * width);
+				} else {
+					pixelCoordinate = (int)((upper - dataCoordinate) / (upper - lower) * width);
+				}
 			} else {
-				pixelCoordinate = (int)((dataCoordinate - lower) / (upper - lower) * width);
+				if(logScaleEnabled) {
+					pixelCoordinate = (int)((Math.log10(dataCoordinate) - Math.log10(lower)) / (Math.log10(upper) - Math.log10(lower)) * height);
+				} else if(categoryAxisEnabled) {
+					pixelCoordinate = (int)((dataCoordinate + 0.5 - lower) / (upper + 1 - lower) * height);
+				} else {
+					pixelCoordinate = (int)((dataCoordinate - lower) / (upper - lower) * height);
+				}
 			}
 		} else {
-			if(logScaleEnabled) {
-				pixelCoordinate = (int)((Math.log10(upper) - Math.log10(dataCoordinate)) / (Math.log10(upper) - Math.log10(lower)) * height);
-			} else if(categoryAxisEnabled) {
-				pixelCoordinate = (int)((upper - dataCoordinate + 0.5) / (upper + 1 - lower) * height);
+			if(isHorizontalAxis) {
+				if(logScaleEnabled) {
+					pixelCoordinate = (int)((Math.log10(dataCoordinate) - Math.log10(lower)) / (Math.log10(upper) - Math.log10(lower)) * width);
+				} else if(categoryAxisEnabled) {
+					pixelCoordinate = (int)((dataCoordinate + 0.5 - lower) / (upper + 1 - lower) * width);
+				} else {
+					pixelCoordinate = (int)((dataCoordinate - lower) / (upper - lower) * width);
+				}
 			} else {
-				pixelCoordinate = (int)((upper - dataCoordinate) / (upper - lower) * height);
+				if(logScaleEnabled) {
+					pixelCoordinate = (int)((Math.log10(upper) - Math.log10(dataCoordinate)) / (Math.log10(upper) - Math.log10(lower)) * height);
+				} else if(categoryAxisEnabled) {
+					pixelCoordinate = (int)((upper - dataCoordinate + 0.5) / (upper + 1 - lower) * height);
+				} else {
+					pixelCoordinate = (int)((upper - dataCoordinate) / (upper - lower) * height);
+				}
 			}
 		}
 		return pixelCoordinate;
@@ -629,21 +673,41 @@ public class Axis implements IAxis {
 	public double getDataCoordinate(int pixelCoordinate, double lower, double upper) {
 
 		double dataCoordinate;
-		if(isHorizontalAxis) {
-			if(logScaleEnabled) {
-				dataCoordinate = Math.pow(10, pixelCoordinate / (double)width * (Math.log10(upper) - Math.log10(lower)) + Math.log10(lower));
-			} else if(categoryAxisEnabled) {
-				dataCoordinate = Math.floor(pixelCoordinate / (double)width * (upper + 1 - lower) + lower);
+		if(isReversed()) {
+			if(isHorizontalAxis) {
+				if(logScaleEnabled) {
+					dataCoordinate = Math.pow(10, Math.log10(upper) - pixelCoordinate / (double)width * (Math.log10(upper) - Math.log10(lower)) + Math.log10(lower));
+				} else if(categoryAxisEnabled) {
+					dataCoordinate = Math.floor(upper + 1 - pixelCoordinate / (double)width * (upper + 1 - lower) + lower);
+				} else {
+					dataCoordinate = (width - pixelCoordinate) / (double)width * (upper - lower) + lower;
+				}
 			} else {
-				dataCoordinate = pixelCoordinate / (double)width * (upper - lower) + lower;
+				if(logScaleEnabled) {
+					dataCoordinate = Math.pow(10, pixelCoordinate / (double)height * (Math.log10(upper) - Math.log10(lower)));
+				} else if(categoryAxisEnabled) {
+					dataCoordinate = Math.floor(pixelCoordinate / (double)height * (upper + 1 - lower));
+				} else {
+					dataCoordinate = pixelCoordinate / (double)height * (upper - lower) + lower;
+				}
 			}
 		} else {
-			if(logScaleEnabled) {
-				dataCoordinate = Math.pow(10, Math.log10(upper) - pixelCoordinate / (double)height * (Math.log10(upper) - Math.log10(lower)));
-			} else if(categoryAxisEnabled) {
-				dataCoordinate = Math.floor(upper + 1 - pixelCoordinate / (double)height * (upper + 1 - lower));
+			if(isHorizontalAxis) {
+				if(logScaleEnabled) {
+					dataCoordinate = Math.pow(10, pixelCoordinate / (double)width * (Math.log10(upper) - Math.log10(lower)) + Math.log10(lower));
+				} else if(categoryAxisEnabled) {
+					dataCoordinate = Math.floor(pixelCoordinate / (double)width * (upper + 1 - lower) + lower);
+				} else {
+					dataCoordinate = pixelCoordinate / (double)width * (upper - lower) + lower;
+				}
 			} else {
-				dataCoordinate = (height - pixelCoordinate) / (double)height * (upper - lower) + lower;
+				if(logScaleEnabled) {
+					dataCoordinate = Math.pow(10, Math.log10(upper) - pixelCoordinate / (double)height * (Math.log10(upper) - Math.log10(lower)));
+				} else if(categoryAxisEnabled) {
+					dataCoordinate = Math.floor(upper + 1 - pixelCoordinate / (double)height * (upper + 1 - lower));
+				} else {
+					dataCoordinate = (height - pixelCoordinate) / (double)height * (upper - lower) + lower;
+				}
 			}
 		}
 		return dataCoordinate;
@@ -719,8 +783,18 @@ public class Axis implements IAxis {
 
 		int orientation = chart.getOrientation();
 		isHorizontalAxis = (direction == Direction.X && orientation == SWT.HORIZONTAL) || (direction == Direction.Y && orientation == SWT.VERTICAL);
-		width = chart.getPlotArea().getBounds().width;
-		height = chart.getPlotArea().getBounds().height;
+		if(width != chart.getPlotArea().getBounds().width) {
+			width = chart.getPlotArea().getBounds().width;
+			if(isHorizontalAxis) {
+				tick.updateTick(width);
+			}
+		}
+		if(height != chart.getPlotArea().getBounds().height) {
+			height = chart.getPlotArea().getBounds().height;
+			if(!isHorizontalAxis) {
+				tick.updateTick(height);
+			}
+		}
 	}
 
 	/**

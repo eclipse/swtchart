@@ -244,6 +244,9 @@ public class AxisTickLabels implements PaintListener {
 			tickLabelValues.add(Double.valueOf(cal.getTimeInMillis()));
 			tickLabels.add(format(cal.getTimeInMillis()));
 			int tickLabelPosition = (int)((cal.getTimeInMillis() - min) / (max - min) * length);
+			if(axis.isReversed()) {
+				tickLabelPosition = correctPositionInReversedAxis(tickLabelPosition);
+			}
 			tickLabelPositions.add(tickLabelPosition);
 			if(tickStepUnit == Calendar.MONTH) {
 				month += step;
@@ -278,6 +281,9 @@ public class AxisTickLabels implements PaintListener {
 		for(int i = 0; i < sizeOfTickLabels; i++) {
 			tickLabels.add(series[i + initialIndex]);
 			int tickLabelPosition = (int)(length * (i + 0.5) / sizeOfTickLabels);
+			if(axis.isReversed()) {
+				tickLabelPosition = correctPositionInReversedAxis(tickLabelPosition);
+			}
 			tickLabelPositions.add(tickLabelPosition);
 		}
 	}
@@ -315,6 +321,9 @@ public class AxisTickLabels implements PaintListener {
 				}
 				tickLabelValues.add(j.doubleValue());
 				int tickLabelPosition = (int)((Math.log10(j.doubleValue()) - Math.log10(min)) / (Math.log10(max) - Math.log10(min)) * length);
+				if(axis.isReversed()) {
+					tickLabelPosition = correctPositionInReversedAxis(tickLabelPosition);
+				}
 				tickLabelPositions.add(tickLabelPosition);
 			}
 			tickStep = tickStep.multiply(pow(10, 1));
@@ -373,8 +382,20 @@ public class AxisTickLabels implements PaintListener {
 			}
 			tickLabelValues.add(b.doubleValue());
 			int tickLabelPosition = (int)((b.doubleValue() - min) / (max - min) * length);
+			if(axis.isReversed()) {
+				tickLabelPosition = correctPositionInReversedAxis(tickLabelPosition);
+			}
 			tickLabelPositions.add(tickLabelPosition);
 		}
+	}
+
+	private int correctPositionInReversedAxis(int position) {
+
+		Rectangle plotAreaBounds = chart.getPlotArea().getBounds();
+		if(axis.isHorizontalAxis()) {
+			return plotAreaBounds.width - position - 1;
+		}
+		return plotAreaBounds.height - position - 1;
 	}
 
 	/**
@@ -526,7 +547,7 @@ public class AxisTickLabels implements PaintListener {
 	private boolean hasSpaceToDraw(int previousPosition, int tickLabelPosition, String tickLabel) {
 
 		Point p = Util.getExtentInGC(axis.getTick().getFont(), tickLabel);
-		int interval = tickLabelPosition - previousPosition;
+		int interval = Math.abs(tickLabelPosition - previousPosition);
 		int textLength = axis.isHorizontalAxis() ? p.x : p.y;
 		int padding = 3;
 		return interval > textLength + padding;

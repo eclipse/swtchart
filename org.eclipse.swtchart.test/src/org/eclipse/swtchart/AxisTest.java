@@ -11,15 +11,22 @@
  *******************************************************************************/
 package org.eclipse.swtchart;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
+
+import java.util.List;
+
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swtchart.IAxis.Position;
 import org.eclipse.swtchart.ISeries.SeriesType;
+import org.eclipse.swtchart.internal.axis.AxisTick;
 import org.eclipse.swtchart.util.ChartTestCase;
 import org.junit.Ignore;
 import org.junit.Test;
-
-import static org.junit.Assert.*;
 
 /**
  * Test case for axis.
@@ -33,6 +40,7 @@ public class AxisTest extends ChartTestCase {
 	private static final double[] series = { 0.2, 0.4, 0.6, 0.8 };
 	private static final double[] xSeries1 = { 1, 2, 3, 4, 5 };
 	private static final double[] xSeries2 = { -1, 2, 3, 4, 5 };
+	private static final double[] xSeries3 = { 1, 2, 3, 4, 6 };
 	private static final double[] ySeries1 = { 0.1, 0.2, 0.3, 0.4, 0.5 };
 	private static final double[] ySeries2 = { -0.2, -0.1, 0, 0.1, 0.2 };
 	private static final double[] ySeries3 = { 4.3, 4.3, 4.3, 4.3, 4.3 };
@@ -1058,6 +1066,148 @@ public class AxisTest extends ChartTestCase {
 		assertEquals(2.0, dataX, 0.001);
 		pixelX = xAxis.getPixelCoordinate(3);
 		assertEquals(r.height * 0.3, pixelX, 1);
+		
+		// reversed
+		xAxis.setReversed(true);
+		yAxis.setReversed(true);
+		xAxis.enableCategory(false);
+		xAxis.enableLogScale(false);
+		yAxis.enableLogScale(false);
+		xAxis.setRange(new Range(0, 100));
+		yAxis.setRange(new Range(0, 10));
+		r = chart.getPlotArea().getBounds();
+		showChart();
+		dataX = xAxis.getDataCoordinate((int)(r.width * 0.4));
+		dataY = yAxis.getDataCoordinate((int)(r.height * 0.3));
+		showChart();
+		assertEquals(61.3, dataX, 1);
+		assertEquals(8.05, dataY, 0.04);
+		pixelX = xAxis.getPixelCoordinate(dataX);
+		pixelY = yAxis.getPixelCoordinate(dataY);
+		assertEquals(r.width * 0.4, pixelX, 1);
+		assertEquals(r.height * 0.3, pixelY, 1);
 	}
-    
+
+	/**
+	 * Test for reversed axis.
+	 */
+    @Test
+	public void testReversed() throws Exception {
+    	
+    	// linear scale
+		ISeries lineSeries = chart.getSeriesSet().createSeries(SeriesType.LINE, "line series");
+		lineSeries.setXSeries(xSeries3);
+		lineSeries.setYSeries(ySeries1);
+		xAxis.setReversed(false);
+		yAxis.setReversed(false);
+		xAxis.setRange(new Range(0.5, 6.5));
+		yAxis.setRange(new Range(0.08, 0.55));
+		showChart();
+		assertIncreasing(((AxisTick)xAxis.getTick()).getAxisTickLabels().getTickLabelPositions());
+		assertIncreasing(((AxisTick)yAxis.getTick()).getAxisTickLabels().getTickLabelPositions());
+		assertIncreasingInPixel(xSeries3, xAxis);
+		assertDecreasingInPixel(ySeries1, yAxis);
+		
+		xAxis.setReversed(true);
+		yAxis.setReversed(false);
+		showChart();
+		assertDecreasing(((AxisTick)xAxis.getTick()).getAxisTickLabels().getTickLabelPositions());
+		assertIncreasing(((AxisTick)yAxis.getTick()).getAxisTickLabels().getTickLabelPositions());
+		assertDecreasingInPixel(xSeries3, xAxis);
+		assertDecreasingInPixel(ySeries1, yAxis);
+		
+		xAxis.setReversed(true);
+		yAxis.setReversed(true);
+		showChart();
+		assertDecreasing(((AxisTick)xAxis.getTick()).getAxisTickLabels().getTickLabelPositions());
+		assertDecreasing(((AxisTick)yAxis.getTick()).getAxisTickLabels().getTickLabelPositions());
+		assertDecreasingInPixel(xSeries3, xAxis);
+		assertIncreasingInPixel(ySeries1, yAxis);
+
+    	// log scale
+		xAxis.enableLogScale(true);
+		yAxis.enableLogScale(true);
+		xAxis.setReversed(false);
+		yAxis.setReversed(false);
+		lineSeries.setXSeries(xSeries3);
+		lineSeries.setYSeries(ySeries1);
+		xAxis.setRange(new Range(0.5, 6.5));
+		yAxis.setRange(new Range(0.08, 0.55));
+		showChart();
+		assertIncreasing(((AxisTick)xAxis.getTick()).getAxisTickLabels().getTickLabelPositions());
+		assertIncreasing(((AxisTick)yAxis.getTick()).getAxisTickLabels().getTickLabelPositions());
+		assertIncreasingInPixel(xSeries3, xAxis);
+		assertDecreasingInPixel(ySeries1, yAxis);
+		
+		xAxis.setReversed(true);
+		yAxis.setReversed(false);
+		showChart();
+		assertDecreasing(((AxisTick)xAxis.getTick()).getAxisTickLabels().getTickLabelPositions());
+		assertIncreasing(((AxisTick)yAxis.getTick()).getAxisTickLabels().getTickLabelPositions());
+		assertDecreasingInPixel(xSeries3, xAxis);
+		assertDecreasingInPixel(ySeries1, yAxis);
+		
+		xAxis.setReversed(true);
+		yAxis.setReversed(true);
+		showChart();
+		assertDecreasing(((AxisTick)xAxis.getTick()).getAxisTickLabels().getTickLabelPositions());
+		assertDecreasing(((AxisTick)yAxis.getTick()).getAxisTickLabels().getTickLabelPositions());
+		assertDecreasingInPixel(xSeries3, xAxis);
+		assertIncreasingInPixel(ySeries1, yAxis);
+		
+    	// category axis
+		xAxis.enableLogScale(false);
+		yAxis.enableLogScale(false);
+		xAxis.setCategorySeries(categorySeries);
+		xAxis.enableCategory(true);
+		xAxis.setReversed(false);
+		yAxis.setReversed(false);
+		showChart();
+		assertIncreasing(((AxisTick)xAxis.getTick()).getAxisTickLabels().getTickLabelPositions());
+		assertIncreasing(((AxisTick)yAxis.getTick()).getAxisTickLabels().getTickLabelPositions());
+		assertIncreasingInPixel(xSeries3, xAxis);
+		assertDecreasingInPixel(ySeries1, yAxis);
+		
+		xAxis.setReversed(true);
+		yAxis.setReversed(false);
+		showChart();
+		assertDecreasing(((AxisTick)xAxis.getTick()).getAxisTickLabels().getTickLabelPositions());
+		assertIncreasing(((AxisTick)yAxis.getTick()).getAxisTickLabels().getTickLabelPositions());
+		assertDecreasingInPixel(xSeries3, xAxis);
+		assertDecreasingInPixel(ySeries1, yAxis);
+		
+		xAxis.setReversed(true);
+		yAxis.setReversed(true);
+		showChart();
+		assertDecreasing(((AxisTick)xAxis.getTick()).getAxisTickLabels().getTickLabelPositions());
+		assertDecreasing(((AxisTick)yAxis.getTick()).getAxisTickLabels().getTickLabelPositions());
+		assertDecreasingInPixel(xSeries3, xAxis);
+		assertIncreasingInPixel(ySeries1, yAxis);
+    }
+
+	private void assertIncreasing(List<Integer> values) {
+		for(int i = 0; i < values.size() - 1; i++) {
+			assertTrue(values.get(i) < values.get(i + 1));
+		}
+	}
+
+	private void assertDecreasing(List<Integer> values) {
+		for(int i = 0; i < values.size() - 1; i++) {
+			assertTrue(values.get(i) > values.get(i + 1));
+		}
+	}
+
+	private void assertIncreasingInPixel(double[] actualSeries, IAxis axis) {
+
+		for(int i = 0; i < actualSeries.length - 1; i++) {
+			assertTrue(axis.getPixelCoordinate(actualSeries[i]) < axis.getPixelCoordinate(actualSeries[i + 1]));
+		}
+	}
+
+	private void assertDecreasingInPixel(double[] actualSeries, IAxis axis) {
+
+		for(int i = 0; i < actualSeries.length - 1; i++) {
+			assertTrue(axis.getPixelCoordinate(actualSeries[i]) > axis.getPixelCoordinate(actualSeries[i + 1]));
+		}
+	}
 }
