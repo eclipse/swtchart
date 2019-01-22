@@ -30,6 +30,7 @@ public abstract class AbstractAxisSettings implements IAxisSettings {
 	private Color gridColor;
 	private LineStyle gridLineStyle;
 	private boolean enableLogScale;
+	private boolean reversed;
 	private int extraSpaceTitle;
 
 	public AbstractAxisSettings(String title) {
@@ -50,6 +51,7 @@ public abstract class AbstractAxisSettings implements IAxisSettings {
 		gridColor = Display.getDefault().getSystemColor(SWT.COLOR_GRAY);
 		gridLineStyle = LineStyle.DOT;
 		enableLogScale = false;
+		reversed = false;
 		extraSpaceTitle = 25;
 	}
 
@@ -200,6 +202,18 @@ public abstract class AbstractAxisSettings implements IAxisSettings {
 	public void setEnableLogScale(boolean enableLogScale) {
 
 		this.enableLogScale = enableLogScale;
+	}
+
+	@Override
+	public boolean isReversed() {
+
+		return reversed;
+	}
+
+	@Override
+	public void setReversed(boolean reversed) {
+
+		this.reversed = reversed;
 	}
 
 	@Override

@@ -45,14 +45,6 @@ import org.eclipse.swt.widgets.Menu;
 import org.eclipse.swt.widgets.MenuItem;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Slider;
-import org.eclipse.swtchart.extensions.events.IHandledEventProcessor;
-import org.eclipse.swtchart.extensions.exceptions.SeriesException;
-import org.eclipse.swtchart.extensions.internal.marker.AxisZeroMarker;
-import org.eclipse.swtchart.extensions.internal.marker.LegendMarker;
-import org.eclipse.swtchart.extensions.internal.marker.PlotCenterMarker;
-import org.eclipse.swtchart.extensions.internal.marker.PositionMarker;
-import org.eclipse.swtchart.extensions.internal.marker.SeriesLabelMarker;
-import org.eclipse.swtchart.extensions.menu.IChartMenuEntry;
 import org.eclipse.swtchart.IAxis;
 import org.eclipse.swtchart.IAxis.Direction;
 import org.eclipse.swtchart.IAxis.Position;
@@ -65,6 +57,14 @@ import org.eclipse.swtchart.ISeries;
 import org.eclipse.swtchart.ISeriesSet;
 import org.eclipse.swtchart.ITitle;
 import org.eclipse.swtchart.Range;
+import org.eclipse.swtchart.extensions.events.IHandledEventProcessor;
+import org.eclipse.swtchart.extensions.exceptions.SeriesException;
+import org.eclipse.swtchart.extensions.internal.marker.AxisZeroMarker;
+import org.eclipse.swtchart.extensions.internal.marker.LegendMarker;
+import org.eclipse.swtchart.extensions.internal.marker.PlotCenterMarker;
+import org.eclipse.swtchart.extensions.internal.marker.PositionMarker;
+import org.eclipse.swtchart.extensions.internal.marker.SeriesLabelMarker;
+import org.eclipse.swtchart.extensions.menu.IChartMenuEntry;
 
 public class ScrollableChart extends Composite implements IScrollableChart, IEventHandler, IExtendedChart {
 
@@ -104,7 +104,6 @@ public class ScrollableChart extends Composite implements IScrollableChart, IEve
 	private LegendMarker legendMarker;
 	private AxisZeroMarker axisZeroMarker;
 	private SeriesLabelMarker seriesLabelMarker;
-	
 	private static final int HORIZONTAL_SCROLL_LENGTH = Integer.MAX_VALUE - 1;
 	private static final int VERTICAL_SCROLL_LENGTH = Integer.MAX_VALUE - 1;
 
@@ -821,11 +820,9 @@ public class ScrollableChart extends Composite implements IScrollableChart, IEve
 			/*
 			 * Coefficients for relative binding
 			 * between axes data and scroll bar parameters.
-			 * 
 			 * We have linear dependence formula z = coeff*w + shift
 			 * where w - point of chart, z - point of scroll bar
 			 * and coeff and shift - some coefficients
-			 *
 			 */
 			double coeffX = (maxX - minX) / (baseChart.getMaxX() - baseChart.getMinX());
 			double coeffY = (maxY - minY) / (baseChart.getMaxY() - baseChart.getMinY());
@@ -887,7 +884,7 @@ public class ScrollableChart extends Composite implements IScrollableChart, IEve
 	}
 
 	private Range calculateShiftedRange(Range range, Slider slider, int sliderOrientation) {
-		
+
 		int minX = 0;
 		int maxX = minX + HORIZONTAL_SCROLL_LENGTH;
 		int minY = 0;
@@ -895,11 +892,9 @@ public class ScrollableChart extends Composite implements IScrollableChart, IEve
 		/*
 		 * Coefficients for relative binding
 		 * between axes data and scroll bar parameters.
-		 * 
 		 * We have linear dependence formula z = coeff*w + shift
 		 * where w - point of chart, z - point of scroll bar
 		 * and coeff and shift - some coefficients.
-		 * 
 		 * And for inverse dependence we have x = (y-b)/k
 		 */
 		double coeffX = (maxX - minX) / (baseChart.getMaxX() - baseChart.getMinX());
@@ -912,10 +907,7 @@ public class ScrollableChart extends Composite implements IScrollableChart, IEve
 		//
 		boolean isChartHorizontal = isOrientationHorizontal();
 		//
-		double min = (sliderOrientation == SWT.HORIZONTAL && isChartHorizontal ||
-					  sliderOrientation == SWT.VERTICAL && !isChartHorizontal
-						? (selection - shiftX)/coeffX
-						: (selection - shiftY)/coeffY);
+		double min = (sliderOrientation == SWT.HORIZONTAL && isChartHorizontal || sliderOrientation == SWT.VERTICAL && !isChartHorizontal ? (selection - shiftX) / coeffX : (selection - shiftY) / coeffY);
 		double max = min + (range.upper - range.lower);
 		return new Range(min, max);
 	}
@@ -1024,6 +1016,7 @@ public class ScrollableChart extends Composite implements IScrollableChart, IEve
 			title.setStyleRanges(new StyleRange[]{styleRange});
 			//
 			axis.enableLogScale(axisSettings.isEnableLogScale());
+			axis.setReversed(axisSettings.isReversed());
 			/*
 			 * Apply primary axis specific settings.
 			 */

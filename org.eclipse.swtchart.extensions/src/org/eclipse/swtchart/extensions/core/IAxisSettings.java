@@ -73,6 +73,10 @@ public interface IAxisSettings {
 
 	void setEnableLogScale(boolean enableLogScale);
 
+	boolean isReversed();
+
+	void setReversed(boolean reversed);
+
 	int getExtraSpaceTitle();
 
 	void setExtraSpaceTitle(int extraSpaceTitle);
