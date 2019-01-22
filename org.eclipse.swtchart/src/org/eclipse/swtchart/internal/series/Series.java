@@ -548,8 +548,8 @@ abstract public class Series implements ISeries {
 		if(length == 0) {
 			return range;
 		}
-		int lowerPixelCoordinate = axis.getPixelCoordinate(range.lower, range.lower, range.upper) + lowerPlotMargin * (axis.isHorizontalAxis() ? -1 : 1);
-		int upperPixelCoordinate = axis.getPixelCoordinate(range.upper, range.lower, range.upper) + upperPlotMargin * (axis.isHorizontalAxis() ? 1 : -1);
+		int lowerPixelCoordinate = axis.getPixelCoordinate(range.lower, range.lower, range.upper) + lowerPlotMargin * (axis.isHorizontalAxis() && !axis.isReversed() ? -1 : 1);
+		int upperPixelCoordinate = axis.getPixelCoordinate(range.upper, range.lower, range.upper) + upperPlotMargin * (axis.isHorizontalAxis() && !axis.isReversed() ? 1 : -1);
 		double lower = axis.getDataCoordinate(lowerPixelCoordinate, range.lower, range.upper);
 		double upper = axis.getDataCoordinate(upperPixelCoordinate, range.lower, range.upper);
 		return new Range(lower, upper);

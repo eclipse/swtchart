@@ -218,6 +218,22 @@ public interface IAxis {
 	double getDataCoordinate(int pixelCoordinate);
 
 	/**
+	 * Sets the axis reversed. When X axis is reversed, axis values increase from right to left.
+	 * When Y axis is reversed, axis values increase from top to bottom.
+	 * 
+	 * @param reverse
+	 *            true to show reversed axis
+	 */
+	void setReversed(boolean reverse);
+
+	/**
+	 * Gets the state indicating if axis is reversed.
+	 * 
+	 * @return true if axis is reversed
+	 */
+	boolean isReversed();
+
+	/**
 	 * Adds the dispose listener. The newly created color or font for axis can
 	 * be disposed with the dispose listener when they are no longer needed.
 	 * 
