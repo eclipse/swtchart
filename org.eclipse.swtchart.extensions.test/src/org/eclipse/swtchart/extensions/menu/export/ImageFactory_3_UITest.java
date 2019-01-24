@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2017, 2018 Lablicate GmbH.
+ * Copyright (c) 2017, 2019 Lablicate GmbH.
  *
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
@@ -26,11 +26,9 @@ import org.eclipse.swtchart.extensions.menu.SeriesConverter;
 import org.eclipse.swtchart.extensions.scattercharts.IScatterSeriesData;
 import org.eclipse.swtchart.extensions.scattercharts.IScatterSeriesSettings;
 import org.eclipse.swtchart.extensions.scattercharts.ScatterSeriesData;
-import org.junit.Ignore;
 
 import junit.framework.TestCase;
 
-@Ignore
 public class ImageFactory_3_UITest extends TestCase {
 
 	private int SYMBOL_SIZE = 8;

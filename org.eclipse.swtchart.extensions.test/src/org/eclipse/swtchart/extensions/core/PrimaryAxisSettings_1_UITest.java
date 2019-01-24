@@ -17,11 +17,9 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swtchart.IAxis.Position;
 import org.eclipse.swtchart.LineStyle;
-import org.junit.Ignore;
 
 import junit.framework.TestCase;
 
-@Ignore
 public class PrimaryAxisSettings_1_UITest extends TestCase {
 
 	private PrimaryAxisSettings settings;
@@ -106,6 +104,11 @@ public class PrimaryAxisSettings_1_UITest extends TestCase {
 
 	public void test14() {
 
-		assertEquals(false, settings.isReversed());
+		assertFalse(settings.isReversed());
+	}
+
+	public void test15() {
+
+		assertTrue(settings.isTitleVisible());
 	}
 }

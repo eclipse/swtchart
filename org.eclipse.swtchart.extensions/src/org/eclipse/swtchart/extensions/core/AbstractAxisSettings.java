@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2017, 2018 Lablicate GmbH.
+ * Copyright (c) 2017, 2019 Lablicate GmbH.
  *
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
@@ -22,6 +22,7 @@ import org.eclipse.swtchart.LineStyle;
 public abstract class AbstractAxisSettings implements IAxisSettings {
 
 	private String title = ""; // Chart Title
+	private boolean titleVisible;
 	private String description = ""; // e.g. DropDown RangeSelector
 	private DecimalFormat decimalFormat;
 	private Color color;
@@ -44,6 +45,7 @@ public abstract class AbstractAxisSettings implements IAxisSettings {
 	public AbstractAxisSettings(String title, String description) {
 		this.title = title;
 		this.description = description;
+		titleVisible = true;
 		decimalFormat = new DecimalFormat();
 		color = Display.getDefault().getSystemColor(SWT.COLOR_BLACK);
 		visible = true;
@@ -118,6 +120,18 @@ public abstract class AbstractAxisSettings implements IAxisSettings {
 	public void setDescription(String description) {
 
 		this.description = description;
+	}
+
+	@Override
+	public boolean isTitleVisible() {
+
+		return titleVisible;
+	}
+
+	@Override
+	public void setTitleVisible(boolean titleVisible) {
+
+		this.titleVisible = titleVisible;
 	}
 
 	@Override

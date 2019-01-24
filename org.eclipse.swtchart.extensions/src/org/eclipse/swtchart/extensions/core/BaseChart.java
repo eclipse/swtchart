@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2017, 2018 Lablicate GmbH.
+ * Copyright (c) 2017, 2019 Lablicate GmbH.
  *
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
@@ -36,6 +36,7 @@ import org.eclipse.swtchart.IAxisSet;
 import org.eclipse.swtchart.IBarSeries;
 import org.eclipse.swtchart.ILineSeries;
 import org.eclipse.swtchart.ISeries;
+import org.eclipse.swtchart.ITitle;
 import org.eclipse.swtchart.LineStyle;
 import org.eclipse.swtchart.Range;
 import org.eclipse.swtchart.extensions.barcharts.IBarSeriesSettings;
@@ -202,7 +203,9 @@ public class BaseChart extends AbstractExtendedChart implements IChartDataCoordi
 		IAxisSet axisSet = getAxisSet();
 		//
 		IAxis xAxisPrimary = axisSet.getXAxis(ID_PRIMARY_X_AXIS);
-		xAxisPrimary.getTitle().setText(DEFAULT_TITLE_X_AXIS);
+		ITitle titleX = xAxisPrimary.getTitle();
+		titleX.setText(DEFAULT_TITLE_X_AXIS);
+		titleX.setVisible(true);
 		xAxisPrimary.setPosition(Position.Primary);
 		xAxisPrimary.getTick().setFormat(new DecimalFormat());
 		xAxisPrimary.enableLogScale(false);
@@ -211,7 +214,9 @@ public class BaseChart extends AbstractExtendedChart implements IChartDataCoordi
 		xAxisPrimary.setCategorySeries(new String[]{});
 		//
 		IAxis yAxisPrimary = axisSet.getYAxis(ID_PRIMARY_Y_AXIS);
-		yAxisPrimary.getTitle().setText(DEFAULT_TITLE_Y_AXIS);
+		ITitle titleY = yAxisPrimary.getTitle();
+		titleY.setText(DEFAULT_TITLE_Y_AXIS);
+		titleY.setVisible(true);
 		yAxisPrimary.setPosition(Position.Primary);
 		yAxisPrimary.getTick().setFormat(new DecimalFormat());
 		yAxisPrimary.enableLogScale(false);
