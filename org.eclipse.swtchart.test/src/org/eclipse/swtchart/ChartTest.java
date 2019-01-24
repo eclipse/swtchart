@@ -437,4 +437,35 @@ public class ChartTest extends ChartTestCase {
             file.delete();
         }
     }
+
+	/**
+	 * Test for SWT resources that are internally created in following cases.
+	 * <ul>
+	 * <li>Y axis title is drawn.
+	 * <li>risers are drawn.
+	 * <li>rotated axis tick labels are drawn.
+	 * </ul>
+	 */
+    @Test
+    public void testSwtResources() throws Throwable {
+
+		ISeries barSeries = chart.getSeriesSet().createSeries(SeriesType.BAR, "bar series");
+		barSeries.setYSeries(ySeries1);
+		chart.getAxisSet().getXAxis(0).getTick().setTickLabelAngle(45);
+        chart.getAxisSet().adjustRange();
+
+    	startTrackingSwtResources();
+
+    	for(int i = 0; i < 2; i++) {
+			chart.redraw();
+
+			// give UI thread a chance to redraw chart
+			long time = System.currentTimeMillis();
+			while (System.currentTimeMillis() - time < 100) {
+				Display.getDefault().readAndDispatch();
+			}
+		}
+
+		assertEquals(0, getSwtResourceCount());
+    }
 }
