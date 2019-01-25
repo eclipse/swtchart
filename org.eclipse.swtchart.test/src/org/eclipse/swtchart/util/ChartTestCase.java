@@ -12,8 +12,10 @@
 package org.eclipse.swtchart.util;
 
 import java.io.File;
+import java.lang.reflect.Field;
 
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.graphics.Device;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
@@ -81,6 +83,56 @@ public class ChartTestCase {
 				saveIntoFile(chart, fileNameIndex++);
 			}
 		}
+	}
+
+	/**
+	 * Starts tracking SWT resource creation and disposal.
+	 * <p>
+	 * When instantiating a class that extends
+	 * {@link org.eclipse.swt.graphics.Resource}, the instance is supposed to be disposed
+	 * by explicitly calling {@link org.eclipse.swt.graphics.Resource#dispose()}.
+	 * <p>
+	 * To detect the missing disposal of SWT resources, this method starts tracking the
+	 * SWT resource creation and disposal.
+	 */
+	protected void startTrackingSwtResources() throws Exception {
+
+		// initialize the tracking data
+		Field field = Device.class.getDeclaredField("trackingLock");
+		field.setAccessible(true);
+		field.set(Display.getDefault(), new Object());
+		field = Device.class.getDeclaredField("errors");
+		field.setAccessible(true);
+		field.set(Display.getDefault(), new Error[127]);
+		field = Device.class.getDeclaredField("objects");
+		field.setAccessible(true);
+		field.set(Display.getDefault(), new Object[127]);
+
+		// start tracking
+		field = Device.class.getDeclaredField("tracking");
+		field.setAccessible(true);
+		field.set(Display.getDefault(), Boolean.TRUE);
+	}
+
+	/**
+	 * Gets the count of SWT resources that are created and remain after tracking is started.
+	 * 
+	 * @return the count of SWT resources
+	 */
+	protected int getSwtResourceCount() throws Exception {
+
+		Field field = Device.class.getDeclaredField("objects");
+		field.setAccessible(true);
+		Object[] objects = (Object[])field.get(Display.getDefault());
+
+		// count SWT resources
+		int count = 0;
+		for (Object object : objects) {
+			if (object != null) {
+				count++;
+			}
+		}
+		return count;
 	}
 
 	private static Shell createShell(String title) {
