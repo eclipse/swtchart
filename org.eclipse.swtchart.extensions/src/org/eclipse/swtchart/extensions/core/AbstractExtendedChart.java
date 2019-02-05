@@ -18,9 +18,6 @@ import java.util.Map;
 import java.util.Set;
 
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swtchart.extensions.barcharts.IBarSeriesSettings;
-import org.eclipse.swtchart.extensions.core.RangeRestriction.ExtendType;
-import org.eclipse.swtchart.extensions.exceptions.SeriesException;
 import org.eclipse.swtchart.IAxis;
 import org.eclipse.swtchart.IAxis.Direction;
 import org.eclipse.swtchart.IAxisSet;
@@ -28,6 +25,9 @@ import org.eclipse.swtchart.ISeries;
 import org.eclipse.swtchart.ISeries.SeriesType;
 import org.eclipse.swtchart.ISeriesSet;
 import org.eclipse.swtchart.Range;
+import org.eclipse.swtchart.extensions.barcharts.IBarSeriesSettings;
+import org.eclipse.swtchart.extensions.core.RangeRestriction.ExtendType;
+import org.eclipse.swtchart.extensions.exceptions.SeriesException;
 
 public abstract class AbstractExtendedChart extends AbstractHandledChart implements IChartDataCoordinates, IRangeSupport, IExtendedChart {
 
@@ -221,7 +221,9 @@ public abstract class AbstractExtendedChart extends AbstractHandledChart impleme
 			/*
 			 * Adjust the range.
 			 */
-			axis.setRange(range);
+			if(range.lower < range.upper) {
+				axis.setRange(range);
+			}
 		}
 	}
 
