@@ -832,11 +832,11 @@ public class ScrollableChart extends Composite implements IScrollableChart, IEve
 			//
 			int minSelectionX = (int)(xAxis.getRange().lower * coeffX + shiftX);
 			int maxSelectionX = (int)(xAxis.getRange().upper * coeffX + shiftX);
-			int thumbSelectionX = (int)(maxSelectionX - minSelectionX);
+			int thumbSelectionX = maxSelectionX - minSelectionX;
 			//
 			int minSelectionY = (int)(yAxis.getRange().lower * coeffY + shiftY);
 			int maxSelectionY = (int)(yAxis.getRange().upper * coeffY + shiftY);
-			int thumbSelectionY = (int)(maxSelectionY - minSelectionY);
+			int thumbSelectionY = maxSelectionY - minSelectionY;
 			//
 			boolean isHorizontal = isOrientationHorizontal();
 			//
@@ -1294,6 +1294,10 @@ public class ScrollableChart extends Composite implements IScrollableChart, IEve
 
 		Composite plotArea = baseChart.getPlotArea();
 		Menu menu = new Menu(plotArea);
+		Menu m = plotArea.getMenu();
+		if(m != null) {
+			m.dispose();
+		}
 		plotArea.setMenu(menu);
 		createMenuItems(menu);
 	}
