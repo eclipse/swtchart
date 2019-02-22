@@ -4,7 +4,8 @@ Please read this if you intend to contribute to the project.
 
 ## Developer Guidelines
 
-The full set of SWTChart developer guidelines are availalbe [here](https://wiki.eclipse.org/...). You should read them before proceeding.
+Please contact the team if you're unsure regarding the SWTChart developer guidelines.
+Each bundle contains the style and formatting guidelines already. They should be applied automatically when using the Eclipse IDE.
 
 ## Legal stuff
 
