@@ -11,7 +11,9 @@
  *******************************************************************************/
 package org.eclipse.swtchart.extensions.core;
 
+import org.eclipse.swtchart.ISeries;
 import org.eclipse.swtchart.Range;
+import org.eclipse.swtchart.extensions.exceptions.SeriesException;
 
 public interface IScrollableChart {
 
@@ -20,6 +22,15 @@ public interface IScrollableChart {
 	void applySettings(IChartSettings chartSettings);
 
 	BaseChart getBaseChart();
+
+	default void addSeries(IChartSeriesData chartSeriesData) throws SeriesException {
+
+		ISeriesData seriesData = chartSeriesData.getSeriesData();
+		ISeriesSettings seriesSettings = chartSeriesData.getSettings();
+		BaseChart baseChart = getBaseChart();
+		ISeries series = baseChart.createSeries(seriesData, seriesSettings);
+		baseChart.applySeriesSettings(series, seriesSettings);
+	}
 
 	/**
 	 * Delete all series.

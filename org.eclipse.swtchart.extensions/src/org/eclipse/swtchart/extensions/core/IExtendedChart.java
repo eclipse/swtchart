@@ -11,8 +11,8 @@
  *******************************************************************************/
 package org.eclipse.swtchart.extensions.core;
 
-import org.eclipse.swtchart.extensions.exceptions.SeriesException;
 import org.eclipse.swtchart.ISeries;
+import org.eclipse.swtchart.extensions.exceptions.SeriesException;
 
 public interface IExtendedChart {
 
@@ -38,11 +38,26 @@ public interface IExtendedChart {
 	void deleteSeries(String id);
 
 	/**
+	 * removes the given series from the chart
+	 * 
+	 * @param seriesData
+	 */
+	default void deleteSeries(IChartSeriesData seriesData) {
+
+		deleteSeries(seriesData.getSeriesData().getId());
+	}
+
+	/**
 	 * Append an existing series with the new arrays.
 	 * 
 	 * @param seriesData
 	 */
 	void appendSeries(ISeriesData seriesData);
+
+	default void appendSeries(IChartSeriesData seriesData) {
+
+		appendSeries(seriesData.getSeriesData());
+	}
 
 	/**
 	 * Sets the range, based on the start and stop coordinates.
