@@ -23,13 +23,14 @@ public interface IScrollableChart {
 
 	BaseChart getBaseChart();
 
-	default void addSeries(IChartSeriesData chartSeriesData) throws SeriesException {
+	default ISeries addSeries(IChartSeriesData chartSeriesData) throws SeriesException {
 
 		ISeriesData seriesData = chartSeriesData.getSeriesData();
 		ISeriesSettings seriesSettings = chartSeriesData.getSettings();
 		BaseChart baseChart = getBaseChart();
 		ISeries series = baseChart.createSeries(seriesData, seriesSettings);
 		baseChart.applySeriesSettings(series, seriesSettings);
+		return series;
 	}
 
 	/**
