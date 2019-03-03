@@ -15,5 +15,16 @@ import org.eclipse.swtchart.extensions.core.IChartSeriesData;
 
 public interface ILineSeriesData extends IChartSeriesData {
 
+	/**
+	 * @deprecated use {@link #getSettings()} instead
+	 * @return
+	 */
+	@Deprecated
 	ILineSeriesSettings getLineSeriesSettings();
+
+	@Override
+	default ILineSeriesSettings getSettings() {
+
+		return getLineSeriesSettings();
+	}
 }

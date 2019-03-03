@@ -712,7 +712,7 @@ public class BaseChart extends AbstractExtendedChart implements IChartDataCoordi
 		}
 	}
 
-	private void applySeriesSettings(ISeries dataSeries, ISeriesSettings seriesSettings) {
+	public void applySeriesSettings(ISeries dataSeries, ISeriesSettings seriesSettings) {
 
 		if(dataSeries instanceof ILineSeries) {
 			ILineSeries lineSeries = (ILineSeries)dataSeries;
