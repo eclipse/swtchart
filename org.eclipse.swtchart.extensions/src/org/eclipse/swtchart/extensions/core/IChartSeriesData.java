@@ -14,4 +14,6 @@ package org.eclipse.swtchart.extensions.core;
 public interface IChartSeriesData {
 
 	ISeriesData getSeriesData();
+
+	ISeriesSettings getSettings();
 }

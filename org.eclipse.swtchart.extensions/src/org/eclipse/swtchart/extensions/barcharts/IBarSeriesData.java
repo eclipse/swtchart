@@ -15,5 +15,16 @@ import org.eclipse.swtchart.extensions.core.IChartSeriesData;
 
 public interface IBarSeriesData extends IChartSeriesData {
 
+	/**
+	 * @deprecated use {@link #getSettings()} instead
+	 * @return
+	 */
+	@Deprecated
 	IBarSeriesSettings getBarSeriesSettings();
+
+	@Override
+	default IBarSeriesSettings getSettings() {
+
+		return getBarSeriesSettings();
+	}
 }

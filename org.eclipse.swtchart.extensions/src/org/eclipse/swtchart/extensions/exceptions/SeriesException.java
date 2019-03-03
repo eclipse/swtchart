@@ -11,7 +11,7 @@
  *******************************************************************************/
 package org.eclipse.swtchart.extensions.exceptions;
 
-public class SeriesException extends Exception {
+public class SeriesException extends RuntimeException {
 
 	/**
 	 * Renew this UUID on change.
