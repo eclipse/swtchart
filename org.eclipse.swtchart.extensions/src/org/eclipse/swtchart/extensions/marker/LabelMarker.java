@@ -22,14 +22,15 @@ import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.graphics.Transform;
 import org.eclipse.swt.widgets.Display;
-import org.eclipse.swtchart.extensions.core.BaseChart;
 import org.eclipse.swtchart.ISeries;
+import org.eclipse.swtchart.extensions.core.BaseChart;
 
 public class LabelMarker extends AbstractBaseChartPaintListener implements IBaseChartPaintListener {
 
 	private Transform transform = null;
 	private Map<Integer, String> labels = new HashMap<Integer, String>();
 	private int indexSeries = -1;
+	private ISeries serie;
 
 	public LabelMarker(BaseChart baseChart) {
 		super(baseChart);
@@ -47,8 +48,13 @@ public class LabelMarker extends AbstractBaseChartPaintListener implements IBase
 
 	public void setLabels(Map<Integer, String> labels, int indexSeries, int orientation) {
 
+		setSeriesIndex(indexSeries);
+		setLabels(labels, orientation);
+	}
+
+	public void setLabels(Map<Integer, String> labels, int orientation) {
+
 		this.labels = (labels != null) ? labels : new HashMap<Integer, String>();
-		this.indexSeries = indexSeries;
 		if(orientation == SWT.VERTICAL) {
 			disposeTransform();
 			transform = new Transform(Display.getDefault());
@@ -56,6 +62,16 @@ public class LabelMarker extends AbstractBaseChartPaintListener implements IBase
 		} else {
 			transform = null;
 		}
+	}
+
+	public void setSeriesIndex(int indexSeries) {
+
+		this.indexSeries = indexSeries;
+	}
+
+	public void setSeries(ISeries serie) {
+
+		this.serie = serie;
 	}
 
 	@Override
@@ -80,42 +96,54 @@ public class LabelMarker extends AbstractBaseChartPaintListener implements IBase
 	@Override
 	public void paintControl(PaintEvent e) {
 
+		ISeries serie = getSeries();
+		if(serie == null) {
+			return;
+		}
 		BaseChart baseChart = getBaseChart();
 		Rectangle rectangle = baseChart.getPlotArea().getClientArea();
-		ISeries[] series = baseChart.getSeriesSet().getSeries();
-		if(indexSeries >= 0 && indexSeries < series.length) {
-			ISeries serie = series[indexSeries];
-			int size = serie.getXSeries().length;
-			for(int index : labels.keySet()) {
-				if(index < size) {
+		int size = serie.getXSeries().length;
+		for(int index : labels.keySet()) {
+			if(index < size) {
+				/*
+				 * Draw the label if the index is within the
+				 * range of the double array.
+				 */
+				String label = labels.get(index);
+				Point point = serie.getPixelCoordinates(index);
+				//
+				if(rectangle.contains(point)) {
 					/*
-					 * Draw the label if the index is within the
-					 * range of the double array.
+					 * Calculate x and y
 					 */
-					String label = labels.get(index);
-					Point point = serie.getPixelCoordinates(index);
-					//
-					if(rectangle.contains(point)) {
-						/*
-						 * Calculate x and y
-						 */
-						int x;
-						int y;
-						Point labelSize = e.gc.textExtent(label);
-						GC gc = e.gc;
-						if(transform != null) {
-							gc.setTransform(transform);
-							x = -labelSize.x - (point.y - labelSize.x - 15);
-							y = point.x - (labelSize.y / 2);
-						} else {
-							x = point.x - labelSize.x / 2;
-							y = point.y - labelSize.y - 15;
-						}
-						gc.drawText(label, x, y, true);
-						gc.setTransform(null);
+					int x;
+					int y;
+					Point labelSize = e.gc.textExtent(label);
+					GC gc = e.gc;
+					if(transform != null) {
+						gc.setTransform(transform);
+						x = -labelSize.x - (point.y - labelSize.x - 15);
+						y = point.x - (labelSize.y / 2);
+					} else {
+						x = point.x - labelSize.x / 2;
+						y = point.y - labelSize.y - 15;
 					}
+					gc.drawText(label, x, y, true);
+					gc.setTransform(null);
 				}
 			}
 		}
+	}
+
+	protected ISeries getSeries() {
+
+		if(serie != null) {
+			return serie;
+		}
+		ISeries[] series = getBaseChart().getSeriesSet().getSeries();
+		if(indexSeries >= 0 && indexSeries < series.length) {
+			return series[indexSeries];
+		}
+		return null;
 	}
 }
