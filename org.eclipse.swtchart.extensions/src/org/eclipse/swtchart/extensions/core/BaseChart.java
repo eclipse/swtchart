@@ -730,12 +730,14 @@ public class BaseChart extends AbstractExtendedChart implements IChartDataCoordi
 				applyScatterSeriesSettings(lineSeries, scatterSeriesSettings);
 			}
 		} else if(dataSeries instanceof IBarSeries) {
-			/*
-			 * Bar Series
-			 */
 			IBarSeries barSeries = (IBarSeries)dataSeries;
-			IBarSeriesSettings barSeriesSettings = (IBarSeriesSettings)seriesSettings;
-			applyBarSeriesSettings(barSeries, barSeriesSettings);
+			if(seriesSettings instanceof IBarSeriesSettings) {
+				/*
+				 * Bar Series
+				 */
+				IBarSeriesSettings barSeriesSettings = (IBarSeriesSettings)seriesSettings;
+				applyBarSeriesSettings(barSeries, barSeriesSettings);
+			}
 		}
 	}
 
