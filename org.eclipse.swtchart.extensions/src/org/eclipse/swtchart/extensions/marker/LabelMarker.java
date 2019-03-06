@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2017, 2018 Lablicate GmbH.
+ * Copyright (c) 2017, 2019 Lablicate GmbH.
  *
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
@@ -100,6 +100,7 @@ public class LabelMarker extends AbstractBaseChartPaintListener implements IBase
 		if(serie == null) {
 			return;
 		}
+		//
 		BaseChart baseChart = getBaseChart();
 		Rectangle rectangle = baseChart.getPlotArea().getClientArea();
 		int size = serie.getXSeries().length;
@@ -112,7 +113,7 @@ public class LabelMarker extends AbstractBaseChartPaintListener implements IBase
 				String label = labels.get(index);
 				Point point = serie.getPixelCoordinates(index);
 				//
-				if(rectangle.contains(point)) {
+				if(point.x > 0 && rectangle.contains(point)) {
 					/*
 					 * Calculate x and y
 					 */
