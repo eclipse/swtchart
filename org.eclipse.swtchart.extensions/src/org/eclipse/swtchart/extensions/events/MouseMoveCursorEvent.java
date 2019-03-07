@@ -37,21 +37,21 @@ public class MouseMoveCursorEvent extends AbstractHandledEventProcessor implemen
 	@Override
 	public void handleEvent(BaseChart baseChart, Event event) {
 
-		if(defaultCursor == null) {
-			defaultCursor = baseChart.getDisplay().getSystemCursor(SWT.CURSOR_ARROW);
-		}
-		//
-		if(tooltip == null) {
-			tooltip = new ToolTip(baseChart.getShell(), SWT.NONE);
-		}
-		//
-		String selectedSeriesId = baseChart.getSelectedseriesId(event);
-		if(selectedSeriesId.equals("")) {
-			baseChart.setCursor(defaultCursor);
-			tooltip.setVisible(false);
-		} else {
-			baseChart.setCursor(baseChart.getDisplay().getSystemCursor(SWT.CURSOR_HAND));
-			if(baseChart.getChartSettings().isEnableTooltips()) {
+		if(baseChart.getChartSettings().isEnableTooltips()) {
+			if(defaultCursor == null) {
+				defaultCursor = baseChart.getDisplay().getSystemCursor(SWT.CURSOR_ARROW);
+			}
+			//
+			if(tooltip == null) {
+				tooltip = new ToolTip(baseChart.getShell(), SWT.NONE);
+			}
+			//
+			String selectedSeriesId = baseChart.getSelectedseriesId(event);
+			if(selectedSeriesId.equals("")) {
+				baseChart.setCursor(defaultCursor);
+				tooltip.setVisible(false);
+			} else {
+				baseChart.setCursor(baseChart.getDisplay().getSystemCursor(SWT.CURSOR_HAND));
 				tooltip.setMessage(selectedSeriesId);
 				tooltip.setVisible(true);
 				tooltip.setAutoHide(false);
