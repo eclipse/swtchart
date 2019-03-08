@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2017, 2018 Lablicate GmbH.
+ * Copyright (c) 2017, 2019 Lablicate GmbH.
  *
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
@@ -24,6 +24,7 @@ import javax.inject.Inject;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swtchart.ILineSeries.PlotSymbolType;
 import org.eclipse.swtchart.extensions.core.IChartSettings;
 import org.eclipse.swtchart.extensions.core.IPrimaryAxisSettings;
 import org.eclipse.swtchart.extensions.core.ISeriesData;
@@ -33,7 +34,6 @@ import org.eclipse.swtchart.extensions.scattercharts.IScatterSeriesData;
 import org.eclipse.swtchart.extensions.scattercharts.IScatterSeriesSettings;
 import org.eclipse.swtchart.extensions.scattercharts.ScatterChart;
 import org.eclipse.swtchart.extensions.scattercharts.ScatterSeriesData;
-import org.eclipse.swtchart.ILineSeries.PlotSymbolType;
 
 public class ScatterSeries_3_Part extends ScatterChart {
 
@@ -100,7 +100,7 @@ public class ScatterSeries_3_Part extends ScatterChart {
 				double[] ySeries = new double[]{y};
 				ISeriesData seriesData = new SeriesData(xSeries, ySeries, id);
 				IScatterSeriesData scatterSeriesData = new ScatterSeriesData(seriesData);
-				IScatterSeriesSettings scatterSeriesSettings = scatterSeriesData.getScatterSeriesSettings();
+				IScatterSeriesSettings scatterSeriesSettings = scatterSeriesData.getSettings();
 				scatterSeriesSettings.setDescription(id);
 				scatterSeriesSettings.setSymbolSize(getRandomValue(30.0d));
 				scatterSeriesSettings.setSymbolColor(colors.get(y));

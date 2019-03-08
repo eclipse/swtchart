@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2017, 2018 Lablicate GmbH.
+ * Copyright (c) 2017, 2019 Lablicate GmbH.
  *
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
@@ -37,6 +37,9 @@ import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swtchart.IAxis.Position;
+import org.eclipse.swtchart.ILineSeries.PlotSymbolType;
+import org.eclipse.swtchart.LineStyle;
 import org.eclipse.swtchart.extensions.axisconverter.MillisecondsToMinuteConverter;
 import org.eclipse.swtchart.extensions.axisconverter.PercentageConverter;
 import org.eclipse.swtchart.extensions.core.IChartSettings;
@@ -56,9 +59,6 @@ import org.eclipse.swtchart.extensions.linecharts.ILineSeriesData;
 import org.eclipse.swtchart.extensions.linecharts.ILineSeriesSettings;
 import org.eclipse.swtchart.extensions.linecharts.LineChart;
 import org.eclipse.swtchart.extensions.linecharts.LineSeriesData;
-import org.eclipse.swtchart.IAxis.Position;
-import org.eclipse.swtchart.ILineSeries.PlotSymbolType;
-import org.eclipse.swtchart.LineStyle;
 
 public class LineSeries_Preferences_Part extends Composite {
 
@@ -296,7 +296,7 @@ public class LineSeries_Preferences_Part extends Composite {
 		 */
 		seriesData = SeriesConverter.getSeriesXY(SeriesConverter.LINE_SERIES_4_1);
 		lineSeriesData = new LineSeriesData(seriesData);
-		lineSeriesSettings = lineSeriesData.getLineSeriesSettings();
+		lineSeriesSettings = lineSeriesData.getSettings();
 		lineSeriesSettings.setDescription(preferenceStore.getString(LineSeriesPreferenceConstants.P_DESCRIPTION_SERIES_1));
 		lineSeriesSettings.setAntialias(preferenceStore.getInt(LineSeriesPreferenceConstants.P_ANTIALIAS_SERIES_1));
 		lineSeriesSettings.setEnableArea(preferenceStore.getBoolean(LineSeriesPreferenceConstants.P_ENABLE_AREA_SERIES_1));
@@ -329,7 +329,7 @@ public class LineSeries_Preferences_Part extends Composite {
 		 */
 		seriesData = SeriesConverter.getSeriesXY(SeriesConverter.LINE_SERIES_4_2);
 		lineSeriesData = new LineSeriesData(seriesData);
-		lineSeriesSettings = lineSeriesData.getLineSeriesSettings();
+		lineSeriesSettings = lineSeriesData.getSettings();
 		lineSeriesSettings.setDescription(preferenceStore.getString(LineSeriesPreferenceConstants.P_DESCRIPTION_SERIES_2));
 		lineSeriesSettings.setAntialias(preferenceStore.getInt(LineSeriesPreferenceConstants.P_ANTIALIAS_SERIES_2));
 		lineSeriesSettings.setEnableArea(preferenceStore.getBoolean(LineSeriesPreferenceConstants.P_ENABLE_AREA_SERIES_2));

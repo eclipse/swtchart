@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2017, 2018 Lablicate GmbH.
+ * Copyright (c) 2017, 2019 Lablicate GmbH.
  *
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
@@ -65,7 +65,7 @@ public class LineSeries_4_Part extends ChromatogramChart {
 		for(int i = 1; i <= 5; i++) {
 			ISeriesData seriesData = SeriesConverter.getSeriesXY(SeriesConverter.LINE_SERIES + "4_" + i);
 			ILineSeriesData lineSeriesData = new LineSeriesData(seriesData);
-			ILineSeriesSettings lineSeriesSettings = lineSeriesData.getLineSeriesSettings();
+			ILineSeriesSettings lineSeriesSettings = lineSeriesData.getSettings();
 			lineSeriesSettings.setLineColor(colors.get(i));
 			lineSeriesSettings.setEnableArea(false);
 			ILineSeriesSettings lineSeriesSettingsHighlight = (ILineSeriesSettings)lineSeriesSettings.getSeriesSettingsHighlight();

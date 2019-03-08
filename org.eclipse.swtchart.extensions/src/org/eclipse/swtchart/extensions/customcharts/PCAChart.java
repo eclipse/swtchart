@@ -55,7 +55,7 @@ public class PCAChart extends ScatterChart {
 		super.addSeriesData(scatterSeriesDataList);
 		symbolSize = 0;
 		for(IScatterSeriesData scatterSeriesData : scatterSeriesDataList) {
-			symbolSize = Math.max(symbolSize, scatterSeriesData.getScatterSeriesSettings().getSymbolSize());
+			symbolSize = Math.max(symbolSize, scatterSeriesData.getSettings().getSymbolSize());
 		}
 	}
 

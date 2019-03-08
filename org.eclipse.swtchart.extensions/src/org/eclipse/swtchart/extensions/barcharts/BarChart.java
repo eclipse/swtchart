@@ -59,7 +59,7 @@ public class BarChart extends ScrollableChart {
 				try {
 					ISeriesData seriesData = barSeriesData.getSeriesData();
 					ISeriesData optimizedSeriesData = calculateSeries(seriesData, compressToLength);
-					IBarSeriesSettings barSeriesSettings = barSeriesData.getBarSeriesSettings();
+					IBarSeriesSettings barSeriesSettings = barSeriesData.getSettings();
 					barSeriesSettings.getSeriesSettingsHighlight(); // Initialize
 					IBarSeries barSeries = (IBarSeries)createSeries(optimizedSeriesData, barSeriesSettings);
 					baseChart.applyBarSeriesSettings(barSeries, barSeriesSettings);

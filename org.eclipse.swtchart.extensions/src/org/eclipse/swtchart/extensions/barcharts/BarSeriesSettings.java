@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2017, 2018 Lablicate GmbH.
+ * Copyright (c) 2017, 2019 Lablicate GmbH.
  *
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
@@ -25,6 +25,7 @@ public class BarSeriesSettings extends AbstractSeriesSettings implements IBarSer
 	private int barWidth = 1;
 	private BarWidthStyle barWidthStyle = BarWidthStyle.FIXED;
 	private boolean barOverlay = false;
+	private boolean enableStack = false;
 	private IBarSeriesSettings seriesSettingsHighlight = null;
 
 	@Override
@@ -88,6 +89,18 @@ public class BarSeriesSettings extends AbstractSeriesSettings implements IBarSer
 	}
 
 	@Override
+	public boolean isEnableStack() {
+
+		return enableStack;
+	}
+
+	@Override
+	public void setEnableStack(boolean enableStack) {
+
+		this.enableStack = enableStack;
+	}
+
+	@Override
 	public ISeriesSettings getSeriesSettingsHighlight() {
 
 		if(seriesSettingsHighlight == null) {
@@ -110,6 +123,8 @@ public class BarSeriesSettings extends AbstractSeriesSettings implements IBarSer
 		barSeriesSettings.setBarColor(this.getBarColor());
 		barSeriesSettings.setBarPadding(this.getBarPadding());
 		barSeriesSettings.setBarWidth(this.getBarWidth());
+		barSeriesSettings.setBarOverlay(this.isBarOverlay());
+		barSeriesSettings.setEnableStack(this.isEnableStack());
 		return barSeriesSettings;
 	}
 }

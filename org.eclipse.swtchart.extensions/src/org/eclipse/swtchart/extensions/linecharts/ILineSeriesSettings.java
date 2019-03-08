@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2017, 2018 Lablicate GmbH.
+ * Copyright (c) 2017, 2019 Lablicate GmbH.
  *
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
@@ -12,8 +12,8 @@
 package org.eclipse.swtchart.extensions.linecharts;
 
 import org.eclipse.swt.graphics.Color;
-import org.eclipse.swtchart.extensions.core.IPointSeriesSettings;
 import org.eclipse.swtchart.LineStyle;
+import org.eclipse.swtchart.extensions.core.IPointSeriesSettings;
 
 public interface ILineSeriesSettings extends IPointSeriesSettings {
 

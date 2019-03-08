@@ -62,7 +62,7 @@ public class ImageFactory_1_UITest extends TestCase {
 			//
 			ISeriesData seriesData = SeriesConverter.getSeriesXY(TestPathHelper.getAbsolutePath(TestPathHelper.TESTFILE_LINE_SERIES_1));
 			ILineSeriesData lineSeriesData = new LineSeriesData(seriesData);
-			ILineSeriesSettings lineSerieSettings = lineSeriesData.getLineSeriesSettings();
+			ILineSeriesSettings lineSerieSettings = lineSeriesData.getSettings();
 			lineSerieSettings.setEnableArea(true);
 			lineSeriesDataList.add(lineSeriesData);
 			chromatogramChart.addSeriesData(lineSeriesDataList);

@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2017, 2018 Lablicate GmbH.
+ * Copyright (c) 2017, 2019 Lablicate GmbH.
  *
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
@@ -32,6 +32,11 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
+import org.eclipse.swtchart.IAxis.Position;
+import org.eclipse.swtchart.ILineSeries.PlotSymbolType;
+import org.eclipse.swtchart.ISeries;
+import org.eclipse.swtchart.LineStyle;
+import org.eclipse.swtchart.Range;
 import org.eclipse.swtchart.extensions.axisconverter.PercentageConverter;
 import org.eclipse.swtchart.extensions.core.BaseChart;
 import org.eclipse.swtchart.extensions.core.IChartSettings;
@@ -48,11 +53,6 @@ import org.eclipse.swtchart.extensions.linecharts.ILineSeriesData;
 import org.eclipse.swtchart.extensions.linecharts.ILineSeriesSettings;
 import org.eclipse.swtchart.extensions.linecharts.LineChart;
 import org.eclipse.swtchart.extensions.linecharts.LineSeriesData;
-import org.eclipse.swtchart.IAxis.Position;
-import org.eclipse.swtchart.ILineSeries.PlotSymbolType;
-import org.eclipse.swtchart.ISeries;
-import org.eclipse.swtchart.LineStyle;
-import org.eclipse.swtchart.Range;
 
 public class LineSeries_Selection_Part extends Composite {
 
@@ -251,7 +251,7 @@ public class LineSeries_Selection_Part extends Composite {
 		ILineSeriesSettings lineSeriesSettings;
 		//
 		lineSeriesData = new LineSeriesData(seriesDataLine);
-		lineSeriesSettings = lineSeriesData.getLineSeriesSettings();
+		lineSeriesSettings = lineSeriesData.getSettings();
 		lineSeriesSettings.setEnableArea(true);
 		ILineSeriesSettings lineSeriesSettingsHighlight = (ILineSeriesSettings)lineSeriesSettings.getSeriesSettingsHighlight();
 		lineSeriesSettingsHighlight.setLineWidth(2);
@@ -261,7 +261,7 @@ public class LineSeries_Selection_Part extends Composite {
 		 */
 		seriesDataPoint = new SeriesData(new double[]{0.0}, new double[]{0.0}, DATA_POINT_SERIES);
 		lineSeriesData = new LineSeriesData(seriesDataPoint);
-		lineSeriesSettings = lineSeriesData.getLineSeriesSettings();
+		lineSeriesSettings = lineSeriesData.getSettings();
 		lineSeriesSettings.setSymbolSize(5);
 		lineSeriesSettings.setSymbolType(PlotSymbolType.CROSS);
 		lineSeriesSettings.setEnableArea(true);

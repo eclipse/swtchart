@@ -48,7 +48,7 @@ public class ScatterChart extends ScrollableChart {
 				try {
 					ISeriesData seriesData = scatterSeriesData.getSeriesData();
 					ISeriesData optimizedSeriesData = calculateSeries(seriesData, ScrollableChart.NO_COMPRESS_TO_LENGTH);
-					IScatterSeriesSettings scatterSeriesSettings = scatterSeriesData.getScatterSeriesSettings();
+					IScatterSeriesSettings scatterSeriesSettings = scatterSeriesData.getSettings();
 					scatterSeriesSettings.getSeriesSettingsHighlight(); // Initialize
 					ILineSeries scatterSeries = (ILineSeries)createSeries(optimizedSeriesData, scatterSeriesSettings);
 					baseChart.applyScatterSeriesSettings(scatterSeries, scatterSeriesSettings);

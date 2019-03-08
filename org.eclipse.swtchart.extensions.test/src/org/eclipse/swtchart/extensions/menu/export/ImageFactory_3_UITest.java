@@ -68,7 +68,7 @@ public class ImageFactory_3_UITest extends TestCase {
 			//
 			for(ISeriesData seriesData : scatterSeriesList) {
 				IScatterSeriesData scatterSeriesData = new ScatterSeriesData(seriesData);
-				IScatterSeriesSettings scatterSeriesSettings = scatterSeriesData.getScatterSeriesSettings();
+				IScatterSeriesSettings scatterSeriesSettings = scatterSeriesData.getSettings();
 				/*
 				 * Set the color and symbol type.
 				 */

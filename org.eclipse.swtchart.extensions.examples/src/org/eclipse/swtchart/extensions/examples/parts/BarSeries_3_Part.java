@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2017, 2018 Lablicate GmbH.
+ * Copyright (c) 2017, 2019 Lablicate GmbH.
  *
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
@@ -59,7 +59,7 @@ public class BarSeries_3_Part extends MassSpectrumChart {
 		 */
 		seriesData = SeriesConverter.getSeriesXY(SeriesConverter.BAR_SERIES_3_POSITIVE);
 		barSeriesData = new BarSeriesData(seriesData);
-		barSeriesSettings = barSeriesData.getBarSeriesSettings();
+		barSeriesSettings = barSeriesData.getSettings();
 		barSeriesSettings.setBarColor(getDisplay().getSystemColor(SWT.COLOR_RED));
 		barSeriesDataList.add(barSeriesData);
 		/*
@@ -67,7 +67,7 @@ public class BarSeries_3_Part extends MassSpectrumChart {
 		 */
 		seriesData = SeriesConverter.getSeriesXY(SeriesConverter.BAR_SERIES_3_NEGATIVE);
 		barSeriesData = new BarSeriesData(seriesData);
-		barSeriesSettings = barSeriesData.getBarSeriesSettings();
+		barSeriesSettings = barSeriesData.getSettings();
 		barSeriesSettings.setBarColor(getDisplay().getSystemColor(SWT.COLOR_BLACK));
 		barSeriesDataList.add(barSeriesData);
 		/*

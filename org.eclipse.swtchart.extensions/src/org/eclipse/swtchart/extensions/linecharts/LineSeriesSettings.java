@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2017, 2018 Lablicate GmbH.
+ * Copyright (c) 2017, 2019 Lablicate GmbH.
  *
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
@@ -14,30 +14,20 @@ package org.eclipse.swtchart.extensions.linecharts;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.widgets.Display;
+import org.eclipse.swtchart.LineStyle;
 import org.eclipse.swtchart.extensions.core.AbstractPointSeriesSettings;
 import org.eclipse.swtchart.extensions.core.ISeriesSettings;
-import org.eclipse.swtchart.LineStyle;
 
 public class LineSeriesSettings extends AbstractPointSeriesSettings implements ILineSeriesSettings {
 
-	private int antialias;
-	private boolean enableArea;
-	private Color lineColor;
-	private int lineWidth;
-	private boolean enableStack;
-	private boolean enableStep;
-	private LineStyle lineStyle;
+	private int antialias = SWT.DEFAULT;
+	private boolean enableArea = true;
+	private Color lineColor = Display.getDefault().getSystemColor(SWT.COLOR_RED);
+	private int lineWidth = 1;
+	private boolean enableStack = false;
+	private boolean enableStep = false;
+	private LineStyle lineStyle = LineStyle.SOLID;
 	private ILineSeriesSettings seriesSettingsHighlight = null;
-
-	public LineSeriesSettings() {
-		antialias = SWT.DEFAULT;
-		enableArea = true;
-		lineColor = Display.getDefault().getSystemColor(SWT.COLOR_RED);
-		lineWidth = 1;
-		enableStack = false;
-		enableStep = false;
-		lineStyle = LineStyle.SOLID;
-	}
 
 	@Override
 	public int getAntialias() {

@@ -62,7 +62,7 @@ public class ImageFactory_2_UITest extends TestCase {
 			ISeriesData seriesData = SeriesConverter.getSeriesXY(TestPathHelper.getAbsolutePath(TestPathHelper.TESTFILE_BAR_SERIES_1));
 			//
 			IBarSeriesData barSeriesData = new BarSeriesData(seriesData);
-			IBarSeriesSettings barSeriesSettings = barSeriesData.getBarSeriesSettings();
+			IBarSeriesSettings barSeriesSettings = barSeriesData.getSettings();
 			barSeriesSettings.setDescription("");
 			barSeriesDataList.add(barSeriesData);
 			massSpectrumChart.addSeriesData(barSeriesDataList);

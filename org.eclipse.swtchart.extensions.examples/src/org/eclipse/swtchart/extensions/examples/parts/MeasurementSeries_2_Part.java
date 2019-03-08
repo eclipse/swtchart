@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2017, 2018 Lablicate GmbH.
+ * Copyright (c) 2017, 2019 Lablicate GmbH.
  *
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
@@ -24,6 +24,8 @@ import javax.inject.Inject;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swtchart.ILineSeries.PlotSymbolType;
+import org.eclipse.swtchart.LineStyle;
 import org.eclipse.swtchart.extensions.core.IChartSettings;
 import org.eclipse.swtchart.extensions.core.IPrimaryAxisSettings;
 import org.eclipse.swtchart.extensions.core.ISeriesData;
@@ -32,8 +34,6 @@ import org.eclipse.swtchart.extensions.linecharts.ILineSeriesData;
 import org.eclipse.swtchart.extensions.linecharts.ILineSeriesSettings;
 import org.eclipse.swtchart.extensions.linecharts.LineChart;
 import org.eclipse.swtchart.extensions.linecharts.LineSeriesData;
-import org.eclipse.swtchart.ILineSeries.PlotSymbolType;
-import org.eclipse.swtchart.LineStyle;
 
 public class MeasurementSeries_2_Part extends LineChart {
 
@@ -98,7 +98,7 @@ public class MeasurementSeries_2_Part extends LineChart {
 			 */
 			seriesData = SeriesConverter.getSeriesXY("Measurement2_Readings_" + i);
 			lineSeriesData = new LineSeriesData(seriesData);
-			lineSeriesSettings = lineSeriesData.getLineSeriesSettings();
+			lineSeriesSettings = lineSeriesData.getSettings();
 			lineSeriesSettings.setEnableArea(false);
 			lineSeriesSettings.setLineStyle(LineStyle.NONE);
 			lineSeriesSettings.setSymbolSize(5);
@@ -112,7 +112,7 @@ public class MeasurementSeries_2_Part extends LineChart {
 			 */
 			seriesData = SeriesConverter.getSeriesXY("Measurement2_Regression_" + i);
 			lineSeriesData = new LineSeriesData(seriesData);
-			lineSeriesSettings = lineSeriesData.getLineSeriesSettings();
+			lineSeriesSettings = lineSeriesData.getSettings();
 			lineSeriesSettings.setEnableArea(false);
 			lineSeriesSettings.setLineStyle(LineStyle.SOLID);
 			lineSeriesSettings.setLineColor(colors.get(i));

@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2017, 2018 Lablicate GmbH.
+ * Copyright (c) 2017, 2019 Lablicate GmbH.
  *
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
@@ -55,7 +55,7 @@ public class LineSeries_5_Part extends ChromatogramChart {
 		 */
 		seriesData = SeriesConverter.getSeriesXY(SeriesConverter.LINE_SERIES_5_POSITIVE);
 		lineSeriesData = new LineSeriesData(seriesData);
-		lineSeriesSettings = lineSeriesData.getLineSeriesSettings();
+		lineSeriesSettings = lineSeriesData.getSettings();
 		lineSeriesSettings.setLineColor(getBaseChart().getDisplay().getSystemColor(SWT.COLOR_RED));
 		lineSeriesSettings.setEnableArea(false);
 		lineSeriesDataList.add(lineSeriesData);
@@ -64,7 +64,7 @@ public class LineSeries_5_Part extends ChromatogramChart {
 		 */
 		seriesData = SeriesConverter.getSeriesXY(SeriesConverter.LINE_SERIES_5_NEGATIVE);
 		lineSeriesData = new LineSeriesData(seriesData);
-		lineSeriesSettings = lineSeriesData.getLineSeriesSettings();
+		lineSeriesSettings = lineSeriesData.getSettings();
 		lineSeriesSettings.setLineColor(getDisplay().getSystemColor(SWT.COLOR_BLACK));
 		lineSeriesSettings.setEnableArea(false);
 		ILineSeriesSettings lineSeriesSettingsHighlight = (ILineSeriesSettings)lineSeriesSettings.getSeriesSettingsHighlight();

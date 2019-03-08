@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2017, 2018 Lablicate GmbH.
+ * Copyright (c) 2017, 2019 Lablicate GmbH.
  *
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
@@ -60,7 +60,7 @@ public class LineSeries_7_HighBackground_Part extends ChromatogramChart {
 			ySeries[i] = ySeries[i] + 100000;
 		}
 		lineSeriesData = new LineSeriesData(seriesData);
-		lineSeriesSettings = lineSeriesData.getLineSeriesSettings();
+		lineSeriesSettings = lineSeriesData.getSettings();
 		lineSeriesSettings.setLineColor(getDisplay().getSystemColor(SWT.COLOR_RED));
 		lineSeriesSettings.setEnableArea(true);
 		ILineSeriesSettings lineSeriesSettingsHighlight = (ILineSeriesSettings)lineSeriesSettings.getSeriesSettingsHighlight();

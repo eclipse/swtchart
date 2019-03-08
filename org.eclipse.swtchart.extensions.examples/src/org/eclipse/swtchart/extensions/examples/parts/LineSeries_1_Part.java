@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2017, 2018 Lablicate GmbH.
+ * Copyright (c) 2017, 2019 Lablicate GmbH.
  *
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
@@ -18,6 +18,9 @@ import javax.inject.Inject;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swtchart.ILineSeries.PlotSymbolType;
+import org.eclipse.swtchart.IPlotArea;
+import org.eclipse.swtchart.LineStyle;
 import org.eclipse.swtchart.extensions.core.IChartSettings;
 import org.eclipse.swtchart.extensions.core.ISeriesData;
 import org.eclipse.swtchart.extensions.customcharts.ChromatogramChart;
@@ -26,9 +29,6 @@ import org.eclipse.swtchart.extensions.linecharts.ILineSeriesData;
 import org.eclipse.swtchart.extensions.linecharts.ILineSeriesSettings;
 import org.eclipse.swtchart.extensions.linecharts.LineSeriesData;
 import org.eclipse.swtchart.extensions.marker.LabelMarker;
-import org.eclipse.swtchart.ILineSeries.PlotSymbolType;
-import org.eclipse.swtchart.IPlotArea;
-import org.eclipse.swtchart.LineStyle;
 
 public class LineSeries_1_Part extends ChromatogramChart {
 
@@ -68,7 +68,7 @@ public class LineSeries_1_Part extends ChromatogramChart {
 		 */
 		seriesData = SeriesConverter.getSeriesXY(SeriesConverter.LINE_SERIES_1);
 		lineSeriesData = new LineSeriesData(seriesData);
-		lineSeriesSettings = lineSeriesData.getLineSeriesSettings();
+		lineSeriesSettings = lineSeriesData.getSettings();
 		lineSeriesSettings.setEnableArea(true);
 		lineSeriesSettingsHighlight = (ILineSeriesSettings)lineSeriesSettings.getSeriesSettingsHighlight();
 		lineSeriesSettingsHighlight.setLineWidth(2);
@@ -78,7 +78,7 @@ public class LineSeries_1_Part extends ChromatogramChart {
 		 */
 		seriesData = SeriesConverter.getSeriesXY(SeriesConverter.LINE_SERIES_1_BASELINE);
 		lineSeriesData = new LineSeriesData(seriesData);
-		lineSeriesSettings = lineSeriesData.getLineSeriesSettings();
+		lineSeriesSettings = lineSeriesData.getSettings();
 		lineSeriesSettings.setEnableArea(true);
 		lineSeriesSettings.setSymbolType(PlotSymbolType.NONE);
 		lineSeriesSettings.setLineColor(getDisplay().getSystemColor(SWT.COLOR_DARK_RED));
@@ -90,7 +90,7 @@ public class LineSeries_1_Part extends ChromatogramChart {
 		 */
 		seriesData = SeriesConverter.getSeriesXY(SeriesConverter.LINE_SERIES_1_SELECTED_SCANS);
 		lineSeriesData = new LineSeriesData(seriesData);
-		lineSeriesSettings = lineSeriesData.getLineSeriesSettings();
+		lineSeriesSettings = lineSeriesData.getSettings();
 		lineSeriesSettings.setLineStyle(LineStyle.NONE);
 		lineSeriesSettings.setSymbolType(PlotSymbolType.CROSS);
 		lineSeriesSettings.setSymbolSize(5);
@@ -104,7 +104,7 @@ public class LineSeries_1_Part extends ChromatogramChart {
 		indexSeries = 3;
 		seriesData = SeriesConverter.getSeriesXY(SeriesConverter.LINE_SERIES_1_ACTIVE_PEAKS);
 		lineSeriesData = new LineSeriesData(seriesData);
-		lineSeriesSettings = lineSeriesData.getLineSeriesSettings();
+		lineSeriesSettings = lineSeriesData.getSettings();
 		lineSeriesSettings.setEnableArea(false);
 		lineSeriesSettings.setLineStyle(LineStyle.NONE);
 		lineSeriesSettings.setSymbolType(PlotSymbolType.INVERTED_TRIANGLE);
@@ -119,7 +119,7 @@ public class LineSeries_1_Part extends ChromatogramChart {
 		 */
 		seriesData = SeriesConverter.getSeriesXY(SeriesConverter.LINE_SERIES_1_INACTIVE_PEAKS);
 		lineSeriesData = new LineSeriesData(seriesData);
-		lineSeriesSettings = lineSeriesData.getLineSeriesSettings();
+		lineSeriesSettings = lineSeriesData.getSettings();
 		lineSeriesSettings.setEnableArea(false);
 		lineSeriesSettings.setLineStyle(LineStyle.NONE);
 		lineSeriesSettings.setSymbolType(PlotSymbolType.INVERTED_TRIANGLE);
@@ -134,7 +134,7 @@ public class LineSeries_1_Part extends ChromatogramChart {
 		 */
 		seriesData = SeriesConverter.getSeriesXY(SeriesConverter.LINE_SERIES_1_SELECTED_PEAK_1);
 		lineSeriesData = new LineSeriesData(seriesData);
-		lineSeriesSettings = lineSeriesData.getLineSeriesSettings();
+		lineSeriesSettings = lineSeriesData.getSettings();
 		lineSeriesSettings.setEnableArea(true);
 		lineSeriesSettings.setSymbolType(PlotSymbolType.CIRCLE);
 		lineSeriesSettings.setSymbolColor(getDisplay().getSystemColor(SWT.COLOR_DARK_RED));
@@ -148,7 +148,7 @@ public class LineSeries_1_Part extends ChromatogramChart {
 		 */
 		seriesData = SeriesConverter.getSeriesXY(SeriesConverter.LINE_SERIES_1_SELECTED_PEAK_1_BACKGROUND);
 		lineSeriesData = new LineSeriesData(seriesData);
-		lineSeriesSettings = lineSeriesData.getLineSeriesSettings();
+		lineSeriesSettings = lineSeriesData.getSettings();
 		lineSeriesSettings.setEnableArea(true);
 		lineSeriesSettings.setSymbolType(PlotSymbolType.NONE);
 		lineSeriesSettings.setLineColor(getDisplay().getSystemColor(SWT.COLOR_BLACK));
@@ -160,7 +160,7 @@ public class LineSeries_1_Part extends ChromatogramChart {
 		 */
 		seriesData = SeriesConverter.getSeriesXY(SeriesConverter.LINE_SERIES_1_SELECTED_PEAK_2);
 		lineSeriesData = new LineSeriesData(seriesData);
-		lineSeriesSettings = lineSeriesData.getLineSeriesSettings();
+		lineSeriesSettings = lineSeriesData.getSettings();
 		lineSeriesSettings.setEnableArea(true);
 		lineSeriesSettings.setSymbolType(PlotSymbolType.CIRCLE);
 		lineSeriesSettings.setSymbolColor(getDisplay().getSystemColor(SWT.COLOR_DARK_RED));
@@ -174,7 +174,7 @@ public class LineSeries_1_Part extends ChromatogramChart {
 		 */
 		seriesData = SeriesConverter.getSeriesXY(SeriesConverter.LINE_SERIES_1_SELECTED_PEAK_2_BACKGROUND);
 		lineSeriesData = new LineSeriesData(seriesData);
-		lineSeriesSettings = lineSeriesData.getLineSeriesSettings();
+		lineSeriesSettings = lineSeriesData.getSettings();
 		lineSeriesSettings.setEnableArea(true);
 		lineSeriesSettings.setSymbolType(PlotSymbolType.NONE);
 		lineSeriesSettings.setLineColor(getDisplay().getSystemColor(SWT.COLOR_BLACK));
@@ -186,7 +186,7 @@ public class LineSeries_1_Part extends ChromatogramChart {
 		 */
 		seriesData = SeriesConverter.getSeriesXY(SeriesConverter.LINE_SERIES_1_IDENTIFIED_SCANS);
 		lineSeriesData = new LineSeriesData(seriesData);
-		lineSeriesSettings = lineSeriesData.getLineSeriesSettings();
+		lineSeriesSettings = lineSeriesData.getSettings();
 		lineSeriesSettings.setLineStyle(LineStyle.NONE);
 		lineSeriesSettings.setSymbolType(PlotSymbolType.CIRCLE);
 		lineSeriesSettings.setSymbolSize(3);
@@ -200,7 +200,7 @@ public class LineSeries_1_Part extends ChromatogramChart {
 		 */
 		seriesData = SeriesConverter.getSeriesXY(SeriesConverter.LINE_SERIES_1_IDENTIFIED_SCANS_SELECTED);
 		lineSeriesData = new LineSeriesData(seriesData);
-		lineSeriesSettings = lineSeriesData.getLineSeriesSettings();
+		lineSeriesSettings = lineSeriesData.getSettings();
 		lineSeriesSettings.setLineStyle(LineStyle.NONE);
 		lineSeriesSettings.setSymbolType(PlotSymbolType.CIRCLE);
 		lineSeriesSettings.setSymbolSize(5);

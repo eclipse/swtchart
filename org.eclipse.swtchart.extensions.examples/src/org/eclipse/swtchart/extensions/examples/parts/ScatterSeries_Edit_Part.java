@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2017, 2018 Lablicate GmbH.
+ * Copyright (c) 2017, 2019 Lablicate GmbH.
  *
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
@@ -32,6 +32,8 @@ import org.eclipse.swt.widgets.TabItem;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.TableItem;
+import org.eclipse.swtchart.ILineSeries.PlotSymbolType;
+import org.eclipse.swtchart.ISeries;
 import org.eclipse.swtchart.extensions.core.BaseChart;
 import org.eclipse.swtchart.extensions.core.IChartSettings;
 import org.eclipse.swtchart.extensions.core.ISeriesData;
@@ -41,8 +43,6 @@ import org.eclipse.swtchart.extensions.examples.support.SeriesConverter;
 import org.eclipse.swtchart.extensions.scattercharts.IScatterSeriesData;
 import org.eclipse.swtchart.extensions.scattercharts.IScatterSeriesSettings;
 import org.eclipse.swtchart.extensions.scattercharts.ScatterSeriesData;
-import org.eclipse.swtchart.ILineSeries.PlotSymbolType;
-import org.eclipse.swtchart.ISeries;
 
 public class ScatterSeries_Edit_Part extends Composite {
 
@@ -297,7 +297,7 @@ public class ScatterSeries_Edit_Part extends Composite {
 		//
 		for(ISeriesData seriesData : scatterSeriesList) {
 			IScatterSeriesData scatterSeriesData = new ScatterSeriesData(seriesData);
-			IScatterSeriesSettings scatterSeriesSettings = scatterSeriesData.getScatterSeriesSettings();
+			IScatterSeriesSettings scatterSeriesSettings = scatterSeriesData.getSettings();
 			/*
 			 * Set the color and symbol type.
 			 */

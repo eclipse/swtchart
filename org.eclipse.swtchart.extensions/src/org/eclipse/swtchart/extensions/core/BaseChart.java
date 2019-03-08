@@ -779,6 +779,7 @@ public class BaseChart extends AbstractExtendedChart implements IChartDataCoordi
 		barSeries.setBarPadding(barSeriesSettings.getBarPadding());
 		barSeries.setBarWidth(barSeriesSettings.getBarWidth());
 		barSeries.setBarOverlay(barSeriesSettings.isBarOverlay());
+		barSeries.enableStack(barSeriesSettings.isEnableStack());
 	}
 
 	public List<double[]> getDataShiftHistory(String selectedSeriesId) {
