@@ -1,15 +1,19 @@
 /*******************************************************************************
  * Copyright (c) 2008, 2019 SWTChart project.
  *
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ * This program and the accompanying materials are made
+ * available under the terms of the Eclipse Public License 2.0
+ * which is available at https://www.eclipse.org/legal/epl-2.0/
+ *
+ * SPDX-License-Identifier: EPL-2.0
  * 
  * Contributors:
  * yoshitaka - initial API and implementation
  *******************************************************************************/
 package org.eclipse.swtchart;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.fail;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Color;
@@ -17,8 +21,6 @@ import org.eclipse.swt.graphics.RGB;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swtchart.util.ChartTestCase;
 import org.junit.Test;
-
-import static org.junit.Assert.*;
 
 /**
  * Test case for Grid.
@@ -30,6 +32,7 @@ public class GridTest extends ChartTestCase {
 
 	@Override
 	public void setUp() throws Exception {
+
 		super.setUp();
 		xGrid = chart.getAxisSet().getXAxis(0).getGrid();
 		yGrid = chart.getAxisSet().getYAxis(0).getGrid();
@@ -38,7 +41,7 @@ public class GridTest extends ChartTestCase {
 	/**
 	 * Test for foreground.
 	 */
-    @Test
+	@Test
 	public void testForeground() throws Exception {
 
 		// set null
@@ -51,7 +54,6 @@ public class GridTest extends ChartTestCase {
 		color = yGrid.getForeground();
 		assertEquals(gray.getRGB(), color.getRGB());
 		showChart();
-
 		// set color
 		Color black = Display.getDefault().getSystemColor(SWT.COLOR_BLACK);
 		xGrid.setForeground(black);
@@ -62,14 +64,13 @@ public class GridTest extends ChartTestCase {
 		color = yGrid.getForeground();
 		assertEquals(black.getRGB(), color.getRGB());
 		showChart();
-
 		// set the disposed color
 		color = new Color(Display.getDefault(), 0, 0, 0);
 		color.dispose();
 		try {
 			xGrid.setForeground(color);
 			fail();
-		} catch (IllegalArgumentException e) {
+		} catch(IllegalArgumentException e) {
 			// expected to reach here
 		}
 		color = xGrid.getForeground();
@@ -79,7 +80,7 @@ public class GridTest extends ChartTestCase {
 		try {
 			yGrid.setForeground(color);
 			fail();
-		} catch (IllegalArgumentException e) {
+		} catch(IllegalArgumentException e) {
 			// expected to reach here
 		}
 		color = yGrid.getForeground();
@@ -89,7 +90,7 @@ public class GridTest extends ChartTestCase {
 	/**
 	 * Test for line style.
 	 */
-    @Test
+	@Test
 	public void testLineStyle() throws Exception {
 
 		// set null
@@ -97,7 +98,6 @@ public class GridTest extends ChartTestCase {
 		assertEquals(LineStyle.DOT, xGrid.getStyle());
 		yGrid.setStyle(null);
 		assertEquals(LineStyle.DOT, yGrid.getStyle());
-
 		// set line style
 		xGrid.setStyle(LineStyle.SOLID);
 		assertEquals(LineStyle.SOLID, xGrid.getStyle());

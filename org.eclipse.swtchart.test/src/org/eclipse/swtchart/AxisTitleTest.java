@@ -1,10 +1,11 @@
 /*******************************************************************************
  * Copyright (c) 2008, 2019 SWTChart project.
  *
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ * This program and the accompanying materials are made
+ * available under the terms of the Eclipse Public License 2.0
+ * which is available at https://www.eclipse.org/legal/epl-2.0/
+ *
+ * SPDX-License-Identifier: EPL-2.0
  * 
  * Contributors:
  * yoshitaka - initial API and implementation
@@ -36,6 +37,7 @@ public class AxisTitleTest extends ChartTestCase {
 
 	@Override
 	public void setUp() throws Exception {
+
 		super.setUp();
 		xAxisTitle = chart.getAxisSet().getXAxis(0).getTitle();
 		yAxisTitle = chart.getAxisSet().getYAxis(0).getTitle();
@@ -44,7 +46,7 @@ public class AxisTitleTest extends ChartTestCase {
 	/**
 	 * Test for title text.
 	 */
-    @Test
+	@Test
 	public void testText() throws Exception {
 
 		// set null
@@ -56,7 +58,6 @@ public class AxisTitleTest extends ChartTestCase {
 		text = yAxisTitle.getText();
 		assertEquals("Y Axis", text);
 		showChart();
-
 		// set text
 		xAxisTitle.setText("foo");
 		text = xAxisTitle.getText();
@@ -66,7 +67,6 @@ public class AxisTitleTest extends ChartTestCase {
 		text = yAxisTitle.getText();
 		assertEquals("foo", text);
 		showChart();
-
 		// set long text
 		final String LONG_TITLE = "fooooooooooooooooooooooooooooooooooooooooooooooooooooooo";
 		xAxisTitle.setText(LONG_TITLE);
@@ -77,18 +77,17 @@ public class AxisTitleTest extends ChartTestCase {
 		text = yAxisTitle.getText();
 		assertEquals(LONG_TITLE, text);
 		showChart();
-
 		// set blank
 		xAxisTitle.setText("");
 		text = xAxisTitle.getText();
 		assertEquals("", text);
-		int height = ((Title) xAxisTitle).getBounds().height;
+		int height = ((Title)xAxisTitle).getBounds().height;
 		assertEquals(0, height);
 		showChart();
 		yAxisTitle.setText("");
 		text = yAxisTitle.getText();
 		assertEquals("", text);
-		height = ((Title) yAxisTitle).getBounds().width;
+		height = ((Title)yAxisTitle).getBounds().width;
 		assertEquals(0, height);
 		showChart();
 	}
@@ -96,7 +95,7 @@ public class AxisTitleTest extends ChartTestCase {
 	/**
 	 * Test for foreground.
 	 */
-    @Test
+	@Test
 	public void testForeground() throws Exception {
 
 		// set null
@@ -108,7 +107,6 @@ public class AxisTitleTest extends ChartTestCase {
 		color = yAxisTitle.getForeground();
 		assertEquals(new RGB(0, 0, 255), color.getRGB());
 		showChart();
-
 		// set color
 		Color syan = Display.getDefault().getSystemColor(SWT.COLOR_CYAN);
 		xAxisTitle.setForeground(syan);
@@ -119,14 +117,13 @@ public class AxisTitleTest extends ChartTestCase {
 		color = yAxisTitle.getForeground();
 		assertEquals(syan.getRGB(), color.getRGB());
 		showChart();
-
 		// set the disposed color
 		color = new Color(Display.getDefault(), 0, 0, 0);
 		color.dispose();
 		try {
 			xAxisTitle.setForeground(color);
 			fail();
-		} catch (IllegalArgumentException e) {
+		} catch(IllegalArgumentException e) {
 			// expected to reach here
 		}
 		color = xAxisTitle.getForeground();
@@ -136,7 +133,7 @@ public class AxisTitleTest extends ChartTestCase {
 		try {
 			yAxisTitle.setForeground(color);
 			fail();
-		} catch (IllegalArgumentException e) {
+		} catch(IllegalArgumentException e) {
 			// expected to reach here
 		}
 		color = yAxisTitle.getForeground();
@@ -146,7 +143,7 @@ public class AxisTitleTest extends ChartTestCase {
 	/**
 	 * Test for axis title font.
 	 */
-    @Test
+	@Test
 	public void testFont() throws Exception {
 
 		// set null
@@ -163,7 +160,6 @@ public class AxisTitleTest extends ChartTestCase {
 		assertEquals(defaultFontData.getHeight(), fontData.getHeight());
 		assertEquals(defaultFontData.getStyle(), fontData.getStyle());
 		font.dispose();
-
 		// set font
 		font = new Font(Display.getCurrent(), "Tahoma", 15, SWT.ITALIC);
 		xAxisTitle.setFont(font);
@@ -178,22 +174,20 @@ public class AxisTitleTest extends ChartTestCase {
 		assertEquals(15, fontData.getHeight());
 		assertEquals(SWT.ITALIC, fontData.getStyle());
 		showChart();
-
 		// set the disposed font
 		font.dispose();
 		try {
 			xAxisTitle.setFont(font);
 			fail();
-		} catch (IllegalArgumentException e) {
+		} catch(IllegalArgumentException e) {
 			// expected to reach here
 		}
 		try {
 			yAxisTitle.setFont(font);
 			fail();
-		} catch (IllegalArgumentException e) {
+		} catch(IllegalArgumentException e) {
 			// expected to reach here
 		}
-
 		// set large font size
 		font = new Font(Display.getCurrent(), "Tahoma", 64, SWT.ITALIC);
 		xAxisTitle.setFont(font);
@@ -206,7 +200,6 @@ public class AxisTitleTest extends ChartTestCase {
 		fontData = yAxisTitle.getFont().getFontData()[0];
 		assertEquals(64, fontData.getHeight());
 		showChart();
-
 		// set tiny font size
 		font = new Font(Display.getCurrent(), "Tahoma", 4, SWT.ITALIC);
 		xAxisTitle.setFont(font);
@@ -226,7 +219,7 @@ public class AxisTitleTest extends ChartTestCase {
 	/**
 	 * Test for title visibility.
 	 */
-    @Test
+	@Test
 	public void testVisibility() throws Exception {
 
 		// set visibility

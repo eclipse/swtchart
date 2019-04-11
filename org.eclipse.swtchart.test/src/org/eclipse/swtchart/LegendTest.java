@@ -1,15 +1,21 @@
 /*******************************************************************************
  * Copyright (c) 2008, 2019 SWTChart project.
  *
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ * This program and the accompanying materials are made
+ * available under the terms of the Eclipse Public License 2.0
+ * which is available at https://www.eclipse.org/legal/epl-2.0/
+ *
+ * SPDX-License-Identifier: EPL-2.0
  * 
  * Contributors:
  * yoshitaka - initial API and implementation
  *******************************************************************************/
 package org.eclipse.swtchart;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.SWTException;
@@ -25,22 +31,20 @@ import org.eclipse.swtchart.util.ChartTestCase;
 import org.junit.Ignore;
 import org.junit.Test;
 
-import static org.junit.Assert.*;
-
 /**
  * Test case for legend.
  */
 public class LegendTest extends ChartTestCase {
 
 	private ILegend legend;
-
-	private static final double[] ySeries1 = { 0.2, 0.2, 0.2, 0.2, 0.2 };
-	private static final double[] ySeries2 = { 0.5, 0.4, 0.3, 0.2, 0.1 };
-	private static final double[] ySeries3 = { 0.1, 0.2, 0.3, 0.4, 0.5 };
-	private static final double[] ySeries4 = { 0.4, 0.4, 0.4, 0.4, 0.4 };
+	private static final double[] ySeries1 = {0.2, 0.2, 0.2, 0.2, 0.2};
+	private static final double[] ySeries2 = {0.5, 0.4, 0.3, 0.2, 0.1};
+	private static final double[] ySeries3 = {0.1, 0.2, 0.3, 0.4, 0.5};
+	private static final double[] ySeries4 = {0.4, 0.4, 0.4, 0.4, 0.4};
 
 	@Override
 	public void setUp() throws Exception {
+
 		super.setUp();
 		legend = chart.getLegend();
 	}
@@ -48,7 +52,7 @@ public class LegendTest extends ChartTestCase {
 	/**
 	 * Test for legend visibility.
 	 */
-    @Test
+	@Test
 	public void testVisibility() throws Exception {
 
 		// show legend for no series
@@ -57,7 +61,6 @@ public class LegendTest extends ChartTestCase {
 		legend.setVisible(true);
 		assertTrue(legend.isVisible());
 		showChart();
-
 		// show legend for one series
 		ISeries series1 = chart.getSeriesSet().createSeries(SeriesType.LINE, "series 1");
 		series1.setYSeries(ySeries1);
@@ -68,7 +71,6 @@ public class LegendTest extends ChartTestCase {
 		legend.setVisible(true);
 		assertTrue(legend.isVisible());
 		showChart();
-
 		// show legend for tree series
 		ISeries series2 = chart.getSeriesSet().createSeries(SeriesType.LINE, "series 2");
 		series2.setYSeries(ySeries2);
@@ -86,7 +88,7 @@ public class LegendTest extends ChartTestCase {
 	/**
 	 * Test for foreground.
 	 */
-    @Test
+	@Test
 	public void testForeground() throws Exception {
 
 		// default
@@ -94,25 +96,21 @@ public class LegendTest extends ChartTestCase {
 		series1.setYSeries(ySeries1);
 		assertEquals(new RGB(0, 0, 0), legend.getForeground().getRGB());
 		showChart();
-
 		// set color
 		Color red = Display.getDefault().getSystemColor(SWT.COLOR_RED);
 		legend.setForeground(red);
 		assertEquals(red.getRGB(), legend.getForeground().getRGB());
 		showChart();
-
 		// set null
 		legend.setForeground(null);
-		assertEquals(Display.getDefault().getSystemColor(SWT.COLOR_WIDGET_FOREGROUND).toString(),
-				legend.getForeground().toString());
-
+		assertEquals(Display.getDefault().getSystemColor(SWT.COLOR_WIDGET_FOREGROUND).toString(), legend.getForeground().toString());
 		// set the disposed color
 		Color color = new Color(Display.getDefault(), 0, 0, 0);
 		color.dispose();
 		try {
 			legend.setForeground(color);
 			fail();
-		} catch (IllegalArgumentException e) {
+		} catch(IllegalArgumentException e) {
 			// expected to reach here
 		}
 	}
@@ -120,14 +118,13 @@ public class LegendTest extends ChartTestCase {
 	/**
 	 * Test for background.
 	 */
-    @Test
+	@Test
 	public void testBackground() throws Exception {
 
 		// set null
 		legend.setBackground(null);
 		Color color = legend.getBackground();
 		assertEquals(new RGB(255, 255, 255), color.getRGB());
-
 		// set color
 		ISeries series1 = chart.getSeriesSet().createSeries(SeriesType.LINE, "series 1");
 		series1.setYSeries(ySeries1);
@@ -137,14 +134,13 @@ public class LegendTest extends ChartTestCase {
 		color = legend.getBackground();
 		assertEquals(red.getRGB(), color.getRGB());
 		showChart();
-
 		// set the disposed color
 		color = new Color(Display.getDefault(), 0, 0, 0);
 		color.dispose();
 		try {
 			legend.setBackground(color);
 			fail();
-		} catch (SWTException | IllegalArgumentException e) {
+		} catch(SWTException | IllegalArgumentException e) {
 			// expected to reach here
 		}
 	}
@@ -152,7 +148,7 @@ public class LegendTest extends ChartTestCase {
 	/**
 	 * Test for legend font.
 	 */
-    @Test
+	@Test
 	public void testFont() throws Exception {
 
 		// set null
@@ -163,7 +159,6 @@ public class LegendTest extends ChartTestCase {
 		assertEquals(systemFontData.getName(), fontData.getName());
 		assertEquals(systemFontData.getHeight(), fontData.getHeight());
 		assertEquals(systemFontData.getStyle(), fontData.getStyle());
-
 		// set font
 		ISeries series1 = chart.getSeriesSet().createSeries(SeriesType.LINE, "series 1");
 		series1.setYSeries(ySeries1);
@@ -176,23 +171,20 @@ public class LegendTest extends ChartTestCase {
 		assertEquals(18, fontData.getHeight());
 		assertEquals(SWT.ITALIC, fontData.getStyle());
 		showChart();
-
 		// set the disposed font
 		font.dispose();
 		try {
 			legend.setFont(font);
 			fail();
-		} catch (IllegalArgumentException e) {
+		} catch(IllegalArgumentException e) {
 			// expected to reach here
 		}
-
 		// set large font size
 		font = new Font(Display.getCurrent(), "Tahoma", 36, SWT.ITALIC);
 		legend.setFont(font);
 		fontData = legend.getFont().getFontData()[0];
 		assertEquals(36, fontData.getHeight());
 		showChart();
-
 		// set tiny font size
 		font.dispose();
 		font = new Font(Display.getCurrent(), "Tahoma", 4, SWT.ITALIC);
@@ -206,8 +198,9 @@ public class LegendTest extends ChartTestCase {
 	/**
 	 * Test for legend position.
 	 */
-    @Test
+	@Test
 	public void testPosition() throws Exception {
+
 		ISeries series1 = chart.getSeriesSet().createSeries(SeriesType.LINE, "series 1");
 		series1.setYSeries(ySeries1);
 		ISeries series2 = chart.getSeriesSet().createSeries(SeriesType.LINE, "series 2");
@@ -216,10 +209,8 @@ public class LegendTest extends ChartTestCase {
 		series3.setYSeries(ySeries3);
 		chart.getAxisSet().adjustRange();
 		showChart();
-
 		// check default
 		assertEquals(SWT.RIGHT, legend.getPosition());
-
 		// set position
 		legend.setPosition(SWT.TOP);
 		assertEquals(SWT.TOP, legend.getPosition());
@@ -233,7 +224,6 @@ public class LegendTest extends ChartTestCase {
 		legend.setPosition(SWT.RIGHT);
 		assertEquals(SWT.RIGHT, legend.getPosition());
 		showChart();
-
 		// set illegal position
 		legend.setPosition(SWT.TOP);
 		legend.setPosition(SWT.NONE);
@@ -244,9 +234,10 @@ public class LegendTest extends ChartTestCase {
 	/**
 	 * Test for legend bounds.
 	 */
-    @Test
-    @Ignore("environment dependent")
+	@Test
+	@Ignore("environment dependent")
 	public void testBounds() throws Exception {
+
 		ISeries series1 = chart.getSeriesSet().createSeries(SeriesType.LINE, "series1");
 		series1.setYSeries(ySeries1);
 		ISeries series2 = chart.getSeriesSet().createSeries(SeriesType.LINE, "series2");
@@ -256,7 +247,6 @@ public class LegendTest extends ChartTestCase {
 		ISeries series4 = chart.getSeriesSet().createSeries(SeriesType.LINE, "series4");
 		series4.setYSeries(ySeries4);
 		chart.getAxisSet().adjustRange();
-
 		// right position + no truncated
 		Rectangle r = legend.getBounds("series1");
 		assertEquals(new Rectangle(0, 5, 81, 14), r);
@@ -267,7 +257,6 @@ public class LegendTest extends ChartTestCase {
 		r = legend.getBounds("series4");
 		assertEquals(new Rectangle(0, 62, 81, 14), r);
 		showChart();
-
 		// right position + one series is truncated
 		Point size = chart.getSize();
 		chart.setSize(size.x, 100);
@@ -280,7 +269,6 @@ public class LegendTest extends ChartTestCase {
 		r = legend.getBounds("series4");
 		assertEquals(new Rectangle(81, 5, 81, 14), r);
 		showChart();
-
 		// right position + two series are truncated
 		chart.setSize(size.x, 80);
 		r = legend.getBounds("series1");
@@ -292,7 +280,6 @@ public class LegendTest extends ChartTestCase {
 		r = legend.getBounds("series4");
 		assertEquals(new Rectangle(81, 24, 81, 14), r);
 		showChart();
-
 		// right position + three series are truncated
 		chart.setSize(size.x, 60);
 		r = legend.getBounds("series1");
@@ -304,7 +291,6 @@ public class LegendTest extends ChartTestCase {
 		r = legend.getBounds("series4");
 		assertEquals(new Rectangle(243, 5, 81, 14), r);
 		showChart();
-
 		// right position + no truncated
 		chart.setSize(size);
 		legend.setPosition(SWT.TOP);
@@ -317,7 +303,6 @@ public class LegendTest extends ChartTestCase {
 		r = legend.getBounds("series4");
 		assertEquals(new Rectangle(243, 5, 81, 14), r);
 		showChart();
-
 		// right position + one series is truncated
 		chart.setSize(250, size.y);
 		r = legend.getBounds("series1");
@@ -329,7 +314,6 @@ public class LegendTest extends ChartTestCase {
 		r = legend.getBounds("series4");
 		assertEquals(new Rectangle(0, 24, 81, 14), r);
 		showChart();
-
 		// right position + two series are truncated
 		chart.setSize(200, size.y);
 		r = legend.getBounds("series1");
@@ -341,7 +325,6 @@ public class LegendTest extends ChartTestCase {
 		r = legend.getBounds("series4");
 		assertEquals(new Rectangle(81, 24, 81, 14), r);
 		showChart();
-
 		// right position + three series are truncated
 		chart.setSize(130, size.y);
 		r = legend.getBounds("series1");

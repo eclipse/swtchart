@@ -1,10 +1,11 @@
 /*******************************************************************************
  * Copyright (c) 2008, 2019 SWTChart project.
  *
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ * This program and the accompanying materials are made
+ * available under the terms of the Eclipse Public License 2.0
+ * which is available at https://www.eclipse.org/legal/epl-2.0/
+ *
+ * SPDX-License-Identifier: EPL-2.0
  * 
  * Contributors:
  * yoshitaka - initial API and implementation
@@ -34,29 +35,23 @@ public class ChartTestCase {
 
 	/** the fixed chart size (expected values in the test rely on this size) */
 	private static final Point fixedChartSize = new Point(400, 300);
-
 	/** the duration in millisec to show chart */
 	private static final long durationToShowChart = 100;
-
 	/** the chart */
 	protected Chart chart;
-
 	private Shell shell;
-
 	private int fileNameIndex;
-
 	private boolean refreshChart = true;
-
 	private boolean saveChart = false;
-
 	@Rule
 	public TestName name = new TestName();
 
 	@Before
 	public void setUp() throws Exception {
+
 		shell = createShell(name.getMethodName());
 		chart = createChart(shell);
-		if (!shell.isVisible()) {
+		if(!shell.isVisible()) {
 			shell.open();
 		}
 		fileNameIndex = 0;
@@ -64,6 +59,7 @@ public class ChartTestCase {
 
 	@After
 	public void tearDown() throws Exception {
+
 		shell.dispose();
 	}
 
@@ -71,15 +67,14 @@ public class ChartTestCase {
 	 * Show the chart on window to check the appearance.
 	 */
 	protected void showChart() throws Exception {
-		if (refreshChart) {
-			chart.redraw();
 
+		if(refreshChart) {
+			chart.redraw();
 			long time = System.currentTimeMillis();
-			while (!shell.isDisposed() && System.currentTimeMillis() - time < durationToShowChart) {
+			while(!shell.isDisposed() && System.currentTimeMillis() - time < durationToShowChart) {
 				Display.getDefault().readAndDispatch();
 			}
-
-			if (saveChart) {
+			if(saveChart) {
 				saveIntoFile(chart, fileNameIndex++);
 			}
 		}
@@ -107,7 +102,6 @@ public class ChartTestCase {
 		field = Device.class.getDeclaredField("objects");
 		field.setAccessible(true);
 		field.set(Display.getDefault(), new Object[127]);
-
 		// start tracking
 		field = Device.class.getDeclaredField("tracking");
 		field.setAccessible(true);
@@ -124,11 +118,10 @@ public class ChartTestCase {
 		Field field = Device.class.getDeclaredField("objects");
 		field.setAccessible(true);
 		Object[] objects = (Object[])field.get(Display.getDefault());
-
 		// count SWT resources
 		int count = 0;
-		for (Object object : objects) {
-			if (object != null) {
+		for(Object object : objects) {
+			if(object != null) {
 				count++;
 			}
 		}
@@ -136,30 +129,27 @@ public class ChartTestCase {
 	}
 
 	private static Shell createShell(String title) {
-		Display display = Display.getDefault();
 
+		Display display = Display.getDefault();
 		// sufficient window size to show chart with fixed size
 		Point windowSize = new Point(500, 450);
-
 		Shell shell = new Shell(display);
 		shell.setSize(windowSize);
 		shell.setLocation(0, 0);
 		shell.setText(title);
 		shell.setBackground(Display.getDefault().getSystemColor(SWT.COLOR_DARK_GRAY));
-
 		return shell;
 	}
 
 	private static Chart createChart(Shell shell) {
+
 		Chart chart = new Chart(shell, SWT.NONE);
 		shell.setLayout(new GridLayout());
 		chart.setBackground(chart.getBackground());
-
 		GridData data = new GridData();
 		data.widthHint = fixedChartSize.x;
 		data.heightHint = fixedChartSize.y;
 		chart.setLayoutData(data);
-
 		return chart;
 	}
 
@@ -176,24 +166,21 @@ public class ChartTestCase {
 	 * <li>check differences.
 	 * </ol>
 	 * 
-	 * @param chart the chart
-	 * @param index the file index
+	 * @param chart
+	 *            the chart
+	 * @param index
+	 *            the file index
 	 */
 	private static void saveIntoFile(Chart chart, int index) {
 
 		StackTraceElement stackTrace = Thread.currentThread().getStackTrace()[3];
 		String[] elems = stackTrace.getClassName().split("\\.");
 		String dir = System.getProperty("user.dir") + File.separator + "img_actual";
-		
 		new File(dir).mkdirs();
-		
 		String subDir = dir + File.separator + elems[elems.length - 1];
-		
 		new File(subDir).mkdirs();
-		
 		String filename = stackTrace.getMethodName() + "_" + index + ".png";
 		String filenameWithPath = subDir + File.separator + filename;
-
 		chart.save(filenameWithPath, SWT.IMAGE_PNG);
 	}
 }
