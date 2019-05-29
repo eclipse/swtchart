@@ -37,14 +37,6 @@ import org.eclipse.swtchart.extensions.menu.RedoSelectionHandler;
 import org.eclipse.swtchart.extensions.menu.ResetChartHandler;
 import org.eclipse.swtchart.extensions.menu.ResetSelectedSeriesHandler;
 import org.eclipse.swtchart.extensions.menu.UndoSelectionHandler;
-import org.eclipse.swtchart.extensions.menu.export.BMPExportHandler;
-import org.eclipse.swtchart.extensions.menu.export.CSVExportHandler;
-import org.eclipse.swtchart.extensions.menu.export.JPGExportHandler;
-import org.eclipse.swtchart.extensions.menu.export.LaTeXTableExportHandler;
-import org.eclipse.swtchart.extensions.menu.export.PNGExportHandler;
-import org.eclipse.swtchart.extensions.menu.export.PrinterExportHandler;
-import org.eclipse.swtchart.extensions.menu.export.RScriptExportHandler;
-import org.eclipse.swtchart.extensions.menu.export.TSVExportHandler;
 import org.eclipse.swtchart.extensions.menu.toggle.ToggleAxisZeroMarkerHandler;
 import org.eclipse.swtchart.extensions.menu.toggle.ToggleLabelTooltipsHandler;
 import org.eclipse.swtchart.extensions.menu.toggle.ToggleLegendMarkerHandler;
@@ -168,16 +160,14 @@ public class ChartSettings implements IChartSettings {
 		menuEntries.add(new ToggleAxisZeroMarkerHandler());
 		menuEntries.add(new ToggleSeriesLabelMarkerHandler());
 		menuEntries.add(new ToggleLabelTooltipsHandler());
-		menuEntries.add(new JPGExportHandler());
-		menuEntries.add(new PNGExportHandler());
-		menuEntries.add(new BMPExportHandler());
-		menuEntries.add(new TSVExportHandler());
-		menuEntries.add(new CSVExportHandler());
-		menuEntries.add(new LaTeXTableExportHandler());
-		menuEntries.add(new RScriptExportHandler());
-		menuEntries.add(new PrinterExportHandler());
 		menuEntries.add(new UndoSelectionHandler());
 		menuEntries.add(new RedoSelectionHandler());
+		/*
+		 * Export options have been moved to the bundle:
+		 * org.eclipse.swtchart.export
+		 * They are added via the extension point:
+		 * org.eclipse.swtchart.extensions.menuitems
+		 */
 		/*
 		 * Events processors ... Mouse Move, Key Up ...
 		 */

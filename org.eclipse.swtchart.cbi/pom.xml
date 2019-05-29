@@ -66,6 +66,8 @@
     <module>../org.eclipse.swtchart.test</module>
     <module>../org.eclipse.swtchart.extensions</module>
     <module>../org.eclipse.swtchart.extensions.test</module>
+    <module>../org.eclipse.swtchart.export</module>
+    <module>../org.eclipse.swtchart.export.test</module>    
     <module>../org.eclipse.swtchart.feature</module>
     <module>../org.eclipse.swtchart.updatesite</module>
   </modules>

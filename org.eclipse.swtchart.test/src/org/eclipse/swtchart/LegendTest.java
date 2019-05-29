@@ -103,7 +103,7 @@ public class LegendTest extends ChartTestCase {
 		showChart();
 		// set null
 		legend.setForeground(null);
-		assertEquals(Display.getDefault().getSystemColor(SWT.COLOR_WIDGET_FOREGROUND).toString(), legend.getForeground().toString());
+		assertEquals(Display.getDefault().getSystemColor(SWT.COLOR_BLACK).toString(), legend.getForeground().toString());
 		// set the disposed color
 		Color color = new Color(Display.getDefault(), 0, 0, 0);
 		color.dispose();

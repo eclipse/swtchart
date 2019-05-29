@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension
+         point="org.eclipse.swtchart.extensions.menuitems">
+      <MenuItemSupplier
+            MenuEntry="org.eclipse.swtchart.export.menu.PrinterExportHandler">
+      </MenuItemSupplier>              
+      <MenuItemSupplier
+            MenuEntry="org.eclipse.swtchart.export.menu.bitmap.BMPExportHandler">
+      </MenuItemSupplier>
+      <MenuItemSupplier
+            MenuEntry="org.eclipse.swtchart.export.menu.bitmap.JPGExportHandler">
+      </MenuItemSupplier>
+      <MenuItemSupplier
+            MenuEntry="org.eclipse.swtchart.export.menu.bitmap.PNGExportHandler">
+      </MenuItemSupplier>      
+      <MenuItemSupplier
+            MenuEntry="org.eclipse.swtchart.export.menu.text.CSVExportHandler">
+      </MenuItemSupplier>      
+      <MenuItemSupplier
+            MenuEntry="org.eclipse.swtchart.export.menu.text.LaTeXTableExportHandler">
+      </MenuItemSupplier>
+      <MenuItemSupplier
+            MenuEntry="org.eclipse.swtchart.export.menu.text.RScriptExportHandler">
+      </MenuItemSupplier>
+      <MenuItemSupplier
+            MenuEntry="org.eclipse.swtchart.export.menu.text.TSVExportHandler">
+      </MenuItemSupplier>           
+   </extension>
+</plugin>
