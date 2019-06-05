@@ -54,6 +54,7 @@ public class LineSeries extends Series implements ILineSeries {
 	private boolean stepEnabled;
 	/** the anti-aliasing value for drawing line */
 	private int antialias;
+	private String extendedSymbolType;
 	/** the alpha value to draw area */
 	private static final int ALPHA = 50;
 	/** the default line style */
@@ -182,6 +183,24 @@ public class LineSeries extends Series implements ILineSeries {
 		} else {
 			this.symbolType = type;
 		}
+	}
+	
+	/*
+	 * @see ILineSeries#getExtendedPlotSymbolType()
+	 */
+	@Override
+	public String getExtendedPlotSymbolType() {
+	
+		return extendedSymbolType;
+	}
+	
+	/*
+	 * @see ILineSeries#setExtendedPlotSymbolType(String)
+	 */
+	@Override
+	public void setExtendedPlotSymbolType(String type) {
+		
+		extendedSymbolType = type;
 	}
 
 	/*
@@ -741,6 +760,9 @@ public class LineSeries extends Series implements ILineSeries {
 				gc.setLineStyle(SWT.LINE_SOLID);
 				gc.drawLine(h, v - symbolSize, h, v + symbolSize);
 				gc.drawLine(h - symbolSize, v, h + symbolSize, v);
+				break;
+			case EMOJI:
+				gc.drawText(getExtendedPlotSymbolType(), h, v, true);
 				break;
 			case NONE:
 			default:

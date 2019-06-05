@@ -38,7 +38,9 @@ public interface ILineSeries extends ISeries {
 		/** cross */
 		CROSS("Cross"),
 		/** plus */
-		PLUS("Plus");
+		PLUS("Plus"),
+		/** emoji */
+		EMOJI("Emoji");
 
 		/** the label for plot symbol */
 		public final String label;
@@ -54,6 +56,23 @@ public interface ILineSeries extends ISeries {
 		}
 	}
 
+	/**
+	 * Gets the extended symbol type
+	 * 
+	 * @return the symbol type (a character, an emoticon or an emoji)
+	 */
+	default String getExtendedPlotSymbolType() {
+		return "😂";
+	}
+	
+	/**
+	 * Sets the extended symbol tyoe
+	 * 
+	 * @param type
+	 *            the type to set
+	 */
+	void setExtendedPlotSymbolType(String type);
+	
 	/**
 	 * Gets the symbol type.
 	 *
@@ -221,4 +240,5 @@ public interface ILineSeries extends ISeries {
 	 *            <tt>SWT.ON</tt> or <tt>SWT.OFF</tt>.
 	 */
 	void setAntialias(int antialias);
+
 }
