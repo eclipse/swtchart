@@ -18,6 +18,7 @@ import java.util.List;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.GC;
+import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swtchart.Chart;
 import org.eclipse.swtchart.IAxis.Direction;
@@ -35,26 +36,27 @@ import org.eclipse.swtchart.internal.compress.CompressScatterSeries;
 public class LineSeries extends Series implements ILineSeries {
 
 	/** the symbol size in pixel */
-	private int symbolSize;
+	private int symbolSize = 4;
 	/** the symbol color */
-	private Color symbolColor;
+	private Color symbolColor = Display.getDefault().getSystemColor(DEFAULT_SYMBOL_COLOR);
 	/** the symbol colors */
-	private Color[] symbolColors;
+	private Color[] symbolColors = new Color[0];
 	/** the symbol type */
-	private PlotSymbolType symbolType;
+	private PlotSymbolType symbolType = DEFAULT_SYMBOL_TYPE;
 	/** the line style */
-	private LineStyle lineStyle;
+	private LineStyle lineStyle = DEFAULT_LINE_STYLE;
 	/** the line color */
-	private Color lineColor;
+	private Color lineColor = Display.getDefault().getSystemColor(DEFAULT_LINE_COLOR);
 	/** the line width */
-	private int lineWidth;
+	private int lineWidth = DEFAULT_LINE_WIDTH;
 	/** the state indicating if area chart is enabled */
-	private boolean areaEnabled;
+	private boolean areaEnabled = false;
 	/** the state indicating if step chart is enabled */
-	private boolean stepEnabled;
+	private boolean stepEnabled = false;
 	/** the anti-aliasing value for drawing line */
-	private int antialias;
-	private String extendedSymbolType;
+	private int antialias = DEFAULT_ANTIALIAS;
+	/** specific symbol */
+	private String extendedSymbolType = "😂";
 	/** the alpha value to draw area */
 	private static final int ALPHA = 50;
 	/** the default line style */
@@ -84,16 +86,7 @@ public class LineSeries extends Series implements ILineSeries {
 	 */
 	protected LineSeries(Chart chart, String id) {
 		super(chart, id);
-		symbolSize = 4;
-		symbolColor = Display.getDefault().getSystemColor(DEFAULT_SYMBOL_COLOR);
-		symbolType = DEFAULT_SYMBOL_TYPE;
-		lineStyle = DEFAULT_LINE_STYLE;
-		lineColor = Display.getDefault().getSystemColor(DEFAULT_LINE_COLOR);
-		areaEnabled = false;
-		antialias = DEFAULT_ANTIALIAS;
-		lineWidth = DEFAULT_LINE_WIDTH;
 		compressor = new CompressLineSeries();
-		symbolColors = new Color[0];
 	}
 
 	/*
@@ -184,22 +177,22 @@ public class LineSeries extends Series implements ILineSeries {
 			this.symbolType = type;
 		}
 	}
-	
+
 	/*
 	 * @see ILineSeries#getExtendedPlotSymbolType()
 	 */
 	@Override
 	public String getExtendedPlotSymbolType() {
-	
+
 		return extendedSymbolType;
 	}
-	
+
 	/*
 	 * @see ILineSeries#setExtendedPlotSymbolType(String)
 	 */
 	@Override
 	public void setExtendedPlotSymbolType(String type) {
-		
+
 		extendedSymbolType = type;
 	}
 
@@ -762,7 +755,9 @@ public class LineSeries extends Series implements ILineSeries {
 				gc.drawLine(h - symbolSize, v, h + symbolSize, v);
 				break;
 			case EMOJI:
-				gc.drawText(getExtendedPlotSymbolType(), h, v, true);
+				String extendedSymbol = getExtendedPlotSymbolType();
+				Point extendedSymbolSize = gc.textExtent(extendedSymbol);
+				gc.drawText(extendedSymbol, h - extendedSymbolSize.x / 2, v - extendedSymbolSize.y / 2, true);
 				break;
 			case NONE:
 			default:

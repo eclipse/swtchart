@@ -62,9 +62,10 @@ public interface ILineSeries extends ISeries {
 	 * @return the symbol type (a character, an emoticon or an emoji)
 	 */
 	default String getExtendedPlotSymbolType() {
+
 		return "😂";
 	}
-	
+
 	/**
 	 * Sets the extended symbol tyoe
 	 * 
@@ -72,7 +73,7 @@ public interface ILineSeries extends ISeries {
 	 *            the type to set
 	 */
 	void setExtendedPlotSymbolType(String type);
-	
+
 	/**
 	 * Gets the symbol type.
 	 *
@@ -240,5 +241,4 @@ public interface ILineSeries extends ISeries {
 	 *            <tt>SWT.ON</tt> or <tt>SWT.OFF</tt>.
 	 */
 	void setAntialias(int antialias);
-
 }

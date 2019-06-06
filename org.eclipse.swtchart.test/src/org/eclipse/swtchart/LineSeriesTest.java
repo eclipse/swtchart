@@ -349,6 +349,10 @@ public class LineSeriesTest extends ChartTestCase {
 		series.setSymbolType(PlotSymbolType.NONE);
 		assertEquals(PlotSymbolType.NONE, series.getSymbolType());
 		showChart();
+		series.setSymbolType(PlotSymbolType.EMOJI);
+		assertEquals(PlotSymbolType.EMOJI, series.getSymbolType());
+		assertEquals("😂", series.getExtendedPlotSymbolType());
+		showChart();
 		// set null
 		series.setSymbolType(null);
 		assertEquals(PlotSymbolType.CIRCLE, series.getSymbolType());
