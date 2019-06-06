@@ -15,11 +15,11 @@ package org.eclipse.swtchart.extensions.preferences;
 import java.util.Locale;
 
 import org.eclipse.swt.SWT;
-import org.eclipse.swtchart.extensions.core.RangeRestriction;
 import org.eclipse.swtchart.IAxis.Position;
 import org.eclipse.swtchart.IBarSeries.BarWidthStyle;
 import org.eclipse.swtchart.ILineSeries.PlotSymbolType;
 import org.eclipse.swtchart.LineStyle;
+import org.eclipse.swtchart.extensions.core.RangeRestriction;
 
 public class PreferenceSupport {
 
@@ -69,7 +69,8 @@ public class PreferenceSupport {
 			{"Inverted Triangle", PlotSymbolType.INVERTED_TRIANGLE.toString()}, //
 			{"Plus", PlotSymbolType.PLUS.toString()}, //
 			{"Square", PlotSymbolType.SQUARE.toString()}, //
-			{"Triangle", PlotSymbolType.TRIANGLE.toString()}//
+			{"Triangle", PlotSymbolType.TRIANGLE.toString()}, //
+			{"Emoji", PlotSymbolType.EMOJI.toString()}//
 	};
 	//
 	public static String[][] BAR_WIDTH_STYLES = new String[][]{//

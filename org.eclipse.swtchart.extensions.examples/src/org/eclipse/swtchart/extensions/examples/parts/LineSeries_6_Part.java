@@ -69,6 +69,7 @@ public class LineSeries_6_Part extends LineChart {
 		primaryAxisSettingsX.setDecimalFormat(new DecimalFormat(("0.0##"), new DecimalFormatSymbols(Locale.ENGLISH)));
 		primaryAxisSettingsX.setColor(getDisplay().getSystemColor(SWT.COLOR_BLACK));
 		primaryAxisSettingsX.setPosition(Position.Primary);
+		primaryAxisSettingsX.setReversed(true);
 		/*
 		 * Primary Y-Axis
 		 */

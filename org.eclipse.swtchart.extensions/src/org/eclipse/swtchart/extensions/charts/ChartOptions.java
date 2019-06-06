@@ -42,7 +42,8 @@ public class ChartOptions {
 			{"Inverted Triangle", PlotSymbolType.INVERTED_TRIANGLE.toString()}, //
 			{"Plus", PlotSymbolType.PLUS.toString()}, //
 			{"Square", PlotSymbolType.SQUARE.toString()}, //
-			{"Triangle", PlotSymbolType.TRIANGLE.toString()}//
+			{"Triangle", PlotSymbolType.TRIANGLE.toString()}, //
+			{"Emoji", PlotSymbolType.EMOJI.toString()}//
 	};
 	//
 	public static String[][] POSITIONS = new String[][]{//
