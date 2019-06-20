@@ -1113,13 +1113,17 @@ public class ScrollableChart extends Composite implements IScrollableChart, IEve
 				if(xAxis != null && yAxis != null) {
 					Range range = calculateShiftedRange(yAxis.getRange(), sliderVertical, SWT.VERTICAL);
 					if(isOrientationHorizontal()) {
-						yAxis.setRange(range);
-						baseChart.adjustMinMaxRange(yAxis);
-						adjustSecondaryYAxes();
+						if(baseChart.isRangeValid(range)) {
+							yAxis.setRange(range);
+							baseChart.adjustMinMaxRange(yAxis);
+							adjustSecondaryYAxes();
+						}
 					} else {
-						xAxis.setRange(range);
-						baseChart.adjustMinMaxRange(xAxis);
-						adjustSecondaryXAxes();
+						if(baseChart.isRangeValid(range)) {
+							xAxis.setRange(range);
+							baseChart.adjustMinMaxRange(xAxis);
+							adjustSecondaryXAxes();
+						}
 					}
 					//
 					displayRangeInfo(xAxis, yAxis);
@@ -1232,13 +1236,17 @@ public class ScrollableChart extends Composite implements IScrollableChart, IEve
 				if(xAxis != null && yAxis != null) {
 					Range range = calculateShiftedRange(xAxis.getRange(), sliderHorizontal, SWT.HORIZONTAL);
 					if(isOrientationHorizontal()) {
-						xAxis.setRange(range);
-						baseChart.adjustMinMaxRange(xAxis);
-						adjustSecondaryXAxes();
+						if(baseChart.isRangeValid(range)) {
+							xAxis.setRange(range);
+							baseChart.adjustMinMaxRange(xAxis);
+							adjustSecondaryXAxes();
+						}
 					} else {
-						yAxis.setRange(range);
-						baseChart.adjustMinMaxRange(yAxis);
-						adjustSecondaryYAxes();
+						if(baseChart.isRangeValid(range)) {
+							yAxis.setRange(range);
+							baseChart.adjustMinMaxRange(yAxis);
+							adjustSecondaryYAxes();
+						}
 					}
 					//
 					displayRangeInfo(xAxis, yAxis);

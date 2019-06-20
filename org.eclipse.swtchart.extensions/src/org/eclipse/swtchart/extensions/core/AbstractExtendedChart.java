@@ -338,6 +338,15 @@ public abstract class AbstractExtendedChart extends AbstractHandledChart impleme
 		}
 	}
 
+	protected boolean isRangeValid(Range range) {
+
+		if(Double.isNaN(range.lower) || Double.isNaN(range.upper)) {
+			return false;
+		} else {
+			return true;
+		}
+	}
+
 	private SeriesType getSeriesType(ISeriesSettings seriesSettings) {
 
 		SeriesType seriesType = SeriesType.LINE; // Default
@@ -431,10 +440,14 @@ public abstract class AbstractExtendedChart extends AbstractHandledChart impleme
 					double end = axisScaleConverter.convertToSecondaryUnit(range.upper);
 					if(end > start) {
 						Range adjustedRange = new Range(start, end);
-						axis.setRange(adjustedRange);
-					} else {
-						System.out.println("Can't set secondary y axes range: " + start + "\t" + end);
+						if(isRangeValid(adjustedRange)) {
+							axis.setRange(adjustedRange);
+						}
 					}
+					/*
+					 * Otherwise
+					 * System.out.println("Can't set secondary y axes range: " + start + "\t" + end);
+					 */
 				}
 			}
 		}
