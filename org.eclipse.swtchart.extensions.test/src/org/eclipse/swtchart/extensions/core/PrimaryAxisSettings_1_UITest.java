@@ -112,4 +112,9 @@ public class PrimaryAxisSettings_1_UITest extends TestCase {
 
 		assertTrue(settings.isTitleVisible());
 	}
+
+	public void test16() {
+
+		assertNotNull(settings.getTitleFont());
+	}
 }

@@ -16,6 +16,7 @@ import java.util.List;
 import java.util.Set;
 
 import org.eclipse.swt.graphics.Color;
+import org.eclipse.swt.graphics.Font;
 import org.eclipse.swtchart.extensions.events.IHandledEventProcessor;
 import org.eclipse.swtchart.extensions.menu.IChartMenuEntry;
 
@@ -64,6 +65,10 @@ public interface IChartSettings {
 	Color getTitleColor();
 
 	void setTitleColor(Color titleColor);
+
+	Font getTitleFont();
+
+	void setTitleFont(Font titleFont);
 
 	boolean isLegendVisible();
 

@@ -15,6 +15,7 @@ package org.eclipse.swtchart.extensions.core;
 import java.text.DecimalFormat;
 
 import org.eclipse.swt.graphics.Color;
+import org.eclipse.swt.graphics.Font;
 import org.eclipse.swtchart.IAxis.Position;
 import org.eclipse.swtchart.LineStyle;
 
@@ -47,6 +48,10 @@ public interface IAxisSettings {
 	Color getColor();
 
 	void setColor(Color color);
+
+	Font getTitleFont();
+
+	void setTitleFont(Font titleFont);
 
 	boolean isVisible();
 

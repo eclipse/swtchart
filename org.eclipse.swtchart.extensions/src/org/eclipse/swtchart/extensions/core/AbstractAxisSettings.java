@@ -16,7 +16,9 @@ import java.text.DecimalFormat;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Color;
+import org.eclipse.swt.graphics.Font;
 import org.eclipse.swt.widgets.Display;
+import org.eclipse.swtchart.Constants;
 import org.eclipse.swtchart.IAxis.Position;
 import org.eclipse.swtchart.LineStyle;
 
@@ -27,6 +29,7 @@ public abstract class AbstractAxisSettings implements IAxisSettings {
 	private String description = ""; // e.g. DropDown RangeSelector
 	private DecimalFormat decimalFormat;
 	private Color color;
+	private Font titleFont;
 	private boolean visible;
 	private Position position;
 	private Color gridColor;
@@ -34,6 +37,10 @@ public abstract class AbstractAxisSettings implements IAxisSettings {
 	private boolean enableLogScale;
 	private boolean reversed;
 	private int extraSpaceTitle;
+	/*
+	 * The default font is only used if no font is set.
+	 */
+	private final Font defaultFont = new Font(Display.getDefault(), "Tahoma", Constants.MEDIUM_FONT_SIZE, SWT.BOLD);
 
 	public AbstractAxisSettings(String title) {
 		/*
@@ -49,6 +56,7 @@ public abstract class AbstractAxisSettings implements IAxisSettings {
 		titleVisible = true;
 		decimalFormat = new DecimalFormat();
 		color = Display.getDefault().getSystemColor(SWT.COLOR_BLACK);
+		titleFont = defaultFont;
 		visible = true;
 		position = Position.Primary;
 		gridColor = Display.getDefault().getSystemColor(SWT.COLOR_GRAY);
@@ -160,6 +168,18 @@ public abstract class AbstractAxisSettings implements IAxisSettings {
 	}
 
 	@Override
+	public Font getTitleFont() {
+
+		return titleFont;
+	}
+
+	@Override
+	public void setTitleFont(Font titleFont) {
+
+		this.titleFont = titleFont;
+	}
+
+	@Override
 	public boolean isVisible() {
 
 		return visible;
@@ -241,5 +261,14 @@ public abstract class AbstractAxisSettings implements IAxisSettings {
 	public void setExtraSpaceTitle(int extraSpaceTitle) {
 
 		this.extraSpaceTitle = extraSpaceTitle;
+	}
+
+	@Override
+	protected void finalize() throws Throwable {
+
+		super.finalize();
+		if(!defaultFont.isDisposed()) {
+			defaultFont.dispose();
+		}
 	}
 }

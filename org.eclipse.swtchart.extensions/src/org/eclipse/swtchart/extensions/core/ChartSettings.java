@@ -20,7 +20,9 @@ import java.util.Set;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Color;
+import org.eclipse.swt.graphics.Font;
 import org.eclipse.swt.widgets.Display;
+import org.eclipse.swtchart.Constants;
 import org.eclipse.swtchart.extensions.events.IHandledEventProcessor;
 import org.eclipse.swtchart.extensions.events.MouseDownEvent;
 import org.eclipse.swtchart.extensions.events.MouseMoveCursorEvent;
@@ -60,6 +62,7 @@ public class ChartSettings implements IChartSettings {
 	private String title;
 	private boolean titleVisible;
 	private Color titleColor;
+	private Font titleFont;
 	//
 	private int legendPosition;
 	private boolean legendVisible;
@@ -93,6 +96,10 @@ public class ChartSettings implements IChartSettings {
 	//
 	private boolean supportDataShift;
 	private boolean enableTooltips;
+	/*
+	 * The default font is only used if no font is set.
+	 */
+	private final Font defaultFont = new Font(Display.getDefault(), "Tahoma", Constants.MEDIUM_FONT_SIZE, SWT.BOLD);
 
 	public ChartSettings() {
 		//
@@ -116,6 +123,7 @@ public class ChartSettings implements IChartSettings {
 		title = "Chart Title";
 		titleVisible = true;
 		titleColor = display.getSystemColor(SWT.COLOR_WHITE);
+		titleFont = defaultFont;
 		//
 		legendPosition = SWT.RIGHT;
 		legendVisible = false;
@@ -315,6 +323,18 @@ public class ChartSettings implements IChartSettings {
 	public void setTitleColor(Color titleColor) {
 
 		this.titleColor = titleColor;
+	}
+
+	@Override
+	public Font getTitleFont() {
+
+		return titleFont;
+	}
+
+	@Override
+	public void setTitleFont(Font titleFont) {
+
+		this.titleFont = titleFont;
 	}
 
 	@Override
@@ -651,5 +671,14 @@ public class ChartSettings implements IChartSettings {
 	public boolean isEnableTooltips() {
 
 		return enableTooltips;
+	}
+
+	@Override
+	protected void finalize() throws Throwable {
+
+		super.finalize();
+		if(!defaultFont.isDisposed()) {
+			defaultFont.dispose();
+		}
 	}
 }
