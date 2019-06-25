@@ -105,8 +105,9 @@ public class ScrollableChart extends Composite implements IScrollableChart, IEve
 	private LegendMarker legendMarker;
 	private AxisZeroMarker axisZeroMarker;
 	private SeriesLabelMarker seriesLabelMarker;
-	private static final int HORIZONTAL_SCROLL_LENGTH = Integer.MAX_VALUE - 1;
-	private static final int VERTICAL_SCROLL_LENGTH = Integer.MAX_VALUE - 1;
+	//
+	private static final int HORIZONTAL_SCROLL_LENGTH = Integer.MAX_VALUE;
+	private static final int VERTICAL_SCROLL_LENGTH = Integer.MAX_VALUE;
 
 	/**
 	 * This constructor is used, when clazz.newInstance() is needed.
@@ -813,60 +814,78 @@ public class ScrollableChart extends Composite implements IScrollableChart, IEve
 		//
 		if(xAxis != null && yAxis != null) {
 			/*
-			 * Take care of Horizontal or Vertical orientation.
+			 * Relative binding to Integer.MAX_VALUE.
 			 */
-			int minX = 0;
-			int maxX = minX + HORIZONTAL_SCROLL_LENGTH;
-			int minY = 0;
-			int maxY = minY + VERTICAL_SCROLL_LENGTH;
-			/*
-			 * Coefficients for relative binding
-			 * between axes data and scroll bar parameters.
-			 * We have linear dependence formula z = coeff*w + shift
-			 * where w - point of chart, z - point of scroll bar
-			 * and coeff and shift - some coefficients
-			 */
-			double coeffX = (maxX - minX) / (baseChart.getMaxX() - baseChart.getMinX());
-			double coeffY = (maxY - minY) / (baseChart.getMaxY() - baseChart.getMinY());
+			int maxX = HORIZONTAL_SCROLL_LENGTH;
+			int maxY = VERTICAL_SCROLL_LENGTH;
 			//
-			double shiftX = minX - coeffX * baseChart.getMinX();
-			double shiftY = minY - coeffY * baseChart.getMinY();
+			double deltaX = baseChart.getMaxX() - baseChart.getMinX();
+			double deltaY = baseChart.getMaxY() - baseChart.getMinY();
 			//
-			int minSelectionX = (int)(xAxis.getRange().lower * coeffX + shiftX);
-			int maxSelectionX = (int)(xAxis.getRange().upper * coeffX + shiftX);
-			int thumbSelectionX = maxSelectionX - minSelectionX;
-			//
-			int minSelectionY = (int)(yAxis.getRange().lower * coeffY + shiftY);
-			int maxSelectionY = (int)(yAxis.getRange().upper * coeffY + shiftY);
-			int thumbSelectionY = maxSelectionY - minSelectionY;
-			//
-			boolean isHorizontal = isOrientationHorizontal();
-			//
-			sliderVertical.setMinimum((isHorizontal) ? minY : minX);
-			sliderVertical.setMaximum((isHorizontal) ? maxY : maxX);
-			sliderVertical.setThumb((isHorizontal) ? thumbSelectionY : thumbSelectionX);
-			sliderVertical.setSelection((isHorizontal) ? minSelectionY : minSelectionX);
-			//
-			sliderHorizontal.setMinimum((isHorizontal) ? minX : minY);
-			sliderHorizontal.setMaximum((isHorizontal) ? maxX : maxY);
-			sliderHorizontal.setThumb((isHorizontal) ? thumbSelectionX : thumbSelectionY);
-			sliderHorizontal.setSelection((isHorizontal) ? minSelectionX : minSelectionY);
-			/*
-			 * Calculate the increment.
-			 */
-			if(calculateIncrement) {
-				int thumbX = maxX - minX;
-				int thumbY = maxY - minY;
-				int incrementX = calculateIncrement(thumbX, baseChart.getSeriesMaxDataPoints());
-				int incrementY = calculateIncrement(thumbY, baseChart.getSeriesMaxDataPoints());
-				sliderHorizontal.setIncrement((isHorizontal) ? incrementX : incrementY);
-				sliderVertical.setIncrement((isHorizontal) ? incrementY : incrementX);
-				sliderHorizontal.setPageIncrement((isHorizontal) ? incrementX : incrementY);
+			if(deltaX > 0 && deltaY > 0) {
+				/*
+				 * Coefficients
+				 */
+				double coeffX = maxX / deltaX;
+				double coeffY = maxY / deltaY;
+				//
+				double minRangeX = (xAxis.getRange().lower - baseChart.getMinX()) * coeffX;
+				double maxRangeX = (xAxis.getRange().upper - baseChart.getMinX()) * coeffX;
+				double thumbRangeX = maxRangeX - minRangeX;
+				/*
+				 * Can't handle NaN values
+				 */
+				if(Double.isNaN(minRangeX) || Double.isNaN(maxRangeX)) {
+					return;
+				}
+				//
+				double minRangeY = (yAxis.getRange().lower - baseChart.getMinY()) * coeffY;
+				double maxRangeY = (yAxis.getRange().upper - baseChart.getMaxY()) * coeffY;
+				double thumbRangeY = maxRangeY - minRangeY;
+				/*
+				 * Can't handle NaN values
+				 */
+				if(Double.isNaN(minRangeY) || Double.isNaN(maxRangeY)) {
+					return;
+				}
+				/*
+				 * Calculate the selections and thumbs.
+				 */
+				int minSelectionX = (minRangeX < 0) ? 0 : (int)minRangeX;
+				int thumbSelectionX = (thumbRangeX < 1) ? 1 : (int)thumbRangeX;
+				//
+				int minSelectionY = (minRangeY < 0) ? 0 : (int)minRangeY;
+				int thumbSelectionY = (thumbRangeY < 1) ? 1 : (int)thumbRangeY;
+				//
+				boolean isHorizontal = isOrientationHorizontal();
+				//
+				sliderVertical.setMinimum(0);
+				sliderVertical.setMaximum((isHorizontal) ? maxY : maxX);
+				sliderVertical.setThumb((isHorizontal) ? thumbSelectionY : thumbSelectionX);
+				sliderVertical.setSelection((isHorizontal) ? minSelectionY : minSelectionX);
+				//
+				sliderHorizontal.setMinimum(0);
+				sliderHorizontal.setMaximum((isHorizontal) ? maxX : maxY);
+				sliderHorizontal.setThumb((isHorizontal) ? thumbSelectionX : thumbSelectionY);
+				sliderHorizontal.setSelection((isHorizontal) ? minSelectionX : minSelectionY);
+				/*
+				 * Calculate the increment.
+				 */
+				if(calculateIncrement) {
+					int incrementX = calculateIncrement(maxX, baseChart.getSeriesMaxDataPoints());
+					int incrementY = calculateIncrement(maxY, baseChart.getSeriesMaxDataPoints());
+					if(incrementX >= 1 && incrementY >= 1) {
+						sliderHorizontal.setIncrement((isHorizontal) ? incrementX : incrementY);
+						sliderHorizontal.setPageIncrement((isHorizontal) ? incrementX : incrementY);
+						sliderVertical.setIncrement((isHorizontal) ? incrementY : incrementX);
+						sliderVertical.setPageIncrement((isHorizontal) ? incrementY : incrementX);
+					}
+				}
+				/*
+				 * Set the range info and update linked charts.
+				 */
+				displayRangeInfo(xAxis, yAxis);
 			}
-			/*
-			 * Set the range info and update linked charts.
-			 */
-			displayRangeInfo(xAxis, yAxis);
 		}
 	}
 
@@ -881,37 +900,56 @@ public class ScrollableChart extends Composite implements IScrollableChart, IEve
 			return 0;
 		} else {
 			int increment = (int)(selection / length);
-			return (increment < 1) ? 1 : increment;
+			return (increment < 1 || Double.isNaN(increment)) ? 1 : increment;
 		}
 	}
 
+	/**
+	 * This method returns null if the range can't be calculated correctly.
+	 * 
+	 * @param range
+	 * @param slider
+	 * @param sliderOrientation
+	 * @return Range
+	 */
 	private Range calculateShiftedRange(Range range, Slider slider, int sliderOrientation) {
 
-		int minX = 0;
-		int maxX = minX + HORIZONTAL_SCROLL_LENGTH;
-		int minY = 0;
-		int maxY = minY + VERTICAL_SCROLL_LENGTH;
+		int maxX = HORIZONTAL_SCROLL_LENGTH;
+		int maxY = VERTICAL_SCROLL_LENGTH;
 		/*
-		 * Coefficients for relative binding
-		 * between axes data and scroll bar parameters.
-		 * We have linear dependence formula z = coeff*w + shift
-		 * where w - point of chart, z - point of scroll bar
-		 * and coeff and shift - some coefficients.
-		 * And for inverse dependence we have x = (y-b)/k
+		 * Relative binding to Integer.MAX_VALUE.
 		 */
-		double coeffX = (maxX - minX) / (baseChart.getMaxX() - baseChart.getMinX());
-		double coeffY = (maxY - minY) / (baseChart.getMaxY() - baseChart.getMinY());
+		double deltaX = baseChart.getMaxX() - baseChart.getMinX();
+		double deltaY = baseChart.getMaxY() - baseChart.getMinY();
 		//
-		double shiftX = minX - coeffX * baseChart.getMinX();
-		double shiftY = minY - coeffY * baseChart.getMinY();
+		if(deltaX > 0 && deltaY > 0) {
+			/*
+			 * Shift calculation
+			 */
+			double coeffX = maxX / deltaX;
+			double coeffY = maxY / deltaY;
+			double shiftX = -coeffX * baseChart.getMinX();
+			double shiftY = -coeffY * baseChart.getMinY();
+			/*
+			 * Validate
+			 */
+			if(coeffX != 0 && !Double.isNaN(shiftX) && coeffY != 0 && !Double.isNaN(shiftY)) {
+				/*
+				 * Get the current selection
+				 */
+				int selection = slider.getSelection();
+				boolean isChartHorizontal = isOrientationHorizontal();
+				//
+				double min = (sliderOrientation == SWT.HORIZONTAL && isChartHorizontal || sliderOrientation == SWT.VERTICAL && !isChartHorizontal ? (selection - shiftX) / coeffX : (selection - shiftY) / coeffY);
+				double max = min + (range.upper - range.lower);
+				//
+				if(!Double.isNaN(min) && !Double.isNaN(max)) {
+					return new Range(min, max);
+				}
+			}
+		}
 		//
-		int selection = slider.getSelection();
-		//
-		boolean isChartHorizontal = isOrientationHorizontal();
-		//
-		double min = (sliderOrientation == SWT.HORIZONTAL && isChartHorizontal || sliderOrientation == SWT.VERTICAL && !isChartHorizontal ? (selection - shiftX) / coeffX : (selection - shiftY) / coeffY);
-		double max = min + (range.upper - range.lower);
-		return new Range(min, max);
+		return null;
 	}
 
 	private void addPrimaryAxisX(IChartSettings chartSettings) {
@@ -1114,23 +1152,25 @@ public class ScrollableChart extends Composite implements IScrollableChart, IEve
 				//
 				if(xAxis != null && yAxis != null) {
 					Range range = calculateShiftedRange(yAxis.getRange(), sliderVertical, SWT.VERTICAL);
-					if(isOrientationHorizontal()) {
-						if(baseChart.isRangeValid(range)) {
-							yAxis.setRange(range);
-							baseChart.adjustMinMaxRange(yAxis);
-							adjustSecondaryYAxes();
+					if(range != null) {
+						if(isOrientationHorizontal()) {
+							if(baseChart.isRangeValid(range)) {
+								yAxis.setRange(range);
+								baseChart.adjustMinMaxRange(yAxis);
+								adjustSecondaryYAxes();
+							}
+						} else {
+							if(baseChart.isRangeValid(range)) {
+								xAxis.setRange(range);
+								baseChart.adjustMinMaxRange(xAxis);
+								adjustSecondaryXAxes();
+							}
 						}
-					} else {
-						if(baseChart.isRangeValid(range)) {
-							xAxis.setRange(range);
-							baseChart.adjustMinMaxRange(xAxis);
-							adjustSecondaryXAxes();
-						}
+						//
+						displayRangeInfo(xAxis, yAxis);
+						fireUpdateCustomRangeSelectionHandlers(event);
+						baseChart.redraw();
 					}
-					//
-					displayRangeInfo(xAxis, yAxis);
-					fireUpdateCustomRangeSelectionHandlers(event);
-					baseChart.redraw();
 				}
 			}
 		});
@@ -1237,23 +1277,25 @@ public class ScrollableChart extends Composite implements IScrollableChart, IEve
 				//
 				if(xAxis != null && yAxis != null) {
 					Range range = calculateShiftedRange(xAxis.getRange(), sliderHorizontal, SWT.HORIZONTAL);
-					if(isOrientationHorizontal()) {
-						if(baseChart.isRangeValid(range)) {
-							xAxis.setRange(range);
-							baseChart.adjustMinMaxRange(xAxis);
-							adjustSecondaryXAxes();
+					if(range != null) {
+						if(isOrientationHorizontal()) {
+							if(baseChart.isRangeValid(range)) {
+								xAxis.setRange(range);
+								baseChart.adjustMinMaxRange(xAxis);
+								adjustSecondaryXAxes();
+							}
+						} else {
+							if(baseChart.isRangeValid(range)) {
+								yAxis.setRange(range);
+								baseChart.adjustMinMaxRange(yAxis);
+								adjustSecondaryYAxes();
+							}
 						}
-					} else {
-						if(baseChart.isRangeValid(range)) {
-							yAxis.setRange(range);
-							baseChart.adjustMinMaxRange(yAxis);
-							adjustSecondaryYAxes();
-						}
+						//
+						displayRangeInfo(xAxis, yAxis);
+						fireUpdateCustomRangeSelectionHandlers(event);
+						baseChart.redraw();
 					}
-					//
-					displayRangeInfo(xAxis, yAxis);
-					fireUpdateCustomRangeSelectionHandlers(event);
-					baseChart.redraw();
 				}
 			}
 		});
