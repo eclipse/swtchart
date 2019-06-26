@@ -105,9 +105,11 @@ public class ScrollableChart extends Composite implements IScrollableChart, IEve
 	private LegendMarker legendMarker;
 	private AxisZeroMarker axisZeroMarker;
 	private SeriesLabelMarker seriesLabelMarker;
-	//
-	private static final int HORIZONTAL_SCROLL_LENGTH = Integer.MAX_VALUE;
-	private static final int VERTICAL_SCROLL_LENGTH = Integer.MAX_VALUE;
+	/*
+	 * Integer.MAX_VALUE doesn't work under Windows.
+	 */
+	private static final int HORIZONTAL_SCROLL_LENGTH = 1000000;
+	private static final int VERTICAL_SCROLL_LENGTH = 1000000;
 
 	/**
 	 * This constructor is used, when clazz.newInstance() is needed.
