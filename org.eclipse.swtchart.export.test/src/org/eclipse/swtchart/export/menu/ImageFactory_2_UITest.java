@@ -19,12 +19,12 @@ import java.util.List;
 import org.eclipse.swt.SWT;
 import org.eclipse.swtchart.export.SeriesConverter;
 import org.eclipse.swtchart.export.TestPathHelper;
+import org.eclipse.swtchart.export.images.ImageFactory;
 import org.eclipse.swtchart.extensions.barcharts.BarSeriesData;
 import org.eclipse.swtchart.extensions.barcharts.IBarSeriesData;
 import org.eclipse.swtchart.extensions.barcharts.IBarSeriesSettings;
 import org.eclipse.swtchart.extensions.core.ISeriesData;
 import org.eclipse.swtchart.extensions.customcharts.MassSpectrumChart;
-import org.eclipse.swtchart.extensions.images.ImageFactory;
 
 import junit.framework.TestCase;
 

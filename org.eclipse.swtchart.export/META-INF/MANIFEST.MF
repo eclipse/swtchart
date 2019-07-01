@@ -12,4 +12,8 @@ Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Bundle-ActivationPolicy: lazy
 Bundle-Vendor: Eclipse SWTChart
 Export-Package: org.eclipse.swtchart.export.core,
- org.eclipse.swtchart.export.menu
+ org.eclipse.swtchart.export.images,
+ org.eclipse.swtchart.export.menu,
+ org.eclipse.swtchart.export.menu.bitmap,
+ org.eclipse.swtchart.export.menu.text,
+ org.eclipse.swtchart.export.menu.vector

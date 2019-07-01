@@ -19,8 +19,8 @@ import org.eclipse.swt.widgets.FileDialog;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swtchart.export.core.AbstractSeriesExportHandler;
 import org.eclipse.swtchart.export.core.ISeriesExportConverter;
+import org.eclipse.swtchart.export.images.ImageSupplier;
 import org.eclipse.swtchart.extensions.core.ScrollableChart;
-import org.eclipse.swtchart.extensions.images.ImageSupplier;
 
 public class JPGExportHandler extends AbstractSeriesExportHandler implements ISeriesExportConverter {
 

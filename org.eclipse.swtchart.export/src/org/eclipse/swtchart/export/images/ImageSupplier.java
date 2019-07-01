@@ -10,7 +10,7 @@
  * Contributors:
  * Dr. Philip Wenig - initial API and implementation
  *******************************************************************************/
-package org.eclipse.swtchart.extensions.images;
+package org.eclipse.swtchart.export.images;
 
 import org.eclipse.swt.graphics.GC;
 import org.eclipse.swt.graphics.Image;
