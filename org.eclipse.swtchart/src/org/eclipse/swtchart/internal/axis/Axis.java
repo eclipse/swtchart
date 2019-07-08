@@ -9,6 +9,7 @@
  * 
  * Contributors:
  * yoshitaka - initial API and implementation
+ * Christoph Läubrich - use getSize instead of bounds since we are not interested in the location anyways
  *******************************************************************************/
 package org.eclipse.swtchart.internal.axis;
 
@@ -121,6 +122,7 @@ public class Axis implements IAxis {
 	/*
 	 * @see IAxis#getId()
 	 */
+	@Override
 	public int getId() {
 
 		return id;
@@ -129,6 +131,7 @@ public class Axis implements IAxis {
 	/*
 	 * @see IAxis#getDirection()
 	 */
+	@Override
 	public Direction getDirection() {
 
 		return direction;
@@ -137,6 +140,7 @@ public class Axis implements IAxis {
 	/*
 	 * @see IAxis#getPosition()
 	 */
+	@Override
 	public Position getPosition() {
 
 		return position;
@@ -145,6 +149,7 @@ public class Axis implements IAxis {
 	/*
 	 * @see IAxis#setPosition(Position)
 	 */
+	@Override
 	public void setPosition(Position position) {
 
 		if(position == null) {
@@ -160,6 +165,7 @@ public class Axis implements IAxis {
 	/*
 	 * @see IAxis#setRange(Range)
 	 */
+	@Override
 	public void setRange(Range range) {
 
 		setRange(range, true);
@@ -215,6 +221,7 @@ public class Axis implements IAxis {
 	/*
 	 * @see IAxis#getRange()
 	 */
+	@Override
 	public Range getRange() {
 
 		return new Range(min, max);
@@ -223,6 +230,7 @@ public class Axis implements IAxis {
 	/*
 	 * @see IAxis#getTitle()
 	 */
+	@Override
 	public ITitle getTitle() {
 
 		return title;
@@ -231,6 +239,7 @@ public class Axis implements IAxis {
 	/*
 	 * @see IAxis#getTick()
 	 */
+	@Override
 	public AxisTick getTick() {
 
 		return tick;
@@ -239,6 +248,7 @@ public class Axis implements IAxis {
 	/*
 	 * @see IAxis#enableLogScale(boolean)
 	 */
+	@Override
 	public void enableLogScale(boolean enabled) throws IllegalStateException {
 
 		if(logScaleEnabled == enabled) {
@@ -298,6 +308,7 @@ public class Axis implements IAxis {
 	/*
 	 * @see IAxis#isLogScaleEnabled()
 	 */
+	@Override
 	public boolean isLogScaleEnabled() {
 
 		return logScaleEnabled;
@@ -306,6 +317,7 @@ public class Axis implements IAxis {
 	/*
 	 * @see IAxis#getGrid()
 	 */
+	@Override
 	public IGrid getGrid() {
 
 		return grid;
@@ -314,6 +326,7 @@ public class Axis implements IAxis {
 	/*
 	 * @see IAxis#adjustRange()
 	 */
+	@Override
 	public void adjustRange() {
 
 		adjustRange(true);
@@ -368,6 +381,7 @@ public class Axis implements IAxis {
 	/*
 	 * @see IAxis#zoomIn()
 	 */
+	@Override
 	public void zoomIn() {
 
 		zoomIn((max + min) / 2d);
@@ -376,6 +390,7 @@ public class Axis implements IAxis {
 	/*
 	 * @see IAxis#zoomIn(double)
 	 */
+	@Override
 	public void zoomIn(double coordinate) {
 
 		double lower = min;
@@ -407,6 +422,7 @@ public class Axis implements IAxis {
 	/*
 	 * @see IAxis#zoomOut()
 	 */
+	@Override
 	public void zoomOut() {
 
 		zoomOut((min + max) / 2d);
@@ -415,6 +431,7 @@ public class Axis implements IAxis {
 	/*
 	 * @see IAxis#zoomOut(double)
 	 */
+	@Override
 	public void zoomOut(double coordinate) {
 
 		double lower = min;
@@ -444,6 +461,7 @@ public class Axis implements IAxis {
 	/*
 	 * @see IAxis#scrollUp()
 	 */
+	@Override
 	public void scrollUp() {
 
 		double lower = min;
@@ -468,6 +486,7 @@ public class Axis implements IAxis {
 	/*
 	 * @see IAxis#scrollDown()
 	 */
+	@Override
 	public void scrollDown() {
 
 		double lower = min;
@@ -492,6 +511,7 @@ public class Axis implements IAxis {
 	/*
 	 * @see IAxis#isCategoryEnabled()
 	 */
+	@Override
 	public boolean isCategoryEnabled() {
 
 		return categoryAxisEnabled;
@@ -510,6 +530,7 @@ public class Axis implements IAxis {
 	/*
 	 * @see IAxis#enableCategory(boolean)
 	 */
+	@Override
 	public void enableCategory(boolean enabled) {
 
 		if(categoryAxisEnabled == enabled) {
@@ -534,6 +555,7 @@ public class Axis implements IAxis {
 	/*
 	 * @see IAxis#setCategorySeries(String[])
 	 */
+	@Override
 	public void setCategorySeries(String[] series) {
 
 		if(series == null) {
@@ -558,6 +580,7 @@ public class Axis implements IAxis {
 	/*
 	 * @see IAxis#getCategorySeries()
 	 */
+	@Override
 	public String[] getCategorySeries() {
 
 		String[] copiedCategorySeries = null;
@@ -593,6 +616,7 @@ public class Axis implements IAxis {
 	/*
 	 * @see IAxis#getPixelCoordinate(double)
 	 */
+	@Override
 	public int getPixelCoordinate(double dataCoordinate) {
 
 		return getPixelCoordinate(dataCoordinate, min, max);
@@ -655,6 +679,7 @@ public class Axis implements IAxis {
 	/*
 	 * @see IAxis#getDataCoordinate(int)
 	 */
+	@Override
 	public double getDataCoordinate(int pixelCoordinate) {
 
 		return getDataCoordinate(pixelCoordinate, min, max);
@@ -764,6 +789,7 @@ public class Axis implements IAxis {
 	/*
 	 * @see IAxis#addDisposeListener(IDisposeListener)
 	 */
+	@Override
 	public void addDisposeListener(IDisposeListener listener) {
 
 		listeners.add(listener);
@@ -785,14 +811,14 @@ public class Axis implements IAxis {
 
 		int orientation = chart.getOrientation();
 		isHorizontalAxis = (direction == Direction.X && orientation == SWT.HORIZONTAL) || (direction == Direction.Y && orientation == SWT.VERTICAL);
-		if(width != chart.getPlotArea().getBounds().width) {
-			width = chart.getPlotArea().getBounds().width;
+		if(width != chart.getPlotArea().getSize().x) {
+			width = chart.getPlotArea().getSize().x;
 			if(isHorizontalAxis) {
 				tick.updateTick(width);
 			}
 		}
-		if(height != chart.getPlotArea().getBounds().height) {
-			height = chart.getPlotArea().getBounds().height;
+		if(height != chart.getPlotArea().getSize().y) {
+			height = chart.getPlotArea().getSize().y;
 			if(!isHorizontalAxis) {
 				tick.updateTick(height);
 			}

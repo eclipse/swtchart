@@ -9,15 +9,16 @@
  * 
  * Contributors:
  * Dr. Philip Wenig - initial API and implementation
+ * Christoph Läubrich - adjust to new PlotArea API
  *******************************************************************************/
 package org.eclipse.swtchart.extensions.internal.marker;
 
 import org.eclipse.swt.events.PaintEvent;
-import org.eclipse.swt.graphics.Rectangle;
+import org.eclipse.swt.graphics.Point;
+import org.eclipse.swtchart.Range;
 import org.eclipse.swtchart.extensions.core.BaseChart;
 import org.eclipse.swtchart.extensions.marker.AbstractBaseChartPaintListener;
 import org.eclipse.swtchart.extensions.marker.IBaseChartPaintListener;
-import org.eclipse.swtchart.Range;
 
 public class AxisZeroMarker extends AbstractBaseChartPaintListener implements IBaseChartPaintListener {
 
@@ -37,9 +38,9 @@ public class AxisZeroMarker extends AbstractBaseChartPaintListener implements IB
 			 * Otherwise draw the marker in half width.
 			 */
 			if(xRange.lower < 0 && xRange.upper > 0 && yRange.lower < 0 && yRange.upper > 0) {
-				Rectangle rectangle = baseChart.getPlotArea().getClientArea();
-				int width = rectangle.width;
-				int height = rectangle.height;
+				Point rectangle = baseChart.getPlotArea().getSize();
+				int width = rectangle.x;
+				int height = rectangle.y;
 				int xWidth;
 				int yHeight;
 				/*

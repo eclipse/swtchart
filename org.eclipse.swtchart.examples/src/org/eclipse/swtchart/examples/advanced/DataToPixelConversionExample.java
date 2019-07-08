@@ -9,18 +9,19 @@
  * 
  * Contributors:
  * yoshitaka - initial API and implementation
+ * Christoph Läubrich - adjust to ne PlotArea API
  *******************************************************************************/
 package org.eclipse.swtchart.examples.advanced;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.PaintEvent;
-import org.eclipse.swt.events.PaintListener;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swtchart.Chart;
 import org.eclipse.swtchart.IAxis;
+import org.eclipse.swtchart.ICustomPaintListener;
 import org.eclipse.swtchart.ILineSeries;
 import org.eclipse.swtchart.ISeries.SeriesType;
 
@@ -75,13 +76,20 @@ public class DataToPixelConversionExample {
 		// adjust the axis range
 		chart.getAxisSet().adjustRange();
 		// add paint listener to draw threshold
-		chart.getPlotArea().addPaintListener(new PaintListener() {
+		chart.getPlotArea().addCustomPaintListener(new ICustomPaintListener() {
 
+			@Override
 			public void paintControl(PaintEvent e) {
 
 				int y = yAxis.getPixelCoordinate(0.65);
 				e.gc.drawLine(0, y, e.width, y);
 				e.gc.drawText("y=0.65", MARGIN, y + MARGIN);
+			}
+
+			@Override
+			public boolean drawBehindSeries() {
+
+				return false;
 			}
 		});
 		return chart;

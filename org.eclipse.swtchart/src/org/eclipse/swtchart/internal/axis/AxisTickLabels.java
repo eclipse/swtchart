@@ -9,6 +9,7 @@
  * 
  * Contributors:
  * yoshitaka - initial API and implementation
+ * Christoph Läubrich - use getSize since we only want width/height
  *******************************************************************************/
 package org.eclipse.swtchart.internal.axis;
 
@@ -392,11 +393,11 @@ public class AxisTickLabels implements PaintListener {
 
 	private int correctPositionInReversedAxis(int position) {
 
-		Rectangle plotAreaBounds = chart.getPlotArea().getBounds();
+		Point plotAreaBounds = chart.getPlotArea().getSize();
 		if(axis.isHorizontalAxis()) {
-			return plotAreaBounds.width - position - 1;
+			return plotAreaBounds.x - position - 1;
 		}
-		return plotAreaBounds.height - position - 1;
+		return plotAreaBounds.y - position - 1;
 	}
 
 	/**
@@ -829,6 +830,7 @@ public class AxisTickLabels implements PaintListener {
 	/*
 	 * @see PaintListener#paintControl(PaintEvent)
 	 */
+	@Override
 	public void paintControl(PaintEvent e) {
 
 		if(!axis.getTick().isVisible()) {

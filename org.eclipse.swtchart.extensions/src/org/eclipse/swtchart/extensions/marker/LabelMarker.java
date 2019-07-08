@@ -9,6 +9,7 @@
  * 
  * Contributors:
  * Dr. Philip Wenig - initial API and implementation
+ * Christoph Läubrich - adjust to ne PlotArea API
  *******************************************************************************/
 package org.eclipse.swtchart.extensions.marker;
 
@@ -23,6 +24,8 @@ import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.graphics.Transform;
 import org.eclipse.swt.widgets.Display;
+import org.eclipse.swt.widgets.Scrollable;
+import org.eclipse.swtchart.IPlotArea;
 import org.eclipse.swtchart.ISeries;
 import org.eclipse.swtchart.extensions.core.BaseChart;
 
@@ -103,7 +106,13 @@ public class LabelMarker extends AbstractBaseChartPaintListener implements IBase
 		}
 		//
 		BaseChart baseChart = getBaseChart();
-		Rectangle rectangle = baseChart.getPlotArea().getClientArea();
+		IPlotArea plotArea = baseChart.getPlotArea();
+		Rectangle rectangle;
+		if(plotArea instanceof Scrollable) {
+			rectangle = ((Scrollable)plotArea).getClientArea();
+		} else {
+			rectangle = plotArea.getBounds();
+		}
 		int size = serie.getXSeries().length;
 		for(int index : labels.keySet()) {
 			if(index < size) {
