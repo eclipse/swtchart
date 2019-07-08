@@ -9,8 +9,14 @@
  * 
  * Contributors:
  * yoshitaka - initial API and implementation
+ * Christoph Läubrich - extend API so it is reusable
  *******************************************************************************/
 package org.eclipse.swtchart;
+
+import org.eclipse.swt.events.MouseMoveListener;
+import org.eclipse.swt.graphics.Color;
+import org.eclipse.swt.graphics.Point;
+import org.eclipse.swt.graphics.Rectangle;
 
 /**
  * The plot area.
@@ -32,4 +38,49 @@ public interface IPlotArea {
 	 *            the custom paint listener
 	 */
 	public void removeCustomPaintListener(ICustomPaintListener listener);
+
+	/**
+	 * 
+	 * @return the current Background color
+	 */
+	public Color getBackground();
+
+	/**
+	 * set the color of the plot area
+	 * 
+	 * @param color
+	 */
+	public void setBackground(Color color);
+
+	/**
+	 * Returns a point describing the size in points.
+	 * <ul>
+	 * <li>The x coordinate is the width.</li>
+	 * <li>The y coordinate is the height.</li>
+	 * </ul>
+	 * 
+	 * @return the current size of this area
+	 */
+	public Point getSize();
+
+	/**
+	 * @deprecated use {@link #getSize()} instead
+	 * @return
+	 */
+	@Deprecated
+	public Rectangle getBounds();
+
+	/**
+	 * Set the text that should be shown as a tooltip
+	 * 
+	 * @param tootlTipText
+	 */
+	public void setToolTipText(String tootlTipText);
+
+	/**
+	 * Register a listener that is notified about mous moves
+	 * 
+	 * @param mouseMoveListener
+	 */
+	public void addMouseMoveListener(MouseMoveListener mouseMoveListener);
 }

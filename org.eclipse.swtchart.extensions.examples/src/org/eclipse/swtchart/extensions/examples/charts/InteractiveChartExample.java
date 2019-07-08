@@ -9,6 +9,7 @@
  * 
  * Contributors:
  * yoshitaka - initial API and implementation
+ * Christoph Läubrich - adjust to ne PlotArea API
  *******************************************************************************/
 package org.eclipse.swtchart.extensions.examples.charts;
 
@@ -74,7 +75,7 @@ public class InteractiveChartExample extends ViewPart {
 	@Override
 	public void setFocus() {
 
-		chart.getPlotArea().setFocus();
+		chart.setFocus();
 	}
 
 	/*

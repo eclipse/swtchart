@@ -9,6 +9,7 @@
  * 
  * Contributors:
  * Dr. Philip Wenig - initial API and implementation
+ * Christoph Läubrich - rework redraw of the plot area
  *******************************************************************************/
 package org.eclipse.swtchart.extensions.core;
 
@@ -39,6 +40,7 @@ import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Listener;
@@ -330,12 +332,23 @@ public class ScrollableChart extends Composite implements IScrollableChart, IEve
 		//
 		if(positionMarker.isDraw()) {
 			positionMarker.setActualPosition(event.x, event.y);
-			getBaseChart().getPlotArea().redraw();
+			redrawPlotArea();
 		}
 		//
 		if(legendMarker.isDraw()) {
 			legendMarker.setActualPosition(event.x, event.y);
-			getBaseChart().getPlotArea().redraw();
+			redrawPlotArea();
+		}
+	}
+
+	private void redrawPlotArea() {
+
+		BaseChart chart = getBaseChart();
+		IPlotArea plot = chart.getPlotArea();
+		if(plot instanceof Control) {
+			((Control)plot).redraw();
+		} else {
+			chart.redraw();
 		}
 	}
 
@@ -392,7 +405,7 @@ public class ScrollableChart extends Composite implements IScrollableChart, IEve
 	public void togglePositionMarkerVisibility() {
 
 		positionMarker.setDraw(!positionMarker.isDraw());
-		baseChart.getPlotArea().redraw();
+		redrawPlotArea();
 	}
 
 	public void toggleCenterMarkerVisibility() {
@@ -595,7 +608,7 @@ public class ScrollableChart extends Composite implements IScrollableChart, IEve
 
 	private void setPositionMarker() {
 
-		IPlotArea plotArea = (IPlotArea)baseChart.getPlotArea();
+		IPlotArea plotArea = baseChart.getPlotArea();
 		IChartSettings chartSettings = baseChart.getChartSettings();
 		//
 		if(positionMarker != null) {
@@ -615,7 +628,7 @@ public class ScrollableChart extends Composite implements IScrollableChart, IEve
 
 	private void setPlotCenterMarker() {
 
-		IPlotArea plotArea = (IPlotArea)baseChart.getPlotArea();
+		IPlotArea plotArea = baseChart.getPlotArea();
 		IChartSettings chartSettings = baseChart.getChartSettings();
 		//
 		if(plotCenterMarker != null) {
@@ -635,7 +648,7 @@ public class ScrollableChart extends Composite implements IScrollableChart, IEve
 
 	private void setLegendMarker() {
 
-		IPlotArea plotArea = (IPlotArea)baseChart.getPlotArea();
+		IPlotArea plotArea = baseChart.getPlotArea();
 		IChartSettings chartSettings = baseChart.getChartSettings();
 		//
 		if(legendMarker != null) {
@@ -655,7 +668,7 @@ public class ScrollableChart extends Composite implements IScrollableChart, IEve
 
 	private void setAxisZeroMarker() {
 
-		IPlotArea plotArea = (IPlotArea)baseChart.getPlotArea();
+		IPlotArea plotArea = baseChart.getPlotArea();
 		IChartSettings chartSettings = baseChart.getChartSettings();
 		//
 		if(axisZeroMarker != null) {
@@ -675,7 +688,7 @@ public class ScrollableChart extends Composite implements IScrollableChart, IEve
 
 	private void setSeriesLabelMarker() {
 
-		IPlotArea plotArea = (IPlotArea)baseChart.getPlotArea();
+		IPlotArea plotArea = baseChart.getPlotArea();
 		IChartSettings chartSettings = baseChart.getChartSettings();
 		//
 		if(seriesLabelMarker != null) {
@@ -712,7 +725,15 @@ public class ScrollableChart extends Composite implements IScrollableChart, IEve
 			/*
 			 * No menu
 			 */
-			baseChart.getPlotArea().setMenu(null);
+			IPlotArea area = baseChart.getPlotArea();
+			if(area instanceof Control) {
+				Control control = (Control)area;
+				Menu old = control.getMenu();
+				if(old != null) {
+					old.dispose();
+				}
+				control.setMenu(null);
+			}
 		}
 	}
 
@@ -1249,16 +1270,19 @@ public class ScrollableChart extends Composite implements IScrollableChart, IEve
 		/*
 		 * Add the listeners.
 		 */
-		Composite plotArea = baseChart.getPlotArea();
-		plotArea.addListener(SWT.KeyDown, this);
-		plotArea.addListener(SWT.KeyUp, this);
-		plotArea.addListener(SWT.MouseMove, this);
-		plotArea.addListener(SWT.MouseDown, this);
-		plotArea.addListener(SWT.MouseUp, this);
-		plotArea.addListener(SWT.MouseWheel, this);
-		plotArea.addListener(SWT.MouseDoubleClick, this);
-		plotArea.addListener(SWT.Resize, this);
-		plotArea.addPaintListener(this);
+		IPlotArea area = baseChart.getPlotArea();
+		if(area instanceof Control) {
+			Control plotArea = (Control)area;
+			plotArea.addListener(SWT.KeyDown, this);
+			plotArea.addListener(SWT.KeyUp, this);
+			plotArea.addListener(SWT.MouseMove, this);
+			plotArea.addListener(SWT.MouseDown, this);
+			plotArea.addListener(SWT.MouseUp, this);
+			plotArea.addListener(SWT.MouseWheel, this);
+			plotArea.addListener(SWT.MouseDoubleClick, this);
+			plotArea.addListener(SWT.Resize, this);
+			plotArea.addPaintListener(this);
+		}
 	}
 
 	private void createSliderHorizontal(Composite parent) {
@@ -1347,14 +1371,17 @@ public class ScrollableChart extends Composite implements IScrollableChart, IEve
 
 	private void createPopupMenu() {
 
-		Composite plotArea = baseChart.getPlotArea();
-		Menu menu = new Menu(plotArea);
-		Menu m = plotArea.getMenu();
-		if(m != null) {
-			m.dispose();
+		IPlotArea area = baseChart.getPlotArea();
+		if(area instanceof Control) {
+			Control plotArea = (Control)area;
+			Menu menu = new Menu(plotArea);
+			Menu m = plotArea.getMenu();
+			if(m != null) {
+				m.dispose();
+			}
+			plotArea.setMenu(menu);
+			createMenuItems(menu);
 		}
-		plotArea.setMenu(menu);
-		createMenuItems(menu);
 	}
 
 	private void addMenuEntry(IChartMenuEntry menuEntry) {

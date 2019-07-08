@@ -9,6 +9,7 @@
  * 
  * Contributors:
  * yoshitaka - initial API and implementation
+ * Christoph Läubrich - optimize disposal
  *******************************************************************************/
 package org.eclipse.swtchart.internal.series;
 
@@ -18,6 +19,8 @@ import java.util.Map.Entry;
 import java.util.Set;
 
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.DisposeEvent;
+import org.eclipse.swt.events.DisposeListener;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swtchart.Chart;
 import org.eclipse.swtchart.IAxis;
@@ -49,11 +52,20 @@ public class SeriesSet implements ISeriesSet {
 	public SeriesSet(Chart chart) {
 		this.chart = chart;
 		seriesMap = new LinkedHashMap<String, Series>();
+		chart.addDisposeListener(new DisposeListener() {
+
+			@Override
+			public void widgetDisposed(DisposeEvent e) {
+
+				dispose();
+			}
+		});
 	}
 
 	/*
 	 * @see ISeriesSet#createSeries(ISeries.SeriesType, String)
 	 */
+	@Override
 	public ISeries createSeries(SeriesType type, String id) {
 
 		if(id == null) {
@@ -94,6 +106,7 @@ public class SeriesSet implements ISeriesSet {
 	/*
 	 * @see ISeriesSet#getSeries(String)
 	 */
+	@Override
 	public ISeries getSeries(String id) {
 
 		if(id == null) {
@@ -106,6 +119,7 @@ public class SeriesSet implements ISeriesSet {
 	/*
 	 * @see ISeriesSet#getSeries()
 	 */
+	@Override
 	public ISeries[] getSeries() {
 
 		Set<String> keys = seriesMap.keySet();
@@ -120,6 +134,7 @@ public class SeriesSet implements ISeriesSet {
 	/*
 	 * @see ISeriesSet#deleteSeries(String)
 	 */
+	@Override
 	public void deleteSeries(String id) {
 
 		String trimmedId = validateSeriesId(id);
@@ -133,6 +148,7 @@ public class SeriesSet implements ISeriesSet {
 	/*
 	 * @see ISeriesSet#bringForward(String)
 	 */
+	@Override
 	public void bringForward(String id) {
 
 		String trimmedId = validateSeriesId(id);
@@ -160,6 +176,7 @@ public class SeriesSet implements ISeriesSet {
 	/*
 	 * @see ISeriesSet#bringToFront(String)
 	 */
+	@Override
 	public void bringToFront(String id) {
 
 		String trimmedId = validateSeriesId(id);
@@ -173,6 +190,7 @@ public class SeriesSet implements ISeriesSet {
 	/*
 	 * @see ISeriesSet#sendBackward(String)
 	 */
+	@Override
 	public void sendBackward(String id) {
 
 		String trimmedId = validateSeriesId(id);
@@ -196,6 +214,7 @@ public class SeriesSet implements ISeriesSet {
 	/*
 	 * @see ISeriesSet#sendToBack(String)
 	 */
+	@Override
 	public void sendToBack(String id) {
 
 		String trimmedId = validateSeriesId(id);
