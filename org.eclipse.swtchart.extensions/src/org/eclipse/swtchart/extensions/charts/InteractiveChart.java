@@ -9,6 +9,7 @@
  * 
  * Contributors:
  * yoshitaka - initial API and implementation
+ * Christoph Läubrich - add save fallbacks in case the plot area is not a Control
  *******************************************************************************/
 package org.eclipse.swtchart.extensions.charts;
 
@@ -20,6 +21,7 @@ import org.eclipse.swt.events.PaintEvent;
 import org.eclipse.swt.events.PaintListener;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.FileDialog;
 import org.eclipse.swt.widgets.Menu;
@@ -27,6 +29,7 @@ import org.eclipse.swt.widgets.MenuItem;
 import org.eclipse.swtchart.Chart;
 import org.eclipse.swtchart.IAxis;
 import org.eclipse.swtchart.IAxis.Direction;
+import org.eclipse.swtchart.IPlotArea;
 import org.eclipse.swtchart.Range;
 import org.eclipse.swtchart.extensions.properties.AxisPage;
 import org.eclipse.swtchart.extensions.properties.AxisTickPage;
@@ -78,24 +81,29 @@ public class InteractiveChart extends Chart implements PaintListener {
 
 		selection = new SelectionRectangle();
 		resources = new PropertiesResources();
-		Composite plot = getPlotArea();
-		plot.addListener(SWT.Resize, this);
-		plot.addListener(SWT.MouseMove, this);
-		plot.addListener(SWT.MouseDown, this);
-		plot.addListener(SWT.MouseUp, this);
-		plot.addListener(SWT.MouseWheel, this);
-		plot.addListener(SWT.KeyDown, this);
-		plot.addPaintListener(this);
-		createMenuItems();
+		IPlotArea area = getPlotArea();
+		if(area instanceof Control) {
+			Control plot = (Control)area;
+			plot.addListener(SWT.Resize, this);
+			plot.addListener(SWT.MouseMove, this);
+			plot.addListener(SWT.MouseDown, this);
+			plot.addListener(SWT.MouseUp, this);
+			plot.addListener(SWT.MouseWheel, this);
+			plot.addListener(SWT.KeyDown, this);
+			plot.addPaintListener(this);
+			createMenuItems(plot);
+		}
 	}
 
 	/**
 	 * Creates menu items.
+	 * 
+	 * @param plot
 	 */
-	private void createMenuItems() {
+	private void createMenuItems(Control plot) {
 
-		Menu menu = new Menu(getPlotArea());
-		getPlotArea().setMenu(menu);
+		Menu menu = new Menu(plot);
+		plot.setMenu(menu);
 		// adjust axis range menu group
 		MenuItem menuItem = new MenuItem(menu, SWT.CASCADE);
 		menuItem.setText(Messages.ADJUST_AXIS_RANGE_GROUP);
@@ -163,6 +171,7 @@ public class InteractiveChart extends Chart implements PaintListener {
 	/*
 	 * @see PaintListener#paintControl(PaintEvent)
 	 */
+	@Override
 	public void paintControl(PaintEvent e) {
 
 		selection.draw(e.gc);

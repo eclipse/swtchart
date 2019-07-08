@@ -9,6 +9,7 @@
  * 
  * Contributors:
  * yoshitaka - initial API and implementation
+ * Christoph Läubrich - refactor for usage with a generic plot area
  *******************************************************************************/
 package org.eclipse.swtchart;
 
@@ -44,13 +45,15 @@ public class Chart extends Composite implements Listener {
 	/** the set of axes */
 	private AxisSet axisSet;
 	/** the plot area */
-	private PlotArea plotArea;
+	private IPlotArea plotArea;
 	/** the orientation of chart which can be horizontal or vertical */
 	private int orientation;
 	/** the state indicating if compressing series is enabled */
 	private boolean compressEnabled;
 	/** the state indicating if the update of chart appearance is suspended */
 	private boolean updateSuspended;
+	/** the set of plots */
+	protected SeriesSet seriesSet;
 
 	/**
 	 * Constructor.
@@ -61,19 +64,35 @@ public class Chart extends Composite implements Listener {
 	 *            the style of widget to construct
 	 */
 	public Chart(Composite parent, int style) {
+		this(parent, style, null);
+		new PlotArea(this, SWT.NONE);
+	}
+
+	/**
+	 * This is a constructor allows to opt in for not creating the default plot area and is the recommend way for creating charts
+	 * <pre>Chart c = new Chart(..., null)
+	 * new PlotArea(this, SWT.NONE);
+	 * </pre>
+	 * because that way we have full control over the creation of the charts Plot area and there is no risk of constructor init order problems
+	 * 
+	 * @param parent
+	 * @param style
+	 * @param justNull
+	 *            simply provide <code>null</code> here
+	 */
+	public Chart(Composite parent, int style, Void justNull) {
 		super(parent, style | SWT.DOUBLE_BUFFERED);
 		orientation = SWT.HORIZONTAL;
 		compressEnabled = true;
 		updateSuspended = false;
 		parent.layout();
 		setLayout(new ChartLayout());
+		seriesSet = new SeriesSet(this);
 		title = new ChartTitle(this);
 		title.setLayoutData(new ChartLayoutData(SWT.DEFAULT, 100));
 		legend = new Legend(this, SWT.NONE);
 		legend.setLayoutData(new ChartLayoutData(200, SWT.DEFAULT));
-		plotArea = new PlotArea(this, SWT.NONE);
 		axisSet = new AxisSet(this);
-		updateLayout();
 		addListener(SWT.Resize, this);
 	}
 
@@ -112,9 +131,15 @@ public class Chart extends Composite implements Listener {
 	 * 
 	 * @return the plot area
 	 */
-	public Composite getPlotArea() {
+	public IPlotArea getPlotArea() {
 
 		return plotArea;
+	}
+
+	public void setPlotArea(IPlotArea area) {
+
+		plotArea = area;
+		updateLayout();
 	}
 
 	/**
@@ -124,7 +149,7 @@ public class Chart extends Composite implements Listener {
 	 */
 	public ISeriesSet getSeriesSet() {
 
-		return plotArea.getSeriesSet();
+		return seriesSet;
 	}
 
 	/*
@@ -135,7 +160,7 @@ public class Chart extends Composite implements Listener {
 
 		super.setBackground(color);
 		for(Control child : getChildren()) {
-			if(!(child instanceof PlotArea) && !(child instanceof Legend)) {
+			if(!(child instanceof IPlotArea) && !(child instanceof Legend)) {
 				child.setBackground(color);
 			}
 		}
@@ -145,11 +170,13 @@ public class Chart extends Composite implements Listener {
 	 * Gets the background color in plot area. This method is identical with
 	 * <tt>getPlotArea().getBackground()</tt>.
 	 * 
+	 * @deprecated use {@link #getPlotArea()} instead to access the plot area directly
 	 * @return the background color in plot area
 	 */
+	@Deprecated
 	public Color getBackgroundInPlotArea() {
 
-		return plotArea.getBackground();
+		return getPlotArea().getBackground();
 	}
 
 	/**
@@ -158,15 +185,17 @@ public class Chart extends Composite implements Listener {
 	 * @param color
 	 *            the background color in plot area. If <tt>null</tt> is given,
 	 *            default background color will be set.
+	 * @deprecated use {@link #getPlotArea()} instead to access the plot area directly
 	 * @exception IllegalArgumentException
 	 *                if given color is disposed
 	 */
+	@Deprecated
 	public void setBackgroundInPlotArea(Color color) {
 
 		if(color != null && color.isDisposed()) {
 			SWT.error(SWT.ERROR_INVALID_ARGUMENT);
 		}
-		plotArea.setBackground(color);
+		getPlotArea().setBackground(color);
 	}
 
 	/**
@@ -285,6 +314,7 @@ public class Chart extends Composite implements Listener {
 	/*
 	 * @see Listener#handleEvent(Event)
 	 */
+	@Override
 	public void handleEvent(Event event) {
 
 		switch(event.type) {
@@ -341,7 +371,6 @@ public class Chart extends Composite implements Listener {
 		title.dispose();
 		legend.dispose();
 		axisSet.dispose();
-		plotArea.dispose();
 		super.dispose();
 	}
 

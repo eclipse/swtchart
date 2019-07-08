@@ -9,6 +9,7 @@
  * 
  * Contributors:
  * yoshitaka - initial API and implementation
+ * Christoph Läubrich - refactor for API changes of Plot area
  *******************************************************************************/
 package org.eclipse.swtchart.internal;
 
@@ -16,6 +17,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.DisposeEvent;
+import org.eclipse.swt.events.DisposeListener;
 import org.eclipse.swt.events.PaintEvent;
 import org.eclipse.swt.events.PaintListener;
 import org.eclipse.swt.graphics.Color;
@@ -41,12 +44,11 @@ public class PlotArea extends Composite implements PaintListener, IPlotArea {
 
 	/** the chart */
 	protected Chart chart;
-	/** the set of plots */
-	protected SeriesSet seriesSet;
 	/** the custom paint listeners */
 	List<ICustomPaintListener> paintListeners;
 	/** the default background color */
 	private static final int DEFAULT_BACKGROUND = SWT.COLOR_WHITE;
+	private DisposeListener disposeListener;
 
 	/**
 	 * Constructor.
@@ -59,20 +61,39 @@ public class PlotArea extends Composite implements PaintListener, IPlotArea {
 	public PlotArea(Chart chart, int style) {
 		super(chart, style | SWT.NO_BACKGROUND | SWT.DOUBLE_BUFFERED);
 		this.chart = chart;
-		seriesSet = new SeriesSet(chart);
 		paintListeners = new ArrayList<ICustomPaintListener>();
 		setBackground(Display.getDefault().getSystemColor(DEFAULT_BACKGROUND));
 		addPaintListener(this);
+		disposeListener = new DisposeListener() {
+
+			@Override
+			public void widgetDisposed(DisposeEvent e) {
+
+				dispose();
+			}
+		};
+		chart.addDisposeListener(disposeListener);
+		chart.setPlotArea(this);
+	}
+
+	@Override
+	public void dispose() {
+
+		super.dispose();
+		chart.removeDisposeListener(disposeListener);
 	}
 
 	/**
 	 * Gets the set of series.
-	 *
+	 * 
+	 * @deprecated use the chart directly
 	 * @return the set of series
 	 */
+	@Deprecated
 	public ISeriesSet getSeriesSet() {
 
-		return seriesSet;
+		// TODO if not used elsewhere we can make this private or even remove completely since it is only used in one place
+		return chart.getSeriesSet();
 	}
 
 	/*
@@ -101,6 +122,7 @@ public class PlotArea extends Composite implements PaintListener, IPlotArea {
 	/*
 	 * @see IPlotArea#addCustomPaintListener(ICustomPaintListener)
 	 */
+	@Override
 	public void addCustomPaintListener(ICustomPaintListener listener) {
 
 		paintListeners.add(listener);
@@ -109,6 +131,7 @@ public class PlotArea extends Composite implements PaintListener, IPlotArea {
 	/*
 	 * @see IPlotArea#removeCustomPaintListener(ICustomPaintListener)
 	 */
+	@Override
 	public void removeCustomPaintListener(ICustomPaintListener listener) {
 
 		paintListeners.remove(listener);
@@ -117,6 +140,7 @@ public class PlotArea extends Composite implements PaintListener, IPlotArea {
 	/*
 	 * @see PaintListener#paintControl(PaintEvent)
 	 */
+	@Override
 	public void paintControl(PaintEvent e) {
 
 		Point p = getSize();
@@ -153,15 +177,5 @@ public class PlotArea extends Composite implements PaintListener, IPlotArea {
 			}
 		}
 		e.gc.setBackground(oldBackground);
-	}
-
-	/*
-	 * @see Widget#dispose()
-	 */
-	@Override
-	public void dispose() {
-
-		super.dispose();
-		seriesSet.dispose();
 	}
 }
