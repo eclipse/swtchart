@@ -9,6 +9,7 @@
  * 
  * Contributors:
  * yoshitaka - initial API and implementation
+ * Christoph Läubrich - add support for datamodel
  *******************************************************************************/
 package org.eclipse.swtchart;
 
@@ -18,7 +19,7 @@ import org.eclipse.swt.graphics.Rectangle;
 /**
  * Bar series.
  */
-public interface IBarSeries extends ISeries {
+public interface IBarSeries<T> extends ISeries<T> {
 
 	/**
 	 * Bar width style.

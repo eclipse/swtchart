@@ -9,6 +9,7 @@
  * 
  * Contributors:
  * yoshitaka - initial API and implementation
+ * Christoph Läubrich - add support for datamodel
  *******************************************************************************/
 package org.eclipse.swtchart.internal.series;
 
@@ -29,11 +30,13 @@ import org.eclipse.swtchart.internal.Util;
 import org.eclipse.swtchart.internal.axis.Axis;
 import org.eclipse.swtchart.internal.compress.CompressLineSeries;
 import org.eclipse.swtchart.internal.compress.CompressScatterSeries;
+import org.eclipse.swtchart.model.CartesianSeriesModel;
+import org.eclipse.swtchart.model.DoubleArraySeriesModel;
 
 /**
  * Line series.
  */
-public class LineSeries extends Series implements ILineSeries {
+public class LineSeries<T> extends Series<T> implements ILineSeries<T> {
 
 	/** the symbol size in pixel */
 	private int symbolSize = 4;
@@ -92,6 +95,7 @@ public class LineSeries extends Series implements ILineSeries {
 	/*
 	 * @see ILineSeries#getLineStyle()
 	 */
+	@Override
 	public LineStyle getLineStyle() {
 
 		return lineStyle;
@@ -100,6 +104,7 @@ public class LineSeries extends Series implements ILineSeries {
 	/*
 	 * @see ILineSeries#setLineStyle(LineStyle)
 	 */
+	@Override
 	public void setLineStyle(LineStyle style) {
 
 		if(style == null) {
@@ -115,6 +120,7 @@ public class LineSeries extends Series implements ILineSeries {
 	/*
 	 * @see ILineSeries#getLineColor()
 	 */
+	@Override
 	public Color getLineColor() {
 
 		if(lineColor.isDisposed()) {
@@ -126,6 +132,7 @@ public class LineSeries extends Series implements ILineSeries {
 	/*
 	 * @see ILineSeries#setLineColor(Color)
 	 */
+	@Override
 	public void setLineColor(Color color) {
 
 		if(color != null && color.isDisposed()) {
@@ -141,6 +148,7 @@ public class LineSeries extends Series implements ILineSeries {
 	/*
 	 * @see ILineSeries#getLineWidth()
 	 */
+	@Override
 	public int getLineWidth() {
 
 		return lineWidth;
@@ -149,6 +157,7 @@ public class LineSeries extends Series implements ILineSeries {
 	/*
 	 * @see ILineSeries#setLineWidth(int)
 	 */
+	@Override
 	public void setLineWidth(int width) {
 
 		if(width <= 0) {
@@ -161,6 +170,7 @@ public class LineSeries extends Series implements ILineSeries {
 	/*
 	 * @see ILineSeries#getSymbolType()
 	 */
+	@Override
 	public PlotSymbolType getSymbolType() {
 
 		return symbolType;
@@ -169,6 +179,7 @@ public class LineSeries extends Series implements ILineSeries {
 	/*
 	 * @see ILineSeries#setSymbolType(PlotSymbolType)
 	 */
+	@Override
 	public void setSymbolType(PlotSymbolType type) {
 
 		if(type == null) {
@@ -199,6 +210,7 @@ public class LineSeries extends Series implements ILineSeries {
 	/*
 	 * @see ILineSeries#getSymbolSize()
 	 */
+	@Override
 	public int getSymbolSize() {
 
 		return symbolSize;
@@ -207,6 +219,7 @@ public class LineSeries extends Series implements ILineSeries {
 	/*
 	 * @see ILineSeries#setSymbolSize(int)
 	 */
+	@Override
 	public void setSymbolSize(int size) {
 
 		if(size <= 0) {
@@ -219,6 +232,7 @@ public class LineSeries extends Series implements ILineSeries {
 	/*
 	 * @see ILineSeries#getSymbolColor()
 	 */
+	@Override
 	public Color getSymbolColor() {
 
 		return symbolColor;
@@ -227,6 +241,7 @@ public class LineSeries extends Series implements ILineSeries {
 	/*
 	 * @see ILineSeries#setSymbolColor(Color)
 	 */
+	@Override
 	public void setSymbolColor(Color color) {
 
 		if(color != null && color.isDisposed()) {
@@ -242,6 +257,7 @@ public class LineSeries extends Series implements ILineSeries {
 	/*
 	 * @see ILineSeries#getSymbolColors()
 	 */
+	@Override
 	public Color[] getSymbolColors() {
 
 		Color[] copiedSymbolColors = new Color[symbolColors.length];
@@ -252,6 +268,7 @@ public class LineSeries extends Series implements ILineSeries {
 	/*
 	 * @see ILineSeries#setSymbolColors(Color [])
 	 */
+	@Override
 	public void setSymbolColors(Color[] colors) {
 
 		if(colors == null) {
@@ -273,17 +290,21 @@ public class LineSeries extends Series implements ILineSeries {
 	@Override
 	protected void setCompressor() {
 
-		if(isXMonotoneIncreasing) {
-			compressor = new CompressLineSeries();
-		} else {
-			compressor = new CompressScatterSeries();
-			((CompressScatterSeries)compressor).setLineVisible(getLineStyle() != LineStyle.NONE);
+		CartesianSeriesModel<T> dataModel = getDataModel();
+		if(dataModel instanceof DoubleArraySeriesModel) {
+			if(((DoubleArraySeriesModel)dataModel).isXMonotoneIncreasing()) {
+				compressor = new CompressLineSeries();
+				return;
+			}
 		}
+		compressor = new CompressScatterSeries();
+		((CompressScatterSeries)compressor).setLineVisible(getLineStyle() != LineStyle.NONE);
 	}
 
 	/*
 	 * @see ILineSeries#enableArea(boolean)
 	 */
+	@Override
 	public void enableArea(boolean enabled) {
 
 		areaEnabled = enabled;
@@ -292,6 +313,7 @@ public class LineSeries extends Series implements ILineSeries {
 	/*
 	 * @see ILineSeries#isAreaEnabled()
 	 */
+	@Override
 	public boolean isAreaEnabled() {
 
 		return areaEnabled;
@@ -300,6 +322,7 @@ public class LineSeries extends Series implements ILineSeries {
 	/*
 	 * @see ILineSeries#enableStep(boolean)
 	 */
+	@Override
 	public void enableStep(boolean enabled) {
 
 		stepEnabled = enabled;
@@ -308,6 +331,7 @@ public class LineSeries extends Series implements ILineSeries {
 	/*
 	 * @see ILineSeries#isStepEnabled()
 	 */
+	@Override
 	public boolean isStepEnabled() {
 
 		return stepEnabled;
@@ -333,6 +357,7 @@ public class LineSeries extends Series implements ILineSeries {
 	/*
 	 * @see ILineSeries#getAntialias()
 	 */
+	@Override
 	public int getAntialias() {
 
 		return antialias;
@@ -341,6 +366,7 @@ public class LineSeries extends Series implements ILineSeries {
 	/*
 	 * @see ILineSeries#setAntialias(int)
 	 */
+	@Override
 	public void setAntialias(int antialias) {
 
 		if(antialias != SWT.DEFAULT && antialias != SWT.ON && antialias != SWT.OFF) {

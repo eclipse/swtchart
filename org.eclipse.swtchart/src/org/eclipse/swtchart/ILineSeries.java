@@ -9,6 +9,7 @@
  * 
  * Contributors:
  * yoshitaka - initial API and implementation
+ * Christoph Läubrich - add support for datamodel
  *******************************************************************************/
 package org.eclipse.swtchart;
 
@@ -17,7 +18,7 @@ import org.eclipse.swt.graphics.Color;
 /**
  * Line series.
  */
-public interface ILineSeries extends ISeries {
+public interface ILineSeries<T> extends ISeries<T> {
 
 	/**
 	 * A plot symbol type.

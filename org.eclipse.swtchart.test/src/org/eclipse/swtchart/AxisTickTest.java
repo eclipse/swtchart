@@ -9,6 +9,7 @@
  * 
  * Contributors:
  * yoshitaka - initial API and implementation
+ * Christoph Läubrich - adjust for API changes
  *******************************************************************************/
 package org.eclipse.swtchart;
 
@@ -245,26 +246,20 @@ public class AxisTickTest extends ChartTestCase {
 
 		// create line series
 		ILineSeries lineSeries = (ILineSeries)chart.getSeriesSet().createSeries(SeriesType.LINE, "line series");
-		lineSeries.setXDateSeries(xYearSeries);
 		lineSeries.setYSeries(ySeries);
 		chart.getAxisSet().adjustRange();
 		showChart();
 		Format yFormat = new DecimalFormat("###.000 M");
 		yAxisTick.setFormat(yFormat);
 		showChart();
-		lineSeries.setXDateSeries(xMonthSeries);
 		chart.getAxisSet().adjustRange();
 		showChart();
-		lineSeries.setXDateSeries(xDateSeries);
 		chart.getAxisSet().adjustRange();
 		showChart();
-		lineSeries.setXDateSeries(xHourSeries);
 		chart.getAxisSet().adjustRange();
 		showChart();
-		lineSeries.setXDateSeries(xMinuteSeries);
 		chart.getAxisSet().adjustRange();
 		showChart();
-		lineSeries.setXDateSeries(xSecondSeries);
 		chart.getAxisSet().adjustRange();
 		showChart();
 		Format xFormat = DateFormat.getTimeInstance(DateFormat.FULL);
@@ -279,7 +274,6 @@ public class AxisTickTest extends ChartTestCase {
 	public void testTickLabelValues() throws Throwable {
 
 		ILineSeries lineSeries = (ILineSeries)chart.getSeriesSet().createSeries(SeriesType.LINE, "line series");
-		lineSeries.setXDateSeries(xYearSeries);
 		lineSeries.setYSeries(ySeries);
 		chart.getAxisSet().adjustRange();
 		showChart();

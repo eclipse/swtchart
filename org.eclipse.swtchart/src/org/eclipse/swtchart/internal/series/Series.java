@@ -6,12 +6,13 @@
  * 
  * Contributors:
  * yoshitaka - initial API and implementation
+ * Christoph Läubrich - add support for datamodel
  *******************************************************************************/
 package org.eclipse.swtchart.internal.series;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
+import java.util.stream.StreamSupport;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.GC;
@@ -27,27 +28,18 @@ import org.eclipse.swtchart.ISeriesLabel;
 import org.eclipse.swtchart.Range;
 import org.eclipse.swtchart.internal.axis.Axis;
 import org.eclipse.swtchart.internal.compress.ICompress;
+import org.eclipse.swtchart.model.CartesianSeriesModel;
+import org.eclipse.swtchart.model.DoubleArraySeriesModel;
+import org.eclipse.swtchart.model.IndexedSeriesModel;
 
 /**
  * Series.
  */
-abstract public class Series implements ISeries {
+abstract public class Series<T> implements ISeries<T> {
 
 	/** the default series type */
 	protected static final SeriesType DEFAULT_SERIES_TYPE = SeriesType.LINE;
-	/** the x series */
-	protected double[] xSeries;
-	/** the y series */
-	protected double[] ySeries;
 	/** the minimum value of x series */
-	protected double minX;
-	/** the maximum value of x series */
-	protected double maxX;
-	/** the minimum value of y series */
-	protected double minY;
-	/** the maximum value of y series */
-	protected double maxY;
-	/** the series id */
 	protected String id;
 	/** the compressor */
 	protected ICompress compressor;
@@ -57,8 +49,6 @@ abstract public class Series implements ISeries {
 	protected int yAxisId;
 	/** the visibility of series */
 	protected boolean visible;
-	/** the state indicating whether x series are monotone increasing */
-	protected boolean isXMonotoneIncreasing;
 	/** the series type */
 	protected SeriesType type;
 	/** the series label */
@@ -73,14 +63,13 @@ abstract public class Series implements ISeries {
 	protected boolean stackEnabled;
 	/** the stack series */
 	protected double[] stackSeries;
-	/** the state indicating if the type of X series is <tt>Date</tt> */
-	private boolean isDateSeries;
 	/** the state indicating if the series is visible in legend */
 	private boolean visibleInLegend;
 	/** the series description */
 	private String description;
 	/** the list of dispose listeners */
 	private List<IDisposeListener> listeners;
+	private CartesianSeriesModel<T> model;
 
 	/**
 	 * Constructor.
@@ -99,19 +88,18 @@ abstract public class Series implements ISeries {
 		visible = true;
 		type = DEFAULT_SERIES_TYPE;
 		stackEnabled = false;
-		isXMonotoneIncreasing = true;
+		// isXMonotoneIncreasing = true;
 		seriesLabel = new SeriesLabel();
 		xErrorBar = new ErrorBar();
 		yErrorBar = new ErrorBar();
 		visibleInLegend = true;
 		listeners = new ArrayList<IDisposeListener>();
-		xSeries = new double[0];
-		ySeries = new double[0];
 	}
 
 	/*
 	 * @see ISeries#getId()
 	 */
+	@Override
 	public String getId() {
 
 		return id;
@@ -120,6 +108,7 @@ abstract public class Series implements ISeries {
 	/*
 	 * @see ISeries#setVisible(boolean)
 	 */
+	@Override
 	public void setVisible(boolean visible) {
 
 		if(this.visible == visible) {
@@ -132,6 +121,7 @@ abstract public class Series implements ISeries {
 	/*
 	 * @see ISeries#isVisible()
 	 */
+	@Override
 	public boolean isVisible() {
 
 		return visible;
@@ -140,6 +130,7 @@ abstract public class Series implements ISeries {
 	/*
 	 * @see ISeries#getType()
 	 */
+	@Override
 	public SeriesType getType() {
 
 		return type;
@@ -148,17 +139,50 @@ abstract public class Series implements ISeries {
 	/*
 	 * @see ISeries#isStackEnabled()
 	 */
+	@Override
 	public boolean isStackEnabled() {
 
 		return stackEnabled;
 	}
 
+	@Override
+	public CartesianSeriesModel<T> getDataModel() {
+
+		return model;
+	}
+
+	@Override
+	public void setDataModel(CartesianSeriesModel<T> model) {
+
+		this.model = model;
+		setCompressor();
+		compressor.setXSeries(getXSeries());
+		compressor.setYSeries(getYSeries());
+		Range xRange = getXRange();
+		if(xRange.lower <= 0) {
+			IAxis axis = chart.getAxisSet().getXAxis(xAxisId);
+			if(axis != null) {
+				axis.enableLogScale(false);
+			}
+		}
+		Range yRange = getYRange();
+		if(yRange.lower <= 0) {
+			IAxis axis = chart.getAxisSet().getYAxis(yAxisId);
+			if(axis != null) {
+				axis.enableLogScale(false);
+			}
+			stackEnabled = false;
+		}
+	}
+
 	/*
 	 * @see ISeries#enableStack(boolean)
 	 */
+	@Override
 	public void enableStack(boolean enabled) {
 
-		if(enabled && minY < 0) {
+		Number minY = getDataModel().getMinY();
+		if(enabled && (minY != null && minY.doubleValue() < 0)) {
 			throw new IllegalStateException("Stacked series cannot contain minus values.");
 		}
 		if(stackEnabled == enabled) {
@@ -171,155 +195,69 @@ abstract public class Series implements ISeries {
 	/*
 	 * @see ISeries#setXSeries(double[])
 	 */
+	@SuppressWarnings("unchecked")
+	@Override
 	public void setXSeries(double[] series) {
 
 		if(series == null) {
 			SWT.error(SWT.ERROR_NULL_ARGUMENT);
 			return; // to suppress warning...
 		}
-		xSeries = new double[series.length];
+		double[] xSeries = new double[series.length];
 		System.arraycopy(series, 0, xSeries, 0, series.length);
-		isDateSeries = false;
-		if(xSeries.length == 0) {
-			return;
+		double[] ySeries = getYSeries();
+		if(ySeries.length != xSeries.length) {
+			ySeries = new double[xSeries.length];
 		}
-		// find the min and max value of x series
-		minX = xSeries[0];
-		maxX = xSeries[0];
-		for(int i = 1; i < xSeries.length; i++) {
-			if(minX > xSeries[i]) {
-				minX = xSeries[i];
-			}
-			if(maxX < xSeries[i]) {
-				maxX = xSeries[i];
-			}
-			if(xSeries[i - 1] > xSeries[i]) {
-				isXMonotoneIncreasing = false;
-			}
-		}
-		setCompressor();
-		compressor.setXSeries(xSeries);
-		compressor.setYSeries(ySeries);
-		if(minX <= 0) {
-			IAxis axis = chart.getAxisSet().getXAxis(xAxisId);
-			if(axis != null) {
-				axis.enableLogScale(false);
-			}
-		}
+		DoubleArraySeriesModel arraySeriesModel = new DoubleArraySeriesModel(xSeries, ySeries);
+		setDataModel((CartesianSeriesModel<T>)arraySeriesModel);
 	}
 
 	/*
 	 * @see ISeries#getXSeries()
 	 */
+	@Override
 	public double[] getXSeries() {
 
-		double[] copiedSeries = new double[xSeries.length];
-		System.arraycopy(xSeries, 0, copiedSeries, 0, xSeries.length);
-		return copiedSeries;
+		CartesianSeriesModel<T> dataModel = getDataModel();
+		if(dataModel == null) {
+			return new double[0];
+		}
+		return StreamSupport.stream(dataModel.spliterator(), false).filter(t -> dataModel.getX(t) != null).mapToDouble(value -> dataModel.getX(value).doubleValue()).toArray();
 	}
 
 	/*
 	 * @see ISeries#setYSeries(double[])
 	 */
+	@SuppressWarnings("unchecked")
+	@Override
 	public void setYSeries(double[] series) {
 
 		if(series == null) {
 			SWT.error(SWT.ERROR_NULL_ARGUMENT);
 			return; // to suppress warning...
 		}
-		ySeries = new double[series.length];
+		double[] xSeries = getXSeries();
+		double[] ySeries = new double[series.length];
 		System.arraycopy(series, 0, ySeries, 0, series.length);
-		if(ySeries.length == 0) {
-			return;
+		if(ySeries.length != xSeries.length) {
+			xSeries = new double[ySeries.length];
 		}
-		// find the min and max value of y series
-		minY = ySeries[0];
-		maxY = ySeries[0];
-		for(int i = 1; i < ySeries.length; i++) {
-			if(minY > ySeries[i]) {
-				minY = ySeries[i];
-			}
-			if(maxY < ySeries[i]) {
-				maxY = ySeries[i];
-			}
-		}
-		if(xSeries.length != series.length) {
-			xSeries = new double[series.length];
-			for(int i = 0; i < series.length; i++) {
-				xSeries[i] = i;
-			}
-			minX = xSeries[0];
-			maxX = xSeries[xSeries.length - 1];
-			isXMonotoneIncreasing = true;
-		}
-		setCompressor();
-		compressor.setXSeries(xSeries);
-		compressor.setYSeries(ySeries);
-		if(minX <= 0) {
-			IAxis axis = chart.getAxisSet().getXAxis(xAxisId);
-			if(axis != null) {
-				axis.enableLogScale(false);
-			}
-		}
-		if(minY <= 0) {
-			IAxis axis = chart.getAxisSet().getYAxis(yAxisId);
-			if(axis != null) {
-				axis.enableLogScale(false);
-			}
-			stackEnabled = false;
-		}
+		DoubleArraySeriesModel arraySeriesModel = new DoubleArraySeriesModel(xSeries, ySeries);
+		setDataModel((CartesianSeriesModel<T>)arraySeriesModel);
 	}
 
 	/*
 	 * @see ISeries#getYSeries()
 	 */
+	@Override
 	public double[] getYSeries() {
 
-		double[] copiedSeries = new double[ySeries.length];
-		System.arraycopy(ySeries, 0, copiedSeries, 0, ySeries.length);
-		return copiedSeries;
-	}
-
-	/*
-	 * @see ISeries#setXDateSeries(Date[])
-	 */
-	public void setXDateSeries(Date[] series) {
-
-		if(series == null) {
-			SWT.error(SWT.ERROR_NULL_ARGUMENT);
-			return; // to suppress warning...
+		CartesianSeriesModel<T> dataModel = getDataModel();
+		if(dataModel == null) {
+			return new double[0];
 		}
-		double[] xDateSeries = new double[series.length];
-		for(int i = 0; i < series.length; i++) {
-			xDateSeries[i] = series[i].getTime();
-		}
-		setXSeries(xDateSeries);
-		isDateSeries = true;
-	}
-
-	/*
-	 * @see ISeries#getXDateSeries()
-	 */
-	public Date[] getXDateSeries() {
-
-		if(!isDateSeries) {
-			return new Date[0];
-		}
-		Date[] series = new Date[xSeries.length];
-		for(int i = 0; i < series.length; i++) {
-			series[i] = new Date((long)xSeries[i]);
-		}
-		return series;
-	}
-
-	/**
-	 * Gets the state indicating if date series is set.
-	 *
-	 * @return true if date series is set
-	 */
-	public boolean isDateSeries() {
-
-		return isDateSeries;
+		return StreamSupport.stream(dataModel.spliterator(), false).filter(t -> dataModel.getY(t) != null).mapToDouble(value -> dataModel.getY(value).doubleValue()).toArray();
 	}
 
 	/**
@@ -339,6 +277,15 @@ abstract public class Series implements ISeries {
 	 */
 	public Range getXRange() {
 
+		double minX = 0;
+		double maxX = 0;
+		CartesianSeriesModel<T> dataModel = getDataModel();
+		if(dataModel != null) {
+			Number number = dataModel.getMinX();
+			minX = number == null ? 0 : number.doubleValue();
+			number = dataModel.getMaxX();
+			maxX = number == null ? 0 : number.doubleValue();
+		}
 		return new Range(minX, maxX);
 	}
 
@@ -361,8 +308,15 @@ abstract public class Series implements ISeries {
 	 */
 	public Range getYRange() {
 
-		double min = minY;
-		double max = maxY;
+		double min = 0;
+		double max = 0;
+		CartesianSeriesModel<T> dataModel = getDataModel();
+		if(dataModel != null) {
+			Number number = dataModel.getMinY();
+			min = number == null ? 0 : number.doubleValue();
+			number = dataModel.getMaxY();
+			max = number == null ? 0 : number.doubleValue();
+		}
 		Axis xAxis = (Axis)chart.getAxisSet().getXAxis(xAxisId);
 		if(isValidStackSeries() && xAxis.isValidCategoryAxis()) {
 			for(int i = 0; i < stackSeries.length; i++) {
@@ -392,6 +346,7 @@ abstract public class Series implements ISeries {
 	/*
 	 * @see ISeries#getXAxisId()
 	 */
+	@Override
 	public int getXAxisId() {
 
 		return xAxisId;
@@ -400,13 +355,14 @@ abstract public class Series implements ISeries {
 	/*
 	 * @see ISeries#setXAxisId(int)
 	 */
+	@Override
 	public void setXAxisId(int id) {
 
 		if(xAxisId == id) {
 			return;
 		}
 		IAxis axis = chart.getAxisSet().getXAxis(xAxisId);
-		if(minX <= 0 && axis != null && axis.isLogScaleEnabled()) {
+		if(getXRange().lower <= 0 && axis != null && axis.isLogScaleEnabled()) {
 			chart.getAxisSet().getXAxis(xAxisId).enableLogScale(false);
 		}
 		xAxisId = id;
@@ -416,6 +372,7 @@ abstract public class Series implements ISeries {
 	/*
 	 * @see ISeries#getYAxisId()
 	 */
+	@Override
 	public int getYAxisId() {
 
 		return yAxisId;
@@ -424,6 +381,7 @@ abstract public class Series implements ISeries {
 	/*
 	 * @see ISeries#setYAxisId(int)
 	 */
+	@Override
 	public void setYAxisId(int id) {
 
 		yAxisId = id;
@@ -432,6 +390,7 @@ abstract public class Series implements ISeries {
 	/*
 	 * @see ISeries#getLabel()
 	 */
+	@Override
 	public ISeriesLabel getLabel() {
 
 		return seriesLabel;
@@ -440,6 +399,7 @@ abstract public class Series implements ISeries {
 	/*
 	 * @see ISeries#getXErrorBar()
 	 */
+	@Override
 	public IErrorBar getXErrorBar() {
 
 		return xErrorBar;
@@ -448,6 +408,7 @@ abstract public class Series implements ISeries {
 	/*
 	 * @see ISeries#getYErrorBar()
 	 */
+	@Override
 	public IErrorBar getYErrorBar() {
 
 		return yErrorBar;
@@ -467,6 +428,7 @@ abstract public class Series implements ISeries {
 	/*
 	 * @see ISeries#getPixelCoordinates(int)
 	 */
+	@Override
 	public Point getPixelCoordinates(int index) {
 
 		// get the horizontal and vertical axes
@@ -496,34 +458,41 @@ abstract public class Series implements ISeries {
 	 */
 	private int getPixelCoordinate(IAxis axis, int index) {
 
-		// get the data coordinate
-		double dataCoordinate;
-		if(axis.getDirection() == Direction.X) {
-			if(axis.isCategoryEnabled()) {
-				dataCoordinate = index;
+		CartesianSeriesModel<T> dataModel = getDataModel();
+		if(dataModel instanceof IndexedSeriesModel<?>) {
+			@SuppressWarnings("unchecked")
+			IndexedSeriesModel<T> indexedModel = (IndexedSeriesModel<T>)dataModel;
+			// get the data coordinate
+			double dataCoordinate;
+			if(axis.getDirection() == Direction.X) {
+				if(axis.isCategoryEnabled()) {
+					dataCoordinate = index;
+				} else {
+					if(index < 0 || indexedModel.size() <= index) {
+						throw new IllegalArgumentException("Series index is out of range."); //$NON-NLS-1$
+					}
+					dataCoordinate = dataModel.getX(indexedModel.itemAt(index)).doubleValue();
+				}
+			} else if(axis.getDirection() == Direction.Y) {
+				if(isValidStackSeries()) {
+					if(index < 0 || stackSeries.length <= index) {
+						throw new IllegalArgumentException("Series index is out of range."); //$NON-NLS-1$
+					}
+					dataCoordinate = stackSeries[index];
+				} else {
+					if(index < 0 || indexedModel.size() <= index) {
+						throw new IllegalArgumentException("Series index is out of range."); //$NON-NLS-1$
+					}
+					dataCoordinate = dataModel.getY(indexedModel.itemAt(index)).doubleValue();
+				}
 			} else {
-				if(index < 0 || xSeries.length <= index) {
-					throw new IllegalArgumentException("Series index is out of range."); //$NON-NLS-1$
-				}
-				dataCoordinate = xSeries[index];
+				throw new IllegalStateException("unknown axis direction"); //$NON-NLS-1$
 			}
-		} else if(axis.getDirection() == Direction.Y) {
-			if(isValidStackSeries()) {
-				if(index < 0 || stackSeries.length <= index) {
-					throw new IllegalArgumentException("Series index is out of range."); //$NON-NLS-1$
-				}
-				dataCoordinate = stackSeries[index];
-			} else {
-				if(index < 0 || ySeries.length <= index) {
-					throw new IllegalArgumentException("Series index is out of range."); //$NON-NLS-1$
-				}
-				dataCoordinate = ySeries[index];
-			}
+			// get the pixel coordinate
+			return axis.getPixelCoordinate(dataCoordinate);
 		} else {
-			throw new IllegalStateException("unknown axis direction"); //$NON-NLS-1$
+			throw new IllegalStateException("This requires a IndexedSeriesModel");
 		}
-		// get the pixel coordinate
-		return axis.getPixelCoordinate(dataCoordinate);
 	}
 
 	/**
@@ -556,6 +525,7 @@ abstract public class Series implements ISeries {
 	/*
 	 * @see ISeries#setVisibleInLegend(boolean)
 	 */
+	@Override
 	public void setVisibleInLegend(boolean visible) {
 
 		visibleInLegend = visible;
@@ -564,6 +534,7 @@ abstract public class Series implements ISeries {
 	/*
 	 * @see ISeries#isVisibleInLegend()
 	 */
+	@Override
 	public boolean isVisibleInLegend() {
 
 		return visibleInLegend;
@@ -572,6 +543,7 @@ abstract public class Series implements ISeries {
 	/*
 	 * @see ISeries#setDescription(String)
 	 */
+	@Override
 	public void setDescription(String description) {
 
 		this.description = description;
@@ -580,6 +552,7 @@ abstract public class Series implements ISeries {
 	/*
 	 * @see ISeries#getDescription()
 	 */
+	@Override
 	public String getDescription() {
 
 		return description;
@@ -598,6 +571,7 @@ abstract public class Series implements ISeries {
 	/*
 	 * @see IAxis#addDisposeListener(IDisposeListener)
 	 */
+	@Override
 	public void addDisposeListener(IDisposeListener listener) {
 
 		listeners.add(listener);
@@ -615,7 +589,7 @@ abstract public class Series implements ISeries {
 	 */
 	public void draw(GC gc, int width, int height) {
 
-		if(!visible || width < 0 || height < 0 || xSeries.length == 0 || ySeries.length == 0) {
+		if(!visible || width < 0 || height < 0) {
 			return;
 		}
 		Axis xAxis = (Axis)chart.getAxisSet().getXAxis(getXAxisId());

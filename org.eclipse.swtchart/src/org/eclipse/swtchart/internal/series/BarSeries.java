@@ -9,6 +9,7 @@
  * 
  * Contributors:
  * yoshitaka - initial API and implementation
+ * Christoph Läubrich - add support for datamodel
  *******************************************************************************/
 package org.eclipse.swtchart.internal.series;
 
@@ -25,11 +26,13 @@ import org.eclipse.swtchart.Range;
 import org.eclipse.swtchart.internal.axis.Axis;
 import org.eclipse.swtchart.internal.compress.CompressBarSeries;
 import org.eclipse.swtchart.internal.compress.CompressScatterSeries;
+import org.eclipse.swtchart.model.CartesianSeriesModel;
+import org.eclipse.swtchart.model.DoubleArraySeriesModel;
 
 /**
  * Bar series.
  */
-public class BarSeries extends Series implements IBarSeries {
+public class BarSeries<T> extends Series<T> implements IBarSeries<T> {
 
 	/** the riser index in a category */
 	private int riserIndex;
@@ -76,6 +79,7 @@ public class BarSeries extends Series implements IBarSeries {
 	/*
 	 * @see IBarSeries#getBarWidthStyle(BarWidthStyle)
 	 */
+	@Override
 	public BarWidthStyle getBarWidthStyle(BarWidthStyle style) {
 
 		return barWidthStyle;
@@ -84,6 +88,7 @@ public class BarSeries extends Series implements IBarSeries {
 	/*
 	 * @see IBarSeries#setBarWidthStyle(BarWidthStyle)
 	 */
+	@Override
 	public void setBarWidthStyle(BarWidthStyle style) {
 
 		this.barWidthStyle = style;
@@ -92,6 +97,7 @@ public class BarSeries extends Series implements IBarSeries {
 	/*
 	 * @see IBarSeries#getBarWidth()
 	 */
+	@Override
 	public int getBarWidth() {
 
 		return barWidth;
@@ -100,6 +106,7 @@ public class BarSeries extends Series implements IBarSeries {
 	/*
 	 * @see IBarSeries#setBarWidth(int)
 	 */
+	@Override
 	public void setBarWidth(int width) {
 
 		if(width <= 0) {
@@ -111,6 +118,7 @@ public class BarSeries extends Series implements IBarSeries {
 	/*
 	 * @see IBarSeries#getBarPadding()
 	 */
+	@Override
 	public int getBarPadding() {
 
 		return padding;
@@ -119,6 +127,7 @@ public class BarSeries extends Series implements IBarSeries {
 	/*
 	 * @see IBarSeries#setBarPadding(int)
 	 */
+	@Override
 	public void setBarPadding(int padding) {
 
 		if(padding < 0 || padding > 100) {
@@ -142,6 +151,7 @@ public class BarSeries extends Series implements IBarSeries {
 	/*
 	 * @see IBarSeries#getBarColor()
 	 */
+	@Override
 	public Color getBarColor() {
 
 		if(barColor.isDisposed()) {
@@ -153,6 +163,7 @@ public class BarSeries extends Series implements IBarSeries {
 	/*
 	 * @see IBarSeries#setBarColor(Color)
 	 */
+	@Override
 	public void setBarColor(Color color) {
 
 		if(color != null && color.isDisposed()) {
@@ -168,12 +179,14 @@ public class BarSeries extends Series implements IBarSeries {
 	/*
 	 * @see IBarSeries#getBounds()
 	 */
+	@Override
 	public Rectangle[] getBounds() {
 
 		Rectangle[] compressedBounds = getBoundsForCompressedSeries();
 		if(((Axis)chart.getAxisSet().getXAxis(xAxisId)).isValidCategoryAxis()) {
 			return compressedBounds;
 		}
+		double[] xSeries = getXSeries();
 		Rectangle[] rs = new Rectangle[xSeries.length];
 		double[] comporessedXSeries = compressor.getCompressedXSeries();
 		int cnt = 0;
@@ -307,11 +320,14 @@ public class BarSeries extends Series implements IBarSeries {
 	@Override
 	protected void setCompressor() {
 
-		if(isXMonotoneIncreasing) {
-			compressor = new CompressBarSeries();
-		} else {
-			compressor = new CompressScatterSeries();
+		CartesianSeriesModel<T> dataModel = getDataModel();
+		if(dataModel instanceof DoubleArraySeriesModel) {
+			if(((DoubleArraySeriesModel)dataModel).isXMonotoneIncreasing()) {
+				compressor = new CompressBarSeries();
+				return;
+			}
 		}
+		compressor = new CompressScatterSeries();
 	}
 
 	/*
@@ -325,8 +341,10 @@ public class BarSeries extends Series implements IBarSeries {
 		int lowerPlotMargin;
 		int upperPlotMargin;
 		if(axis.getDirection() == Direction.X) {
-			double lowerRiserWidth = getRiserWidth(xSeries, 0, axis, minX, maxX);
-			double upperRiserWidth = getRiserWidth(xSeries, xSeries.length - 1, axis, minX, maxX);
+			double[] xSeries = getXSeries();
+			Range xRange = getXRange();
+			double lowerRiserWidth = getRiserWidth(xSeries, 0, axis, xRange.lower, xRange.upper);
+			double upperRiserWidth = getRiserWidth(xSeries, xSeries.length - 1, axis, xRange.lower, xRange.upper);
 			lowerPlotMargin = (int)(lowerRiserWidth / 2d + MARGIN_AT_MIN_MAX_PLOT);
 			upperPlotMargin = (int)(upperRiserWidth / 2d + MARGIN_AT_MIN_MAX_PLOT);
 			range = getXRange();
@@ -336,7 +354,7 @@ public class BarSeries extends Series implements IBarSeries {
 				range.upper = 0;
 			}
 			if(range.lower > 0) {
-				range.lower = axis.isLogScaleEnabled() ? minY : 0;
+				range.lower = axis.isLogScaleEnabled() ? range.lower : 0;
 			}
 			lowerPlotMargin = (range.lower == 0) ? 0 : MARGIN_AT_MIN_MAX_PLOT;
 			upperPlotMargin = (range.upper == 0) ? 0 : MARGIN_AT_MIN_MAX_PLOT;
@@ -425,6 +443,8 @@ public class BarSeries extends Series implements IBarSeries {
 		}
 		// draw label and error bars
 		if(seriesLabel.isVisible() || xErrorBar.isVisible() || yErrorBar.isVisible()) {
+			double[] xSeries = getXSeries();
+			double[] ySeries = getYSeries();
 			double[] yseries = compressor.getCompressedYSeries();
 			int[] indexes = compressor.getCompressedIndexes();
 			for(int i = 0; i < rs.length; i++) {

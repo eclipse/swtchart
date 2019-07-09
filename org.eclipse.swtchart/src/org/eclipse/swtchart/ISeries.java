@@ -9,17 +9,17 @@
  * 
  * Contributors:
  * yoshitaka - initial API and implementation
+ * Christoph Läubrich - add support for datamodel
  *******************************************************************************/
 package org.eclipse.swtchart;
 
-import java.util.Date;
-
 import org.eclipse.swt.graphics.Point;
+import org.eclipse.swtchart.model.CartesianSeriesModel;
 
 /**
  * Series.
  */
-public interface ISeries {
+public interface ISeries<DataType> {
 
 	/**
 	 * A Series type.
@@ -96,6 +96,7 @@ public interface ISeries {
 	 * @param series
 	 *            the X series
 	 */
+	@Deprecated
 	void setXSeries(double[] series);
 
 	/**
@@ -104,6 +105,7 @@ public interface ISeries {
 	 * @param series
 	 *            the Y series
 	 */
+	@Deprecated
 	void setYSeries(double[] series);
 
 	/**
@@ -111,6 +113,7 @@ public interface ISeries {
 	 * 
 	 * @return the X series
 	 */
+	@Deprecated
 	double[] getXSeries();
 
 	/**
@@ -119,25 +122,21 @@ public interface ISeries {
 	 * 
 	 * @return the Y series
 	 */
+	@Deprecated
 	double[] getYSeries();
 
 	/**
-	 * Sets the X date series.
-	 * <p>
-	 * X series and X date series are exclusive. X date series will be cleared by setting
-	 * X series, and vice versa.
+	 * Set the model for this series
 	 * 
-	 * @param series
-	 *            the X date series
+	 * @param model
 	 */
-	void setXDateSeries(Date[] series);
+	void setDataModel(CartesianSeriesModel<DataType> model);
 
 	/**
-	 * Gets the X date series.
 	 * 
-	 * @return the X date series, or empty array if X date series is not set.
+	 * @return the current model for this series
 	 */
-	Date[] getXDateSeries();
+	CartesianSeriesModel<DataType> getDataModel();
 
 	/**
 	 * Gets the X axis id.
