@@ -9,6 +9,7 @@
  * 
  * Contributors:
  * Dr. Philip Wenig - initial API and implementation
+ * Christoph Läubrich - extend for tooltip
  *******************************************************************************/
 package org.eclipse.swtchart.extensions.menu;
 
@@ -20,6 +21,11 @@ public interface IChartMenuEntry {
 	String getCategory();
 
 	String getName();
+
+	default String getToolTipText() {
+
+		return "";
+	}
 
 	default boolean isEnabled(ScrollableChart scrollableChart) {
 
