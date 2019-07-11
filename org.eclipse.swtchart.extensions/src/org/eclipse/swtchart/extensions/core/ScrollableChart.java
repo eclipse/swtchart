@@ -9,7 +9,7 @@
  * 
  * Contributors:
  * Dr. Philip Wenig - initial API and implementation
- * Christoph Läubrich - rework redraw of the plot area
+ * Christoph Läubrich - rework redraw of the plot area, enhance menu item handling
  *******************************************************************************/
 package org.eclipse.swtchart.extensions.core;
 
@@ -20,7 +20,9 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
+import java.util.TreeMap;
 
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IConfigurationElement;
@@ -32,6 +34,8 @@ import org.eclipse.swt.events.MouseAdapter;
 import org.eclipse.swt.events.MouseEvent;
 import org.eclipse.swt.events.PaintEvent;
 import org.eclipse.swt.events.PaintListener;
+import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Font;
 import org.eclipse.swt.graphics.Point;
@@ -388,7 +392,6 @@ public class ScrollableChart extends Composite implements IScrollableChart, IEve
 	public void handleSelectionEvent(Event event) {
 
 		baseChart.handleSelectionEvent(event);
-		widgetSelected(event);
 	}
 
 	@Override
@@ -1354,21 +1357,6 @@ public class ScrollableChart extends Composite implements IScrollableChart, IEve
 		}
 	}
 
-	private void widgetSelected(Event e) {
-
-		if(!(e.widget instanceof MenuItem)) {
-			return;
-		}
-		/*
-		 * Get the entry and execute it.
-		 */
-		MenuItem menuItem = (MenuItem)e.widget;
-		IChartMenuEntry menuEntry = menuEntryMap.get(menuItem.getText());
-		if(menuEntry != null) {
-			menuEntry.execute(getShell(), this);
-		}
-	}
-
 	private void createPopupMenu() {
 
 		IPlotArea area = baseChart.getPlotArea();
@@ -1411,7 +1399,8 @@ public class ScrollableChart extends Composite implements IScrollableChart, IEve
 		Iterator<String> iterator = categories.iterator();
 		while(iterator.hasNext()) {
 			String category = iterator.next();
-			createMenuCategory(menu, category, categoryMenuEntriesMap.get(category));
+			Set<IChartMenuEntry> menuEntries = categoryMenuEntriesMap.get(category);
+			createMenuCategory(menu, category, menuEntries);
 			if(iterator.hasNext()) {
 				new MenuItem(menu, SWT.SEPARATOR);
 			}
@@ -1436,24 +1425,38 @@ public class ScrollableChart extends Composite implements IScrollableChart, IEve
 		/*
 		 * Add the items.
 		 */
-		List<String> names = getSortedNames(menuEntries);
-		for(String name : names) {
+		for(Entry<String, IChartMenuEntry> name : getSortedNames(menuEntries).entrySet()) {
 			menuItem = new MenuItem(subMenu, SWT.PUSH);
-			menuItem.setText(name);
-			menuItem.addListener(SWT.Selection, this);
+			menuItem.setText(name.getKey());
+			IChartMenuEntry menuEntry = name.getValue();
+			menuItem.addSelectionListener(new SelectionListener() {
+
+				@Override
+				public void widgetSelected(SelectionEvent e) {
+
+					menuEntry.execute(getShell(), ScrollableChart.this);
+				}
+
+				@Override
+				public void widgetDefaultSelected(SelectionEvent e) {
+
+				}
+			});
+			String toolTipText = menuEntry.getToolTipText();
+			if(toolTipText != null) {
+				menuItem.setToolTipText(toolTipText);
+			}
 		}
 	}
 
-	private List<String> getSortedNames(Set<IChartMenuEntry> menuEntries) {
+	private Map<String, IChartMenuEntry> getSortedNames(Set<IChartMenuEntry> menuEntries) {
 
-		List<String> names = new ArrayList<String>();
+		Map<String, IChartMenuEntry> names = new TreeMap<>(String.CASE_INSENSITIVE_ORDER);
 		for(IChartMenuEntry menuEntry : menuEntries) {
 			if(menuEntry.isEnabled(this)) {
-				names.add(menuEntry.getName());
+				names.put(menuEntry.getName(), menuEntry);
 			}
 		}
-		//
-		Collections.sort(names);
 		return names;
 	}
 }
