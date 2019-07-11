@@ -7,7 +7,7 @@ pipeline {
     stages {
         stage('Build') {
             steps {
-                wrap([$class: 'Xvfb', autoDisplayName: true, debug: true, parallelBuild: true, screen: '1024x758x16']) {
+                wrap([$class: 'Xvnc', takeScreenshot: false, useXauthority: true]) {
 		    sh '''
                         mvn -f org.eclipse.swtchart.cbi/pom.xml clean install
                     '''
