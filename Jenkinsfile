@@ -7,10 +7,11 @@ pipeline {
     stages {
         stage('Build') {
             steps {
-                sh '''
-		    pwd
-                    mvn -f org.eclipse.swtchart.cbi/pom.xml clean install
-                '''
+                wrap([$class: 'Xvfb', autoDisplayName: true, debug: true, parallelBuild: true, screen: '1024x758x16']) {
+		    sh '''
+                        mvn -f org.eclipse.swtchart.cbi/pom.xml clean install
+                    '''
+		}
             }
         }
     }
