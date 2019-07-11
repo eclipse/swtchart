@@ -8,7 +8,8 @@ pipeline {
         stage('Build') {
             steps {
                 sh '''
-                    mvn -f /home/jenkins/workspace/SWTChart/org.eclipse.swtchart.cbi/pom.xml clean install
+		    pwd
+                    mvn -f org.eclipse.swtchart.cbi/pom.xml clean install
                 '''
             }
         }
