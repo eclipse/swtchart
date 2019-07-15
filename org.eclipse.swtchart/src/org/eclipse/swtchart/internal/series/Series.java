@@ -242,6 +242,9 @@ abstract public class Series<T> implements ISeries<T> {
 		System.arraycopy(series, 0, ySeries, 0, series.length);
 		if(ySeries.length != xSeries.length) {
 			xSeries = new double[ySeries.length];
+			for(int i = 0; i < xSeries.length; i++) {
+				xSeries[i] = i;
+			}
 		}
 		DoubleArraySeriesModel arraySeriesModel = new DoubleArraySeriesModel(xSeries, ySeries);
 		setDataModel((CartesianSeriesModel<T>)arraySeriesModel);
