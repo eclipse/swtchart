@@ -9,7 +9,7 @@
  * 
  * Contributors:
  * yoshitaka - initial API and implementation
- * Christoph Läubrich - use getSize instead of bounds since we are not interested in the location anyways
+ * Christoph Läubrich - use getSize instead of bounds since we are not interested in the location anyways, add support for datamodel
  *******************************************************************************/
 package org.eclipse.swtchart.internal.axis;
 
@@ -823,26 +823,5 @@ public class Axis implements IAxis {
 				tick.updateTick(height);
 			}
 		}
-	}
-
-	/**
-	 * Gets the state indicating if date is enabled.
-	 * 
-	 * @return true if date is enabled
-	 */
-	public boolean isDateEnabled() {
-
-		if(!isHorizontalAxis) {
-			return false;
-		}
-		for(ISeries series : chart.getSeriesSet().getSeries()) {
-			if(series.getXAxisId() != id) {
-				continue;
-			}
-			if(((Series)series).isDateSeries() && series.isVisible()) {
-				return true;
-			}
-		}
-		return false;
 	}
 }

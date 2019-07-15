@@ -9,14 +9,13 @@
  * 
  * Contributors:
  * yoshitaka - initial API and implementation
- * Christoph Läubrich - use getSize since we only want width/height
+ * Christoph Läubrich - use getSize since we only want width/height, add support for datamodel
  *******************************************************************************/
 package org.eclipse.swtchart.internal.axis;
 
 import java.math.BigDecimal;
 import java.text.DecimalFormat;
 import java.text.Format;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -164,8 +163,6 @@ public class AxisTickLabels implements PaintListener {
 			updateTickLabelForCategoryAxis(length);
 		} else if(axis.isLogScaleEnabled()) {
 			updateTickLabelForLogScale(length);
-		} else if(axis.isDateEnabled()) {
-			updateTickLabelForDateAxis(length);
 		} else {
 			updateTickLabelForLinearScale(length);
 		}
@@ -315,12 +312,7 @@ public class AxisTickLabels implements PaintListener {
 				if(j.doubleValue() > max) {
 					break;
 				}
-				if(axis.isDateEnabled()) {
-					Date date = new Date((long)j.doubleValue());
-					tickLabels.add(format(date));
-				} else {
-					tickLabels.add(format(j.doubleValue()));
-				}
+				tickLabels.add(format(j.doubleValue()));
 				tickLabelValues.add(j.doubleValue());
 				int tickLabelPosition = (int)((Math.log10(j.doubleValue()) - Math.log10(min)) / (Math.log10(max) - Math.log10(min)) * length);
 				if(axis.isReversed()) {
@@ -368,20 +360,8 @@ public class AxisTickLabels implements PaintListener {
 			/* firstPosition = min - min % tickStep + tickStep */
 			firstPosition = MIN.subtract(MIN.remainder(tickStep)).add(tickStep);
 		}
-		// the unit time starts from 1:00
-		if(axis.isDateEnabled()) {
-			BigDecimal zeroOclock = firstPosition.subtract(BigDecimal.valueOf(3600000));
-			if(MIN.compareTo(zeroOclock) == -1) {
-				firstPosition = zeroOclock;
-			}
-		}
 		for(BigDecimal b = firstPosition; b.doubleValue() <= max; b = b.add(tickStep)) {
-			if(axis.isDateEnabled()) {
-				Date date = new Date((long)b.doubleValue());
-				tickLabels.add(format(date));
-			} else {
-				tickLabels.add(format(b.doubleValue()));
-			}
+			tickLabels.add(format(b.doubleValue()));
 			tickLabelValues.add(b.doubleValue());
 			int tickLabelPosition = (int)((b.doubleValue() - min) / (max - min) * length);
 			if(axis.isReversed()) {
@@ -493,25 +473,6 @@ public class AxisTickLabels implements PaintListener {
 	private String format(Object obj) {
 
 		if(format == null) {
-			if(axis.isDateEnabled()) {
-				String dateFormat = "yyyyy.MMMMM.dd";
-				if(timeUnit == Calendar.MILLISECOND) {
-					dateFormat = "HH:mm:ss.SSS";
-				} else if(timeUnit == Calendar.SECOND) {
-					dateFormat = "HH:mm:ss";
-				} else if(timeUnit == Calendar.MINUTE) {
-					dateFormat = "HH:mm";
-				} else if(timeUnit == Calendar.HOUR_OF_DAY) {
-					dateFormat = "dd HH:mm";
-				} else if(timeUnit == Calendar.DATE) {
-					dateFormat = "MMMMM d";
-				} else if(timeUnit == Calendar.MONTH) {
-					dateFormat = "yyyy MMMMM";
-				} else if(timeUnit == Calendar.YEAR) {
-					dateFormat = "yyyy";
-				}
-				return new SimpleDateFormat(dateFormat).format(obj);
-			}
 			return new DecimalFormat(DEFAULT_DECIMAL_FORMAT).format(obj);
 		}
 		return format.format(obj);
