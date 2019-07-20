@@ -754,7 +754,7 @@ public class AxisTickLabels implements PaintListener {
 	 * 
 	 * @return the bounds on chart panel
 	 */
-	protected Rectangle getBounds() {
+	public Rectangle getBounds() {
 
 		return bounds;
 	}
@@ -923,5 +923,15 @@ public class AxisTickLabels implements PaintListener {
 	protected Format getFormat() {
 
 		return format;
+	}
+
+	public ArrayList<Boolean> getTickVisibilities() {
+
+		return tickVisibilities;
+	}
+
+	public ArrayList<String> getTickLabels() {
+
+		return tickLabels;
 	}
 }

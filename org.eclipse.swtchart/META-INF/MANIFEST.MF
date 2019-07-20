@@ -10,8 +10,8 @@ Require-Bundle: org.eclipse.ui,
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Bundle-ActivationPolicy: lazy
 Export-Package: org.eclipse.swtchart,
+ org.eclipse.swtchart.converter,
  org.eclipse.swtchart.internal;x-friends:="org.eclipse.swtchart.test",
  org.eclipse.swtchart.internal.axis;x-friends:="org.eclipse.swtchart.test",
  org.eclipse.swtchart.internal.compress,
- org.eclipse.swtchart.internal.series,
- org.eclipse.swtchart.model
+ org.eclipse.swtchart.internal.series

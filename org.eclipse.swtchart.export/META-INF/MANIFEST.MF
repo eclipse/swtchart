@@ -7,7 +7,13 @@ Bundle-Activator: org.eclipse.swtchart.export.Activator
 Require-Bundle: org.eclipse.ui,
  org.eclipse.core.runtime,
  org.eclipse.swtchart;bundle-version="0.8.0",
- org.eclipse.swtchart.extensions;bundle-version="0.8.0"
+ org.eclipse.swtchart.extensions;bundle-version="0.8.0",
+ org.apache.batik.dom;bundle-version="1.7.1",
+ org.apache.batik.svggen;bundle-version="1.7.0",
+ org.apache.batik.ext.awt;bundle-version="1.7.0",
+ org.eclipse.draw2d,
+ org.apache.batik.transcoder;bundle-version="1.7.0",
+ org.apache.xmlgraphics;bundle-version="2.2.0"
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Bundle-ActivationPolicy: lazy
 Bundle-Vendor: Eclipse SWTChart
