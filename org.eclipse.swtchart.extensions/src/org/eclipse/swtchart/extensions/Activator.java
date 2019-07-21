@@ -22,21 +22,27 @@ import org.eclipse.core.runtime.Path;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.resource.ImageRegistry;
 import org.eclipse.swt.graphics.Image;
-import org.eclipse.ui.PlatformUI;
-import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.osgi.framework.Bundle;
+import org.osgi.framework.BundleActivator;
 import org.osgi.framework.BundleContext;
 
 /**
  * The activator class controls the plug-in life cycle
  */
-public class Activator extends AbstractUIPlugin {
+public class Activator implements BundleActivator {
 
 	public static final String ICON_SET_RANGE = "ICON_SET_RANGE"; // $NON-NLS-1$
 	public static final String ICON_HIDE = "ICON_HIDE"; // $NON-NLS-1$
 	public static final String ICON_RESET = "ICON_RESET"; // $NON-NLS-1$
 	//
 	private static Activator plugin;
+	
+	private ImageRegistry imageRegistry = new ImageRegistry();
+
+	/**
+	 * The bundle associated this plug-in
+	 */
+	private Bundle bundle;
 
 	/**
 	 * The constructor
@@ -50,11 +56,9 @@ public class Activator extends AbstractUIPlugin {
 	 */
 	public void start(BundleContext context) throws Exception {
 
-		super.start(context);
 		plugin = this;
-		if(PlatformUI.isWorkbenchRunning()) {
-			initializeImageRegistry();
-		}
+		this.bundle = context.getBundle();
+		initializeImageRegistry();
 	}
 
 	/*
@@ -64,12 +68,21 @@ public class Activator extends AbstractUIPlugin {
 	public void stop(BundleContext context) throws Exception {
 
 		plugin = null;
-		super.stop(context);
 	}
 
 	public Image getImage(String key) {
 
-		return getImageRegistry().get(key);
+		return imageRegistry.get(key);
+	}
+
+	/**
+	 * Returns the bundle associated with this plug-in.
+	 *
+	 * @return the associated bundle
+	 */
+	public final Bundle getBundle() {
+
+		return bundle;
 	}
 
 	/**
@@ -89,14 +102,8 @@ public class Activator extends AbstractUIPlugin {
 		imageHashMap.put(ICON_HIDE, "icons/16x16/hide.gif"); // $NON-NLS-1$
 		imageHashMap.put(ICON_RESET, "icons/16x16/reset.gif"); // $NON-NLS-1$
 		//
-		ImageRegistry imageRegistry = getImageRegistry();
-		if(imageRegistry != null) {
-			/*
-			 * Set the image/icon values.
-			 */
-			for(Map.Entry<String, String> entry : imageHashMap.entrySet()) {
-				imageRegistry.put(entry.getKey(), createImageDescriptor(getBundle(), entry.getValue()));
-			}
+		for(Map.Entry<String, String> entry : imageHashMap.entrySet()) {
+			imageRegistry.put(entry.getKey(), createImageDescriptor(getBundle(), entry.getValue()));
 		}
 	}
 

@@ -5,7 +5,7 @@ Bundle-SymbolicName: org.eclipse.swtchart.extensions;singleton:=true
 Bundle-Version: 0.8.0.qualifier
 Bundle-Activator: org.eclipse.swtchart.extensions.Activator
 Bundle-Vendor: Eclipse SWTChart
-Require-Bundle: org.eclipse.ui,
+Require-Bundle: org.eclipse.jface,
  org.eclipse.core.runtime,
  org.eclipse.swtchart;bundle-version="0.8.0",
  org.eclipse.e4.ui.model.workbench;bundle-version="1.1.100",
