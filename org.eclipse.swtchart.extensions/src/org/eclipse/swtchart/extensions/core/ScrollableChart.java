@@ -248,7 +248,6 @@ public class ScrollableChart extends Composite implements IScrollableChart, IEve
 		if(!wasSuspend) {
 			baseChart.suspendUpdate(false);
 		}
-		redraw();
 	}
 
 	@Override
