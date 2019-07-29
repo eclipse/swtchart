@@ -237,6 +237,9 @@
         <groupId>${tycho.groupid}</groupId>
         <artifactId>tycho-surefire-plugin</artifactId>
         <version>${tycho.version}</version>
+        <configuration>
+          <useUIHarness>true</useUIHarness>
+        </configuration> 
       </plugin>
       <plugin>
         <groupId>${maven.groupid}</groupId>
