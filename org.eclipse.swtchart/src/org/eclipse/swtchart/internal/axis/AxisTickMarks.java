@@ -153,7 +153,7 @@ public class AxisTickMarks implements PaintListener {
 	 * 
 	 * @return the bounds on chart panel
 	 */
-	protected Rectangle getBounds() {
+	public Rectangle getBounds() {
 
 		return bounds;
 	}
