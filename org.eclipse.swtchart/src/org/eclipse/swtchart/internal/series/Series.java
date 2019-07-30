@@ -219,7 +219,11 @@ abstract public class Series<T> implements ISeries<T> {
 	@Override
 	public void setXDateSeries(Date[] series) {
 
-		setDataModel((CartesianSeriesModel<T>)new DateArraySeriesModel(series));
+		double[] ySeries = getYSeries();
+		if(ySeries.length != ySeries.length) {
+			ySeries = new double[ySeries.length];
+		}
+		setDataModel((CartesianSeriesModel<T>)new DateArraySeriesModel(series, ySeries));
 	}
 
 	@Override

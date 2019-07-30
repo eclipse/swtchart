@@ -11,52 +11,27 @@
 package org.eclipse.swtchart.model;
 
 import java.util.Date;
-import java.util.Iterator;
-import java.util.stream.IntStream;
 
-public class DateArraySeriesModel implements IndexedSeriesModel<Integer>, CartesianSeriesModel<Integer> {
+public class DateArraySeriesModel extends DoubleArraySeriesModel {
 
 	private Date[] dates;
 
-	public DateArraySeriesModel(Date[] dates) {
+	public DateArraySeriesModel(Date[] dates, double[] ySeries) {
+		super(toXSeriesArray(dates), ySeries);
 		this.dates = dates;
 	}
 
-	@Override
-	public Iterator<Integer> iterator() {
+	private static double[] toXSeriesArray(Date[] dates) {
 
-		return IntStream.range(0, dates.length).iterator();
-	}
-
-	@Override
-	public Number getX(Integer data) {
-
-		int value = data.intValue();
-		if(value >= 0 && value < dates.length) {
-			return value;
+		double[] xSeries = new double[dates.length];
+		for(int i = 0; i < xSeries.length; i++) {
+			xSeries[i] = dates[i].getTime();
 		}
-		return null;
+		return xSeries;
 	}
 
-	@Override
-	public Number getY(Integer data) {
+	public Date dateAt(int index) {
 
-		int value = data.intValue();
-		if(value >= 0 && value < dates.length) {
-			return dates[value].getTime();
-		}
-		return null;
-	}
-
-	@Override
-	public int size() {
-
-		return 0;
-	}
-
-	@Override
-	public Integer itemAt(int index) throws IndexOutOfBoundsException {
-
-		return index;
+		return dates[index];
 	}
 }
