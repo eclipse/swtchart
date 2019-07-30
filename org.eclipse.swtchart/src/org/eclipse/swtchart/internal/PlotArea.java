@@ -25,6 +25,7 @@ import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.GC;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swtchart.Chart;
 import org.eclipse.swtchart.IAxis;
@@ -96,6 +97,12 @@ public class PlotArea extends Composite implements PaintListener, IPlotArea {
 		return chart.getSeriesSet();
 	}
 
+	@Override
+	public Control getControl() {
+
+		return this;
+	}
+
 	/*
 	 * @see Control#setBounds(int, int, int, int)
 	 */
@@ -160,14 +167,14 @@ public class PlotArea extends Composite implements PaintListener, IPlotArea {
 			}
 		}
 		// draw series. The line series should be drawn on bar series.
-		for(ISeries series : chart.getSeriesSet().getSeries()) {
+		for(ISeries<?> series : chart.getSeriesSet().getSeries()) {
 			if(series instanceof IBarSeries) {
-				((Series)series).draw(gc, p.x, p.y);
+				((Series<?>)series).draw(gc, p.x, p.y);
 			}
 		}
-		for(ISeries series : chart.getSeriesSet().getSeries()) {
+		for(ISeries<?> series : chart.getSeriesSet().getSeries()) {
 			if(series instanceof ILineSeries) {
-				((Series)series).draw(gc, p.x, p.y);
+				((Series<?>)series).draw(gc, p.x, p.y);
 			}
 		}
 		// draw over series
