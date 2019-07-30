@@ -113,6 +113,9 @@ public interface ISeries<DataType> {
 	@Deprecated
 	void setXDateSeries(Date[] series);
 
+	@Deprecated
+	Date[] getXDateSeries();
+
 	/**
 	 * Gets the X series. If the X series is not set, empty array will be returned.
 	 * 

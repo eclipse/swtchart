@@ -222,6 +222,16 @@ abstract public class Series<T> implements ISeries<T> {
 		setDataModel((CartesianSeriesModel<T>)new DateArraySeriesModel(series));
 	}
 
+	@Override
+	public Date[] getXDateSeries() {
+
+		CartesianSeriesModel<T> dataModel = getDataModel();
+		if(dataModel == null) {
+			return new Date[0];
+		}
+		return StreamSupport.stream(dataModel.spliterator(), false).filter(t -> dataModel.getX(t) != null).map(value -> new Date(dataModel.getX(value).longValue())).toArray(Date[]::new);
+	}
+
 	/*
 	 * @see ISeries#getXSeries()
 	 */
