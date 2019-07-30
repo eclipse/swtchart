@@ -11,6 +11,7 @@
 package org.eclipse.swtchart.internal.series;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.stream.StreamSupport;
 
@@ -29,6 +30,7 @@ import org.eclipse.swtchart.Range;
 import org.eclipse.swtchart.internal.axis.Axis;
 import org.eclipse.swtchart.internal.compress.ICompress;
 import org.eclipse.swtchart.model.CartesianSeriesModel;
+import org.eclipse.swtchart.model.DateArraySeriesModel;
 import org.eclipse.swtchart.model.DoubleArraySeriesModel;
 import org.eclipse.swtchart.model.IndexedSeriesModel;
 
@@ -211,6 +213,27 @@ abstract public class Series<T> implements ISeries<T> {
 		}
 		DoubleArraySeriesModel arraySeriesModel = new DoubleArraySeriesModel(xSeries, ySeries);
 		setDataModel((CartesianSeriesModel<T>)arraySeriesModel);
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public void setXDateSeries(Date[] series) {
+
+		double[] ySeries = getYSeries();
+		if(ySeries.length != ySeries.length) {
+			ySeries = new double[ySeries.length];
+		}
+		setDataModel((CartesianSeriesModel<T>)new DateArraySeriesModel(series, ySeries));
+	}
+
+	@Override
+	public Date[] getXDateSeries() {
+
+		CartesianSeriesModel<T> dataModel = getDataModel();
+		if(dataModel == null) {
+			return new Date[0];
+		}
+		return StreamSupport.stream(dataModel.spliterator(), false).filter(t -> dataModel.getX(t) != null).map(value -> new Date(dataModel.getX(value).longValue())).toArray(Date[]::new);
 	}
 
 	/*

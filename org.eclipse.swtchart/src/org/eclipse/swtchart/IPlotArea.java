@@ -17,6 +17,7 @@ import org.eclipse.swt.events.MouseMoveListener;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.graphics.Rectangle;
+import org.eclipse.swt.widgets.Control;
 
 /**
  * The plot area.
@@ -62,6 +63,12 @@ public interface IPlotArea {
 	 * @return the current size of this area
 	 */
 	public Point getSize();
+
+	/**
+	 * 
+	 * @return the control that represents thsi plot area
+	 */
+	public Control getControl();
 
 	/**
 	 * @deprecated use {@link #getSize()} instead

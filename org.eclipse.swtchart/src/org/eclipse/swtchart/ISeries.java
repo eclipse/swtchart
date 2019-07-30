@@ -13,6 +13,8 @@
  *******************************************************************************/
 package org.eclipse.swtchart;
 
+import java.util.Date;
+
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swtchart.model.CartesianSeriesModel;
 
@@ -107,6 +109,12 @@ public interface ISeries<DataType> {
 	 */
 	@Deprecated
 	void setYSeries(double[] series);
+
+	@Deprecated
+	void setXDateSeries(Date[] series);
+
+	@Deprecated
+	Date[] getXDateSeries();
 
 	/**
 	 * Gets the X series. If the X series is not set, empty array will be returned.
