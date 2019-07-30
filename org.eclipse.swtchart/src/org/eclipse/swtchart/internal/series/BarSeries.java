@@ -206,7 +206,7 @@ public class BarSeries<T> extends Series<T> implements IBarSeries<T> {
 	 *
 	 * @return the array of bar rectangles for compressed series
 	 */
-	private Rectangle[] getBoundsForCompressedSeries() {
+	public Rectangle[] getBoundsForCompressedSeries() {
 
 		Axis xAxis = (Axis)chart.getAxisSet().getXAxis(xAxisId);
 		Axis yAxis = (Axis)chart.getAxisSet().getYAxis(yAxisId);
