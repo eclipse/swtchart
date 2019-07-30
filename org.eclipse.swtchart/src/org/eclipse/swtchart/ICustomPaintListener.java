@@ -9,6 +9,7 @@
  * 
  * Contributors:
  * yoshitaka - initial API and implementation
+ * Christoph Läubrich - add default implementation
  *******************************************************************************/
 package org.eclipse.swtchart;
 
@@ -17,6 +18,7 @@ import org.eclipse.swt.events.PaintListener;
 /**
  * The paint listener to paint on plot area.
  */
+@FunctionalInterface
 public interface ICustomPaintListener extends PaintListener {
 
 	/**
@@ -24,5 +26,8 @@ public interface ICustomPaintListener extends PaintListener {
 	 *
 	 * @return True if painting behind series
 	 */
-	boolean drawBehindSeries();
+	default boolean drawBehindSeries() {
+
+		return false;
+	}
 }
