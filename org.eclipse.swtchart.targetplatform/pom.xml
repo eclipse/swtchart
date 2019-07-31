@@ -1,0 +1,16 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>org.eclipse.swtchart</groupId>
+	<artifactId>org.eclipse.swtchart.targetplatform</artifactId>
+	<version>0.8.0</version>
+	<name>Target Project</name>
+	<description>This contains the target definition used to build swtchart enterprise</description>
+	<packaging>eclipse-target-definition</packaging>
+	<parent>
+		<groupId>org.eclipse.swtchart</groupId>
+  		<artifactId>org.eclipse.swtchart.build</artifactId>
+		<version>0.8.0</version>
+		<relativePath>../org.eclipse.swtchart.cbi/pom.xml</relativePath>
+	</parent>
+</project>
