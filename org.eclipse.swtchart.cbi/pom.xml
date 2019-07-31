@@ -94,7 +94,7 @@
     <tycho-repo.url>https://oss.sonatype.org/content/groups/public</tycho-repo.url>
     <neon-repo.url>http://download.eclipse.org/releases/neon</neon-repo.url>
     <neon-updates-repo.url>http://download.eclipse.org/eclipse/updates/4.6</neon-updates-repo.url>
-    <orbit-repo.url>http://download.eclipse.org/tools/orbit/downloads/drops/R20160520211859/repository</orbit-repo.url>
+    <orbit-repo.url>http://download.eclipse.org/tools/orbit/downloads/drops/S20190726194335/repository</orbit-repo.url>
     <!-- ENCODING -->
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
   </properties>
