@@ -138,9 +138,9 @@
         <configuration>
          <target>
            <artifact>
-              	<groupId>org.eclipse.swtchart</groupId>
-				<artifactId>org.eclipse.swtchart.targetplatform</artifactId>
-				<version>0.8.0</version>
+             <groupId>org.eclipse.swtchart</groupId>
+	     <artifactId>org.eclipse.swtchart.targetplatform</artifactId>
+	     <version>0.8.0</version>
             </artifact>
           </target>
           <environments>
