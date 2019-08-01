@@ -220,8 +220,8 @@ abstract public class Series<T> implements ISeries<T> {
 	public void setXDateSeries(Date[] series) {
 
 		double[] ySeries = getYSeries();
-		if(ySeries.length != ySeries.length) {
-			ySeries = new double[ySeries.length];
+		if(ySeries.length != series.length) {
+			ySeries = new double[series.length];
 		}
 		setDataModel((CartesianSeriesModel<T>)new DateArraySeriesModel(series, ySeries));
 	}
