@@ -26,7 +26,6 @@ public class SVGFactory {
 	private SVGGraphics2D svgGraphics2D;
 
 	public SVGFactory() {
-		
 		DOMImplementation domImpl = GenericDOMImplementation.getDOMImplementation();
 		String svgNS = "http://www.w3.org/2000/svg";
 		Document document = domImpl.createDocument(svgNS, "svg", null);
@@ -34,22 +33,22 @@ public class SVGFactory {
 	}
 
 	public void createSvg(Chart chart, int indexXAxis, int indexYAxis) {
-		
-		svgGraphics2D = (SVGGraphics2D) new ChartToGraphics2D(chart, indexXAxis, indexYAxis, svgGraphics2D)
-				.getGraphics2D();
+
+		svgGraphics2D = (SVGGraphics2D)new ChartToGraphics2D(chart, indexXAxis, indexYAxis, svgGraphics2D).getGraphics2D();
 	}
 
 	public boolean stream(Writer output, boolean useCss) {
+
 		try {
 			svgGraphics2D.stream(output, useCss);
 			return true;
-		} catch (Exception e) {
+		} catch(Exception e) {
 			return false;
 		}
 	}
-	
+
 	public Document getDOM() {
+
 		return svgGraphics2D.getDOMFactory();
 	}
-
 }

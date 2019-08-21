@@ -16,8 +16,12 @@ package org.eclipse.swtchart.export.menu.vector;
 import java.io.FileOutputStream;
 import java.io.OutputStreamWriter;
 import java.io.Writer;
+import java.lang.reflect.InvocationTargetException;
 
+import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.jface.dialogs.MessageDialog;
+import org.eclipse.jface.dialogs.ProgressMonitorDialog;
+import org.eclipse.jface.operation.IRunnableWithProgress;
 import org.eclipse.jface.window.Window;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.FileDialog;
@@ -32,7 +36,7 @@ import org.eclipse.swtchart.extensions.core.ScrollableChart;
 public class SVGExportHandler extends AbstractSeriesExportHandler implements ISeriesExportConverter {
 
 	private static final String FILE_EXTENSION = "*.svg";
-	private static final String NAME = "Vector Graphic (" + FILE_EXTENSION + ")";
+	private static final String NAME = "Scalable Vector Graphic (" + FILE_EXTENSION + ")";
 	private static final String TITLE = "Save As Scalable Vector Graphic";
 
 	@Override
@@ -47,31 +51,49 @@ public class SVGExportHandler extends AbstractSeriesExportHandler implements ISe
 		FileDialog fileDialog = new FileDialog(shell, SWT.SAVE);
 		fileDialog.setOverwrite(true);
 		fileDialog.setText(NAME);
-		fileDialog.setFilterExtensions(new String[]{"*.svg" });
+		fileDialog.setFilterExtensions(new String[]{"*.svg"});
 		//
 		String fileName = fileDialog.open();
-		if (fileName != null) {
+		if(fileName != null) {
 			try {
 				BaseChart baseChart = scrollableChart.getBaseChart();
-				ExportSettingsDialog exportSettingsDialog = new ExportSettingsDialog(shell, baseChart);
+				ExportSettingsDialog exportSettingsDialog = new ExportSettingsDialog(fileDialog.getParent(), baseChart);
 				exportSettingsDialog.create();
-				if (exportSettingsDialog.open() == Window.OK) {
+				if(exportSettingsDialog.open() == Window.OK) {
 					int indexAxisX = exportSettingsDialog.getIndexAxisSelectionX();
 					int indexAxisY = exportSettingsDialog.getIndexAxisSelectionY();
-					if (indexAxisX >= 0 && indexAxisY >= 0) {
-						boolean useCSS = true;
-						Writer output = new OutputStreamWriter(new FileOutputStream(fileName), "UTF-8");
-						SVGFactory svgFactory = new SVGFactory();
-						svgFactory.createSvg(baseChart, indexAxisX, indexAxisY);
-						if (svgFactory.stream(output, useCSS)) {
-							MessageDialog.openInformation(shell, TITLE, MESSAGE_OK);
-						} else {
-							MessageDialog.openInformation(shell, TITLE, MESSAGE_ERROR);
+					if(indexAxisX >= 0 && indexAxisY >= 0) {
+						try {
+							ProgressMonitorDialog monitorDialog = new ProgressMonitorDialog(fileDialog.getParent());
+							monitorDialog.run(false, false, new IRunnableWithProgress() {
+
+								@Override
+								public void run(IProgressMonitor monitor) throws InvocationTargetException, InterruptedException {
+
+									try {
+										monitor.beginTask("Exports the chart to SVG (this may take a while)", IProgressMonitor.UNKNOWN);
+										boolean useCSS = true;
+										Writer output = new OutputStreamWriter(new FileOutputStream(fileName), "UTF-8");
+										SVGFactory svgFactory = new SVGFactory();
+										svgFactory.createSvg(baseChart, indexAxisX, indexAxisY);
+										if(svgFactory.stream(output, useCSS)) {
+											MessageDialog.openInformation(fileDialog.getParent(), TITLE, MESSAGE_OK);
+										} else {
+											MessageDialog.openInformation(fileDialog.getParent(), TITLE, MESSAGE_ERROR);
+										}
+									} catch(Exception e) {
+										e.printStackTrace();
+									} finally {
+										monitor.done();
+									}
+								}
+							});
+						} catch(Exception e) {
+							e.printStackTrace();
 						}
 					}
 				}
-
-			} catch (Exception e) {
+			} catch(Exception e) {
 				MessageDialog.openInformation(shell, TITLE, MESSAGE_ERROR);
 				e.printStackTrace();
 			}
