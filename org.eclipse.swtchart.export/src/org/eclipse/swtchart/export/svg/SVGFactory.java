@@ -23,7 +23,7 @@ import org.w3c.dom.Document;
 
 public class SVGFactory {
 
-	SVGGraphics2D svgGraphics2D;
+	private SVGGraphics2D svgGraphics2D;
 
 	public SVGFactory() {
 		

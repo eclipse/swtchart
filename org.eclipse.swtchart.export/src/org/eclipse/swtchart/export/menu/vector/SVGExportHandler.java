@@ -32,7 +32,7 @@ import org.eclipse.swtchart.extensions.core.ScrollableChart;
 public class SVGExportHandler extends AbstractSeriesExportHandler implements ISeriesExportConverter {
 
 	private static final String FILE_EXTENSION = "*.svg";
-	public static final String NAME = "Vector Graphic (" + FILE_EXTENSION + ")";
+	private static final String NAME = "Vector Graphic (" + FILE_EXTENSION + ")";
 	private static final String TITLE = "Save As Scalable Vector Graphic";
 
 	@Override
@@ -47,7 +47,7 @@ public class SVGExportHandler extends AbstractSeriesExportHandler implements ISe
 		FileDialog fileDialog = new FileDialog(shell, SWT.SAVE);
 		fileDialog.setOverwrite(true);
 		fileDialog.setText(NAME);
-		fileDialog.setFilterExtensions(new String[] { "*.svg" });
+		fileDialog.setFilterExtensions(new String[]{"*.svg" });
 		//
 		String fileName = fileDialog.open();
 		if (fileName != null) {
