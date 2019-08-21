@@ -5,9 +5,9 @@
 <repository location="http://download.eclipse.org/eclipse/updates/4.6"/>
 </location>
 <location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="true" type="InstallableUnit"> 
-<unit id="org.apache.batik.svggen" version="1.9.1.v20190730-1743"/> 
-<unit id="org.apache.batik.ext.awt" version="1.9.1.v20190730-1743"/> 
-<unit id="org.apache.batik.dom" version="1.9.1.v20190730-1743"/> 
+<unit id="org.apache.batik.svggen" version="0.0.0"/> 
+<unit id="org.apache.batik.ext.awt" version="0.0.0"/> 
+<unit id="org.apache.batik.dom" version="0.0.0"/> 
 <repository location="https://download.eclipse.org/tools/orbit/downloads/drops/S20190819183153/repository"/> 
 </location>
 </locations>
