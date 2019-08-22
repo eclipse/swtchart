@@ -80,4 +80,18 @@ SPDX-License-Identifier: EPL-2.0
          version="1.9.1.v20180227-1645"
          unpack="false"/>
 
+   <plugin
+         id="org.apache.batik.css"
+         download-size="0"
+         install-size="0"
+         version="1.9.1.v20181015-1528"
+         unpack="false"/>
+
+   <plugin
+         id="org.apache.batik.i18n"
+         download-size="0"
+         install-size="0"
+         version="1.9.1.v20180227-1645"
+         unpack="false"/>
+
 </feature>
