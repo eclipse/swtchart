@@ -216,7 +216,7 @@ public class LineSeries_1_Part extends ChromatogramChart {
 		/*
 		 * Set the labels.
 		 */
-		IPlotArea plotArea = (IPlotArea)getBaseChart().getPlotArea();
+		IPlotArea plotArea = getBaseChart().getPlotArea();
 		LabelMarker labelMarker = new LabelMarker(getBaseChart());
 		List<String> labels = new ArrayList<String>();
 		labels.add("2-Methoxy-4-vinylphenol");

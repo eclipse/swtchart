@@ -25,6 +25,10 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.PaintEvent;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swtchart.IAxis.Position;
+import org.eclipse.swtchart.ICustomPaintListener;
+import org.eclipse.swtchart.IPlotArea;
+import org.eclipse.swtchart.ISeries;
 import org.eclipse.swtchart.extensions.axisconverter.PercentageConverter;
 import org.eclipse.swtchart.extensions.barcharts.BarChart;
 import org.eclipse.swtchart.extensions.core.BaseChart;
@@ -36,10 +40,6 @@ import org.eclipse.swtchart.extensions.core.RangeRestriction;
 import org.eclipse.swtchart.extensions.core.SecondaryAxisSettings;
 import org.eclipse.swtchart.extensions.internal.support.BarSeriesIon;
 import org.eclipse.swtchart.extensions.internal.support.BarSeriesIonComparator;
-import org.eclipse.swtchart.IAxis.Position;
-import org.eclipse.swtchart.ICustomPaintListener;
-import org.eclipse.swtchart.IPlotArea;
-import org.eclipse.swtchart.ISeries;
 
 public class MassSpectrumChart extends BarChart {
 
@@ -142,7 +142,7 @@ public class MassSpectrumChart extends BarChart {
 		/*
 		 * Plot the series name above the entry.
 		 */
-		IPlotArea plotArea = (IPlotArea)getBaseChart().getPlotArea();
+		IPlotArea plotArea = getBaseChart().getPlotArea();
 		plotArea.addCustomPaintListener(new ICustomPaintListener() {
 
 			@Override

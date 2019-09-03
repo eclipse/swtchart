@@ -94,7 +94,7 @@ public class LineSeries_10_Part extends ChromatogramChart {
 		/*
 		 * Add the label marker.
 		 */
-		IPlotArea plotArea = (IPlotArea)getBaseChart().getPlotArea();
+		IPlotArea plotArea = getBaseChart().getPlotArea();
 		LabelMarker labelMarker = new LabelMarker(getBaseChart());
 		List<String> labels = new ArrayList<String>();
 		labels.add("[1]");

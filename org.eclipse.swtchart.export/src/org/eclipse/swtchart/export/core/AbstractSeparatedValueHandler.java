@@ -23,12 +23,12 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.widgets.FileDialog;
 import org.eclipse.swt.widgets.Shell;
+import org.eclipse.swtchart.ISeries;
 import org.eclipse.swtchart.extensions.core.BaseChart;
 import org.eclipse.swtchart.extensions.core.IAxisScaleConverter;
 import org.eclipse.swtchart.extensions.core.IAxisSettings;
 import org.eclipse.swtchart.extensions.core.ISecondaryAxisSettings;
 import org.eclipse.swtchart.extensions.core.ScrollableChart;
-import org.eclipse.swtchart.ISeries;
 
 public abstract class AbstractSeparatedValueHandler extends AbstractSeriesExportHandler implements ISeriesExportConverter {
 
