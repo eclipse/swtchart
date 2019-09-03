@@ -13,7 +13,6 @@ pipeline {
     }
     stages {
         stage('Build') {
-            properties([pipelineTriggers([[$class: 'GitHubPushTrigger'], pollSCM('')])])
             steps {
                 wrap([$class: 'Xvnc', takeScreenshot: false, useXauthority: true]) {
 		    sh '''
