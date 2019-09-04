@@ -224,7 +224,7 @@ public class MassSpectrumChart extends BarChart {
 
 		List<BarSeriesIon> barSeriesIons = new ArrayList<BarSeriesIon>();
 		//
-		int widthPlotArea = getBaseChart().getPlotArea().getBounds().width;
+		int widthPlotArea = getBaseChart().getPlotArea().getSize().x;
 		ISeries[] series = getBaseChart().getSeriesSet().getSeries();
 		for(ISeries barSeries : series) {
 			if(barSeries != null) {

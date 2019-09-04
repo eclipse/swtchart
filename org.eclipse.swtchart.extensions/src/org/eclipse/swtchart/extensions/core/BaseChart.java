@@ -366,12 +366,12 @@ public class BaseChart extends AbstractExtendedChart implements IChartDataCoordi
 			IAxis axis = getAxisSet().getXAxis(BaseChart.ID_PRIMARY_X_AXIS);
 			start = axis.getRange().lower;
 			stop = axis.getRange().upper;
-			length = getPlotArea().getBounds().width;
+			length = getPlotArea().getSize().x;
 		} else {
 			IAxis axis = getAxisSet().getYAxis(BaseChart.ID_PRIMARY_Y_AXIS);
 			start = axis.getRange().lower;
 			stop = axis.getRange().upper;
-			length = getPlotArea().getBounds().height;
+			length = getPlotArea().getSize().y;
 		}
 		//
 		if(positionStart > 0 && positionStop > 0 && positionStart < length && positionStop < length) {
@@ -437,12 +437,12 @@ public class BaseChart extends AbstractExtendedChart implements IChartDataCoordi
 			IAxis axis = getAxisSet().getXAxis(BaseChart.ID_PRIMARY_X_AXIS);
 			start = axis.getRange().lower;
 			stop = axis.getRange().upper;
-			length = getPlotArea().getBounds().width;
+			length = getPlotArea().getSize().x;
 		} else {
 			IAxis axis = getAxisSet().getYAxis(BaseChart.ID_PRIMARY_Y_AXIS);
 			start = axis.getRange().lower;
 			stop = axis.getRange().upper;
-			length = getPlotArea().getBounds().height;
+			length = getPlotArea().getSize().y;
 		}
 		//
 		if(position <= 0) {
