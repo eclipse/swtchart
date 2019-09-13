@@ -5,8 +5,8 @@ pipeline {
       }
     }
     triggers {
-	pollSCM('')
 	cron('@midnight')
+	pollSCM('H/5 * * * *')
     }
     tools {
         maven 'apache-maven-latest'

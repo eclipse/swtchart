@@ -79,7 +79,7 @@ public class MyChart_Part extends BarChart {
 		 * Label Marker.
 		 */
 		BaseChart baseChart = getBaseChart();
-		IPlotArea plotArea = (IPlotArea)baseChart.getPlotArea();
+		IPlotArea plotArea = baseChart.getPlotArea();
 		LabelMarker labelMarker = new LabelMarker(baseChart);
 		Map<Integer, String> labels = new HashMap<Integer, String>();
 		labels.put(0, "44.1 (A)");

@@ -65,7 +65,7 @@ public class BarSeries_4_Part extends BarChart {
 		/*
 		 * Add the label marker.
 		 */
-		IPlotArea plotArea = (IPlotArea)getBaseChart().getPlotArea();
+		IPlotArea plotArea = getBaseChart().getPlotArea();
 		LabelMarker labelMarker = new LabelMarker(getBaseChart());
 		Map<Integer, String> labels = new HashMap<Integer, String>();
 		labels.put(21, "2-Methoxy-4-vinylphenol");
