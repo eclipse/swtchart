@@ -7,3 +7,6 @@ a pull request on our GitHub repo.
 
 Continuous Integration:
 https://ci.eclipse.org/swtchart
+
+Eclipse Page:
+https://projects.eclipse.org/projects/science.swtchart
