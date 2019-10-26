@@ -84,6 +84,12 @@ public class PlotArea extends Composite implements PaintListener, IPlotArea {
 		chart.removeDisposeListener(disposeListener);
 	}
 
+	@Override
+	public Chart getChart() {
+
+		return chart;
+	}
+
 	/**
 	 * Gets the set of series.
 	 * 
