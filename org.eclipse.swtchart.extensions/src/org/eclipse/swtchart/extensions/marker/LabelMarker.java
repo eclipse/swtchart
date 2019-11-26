@@ -121,6 +121,9 @@ public class LabelMarker extends AbstractBaseChartPaintListener implements IBase
 				 * range of the double array.
 				 */
 				String label = labels.get(index);
+				if(label == null || label.isEmpty()) {
+					continue;
+				}
 				Point point = serie.getPixelCoordinates(index);
 				//
 				if(point.x > 0 && rectangle.contains(point)) {
