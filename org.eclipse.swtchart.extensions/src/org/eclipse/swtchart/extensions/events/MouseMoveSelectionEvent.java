@@ -15,13 +15,14 @@ package org.eclipse.swtchart.extensions.events;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swtchart.extensions.core.BaseChart;
+import org.eclipse.swtchart.extensions.core.IMouseSupport;
 
 public class MouseMoveSelectionEvent extends AbstractHandledEventProcessor implements IHandledEventProcessor {
 
 	@Override
 	public int getEvent() {
 
-		return BaseChart.EVENT_MOUSE_MOVE;
+		return IMouseSupport.EVENT_MOUSE_MOVE;
 	}
 
 	@Override

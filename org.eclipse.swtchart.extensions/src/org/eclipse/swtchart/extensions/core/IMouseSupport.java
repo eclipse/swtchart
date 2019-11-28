@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2017, 2019 Lablicate GmbH.
+ * Copyright (c) 2019 Lablicate GmbH.
  *
  * This program and the accompanying materials are made
  * available under the terms of the Eclipse Public License 2.0
@@ -10,15 +10,19 @@
  * Contributors:
  * Dr. Philip Wenig - initial API and implementation
  *******************************************************************************/
-package org.eclipse.swtchart.extensions.events;
+package org.eclipse.swtchart.extensions.core;
 
-import org.eclipse.swtchart.extensions.core.IMouseSupport;
+public interface IMouseSupport {
 
-public abstract class AbstractHandledEventProcessor implements IHandledEventProcessor {
-
-	@Override
-	public int getButton() {
-
-		return IMouseSupport.MOUSE_BUTTON_NONE;
-	}
+	int EVENT_MOUSE_DOUBLE_CLICK = 1;
+	int EVENT_MOUSE_WHEEL = 2;
+	int EVENT_MOUSE_DOWN = 3;
+	int EVENT_MOUSE_MOVE = 4;
+	int EVENT_MOUSE_UP = 5;
+	//
+	int MOUSE_BUTTON_LEFT = 1;
+	int MOUSE_BUTTON_MIDDLE = 2;
+	int MOUSE_BUTTON_RIGHT = 3; // Used by the menu
+	int MOUSE_BUTTON_WHEEL = 4;
+	int MOUSE_BUTTON_NONE = 5;
 }
