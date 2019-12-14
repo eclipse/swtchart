@@ -16,6 +16,8 @@ import org.eclipse.swt.graphics.GC;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.ImageData;
 import org.eclipse.swt.graphics.ImageLoader;
+import org.eclipse.swt.graphics.Rectangle;
+import org.eclipse.swt.graphics.Transform;
 import org.eclipse.swtchart.extensions.core.BaseChart;
 
 public class ImageSupplier {
@@ -31,10 +33,34 @@ public class ImageSupplier {
 
 		Image image = new Image(baseChart.getDisplay(), baseChart.getBounds());
 		GC gc = new GC(image);
-		baseChart.print(gc);
+		/*
+		 * Under macOS, the image is flipped.
+		 */
+		if(isMacOS()) {
+			Transform transform = new Transform(gc.getDevice());
+			transform.rotate(-180);
+			Rectangle bounds = image.getBounds();
+			transform.translate(-bounds.width, -bounds.height);
+			gc.setTransform(transform);
+			baseChart.print(gc);
+			transform.dispose();
+		} else {
+			baseChart.print(gc);
+		}
+		//
 		gc.dispose();
 		ImageData imageData = image.getImageData();
 		image.dispose();
 		return imageData;
+	}
+
+	private boolean isMacOS() {
+
+		return (getOperatingSystem().indexOf("mac") >= 0);
+	}
+
+	private String getOperatingSystem() {
+
+		return System.getProperty("os.name").toLowerCase();
 	}
 }
