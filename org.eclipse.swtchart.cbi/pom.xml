@@ -83,8 +83,8 @@
   --> 
   <properties>
     <!-- VERSIONS -->
-    <tycho.version>1.1.0</tycho.version>
-    <tycho-extras.version>1.1.0</tycho-extras.version>
+    <tycho.version>1.5.1</tycho.version>
+    <tycho-extras.version>1.5.1</tycho-extras.version>
     <pmd.version>2.7.1</pmd.version>
     <checkstyle.version>2.9.1</checkstyle.version>
     <!-- IDS -->
@@ -147,17 +147,7 @@
             <environment>
               <os>linux</os>
               <ws>gtk</ws>
-              <arch>x86</arch>
-            </environment>
-            <environment>
-              <os>linux</os>
-              <ws>gtk</ws>
               <arch>x86_64</arch>
-            </environment>
-            <environment>
-              <os>win32</os>
-              <ws>win32</ws>
-              <arch>x86</arch>
             </environment>
             <environment>
               <os>win32</os>
