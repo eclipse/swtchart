@@ -77,14 +77,20 @@ public class ImageSupplier {
 		Point baseChartSize = baseChart.getSize();
 		// Create the image provider
 		ChartImageDataProvider chartImageDataProvider = new ChartImageDataProvider(baseChartSize.x, baseChartSize.y);
-		// Copy chart into the image
-		Image image = new Image(baseChart.getDisplay(), chartImageDataProvider);
-		GC gc = new GC(baseChart);
-		gc.copyArea(image, 0, 0);
-		// Retrieve image data
-		ImageData imageData = image.getImageData();
-		gc.dispose();
-		image.dispose();
-		return imageData;
+		// Surround main stuff with try/finally to prevent memory leakage
+		Image image = null;
+		GC gc = null;
+		try {
+			// Copy chart into the image
+			image = new Image(baseChart.getDisplay(), chartImageDataProvider);
+			gc = new GC(baseChart);
+			gc.copyArea(image, 0, 0);
+			// Retrieve image data
+			ImageData imageData = image.getImageData();
+			return imageData;
+		} finally {
+			if(gc != null && !gc.isDisposed()) gc.dispose();
+			if(image != null && !image.isDisposed()) image.dispose();
+		}
 	}
 }
