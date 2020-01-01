@@ -15,13 +15,44 @@ package org.eclipse.swtchart.export.images;
 import org.eclipse.swt.graphics.GC;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.ImageData;
+import org.eclipse.swt.graphics.ImageDataProvider;
 import org.eclipse.swt.graphics.ImageLoader;
-import org.eclipse.swt.graphics.Rectangle;
-import org.eclipse.swt.graphics.Transform;
+import org.eclipse.swt.graphics.PaletteData;
+import org.eclipse.swt.graphics.Point;
 import org.eclipse.swtchart.extensions.core.BaseChart;
 
 public class ImageSupplier {
 
+	// Image data provider used locally to represent chart image
+	private class ChartImageDataProvider implements ImageDataProvider {
+
+		private ImageData imageData;
+
+		public ChartImageDataProvider(int width, int height) {
+
+			PaletteData palette = new PaletteData(0xFF, 0xFF00, 0xFF0000);
+			imageData = new ImageData(width, height, 32, palette);
+		}
+
+		@Override
+		public ImageData getImageData(int zoom) {
+
+			if(zoom != 100)
+				return null;
+			return imageData;
+		}
+	}
+
+	/**
+	 * Save image data representation to a file with specific format (BMP, PNG or JPG)
+	 * 
+	 * @param imageData
+	 *            the image data representation
+	 * @param fileName
+	 *            the file (relative or full path)
+	 * @param format
+	 *            SWT.IMAGE_BMP, SWT.IMAGE_PNG or SWT.IMAGE_JPEG
+	 */
 	public void saveImage(ImageData imageData, String fileName, int format) {
 
 		ImageLoader imageLoader = new ImageLoader();
@@ -29,38 +60,37 @@ public class ImageSupplier {
 		imageLoader.save(fileName, format);
 	}
 
+	/**
+	 * Return image data representation of provided chart
+	 * 
+	 * @param baseChart
+	 *            the chart from which is create image data representation
+	 * @return image data representation
+	 */
 	public ImageData getImageData(BaseChart baseChart) {
 
-		Image image = new Image(baseChart.getDisplay(), baseChart.getBounds());
-		GC gc = new GC(image);
-		/*
-		 * Under macOS, the image is flipped.
-		 */
-		if(isMacOS()) {
-			Transform transform = new Transform(gc.getDevice());
-			transform.rotate(-180);
-			Rectangle bounds = image.getBounds();
-			transform.translate(-bounds.width, -bounds.height);
-			gc.setTransform(transform);
-			baseChart.print(gc);
-			transform.dispose();
-		} else {
-			baseChart.print(gc);
+		// Force to redraw chart immediately to be sure that any
+		// previous Shell dialog won't be a part of the copied image
+		baseChart.redraw();
+		baseChart.update();
+		// Chart size
+		Point baseChartSize = baseChart.getSize();
+		// Create the image provider
+		ChartImageDataProvider chartImageDataProvider = new ChartImageDataProvider(baseChartSize.x, baseChartSize.y);
+		// Surround main stuff with try/finally to prevent memory leakage
+		Image image = null;
+		GC gc = null;
+		try {
+			// Copy chart into the image
+			image = new Image(baseChart.getDisplay(), chartImageDataProvider);
+			gc = new GC(baseChart);
+			gc.copyArea(image, 0, 0);
+			// Retrieve image data
+			ImageData imageData = image.getImageData();
+			return imageData;
+		} finally {
+			if(gc != null && !gc.isDisposed()) gc.dispose();
+			if(image != null && !image.isDisposed()) image.dispose();
 		}
-		//
-		gc.dispose();
-		ImageData imageData = image.getImageData();
-		image.dispose();
-		return imageData;
-	}
-
-	private boolean isMacOS() {
-
-		return (getOperatingSystem().indexOf("mac") >= 0);
-	}
-
-	private String getOperatingSystem() {
-
-		return System.getProperty("os.name").toLowerCase();
 	}
 }
