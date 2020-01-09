@@ -10,6 +10,7 @@
  * Contributors:
  * Dr. Philip Wenig - initial API and implementation
  * Sanatt Abrol - SVG export code
+ * Frank Buloup - Internationalization
  *******************************************************************************/
 package org.eclipse.swtchart.export.menu.vector;
 
@@ -35,9 +36,9 @@ import org.eclipse.swtchart.extensions.core.ScrollableChart;
 
 public class SVGExportHandler extends AbstractSeriesExportHandler implements ISeriesExportConverter {
 
-	private static final String FILE_EXTENSION = "*.svg";
-	private static final String NAME = "Scalable Vector Graphic (" + FILE_EXTENSION + ")";
-	private static final String TITLE = "Save As Scalable Vector Graphic";
+	private static final String FILE_EXTENSION = "*.svg"; //$NON-NLS-1$
+	private static final String NAME = Messages.getString(Messages.SVG) + FILE_EXTENSION + ")"; //$NON-NLS-1$
+	private static final String TITLE = Messages.getString(Messages.SAVE_AS_SVG); 
 
 	@Override
 	public String getName() {
@@ -51,7 +52,7 @@ public class SVGExportHandler extends AbstractSeriesExportHandler implements ISe
 		FileDialog fileDialog = new FileDialog(shell, SWT.SAVE);
 		fileDialog.setOverwrite(true);
 		fileDialog.setText(NAME);
-		fileDialog.setFilterExtensions(new String[]{"*.svg"});
+		fileDialog.setFilterExtensions(new String[]{"*.svg"}); //$NON-NLS-1$
 		//
 		String fileName = fileDialog.open();
 		if(fileName != null) {
@@ -71,9 +72,9 @@ public class SVGExportHandler extends AbstractSeriesExportHandler implements ISe
 								public void run(IProgressMonitor monitor) throws InvocationTargetException, InterruptedException {
 
 									try {
-										monitor.beginTask("Exports the chart to SVG (this may take a while)", IProgressMonitor.UNKNOWN);
+										monitor.beginTask(Messages.getString(Messages.EXPORT_TO_SVG), IProgressMonitor.UNKNOWN); 
 										boolean useCSS = true;
-										Writer output = new OutputStreamWriter(new FileOutputStream(fileName), "UTF-8");
+										Writer output = new OutputStreamWriter(new FileOutputStream(fileName), "UTF-8"); //$NON-NLS-1$
 										SVGFactory svgFactory = new SVGFactory();
 										svgFactory.createSvg(baseChart, indexAxisX, indexAxisY);
 										if(svgFactory.stream(output, useCSS)) {

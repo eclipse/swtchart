@@ -9,6 +9,7 @@
  * 
  * Contributors:
  * Dr. Philip Wenig - initial API and implementation
+ * Frank Buloup - Internationalization
  *******************************************************************************/
 package org.eclipse.swtchart.extensions.core;
 
@@ -17,8 +18,8 @@ import org.eclipse.swtchart.extensions.exceptions.SeriesException;
 
 public interface IExtendedChart {
 
-	String X_AXIS = "X_AXIS";
-	String Y_AXIS = "Y_AXIS";
+	String X_AXIS = "X_AXIS"; //$NON-NLS-1$
+	String Y_AXIS = "Y_AXIS"; //$NON-NLS-1$
 
 	/**
 	 * SeriesType.LINE or SeriesType.BAR are automatically set dependent which settings are used.

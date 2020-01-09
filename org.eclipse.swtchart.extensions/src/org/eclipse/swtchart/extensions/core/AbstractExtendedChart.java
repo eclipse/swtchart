@@ -9,6 +9,7 @@
  * 
  * Contributors:
  * Dr. Philip Wenig - initial API and implementation
+ * Frank Buloup - Internationalization
  *******************************************************************************/
 package org.eclipse.swtchart.extensions.core;
 
@@ -300,7 +301,7 @@ public abstract class AbstractExtendedChart extends AbstractHandledChart impleme
 			calculateCoordinates(series);
 			return series;
 		} else {
-			throw new SeriesException("The length of x and y series differs.");
+			throw new SeriesException(Messages.getString(Messages.X_Y_SERIES_LENGTH_DIFFERS)); 
 		}
 	}
 
@@ -416,7 +417,7 @@ public abstract class AbstractExtendedChart extends AbstractHandledChart impleme
 						Range adjustedRange = new Range(start, end);
 						axis.setRange(adjustedRange);
 					} else {
-						System.out.println("Can't set secondary x axes range: " + start + "\t" + end);
+						System.out.println(Messages.getString(Messages.CANT_SET_SECONDARY_X_AXIS_RANGE) + start + "\t" + end); //$NON-NLS-1$ //$NON-NLS-2$
 					}
 				}
 			}

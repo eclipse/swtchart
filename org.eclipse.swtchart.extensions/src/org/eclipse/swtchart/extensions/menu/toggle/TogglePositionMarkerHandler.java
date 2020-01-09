@@ -9,6 +9,7 @@
  * 
  * Contributors:
  * Dr. Philip Wenig - initial API and implementation
+ * Frank Buloup - Internationalization
  *******************************************************************************/
 package org.eclipse.swtchart.extensions.menu.toggle;
 
@@ -30,7 +31,7 @@ public class TogglePositionMarkerHandler extends AbstractChartMenuEntry implemen
 	@Override
 	public String getName() {
 
-		return "Position Marker";
+		return Messages.getString(Messages.POSITION_MARKER); 
 	}
 
 	@Override

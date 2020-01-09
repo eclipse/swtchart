@@ -22,7 +22,7 @@ import org.eclipse.swt.graphics.GC;
 public class SwtToAwtUtils {
 
 	/** Dummy string value to get font metrics */
-	private final static String DUMMY_STRING = "ABCxyz";
+	private final static String DUMMY_STRING = "ABCxyz"; //$NON-NLS-1$
 
 	/**
 	 * Method to convert org.eclipse.swt.Font to java.awt.Font

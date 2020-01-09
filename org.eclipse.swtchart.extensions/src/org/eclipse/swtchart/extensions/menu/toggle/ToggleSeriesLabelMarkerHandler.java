@@ -9,6 +9,7 @@
  * 
  * Contributors:
  * Dr. Philip Wenig - initial API and implementation
+ * Frank Buloup - Internationalization
  *******************************************************************************/
 package org.eclipse.swtchart.extensions.menu.toggle;
 
@@ -30,7 +31,7 @@ public class ToggleSeriesLabelMarkerHandler extends AbstractChartMenuEntry imple
 	@Override
 	public String getName() {
 
-		return "Series Label Marker";
+		return Messages.getString(Messages.SERIES_LABEL_MARKER); 
 	}
 
 	@Override

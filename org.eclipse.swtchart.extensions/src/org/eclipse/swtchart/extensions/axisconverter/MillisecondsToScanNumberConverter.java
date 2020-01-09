@@ -9,6 +9,7 @@
  * 
  * Contributors:
  * Dr. Philip Wenig - initial API and implementation
+ * Frank Buloup - Internationalization
  *******************************************************************************/
 package org.eclipse.swtchart.extensions.axisconverter;
 
@@ -31,11 +32,11 @@ public class MillisecondsToScanNumberConverter extends AbstractAxisScaleConverte
 		 * Validations.
 		 */
 		if(scanDelay < 0) {
-			throw new Exception("The scan delay must be >= 0.");
+			throw new Exception(Messages.getString(Messages.SCAN_MUST_BE_GE_0_KEY));
 		}
 		//
 		if(scanInterval <= 0) {
-			throw new Exception("The scan interval must be > 0.");
+			throw new Exception(Messages.getString(Messages.SCAN_MUST_BE_G_0_KEY)); 
 		}
 		//
 		this.scanDelay = scanDelay;

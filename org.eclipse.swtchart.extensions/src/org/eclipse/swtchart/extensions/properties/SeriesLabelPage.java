@@ -9,6 +9,7 @@
  * 
  * Contributors:
  * yoshitaka - initial API and implementation
+ * Frank Buloup - Internationalization
  *******************************************************************************/
 package org.eclipse.swtchart.extensions.properties;
 
@@ -42,9 +43,9 @@ import org.eclipse.swtchart.extensions.charts.InteractiveChart;
 public class SeriesLabelPage extends AbstractSelectorPage {
 
 	/** the key for series label foreground */
-	private static final String SERIES_LABEL_FOREGROUND = "org.eclipse.swtchart.series.foreground";
+	private static final String SERIES_LABEL_FOREGROUND = "org.eclipse.swtchart.series.foreground"; //$NON-NLS-1$
 	/** the key for series label font */
-	private static final String SERIES_LABEL_FONT = "org.eclipse.swtchart.series.font";
+	private static final String SERIES_LABEL_FONT = "org.eclipse.swtchart.series.font"; //$NON-NLS-1$
 	/** the series array */
 	private ISeries[] series;
 	/** the show label button */
@@ -75,7 +76,7 @@ public class SeriesLabelPage extends AbstractSelectorPage {
 	 *            the title
 	 */
 	public SeriesLabelPage(InteractiveChart chart, PropertiesResources resources, String title) {
-		super(chart, resources, title, "Series:");
+		super(chart, resources, title, Messages.getString(Messages.SERIES));
 		series = chart.getSeriesSet().getSeries();
 		visibleStates = new boolean[series.length];
 		colors = new RGB[series.length];
@@ -139,7 +140,7 @@ public class SeriesLabelPage extends AbstractSelectorPage {
 
 		Composite group = new Composite(parent, SWT.NONE);
 		group.setLayout(new GridLayout(2, false));
-		showLabelButton = createCheckBoxControl(group, "Show label");
+		showLabelButton = createCheckBoxControl(group, Messages.getString(Messages.SHOW_LABEL));
 		showLabelButton.addSelectionListener(new SelectionAdapter() {
 
 			@Override
@@ -150,7 +151,7 @@ public class SeriesLabelPage extends AbstractSelectorPage {
 				setControlsEnable(visible);
 			}
 		});
-		colorLabel = createLabelControl(group, "Color:");
+		colorLabel = createLabelControl(group, Messages.getString(Messages.COLOR));
 		colorButton = createColorButtonControl(group);
 		colorButton.addListener(new IPropertyChangeListener() {
 
@@ -159,7 +160,7 @@ public class SeriesLabelPage extends AbstractSelectorPage {
 				colors[selectedIndex] = colorButton.getColorValue();
 			}
 		});
-		fontSizeLabel = createLabelControl(group, "Font size:");
+		fontSizeLabel = createLabelControl(group, Messages.getString(Messages.FONT_SIZE));
 		fontSizeSpinner = createSpinnerControl(group, 8, 30);
 		fontSizeSpinner.addModifyListener(new ModifyListener() {
 

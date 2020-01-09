@@ -9,6 +9,7 @@
  * 
  * Contributors:
  * Dr. Philip Wenig - initial API and implementation
+ * Frank Buloup - Internationalization
  *******************************************************************************/
 package org.eclipse.swtchart.extensions.core;
 
@@ -51,10 +52,10 @@ public class BaseChart extends AbstractExtendedChart implements IChartDataCoordi
 
 	public static final int ID_PRIMARY_X_AXIS = 0;
 	public static final int ID_PRIMARY_Y_AXIS = 0;
-	public static final String DEFAULT_TITLE_X_AXIS = "X-Axis";
-	public static final String DEFAULT_TITLE_Y_AXIS = "Y-Axis";
+	public static final String DEFAULT_TITLE_X_AXIS = Messages.getString(Messages.X_AXIS); 
+	public static final String DEFAULT_TITLE_Y_AXIS = Messages.getString(Messages.Y_AXIS); 
 	//
-	public static final String SELECTED_SERIES_NONE = "None";
+	public static final String SELECTED_SERIES_NONE = Messages.getString(Messages.NONE); 
 	/*
 	 * see: IHandledEventProcessor
 	 * Map<Integer, Map<Integer, Map<Integer, List<IEventProcessor>>>>
@@ -908,7 +909,7 @@ public class BaseChart extends AbstractExtendedChart implements IChartDataCoordi
 			if(axisSettings != null) {
 				label = axisSettings.getLabel();
 			} else {
-				label = "not set";
+				label = Messages.getString(Messages.NOT_SET); 
 			}
 			items[i] = label;
 		}
@@ -1071,7 +1072,7 @@ public class BaseChart extends AbstractExtendedChart implements IChartDataCoordi
 	public String getSelectedseriesId(Event event) {
 
 		ISeries[] series = getSeriesSet().getSeries();
-		String selectedSeriesId = "";
+		String selectedSeriesId = ""; //$NON-NLS-1$
 		/*
 		 * Get the selected series id.
 		 */

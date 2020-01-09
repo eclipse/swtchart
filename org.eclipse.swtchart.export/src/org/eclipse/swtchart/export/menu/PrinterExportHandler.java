@@ -9,6 +9,7 @@
  * 
  * Contributors:
  * Dr. Philip Wenig - initial API and implementation
+ * Frank Buloup - Internationalization
  *******************************************************************************/
 package org.eclipse.swtchart.export.menu;
 
@@ -28,13 +29,12 @@ import org.eclipse.swtchart.extensions.core.ScrollableChart;
 
 public class PrinterExportHandler extends AbstractSeriesExportHandler implements ISeriesExportConverter {
 
-	public static final String NAME = "Print";
-	private static final String TITLE = "Save Selection";
+	private static final String TITLE = Messages.getString(Messages.SAVE_SELECTION); 
 
 	@Override
 	public String getName() {
 
-		return NAME;
+		return Messages.getString(Messages.PRINT);
 	}
 
 	@Override
@@ -47,7 +47,7 @@ public class PrinterExportHandler extends AbstractSeriesExportHandler implements
 		PrinterData printerData = dialog.open();
 		if(printerData != null) {
 			Printer printer = new Printer(printerData);
-			if(printer.startJob("PrinterExport")) {
+			if(printer.startJob(Messages.getString(Messages.PRINTER_EXPORT))) { 
 				/*
 				 * Create a page
 				 */

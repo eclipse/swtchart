@@ -9,6 +9,7 @@
  * 
  * Contributors:
  * Dr. Philip Wenig - initial API and implementation
+ * Frank Buloup - Internationalization
  *******************************************************************************/
 package org.eclipse.swtchart.extensions.menu.toggle;
 
@@ -30,7 +31,7 @@ public class ToggleLegendMarkerHandler extends AbstractChartMenuEntry implements
 	@Override
 	public String getName() {
 
-		return "Legend Marker";
+		return Messages.getString(Messages.LEGEND_MARKER); 
 	}
 
 	@Override

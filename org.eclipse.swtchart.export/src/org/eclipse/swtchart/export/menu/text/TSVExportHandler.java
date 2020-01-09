@@ -9,6 +9,7 @@
  * 
  * Contributors:
  * Dr. Philip Wenig - initial API and implementation
+ * Frank Buloup - Internationalization
  *******************************************************************************/
 package org.eclipse.swtchart.export.menu.text;
 
@@ -17,11 +18,11 @@ import org.eclipse.swtchart.export.core.ISeriesExportConverter;
 
 public class TSVExportHandler extends AbstractSeparatedValueHandler implements ISeriesExportConverter {
 
-	private static final String FILE_EXTENSION = "*.tsv";
-	public static final String NAME = "Tab Separated Values (" + FILE_EXTENSION + ")";
+	private static final String FILE_EXTENSION = "*.tsv"; //$NON-NLS-1$
+	public static final String NAME = Messages.getString(Messages.TAB_SEPARATED_VALUES) + FILE_EXTENSION + ")"; //$NON-NLS-1$ 
 	//
-	private static final String TITLE = "Save As Tab Separated Text";
-	private static final String DELIMITER = "\t";
+	private static final String TITLE = Messages.getString(Messages.SAVE_AS_TAB_SEPARATED); //$NON-NLS-1$
+	private static final String DELIMITER = "\t"; //$NON-NLS-1$
 
 	@Override
 	public String getName() {

@@ -9,11 +9,11 @@
  * 
  * Contributors:
  * Dr. Philip Wenig - initial API and implementation
+ * Frank Buloup - Internationalization
  *******************************************************************************/
 package org.eclipse.swtchart.extensions.menu;
 
 import org.eclipse.swt.widgets.Shell;
-import org.eclipse.swtchart.extensions.Messages;
 import org.eclipse.swtchart.extensions.core.ScrollableChart;
 
 public class ResetChartHandler extends AbstractChartMenuEntry implements IChartMenuEntry {
@@ -27,7 +27,7 @@ public class ResetChartHandler extends AbstractChartMenuEntry implements IChartM
 	@Override
 	public String getName() {
 
-		return Messages.RESET_CHART_LABEL;
+		return Messages.getString(Messages.RESET_CHART);
 	}
 
 	@Override
