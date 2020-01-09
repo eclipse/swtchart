@@ -9,6 +9,7 @@
  * 
  * Contributors:
  * yoshitaka - initial API and implementation
+ * Frank Buloup - Internationalization
  *******************************************************************************/
 package org.eclipse.swtchart.internal.axis;
 
@@ -247,7 +248,7 @@ public class AxisSet implements IAxisSet {
 			SWT.error(SWT.ERROR_CANNOT_BE_ZERO);
 		}
 		if(getAxisMap(direction).get(id) == null) {
-			throw new IllegalArgumentException("Given axis id doesn't exist");
+			throw new IllegalArgumentException(Messages.getString(Messages.AXIS_ID_DONT_EXIST)); 
 		}
 		((Axis)getAxis(id, direction)).dispose();
 		getAxisMap(direction).remove(id);

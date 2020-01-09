@@ -9,6 +9,7 @@
  * 
  * Contributors:
  * yoshitaka - initial API and implementation
+ * Frank Buloup = Internationalization
  *******************************************************************************/
 package org.eclipse.swtchart.internal.series;
 
@@ -140,7 +141,7 @@ public class ErrorBar implements IErrorBar {
 	public void setError(double error) {
 
 		if(error < 0) {
-			throw new IllegalArgumentException("positive value must be given for error.");
+			throw new IllegalArgumentException(Messages.getString(Messages.POSITIVE_VALUE_FOR_ERROR)); 
 		}
 		this.error = error;
 	}

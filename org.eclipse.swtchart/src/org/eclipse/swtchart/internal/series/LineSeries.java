@@ -10,6 +10,7 @@
  * Contributors:
  * yoshitaka - initial API and implementation
  * Christoph Läubrich - add support for datamodel
+ * Frank Buloup = Internationalization
  *******************************************************************************/
 package org.eclipse.swtchart.internal.series;
 
@@ -59,7 +60,7 @@ public class LineSeries<T> extends Series<T> implements ILineSeries<T> {
 	/** the anti-aliasing value for drawing line */
 	private int antialias = DEFAULT_ANTIALIAS;
 	/** specific symbol */
-	private String extendedSymbolType = "😂";
+	private String extendedSymbolType = "😂"; //$NON-NLS-1$
 	/** the alpha value to draw area */
 	private static final int ALPHA = 50;
 	/** the default line style */

@@ -9,6 +9,7 @@
  * 
  * Contributors:
  * yoshitaka - initial API and implementation
+ * Frank Buloup - Internationalization
  *******************************************************************************/
 package org.eclipse.swtchart.internal;
 
@@ -81,7 +82,7 @@ public class Legend extends Composite implements ILegend, PaintListener {
 		visible = true;
 		position = DEFAULT_POSITION;
 		cellBounds = new HashMap<String, Rectangle>();
-		defaultFont = new Font(Display.getDefault(), "Tahoma", DEFAULT_FONT_SIZE, SWT.NORMAL);
+		defaultFont = new Font(Display.getDefault(), "Tahoma", DEFAULT_FONT_SIZE, SWT.NORMAL); //$NON-NLS-1$
 		setFont(defaultFont);
 		setForeground(DEFAULT_FOREGROUND);
 		setBackground(DEFAULT_BACKGROUND);

@@ -10,6 +10,7 @@
  * Contributors:
  * yoshitaka - initial API and implementation
  * Christoph Läubrich - add support for datamodel
+ * Frank Buloup - Internationalization
  *******************************************************************************/
 package org.eclipse.swtchart;
 
@@ -28,9 +29,9 @@ public interface ISeries<DataType> {
 	 */
 	public enum SeriesType {
 		/** the line */
-		LINE("Line"),
+		LINE("Line"), //$NON-NLS-1$
 		/** the bar */
-		BAR("Bar");
+		BAR("Bar"); //$NON-NLS-1$
 
 		/** the label for series type */
 		public final String label;

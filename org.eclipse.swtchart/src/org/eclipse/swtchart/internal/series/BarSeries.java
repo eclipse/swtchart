@@ -10,6 +10,7 @@
  * Contributors:
  * yoshitaka - initial API and implementation
  * Christoph Läubrich - add support for datamodel
+ * Frank Buloup = Internationalization
  *******************************************************************************/
 package org.eclipse.swtchart.internal.series;
 
@@ -408,7 +409,7 @@ public class BarSeries<T> extends Series<T> implements IBarSeries<T> {
 		} else if(barWidthStyle == BarWidthStyle.FIXED) {
 			return barWidth;
 		}
-		throw new IllegalStateException("unknown bar width style");
+		throw new IllegalStateException(Messages.getString(Messages.UNKNOWN_BAR_WIDTH_STYLE)); 
 	}
 
 	/**

@@ -9,6 +9,7 @@
  * 
  * Contributors:
  * yoshitaka - initial API and implementation
+ * Frank Buloup - Internationalization
  *******************************************************************************/
 package org.eclipse.swtchart.internal;
 
@@ -59,7 +60,7 @@ public class Title implements ITitle, PaintListener {
 	/** the default color */
 	private static final int DEFAULT_FOREGROUND = SWT.COLOR_BLUE;
 	/** the default text */
-	private static final String DEFAULT_TEXT = "";
+	private static final String DEFAULT_TEXT = ""; //$NON-NLS-1$
 
 	/**
 	 * Constructor.
@@ -71,7 +72,7 @@ public class Title implements ITitle, PaintListener {
 		this.chart = parent;
 		text = DEFAULT_TEXT;
 		isVisible = true;
-		defaultFont = new Font(Display.getDefault(), "Tahoma", DEFAULT_FONT_SIZE, SWT.BOLD);
+		defaultFont = new Font(Display.getDefault(), "Tahoma", DEFAULT_FONT_SIZE, SWT.BOLD); //$NON-NLS-1$
 		textLayout = new TextLayout(Display.getDefault());
 		bounds = new Rectangle(0, 0, 0, 0);
 		font = defaultFont;
@@ -124,7 +125,7 @@ public class Title implements ITitle, PaintListener {
 		if(font == null) {
 			this.font = defaultFont;
 		} else if(font.isDisposed()) {
-			throw new IllegalArgumentException("disposed font is given");
+			throw new IllegalArgumentException(Messages.getString(Messages.DISPOSED_FONT_GIVEN)); 
 		} else {
 			this.font = font;
 		}
@@ -155,7 +156,7 @@ public class Title implements ITitle, PaintListener {
 		if(color == null) {
 			foreground = Display.getDefault().getSystemColor(DEFAULT_FOREGROUND);
 		} else if(color.isDisposed()) {
-			throw new IllegalArgumentException("disposed color is given");
+			throw new IllegalArgumentException(Messages.getString(Messages.DISPOSED_COLOR_GIVEN)); 
 		} else {
 			foreground = color;
 		}
@@ -232,7 +233,7 @@ public class Title implements ITitle, PaintListener {
 
 		int height;
 		int width;
-		if(isVisible() && !text.trim().equals("")) {
+		if(isVisible() && !text.trim().equals("")) { //$NON-NLS-1$
 			if(styleRanges == null) {
 				Point p = Util.getExtentInGC(getFont(), text);
 				width = p.x;
@@ -293,7 +294,7 @@ public class Title implements ITitle, PaintListener {
 	 */
 	public void paintControl(PaintEvent e) {
 
-		if(text == null || text.equals("") || !isVisible) {
+		if(text == null || text.equals("") || !isVisible) { //$NON-NLS-1$
 			return;
 		}
 		Font oldFont = e.gc.getFont();

@@ -10,7 +10,9 @@
  * Contributors:
  * yoshitaka - initial API and implementation
  * Christoph Läubrich - use getSize instead of bounds since we are not interested in the location anyways, add support for datamodel
+ * Frank Buloup - Internationalization
  *******************************************************************************/
+
 package org.eclipse.swtchart.internal.axis;
 
 import java.util.ArrayList;
@@ -110,9 +112,9 @@ public class Axis implements IAxis {
 		min = DEFAULT_MIN;
 		max = DEFAULT_MAX;
 		if(direction == Direction.X) {
-			title.setText("X axis");
+			title.setText(Messages.getString(Messages.X_AXIS)); 
 		} else if(direction == Direction.Y) {
-			title.setText("Y axis");
+			title.setText(Messages.getString(Messages.Y_AXIS)); 
 		}
 		logScaleEnabled = false;
 		categoryAxisEnabled = false;
@@ -186,7 +188,7 @@ public class Axis implements IAxis {
 			return; // to suppress warnings...
 		}
 		if(Double.isNaN(range.lower) || Double.isNaN(range.upper) || Double.isInfinite(range.lower) || Double.isInfinite(range.upper) || range.lower > range.upper) {
-			throw new IllegalArgumentException("Illegal range: " + range);
+			throw new IllegalArgumentException(Messages.getString(Messages.ILLEGAL_RANGE) + range); 
 		}
 		if(min == range.lower && max == range.upper) {
 			return;
@@ -202,7 +204,7 @@ public class Axis implements IAxis {
 			}
 		} else {
 			if(range.lower == range.upper) {
-				throw new IllegalArgumentException("Given range is invalid");
+				throw new IllegalArgumentException(Messages.getString(Messages.GIVEN_RANGE_INVALID)); 
 			}
 			if(logScaleEnabled && range.lower <= 0) {
 				range.lower = min;
@@ -258,7 +260,7 @@ public class Axis implements IAxis {
 			// check if series contain zero or negative value
 			double minSeriesValue = getMinSeriesValue();
 			if(minSeriesValue <= 0) {
-				throw new IllegalStateException("Series contain zero or negative value.");
+				throw new IllegalStateException(Messages.getString(Messages.SERIES_CONTAIN_INVALID_VALUES));
 			}
 			// adjust the range in order not to have zero or negative value
 			if(min <= 0) {
@@ -538,7 +540,7 @@ public class Axis implements IAxis {
 		}
 		if(enabled) {
 			if(direction == Direction.Y) {
-				throw new IllegalStateException("Y axis cannot be category axis.");
+				throw new IllegalStateException(Messages.getString(Messages.Y_AXIS_CANNOT_BE_CATEGORY));
 			}
 			if(categorySeries != null && categorySeries.length != 0) {
 				min = (min < 0 || min >= categorySeries.length) ? 0 : (int)min;
@@ -563,7 +565,7 @@ public class Axis implements IAxis {
 			return; // to suppress warnings...
 		}
 		if(direction == Direction.Y) {
-			throw new IllegalStateException("Y axis cannot be category axis.");
+			throw new IllegalStateException(Messages.getString(Messages.Y_AXIS_CANNOT_BE_CATEGORY)); 
 		}
 		String[] copiedSeries = new String[series.length];
 		System.arraycopy(series, 0, copiedSeries, 0, series.length);

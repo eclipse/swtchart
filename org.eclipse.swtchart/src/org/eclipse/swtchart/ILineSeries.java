@@ -10,6 +10,7 @@
  * Contributors:
  * yoshitaka - initial API and implementation
  * Christoph Läubrich - add support for datamodel
+ * Frank Buloup - Internationalization
  *******************************************************************************/
 package org.eclipse.swtchart;
 
@@ -25,23 +26,23 @@ public interface ILineSeries<T> extends ISeries<T> {
 	 */
 	public enum PlotSymbolType {
 		/** none */
-		NONE("None"),
+		NONE("None"), //$NON-NLS-1$
 		/** circle */
-		CIRCLE("Circle"),
+		CIRCLE("Circle"), //$NON-NLS-1$
 		/** square */
-		SQUARE("Square"),
+		SQUARE("Square"), //$NON-NLS-1$
 		/** diamond */
-		DIAMOND("Diamond"),
+		DIAMOND("Diamond"), //$NON-NLS-1$
 		/** triangle */
-		TRIANGLE("Triangle"),
+		TRIANGLE("Triangle"), //$NON-NLS-1$
 		/** inverted triangle */
-		INVERTED_TRIANGLE("Inverted Triangle"),
+		INVERTED_TRIANGLE("Inverted Triangle"), //$NON-NLS-1$
 		/** cross */
-		CROSS("Cross"),
+		CROSS("Cross"), //$NON-NLS-1$
 		/** plus */
-		PLUS("Plus"),
+		PLUS("Plus"), //$NON-NLS-1$
 		/** emoji */
-		EMOJI("Emoji");
+		EMOJI("Emoji"); //$NON-NLS-1$
 
 		/** the label for plot symbol */
 		public final String label;

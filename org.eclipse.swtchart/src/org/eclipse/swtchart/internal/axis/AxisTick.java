@@ -9,6 +9,7 @@
  * 
  * Contributors:
  * yoshitaka - initial API and implementation
+ * Frank Buloup - Internationalization
  *******************************************************************************/
 package org.eclipse.swtchart.internal.axis;
 
@@ -217,7 +218,7 @@ public class AxisTick implements IAxisTick {
 		} else if(position == Position.Secondary && !axis.isHorizontalAxis()) {
 			return new Rectangle(r1.x, r1.y, r1.width + r2.width, r1.height);
 		} else {
-			throw new IllegalStateException("unknown axis position");
+			throw new IllegalStateException(Messages.getString(Messages.UNKNOWN_AXIS_POSITION)); 
 		}
 	}
 

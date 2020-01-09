@@ -9,6 +9,7 @@
  * 
  * Contributors:
  * yoshitaka - initial API and implementation
+ * Frank Buloup - Internationalization
  *******************************************************************************/
 package org.eclipse.swtchart;
 
@@ -17,17 +18,17 @@ package org.eclipse.swtchart;
  */
 public enum LineStyle {
 	/** none */
-	NONE("None"),
+	NONE("None"), //$NON-NLS-1$
 	/** solid */
-	SOLID("Solid"),
+	SOLID("Solid"), //$NON-NLS-1$
 	/** dash */
-	DASH("Dash"),
+	DASH("Dash"), //$NON-NLS-1$
 	/** dot */
-	DOT("Dot"),
+	DOT("Dot"), //$NON-NLS-1$
 	/** dash dot */
-	DASHDOT("Dash Dot"),
+	DASHDOT("Dash Dot"), //$NON-NLS-1$
 	/** dash dot dot */
-	DASHDOTDOT("Dash Dot Dot");
+	DASHDOTDOT("Dash Dot Dot"); //$NON-NLS-1$
 
 	/** the label for line style */
 	public final String label;
