@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2017, 2019 Lablicate GmbH.
+ * Copyright (c) 2017, 2020 Lablicate GmbH.
  *
  * This program and the accompanying materials are made
  * available under the terms of the Eclipse Public License 2.0
@@ -26,13 +26,25 @@ import org.eclipse.swtchart.extensions.exceptions.SeriesException;
 public class LineChart extends ScrollableChart {
 
 	private static final int DISPLAY_WIDTH = Display.getDefault().getClientArea().width;
-	//
-	public static final String COMPRESSION_EXTREME = Messages.getString(Messages.EXTREME); 
-	public static final String COMPRESSION_HIGH = Messages.getString(Messages.HIGH);
-	public static final String COMPRESSION_MEDIUM = Messages.getString(Messages.MEDIUM);
-	public static final String COMPRESSION_LOW = Messages.getString(Messages.LOW);
-	public static final String COMPRESSION_NONE = Messages.getString(Messages.NONE); 
-	public static final String COMPRESSION_AUTO = Messages.getString(Messages.AUTO);
+	/*
+	 * The compression type is partly used in a switch statement.
+	 * Using the message approach is not valid as a constant expression is required.
+	 * ---
+	 * switch(compressionType) {
+	 * case LineChart.COMPRESSION_AUTO:
+	 * ...
+	 * break;
+	 * case LineChart.COMPRESSION_NONE:
+	 * ...
+	 * ---
+	 * Probably, we should refactor this and introduce an enum with translated label.
+	 */
+	public static final String COMPRESSION_EXTREME = "Extreme"; // $NON-NLS-1$
+	public static final String COMPRESSION_HIGH = "High"; //$NON-NLS-1$
+	public static final String COMPRESSION_MEDIUM = "Medium"; //$NON-NLS-1$
+	public static final String COMPRESSION_LOW = "Low"; //$NON-NLS-1$
+	public static final String COMPRESSION_NONE = "None"; //$NON-NLS-1$
+	public static final String COMPRESSION_AUTO = "Auto"; //$NON-NLS-1$
 	/*
 	 * The compression number is dependent on the display width.
 	 */
