@@ -9,6 +9,7 @@
  * 
  * Contributors:
  * Dr. Philip Wenig - initial API and implementation
+ * Frank Buloup - Internationalization
  *******************************************************************************/
 package org.eclipse.swtchart.extensions.menu;
 
@@ -16,8 +17,6 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swtchart.extensions.core.ScrollableChart;
 
 public class RedoSelectionHandler extends AbstractChartMenuEntry implements IChartMenuEntry {
-
-	public static final String NAME = "Redo Selection";
 
 	@Override
 	public String getCategory() {
@@ -28,7 +27,7 @@ public class RedoSelectionHandler extends AbstractChartMenuEntry implements ICha
 	@Override
 	public String getName() {
 
-		return NAME;
+		return Messages.getString(Messages.REDO_SELECTION);
 	}
 
 	@Override

@@ -9,6 +9,7 @@
  * 
  * Contributors:
  * yoshitaka - initial API and implementation
+ * Frank Buloup - Internationalization
  *******************************************************************************/
 package org.eclipse.swtchart.internal;
 
@@ -49,7 +50,7 @@ public final class Util {
 		// get extent of text with given font
 		gc.setFont(font);
 		Point p;
-		if(text == null || "".equals(text.trim())) {
+		if(text == null || "".equals(text.trim())) { //$NON-NLS-1$
 			p = new Point(0, gc.getFontMetrics().getHeight());
 		} else {
 			p = gc.textExtent(text);

@@ -9,6 +9,7 @@
  * 
  * Contributors:
  * Dr. Philip Wenig - initial API and implementation
+ * Frank Buloup - Internationalization
  *******************************************************************************/
 package org.eclipse.swtchart.extensions.core;
 
@@ -19,7 +20,7 @@ public abstract class AbstractSeriesSettings implements ISeriesSettings {
 	private boolean visibleInLegend;
 
 	public AbstractSeriesSettings() {
-		description = "";
+		description = ""; //$NON-NLS-1$
 		visible = true;
 		visibleInLegend = true;
 	}

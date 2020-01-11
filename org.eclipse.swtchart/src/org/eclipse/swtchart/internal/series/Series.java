@@ -7,6 +7,7 @@
  * Contributors:
  * yoshitaka - initial API and implementation
  * Christoph Läubrich - add support for datamodel
+ * Frank Buloup = Internationalization
  *******************************************************************************/
 package org.eclipse.swtchart.internal.series;
 
@@ -185,7 +186,7 @@ abstract public class Series<T> implements ISeries<T> {
 
 		Number minY = getDataModel().getMinY();
 		if(enabled && (minY != null && minY.doubleValue() < 0)) {
-			throw new IllegalStateException("Stacked series cannot contain minus values.");
+			throw new IllegalStateException(Messages.getString(Messages.STACKED_SERIES_CANT_CONTAIN_NEGATIVE_VALUES)); 
 		}
 		if(stackEnabled == enabled) {
 			return;
@@ -517,7 +518,7 @@ abstract public class Series<T> implements ISeries<T> {
 			// get the pixel coordinate
 			return axis.getPixelCoordinate(dataCoordinate);
 		} else {
-			throw new IllegalStateException("This requires a IndexedSeriesModel");
+			throw new IllegalStateException(Messages.getString(Messages.REQUIRES_INDEXED_SERIES_MODEL)); 
 		}
 	}
 

@@ -9,6 +9,7 @@
  * 
  * Contributors:
  * yoshitaka - initial API and implementation
+ * Frank Buloup - Internationalization
  *******************************************************************************/
 package org.eclipse.swtchart.extensions.properties;
 
@@ -36,7 +37,7 @@ import org.eclipse.swtchart.extensions.charts.InteractiveChart;
 public class GridPage extends AbstractSelectorPage {
 
 	/** the key for grid foreground */
-	private static final String GRID_FOREGROUND = "org.eclipse.swtchart.grid.foreground";
+	private static final String GRID_FOREGROUND = "org.eclipse.swtchart.grid.foreground"; //$NON-NLS-1$
 	/** the axes */
 	private IAxis[] axes;
 	/** the style combo */
@@ -61,7 +62,7 @@ public class GridPage extends AbstractSelectorPage {
 	 *            the title
 	 */
 	public GridPage(InteractiveChart chart, PropertiesResources resources, Direction direction, String title) {
-		super(chart, resources, title, "Axes:");
+		super(chart, resources, title, Messages.getString(Messages.AXES));
 		if(direction == Direction.X) {
 			this.axes = chart.getAxisSet().getXAxes();
 		} else if(direction == Direction.Y) {
@@ -128,7 +129,7 @@ public class GridPage extends AbstractSelectorPage {
 		gridData.horizontalSpan = 2;
 		group.setLayoutData(gridData);
 		group.setLayout(new GridLayout(2, false));
-		createLabelControl(group, "Line style:");
+		createLabelControl(group, Messages.getString(Messages.LINE_STYLE));
 		LineStyle[] values = LineStyle.values();
 		String[] labels = new String[values.length];
 		for(int i = 0; i < values.length; i++) {
@@ -150,7 +151,7 @@ public class GridPage extends AbstractSelectorPage {
 				styles[selectedIndex] = selectedStyle;
 			}
 		});
-		createLabelControl(group, "Color:");
+		createLabelControl(group, Messages.getString(Messages.COLOR));
 		foregroundButton = createColorButtonControl(group);
 		foregroundButton.addListener(new IPropertyChangeListener() {
 

@@ -10,6 +10,7 @@
  * Contributors:
  * yoshitaka - initial API and implementation
  * Christoph Läubrich - optimize disposal
+ * Frank Buloup = Internationalization
  *******************************************************************************/
 package org.eclipse.swtchart.internal.series;
 
@@ -73,7 +74,7 @@ public class SeriesSet implements ISeriesSet {
 			return null; // to suppress warning...
 		}
 		String trimmedId = id.trim();
-		if("".equals(trimmedId)) {
+		if("".equals(trimmedId)) { //$NON-NLS-1$
 			SWT.error(SWT.ERROR_INVALID_ARGUMENT);
 		}
 		Series series = null;
@@ -254,7 +255,7 @@ public class SeriesSet implements ISeriesSet {
 		}
 		String trimmedId = id.trim();
 		if(seriesMap.get(trimmedId) == null) {
-			throw new IllegalArgumentException("Given series id doesn't exist");
+			throw new IllegalArgumentException(Messages.getString(Messages.SERIES_ID_NOT_EXISTS)); 
 		}
 		return trimmedId;
 	}

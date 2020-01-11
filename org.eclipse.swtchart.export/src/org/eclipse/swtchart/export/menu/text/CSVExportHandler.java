@@ -9,6 +9,7 @@
  * 
  * Contributors:
  * Dr. Philip Wenig - initial API and implementation
+ * Frank Buloup - Internationalization
  *******************************************************************************/
 package org.eclipse.swtchart.export.menu.text;
 
@@ -17,11 +18,11 @@ import org.eclipse.swtchart.export.core.ISeriesExportConverter;
 
 public class CSVExportHandler extends AbstractSeparatedValueHandler implements ISeriesExportConverter {
 
-	private static final String FILE_EXTENSION = "*.csv";
-	public static final String NAME = "Comma Separated Values (" + FILE_EXTENSION + ")";
+	private static final String FILE_EXTENSION = "*.csv"; //$NON-NLS-1$
+	public static final String NAME = Messages.getString(Messages.COMMA_SEPARATED_VALUES) + FILE_EXTENSION + ")"; //$NON-NLS-1$ 
 	//
-	private static final String TITLE = "Save As Comma Separated Text";
-	private static final String DELIMITER = ",";
+	private static final String TITLE = Messages.getString(Messages.SAVE_AS_COMMA_SEPARATED); 
+	private static final String DELIMITER = ","; //$NON-NLS-1$
 
 	@Override
 	public String getName() {

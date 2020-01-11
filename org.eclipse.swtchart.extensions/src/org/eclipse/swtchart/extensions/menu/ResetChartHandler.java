@@ -9,6 +9,7 @@
  * 
  * Contributors:
  * Dr. Philip Wenig - initial API and implementation
+ * Frank Buloup - Internationalization
  *******************************************************************************/
 package org.eclipse.swtchart.extensions.menu;
 
@@ -16,8 +17,6 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swtchart.extensions.core.ScrollableChart;
 
 public class ResetChartHandler extends AbstractChartMenuEntry implements IChartMenuEntry {
-
-	public static final String NAME = "Reset Chart (1:1)";
 
 	@Override
 	public String getCategory() {
@@ -28,7 +27,7 @@ public class ResetChartHandler extends AbstractChartMenuEntry implements IChartM
 	@Override
 	public String getName() {
 
-		return NAME;
+		return Messages.getString(Messages.RESET_CHART);
 	}
 
 	@Override

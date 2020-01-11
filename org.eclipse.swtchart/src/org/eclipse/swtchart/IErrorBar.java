@@ -9,6 +9,7 @@
  * 
  * Contributors:
  * yoshitaka - initial API and implementation
+ * Frank Buloup - Internationalization
  *******************************************************************************/
 package org.eclipse.swtchart;
 
@@ -24,11 +25,11 @@ public interface IErrorBar {
 	 */
 	public enum ErrorBarType {
 		/** the error bar in both positive and negative directions */
-		BOTH("Both"),
+		BOTH("Both"), //$NON-NLS-1$
 		/** the error bar in positive direction */
-		PLUS("Plus"),
+		PLUS("Plus"), //$NON-NLS-1$
 		/** the error bar in negative direction */
-		MINUS("Minus");
+		MINUS("Minus"); //$NON-NLS-1$
 
 		/** the label for error bar type */
 		public final String label;

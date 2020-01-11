@@ -9,6 +9,7 @@
  * 
  * Contributors:
  * yoshitaka - initial API and implementation
+ * Frank Buloup - Internationalization
  *******************************************************************************/
 package org.eclipse.swtchart.extensions.properties;
 
@@ -39,13 +40,13 @@ import org.eclipse.swtchart.extensions.charts.InteractiveChart;
 public class ChartPage extends AbstractPage {
 
 	/** the key for plot area background */
-	private static final String PLOT_AREA_BACKGROUND = "org.eclipse.swtchart.plotarea.background";
+	private static final String PLOT_AREA_BACKGROUND = "org.eclipse.swtchart.plotarea.background"; //$NON-NLS-1$
 	/** the key for chart background */
-	private static final String CHART_BACKGROUND = "org.eclipse.swtchart.chart.background";
+	private static final String CHART_BACKGROUND = "org.eclipse.swtchart.chart.background"; //$NON-NLS-1$
 	/** the key for chart background */
-	private static final String TITLE_FOREGROUND = "org.eclipse.swtchart.chart.title.foreground";
+	private static final String TITLE_FOREGROUND = "org.eclipse.swtchart.chart.title.foreground"; //$NON-NLS-1$
 	/** the key for title font */
-	private static final String TITLE_FONT = "org.eclipse.swtchart.chart.title.font";
+	private static final String TITLE_FONT = "org.eclipse.swtchart.chart.title.font"; //$NON-NLS-1$
 	/** the color selector for background color in plot area */
 	private ColorSelector backgroundInPlotAreaButton;
 	/** the color selector for background */
@@ -108,11 +109,11 @@ public class ChartPage extends AbstractPage {
 
 		Composite panel = new Composite(parent, SWT.NONE);
 		panel.setLayout(new GridLayout(2, false));
-		createLabelControl(panel, "Background in plot area:");
+		createLabelControl(panel, Messages.getString(Messages.BACKGROUND_PLOT_AREA));
 		backgroundInPlotAreaButton = createColorButtonControl(panel);
-		createLabelControl(panel, "Background:");
+		createLabelControl(panel, Messages.getString(Messages.BACKGROUND));
 		backgroundButton = createColorButtonControl(panel);
-		orientationButton = createCheckBoxControl(panel, "Vertical orientation:");
+		orientationButton = createCheckBoxControl(panel, Messages.getString(Messages.VERTICAL_ORIENTATION));
 	}
 
 	/**
@@ -123,8 +124,8 @@ public class ChartPage extends AbstractPage {
 	 */
 	private void addTitleGroup(Composite parent) {
 
-		Group group = createGroupControl(parent, "Title:", false);
-		showTitleButton = createCheckBoxControl(group, "Show title");
+		Group group = createGroupControl(parent, Messages.getString(Messages.TITLE), false); 
+		showTitleButton = createCheckBoxControl(group, Messages.getString(Messages.SHOW_TITLE));
 		showTitleButton.addSelectionListener(new SelectionAdapter() {
 
 			@Override
@@ -133,11 +134,11 @@ public class ChartPage extends AbstractPage {
 				setTitleControlsEnable(showTitleButton.getSelection());
 			}
 		});
-		titleLabel = createLabelControl(group, "Text:");
+		titleLabel = createLabelControl(group, Messages.getString(Messages.TEXT));
 		titleText = createTextControl(group);
-		fontSizeLabel = createLabelControl(group, "Font size:");
+		fontSizeLabel = createLabelControl(group, Messages.getString(Messages.FONT_SIZE));
 		fontSizeSpinner = createSpinnerControl(group, 8, 30);
-		titleColorLabel = createLabelControl(group, "Color:");
+		titleColorLabel = createLabelControl(group, Messages.getString(Messages.COLOR));
 		titleColorButton = createColorButtonControl(group);
 	}
 
@@ -210,7 +211,7 @@ public class ChartPage extends AbstractPage {
 		orientationButton.setSelection(false);
 		showTitleButton.setSelection(true);
 		setTitleControlsEnable(true);
-		titleText.setText("Chart Title");
+		titleText.setText(Messages.getString(Messages.CHART_TITLE));
 		fontSizeSpinner.setSelection(Constants.LARGE_FONT_SIZE);
 		titleColorButton.setColorValue(new RGB(0, 0, 255));
 		super.performDefaults();

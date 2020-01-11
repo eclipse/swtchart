@@ -9,6 +9,7 @@
  * 
  * Contributors:
  * Dr. Philip Wenig - initial API and implementation
+ * Frank Buloup - Internationalization
  *******************************************************************************/
 package org.eclipse.swtchart.extensions.menu;
 
@@ -19,8 +20,6 @@ import org.eclipse.swtchart.extensions.linecharts.LineChart;
 
 public class ResetSelectedSeriesHandler extends AbstractChartMenuEntry implements IChartMenuEntry {
 
-	public static final String NAME = "Reset Selected Series";
-
 	@Override
 	public String getCategory() {
 
@@ -30,7 +29,7 @@ public class ResetSelectedSeriesHandler extends AbstractChartMenuEntry implement
 	@Override
 	public String getName() {
 
-		return NAME;
+		return Messages.getString(Messages.RESET_SELECTED_SERIES); 
 	}
 
 	@Override

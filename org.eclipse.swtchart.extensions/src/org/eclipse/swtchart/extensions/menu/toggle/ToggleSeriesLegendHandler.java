@@ -9,6 +9,7 @@
  * 
  * Contributors:
  * Dr. Philip Wenig - initial API and implementation
+ * Frank Buloup - Internationalization
  *******************************************************************************/
 package org.eclipse.swtchart.extensions.menu.toggle;
 
@@ -29,7 +30,7 @@ public class ToggleSeriesLegendHandler extends AbstractChartMenuEntry implements
 	@Override
 	public String getName() {
 
-		return "Series Legend";
+		return Messages.getString(Messages.SERIES_LEGEND); 
 	}
 
 	@Override

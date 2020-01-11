@@ -9,6 +9,7 @@
  * 
  * Contributors:
  * yoshitaka - initial API and implementation
+ * Frank Buloup - Internationalization
  *******************************************************************************/
 package org.eclipse.swtchart.extensions.properties;
 
@@ -46,11 +47,11 @@ import org.eclipse.swtchart.extensions.charts.InteractiveChart;
 public class SeriesPage extends AbstractSelectorPage {
 
 	/** the key for series line color */
-	private static final String SERIES_LINE_COLOR = "org.eclipse.swtchart.series.line.color";
+	private static final String SERIES_LINE_COLOR = "org.eclipse.swtchart.series.line.color"; //$NON-NLS-1$
 	/** the key for series symbol color */
-	private static final String SERIES_SYMBOL_COLOR = "org.eclipse.swtchart.series.symbol.color";
+	private static final String SERIES_SYMBOL_COLOR = "org.eclipse.swtchart.series.symbol.color"; //$NON-NLS-1$
 	/** the key for series bar color */
-	private static final String SERIES_BAR_COLOR = "org.eclipse.swtchart.series.bar.color";
+	private static final String SERIES_BAR_COLOR = "org.eclipse.swtchart.series.bar.color"; //$NON-NLS-1$
 	/** the button for visibility */
 	protected Button visibleButton;
 	/** the button for stack state */
@@ -121,7 +122,7 @@ public class SeriesPage extends AbstractSelectorPage {
 	 *            the title
 	 */
 	public SeriesPage(InteractiveChart chart, PropertiesResources resources, String title) {
-		super(chart, resources, title, "Series:");
+		super(chart, resources, title, Messages.getString(Messages.SERIES));
 		series = chart.getSeriesSet().getSeries();
 		xAxisIdItems = chart.getAxisSet().getXAxisIds();
 		yAxisIdItems = chart.getAxisSet().getYAxisIds();
@@ -187,10 +188,10 @@ public class SeriesPage extends AbstractSelectorPage {
 		visibleButton.setSelection(visibleStates[selectedIndex]);
 		stackedButton.setSelection(stackedStates[selectedIndex]);
 		if(xAxisIdCombo != null) {
-			xAxisIdCombo.setText("" + xAxisIds[selectedIndex]);
+			xAxisIdCombo.setText("" + xAxisIds[selectedIndex]); //$NON-NLS-1$
 		}
 		if(yAxisIdCombo != null) {
-			yAxisIdCombo.setText("" + yAxisIds[selectedIndex]);
+			yAxisIdCombo.setText("" + yAxisIds[selectedIndex]); //$NON-NLS-1$
 		}
 		if(series[selectedIndex] instanceof ILineSeries) {
 			lineStyleCombo.setText(lineStyles[selectedIndex].label);
@@ -247,7 +248,7 @@ public class SeriesPage extends AbstractSelectorPage {
 
 		Composite group = new Composite(parent, SWT.NONE);
 		group.setLayout(new GridLayout(2, true));
-		visibleButton = createCheckBoxControl(group, "Show plot");
+		visibleButton = createCheckBoxControl(group, Messages.getString(Messages.SHOW_PLOT));
 		visibleButton.addSelectionListener(new SelectionAdapter() {
 
 			@Override
@@ -258,7 +259,7 @@ public class SeriesPage extends AbstractSelectorPage {
 				setControlsEnable(visible);
 			}
 		});
-		stackedButton = createCheckBoxControl(group, "Stacked series");
+		stackedButton = createCheckBoxControl(group, Messages.getString(Messages.STACKED_SERIES));
 		stackedButton.addSelectionListener(new SelectionAdapter() {
 
 			@Override
@@ -268,10 +269,10 @@ public class SeriesPage extends AbstractSelectorPage {
 			}
 		});
 		if(xAxisIdItems.length > 1) {
-			createLabelControl(group, "X Axis:");
+			createLabelControl(group, Messages.getString(Messages.X_AXIS));
 			String[] items = new String[xAxisIdItems.length];
 			for(int i = 0; i < items.length; i++) {
-				items[i] = "" + xAxisIdItems[i];
+				items[i] = "" + xAxisIdItems[i]; //$NON-NLS-1$
 			}
 			xAxisIdCombo = createComboControl(group, items);
 			xAxisIdCombo.addSelectionListener(new SelectionAdapter() {
@@ -284,10 +285,10 @@ public class SeriesPage extends AbstractSelectorPage {
 			});
 		}
 		if(yAxisIdItems.length > 1) {
-			createLabelControl(group, "Y Axis:");
+			createLabelControl(group, Messages.getString(Messages.Y_AXIS));
 			String[] items = new String[yAxisIdItems.length];
 			for(int i = 0; i < items.length; i++) {
-				items[i] = "" + yAxisIdItems[i];
+				items[i] = "" + yAxisIdItems[i]; //$NON-NLS-1$
 			}
 			yAxisIdCombo = createComboControl(group, items);
 			yAxisIdCombo.addSelectionListener(new SelectionAdapter() {
@@ -309,9 +310,9 @@ public class SeriesPage extends AbstractSelectorPage {
 	 */
 	private void addLineSeriesGroup(Composite parent) {
 
-		lineSeriesGroup = createGroupControl(parent, "Line series:", true);
+		lineSeriesGroup = createGroupControl(parent, Messages.getString(Messages.LINE_SERIES), true); 
 		stackLayout.topControl = lineSeriesGroup;
-		createLabelControl(lineSeriesGroup, "Line color:");
+		createLabelControl(lineSeriesGroup, Messages.getString(Messages.LINE_COLOR));
 		lineColorButton = createColorButtonControl(lineSeriesGroup);
 		lineColorButton.addListener(new IPropertyChangeListener() {
 
@@ -320,7 +321,7 @@ public class SeriesPage extends AbstractSelectorPage {
 				lineColors[selectedIndex] = lineColorButton.getColorValue();
 			}
 		});
-		createLabelControl(lineSeriesGroup, "Line style:");
+		createLabelControl(lineSeriesGroup, Messages.getString(Messages.LINE_STYLE));
 		LineStyle[] styles = LineStyle.values();
 		String[] labels = new String[styles.length];
 		for(int i = 0; i < styles.length; i++) {
@@ -342,7 +343,7 @@ public class SeriesPage extends AbstractSelectorPage {
 				lineStyles[selectedIndex] = selectedStyle;
 			}
 		});
-		createLabelControl(lineSeriesGroup, "Symbol color:");
+		createLabelControl(lineSeriesGroup, Messages.getString(Messages.SYMBOL_COLOR));
 		symbolColorButton = createColorButtonControl(lineSeriesGroup);
 		symbolColorButton.addListener(new IPropertyChangeListener() {
 
@@ -351,7 +352,7 @@ public class SeriesPage extends AbstractSelectorPage {
 				symbolColors[selectedIndex] = symbolColorButton.getColorValue();
 			}
 		});
-		createLabelControl(lineSeriesGroup, "Symbol type:");
+		createLabelControl(lineSeriesGroup, Messages.getString(Messages.SYMBOL_TYPE));
 		PlotSymbolType[] types = PlotSymbolType.values();
 		labels = new String[types.length];
 		for(int i = 0; i < types.length; i++) {
@@ -373,7 +374,7 @@ public class SeriesPage extends AbstractSelectorPage {
 				symbolTypes[selectedIndex] = selectedType;
 			}
 		});
-		createLabelControl(lineSeriesGroup, "Symbol size:");
+		createLabelControl(lineSeriesGroup, Messages.getString(Messages.SYMBOL_SIZE));
 		symbolSizeSpinner = createSpinnerControl(lineSeriesGroup, 1, 10);
 		symbolSizeSpinner.addModifyListener(new ModifyListener() {
 
@@ -395,8 +396,8 @@ public class SeriesPage extends AbstractSelectorPage {
 		barSeriesGroup = new Composite(parent, SWT.NONE);
 		barSeriesGroup.setLayout(new GridLayout(1, true));
 		barSeriesGroup.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
-		Group group = createGroupControl(barSeriesGroup, "Bar series:", true);
-		createLabelControl(group, "Color:");
+		Group group = createGroupControl(barSeriesGroup, Messages.getString(Messages.BAR_SERIES), true); 
+		createLabelControl(group, Messages.getString(Messages.COLOR));
 		barColorButton = createColorButtonControl(group);
 		barColorButton.addListener(new IPropertyChangeListener() {
 
@@ -405,7 +406,7 @@ public class SeriesPage extends AbstractSelectorPage {
 				barColors[selectedIndex] = barColorButton.getColorValue();
 			}
 		});
-		createLabelControl(group, "Padding size:");
+		createLabelControl(group, Messages.getString(Messages.PADDING_SIZE));
 		paddingSizeSpinner = createSpinnerControl(group, 0, 100);
 		paddingSizeSpinner.addModifyListener(new ModifyListener() {
 

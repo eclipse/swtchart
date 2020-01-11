@@ -10,6 +10,7 @@
  * Contributors:
  * yoshitaka - initial API and implementation
  * Christoph Läubrich - use getSize since we only want width/height, add support for datamodel
+ * Frank Buloup - Internationalization
  *******************************************************************************/
 package org.eclipse.swtchart.internal.axis;
 
@@ -69,7 +70,7 @@ public class AxisTickLabels implements PaintListener {
 	/** the default font */
 	private static final Font DEFAULT_FONT = Display.getDefault().getSystemFont();
 	/** the default label format */
-	private static final String DEFAULT_DECIMAL_FORMAT = "#.###########";
+	private static final String DEFAULT_DECIMAL_FORMAT = "#.###########"; //$NON-NLS-1$
 	/** the possible tick steps */
 	private Map<Integer, Integer[]> possibleTickSteps;
 	/** the time unit for tick step */
@@ -634,10 +635,10 @@ public class AxisTickLabels implements PaintListener {
 	private BigDecimal getGridStep(int lengthInPixels, double min, double max) {
 
 		if(lengthInPixels <= 0) {
-			throw new IllegalArgumentException("lengthInPixels must be positive value.");
+			throw new IllegalArgumentException(Messages.getString(Messages.LENGTH_MUST_BE_POSITIVE)); 
 		}
 		if(min >= max) {
-			throw new IllegalArgumentException("min must be less than max.");
+			throw new IllegalArgumentException(Messages.getString(Messages.MUST_BE_LESS_MAX)); 
 		}
 		double length = Math.abs(max - min);
 		double gridStepHint = length / lengthInPixels * axis.getTick().getTickMarkStepHint();
@@ -883,7 +884,7 @@ public class AxisTickLabels implements PaintListener {
 		int margin = Axis.MARGIN + AxisTickMarks.TICK_LENGTH;
 		// draw tick labels
 		gc.setFont(axis.getTick().getFont());
-		int figureHeight = gc.textExtent("dummy").y;
+		int figureHeight = gc.textExtent("dummy").y; //$NON-NLS-1$
 		for(int i = 0; i < tickLabelPositions.size(); i++) {
 			if(tickVisibilities.size() == 0 || tickLabels.size() == 0) {
 				break;
@@ -891,8 +892,8 @@ public class AxisTickLabels implements PaintListener {
 			if(tickVisibilities.get(i) == true) {
 				String text = tickLabels.get(i);
 				int x = Axis.MARGIN;
-				if(tickLabels.get(0).startsWith("-") && !text.startsWith("-")) {
-					x += gc.textExtent("-").x;
+				if(tickLabels.get(0).startsWith("-") && !text.startsWith("-")) { //$NON-NLS-1$ //$NON-NLS-2$
+					x += gc.textExtent("-").x; //$NON-NLS-1$
 				}
 				int y = (int)(bounds.height - 1 - tickLabelPositions.get(i) - figureHeight / 2.0 - margin);
 				gc.drawText(text, bounds.x + x, bounds.y + y);

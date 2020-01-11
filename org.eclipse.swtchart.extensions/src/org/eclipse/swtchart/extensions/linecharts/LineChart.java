@@ -9,6 +9,7 @@
  * 
  * Contributors:
  * Dr. Philip Wenig - initial API and implementation
+ * Frank Buloup - Internationalization
  *******************************************************************************/
 package org.eclipse.swtchart.extensions.linecharts;
 
@@ -26,12 +27,12 @@ public class LineChart extends ScrollableChart {
 
 	private static final int DISPLAY_WIDTH = Display.getDefault().getClientArea().width;
 	//
-	public static final String COMPRESSION_EXTREME = "Extreme";
-	public static final String COMPRESSION_HIGH = "High";
-	public static final String COMPRESSION_MEDIUM = "Medium";
-	public static final String COMPRESSION_LOW = "Low";
-	public static final String COMPRESSION_NONE = "None";
-	public static final String COMPRESSION_AUTO = "Auto";
+	public static final String COMPRESSION_EXTREME = Messages.getString(Messages.EXTREME); 
+	public static final String COMPRESSION_HIGH = Messages.getString(Messages.HIGH);
+	public static final String COMPRESSION_MEDIUM = Messages.getString(Messages.MEDIUM);
+	public static final String COMPRESSION_LOW = Messages.getString(Messages.LOW);
+	public static final String COMPRESSION_NONE = Messages.getString(Messages.NONE); 
+	public static final String COMPRESSION_AUTO = Messages.getString(Messages.AUTO);
 	/*
 	 * The compression number is dependent on the display width.
 	 */

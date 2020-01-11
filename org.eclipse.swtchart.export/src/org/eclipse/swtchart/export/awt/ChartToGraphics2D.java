@@ -308,7 +308,7 @@ public class ChartToGraphics2D {
 		AffineTransform affineTransform = new AffineTransform();
 		FontRenderContext fontRenderContext = new FontRenderContext(affineTransform, true, true);
 		java.awt.Font font = graphics2D.getFont();
-		int figureHeight = (int)(font.getStringBounds("dummy", fontRenderContext).getHeight());
+		int figureHeight = (int)(font.getStringBounds("dummy", fontRenderContext).getHeight()); //$NON-NLS-1$
 		ArrayList<Integer> tickLabelPositions = yAxis.getTick().getAxisTickLabels().getTickLabelPositions();
 		ArrayList<Boolean> tickVisibilities = yAxis.getTick().getAxisTickLabels().getTickVisibilities();
 		ArrayList<String> tickLabels = yAxis.getTick().getAxisTickLabels().getTickLabels();
@@ -321,8 +321,8 @@ public class ChartToGraphics2D {
 			if(tickVisibilities.get(i) == true) {
 				String text = tickLabels.get(i);
 				int x = Axis.MARGIN;
-				if(tickLabels.get(0).startsWith("-") && !text.startsWith("-")) {
-					x += (int)(font.getStringBounds("-", fontRenderContext).getWidth());
+				if(tickLabels.get(0).startsWith("-") && !text.startsWith("-")) { //$NON-NLS-1$ //$NON-NLS-2$
+					x += (int)(font.getStringBounds("-", fontRenderContext).getWidth()); //$NON-NLS-1$
 				}
 				int y = (int)(bounds.height - 1 - tickLabelPositions.get(i) - figureHeight / 2.0);
 				graphics2D.drawString(text, bounds.x + x - xBorder, bounds.y + y + yBorder / 2);

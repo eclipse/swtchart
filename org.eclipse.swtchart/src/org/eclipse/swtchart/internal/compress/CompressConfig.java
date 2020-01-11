@@ -9,6 +9,7 @@
  * 
  * Contributors:
  * yoshitaka - initial API and implementation
+ * Frank Buloup - Internationalization
  *******************************************************************************/
 package org.eclipse.swtchart.internal.compress;
 
@@ -258,6 +259,6 @@ public class CompressConfig {
 	@Override
 	public String toString() {
 
-		return "pixelWidth = " + widthInPixels + ", " + "pixelHeight = " + heightInPixels + ", " + "xLowerValue = " + xLowerValue + ", " + "xUpperValue = " + xUpperValue + ", " + "yLowerValue = " + yLowerValue + ", " + "yUpperValue = " + yUpperValue + ", " + yLogScale;
+		return "pixelWidth = " + widthInPixels + ", " + "pixelHeight = " + heightInPixels + ", " + "xLowerValue = " + xLowerValue + ", " + "xUpperValue = " + xUpperValue + ", " + "yLowerValue = " + yLowerValue + ", " + "yUpperValue = " + yUpperValue + ", " + yLogScale; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$ //$NON-NLS-6$ //$NON-NLS-7$ //$NON-NLS-8$ //$NON-NLS-9$ //$NON-NLS-10$ //$NON-NLS-11$ //$NON-NLS-12$
 	}
 }

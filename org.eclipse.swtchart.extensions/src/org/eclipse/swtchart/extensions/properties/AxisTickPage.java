@@ -9,6 +9,7 @@
  * 
  * Contributors:
  * yoshitaka - initial API and implementation
+ * Frank Buloup - Internationalization
  *******************************************************************************/
 package org.eclipse.swtchart.extensions.properties;
 
@@ -42,9 +43,9 @@ import org.eclipse.swtchart.extensions.charts.InteractiveChart;
 public class AxisTickPage extends AbstractSelectorPage {
 
 	/** the key for axis tick font */
-	private static final String AXIS_TICK_FONT = "org.eclipse.swtchart.axistick.font";
+	private static final String AXIS_TICK_FONT = "org.eclipse.swtchart.axistick.font"; //$NON-NLS-1$
 	/** the key for axis tick foreground */
-	private static final String AXIS_TICK_FOREGROUND = "org.eclipse.swtchart.axistick.foreground";
+	private static final String AXIS_TICK_FOREGROUND = "org.eclipse.swtchart.axistick.foreground"; //$NON-NLS-1$
 	/** the axes */
 	private IAxis[] axes;
 	/** the show tick button */
@@ -77,7 +78,7 @@ public class AxisTickPage extends AbstractSelectorPage {
 	 *            the title
 	 */
 	public AxisTickPage(InteractiveChart chart, PropertiesResources resources, Direction direction, String title) {
-		super(chart, resources, title, "Axes:");
+		super(chart, resources, title, Messages.getString(Messages.AXES));
 		if(direction == Direction.X) {
 			this.axes = chart.getAxisSet().getXAxes();
 		} else if(direction == Direction.Y) {
@@ -148,7 +149,7 @@ public class AxisTickPage extends AbstractSelectorPage {
 		gridData.horizontalSpan = 2;
 		group.setLayoutData(gridData);
 		group.setLayout(new GridLayout(2, false));
-		showTickButton = createCheckBoxControl(group, "Show tick");
+		showTickButton = createCheckBoxControl(group, Messages.getString(Messages.SHOW_TICK));
 		showTickButton.addSelectionListener(new SelectionAdapter() {
 
 			@Override
@@ -159,7 +160,7 @@ public class AxisTickPage extends AbstractSelectorPage {
 				setControlsEnable(visible);
 			}
 		});
-		fontSizeLabel = createLabelControl(group, "Font size:");
+		fontSizeLabel = createLabelControl(group, Messages.getString(Messages.FONT_SIZE));
 		fontSizeSpinner = createSpinnerControl(group, 8, 30);
 		fontSizeSpinner.addSelectionListener(new SelectionAdapter() {
 
@@ -169,7 +170,7 @@ public class AxisTickPage extends AbstractSelectorPage {
 				fontSizes[selectedIndex] = fontSizeSpinner.getSelection();
 			}
 		});
-		foregroundLabel = createLabelControl(group, "Color:");
+		foregroundLabel = createLabelControl(group, Messages.getString(Messages.COLOR));
 		foregroundButton = createColorButtonControl(group);
 		foregroundButton.addListener(new IPropertyChangeListener() {
 

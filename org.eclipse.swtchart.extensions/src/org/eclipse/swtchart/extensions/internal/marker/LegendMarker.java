@@ -9,6 +9,7 @@
  * 
  * Contributors:
  * Dr. Philip Wenig - initial API and implementation
+ * Frank Buloup - Internationalization
  *******************************************************************************/
 package org.eclipse.swtchart.extensions.internal.marker;
 
@@ -66,7 +67,7 @@ public class LegendMarker extends AbstractPositionPaintListener implements IPosi
 		IAxisSettings axisSettingsX = baseChart.getXAxisSettings(BaseChart.ID_PRIMARY_X_AXIS);
 		if(axisSettingsX != null && axisSettingsX.isVisible()) {
 			stringBuilder.append(axisLabelsX[BaseChart.ID_PRIMARY_X_AXIS]);
-			stringBuilder.append(": ");
+			stringBuilder.append(": "); //$NON-NLS-1$
 			stringBuilder.append(decimalFormatX.format(primaryValueX));
 		}
 		//
@@ -77,10 +78,10 @@ public class LegendMarker extends AbstractPositionPaintListener implements IPosi
 					IAxisScaleConverter axisScaleConverter = baseChart.getAxisScaleConverter(IExtendedChart.X_AXIS, id);
 					if(axisSettings.isVisible() && axisScaleConverter != null) {
 						if(stringBuilder.length() > 0) {
-							stringBuilder.append("\n");
+							stringBuilder.append("\n"); //$NON-NLS-1$
 						}
 						stringBuilder.append(axisLabelsX[id]);
-						stringBuilder.append(": ");
+						stringBuilder.append(": "); //$NON-NLS-1$
 						stringBuilder.append(axisSettings.getDecimalFormat().format(axisScaleConverter.convertToSecondaryUnit(primaryValueX)));
 					}
 				}
@@ -97,10 +98,10 @@ public class LegendMarker extends AbstractPositionPaintListener implements IPosi
 		IAxisSettings axisSettingsY = baseChart.getYAxisSettings(BaseChart.ID_PRIMARY_Y_AXIS);
 		if(axisSettingsY != null && axisSettingsY.isVisible()) {
 			if(stringBuilder.length() > 0) {
-				stringBuilder.append("\n");
+				stringBuilder.append("\n"); //$NON-NLS-1$
 			}
 			stringBuilder.append(axisLabelsY[BaseChart.ID_PRIMARY_Y_AXIS]);
-			stringBuilder.append(": ");
+			stringBuilder.append(": "); //$NON-NLS-1$
 			stringBuilder.append(decimalFormatY.format(primaryValueY));
 		}
 		//
@@ -111,10 +112,10 @@ public class LegendMarker extends AbstractPositionPaintListener implements IPosi
 					IAxisScaleConverter axisScaleConverter = baseChart.getAxisScaleConverter(IExtendedChart.Y_AXIS, id);
 					if(axisSettings.isVisible() && axisScaleConverter != null) {
 						if(stringBuilder.length() > 0) {
-							stringBuilder.append("\n");
+							stringBuilder.append("\n"); //$NON-NLS-1$
 						}
 						stringBuilder.append(axisLabelsY[id]);
-						stringBuilder.append(": ");
+						stringBuilder.append(": "); //$NON-NLS-1$
 						stringBuilder.append(axisSettings.getDecimalFormat().format(axisScaleConverter.convertToSecondaryUnit(primaryValueY)));
 					}
 				}

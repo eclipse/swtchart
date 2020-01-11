@@ -9,6 +9,7 @@
  * 
  * Contributors:
  * Dr. Philip Wenig - initial API and implementation
+ * Frank Buloup - Internationalization
  *******************************************************************************/
 package org.eclipse.swtchart.export.menu.text;
 
@@ -36,14 +37,14 @@ import org.eclipse.swtchart.export.core.ISeriesExportConverter;
 
 public class LaTeXTableExportHandler extends AbstractSeriesExportHandler implements ISeriesExportConverter {
 
-	private static final String FILE_EXTENSION = "*.tex";
-	public static final String NAME = "LaTeX Table (" + FILE_EXTENSION + ")";
+	private static final String FILE_EXTENSION = "*.tex"; //$NON-NLS-1$
+	public static final String NAME = Messages.getString(Messages.LATEX_TABLE) + FILE_EXTENSION + ")"; //$NON-NLS-1$ 
 	//
-	private static final String TITLE = "Save As LaTeX Table";
-	private static final String TAB = "\t";
-	private static final String DELIMITER = " & ";
-	private static final String HORIZONTAL_LINE = "\\hline";
-	private static final String LINE_END = " \\\\";
+	private static final String TITLE = Messages.getString(Messages.SAVE_AS_LATEX); 
+	private static final String TAB = "\t"; //$NON-NLS-1$
+	private static final String DELIMITER = " & "; //$NON-NLS-1$
+	private static final String HORIZONTAL_LINE = "\\hline"; //$NON-NLS-1$
+	private static final String LINE_END = " \\\\"; //$NON-NLS-1$
 
 	@Override
 	public String getName() {
@@ -103,8 +104,8 @@ public class LaTeXTableExportHandler extends AbstractSeriesExportHandler impleme
 						/*
 						 * Header
 						 */
-						printWriter.println("\\begin{center}");
-						printWriter.println("\\begin{tabular}{ c c }");
+						printWriter.println("\\begin{center}"); //$NON-NLS-1$
+						printWriter.println("\\begin{tabular}{ c c }"); //$NON-NLS-1$
 						//
 						printWriter.print(TAB);
 						printWriter.print(axisSettingsX.getLabel());
@@ -140,8 +141,8 @@ public class LaTeXTableExportHandler extends AbstractSeriesExportHandler impleme
 							}
 						}
 						//
-						printWriter.println("\\end{tabular}");
-						printWriter.println("\\end{center}");
+						printWriter.println("\\end{tabular}"); //$NON-NLS-1$
+						printWriter.println("\\end{center}"); //$NON-NLS-1$
 						printWriter.flush();
 						MessageDialog.openInformation(shell, TITLE, MESSAGE_OK);
 					} catch(FileNotFoundException e) {

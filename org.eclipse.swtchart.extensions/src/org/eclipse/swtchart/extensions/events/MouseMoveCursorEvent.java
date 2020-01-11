@@ -9,6 +9,7 @@
  * 
  * Contributors:
  * Dr. Philip Wenig - initial API and implementation
+ * Frank Buloup - Internationalization
  *******************************************************************************/
 package org.eclipse.swtchart.extensions.events;
 
@@ -49,7 +50,7 @@ public class MouseMoveCursorEvent extends AbstractHandledEventProcessor implemen
 			}
 			//
 			String selectedSeriesId = baseChart.getSelectedseriesId(event);
-			if(selectedSeriesId.equals("")) {
+			if(selectedSeriesId.equals("")) { //$NON-NLS-1$
 				baseChart.setCursor(defaultCursor);
 				tooltip.setVisible(false);
 			} else {

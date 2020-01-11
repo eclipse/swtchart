@@ -10,6 +10,7 @@
  * Contributors:
  * Dr. Philip Wenig - initial API and implementation
  * Christoph Läubrich - rework redraw of the plot area, enhance menu item handling
+ * Frank Buloup - Internationalization
  *******************************************************************************/
 package org.eclipse.swtchart.extensions.core;
 
@@ -79,8 +80,8 @@ public class ScrollableChart extends Composite implements IScrollableChart, IEve
 	/*
 	 * Menu extensions via Equinox.
 	 */
-	private static final String EXTENSION_POINT_MENU_ITEMS = "org.eclipse.swtchart.extensions.menuitems";
-	private static final String EXTENSION_POINT_MENU_ENTRY = "MenuEntry";
+	private static final String EXTENSION_POINT_MENU_ITEMS = "org.eclipse.swtchart.extensions.menuitems"; //$NON-NLS-1$
+	private static final String EXTENSION_POINT_MENU_ENTRY = "MenuEntry"; //$NON-NLS-1$
 	//
 	private Map<String, Set<IChartMenuEntry>> categoryMenuEntriesMap;
 	private Map<String, IChartMenuEntry> menuEntryMap;
@@ -158,7 +159,7 @@ public class ScrollableChart extends Composite implements IScrollableChart, IEve
 						/*
 						 * Draw the message.
 						 */
-						String label = "Double click to show range info.";
+						String label = Messages.getString(Messages.DOUBLE_CLICK_TO_SHOW_RANGE_INFO); 
 						Point labelSize = e.gc.textExtent(label);
 						e.gc.drawText(label, (int)(width / 2.0d - labelSize.x / 2.0d), 5, true);
 					}
@@ -1418,7 +1419,7 @@ public class ScrollableChart extends Composite implements IScrollableChart, IEve
 		/*
 		 * Get the menu.
 		 */
-		if(category.equals("")) {
+		if(category.equals("")) { //$NON-NLS-1$
 			subMenu = menu;
 		} else {
 			menuItem = new MenuItem(menu, SWT.CASCADE);
