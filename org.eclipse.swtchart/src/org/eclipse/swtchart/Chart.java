@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2008, 2019 SWTChart project.
+ * Copyright (c) 2008, 2020 SWTChart project.
  *
  * This program and the accompanying materials are made
  * available under the terms of the Eclipse Public License 2.0
@@ -9,16 +9,24 @@
  * 
  * Contributors:
  * yoshitaka - initial API and implementation
- * Christoph Läubrich - refactor for usage with a generic plot area
+ * Christoph Läubrich - refactor for usage with a generic plot area, add method to print vectors to GC
  *******************************************************************************/
 package org.eclipse.swtchart;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.PaintEvent;
+import org.eclipse.swt.events.PaintListener;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.GC;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.ImageData;
 import org.eclipse.swt.graphics.ImageLoader;
+import org.eclipse.swt.graphics.Point;
+import org.eclipse.swt.graphics.Rectangle;
+import org.eclipse.swt.graphics.Transform;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Display;
@@ -39,11 +47,11 @@ import org.eclipse.swtchart.internal.series.SeriesSet;
 public class Chart extends Composite implements Listener {
 
 	/** the title */
-	private Title title;
+	private final Title title;
 	/** the legend */
-	private Legend legend;
+	private final Legend legend;
 	/** the set of axes */
-	private AxisSet axisSet;
+	private final AxisSet axisSet;
 	/** the plot area */
 	private IPlotArea plotArea;
 	/** the orientation of chart which can be horizontal or vertical */
@@ -54,6 +62,7 @@ public class Chart extends Composite implements Listener {
 	private boolean updateSuspended;
 	/** the set of plots */
 	protected SeriesSet seriesSet;
+	private final List<PaintListener> paintListener = new ArrayList<>();
 
 	/**
 	 * Constructor.
@@ -418,5 +427,60 @@ public class Chart extends Composite implements Listener {
 		GC gc = new GC(image);
 		print(gc);
 		gc.dispose();
+	}
+
+	public void printChart(GC gc, Rectangle clientArea) {
+
+		Transform oldTransform = new Transform(gc.getDevice());
+		try {
+			gc.getTransform(oldTransform);
+			Point oldSize = getSize();
+			try {
+				setSize(clientArea.width, clientArea.height);
+				Event e = new Event();
+				e.gc = gc;
+				e.widget = this;
+				PaintEvent paintEvent = new PaintEvent(e);
+				for(Control child : getChildren()) {
+					Rectangle bounds = child.getBounds();
+					if(child instanceof PaintListener) {
+						Event subEvent = new Event();
+						subEvent.gc = gc;
+						subEvent.widget = child;
+						PaintEvent subPaint = new PaintEvent(subEvent);
+						Transform transform = new Transform(gc.getDevice());
+						try {
+							transform.translate(bounds.x, bounds.y);
+							gc.setTransform(transform);
+							((PaintListener)child).paintControl(subPaint);
+						} finally {
+							transform.dispose();
+							gc.setTransform(oldTransform);
+						}
+					}
+				}
+				for(PaintListener listener : paintListener) {
+					listener.paintControl(paintEvent);
+				}
+			} finally {
+				setSize(oldSize);
+			}
+		} finally {
+			oldTransform.dispose();
+		}
+	}
+
+	@Override
+	public void addPaintListener(PaintListener listener) {
+
+		paintListener.add(listener);
+		super.addPaintListener(listener);
+	}
+
+	@Override
+	public void removePaintListener(PaintListener listener) {
+
+		paintListener.remove(listener);
+		super.removePaintListener(listener);
 	}
 }
