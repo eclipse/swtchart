@@ -447,15 +447,21 @@ public class Chart extends Composite implements Listener {
 						Event subEvent = new Event();
 						subEvent.gc = gc;
 						subEvent.widget = child;
-						PaintEvent subPaint = new PaintEvent(subEvent);
-						Transform transform = new Transform(gc.getDevice());
+						Rectangle oldClipping = gc.getClipping();
 						try {
-							transform.translate(bounds.x, bounds.y);
-							gc.setTransform(transform);
-							((PaintListener)child).paintControl(subPaint);
+							gc.setClipping(bounds);
+							PaintEvent subPaint = new PaintEvent(subEvent);
+							Transform transform = new Transform(gc.getDevice());
+							try {
+								transform.translate(bounds.x, bounds.y);
+								gc.setTransform(transform);
+								((PaintListener)child).paintControl(subPaint);
+							} finally {
+								transform.dispose();
+								gc.setTransform(oldTransform);
+							}
 						} finally {
-							transform.dispose();
-							gc.setTransform(oldTransform);
+							gc.setClipping(oldClipping);
 						}
 					}
 				}
