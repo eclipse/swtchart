@@ -100,14 +100,11 @@ public class LabelMarker extends AbstractBaseChartPaintListener implements IBase
 		}
 		int size = serie.getXSeries().length;
 		Transform oldTransform = new Transform(e.gc.getDevice());
-		Transform textTransform;
-		if(orientation == SWT.VERTICAL) {
-			textTransform = new Transform(e.gc.getDevice());
-			e.gc.getTransform(textTransform);
-			textTransform.rotate(-90);
-		} else {
-			textTransform = null;
-		}
+		e.gc.getTransform(oldTransform);
+		float[] fs = new float[6];
+		oldTransform.getElements(fs);
+		Transform textTransform = new Transform(e.gc.getDevice());
+		e.gc.setForeground(e.gc.getDevice().getSystemColor(SWT.COLOR_BLACK));
 		try {
 			for(int index : labels.keySet()) {
 				if(index < size) {
@@ -125,28 +122,24 @@ public class LabelMarker extends AbstractBaseChartPaintListener implements IBase
 						/*
 						 * Calculate x and y
 						 */
-						int x;
-						int y;
 						Point labelSize = e.gc.textExtent(label);
+						int x = point.x - labelSize.y / 2;
+						int y = point.y -15;
 						GC gc = e.gc;
-						if(textTransform != null) {
-							gc.setTransform(textTransform);
-							x = -labelSize.x - (point.y - labelSize.x - 15);
-							y = point.x - (labelSize.y / 2);
-							gc.setTransform(oldTransform);
-						} else {
-							x = point.x - labelSize.x / 2;
-							y = point.y - labelSize.y - 15;
+						textTransform.setElements(fs [0], fs[1], fs[2], fs[3], fs[4], fs[5]);
+						textTransform.translate(x, y);
+						if(orientation == SWT.VERTICAL) {
+							textTransform.rotate(-90);
 						}
-						gc.drawText(label, x, y, true);
+						gc.setTransform(textTransform);
+						gc.drawText(label, 0, 0, true);
 					}
 				}
 			}
 		} finally {
+			e.gc.setTransform(oldTransform);
 			oldTransform.dispose();
-			if(textTransform != null) {
-				textTransform.dispose();
-			}
+			textTransform.dispose();
 		}
 	}
 
