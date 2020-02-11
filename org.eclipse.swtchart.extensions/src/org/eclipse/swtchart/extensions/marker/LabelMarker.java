@@ -61,14 +61,9 @@ public class LabelMarker extends AbstractBaseChartPaintListener implements IBase
 		this.labels = (labels != null) ? labels : new HashMap<Integer, String>();
 	}
 
-	public void setSeriesIndex(int indexSeries) {
+	public void clear() {
 
-		this.indexSeries = indexSeries;
-	}
-
-	public void setSeries(ISeries serie) {
-
-		this.serie = serie;
+		labels.clear();
 	}
 
 	@Override
@@ -77,11 +72,7 @@ public class LabelMarker extends AbstractBaseChartPaintListener implements IBase
 		super.finalize();
 	}
 
-	public void clear() {
-
-		labels.clear();
-	}
-
+	@SuppressWarnings("deprecation")
 	@Override
 	public void paintControl(PaintEvent e) {
 
@@ -92,22 +83,21 @@ public class LabelMarker extends AbstractBaseChartPaintListener implements IBase
 		//
 		BaseChart baseChart = getBaseChart();
 		IPlotArea plotArea = baseChart.getPlotArea();
+		//
 		Rectangle rectangle;
 		if(plotArea instanceof Scrollable) {
 			rectangle = ((Scrollable)plotArea).getClientArea();
 		} else {
 			rectangle = plotArea.getBounds();
 		}
+		//
 		int size = serie.getXSeries().length;
-		Transform oldTransform = new Transform(e.gc.getDevice());
-		Transform textTransform;
+		Transform transform = null;
 		if(orientation == SWT.VERTICAL) {
-			textTransform = new Transform(e.gc.getDevice());
-			e.gc.getTransform(textTransform);
-			textTransform.rotate(-90);
-		} else {
-			textTransform = null;
+			transform = new Transform(e.gc.getDevice());
+			transform.rotate(-90);
 		}
+		//
 		try {
 			for(int index : labels.keySet()) {
 				if(index < size) {
@@ -129,11 +119,10 @@ public class LabelMarker extends AbstractBaseChartPaintListener implements IBase
 						int y;
 						Point labelSize = e.gc.textExtent(label);
 						GC gc = e.gc;
-						if(textTransform != null) {
-							gc.setTransform(textTransform);
+						if(transform != null) {
+							gc.setTransform(transform);
 							x = -labelSize.x - (point.y - labelSize.x - 15);
 							y = point.x - (labelSize.y / 2);
-							gc.setTransform(oldTransform);
 						} else {
 							x = point.x - labelSize.x / 2;
 							y = point.y - labelSize.y - 15;
@@ -143,14 +132,20 @@ public class LabelMarker extends AbstractBaseChartPaintListener implements IBase
 				}
 			}
 		} finally {
-			oldTransform.dispose();
-			if(textTransform != null) {
-				textTransform.dispose();
+			e.gc.setTransform(null);
+			if(transform != null) {
+				transform.dispose();
 			}
 		}
 	}
 
-	protected ISeries getSeries() {
+	private void setSeriesIndex(int indexSeries) {
+
+		this.indexSeries = indexSeries;
+	}
+
+	@SuppressWarnings("rawtypes")
+	private ISeries getSeries() {
 
 		if(serie != null) {
 			return serie;
