@@ -61,9 +61,11 @@ public class InteractiveChart extends Chart implements PaintListener {
 	private long clickedTime;
 	/** the resources created with properties dialog */
 	private PropertiesResources resources;
+	/** the initial proposed filename in save as dialog */
+	private String saveAsFilename;
 
 	/**
-	 * Constructor.
+	 * Constru.ctor.
 	 * 
 	 * @param parent
 	 *            the parent composite
@@ -217,6 +219,14 @@ public class InteractiveChart extends Chart implements PaintListener {
 
 		super.dispose();
 		resources.dispose();
+	}
+	
+	/**
+	 * Sets the name to be proposed as default when running "Save As".
+	 * @param saveAsFilename The file name to be proposed in the file dialog.
+	 */
+	public void setProposedSaveAsFilename(String saveAsFilename) {
+		this.saveAsFilename = saveAsFilename;
 	}
 
 	/**
@@ -414,6 +424,7 @@ public class InteractiveChart extends Chart implements PaintListener {
 		FileDialog dialog = new FileDialog(getShell(), SWT.SAVE);
 		dialog.setText(ChartMenuMessages.SAVE_AS_DIALOG_TITLE);
 		dialog.setFilterExtensions(EXTENSIONS);
+		dialog.setFileName(saveAsFilename);
 		String filename = dialog.open();
 		if(filename == null) {
 			return;
