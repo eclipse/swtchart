@@ -54,7 +54,7 @@ import org.eclipse.swtchart.extensions.properties.SeriesPage;
 public class InteractiveChart extends Chart implements PaintListener {
 
 	/** the filter extensions */
-	private static final String[] EXTENSIONS = new String[]{"*.jpeg", "*.jpg", "*.png"}; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+	private static final String[] EXTENSIONS = new String[]{"*.png", "*.jpeg", "*.jpg"}; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 	/** the selection rectangle for zoom in/out */
 	protected SelectionRectangle selection;
 	/** the clicked time in milliseconds */
