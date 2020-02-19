@@ -83,9 +83,6 @@ public class SeriesLabelPage extends AbstractSelectorPage {
 		fontSizes = new int[series.length];
 	}
 
-	/*
-	 * @see AbstractSelectorPage#getListItems()
-	 */
 	@Override
 	protected String[] getListItems() {
 
@@ -96,9 +93,6 @@ public class SeriesLabelPage extends AbstractSelectorPage {
 		return items;
 	}
 
-	/*
-	 * @see AbstractSelectorPage#selectInitialValues()
-	 */
 	@Override
 	protected void selectInitialValues() {
 
@@ -109,9 +103,6 @@ public class SeriesLabelPage extends AbstractSelectorPage {
 		}
 	}
 
-	/*
-	 * @see AbstractSelectorPage#updateControlSelections()
-	 */
 	@Override
 	protected void updateControlSelections() {
 
@@ -121,9 +112,6 @@ public class SeriesLabelPage extends AbstractSelectorPage {
 		fontSizeSpinner.setSelection(fontSizes[selectedIndex]);
 	}
 
-	/*
-	 * @see AbstractSelectorPage#addRightPanelContents(Composite)
-	 */
 	@Override
 	protected void addRightPanelContents(Composite parent) {
 
@@ -185,9 +173,6 @@ public class SeriesLabelPage extends AbstractSelectorPage {
 		fontSizeSpinner.setEnabled(enabled);
 	}
 
-	/*
-	 * @see AbstractPreferencePage#apply()
-	 */
 	@Override
 	public void apply() {
 
@@ -224,9 +209,6 @@ public class SeriesLabelPage extends AbstractSelectorPage {
 		}
 	}
 
-	/*
-	 * @see PreferencePage#performDefaults()
-	 */
 	@Override
 	protected void performDefaults() {
 

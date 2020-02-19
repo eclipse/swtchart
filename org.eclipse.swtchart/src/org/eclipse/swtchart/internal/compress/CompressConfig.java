@@ -62,9 +62,6 @@ public class CompressConfig {
 		yLogScale = config.isYLogScale();
 	}
 
-	/*
-	 * @see Object#equals(Object)
-	 */
 	@Override
 	public boolean equals(Object obj) {
 
@@ -100,9 +97,6 @@ public class CompressConfig {
 		return true;
 	}
 
-	/*
-	 * @see Object#hashCode()
-	 */
 	@Override
 	public int hashCode() {
 
@@ -253,9 +247,6 @@ public class CompressConfig {
 		this.yLogScale = value;
 	}
 
-	/*
-	 * @see Object#toString()
-	 */
 	@Override
 	public String toString() {
 

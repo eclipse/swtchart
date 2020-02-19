@@ -171,18 +171,12 @@ public class InteractiveChart extends Chart implements PaintListener {
 		menuItem.addListener(SWT.Selection, this);
 	}
 
-	/*
-	 * @see PaintListener#paintControl(PaintEvent)
-	 */
 	@Override
 	public void paintControl(PaintEvent e) {
 
 		selection.draw(e.gc);
 	}
 
-	/*
-	 * @see Listener#handleEvent(Event)
-	 */
 	@Override
 	public void handleEvent(Event event) {
 
@@ -211,9 +205,6 @@ public class InteractiveChart extends Chart implements PaintListener {
 		}
 	}
 
-	/*
-	 * @see Chart#dispose()
-	 */
 	@Override
 	public void dispose() {
 

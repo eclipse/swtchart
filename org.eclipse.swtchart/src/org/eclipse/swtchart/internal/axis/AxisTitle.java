@@ -60,9 +60,6 @@ public class AxisTitle extends Title {
 		setText(getDefaultText());
 	}
 
-	/*
-	 * @see Title#getDefaultText()
-	 */
 	@Override
 	protected String getDefaultText() {
 
@@ -72,18 +69,12 @@ public class AxisTitle extends Title {
 		return DEFAULT_TEXT_FOR_YAXIS;
 	}
 
-	/*
-	 * @see Title#isHorizontal()
-	 */
 	@Override
 	protected boolean isHorizontal() {
 
 		return axis.isHorizontalAxis();
 	}
 
-	/*
-	 * @see Title#dispose()
-	 */
 	@Override
 	public void dispose() {
 

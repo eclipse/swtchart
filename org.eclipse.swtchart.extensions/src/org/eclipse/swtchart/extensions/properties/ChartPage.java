@@ -82,9 +82,6 @@ public class ChartPage extends AbstractPage {
 		super(chart, resources, title);
 	}
 
-	/*
-	 * @see PreferencePage#createContents(Composite)
-	 */
 	@Override
 	protected Control createContents(Composite parent) {
 
@@ -174,9 +171,6 @@ public class ChartPage extends AbstractPage {
 		titleColorButton.setEnabled(enabled);
 	}
 
-	/*
-	 * @see AbstractPreferencePage#apply()
-	 */
 	@Override
 	public void apply() {
 
@@ -200,9 +194,6 @@ public class ChartPage extends AbstractPage {
 		resources.put(TITLE_FOREGROUND, color);
 	}
 
-	/*
-	 * @see PreferencePage#performDefaults()
-	 */
 	@Override
 	protected void performDefaults() {
 

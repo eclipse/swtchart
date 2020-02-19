@@ -139,11 +139,6 @@ public class SeriesPage extends AbstractSelectorPage {
 		paddings = new int[series.length];
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * @see
-	 * org.eclipse.swtchart.ext.internal.properties.AbstractSelectorPage#getListItems()
-	 */
 	@Override
 	protected String[] getListItems() {
 
@@ -154,9 +149,6 @@ public class SeriesPage extends AbstractSelectorPage {
 		return items;
 	}
 
-	/*
-	 * @see AbstractSelectorPage#selectInitialValuess()
-	 */
 	@Override
 	protected void selectInitialValues() {
 
@@ -179,9 +171,6 @@ public class SeriesPage extends AbstractSelectorPage {
 		updateStackPanel();
 	}
 
-	/*
-	 * @see AbstractSelectorPage#updateControlSelections()
-	 */
 	@Override
 	protected void updateControlSelections() {
 
@@ -221,9 +210,6 @@ public class SeriesPage extends AbstractSelectorPage {
 		stackPanel.layout();
 	}
 
-	/*
-	 * @see AbstractSelectorPage#addRightPanelContents(Composite)
-	 */
 	@Override
 	protected void addRightPanelContents(Composite parent) {
 
@@ -438,9 +424,6 @@ public class SeriesPage extends AbstractSelectorPage {
 		paddingSizeSpinner.setEnabled(enabled);
 	}
 
-	/*
-	 * @see AbstractPreferencePage#apply()
-	 */
 	@Override
 	public void apply() {
 
@@ -503,9 +486,6 @@ public class SeriesPage extends AbstractSelectorPage {
 		}
 	}
 
-	/*
-	 * @see PreferencePage#performDefaults()
-	 */
 	@Override
 	protected void performDefaults() {
 

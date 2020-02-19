@@ -134,9 +134,6 @@ public class AxisPage extends AbstractSelectorPage {
 		logScaleStates = new boolean[axes.length];
 	}
 
-	/*
-	 * @see AbstractSelectorPage#getListItems()
-	 */
 	@Override
 	protected String[] getListItems() {
 
@@ -147,9 +144,6 @@ public class AxisPage extends AbstractSelectorPage {
 		return items;
 	}
 
-	/*
-	 * @see AbstractSelectorPage#selectInitialValues()
-	 */
 	@Override
 	protected void selectInitialValues() {
 
@@ -168,9 +162,6 @@ public class AxisPage extends AbstractSelectorPage {
 		}
 	}
 
-	/*
-	 * @see AbstractSelectorPage#updateControlSelections()
-	 */
 	@Override
 	protected void updateControlSelections() {
 
@@ -188,9 +179,6 @@ public class AxisPage extends AbstractSelectorPage {
 		}
 	}
 
-	/*
-	 * @see AbstractSelectorPage#addRightPanelContents(Composite)
-	 */
 	@Override
 	protected void addRightPanelContents(Composite parent) {
 
@@ -327,9 +315,6 @@ public class AxisPage extends AbstractSelectorPage {
 		titleColorButton.setEnabled(enabled);
 	}
 
-	/*
-	 * @see AbstractPreferencePage#apply()
-	 */
 	@Override
 	public void apply() {
 
@@ -378,9 +363,6 @@ public class AxisPage extends AbstractSelectorPage {
 		}
 	}
 
-	/*
-	 * @see PreferencePage#performDefaults()
-	 */
 	@Override
 	protected void performDefaults() {
 

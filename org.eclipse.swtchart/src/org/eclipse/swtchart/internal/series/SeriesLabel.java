@@ -57,17 +57,13 @@ public class SeriesLabel implements ISeriesLabel {
 		formats = new String[0];
 	}
 
-	/*
-	 * @see ISeriesLabel#getFormat()
-	 */
+	@Override
 	public String getFormat() {
 
 		return format;
 	}
 
-	/*
-	 * @see ISeriesLabel#setFormat(String)
-	 */
+	@Override
 	public void setFormat(String format) {
 
 		if(format == null) {
@@ -77,9 +73,7 @@ public class SeriesLabel implements ISeriesLabel {
 		}
 	}
 
-	/*
-	 * @see ISeriesLabel#getFormats()
-	 */
+	@Override
 	public String[] getFormats() {
 
 		String[] copiedFormats = new String[formats.length];
@@ -87,9 +81,7 @@ public class SeriesLabel implements ISeriesLabel {
 		return copiedFormats;
 	}
 
-	/*
-	 * @see ISeriesLabel#setFormats(String[])
-	 */
+	@Override
 	public void setFormats(String[] formats) {
 
 		if(formats == null) {
@@ -100,17 +92,13 @@ public class SeriesLabel implements ISeriesLabel {
 		System.arraycopy(formats, 0, this.formats, 0, formats.length);
 	}
 
-	/*
-	 * @see ISeriesLabel#getForeground()
-	 */
+	@Override
 	public Color getForeground() {
 
 		return color;
 	}
 
-	/*
-	 * @see ISeriesLabel#setForeground(Color)
-	 */
+	@Override
 	public void setForeground(Color color) {
 
 		if(color != null && color.isDisposed()) {
@@ -123,9 +111,7 @@ public class SeriesLabel implements ISeriesLabel {
 		}
 	}
 
-	/*
-	 * @see ISeriesLabel#getFont()
-	 */
+	@Override
 	public Font getFont() {
 
 		if(font.isDisposed()) {
@@ -134,9 +120,7 @@ public class SeriesLabel implements ISeriesLabel {
 		return font;
 	}
 
-	/*
-	 * @see ISeriesLabel#setFont(Font)
-	 */
+	@Override
 	public void setFont(Font font) {
 
 		if(font != null && font.isDisposed()) {
@@ -149,17 +133,13 @@ public class SeriesLabel implements ISeriesLabel {
 		}
 	}
 
-	/*
-	 * @see ISeriesLabel#isVisible()
-	 */
+	@Override
 	public boolean isVisible() {
 
 		return isVisible;
 	}
 
-	/*
-	 * @see ISeriesLabel#setVisible(boolean)
-	 */
+	@Override
 	public void setVisible(boolean visible) {
 
 		this.isVisible = visible;

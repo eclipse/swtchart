@@ -34,9 +34,6 @@ public class ChartTitle extends Title {
 		setText(getDefaultText());
 	}
 
-	/*
-	 * @see Title#getDefaultText()
-	 */
 	@Override
 	protected String getDefaultText() {
 

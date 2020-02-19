@@ -84,9 +84,7 @@ public class AxisTick implements IAxisTick {
 		return axisTickLabels;
 	}
 
-	/*
-	 * @see IAxisTick#setForeground(Color)
-	 */
+	@Override
 	public void setForeground(Color color) {
 
 		if(color != null && color.isDisposed()) {
@@ -96,17 +94,13 @@ public class AxisTick implements IAxisTick {
 		axisTickLabels.setForeground(color);
 	}
 
-	/*
-	 * @see IAxisTick#getForeground()
-	 */
+	@Override
 	public Color getForeground() {
 
 		return axisTickMarks.getForeground();
 	}
 
-	/*
-	 * @see IAxisTick#setFont(Font)
-	 */
+	@Override
 	public void setFont(Font font) {
 
 		if(font != null && font.isDisposed()) {
@@ -116,42 +110,32 @@ public class AxisTick implements IAxisTick {
 		chart.updateLayout();
 	}
 
-	/*
-	 * @see IAxisTick#getFont()
-	 */
+	@Override
 	public Font getFont() {
 
 		return axisTickLabels.getFont();
 	}
 
-	/*
-	 * @see IAxisTick#isVisible()
-	 */
+	@Override
 	public boolean isVisible() {
 
 		return isVisible;
 	}
 
-	/*
-	 * @see IAxisTick#setVisible(boolean)
-	 */
+	@Override
 	public void setVisible(boolean isVisible) {
 
 		this.isVisible = isVisible;
 		chart.updateLayout();
 	}
 
-	/*
-	 * @see IAxisTick#getTickMarkStepHint()
-	 */
+	@Override
 	public int getTickMarkStepHint() {
 
 		return tickMarkStepHint;
 	}
 
-	/*
-	 * @see IAxisTick#setTickMarkStepHint(int)
-	 */
+	@Override
 	public void setTickMarkStepHint(int tickMarkStepHint) {
 
 		if(tickMarkStepHint < MIN_GRID_STEP_HINT) {
@@ -162,17 +146,13 @@ public class AxisTick implements IAxisTick {
 		chart.updateLayout();
 	}
 
-	/*
-	 * @see IAxisTick#getTickLabelAngle()
-	 */
+	@Override
 	public int getTickLabelAngle() {
 
 		return tickLabelAngle;
 	}
 
-	/*
-	 * @see IAxisTick#setTickLabelAngle(int)
-	 */
+	@Override
 	public void setTickLabelAngle(int angle) {
 
 		if(angle < 0 || 90 < angle) {
@@ -184,26 +164,20 @@ public class AxisTick implements IAxisTick {
 		}
 	}
 
-	/*
-	 * @see IAxisTick#setFormat(Format)
-	 */
+	@Override
 	public void setFormat(Format format) {
 
 		axisTickLabels.setFormat(format);
 		chart.updateLayout();
 	}
 
-	/*
-	 * @see IAxisTick#getFormat()
-	 */
+	@Override
 	public Format getFormat() {
 
 		return axisTickLabels.getFormat();
 	}
 
-	/*
-	 * @see IAxisTick#getBounds()
-	 */
+	@Override
 	public Rectangle getBounds() {
 
 		Rectangle r1 = axisTickMarks.getBounds();
@@ -222,9 +196,7 @@ public class AxisTick implements IAxisTick {
 		}
 	}
 
-	/*
-	 * @see IAxisTick#getTickLabelValues()
-	 */
+	@Override
 	public double[] getTickLabelValues() {
 
 		List<Double> list = axisTickLabels.getTickLabelValues();

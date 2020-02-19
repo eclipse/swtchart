@@ -169,9 +169,7 @@ public class AxisTickMarks implements PaintListener {
 		}
 	}
 
-	/*
-	 * @see PaintListener#paintControl(PaintEvent)
-	 */
+	@Override
 	public void paintControl(PaintEvent e) {
 
 		if(bounds.width > 0 && bounds.height > 0) {
