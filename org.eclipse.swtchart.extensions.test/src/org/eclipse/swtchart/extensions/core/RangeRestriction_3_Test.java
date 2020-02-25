@@ -12,8 +12,6 @@
  *******************************************************************************/
 package org.eclipse.swtchart.extensions.core;
 
-import org.eclipse.swtchart.extensions.core.RangeRestriction;
-
 import junit.framework.TestCase;
 
 public class RangeRestriction_3_Test extends TestCase {

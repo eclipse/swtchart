@@ -13,7 +13,6 @@
 package org.eclipse.swtchart.extensions.axisconverter;
 
 import org.eclipse.swt.SWT;
-import org.eclipse.swtchart.extensions.axisconverter.PercentageConverter;
 import org.eclipse.swtchart.extensions.core.IChartDataCoordinates;
 
 import junit.framework.TestCase;
