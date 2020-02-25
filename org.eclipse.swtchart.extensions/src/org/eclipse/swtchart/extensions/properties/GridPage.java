@@ -143,6 +143,7 @@ public class GridPage extends AbstractSelectorPage {
 		foregroundButton = createColorButtonControl(group);
 		foregroundButton.addListener(new IPropertyChangeListener() {
 
+			@Override
 			public void propertyChange(PropertyChangeEvent event) {
 
 				foregroundColors[selectedIndex] = foregroundButton.getColorValue();

@@ -25,10 +25,12 @@ public class PreferencePage extends FieldEditorPreferencePage implements IWorkbe
 		setDescription("EAVP Demo Settings.");
 	}
 
+	@Override
 	public void createFieldEditors() {
 
 	}
 
+	@Override
 	public void init(IWorkbench workbench) {
 
 	}

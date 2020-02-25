@@ -302,6 +302,7 @@ public class SeriesPage extends AbstractSelectorPage {
 		lineColorButton = createColorButtonControl(lineSeriesGroup);
 		lineColorButton.addListener(new IPropertyChangeListener() {
 
+			@Override
 			public void propertyChange(PropertyChangeEvent event) {
 
 				lineColors[selectedIndex] = lineColorButton.getColorValue();
@@ -333,6 +334,7 @@ public class SeriesPage extends AbstractSelectorPage {
 		symbolColorButton = createColorButtonControl(lineSeriesGroup);
 		symbolColorButton.addListener(new IPropertyChangeListener() {
 
+			@Override
 			public void propertyChange(PropertyChangeEvent event) {
 
 				symbolColors[selectedIndex] = symbolColorButton.getColorValue();
@@ -364,6 +366,7 @@ public class SeriesPage extends AbstractSelectorPage {
 		symbolSizeSpinner = createSpinnerControl(lineSeriesGroup, 1, 10);
 		symbolSizeSpinner.addModifyListener(new ModifyListener() {
 
+			@Override
 			public void modifyText(ModifyEvent e) {
 
 				symbolSizes[selectedIndex] = symbolSizeSpinner.getSelection();
@@ -387,6 +390,7 @@ public class SeriesPage extends AbstractSelectorPage {
 		barColorButton = createColorButtonControl(group);
 		barColorButton.addListener(new IPropertyChangeListener() {
 
+			@Override
 			public void propertyChange(PropertyChangeEvent event) {
 
 				barColors[selectedIndex] = barColorButton.getColorValue();
@@ -396,6 +400,7 @@ public class SeriesPage extends AbstractSelectorPage {
 		paddingSizeSpinner = createSpinnerControl(group, 0, 100);
 		paddingSizeSpinner.addModifyListener(new ModifyListener() {
 
+			@Override
 			public void modifyText(ModifyEvent e) {
 
 				paddings[selectedIndex] = paddingSizeSpinner.getSelection();
@@ -436,6 +441,7 @@ public class SeriesPage extends AbstractSelectorPage {
 				if(resources.getColor(lineColorKey) == null) {
 					series[i].addDisposeListener(new IDisposeListener() {
 
+						@Override
 						public void disposed(Event e) {
 
 							resources.removeColor(lineColorKey);
@@ -449,6 +455,7 @@ public class SeriesPage extends AbstractSelectorPage {
 				if(resources.getColor(symbolColorKey) == null) {
 					series[i].addDisposeListener(new IDisposeListener() {
 
+						@Override
 						public void disposed(Event e) {
 
 							resources.removeColor(symbolColorKey);
@@ -466,6 +473,7 @@ public class SeriesPage extends AbstractSelectorPage {
 				if(resources.getColor(barColorKey) == null) {
 					series[i].addDisposeListener(new IDisposeListener() {
 
+						@Override
 						public void disposed(Event e) {
 
 							resources.removeColor(barColorKey);

@@ -32,6 +32,7 @@ public class BarSeriesPreferencePage extends FieldEditorPreferencePage implement
 		setDescription("Bar Series chart settings.");
 	}
 
+	@Override
 	public void createFieldEditors() {
 
 		addField(new SpacerFieldEditor(getFieldEditorParent()));
@@ -92,6 +93,7 @@ public class BarSeriesPreferencePage extends FieldEditorPreferencePage implement
 		addField(new BooleanFieldEditor(BarSeriesPreferenceConstants.P_CREATE_MENU, "Create Menu", getFieldEditorParent()));
 	}
 
+	@Override
 	public void init(IWorkbench workbench) {
 
 	}

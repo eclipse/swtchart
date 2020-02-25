@@ -162,6 +162,7 @@ public class AxisTickPage extends AbstractSelectorPage {
 		foregroundButton = createColorButtonControl(group);
 		foregroundButton.addListener(new IPropertyChangeListener() {
 
+			@Override
 			public void propertyChange(PropertyChangeEvent event) {
 
 				foregroundColors[selectedIndex] = foregroundButton.getColorValue();
@@ -196,6 +197,7 @@ public class AxisTickPage extends AbstractSelectorPage {
 			if(resources.getFont(fontKey) == null) {
 				axes[i].addDisposeListener(new IDisposeListener() {
 
+					@Override
 					public void disposed(Event e) {
 
 						resources.removeFont(fontKey);
@@ -209,6 +211,7 @@ public class AxisTickPage extends AbstractSelectorPage {
 			if(resources.getColor(colorKey) == null) {
 				axes[i].addDisposeListener(new IDisposeListener() {
 
+					@Override
 					public void disposed(Event e) {
 
 						resources.removeColor(colorKey);

@@ -30,6 +30,7 @@ public class ScatterSeriesDataPreferencePage extends FieldEditorPreferencePage i
 		setDescription("Set the data series settings.");
 	}
 
+	@Override
 	public void createFieldEditors() {
 
 		addField(new SpacerFieldEditor(getFieldEditorParent()));
@@ -71,6 +72,7 @@ public class ScatterSeriesDataPreferencePage extends FieldEditorPreferencePage i
 		addField(new BooleanFieldEditor(ScatterSeriesPreferenceConstants.P_VISIBLE_SERIES_HIGHLIGHT_RIGHT_BOTTOM, "Visible (Right Bottom)", getFieldEditorParent()));
 	}
 
+	@Override
 	public void init(IWorkbench workbench) {
 
 	}

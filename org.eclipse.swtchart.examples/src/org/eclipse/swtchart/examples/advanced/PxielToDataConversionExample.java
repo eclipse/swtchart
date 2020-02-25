@@ -13,8 +13,6 @@
 package org.eclipse.swtchart.examples.advanced;
 
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.events.MouseEvent;
-import org.eclipse.swt.events.MouseMoveListener;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
@@ -75,14 +73,11 @@ public class PxielToDataConversionExample {
 		// adjust the axis range
 		chart.getAxisSet().adjustRange();
 		// add mouse move listener to show mouse position on tooltip
-		chart.getPlotArea().addMouseMoveListener(new MouseMoveListener() {
+		chart.getPlotArea().addMouseMoveListener(e -> {
 
-			public void mouseMove(MouseEvent e) {
-
-				double x = xAxis.getDataCoordinate(e.x);
-				double y = yAxis.getDataCoordinate(e.y);
-				chart.getPlotArea().setToolTipText("x:" + x + ", y:" + y);
-			}
+			double x = xAxis.getDataCoordinate(e.x);
+			double y = yAxis.getDataCoordinate(e.y);
+			chart.getPlotArea().setToolTipText("x:" + x + ", y:" + y);
 		});
 		return chart;
 	}

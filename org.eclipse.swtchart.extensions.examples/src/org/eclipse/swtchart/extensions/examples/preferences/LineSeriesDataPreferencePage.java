@@ -31,6 +31,7 @@ public class LineSeriesDataPreferencePage extends FieldEditorPreferencePage impl
 		setDescription("Set the data series settings.");
 	}
 
+	@Override
 	public void createFieldEditors() {
 
 		addField(new SpacerFieldEditor(getFieldEditorParent()));
@@ -104,6 +105,7 @@ public class LineSeriesDataPreferencePage extends FieldEditorPreferencePage impl
 		addField(new BooleanFieldEditor(LineSeriesPreferenceConstants.P_VISIBLE_IN_LEGEND_SERIES_2_HIGHLIGHT, "Visible in Legend", getFieldEditorParent()));
 	}
 
+	@Override
 	public void init(IWorkbench workbench) {
 
 	}
