@@ -72,9 +72,6 @@ public class GridPage extends AbstractSelectorPage {
 		foregroundColors = new RGB[axes.length];
 	}
 
-	/*
-	 * @see AbstractSelectorPage#getListItems()
-	 */
 	@Override
 	protected String[] getListItems() {
 
@@ -85,9 +82,6 @@ public class GridPage extends AbstractSelectorPage {
 		return items;
 	}
 
-	/*
-	 * @see AbstractSelectorPage#selectInitialValues()
-	 */
 	@Override
 	protected void selectInitialValues() {
 
@@ -97,9 +91,6 @@ public class GridPage extends AbstractSelectorPage {
 		}
 	}
 
-	/*
-	 * @see AbstractSelectorPage#updateControlSelections()
-	 */
 	@Override
 	protected void updateControlSelections() {
 
@@ -107,9 +98,6 @@ public class GridPage extends AbstractSelectorPage {
 		foregroundButton.setColorValue(foregroundColors[selectedIndex]);
 	}
 
-	/*
-	 * @see AbstractSelectorPage#addRightPanelContents(Composite)
-	 */
 	@Override
 	protected void addRightPanelContents(Composite parent) {
 
@@ -155,6 +143,7 @@ public class GridPage extends AbstractSelectorPage {
 		foregroundButton = createColorButtonControl(group);
 		foregroundButton.addListener(new IPropertyChangeListener() {
 
+			@Override
 			public void propertyChange(PropertyChangeEvent event) {
 
 				foregroundColors[selectedIndex] = foregroundButton.getColorValue();
@@ -162,9 +151,6 @@ public class GridPage extends AbstractSelectorPage {
 		});
 	}
 
-	/*
-	 * @see AbstractPreferencePage#apply()
-	 */
 	@Override
 	public void apply() {
 
@@ -176,9 +162,6 @@ public class GridPage extends AbstractSelectorPage {
 		}
 	}
 
-	/*
-	 * @see PreferencePage#performDefaults()
-	 */
 	@Override
 	protected void performDefaults() {
 

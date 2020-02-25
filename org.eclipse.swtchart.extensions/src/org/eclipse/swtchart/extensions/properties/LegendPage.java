@@ -76,9 +76,6 @@ public class LegendPage extends AbstractPage {
 		legend = chart.getLegend();
 	}
 
-	/*
-	 * @see PreferencePage#createContents(Composite)
-	 */
 	@Override
 	protected Control createContents(Composite parent) {
 
@@ -151,9 +148,6 @@ public class LegendPage extends AbstractPage {
 		fontSizeSpinner.setEnabled(enabled);
 	}
 
-	/*
-	 * @see AbstractPreferencePage#apply()
-	 */
 	@Override
 	public void apply() {
 
@@ -170,9 +164,6 @@ public class LegendPage extends AbstractPage {
 		resources.put(LEGEND_FONT, font);
 	}
 
-	/*
-	 * @see PreferencePage#performDefaults()
-	 */
 	@Override
 	protected void performDefaults() {
 

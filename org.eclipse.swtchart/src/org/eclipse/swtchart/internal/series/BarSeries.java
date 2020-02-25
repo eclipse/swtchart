@@ -77,36 +77,24 @@ public class BarSeries<T> extends Series<T> implements IBarSeries<T> {
 		compressor = new CompressBarSeries();
 	}
 
-	/*
-	 * @see IBarSeries#getBarWidthStyle(BarWidthStyle)
-	 */
 	@Override
 	public BarWidthStyle getBarWidthStyle(BarWidthStyle style) {
 
 		return barWidthStyle;
 	}
 
-	/*
-	 * @see IBarSeries#setBarWidthStyle(BarWidthStyle)
-	 */
 	@Override
 	public void setBarWidthStyle(BarWidthStyle style) {
 
 		this.barWidthStyle = style;
 	}
 
-	/*
-	 * @see IBarSeries#getBarWidth()
-	 */
 	@Override
 	public int getBarWidth() {
 
 		return barWidth;
 	}
 
-	/*
-	 * @see IBarSeries#setBarWidth(int)
-	 */
 	@Override
 	public void setBarWidth(int width) {
 
@@ -116,18 +104,12 @@ public class BarSeries<T> extends Series<T> implements IBarSeries<T> {
 		this.barWidth = width;
 	}
 
-	/*
-	 * @see IBarSeries#getBarPadding()
-	 */
 	@Override
 	public int getBarPadding() {
 
 		return padding;
 	}
 
-	/*
-	 * @see IBarSeries#setBarPadding(int)
-	 */
 	@Override
 	public void setBarPadding(int padding) {
 
@@ -149,9 +131,6 @@ public class BarSeries<T> extends Series<T> implements IBarSeries<T> {
 		this.barOverlay = barOverlay;
 	}
 
-	/*
-	 * @see IBarSeries#getBarColor()
-	 */
 	@Override
 	public Color getBarColor() {
 
@@ -161,9 +140,6 @@ public class BarSeries<T> extends Series<T> implements IBarSeries<T> {
 		return barColor;
 	}
 
-	/*
-	 * @see IBarSeries#setBarColor(Color)
-	 */
 	@Override
 	public void setBarColor(Color color) {
 
@@ -177,9 +153,6 @@ public class BarSeries<T> extends Series<T> implements IBarSeries<T> {
 		}
 	}
 
-	/*
-	 * @see IBarSeries#getBounds()
-	 */
 	@Override
 	public Rectangle[] getBounds() {
 
@@ -315,9 +288,6 @@ public class BarSeries<T> extends Series<T> implements IBarSeries<T> {
 		this.riserIndex = riserIndex;
 	}
 
-	/*
-	 * @see Series#setCompressor()
-	 */
 	@Override
 	protected void setCompressor() {
 
@@ -331,9 +301,6 @@ public class BarSeries<T> extends Series<T> implements IBarSeries<T> {
 		compressor = new CompressScatterSeries();
 	}
 
-	/*
-	 * @see Series#getAdjustedRange(Axis, int)
-	 */
 	@Override
 	public Range getAdjustedRange(Axis axis, int length) {
 
@@ -431,9 +398,6 @@ public class BarSeries<T> extends Series<T> implements IBarSeries<T> {
 		return new Color(color.getDevice(), red, green, blue);
 	}
 
-	/*
-	 * @see Series#draw(GC, int, int, Axis, Axis)
-	 */
 	@Override
 	protected void draw(GC gc, int width, int height, Axis xAxis, Axis yAxis) {
 

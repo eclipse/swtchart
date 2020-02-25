@@ -79,12 +79,14 @@ public class CustomPaintListenerExample {
 
 	static class FrontPaintListener implements ICustomPaintListener {
 
+		@Override
 		public void paintControl(PaintEvent e) {
 
 			e.gc.setBackground(Display.getDefault().getSystemColor(SWT.COLOR_CYAN));
 			e.gc.fillRectangle(0, e.height / 2, e.width, 20);
 		}
 
+		@Override
 		public boolean drawBehindSeries() {
 
 			return false;
@@ -93,11 +95,13 @@ public class CustomPaintListenerExample {
 
 	static class BehindPaintListener implements ICustomPaintListener {
 
+		@Override
 		public void paintControl(PaintEvent e) {
 
 			e.gc.fillGradientRectangle(e.x, e.y, e.width, e.height, true);
 		}
 
+		@Override
 		public boolean drawBehindSeries() {
 
 			return true;

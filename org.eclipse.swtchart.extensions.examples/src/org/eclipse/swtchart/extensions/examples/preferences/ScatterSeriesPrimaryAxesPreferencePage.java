@@ -31,6 +31,7 @@ public class ScatterSeriesPrimaryAxesPreferencePage extends FieldEditorPreferenc
 		setDescription("Set the primary axis settings.");
 	}
 
+	@Override
 	public void createFieldEditors() {
 
 		addField(new SpacerFieldEditor(getFieldEditorParent()));
@@ -64,6 +65,7 @@ public class ScatterSeriesPrimaryAxesPreferencePage extends FieldEditorPreferenc
 		addField(new IntegerFieldEditor(ScatterSeriesPreferenceConstants.P_PRIMARY_Y_AXIS_EXTRA_SPACE_TITLE, "Primary Y-Axis Extra Space Title:", getFieldEditorParent()));
 	}
 
+	@Override
 	public void init(IWorkbench workbench) {
 
 	}

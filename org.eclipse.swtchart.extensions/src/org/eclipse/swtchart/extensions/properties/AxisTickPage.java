@@ -89,9 +89,6 @@ public class AxisTickPage extends AbstractSelectorPage {
 		foregroundColors = new RGB[axes.length];
 	}
 
-	/*
-	 * @see AbstractSelectorPage#getListItems()
-	 */
 	@Override
 	protected String[] getListItems() {
 
@@ -102,9 +99,6 @@ public class AxisTickPage extends AbstractSelectorPage {
 		return items;
 	}
 
-	/*
-	 * @see AbstractSelectorPage#selectInitialValues()
-	 */
 	@Override
 	protected void selectInitialValues() {
 
@@ -115,9 +109,6 @@ public class AxisTickPage extends AbstractSelectorPage {
 		}
 	}
 
-	/*
-	 * @see AbstractSelectorPage#updateControlSelections()
-	 */
 	@Override
 	protected void updateControlSelections() {
 
@@ -127,9 +118,6 @@ public class AxisTickPage extends AbstractSelectorPage {
 		foregroundButton.setColorValue(foregroundColors[selectedIndex]);
 	}
 
-	/*
-	 * @see AbstractSelectorPage#addRightPanelContents(Composite)
-	 */
 	@Override
 	protected void addRightPanelContents(Composite parent) {
 
@@ -174,6 +162,7 @@ public class AxisTickPage extends AbstractSelectorPage {
 		foregroundButton = createColorButtonControl(group);
 		foregroundButton.addListener(new IPropertyChangeListener() {
 
+			@Override
 			public void propertyChange(PropertyChangeEvent event) {
 
 				foregroundColors[selectedIndex] = foregroundButton.getColorValue();
@@ -195,9 +184,6 @@ public class AxisTickPage extends AbstractSelectorPage {
 		foregroundButton.setEnabled(enabled);
 	}
 
-	/*
-	 * @see AbstractPreferencePage#apply()
-	 */
 	@Override
 	public void apply() {
 
@@ -211,6 +197,7 @@ public class AxisTickPage extends AbstractSelectorPage {
 			if(resources.getFont(fontKey) == null) {
 				axes[i].addDisposeListener(new IDisposeListener() {
 
+					@Override
 					public void disposed(Event e) {
 
 						resources.removeFont(fontKey);
@@ -224,6 +211,7 @@ public class AxisTickPage extends AbstractSelectorPage {
 			if(resources.getColor(colorKey) == null) {
 				axes[i].addDisposeListener(new IDisposeListener() {
 
+					@Override
 					public void disposed(Event e) {
 
 						resources.removeColor(colorKey);
@@ -234,9 +222,6 @@ public class AxisTickPage extends AbstractSelectorPage {
 		}
 	}
 
-	/*
-	 * @see PreferencePage#performDefaults()
-	 */
 	@Override
 	protected void performDefaults() {
 

@@ -71,17 +71,13 @@ public class AxisSet implements IAxisSet {
 		return yAxisMap;
 	}
 
-	/*
-	 * @see IAxisSet#createXAxis()
-	 */
+	@Override
 	public int createXAxis() {
 
 		return createAxis(Direction.X);
 	}
 
-	/*
-	 * @see IAxisSet#createYAxis()
-	 */
+	@Override
 	public int createYAxis() {
 
 		return createAxis(Direction.Y);
@@ -124,17 +120,13 @@ public class AxisSet implements IAxisSet {
 		return i;
 	}
 
-	/*
-	 * @see IAxisSet#getXAxis(int)
-	 */
+	@Override
 	public IAxis getXAxis(int id) {
 
 		return getAxis(id, Direction.X);
 	}
 
-	/*
-	 * @see IAxisSet#getYAxis(int)
-	 */
+	@Override
 	public IAxis getYAxis(int id) {
 
 		return getAxis(id, Direction.Y);
@@ -154,27 +146,21 @@ public class AxisSet implements IAxisSet {
 		return getAxisMap(direction).get(id);
 	}
 
-	/*
-	 * @see IAxisSet#getXAxes()
-	 */
+	@Override
 	public IAxis[] getXAxes() {
 
 		Collection<Axis> values = xAxisMap.values();
 		return values.toArray(new Axis[values.size()]);
 	}
 
-	/*
-	 * @see IAxisSet#getYAxes()
-	 */
+	@Override
 	public IAxis[] getYAxes() {
 
 		Collection<Axis> values = yAxisMap.values();
 		return values.toArray(new Axis[values.size()]);
 	}
 
-	/*
-	 * @see IAxisSet#getAxes()
-	 */
+	@Override
 	public IAxis[] getAxes() {
 
 		Collection<Axis> axes = new ArrayList<Axis>();
@@ -183,17 +169,13 @@ public class AxisSet implements IAxisSet {
 		return axes.toArray(new Axis[axes.size()]);
 	}
 
-	/*
-	 * @see IAxisSet#getXAxisIds()
-	 */
+	@Override
 	public int[] getXAxisIds() {
 
 		return getAxisIds(Direction.X);
 	}
 
-	/*
-	 * @see IAxisSet#getYAxisIds()
-	 */
+	@Override
 	public int[] getYAxisIds() {
 
 		return getAxisIds(Direction.Y);
@@ -218,17 +200,13 @@ public class AxisSet implements IAxisSet {
 		return ids;
 	}
 
-	/*
-	 * @see IAxisSet#deleteXAxis(int)
-	 */
+	@Override
 	public void deleteXAxis(int id) {
 
 		deleteAxis(id, Direction.X);
 	}
 
-	/*
-	 * @see IAxisSet#deleteYAxis(int)
-	 */
+	@Override
 	public void deleteYAxis(int id) {
 
 		deleteAxis(id, Direction.Y);
@@ -266,9 +244,7 @@ public class AxisSet implements IAxisSet {
 		chart.updateLayout();
 	}
 
-	/*
-	 * @see IAxisSet#adjustRange()
-	 */
+	@Override
 	public void adjustRange() {
 
 		for(IAxis axis : getAxes()) {
@@ -277,9 +253,7 @@ public class AxisSet implements IAxisSet {
 		chart.updateLayout();
 	}
 
-	/*
-	 * @see IAxisSet#zoomIn()
-	 */
+	@Override
 	public void zoomIn() {
 
 		for(IAxis axis : getAxes()) {
@@ -287,9 +261,7 @@ public class AxisSet implements IAxisSet {
 		}
 	}
 
-	/*
-	 * @see IAxisSet#zoomOut()
-	 */
+	@Override
 	public void zoomOut() {
 
 		for(IAxis axis : getAxes()) {

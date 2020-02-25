@@ -47,9 +47,6 @@ public class Range {
 		upper = (range.upper > range.lower) ? range.upper : range.lower;
 	}
 
-	/*
-	 * @see Object#toString()
-	 */
 	@Override
 	public String toString() {
 

@@ -18,6 +18,7 @@ import org.eclipse.swtchart.extensions.examples.Activator;
 
 public class LineSeriesPreferenceInitializer extends AbstractPreferenceInitializer {
 
+	@Override
 	public void initializeDefaultPreferences() {
 
 		IPreferenceStore preferenceStore = Activator.getDefault().getPreferenceStore();

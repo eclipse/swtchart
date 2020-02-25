@@ -161,9 +161,6 @@ public class Chart extends Composite implements Listener {
 		return seriesSet;
 	}
 
-	/*
-	 * @see Control#setBackground(Color)
-	 */
 	@Override
 	public void setBackground(Color color) {
 
@@ -320,9 +317,6 @@ public class Chart extends Composite implements Listener {
 		return updateSuspended;
 	}
 
-	/*
-	 * @see Listener#handleEvent(Event)
-	 */
 	@Override
 	public void handleEvent(Event event) {
 
@@ -359,9 +353,6 @@ public class Chart extends Composite implements Listener {
 		}
 	}
 
-	/*
-	 * @see Control#update()
-	 */
 	@Override
 	public void update() {
 
@@ -371,9 +362,6 @@ public class Chart extends Composite implements Listener {
 		}
 	}
 
-	/*
-	 * @see Widget#dispose()
-	 */
 	@Override
 	public void dispose() {
 
@@ -383,9 +371,6 @@ public class Chart extends Composite implements Listener {
 		super.dispose();
 	}
 
-	/*
-	 * @see Control#redraw()
-	 */
 	@Override
 	public void redraw() {
 

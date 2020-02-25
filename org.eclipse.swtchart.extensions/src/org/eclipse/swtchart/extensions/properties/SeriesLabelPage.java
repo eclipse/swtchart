@@ -83,9 +83,6 @@ public class SeriesLabelPage extends AbstractSelectorPage {
 		fontSizes = new int[series.length];
 	}
 
-	/*
-	 * @see AbstractSelectorPage#getListItems()
-	 */
 	@Override
 	protected String[] getListItems() {
 
@@ -96,9 +93,6 @@ public class SeriesLabelPage extends AbstractSelectorPage {
 		return items;
 	}
 
-	/*
-	 * @see AbstractSelectorPage#selectInitialValues()
-	 */
 	@Override
 	protected void selectInitialValues() {
 
@@ -109,9 +103,6 @@ public class SeriesLabelPage extends AbstractSelectorPage {
 		}
 	}
 
-	/*
-	 * @see AbstractSelectorPage#updateControlSelections()
-	 */
 	@Override
 	protected void updateControlSelections() {
 
@@ -121,9 +112,6 @@ public class SeriesLabelPage extends AbstractSelectorPage {
 		fontSizeSpinner.setSelection(fontSizes[selectedIndex]);
 	}
 
-	/*
-	 * @see AbstractSelectorPage#addRightPanelContents(Composite)
-	 */
 	@Override
 	protected void addRightPanelContents(Composite parent) {
 
@@ -155,6 +143,7 @@ public class SeriesLabelPage extends AbstractSelectorPage {
 		colorButton = createColorButtonControl(group);
 		colorButton.addListener(new IPropertyChangeListener() {
 
+			@Override
 			public void propertyChange(PropertyChangeEvent event) {
 
 				colors[selectedIndex] = colorButton.getColorValue();
@@ -164,6 +153,7 @@ public class SeriesLabelPage extends AbstractSelectorPage {
 		fontSizeSpinner = createSpinnerControl(group, 8, 30);
 		fontSizeSpinner.addModifyListener(new ModifyListener() {
 
+			@Override
 			public void modifyText(ModifyEvent e) {
 
 				fontSizes[selectedIndex] = fontSizeSpinner.getSelection();
@@ -185,9 +175,6 @@ public class SeriesLabelPage extends AbstractSelectorPage {
 		fontSizeSpinner.setEnabled(enabled);
 	}
 
-	/*
-	 * @see AbstractPreferencePage#apply()
-	 */
 	@Override
 	public void apply() {
 
@@ -199,6 +186,7 @@ public class SeriesLabelPage extends AbstractSelectorPage {
 			if(resources.getColor(colorKey) == null) {
 				series[i].addDisposeListener(new IDisposeListener() {
 
+					@Override
 					public void disposed(Event e) {
 
 						resources.removeColor(colorKey);
@@ -214,6 +202,7 @@ public class SeriesLabelPage extends AbstractSelectorPage {
 			if(resources.getFont(fontKey) == null) {
 				series[i].addDisposeListener(new IDisposeListener() {
 
+					@Override
 					public void disposed(Event e) {
 
 						resources.removeFont(fontKey);
@@ -224,9 +213,6 @@ public class SeriesLabelPage extends AbstractSelectorPage {
 		}
 	}
 
-	/*
-	 * @see PreferencePage#performDefaults()
-	 */
 	@Override
 	protected void performDefaults() {
 

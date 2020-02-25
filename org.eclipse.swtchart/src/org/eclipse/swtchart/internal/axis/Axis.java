@@ -121,36 +121,24 @@ public class Axis implements IAxis {
 		reversed = false;
 	}
 
-	/*
-	 * @see IAxis#getId()
-	 */
 	@Override
 	public int getId() {
 
 		return id;
 	}
 
-	/*
-	 * @see IAxis#getDirection()
-	 */
 	@Override
 	public Direction getDirection() {
 
 		return direction;
 	}
 
-	/*
-	 * @see IAxis#getPosition()
-	 */
 	@Override
 	public Position getPosition() {
 
 		return position;
 	}
 
-	/*
-	 * @see IAxis#setPosition(Position)
-	 */
 	@Override
 	public void setPosition(Position position) {
 
@@ -164,9 +152,6 @@ public class Axis implements IAxis {
 		chart.updateLayout();
 	}
 
-	/*
-	 * @see IAxis#setRange(Range)
-	 */
 	@Override
 	public void setRange(Range range) {
 
@@ -220,36 +205,24 @@ public class Axis implements IAxis {
 		}
 	}
 
-	/*
-	 * @see IAxis#getRange()
-	 */
 	@Override
 	public Range getRange() {
 
 		return new Range(min, max);
 	}
 
-	/*
-	 * @see IAxis#getTitle()
-	 */
 	@Override
 	public ITitle getTitle() {
 
 		return title;
 	}
 
-	/*
-	 * @see IAxis#getTick()
-	 */
 	@Override
 	public AxisTick getTick() {
 
 		return tick;
 	}
 
-	/*
-	 * @see IAxis#enableLogScale(boolean)
-	 */
 	@Override
 	public void enableLogScale(boolean enabled) throws IllegalStateException {
 
@@ -307,27 +280,18 @@ public class Axis implements IAxis {
 		return minimum;
 	}
 
-	/*
-	 * @see IAxis#isLogScaleEnabled()
-	 */
 	@Override
 	public boolean isLogScaleEnabled() {
 
 		return logScaleEnabled;
 	}
 
-	/*
-	 * @see IAxis#getGrid()
-	 */
 	@Override
 	public IGrid getGrid() {
 
 		return grid;
 	}
 
-	/*
-	 * @see IAxis#adjustRange()
-	 */
 	@Override
 	public void adjustRange() {
 
@@ -380,18 +344,12 @@ public class Axis implements IAxis {
 		}
 	}
 
-	/*
-	 * @see IAxis#zoomIn()
-	 */
 	@Override
 	public void zoomIn() {
 
 		zoomIn((max + min) / 2d);
 	}
 
-	/*
-	 * @see IAxis#zoomIn(double)
-	 */
 	@Override
 	public void zoomIn(double coordinate) {
 
@@ -421,18 +379,12 @@ public class Axis implements IAxis {
 		setRange(new Range(lower, upper));
 	}
 
-	/*
-	 * @see IAxis#zoomOut()
-	 */
 	@Override
 	public void zoomOut() {
 
 		zoomOut((min + max) / 2d);
 	}
 
-	/*
-	 * @see IAxis#zoomOut(double)
-	 */
 	@Override
 	public void zoomOut(double coordinate) {
 
@@ -460,9 +412,6 @@ public class Axis implements IAxis {
 		setRange(new Range(lower, upper));
 	}
 
-	/*
-	 * @see IAxis#scrollUp()
-	 */
 	@Override
 	public void scrollUp() {
 
@@ -485,9 +434,6 @@ public class Axis implements IAxis {
 		setRange(new Range(lower, upper));
 	}
 
-	/*
-	 * @see IAxis#scrollDown()
-	 */
 	@Override
 	public void scrollDown() {
 
@@ -510,9 +456,6 @@ public class Axis implements IAxis {
 		setRange(new Range(lower, upper));
 	}
 
-	/*
-	 * @see IAxis#isCategoryEnabled()
-	 */
 	@Override
 	public boolean isCategoryEnabled() {
 
@@ -529,9 +472,6 @@ public class Axis implements IAxis {
 		return categoryAxisEnabled && categorySeries != null && categorySeries.length != 0;
 	}
 
-	/*
-	 * @see IAxis#enableCategory(boolean)
-	 */
 	@Override
 	public void enableCategory(boolean enabled) {
 
@@ -554,9 +494,6 @@ public class Axis implements IAxis {
 		((SeriesSet)chart.getSeriesSet()).updateStackAndRiserData();
 	}
 
-	/*
-	 * @see IAxis#setCategorySeries(String[])
-	 */
 	@Override
 	public void setCategorySeries(String[] series) {
 
@@ -579,9 +516,6 @@ public class Axis implements IAxis {
 		((SeriesSet)chart.getSeriesSet()).updateStackAndRiserData();
 	}
 
-	/*
-	 * @see IAxis#getCategorySeries()
-	 */
 	@Override
 	public String[] getCategorySeries() {
 
@@ -593,9 +527,6 @@ public class Axis implements IAxis {
 		return copiedCategorySeries;
 	}
 
-	/*
-	 * @see IAxis#setReversed(boolean)
-	 */
 	@Override
 	public void setReversed(boolean reversed) {
 
@@ -606,18 +537,12 @@ public class Axis implements IAxis {
 		chart.updateLayout();
 	}
 
-	/*
-	 * @see IAxis#isReversed()
-	 */
 	@Override
 	public boolean isReversed() {
 
 		return reversed;
 	}
 
-	/*
-	 * @see IAxis#getPixelCoordinate(double)
-	 */
 	@Override
 	public int getPixelCoordinate(double dataCoordinate) {
 
@@ -678,9 +603,6 @@ public class Axis implements IAxis {
 		return pixelCoordinate;
 	}
 
-	/*
-	 * @see IAxis#getDataCoordinate(int)
-	 */
 	@Override
 	public double getDataCoordinate(int pixelCoordinate) {
 
@@ -788,9 +710,6 @@ public class Axis implements IAxis {
 		}
 	}
 
-	/*
-	 * @see IAxis#addDisposeListener(IDisposeListener)
-	 */
 	@Override
 	public void addDisposeListener(IDisposeListener listener) {
 

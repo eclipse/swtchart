@@ -789,9 +789,6 @@ public class AxisTickLabels implements PaintListener {
 		}
 	}
 
-	/*
-	 * @see PaintListener#paintControl(PaintEvent)
-	 */
 	@Override
 	public void paintControl(PaintEvent e) {
 

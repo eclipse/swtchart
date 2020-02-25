@@ -89,9 +89,6 @@ public class Legend extends Composite implements ILegend, PaintListener {
 		addPaintListener(this);
 	}
 
-	/*
-	 * @see Control#setVisible(boolean)
-	 */
 	@Override
 	public void setVisible(boolean visible) {
 
@@ -102,18 +99,12 @@ public class Legend extends Composite implements ILegend, PaintListener {
 		chart.updateLayout();
 	}
 
-	/*
-	 * @see Control#isVisible()
-	 */
 	@Override
 	public boolean isVisible() {
 
 		return visible;
 	}
 
-	/*
-	 * @see Canvas#setFont(Font)
-	 */
 	@Override
 	public void setFont(Font font) {
 
@@ -125,9 +116,6 @@ public class Legend extends Composite implements ILegend, PaintListener {
 		chart.updateLayout();
 	}
 
-	/*
-	 * @see Control#setForeground(Color)
-	 */
 	@Override
 	public void setForeground(Color color) {
 
@@ -138,9 +126,6 @@ public class Legend extends Composite implements ILegend, PaintListener {
 		}
 	}
 
-	/*
-	 * @see Control#setBackground(Color)
-	 */
 	@Override
 	public void setBackground(Color color) {
 
@@ -151,17 +136,13 @@ public class Legend extends Composite implements ILegend, PaintListener {
 		}
 	}
 
-	/*
-	 * @see ILegend#getPosition()
-	 */
+	@Override
 	public int getPosition() {
 
 		return position;
 	}
 
-	/*
-	 * @see ILegend#setPosition(int)
-	 */
+	@Override
 	public void setPosition(int value) {
 
 		if(value == SWT.LEFT || value == SWT.RIGHT || value == SWT.TOP || value == SWT.BOTTOM) {
@@ -172,9 +153,7 @@ public class Legend extends Composite implements ILegend, PaintListener {
 		chart.updateLayout();
 	}
 
-	/*
-	 * @see ILegend#getBounds(String)
-	 */
+	@Override
 	public Rectangle getBounds(String seriesId) {
 
 		if(seriesId == null) {
@@ -183,9 +162,6 @@ public class Legend extends Composite implements ILegend, PaintListener {
 		return cellBounds.get(seriesId.trim());
 	}
 
-	/*
-	 * @see Widget#dispose()
-	 */
 	@Override
 	public void dispose() {
 
@@ -392,9 +368,7 @@ public class Legend extends Composite implements ILegend, PaintListener {
 		}
 	}
 
-	/*
-	 * @see PaintListener#paintControl(PaintEvent)
-	 */
+	@Override
 	public void paintControl(PaintEvent e) {
 
 		if(!visible) {

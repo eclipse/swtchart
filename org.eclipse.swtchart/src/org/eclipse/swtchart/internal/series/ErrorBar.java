@@ -61,17 +61,13 @@ public class ErrorBar implements IErrorBar {
 		minusErrors = new double[0];
 	}
 
-	/*
-	 * @see IErrorBar#getType()
-	 */
+	@Override
 	public ErrorBarType getType() {
 
 		return type;
 	}
 
-	/*
-	 * @see IErrorBar#setType(ErrorBarType)
-	 */
+	@Override
 	public void setType(ErrorBarType type) {
 
 		if(type == null) {
@@ -81,9 +77,7 @@ public class ErrorBar implements IErrorBar {
 		}
 	}
 
-	/*
-	 * @see IErrorBar#getColor()
-	 */
+	@Override
 	public Color getColor() {
 
 		if(color.isDisposed()) {
@@ -92,9 +86,7 @@ public class ErrorBar implements IErrorBar {
 		return color;
 	}
 
-	/*
-	 * @see IErrorBar#setColor(Color)
-	 */
+	@Override
 	public void setColor(Color color) {
 
 		if(color != null && color.isDisposed()) {
@@ -107,17 +99,13 @@ public class ErrorBar implements IErrorBar {
 		}
 	}
 
-	/*
-	 * @see IErrorBar#getLineWidth()
-	 */
+	@Override
 	public int getLineWidth() {
 
 		return lineWidth;
 	}
 
-	/*
-	 * @see IErrorBar#setLineWidth(int)
-	 */
+	@Override
 	public void setLineWidth(int width) {
 
 		if(width <= 0) {
@@ -127,17 +115,13 @@ public class ErrorBar implements IErrorBar {
 		}
 	}
 
-	/*
-	 * @see IErrorBar#getError()
-	 */
+	@Override
 	public double getError() {
 
 		return error;
 	}
 
-	/*
-	 * @see IErrorBar#setError(double)
-	 */
+	@Override
 	public void setError(double error) {
 
 		if(error < 0) {
@@ -146,9 +130,7 @@ public class ErrorBar implements IErrorBar {
 		this.error = error;
 	}
 
-	/*
-	 * @see IErrorBar#getPlusErrors()
-	 */
+	@Override
 	public double[] getPlusErrors() {
 
 		double[] copiedSeries = new double[plusErrors.length];
@@ -156,9 +138,7 @@ public class ErrorBar implements IErrorBar {
 		return copiedSeries;
 	}
 
-	/*
-	 * @see IErrorBar#setPlusErrors(double[])
-	 */
+	@Override
 	public void setPlusErrors(double[] errors) {
 
 		if(errors == null) {
@@ -169,9 +149,7 @@ public class ErrorBar implements IErrorBar {
 		System.arraycopy(errors, 0, plusErrors, 0, errors.length);
 	}
 
-	/*
-	 * @see IErrorBar#getMinusErrors()
-	 */
+	@Override
 	public double[] getMinusErrors() {
 
 		double[] copiedSeries = new double[minusErrors.length];
@@ -179,9 +157,7 @@ public class ErrorBar implements IErrorBar {
 		return copiedSeries;
 	}
 
-	/*
-	 * @see IErrorBar#setMinusErrors(double[])
-	 */
+	@Override
 	public void setMinusErrors(double[] errors) {
 
 		if(errors == null) {
@@ -192,17 +168,13 @@ public class ErrorBar implements IErrorBar {
 		System.arraycopy(errors, 0, minusErrors, 0, errors.length);
 	}
 
-	/*
-	 * @see IErrorBar#isVisible()
-	 */
+	@Override
 	public boolean isVisible() {
 
 		return isVisible;
 	}
 
-	/*
-	 * @see IErrorBar#setVisible(boolean)
-	 */
+	@Override
 	public void setVisible(boolean visible) {
 
 		this.isVisible = visible;

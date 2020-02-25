@@ -139,11 +139,6 @@ public class SeriesPage extends AbstractSelectorPage {
 		paddings = new int[series.length];
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * @see
-	 * org.eclipse.swtchart.ext.internal.properties.AbstractSelectorPage#getListItems()
-	 */
 	@Override
 	protected String[] getListItems() {
 
@@ -154,9 +149,6 @@ public class SeriesPage extends AbstractSelectorPage {
 		return items;
 	}
 
-	/*
-	 * @see AbstractSelectorPage#selectInitialValuess()
-	 */
 	@Override
 	protected void selectInitialValues() {
 
@@ -179,9 +171,6 @@ public class SeriesPage extends AbstractSelectorPage {
 		updateStackPanel();
 	}
 
-	/*
-	 * @see AbstractSelectorPage#updateControlSelections()
-	 */
 	@Override
 	protected void updateControlSelections() {
 
@@ -221,9 +210,6 @@ public class SeriesPage extends AbstractSelectorPage {
 		stackPanel.layout();
 	}
 
-	/*
-	 * @see AbstractSelectorPage#addRightPanelContents(Composite)
-	 */
 	@Override
 	protected void addRightPanelContents(Composite parent) {
 
@@ -316,6 +302,7 @@ public class SeriesPage extends AbstractSelectorPage {
 		lineColorButton = createColorButtonControl(lineSeriesGroup);
 		lineColorButton.addListener(new IPropertyChangeListener() {
 
+			@Override
 			public void propertyChange(PropertyChangeEvent event) {
 
 				lineColors[selectedIndex] = lineColorButton.getColorValue();
@@ -347,6 +334,7 @@ public class SeriesPage extends AbstractSelectorPage {
 		symbolColorButton = createColorButtonControl(lineSeriesGroup);
 		symbolColorButton.addListener(new IPropertyChangeListener() {
 
+			@Override
 			public void propertyChange(PropertyChangeEvent event) {
 
 				symbolColors[selectedIndex] = symbolColorButton.getColorValue();
@@ -378,6 +366,7 @@ public class SeriesPage extends AbstractSelectorPage {
 		symbolSizeSpinner = createSpinnerControl(lineSeriesGroup, 1, 10);
 		symbolSizeSpinner.addModifyListener(new ModifyListener() {
 
+			@Override
 			public void modifyText(ModifyEvent e) {
 
 				symbolSizes[selectedIndex] = symbolSizeSpinner.getSelection();
@@ -401,6 +390,7 @@ public class SeriesPage extends AbstractSelectorPage {
 		barColorButton = createColorButtonControl(group);
 		barColorButton.addListener(new IPropertyChangeListener() {
 
+			@Override
 			public void propertyChange(PropertyChangeEvent event) {
 
 				barColors[selectedIndex] = barColorButton.getColorValue();
@@ -410,6 +400,7 @@ public class SeriesPage extends AbstractSelectorPage {
 		paddingSizeSpinner = createSpinnerControl(group, 0, 100);
 		paddingSizeSpinner.addModifyListener(new ModifyListener() {
 
+			@Override
 			public void modifyText(ModifyEvent e) {
 
 				paddings[selectedIndex] = paddingSizeSpinner.getSelection();
@@ -438,9 +429,6 @@ public class SeriesPage extends AbstractSelectorPage {
 		paddingSizeSpinner.setEnabled(enabled);
 	}
 
-	/*
-	 * @see AbstractPreferencePage#apply()
-	 */
 	@Override
 	public void apply() {
 
@@ -453,6 +441,7 @@ public class SeriesPage extends AbstractSelectorPage {
 				if(resources.getColor(lineColorKey) == null) {
 					series[i].addDisposeListener(new IDisposeListener() {
 
+						@Override
 						public void disposed(Event e) {
 
 							resources.removeColor(lineColorKey);
@@ -466,6 +455,7 @@ public class SeriesPage extends AbstractSelectorPage {
 				if(resources.getColor(symbolColorKey) == null) {
 					series[i].addDisposeListener(new IDisposeListener() {
 
+						@Override
 						public void disposed(Event e) {
 
 							resources.removeColor(symbolColorKey);
@@ -483,6 +473,7 @@ public class SeriesPage extends AbstractSelectorPage {
 				if(resources.getColor(barColorKey) == null) {
 					series[i].addDisposeListener(new IDisposeListener() {
 
+						@Override
 						public void disposed(Event e) {
 
 							resources.removeColor(barColorKey);
@@ -503,9 +494,6 @@ public class SeriesPage extends AbstractSelectorPage {
 		}
 	}
 
-	/*
-	 * @see PreferencePage#performDefaults()
-	 */
 	@Override
 	protected void performDefaults() {
 

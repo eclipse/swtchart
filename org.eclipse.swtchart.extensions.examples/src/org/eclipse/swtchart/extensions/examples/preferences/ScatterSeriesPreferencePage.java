@@ -31,6 +31,7 @@ public class ScatterSeriesPreferencePage extends FieldEditorPreferencePage imple
 		setDescription("Scatter Series chart settings.");
 	}
 
+	@Override
 	public void createFieldEditors() {
 
 		addField(new SpacerFieldEditor(getFieldEditorParent()));
@@ -79,6 +80,7 @@ public class ScatterSeriesPreferencePage extends FieldEditorPreferencePage imple
 		addField(new BooleanFieldEditor(ScatterSeriesPreferenceConstants.P_CREATE_MENU, "Create Menu", getFieldEditorParent()));
 	}
 
+	@Override
 	public void init(IWorkbench workbench) {
 
 	}

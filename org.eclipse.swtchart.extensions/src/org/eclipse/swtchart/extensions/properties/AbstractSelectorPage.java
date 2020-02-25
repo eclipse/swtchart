@@ -56,9 +56,6 @@ abstract public class AbstractSelectorPage extends AbstractPage {
 		selectorEnabled = true;
 	}
 
-	/*
-	 * @see PreferencePage#createContents(Composite)
-	 */
 	@Override
 	protected Control createContents(Composite parent) {
 

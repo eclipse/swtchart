@@ -31,6 +31,7 @@ public class BarSeriesDataPreferencePage extends FieldEditorPreferencePage imple
 		setDescription("Set the data series settings.");
 	}
 
+	@Override
 	public void createFieldEditors() {
 
 		addField(new SpacerFieldEditor(getFieldEditorParent()));
@@ -57,6 +58,7 @@ public class BarSeriesDataPreferencePage extends FieldEditorPreferencePage imple
 		addField(new ComboFieldEditor(BarSeriesPreferenceConstants.P_BAR_WIDTH_STYLE_SERIES_1_HIGHLIGHT, "Bar Width Style:", PreferenceSupport.BAR_WIDTH_STYLES, getFieldEditorParent()));
 	}
 
+	@Override
 	public void init(IWorkbench workbench) {
 
 	}

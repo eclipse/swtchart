@@ -63,9 +63,6 @@ public class SeriesSet implements ISeriesSet {
 		});
 	}
 
-	/*
-	 * @see ISeriesSet#createSeries(ISeries.SeriesType, String)
-	 */
 	@Override
 	public ISeries createSeries(SeriesType type, String id) {
 
@@ -104,9 +101,6 @@ public class SeriesSet implements ISeriesSet {
 		return series;
 	}
 
-	/*
-	 * @see ISeriesSet#getSeries(String)
-	 */
 	@Override
 	public ISeries getSeries(String id) {
 
@@ -117,9 +111,6 @@ public class SeriesSet implements ISeriesSet {
 		return seriesMap.get(trimmedId);
 	}
 
-	/*
-	 * @see ISeriesSet#getSeries()
-	 */
 	@Override
 	public ISeries[] getSeries() {
 
@@ -132,9 +123,6 @@ public class SeriesSet implements ISeriesSet {
 		return series;
 	}
 
-	/*
-	 * @see ISeriesSet#deleteSeries(String)
-	 */
 	@Override
 	public void deleteSeries(String id) {
 
@@ -146,9 +134,6 @@ public class SeriesSet implements ISeriesSet {
 		chart.updateLayout();
 	}
 
-	/*
-	 * @see ISeriesSet#bringForward(String)
-	 */
 	@Override
 	public void bringForward(String id) {
 
@@ -174,9 +159,6 @@ public class SeriesSet implements ISeriesSet {
 		chart.updateLayout();
 	}
 
-	/*
-	 * @see ISeriesSet#bringToFront(String)
-	 */
 	@Override
 	public void bringToFront(String id) {
 
@@ -188,9 +170,6 @@ public class SeriesSet implements ISeriesSet {
 		chart.updateLayout();
 	}
 
-	/*
-	 * @see ISeriesSet#sendBackward(String)
-	 */
 	@Override
 	public void sendBackward(String id) {
 
@@ -212,9 +191,6 @@ public class SeriesSet implements ISeriesSet {
 		chart.updateLayout();
 	}
 
-	/*
-	 * @see ISeriesSet#sendToBack(String)
-	 */
 	@Override
 	public void sendToBack(String id) {
 

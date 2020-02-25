@@ -80,9 +80,7 @@ public class Title implements ITitle, PaintListener {
 		parent.addPaintListener(this);
 	}
 
-	/*
-	 * @see ITitle#setText(String)
-	 */
+	@Override
 	public void setText(String text) {
 
 		String title;
@@ -106,9 +104,7 @@ public class Title implements ITitle, PaintListener {
 		return DEFAULT_TEXT;
 	}
 
-	/*
-	 * @see ITitle#getText()
-	 */
+	@Override
 	public String getText() {
 
 		return text;
@@ -120,6 +116,7 @@ public class Title implements ITitle, PaintListener {
 	 * @param font
 	 *            the font
 	 */
+	@Override
 	public void setFont(Font font) {
 
 		if(font == null) {
@@ -137,6 +134,7 @@ public class Title implements ITitle, PaintListener {
 	 * 
 	 * @return the font
 	 */
+	@Override
 	public Font getFont() {
 
 		if(font.isDisposed()) {
@@ -151,6 +149,7 @@ public class Title implements ITitle, PaintListener {
 	 * @param color
 	 *            the foreground color
 	 */
+	@Override
 	public void setForeground(Color color) {
 
 		if(color == null) {
@@ -167,14 +166,13 @@ public class Title implements ITitle, PaintListener {
 	 * 
 	 * @return the foreground color
 	 */
+	@Override
 	public Color getForeground() {
 
 		return foreground;
 	}
 
-	/*
-	 * @see ITitle#setStyleRanges(StyleRange[])
-	 */
+	@Override
 	public void setStyleRanges(StyleRange[] ranges) {
 
 		styleRanges = ranges;
@@ -188,17 +186,13 @@ public class Title implements ITitle, PaintListener {
 		chart.updateLayout();
 	}
 
-	/*
-	 * @see ITitle#getStyleRanges()
-	 */
+	@Override
 	public StyleRange[] getStyleRanges() {
 
 		return styleRanges;
 	}
 
-	/*
-	 * @see ITitle#setVisible(boolean)
-	 */
+	@Override
 	public void setVisible(boolean isVisible) {
 
 		if(this.isVisible == isVisible) {
@@ -208,9 +202,7 @@ public class Title implements ITitle, PaintListener {
 		chart.updateLayout();
 	}
 
-	/*
-	 * @see ITitle#isVisible()
-	 */
+	@Override
 	public boolean isVisible() {
 
 		return isVisible;
@@ -289,9 +281,7 @@ public class Title implements ITitle, PaintListener {
 		chart.removePaintListener(this);
 	}
 
-	/*
-	 * @see PaintListener#paintControl(PaintEvent)
-	 */
+	@Override
 	public void paintControl(PaintEvent e) {
 
 		if(text == null || text.equals("") || !isVisible) { //$NON-NLS-1$

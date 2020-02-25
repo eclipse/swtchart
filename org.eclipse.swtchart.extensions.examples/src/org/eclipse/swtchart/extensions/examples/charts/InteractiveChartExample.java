@@ -37,9 +37,6 @@ public class InteractiveChartExample extends ViewPart {
 	/** the chart */
 	private Chart chart;
 
-	/*
-	 * @see WorkbenchPart#createPartControl(Composite)
-	 */
 	@Override
 	public void createPartControl(Composite parent) {
 
@@ -69,18 +66,12 @@ public class InteractiveChartExample extends ViewPart {
 		chart.getAxisSet().adjustRange();
 	}
 
-	/*
-	 * @see WorkbenchPart#setFocus()
-	 */
 	@Override
 	public void setFocus() {
 
 		chart.setFocus();
 	}
 
-	/*
-	 * @see WorkbenchPart#dispose()
-	 */
 	@Override
 	public void dispose() {
 

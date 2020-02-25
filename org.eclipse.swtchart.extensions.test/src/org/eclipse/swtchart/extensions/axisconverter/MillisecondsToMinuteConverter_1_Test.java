@@ -12,8 +12,6 @@
  *******************************************************************************/
 package org.eclipse.swtchart.extensions.axisconverter;
 
-import org.eclipse.swtchart.extensions.axisconverter.MillisecondsToMinuteConverter;
-
 import junit.framework.TestCase;
 
 public class MillisecondsToMinuteConverter_1_Test extends TestCase {

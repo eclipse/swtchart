@@ -12,8 +12,6 @@
  *******************************************************************************/
 package org.eclipse.swtchart.extensions.axisconverter;
 
-import org.eclipse.swtchart.extensions.axisconverter.MillisecondsToScanNumberConverter;
-
 import junit.framework.TestCase;
 
 public class MillisecondsToScanNumberConverter_1_Test extends TestCase {
