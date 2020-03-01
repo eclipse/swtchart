@@ -17,6 +17,7 @@ package org.eclipse.swtchart.internal.axis;
 import java.math.BigDecimal;
 import java.text.DecimalFormat;
 import java.text.Format;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -411,11 +412,11 @@ public class AxisTickLabels implements PaintListener {
 				// check if the same tick label is repeated
 				String currentLabel = tickLabels.get(i);
 				try {
-					double value = Double.parseDouble(currentLabel);
+					double value = parse(currentLabel);
 					if(value != tickLabelValues.get(i)) {
 						isMajorTick = false;
 					}
-				} catch(NumberFormatException e) {
+				} catch(ParseException e) {
 					// label is not decimal value but string
 				}
 			}
@@ -477,6 +478,17 @@ public class AxisTickLabels implements PaintListener {
 			return new DecimalFormat(DEFAULT_DECIMAL_FORMAT).format(obj);
 		}
 		return format.format(obj);
+	}
+
+	private double parse(String label) throws ParseException {
+
+		if (format == null) {
+			return new DecimalFormat(DEFAULT_DECIMAL_FORMAT).parse(label).doubleValue();
+		}
+		Object parsed = format.parseObject(label);
+		if(!(parsed instanceof Number))
+			throw new ParseException(label, 0);
+		return ((Number)parsed).doubleValue();
 	}
 
 	/**
