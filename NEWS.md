@@ -7,7 +7,8 @@
   * Keyboard and mouse events have been refactored to make them easier to use
   * Jar-signing added
   * Scrollbar thumb calculation has been fixed
-  * Separate bundle for export options has been added
+  * Basic SVG export via Apache Batik has been added
+  * A separate bundle for export options has been added
   * Improved series handling, introduced a flexible data model
   * SWT ressource leaks fixed
 
