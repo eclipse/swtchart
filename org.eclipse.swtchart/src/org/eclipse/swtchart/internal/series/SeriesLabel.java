@@ -9,6 +9,7 @@
  * 
  * Contributors:
  * yoshitaka - initial API and implementation
+ * Frank Buloup = Internationalization
  *******************************************************************************/
 package org.eclipse.swtchart.internal.series;
 
@@ -43,7 +44,7 @@ public class SeriesLabel implements ISeriesLabel {
 	/** the default font */
 	private static final Font DEFAULT_FONT = Display.getDefault().getSystemFont();
 	/** the default label format */
-	private static final String DEFAULT_FORMAT = "#.###########";
+	private static final String DEFAULT_FORMAT = "#.###########"; //$NON-NLS-1$
 
 	/**
 	 * Constructor.
@@ -56,17 +57,13 @@ public class SeriesLabel implements ISeriesLabel {
 		formats = new String[0];
 	}
 
-	/*
-	 * @see ISeriesLabel#getFormat()
-	 */
+	@Override
 	public String getFormat() {
 
 		return format;
 	}
 
-	/*
-	 * @see ISeriesLabel#setFormat(String)
-	 */
+	@Override
 	public void setFormat(String format) {
 
 		if(format == null) {
@@ -76,9 +73,7 @@ public class SeriesLabel implements ISeriesLabel {
 		}
 	}
 
-	/*
-	 * @see ISeriesLabel#getFormats()
-	 */
+	@Override
 	public String[] getFormats() {
 
 		String[] copiedFormats = new String[formats.length];
@@ -86,9 +81,7 @@ public class SeriesLabel implements ISeriesLabel {
 		return copiedFormats;
 	}
 
-	/*
-	 * @see ISeriesLabel#setFormats(String[])
-	 */
+	@Override
 	public void setFormats(String[] formats) {
 
 		if(formats == null) {
@@ -99,17 +92,13 @@ public class SeriesLabel implements ISeriesLabel {
 		System.arraycopy(formats, 0, this.formats, 0, formats.length);
 	}
 
-	/*
-	 * @see ISeriesLabel#getForeground()
-	 */
+	@Override
 	public Color getForeground() {
 
 		return color;
 	}
 
-	/*
-	 * @see ISeriesLabel#setForeground(Color)
-	 */
+	@Override
 	public void setForeground(Color color) {
 
 		if(color != null && color.isDisposed()) {
@@ -122,9 +111,7 @@ public class SeriesLabel implements ISeriesLabel {
 		}
 	}
 
-	/*
-	 * @see ISeriesLabel#getFont()
-	 */
+	@Override
 	public Font getFont() {
 
 		if(font.isDisposed()) {
@@ -133,9 +120,7 @@ public class SeriesLabel implements ISeriesLabel {
 		return font;
 	}
 
-	/*
-	 * @see ISeriesLabel#setFont(Font)
-	 */
+	@Override
 	public void setFont(Font font) {
 
 		if(font != null && font.isDisposed()) {
@@ -148,17 +133,13 @@ public class SeriesLabel implements ISeriesLabel {
 		}
 	}
 
-	/*
-	 * @see ISeriesLabel#isVisible()
-	 */
+	@Override
 	public boolean isVisible() {
 
 		return isVisible;
 	}
 
-	/*
-	 * @see ISeriesLabel#setVisible(boolean)
-	 */
+	@Override
 	public void setVisible(boolean visible) {
 
 		this.isVisible = visible;
@@ -193,7 +174,7 @@ public class SeriesLabel implements ISeriesLabel {
 		if(formats.length > seriesIndex) {
 			format1 = formats[seriesIndex];
 		}
-		if(format1 == null || format1.equals("")) {
+		if(format1 == null || format1.equals("")) { //$NON-NLS-1$
 			return;
 		}
 		// get text
@@ -201,7 +182,7 @@ public class SeriesLabel implements ISeriesLabel {
 		if(isDecimalFormat(format1)) {
 			text = new DecimalFormat(format1).format(ySeriesValue);
 		} else {
-			text = format1.replaceAll("'", "");
+			text = format1.replaceAll("'", ""); //$NON-NLS-1$ //$NON-NLS-2$
 		}
 		// draw label
 		if(alignment == SWT.CENTER) {
@@ -223,13 +204,13 @@ public class SeriesLabel implements ISeriesLabel {
 	private static boolean isDecimalFormat(String text) {
 
 		StringBuilder nonEscapedPart = new StringBuilder();
-		String[] elements = text.split("'");
+		String[] elements = text.split("'"); //$NON-NLS-1$
 		if(elements != null) {
 			for(int i = 0; i < elements.length; i += 2) {
 				nonEscapedPart.append(elements[i]);
 			}
 		}
-		if(nonEscapedPart.indexOf("#") == -1 && nonEscapedPart.indexOf("0") == -1) {
+		if(nonEscapedPart.indexOf("#") == -1 && nonEscapedPart.indexOf("0") == -1) { //$NON-NLS-1$ //$NON-NLS-2$
 			return false;
 		}
 		return true;

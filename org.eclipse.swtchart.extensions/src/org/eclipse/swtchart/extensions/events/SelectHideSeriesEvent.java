@@ -9,12 +9,14 @@
  * 
  * Contributors:
  * Dr. Philip Wenig - initial API and implementation
+ * Frank Buloup - Internationalization
  *******************************************************************************/
 package org.eclipse.swtchart.extensions.events;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swtchart.extensions.core.BaseChart;
+import org.eclipse.swtchart.extensions.core.IMouseSupport;
 
 public class SelectHideSeriesEvent extends AbstractHandledEventProcessor implements IHandledEventProcessor {
 
@@ -23,13 +25,13 @@ public class SelectHideSeriesEvent extends AbstractHandledEventProcessor impleme
 	@Override
 	public int getEvent() {
 
-		return BaseChart.EVENT_MOUSE_DOUBLE_CLICK;
+		return IMouseSupport.EVENT_MOUSE_DOUBLE_CLICK;
 	}
 
 	@Override
 	public int getButton() {
 
-		return BaseChart.BUTTON_LEFT;
+		return IMouseSupport.MOUSE_BUTTON_LEFT;
 	}
 
 	@Override
@@ -46,7 +48,7 @@ public class SelectHideSeriesEvent extends AbstractHandledEventProcessor impleme
 			 * Hide
 			 */
 			String selectedSeriesId = baseChart.getSelectedseriesId(event);
-			if(selectedSeriesId.equals("")) {
+			if(selectedSeriesId.equals("")) { //$NON-NLS-1$
 				baseChart.resetSeriesSettings();
 			} else {
 				baseChart.hideSeries(selectedSeriesId);
@@ -57,7 +59,7 @@ public class SelectHideSeriesEvent extends AbstractHandledEventProcessor impleme
 			 * Select
 			 */
 			String selectedSeriesId = baseChart.getSelectedseriesId(event);
-			if(selectedSeriesId.equals("")) {
+			if(selectedSeriesId.equals("")) { //$NON-NLS-1$
 				baseChart.resetSeriesSettings();
 			} else {
 				baseChart.selectSeries(selectedSeriesId);

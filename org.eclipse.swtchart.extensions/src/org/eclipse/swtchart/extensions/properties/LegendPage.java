@@ -9,6 +9,7 @@
  * 
  * Contributors:
  * yoshitaka - initial API and implementation
+ * Frank Buloup - Internationalization
  *******************************************************************************/
 package org.eclipse.swtchart.extensions.properties;
 
@@ -38,11 +39,11 @@ import org.eclipse.swtchart.extensions.charts.InteractiveChart;
 public class LegendPage extends AbstractPage {
 
 	/** the key for legend font */
-	private static final String LEGEND_FONT = "org.eclipse.swtchart.legend.font";
+	private static final String LEGEND_FONT = "org.eclipse.swtchart.legend.font"; //$NON-NLS-1$
 	/** the key for legend foreground */
-	private static final String LEGEND_FOREGROUND = "org.eclipse.swtchart.legend.foreground";
+	private static final String LEGEND_FOREGROUND = "org.eclipse.swtchart.legend.foreground"; //$NON-NLS-1$
 	/** the key for legend background */
-	private static final String LEGEND_GACKGROUND = "org.eclipse.swtchart.legend.background";
+	private static final String LEGEND_GACKGROUND = "org.eclipse.swtchart.legend.background"; //$NON-NLS-1$
 	/** the show legend button */
 	protected Button showLegendButton;
 	/** the background label */
@@ -75,9 +76,6 @@ public class LegendPage extends AbstractPage {
 		legend = chart.getLegend();
 	}
 
-	/*
-	 * @see PreferencePage#createContents(Composite)
-	 */
 	@Override
 	protected Control createContents(Composite parent) {
 
@@ -104,7 +102,7 @@ public class LegendPage extends AbstractPage {
 		gridData.horizontalSpan = 2;
 		group.setLayoutData(gridData);
 		group.setLayout(new GridLayout(2, false));
-		showLegendButton = createCheckBoxControl(group, "Show legend");
+		showLegendButton = createCheckBoxControl(group, Messages.getString(Messages.SHOW_LEGEND));
 		showLegendButton.addSelectionListener(new SelectionAdapter() {
 
 			@Override
@@ -114,11 +112,11 @@ public class LegendPage extends AbstractPage {
 				setControlsEnable(visible);
 			}
 		});
-		backgroundLabel = createLabelControl(group, "Background:");
+		backgroundLabel = createLabelControl(group, Messages.getString(Messages.BACKGROUND));
 		backgroundButton = createColorButtonControl(group);
-		foregroundLabel = createLabelControl(group, "Foreground:");
+		foregroundLabel = createLabelControl(group, Messages.getString(Messages.FOREGROUND));
 		foregroundButton = createColorButtonControl(group);
-		fontSizeLabel = createLabelControl(group, "Font size:");
+		fontSizeLabel = createLabelControl(group, Messages.getString(Messages.FONT_SIZE));
 		fontSizeSpinner = createSpinnerControl(group, 8, 30);
 	}
 
@@ -150,9 +148,6 @@ public class LegendPage extends AbstractPage {
 		fontSizeSpinner.setEnabled(enabled);
 	}
 
-	/*
-	 * @see AbstractPreferencePage#apply()
-	 */
 	@Override
 	public void apply() {
 
@@ -169,9 +164,6 @@ public class LegendPage extends AbstractPage {
 		resources.put(LEGEND_FONT, font);
 	}
 
-	/*
-	 * @see PreferencePage#performDefaults()
-	 */
 	@Override
 	protected void performDefaults() {
 

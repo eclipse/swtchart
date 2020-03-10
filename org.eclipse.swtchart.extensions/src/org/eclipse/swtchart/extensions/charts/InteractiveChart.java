@@ -10,6 +10,7 @@
  * Contributors:
  * yoshitaka - initial API and implementation
  * Christoph Läubrich - add save fallbacks in case the plot area is not a Control
+ * Frank Buloup - internationalization
  *******************************************************************************/
 package org.eclipse.swtchart.extensions.charts;
 
@@ -53,16 +54,18 @@ import org.eclipse.swtchart.extensions.properties.SeriesPage;
 public class InteractiveChart extends Chart implements PaintListener {
 
 	/** the filter extensions */
-	private static final String[] EXTENSIONS = new String[]{"*.jpeg", "*.jpg", "*.png"};
+	private static final String[] EXTENSIONS = new String[]{"*.png", "*.jpeg", "*.jpg"}; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 	/** the selection rectangle for zoom in/out */
 	protected SelectionRectangle selection;
 	/** the clicked time in milliseconds */
 	private long clickedTime;
 	/** the resources created with properties dialog */
 	private PropertiesResources resources;
+	/** the initial proposed filename in save as dialog */
+	private String saveAsFilename;
 
 	/**
-	 * Constructor.
+	 * Constru.ctor.
 	 * 
 	 * @param parent
 	 *            the parent composite
@@ -106,80 +109,74 @@ public class InteractiveChart extends Chart implements PaintListener {
 		plot.setMenu(menu);
 		// adjust axis range menu group
 		MenuItem menuItem = new MenuItem(menu, SWT.CASCADE);
-		menuItem.setText(Messages.ADJUST_AXIS_RANGE_GROUP);
+		menuItem.setText(ChartMenuMessages.ADJUST_AXIS_RANGE_GROUP);
 		Menu adjustAxisRangeMenu = new Menu(menuItem);
 		menuItem.setMenu(adjustAxisRangeMenu);
 		// adjust axis range
 		menuItem = new MenuItem(adjustAxisRangeMenu, SWT.PUSH);
-		menuItem.setText(Messages.ADJUST_AXIS_RANGE);
+		menuItem.setText(ChartMenuMessages.ADJUST_AXIS_RANGE);
 		menuItem.addListener(SWT.Selection, this);
 		// adjust X axis range
 		menuItem = new MenuItem(adjustAxisRangeMenu, SWT.PUSH);
-		menuItem.setText(Messages.ADJUST_X_AXIS_RANGE);
+		menuItem.setText(ChartMenuMessages.ADJUST_X_AXIS_RANGE);
 		menuItem.addListener(SWT.Selection, this);
 		// adjust Y axis range
 		menuItem = new MenuItem(adjustAxisRangeMenu, SWT.PUSH);
-		menuItem.setText(Messages.ADJUST_Y_AXIS_RANGE);
+		menuItem.setText(ChartMenuMessages.ADJUST_Y_AXIS_RANGE);
 		menuItem.addListener(SWT.Selection, this);
 		menuItem = new MenuItem(menu, SWT.SEPARATOR);
 		// zoom in menu group
 		menuItem = new MenuItem(menu, SWT.CASCADE);
-		menuItem.setText(Messages.ZOOMIN_GROUP);
+		menuItem.setText(ChartMenuMessages.ZOOMIN_GROUP);
 		Menu zoomInMenu = new Menu(menuItem);
 		menuItem.setMenu(zoomInMenu);
 		// zoom in both axes
 		menuItem = new MenuItem(zoomInMenu, SWT.PUSH);
-		menuItem.setText(Messages.ZOOMIN);
+		menuItem.setText(ChartMenuMessages.ZOOMIN);
 		menuItem.addListener(SWT.Selection, this);
 		// zoom in X axis
 		menuItem = new MenuItem(zoomInMenu, SWT.PUSH);
-		menuItem.setText(Messages.ZOOMIN_X);
+		menuItem.setText(ChartMenuMessages.ZOOMIN_X);
 		menuItem.addListener(SWT.Selection, this);
 		// zoom in Y axis
 		menuItem = new MenuItem(zoomInMenu, SWT.PUSH);
-		menuItem.setText(Messages.ZOOMIN_Y);
+		menuItem.setText(ChartMenuMessages.ZOOMIN_Y);
 		menuItem.addListener(SWT.Selection, this);
 		// zoom out menu group
 		menuItem = new MenuItem(menu, SWT.CASCADE);
-		menuItem.setText(Messages.ZOOMOUT_GROUP);
+		menuItem.setText(ChartMenuMessages.ZOOMOUT_GROUP);
 		Menu zoomOutMenu = new Menu(menuItem);
 		menuItem.setMenu(zoomOutMenu);
 		// zoom out both axes
 		menuItem = new MenuItem(zoomOutMenu, SWT.PUSH);
-		menuItem.setText(Messages.ZOOMOUT);
+		menuItem.setText(ChartMenuMessages.ZOOMOUT);
 		menuItem.addListener(SWT.Selection, this);
 		// zoom out X axis
 		menuItem = new MenuItem(zoomOutMenu, SWT.PUSH);
-		menuItem.setText(Messages.ZOOMOUT_X);
+		menuItem.setText(ChartMenuMessages.ZOOMOUT_X);
 		menuItem.addListener(SWT.Selection, this);
 		// zoom out Y axis
 		menuItem = new MenuItem(zoomOutMenu, SWT.PUSH);
-		menuItem.setText(Messages.ZOOMOUT_Y);
+		menuItem.setText(ChartMenuMessages.ZOOMOUT_Y);
 		menuItem.addListener(SWT.Selection, this);
 		menuItem = new MenuItem(menu, SWT.SEPARATOR);
 		// save as
 		menuItem = new MenuItem(menu, SWT.PUSH);
-		menuItem.setText(Messages.SAVE_AS);
+		menuItem.setText(ChartMenuMessages.SAVE_AS);
 		menuItem.addListener(SWT.Selection, this);
 		menuItem = new MenuItem(menu, SWT.SEPARATOR);
 		// properties
 		menuItem = new MenuItem(menu, SWT.PUSH);
-		menuItem.setText(Messages.PROPERTIES);
+		menuItem.setText(ChartMenuMessages.PROPERTIES);
 		menuItem.addListener(SWT.Selection, this);
 	}
 
-	/*
-	 * @see PaintListener#paintControl(PaintEvent)
-	 */
 	@Override
 	public void paintControl(PaintEvent e) {
 
 		selection.draw(e.gc);
 	}
 
-	/*
-	 * @see Listener#handleEvent(Event)
-	 */
 	@Override
 	public void handleEvent(Event event) {
 
@@ -208,14 +205,19 @@ public class InteractiveChart extends Chart implements PaintListener {
 		}
 	}
 
-	/*
-	 * @see Chart#dispose()
-	 */
 	@Override
 	public void dispose() {
 
 		super.dispose();
 		resources.dispose();
+	}
+	
+	/**
+	 * Sets the name to be proposed as default when running "Save As".
+	 * @param saveAsFilename The file name to be proposed in the file dialog.
+	 */
+	public void setProposedSaveAsFilename(String saveAsFilename) {
+		this.saveAsFilename = saveAsFilename;
 	}
 
 	/**
@@ -367,39 +369,39 @@ public class InteractiveChart extends Chart implements PaintListener {
 			return;
 		}
 		MenuItem menuItem = (MenuItem)event.widget;
-		if(menuItem.getText().equals(Messages.ADJUST_AXIS_RANGE)) {
+		if(menuItem.getText().equals(ChartMenuMessages.ADJUST_AXIS_RANGE)) {
 			getAxisSet().adjustRange();
-		} else if(menuItem.getText().equals(Messages.ADJUST_X_AXIS_RANGE)) {
+		} else if(menuItem.getText().equals(ChartMenuMessages.ADJUST_X_AXIS_RANGE)) {
 			for(IAxis axis : getAxisSet().getXAxes()) {
 				axis.adjustRange();
 			}
-		} else if(menuItem.getText().equals(Messages.ADJUST_Y_AXIS_RANGE)) {
+		} else if(menuItem.getText().equals(ChartMenuMessages.ADJUST_Y_AXIS_RANGE)) {
 			for(IAxis axis : getAxisSet().getYAxes()) {
 				axis.adjustRange();
 			}
-		} else if(menuItem.getText().equals(Messages.ZOOMIN)) {
+		} else if(menuItem.getText().equals(ChartMenuMessages.ZOOMIN)) {
 			getAxisSet().zoomIn();
-		} else if(menuItem.getText().equals(Messages.ZOOMIN_X)) {
+		} else if(menuItem.getText().equals(ChartMenuMessages.ZOOMIN_X)) {
 			for(IAxis axis : getAxisSet().getXAxes()) {
 				axis.zoomIn();
 			}
-		} else if(menuItem.getText().equals(Messages.ZOOMIN_Y)) {
+		} else if(menuItem.getText().equals(ChartMenuMessages.ZOOMIN_Y)) {
 			for(IAxis axis : getAxisSet().getYAxes()) {
 				axis.zoomIn();
 			}
-		} else if(menuItem.getText().equals(Messages.ZOOMOUT)) {
+		} else if(menuItem.getText().equals(ChartMenuMessages.ZOOMOUT)) {
 			getAxisSet().zoomOut();
-		} else if(menuItem.getText().equals(Messages.ZOOMOUT_X)) {
+		} else if(menuItem.getText().equals(ChartMenuMessages.ZOOMOUT_X)) {
 			for(IAxis axis : getAxisSet().getXAxes()) {
 				axis.zoomOut();
 			}
-		} else if(menuItem.getText().equals(Messages.ZOOMOUT_Y)) {
+		} else if(menuItem.getText().equals(ChartMenuMessages.ZOOMOUT_Y)) {
 			for(IAxis axis : getAxisSet().getYAxes()) {
 				axis.zoomOut();
 			}
-		} else if(menuItem.getText().equals(Messages.SAVE_AS)) {
+		} else if(menuItem.getText().equals(ChartMenuMessages.SAVE_AS)) {
 			openSaveAsDialog();
-		} else if(menuItem.getText().equals(Messages.PROPERTIES)) {
+		} else if(menuItem.getText().equals(ChartMenuMessages.PROPERTIES)) {
 			openPropertiesDialog();
 		}
 		redraw();
@@ -411,16 +413,17 @@ public class InteractiveChart extends Chart implements PaintListener {
 	private void openSaveAsDialog() {
 
 		FileDialog dialog = new FileDialog(getShell(), SWT.SAVE);
-		dialog.setText(Messages.SAVE_AS_DIALOG_TITLE);
+		dialog.setText(ChartMenuMessages.SAVE_AS_DIALOG_TITLE);
 		dialog.setFilterExtensions(EXTENSIONS);
+		dialog.setFileName(saveAsFilename);
 		String filename = dialog.open();
 		if(filename == null) {
 			return;
 		}
 		int format;
-		if(filename.endsWith(".jpg") || filename.endsWith(".jpeg")) {
+		if(filename.endsWith(".jpg") || filename.endsWith(".jpeg")) { //$NON-NLS-1$ //$NON-NLS-2$
 			format = SWT.IMAGE_JPEG;
-		} else if(filename.endsWith(".png")) {
+		} else if(filename.endsWith(".png")) { //$NON-NLS-1$
 			format = SWT.IMAGE_PNG;
 		} else {
 			format = SWT.IMAGE_UNDEFINED;
@@ -436,47 +439,47 @@ public class InteractiveChart extends Chart implements PaintListener {
 	private void openPropertiesDialog() {
 
 		PreferenceManager manager = new PreferenceManager();
-		final String chartTitle = "Chart";
+		final String chartTitle = Messages.getString("CHART"); //$NON-NLS-1$
 		PreferenceNode chartNode = new PreferenceNode(chartTitle);
 		chartNode.setPage(new ChartPage(this, resources, chartTitle));
 		manager.addToRoot(chartNode);
-		final String legendTitle = "Legend";
+		final String legendTitle = Messages.getString("LEGEND"); //$NON-NLS-1$
 		PreferenceNode legendNode = new PreferenceNode(legendTitle);
 		legendNode.setPage(new LegendPage(this, resources, legendTitle));
 		manager.addTo(chartTitle, legendNode);
-		final String xAxisTitle = "X Axis";
+		final String xAxisTitle = Messages.getString("X_AXIS"); //$NON-NLS-1$
 		PreferenceNode xAxisNode = new PreferenceNode(xAxisTitle);
 		xAxisNode.setPage(new AxisPage(this, resources, Direction.X, xAxisTitle));
 		manager.addTo(chartTitle, xAxisNode);
-		final String gridTitle = "Grid";
+		final String gridTitle = Messages.getString("GRID"); //$NON-NLS-1$
 		PreferenceNode xGridNode = new PreferenceNode(gridTitle);
 		xGridNode.setPage(new GridPage(this, resources, Direction.X, gridTitle));
-		manager.addTo(chartTitle + "." + xAxisTitle, xGridNode);
-		final String tickTitle = "Tick";
+		manager.addTo(chartTitle + "." + xAxisTitle, xGridNode); //$NON-NLS-1$
+		final String tickTitle = Messages.getString("TICK"); //$NON-NLS-1$
 		PreferenceNode xTickNode = new PreferenceNode(tickTitle);
 		xTickNode.setPage(new AxisTickPage(this, resources, Direction.X, tickTitle));
-		manager.addTo(chartTitle + "." + xAxisTitle, xTickNode);
-		final String yAxisTitle = "Y Axis";
+		manager.addTo(chartTitle + "." + xAxisTitle, xTickNode); //$NON-NLS-1$
+		final String yAxisTitle = Messages.getString("Y_AXIS"); //$NON-NLS-1$
 		PreferenceNode yAxisNode = new PreferenceNode(yAxisTitle);
 		yAxisNode.setPage(new AxisPage(this, resources, Direction.Y, yAxisTitle));
 		manager.addTo(chartTitle, yAxisNode);
 		PreferenceNode yGridNode = new PreferenceNode(gridTitle);
 		yGridNode.setPage(new GridPage(this, resources, Direction.Y, gridTitle));
-		manager.addTo(chartTitle + "." + yAxisTitle, yGridNode);
+		manager.addTo(chartTitle + "." + yAxisTitle, yGridNode); //$NON-NLS-1$
 		PreferenceNode yTickNode = new PreferenceNode(tickTitle);
 		yTickNode.setPage(new AxisTickPage(this, resources, Direction.Y, tickTitle));
-		manager.addTo(chartTitle + "." + yAxisTitle, yTickNode);
-		final String seriesTitle = "Series";
+		manager.addTo(chartTitle + "." + yAxisTitle, yTickNode); //$NON-NLS-1$
+		final String seriesTitle = Messages.getString("SERIES"); //$NON-NLS-1$
 		PreferenceNode plotNode = new PreferenceNode(seriesTitle);
 		plotNode.setPage(new SeriesPage(this, resources, seriesTitle));
 		manager.addTo(chartTitle, plotNode);
-		final String labelTitle = "Label";
+		final String labelTitle = Messages.getString("LABEL"); //$NON-NLS-1$
 		PreferenceNode labelNode = new PreferenceNode(labelTitle);
 		labelNode.setPage(new SeriesLabelPage(this, resources, labelTitle));
-		manager.addTo(chartTitle + "." + seriesTitle, labelNode);
+		manager.addTo(chartTitle + "." + seriesTitle, labelNode); //$NON-NLS-1$
 		PreferenceDialog dialog = new PreferenceDialog(getShell(), manager);
 		dialog.create();
-		dialog.getShell().setText("Properties");
+		dialog.getShell().setText(Messages.getString("PROPERTIES")); //$NON-NLS-1$
 		dialog.getTreeViewer().expandAll();
 		dialog.open();
 	}

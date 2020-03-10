@@ -9,6 +9,7 @@
  * 
  * Contributors:
  * Dr. Philip Wenig - initial API and implementation
+ * Frank Buloup - Internationalization
  *******************************************************************************/
 package org.eclipse.swtchart.extensions.core;
 
@@ -47,82 +48,14 @@ import org.eclipse.swtchart.extensions.exceptions.SeriesException;
 import org.eclipse.swtchart.extensions.linecharts.ILineSeriesSettings;
 import org.eclipse.swtchart.extensions.scattercharts.IScatterSeriesSettings;
 
-public class BaseChart extends AbstractExtendedChart implements IChartDataCoordinates, IRangeSupport, IExtendedChart {
+public class BaseChart extends AbstractExtendedChart implements IChartDataCoordinates, IRangeSupport, IExtendedChart, IKeyboardSupport {
 
 	public static final int ID_PRIMARY_X_AXIS = 0;
 	public static final int ID_PRIMARY_Y_AXIS = 0;
-	public static final String DEFAULT_TITLE_X_AXIS = "X-Axis";
-	public static final String DEFAULT_TITLE_Y_AXIS = "Y-Axis";
+	public static final String DEFAULT_TITLE_X_AXIS = Messages.getString(Messages.X_AXIS); 
+	public static final String DEFAULT_TITLE_Y_AXIS = Messages.getString(Messages.Y_AXIS); 
 	//
-	public static final int EVENT_MOUSE_DOUBLE_CLICK = 1;
-	public static final int EVENT_MOUSE_WHEEL = 2;
-	public static final int EVENT_MOUSE_DOWN = 3;
-	public static final int EVENT_MOUSE_MOVE = 4;
-	public static final int EVENT_MOUSE_UP = 5;
-	public static final int EVENT_KEY_DOWN = 6;
-	public static final int EVENT_KEY_UP = 7;
-	//
-	public static final int BUTTON_LEFT = 1;
-	public static final int BUTTON_MIDDLE = 2;
-	public static final int BUTTON_RIGHT = 3; // Used by the menu
-	public static final int BUTTON_WHEEL = 4;
-	public static final int BUTTON_NONE = 5;
-	//
-	public static final int KEY_CODE_A = 65;
-	public static final int KEY_CODE_B = 66;
-	public static final int KEY_CODE_C = 67;
-	public static final int KEY_CODE_D = 68;
-	public static final int KEY_CODE_E = 69;
-	public static final int KEY_CODE_F = 70;
-	public static final int KEY_CODE_G = 71;
-	public static final int KEY_CODE_H = 72;
-	public static final int KEY_CODE_I = 73;
-	public static final int KEY_CODE_J = 74;
-	public static final int KEY_CODE_K = 75;
-	public static final int KEY_CODE_L = 76;
-	public static final int KEY_CODE_M = 77;
-	public static final int KEY_CODE_N = 78;
-	public static final int KEY_CODE_O = 79;
-	public static final int KEY_CODE_P = 80;
-	public static final int KEY_CODE_Q = 81;
-	public static final int KEY_CODE_R = 82;
-	public static final int KEY_CODE_S = 83;
-	public static final int KEY_CODE_T = 84;
-	public static final int KEY_CODE_U = 85;
-	public static final int KEY_CODE_V = 86;
-	public static final int KEY_CODE_W = 87;
-	public static final int KEY_CODE_X = 88;
-	public static final int KEY_CODE_Y = 89;
-	public static final int KEY_CODE_Z = 90;
-	//
-	public static final int KEY_CODE_a = 97;
-	public static final int KEY_CODE_b = 98;
-	public static final int KEY_CODE_c = 99;
-	public static final int KEY_CODE_d = 100;
-	public static final int KEY_CODE_e = 101;
-	public static final int KEY_CODE_f = 102;
-	public static final int KEY_CODE_g = 103;
-	public static final int KEY_CODE_h = 104;
-	public static final int KEY_CODE_i = 105;
-	public static final int KEY_CODE_j = 106;
-	public static final int KEY_CODE_k = 107;
-	public static final int KEY_CODE_l = 108;
-	public static final int KEY_CODE_m = 109;
-	public static final int KEY_CODE_n = 110;
-	public static final int KEY_CODE_o = 111;
-	public static final int KEY_CODE_p = 112;
-	public static final int KEY_CODE_q = 113;
-	public static final int KEY_CODE_r = 114;
-	public static final int KEY_CODE_s = 115;
-	public static final int KEY_CODE_t = 116;
-	public static final int KEY_CODE_u = 117;
-	public static final int KEY_CODE_v = 118;
-	public static final int KEY_CODE_w = 119;
-	public static final int KEY_CODE_x = 120;
-	public static final int KEY_CODE_y = 121;
-	public static final int KEY_CODE_z = 122;
-	//
-	public static final String SELECTED_SERIES_NONE = "None";
+	public static final String SELECTED_SERIES_NONE = Messages.getString(Messages.NONE); 
 	/*
 	 * see: IHandledEventProcessor
 	 * Map<Integer, Map<Integer, Map<Integer, List<IEventProcessor>>>>
@@ -567,7 +500,7 @@ public class BaseChart extends AbstractExtendedChart implements IChartDataCoordi
 	@Override
 	public void handleMouseMoveEvent(Event event) {
 
-		handleEvent(registeredEvents.get(EVENT_MOUSE_MOVE).get(BUTTON_NONE), event);
+		handleEvent(registeredEvents.get(EVENT_MOUSE_MOVE).get(MOUSE_BUTTON_NONE), event);
 	}
 
 	@Override
@@ -579,7 +512,7 @@ public class BaseChart extends AbstractExtendedChart implements IChartDataCoordi
 	@Override
 	public void handleMouseWheel(Event event) {
 
-		handleEvent(registeredEvents.get(EVENT_MOUSE_WHEEL).get(BUTTON_WHEEL), event);
+		handleEvent(registeredEvents.get(EVENT_MOUSE_WHEEL).get(MOUSE_BUTTON_WHEEL), event);
 	}
 
 	@Override
@@ -976,7 +909,7 @@ public class BaseChart extends AbstractExtendedChart implements IChartDataCoordi
 			if(axisSettings != null) {
 				label = axisSettings.getLabel();
 			} else {
-				label = "not set";
+				label = Messages.getString(Messages.NOT_SET); 
 			}
 			items[i] = label;
 		}
@@ -1139,7 +1072,7 @@ public class BaseChart extends AbstractExtendedChart implements IChartDataCoordi
 	public String getSelectedseriesId(Event event) {
 
 		ISeries[] series = getSeriesSet().getSeries();
-		String selectedSeriesId = "";
+		String selectedSeriesId = ""; //$NON-NLS-1$
 		/*
 		 * Get the selected series id.
 		 */

@@ -25,6 +25,12 @@ import org.eclipse.swt.widgets.Control;
 public interface IPlotArea {
 
 	/**
+	 * 
+	 * @return the chart this plot area belongs to
+	 */
+	public Chart getChart();
+
+	/**
 	 * Adds the custom paint listener.
 	 *
 	 * @param listener

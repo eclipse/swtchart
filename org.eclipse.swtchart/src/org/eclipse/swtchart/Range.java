@@ -9,6 +9,7 @@
  * 
  * Contributors:
  * yoshitaka - initial API and implementation
+ * Frank Buloup - Internationalization
  *******************************************************************************/
 package org.eclipse.swtchart;
 
@@ -46,12 +47,9 @@ public class Range {
 		upper = (range.upper > range.lower) ? range.upper : range.lower;
 	}
 
-	/*
-	 * @see Object#toString()
-	 */
 	@Override
 	public String toString() {
 
-		return "lower=" + lower + ", upper=" + upper;
+		return "lower=" + lower + ", upper=" + upper; //$NON-NLS-1$ //$NON-NLS-2$
 	}
 }

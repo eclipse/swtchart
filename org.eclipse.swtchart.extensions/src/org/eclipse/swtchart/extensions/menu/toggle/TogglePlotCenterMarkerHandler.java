@@ -9,6 +9,7 @@
  * 
  * Contributors:
  * Dr. Philip Wenig - initial API and implementation
+ * Frank Buloup - Internationalization
  *******************************************************************************/
 package org.eclipse.swtchart.extensions.menu.toggle;
 
@@ -30,7 +31,7 @@ public class TogglePlotCenterMarkerHandler extends AbstractChartMenuEntry implem
 	@Override
 	public String getName() {
 
-		return "Plot Center Marker";
+		return Messages.getString(Messages.PLOT_CENTER_MARKER); 
 	}
 
 	@Override

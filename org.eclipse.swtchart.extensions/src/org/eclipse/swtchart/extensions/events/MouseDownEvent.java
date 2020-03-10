@@ -15,19 +15,20 @@ package org.eclipse.swtchart.extensions.events;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swtchart.extensions.core.BaseChart;
+import org.eclipse.swtchart.extensions.core.IMouseSupport;
 
 public class MouseDownEvent extends AbstractHandledEventProcessor implements IHandledEventProcessor {
 
 	@Override
 	public int getEvent() {
 
-		return BaseChart.EVENT_MOUSE_DOWN;
+		return IMouseSupport.EVENT_MOUSE_DOWN;
 	}
 
 	@Override
 	public int getButton() {
 
-		return BaseChart.BUTTON_LEFT;
+		return IMouseSupport.MOUSE_BUTTON_LEFT;
 	}
 
 	@Override

@@ -13,12 +13,12 @@
 package org.eclipse.swtchart.extensions.marker;
 
 import org.eclipse.swt.graphics.Color;
-import org.eclipse.swtchart.extensions.core.BaseChart;
 import org.eclipse.swtchart.ICustomPaintListener;
+import org.eclipse.swtchart.extensions.core.IMouseSupport;
 
 public interface IBaseChartPaintListener extends ICustomPaintListener {
 
-	BaseChart getBaseChart();
+	IMouseSupport getBaseChart();
 
 	void setForegroundColor(Color foregroundColor);
 

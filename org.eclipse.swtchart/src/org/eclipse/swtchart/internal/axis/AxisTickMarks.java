@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2008, 2019 SWTChart project.
+ * Copyright (c) 2008, 2020 SWTChart project.
  *
  * This program and the accompanying materials are made
  * available under the terms of the Eclipse Public License 2.0
@@ -9,6 +9,7 @@
  * 
  * Contributors:
  * yoshitaka - initial API and implementation
+ * Christoph Läubrich - take line width into account when calculate clippings
  *******************************************************************************/
 package org.eclipse.swtchart.internal.axis;
 
@@ -168,26 +169,27 @@ public class AxisTickMarks implements PaintListener {
 		}
 	}
 
-	/*
-	 * @see PaintListener#paintControl(PaintEvent)
-	 */
+	@Override
 	public void paintControl(PaintEvent e) {
 
-		ArrayList<Integer> tickLabelPositions = axis.getTick().getAxisTickLabels().getTickLabelPositions();
-		Color oldBackground = e.gc.getBackground();
-		e.gc.setBackground(chart.getBackground());
-		Color oldForeground = e.gc.getForeground();
-		e.gc.setForeground(getForeground());
-		Rectangle oldClipping = e.gc.getClipping();
-		e.gc.setClipping(bounds);
-		if(axis.isHorizontalAxis()) {
-			drawXTickMarks(e.gc, tickLabelPositions, axis.getPosition());
-		} else {
-			drawYTickMarks(e.gc, tickLabelPositions, axis.getPosition());
+		if(bounds.width > 0 && bounds.height > 0) {
+			ArrayList<Integer> tickLabelPositions = axis.getTick().getAxisTickLabels().getTickLabelPositions();
+			Color oldBackground = e.gc.getBackground();
+			e.gc.setBackground(chart.getBackground());
+			Color oldForeground = e.gc.getForeground();
+			e.gc.setForeground(getForeground());
+			Rectangle oldClipping = e.gc.getClipping();
+			if(axis.isHorizontalAxis()) {
+				e.gc.setClipping(new Rectangle(bounds.x, bounds.y, bounds.width, bounds.height + LINE_WIDTH));
+				drawXTickMarks(e.gc, tickLabelPositions, axis.getPosition());
+			} else {
+				e.gc.setClipping(new Rectangle(bounds.x, bounds.y, bounds.width + LINE_WIDTH, bounds.height));
+				drawYTickMarks(e.gc, tickLabelPositions, axis.getPosition());
+			}
+			e.gc.setClipping(oldClipping);
+			e.gc.setBackground(oldBackground);
+			e.gc.setForeground(oldForeground);
 		}
-		e.gc.setClipping(oldClipping);
-		e.gc.setBackground(oldBackground);
-		e.gc.setForeground(oldForeground);
 	}
 
 	/**

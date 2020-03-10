@@ -15,6 +15,7 @@ package org.eclipse.swtchart.extensions.events;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swtchart.extensions.core.BaseChart;
+import org.eclipse.swtchart.extensions.core.IKeyboardSupport;
 
 public class UndoRedoEvent extends AbstractHandledEventProcessor implements IHandledEventProcessor {
 
@@ -23,13 +24,13 @@ public class UndoRedoEvent extends AbstractHandledEventProcessor implements IHan
 	@Override
 	public int getEvent() {
 
-		return BaseChart.EVENT_KEY_UP;
+		return IKeyboardSupport.EVENT_KEY_UP;
 	}
 
 	@Override
 	public int getButton() {
 
-		return BaseChart.KEY_CODE_z;
+		return IKeyboardSupport.KEY_CODE_LC_Z;
 	}
 
 	@Override

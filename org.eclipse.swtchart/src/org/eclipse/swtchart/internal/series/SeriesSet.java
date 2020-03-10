@@ -10,6 +10,7 @@
  * Contributors:
  * yoshitaka - initial API and implementation
  * Christoph Läubrich - optimize disposal
+ * Frank Buloup = Internationalization
  *******************************************************************************/
 package org.eclipse.swtchart.internal.series;
 
@@ -62,9 +63,6 @@ public class SeriesSet implements ISeriesSet {
 		});
 	}
 
-	/*
-	 * @see ISeriesSet#createSeries(ISeries.SeriesType, String)
-	 */
 	@Override
 	public ISeries createSeries(SeriesType type, String id) {
 
@@ -73,7 +71,7 @@ public class SeriesSet implements ISeriesSet {
 			return null; // to suppress warning...
 		}
 		String trimmedId = id.trim();
-		if("".equals(trimmedId)) {
+		if("".equals(trimmedId)) { //$NON-NLS-1$
 			SWT.error(SWT.ERROR_INVALID_ARGUMENT);
 		}
 		Series series = null;
@@ -103,9 +101,6 @@ public class SeriesSet implements ISeriesSet {
 		return series;
 	}
 
-	/*
-	 * @see ISeriesSet#getSeries(String)
-	 */
 	@Override
 	public ISeries getSeries(String id) {
 
@@ -116,9 +111,6 @@ public class SeriesSet implements ISeriesSet {
 		return seriesMap.get(trimmedId);
 	}
 
-	/*
-	 * @see ISeriesSet#getSeries()
-	 */
 	@Override
 	public ISeries[] getSeries() {
 
@@ -131,9 +123,6 @@ public class SeriesSet implements ISeriesSet {
 		return series;
 	}
 
-	/*
-	 * @see ISeriesSet#deleteSeries(String)
-	 */
 	@Override
 	public void deleteSeries(String id) {
 
@@ -145,9 +134,6 @@ public class SeriesSet implements ISeriesSet {
 		chart.updateLayout();
 	}
 
-	/*
-	 * @see ISeriesSet#bringForward(String)
-	 */
 	@Override
 	public void bringForward(String id) {
 
@@ -173,9 +159,6 @@ public class SeriesSet implements ISeriesSet {
 		chart.updateLayout();
 	}
 
-	/*
-	 * @see ISeriesSet#bringToFront(String)
-	 */
 	@Override
 	public void bringToFront(String id) {
 
@@ -187,9 +170,6 @@ public class SeriesSet implements ISeriesSet {
 		chart.updateLayout();
 	}
 
-	/*
-	 * @see ISeriesSet#sendBackward(String)
-	 */
 	@Override
 	public void sendBackward(String id) {
 
@@ -211,9 +191,6 @@ public class SeriesSet implements ISeriesSet {
 		chart.updateLayout();
 	}
 
-	/*
-	 * @see ISeriesSet#sendToBack(String)
-	 */
 	@Override
 	public void sendToBack(String id) {
 
@@ -254,7 +231,7 @@ public class SeriesSet implements ISeriesSet {
 		}
 		String trimmedId = id.trim();
 		if(seriesMap.get(trimmedId) == null) {
-			throw new IllegalArgumentException("Given series id doesn't exist");
+			throw new IllegalArgumentException(Messages.getString(Messages.SERIES_ID_NOT_EXISTS)); 
 		}
 		return trimmedId;
 	}

@@ -9,6 +9,7 @@
  * 
  * Contributors:
  * Dr. Philip Wenig - initial API and implementation
+ * Frank Buloup - Internationalization
  *******************************************************************************/
 package org.eclipse.swtchart.extensions.menu.toggle;
 
@@ -30,7 +31,7 @@ public class ToggleRangeSelectorHandler extends AbstractChartMenuEntry implement
 	@Override
 	public String getName() {
 
-		return "Range Selector";
+		return Messages.getString(Messages.RANGE_SELECTOR); 
 	}
 
 	@Override

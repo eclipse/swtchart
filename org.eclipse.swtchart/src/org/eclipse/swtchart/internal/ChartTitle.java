@@ -9,6 +9,7 @@
  * 
  * Contributors:
  * yoshitaka - initial API and implementation
+ * Frank Buloup - Internationalization
  *******************************************************************************/
 package org.eclipse.swtchart.internal;
 
@@ -20,7 +21,7 @@ import org.eclipse.swtchart.Chart;
 public class ChartTitle extends Title {
 
 	/** the default text */
-	private static final String DEFAULT_TEXT = "Chart Title";
+	private static final String DEFAULT_TEXT = Messages.getString(Messages.CHART_TITLE); 
 
 	/**
 	 * Constructor.
@@ -33,9 +34,6 @@ public class ChartTitle extends Title {
 		setText(getDefaultText());
 	}
 
-	/*
-	 * @see Title#getDefaultText()
-	 */
 	@Override
 	protected String getDefaultText() {
 

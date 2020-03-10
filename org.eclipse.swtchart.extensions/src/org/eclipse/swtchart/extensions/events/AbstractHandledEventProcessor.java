@@ -12,13 +12,13 @@
  *******************************************************************************/
 package org.eclipse.swtchart.extensions.events;
 
-import org.eclipse.swtchart.extensions.core.BaseChart;
+import org.eclipse.swtchart.extensions.core.IMouseSupport;
 
 public abstract class AbstractHandledEventProcessor implements IHandledEventProcessor {
 
 	@Override
 	public int getButton() {
 
-		return BaseChart.BUTTON_NONE;
+		return IMouseSupport.MOUSE_BUTTON_NONE;
 	}
 }

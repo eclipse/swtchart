@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2017, 2019 Lablicate GmbH.
+ * Copyright (c) 2017, 2020 Lablicate GmbH.
  *
  * This program and the accompanying materials are made
  * available under the terms of the Eclipse Public License 2.0
@@ -9,6 +9,7 @@
  * 
  * Contributors:
  * Dr. Philip Wenig - initial API and implementation
+ * Christoph Läubrich - lazy init of ImageRegistry
  *******************************************************************************/
 package org.eclipse.swtchart.extensions;
 
@@ -21,7 +22,10 @@ import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.resource.ImageRegistry;
+import org.eclipse.swt.SWT;
+import org.eclipse.swt.SWTException;
 import org.eclipse.swt.graphics.Image;
+import org.eclipse.swt.widgets.Display;
 import org.osgi.framework.Bundle;
 import org.osgi.framework.BundleActivator;
 import org.osgi.framework.BundleContext;
@@ -31,18 +35,16 @@ import org.osgi.framework.BundleContext;
  */
 public class Activator implements BundleActivator {
 
-	public static final String ICON_SET_RANGE = "ICON_SET_RANGE"; // $NON-NLS-1$
-	public static final String ICON_HIDE = "ICON_HIDE"; // $NON-NLS-1$
-	public static final String ICON_RESET = "ICON_RESET"; // $NON-NLS-1$
+	public static final String ICON_SET_RANGE = "ICON_SET_RANGE"; // $NON-NLS-1$ //$NON-NLS-1$
+	public static final String ICON_HIDE = "ICON_HIDE"; // $NON-NLS-1$ //$NON-NLS-1$
+	public static final String ICON_RESET = "ICON_RESET"; // $NON-NLS-1$ //$NON-NLS-1$
 	//
 	private static Activator plugin;
-	
-	private ImageRegistry imageRegistry = new ImageRegistry();
-
 	/**
 	 * The bundle associated this plug-in
 	 */
 	private Bundle bundle;
+	private ImageRegistry imageRegistry;
 
 	/**
 	 * The constructor
@@ -50,21 +52,14 @@ public class Activator implements BundleActivator {
 	public Activator() {
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * @see org.eclipse.ui.plugin.AbstractUIPlugin#start(org.osgi.framework.BundleContext)
-	 */
+	@Override
 	public void start(BundleContext context) throws Exception {
 
 		plugin = this;
 		this.bundle = context.getBundle();
-		initializeImageRegistry();
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * @see org.eclipse.ui.plugin.AbstractUIPlugin#stop(org.osgi.framework.BundleContext)
-	 */
+	@Override
 	public void stop(BundleContext context) throws Exception {
 
 		plugin = null;
@@ -72,6 +67,9 @@ public class Activator implements BundleActivator {
 
 	public Image getImage(String key) {
 
+		if(imageRegistry == null) {
+			initializeImageRegistry();
+		}
 		return imageRegistry.get(key);
 	}
 
@@ -97,10 +95,15 @@ public class Activator implements BundleActivator {
 
 	private void initializeImageRegistry() {
 
+		if(Display.getCurrent() == null) {
+			throw new SWTException(SWT.ERROR_THREAD_INVALID_ACCESS);
+		} else {
+			imageRegistry = new ImageRegistry();
+		}
 		Map<String, String> imageHashMap = new HashMap<String, String>();
-		imageHashMap.put(ICON_SET_RANGE, "icons/16x16/set_range.gif"); // $NON-NLS-1$
-		imageHashMap.put(ICON_HIDE, "icons/16x16/hide.gif"); // $NON-NLS-1$
-		imageHashMap.put(ICON_RESET, "icons/16x16/reset.gif"); // $NON-NLS-1$
+		imageHashMap.put(ICON_SET_RANGE, "icons/16x16/set_range.gif"); // $NON-NLS-1$ //$NON-NLS-1$
+		imageHashMap.put(ICON_HIDE, "icons/16x16/hide.gif"); // $NON-NLS-1$ //$NON-NLS-1$
+		imageHashMap.put(ICON_RESET, "icons/16x16/reset.gif"); // $NON-NLS-1$ //$NON-NLS-1$
 		//
 		for(Map.Entry<String, String> entry : imageHashMap.entrySet()) {
 			imageRegistry.put(entry.getKey(), createImageDescriptor(getBundle(), entry.getValue()));

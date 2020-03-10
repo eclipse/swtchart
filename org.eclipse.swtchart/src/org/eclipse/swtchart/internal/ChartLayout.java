@@ -107,18 +107,12 @@ public class ChartLayout extends Layout {
 		plotAreaHeight = 0;
 	}
 
-	/*
-	 * @see Layout#computeSize(Composite , int, int, boolean)
-	 */
 	@Override
 	protected Point computeSize(Composite composite, int wHint, int hHint, boolean flushCache) {
 
 		return new Point(wHint, hHint);
 	}
 
-	/*
-	 * @see Layout#layout(Composite, boolean)
-	 */
 	@Override
 	protected void layout(Composite composite, boolean flushCache) {
 

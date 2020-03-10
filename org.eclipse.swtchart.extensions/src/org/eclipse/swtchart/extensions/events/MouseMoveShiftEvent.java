@@ -18,6 +18,7 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swtchart.extensions.core.BaseChart;
 import org.eclipse.swtchart.extensions.core.IExtendedChart;
+import org.eclipse.swtchart.extensions.core.IMouseSupport;
 import org.eclipse.swtchart.ISeries;
 
 public class MouseMoveShiftEvent extends AbstractHandledEventProcessor implements IHandledEventProcessor {
@@ -27,7 +28,7 @@ public class MouseMoveShiftEvent extends AbstractHandledEventProcessor implement
 	@Override
 	public int getEvent() {
 
-		return BaseChart.EVENT_MOUSE_MOVE;
+		return IMouseSupport.EVENT_MOUSE_MOVE;
 	}
 
 	@Override

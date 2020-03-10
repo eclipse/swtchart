@@ -1,7 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <site>
-   <feature url="features/org.eclipse.swtchart.feature_0.8.0.qualifier.jar" id="org.eclipse.swtchart.feature" version="0.8.0.qualifier">
+   <feature id="org.eclipse.swtchart.feature" version="0.12.0.qualifier">
       <category name="org.eclipse.swtchart"/>
    </feature>
-   <category-def name="org.eclipse.swtchart" label="Eclipse SWTChart"/>
+   <feature id="org.eclipse.swtchart.feature.source" version="0.12.0.qualifier">
+      <category name="org.eclipse.swtchart.source"/>
+   </feature>
+   <category-def name="org.eclipse.swtchart" label="Eclipse SWTChart" />
+   <category-def name="org.eclipse.swtchart.source" label="Eclipse SWTChart Developer Resources"/>
 </site>

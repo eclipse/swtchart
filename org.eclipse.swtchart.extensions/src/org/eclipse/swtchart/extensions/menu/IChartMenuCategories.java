@@ -9,13 +9,14 @@
  * 
  * Contributors:
  * Dr. Philip Wenig - initial API and implementation
+ * Frank Buloup - Internationalization
  *******************************************************************************/
 package org.eclipse.swtchart.extensions.menu;
 
 public interface IChartMenuCategories {
 
-	String STANDARD_OPERATION = ""; // Must be empty to be placed on the main menu level.
-	String RANGE_SELECTION = "Range Selection";
-	String TOGGLE_VISIBILITY = "Toggle Visibility";
-	String EXPORT_CONVERTER = "Export Chart Selection";
+	String STANDARD_OPERATION = ""; // Must be empty to be placed on the main menu level. //$NON-NLS-1$
+	String RANGE_SELECTION = Messages.getString(Messages.RANGE_SELECTION); 
+	String TOGGLE_VISIBILITY = Messages.getString(Messages.TOGGLE_VISIBILITY); 
+	String EXPORT_CONVERTER = Messages.getString(Messages.EXPORT_CHART_SELECTION); 
 }

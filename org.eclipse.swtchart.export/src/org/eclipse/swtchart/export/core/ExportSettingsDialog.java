@@ -9,6 +9,7 @@
  * 
  * Contributors:
  * Dr. Philip Wenig - initial API and implementation
+ * Frank Buloup - Internationalization
  *******************************************************************************/
 package org.eclipse.swtchart.export.core;
 
@@ -37,8 +38,8 @@ public class ExportSettingsDialog extends TitleAreaDialog {
 	private int indexAxisY;
 	private boolean exportVisibleOnly;
 	//
-	private static final String SERIES_ALL = "All Series";
-	private static final String SERIES_VISIBLE = "Visible Series";
+	private static final String SERIES_ALL = Messages.getString(Messages.ALL_SERIES);
+	private static final String SERIES_VISIBLE = Messages.getString(Messages.VISIBLE_SERIES);
 	private String[] exportOptions;
 
 	public ExportSettingsDialog(Shell parent, BaseChart baseChart) {
@@ -51,8 +52,8 @@ public class ExportSettingsDialog extends TitleAreaDialog {
 	public void create() {
 
 		super.create();
-		setTitle("Export Axis Selection");
-		setMessage("Select the X and Y axis you'd like to export.", IMessageProvider.INFORMATION);
+		setTitle(Messages.getString(Messages.EXPORT_AXIS_SELECTION));
+		setMessage(Messages.getString(Messages.SELECT_X_Y_TO_EXPORT), IMessageProvider.INFORMATION); //$NON-NLS-1$
 	}
 
 	@Override
@@ -74,7 +75,7 @@ public class ExportSettingsDialog extends TitleAreaDialog {
 	private void createSelectionAxisX(Composite container) {
 
 		Label label = new Label(container, SWT.NONE);
-		label.setText("X Axis:");
+		label.setText(Messages.getString(Messages.X_AXIS));
 		//
 		String[] axisLabelsX = baseChart.getAxisLabels(IExtendedChart.X_AXIS);
 		comboScaleX = new Combo(container, SWT.READ_ONLY);
@@ -88,7 +89,7 @@ public class ExportSettingsDialog extends TitleAreaDialog {
 	private void createSelectionAxisY(Composite container) {
 
 		Label label = new Label(container, SWT.NONE);
-		label.setText("Y Axis:");
+		label.setText(Messages.getString(Messages.Y_AXIS));
 		//
 		String[] axisLabelsY = baseChart.getAxisLabels(IExtendedChart.Y_AXIS);
 		comboScaleY = new Combo(container, SWT.READ_ONLY);
@@ -102,7 +103,7 @@ public class ExportSettingsDialog extends TitleAreaDialog {
 	private void createExportOptionSelection(Composite container) {
 
 		Label label = new Label(container, SWT.NONE);
-		label.setText("Export:");
+		label.setText(Messages.getString(Messages.EXPORT));
 		//
 		comboExportOption = new Combo(container, SWT.READ_ONLY);
 		comboExportOption.setItems(exportOptions);

@@ -9,6 +9,7 @@
  * 
  * Contributors:
  * yoshitaka - initial API and implementation
+ * Frank Buloup - Internationalization
  *******************************************************************************/
 package org.eclipse.swtchart.extensions.properties;
 
@@ -50,9 +51,9 @@ import org.eclipse.swtchart.extensions.charts.InteractiveChart;
 public class AxisPage extends AbstractSelectorPage {
 
 	/** the key for axis title font */
-	private static final String AXIS_TITLE_FONT = "org.eclipse.swtchart.axis.title.font";
+	private static final String AXIS_TITLE_FONT = "org.eclipse.swtchart.axis.title.font"; //$NON-NLS-1$
 	/** the key for axis title foreground */
-	private static final String AXIS_TITLE_FOREGROUND = "org.eclipse.swtchart.axis.title.foreground";
+	private static final String AXIS_TITLE_FOREGROUND = "org.eclipse.swtchart.axis.title.foreground"; //$NON-NLS-1$
 	/** the axes */
 	private IAxis[] axes;
 	/** the axis direction */
@@ -113,7 +114,7 @@ public class AxisPage extends AbstractSelectorPage {
 	 *            the title
 	 */
 	public AxisPage(InteractiveChart chart, PropertiesResources resources, Direction direction, String title) {
-		super(chart, resources, title, "Axes:");
+		super(chart, resources, title, Messages.getString(Messages.AXES));
 		this.direction = direction;
 		if(direction == Direction.X) {
 			this.axes = chart.getAxisSet().getXAxes();
@@ -133,9 +134,6 @@ public class AxisPage extends AbstractSelectorPage {
 		logScaleStates = new boolean[axes.length];
 	}
 
-	/*
-	 * @see AbstractSelectorPage#getListItems()
-	 */
 	@Override
 	protected String[] getListItems() {
 
@@ -146,9 +144,6 @@ public class AxisPage extends AbstractSelectorPage {
 		return items;
 	}
 
-	/*
-	 * @see AbstractSelectorPage#selectInitialValues()
-	 */
 	@Override
 	protected void selectInitialValues() {
 
@@ -167,9 +162,6 @@ public class AxisPage extends AbstractSelectorPage {
 		}
 	}
 
-	/*
-	 * @see AbstractSelectorPage#updateControlSelections()
-	 */
 	@Override
 	protected void updateControlSelections() {
 
@@ -187,9 +179,6 @@ public class AxisPage extends AbstractSelectorPage {
 		}
 	}
 
-	/*
-	 * @see AbstractSelectorPage#addRightPanelContents(Composite)
-	 */
 	@Override
 	protected void addRightPanelContents(Composite parent) {
 
@@ -207,7 +196,7 @@ public class AxisPage extends AbstractSelectorPage {
 
 		Composite group = new Composite(parent, SWT.NONE);
 		group.setLayout(new GridLayout(2, true));
-		createLabelControl(group, "Minimum range value:");
+		createLabelControl(group, Messages.getString(Messages.MIN_RANGE_VALUE));
 		minRangeText = createTextControl(group);
 		minRangeText.addFocusListener(new FocusAdapter() {
 
@@ -217,7 +206,7 @@ public class AxisPage extends AbstractSelectorPage {
 				minRanges[selectedIndex] = Double.valueOf(minRangeText.getText());
 			}
 		});
-		createLabelControl(group, "Maximum range value:");
+		createLabelControl(group, Messages.getString(Messages.MAX_RANGE_VALUE));
 		maxRangeText = createTextControl(group);
 		maxRangeText.addFocusListener(new FocusAdapter() {
 
@@ -227,7 +216,7 @@ public class AxisPage extends AbstractSelectorPage {
 				maxRanges[selectedIndex] = Double.valueOf(maxRangeText.getText());
 			}
 		});
-		createLabelControl(group, "Position:");
+		createLabelControl(group, Messages.getString(Messages.POSITION));
 		String[] items = new String[]{Position.Primary.name(), Position.Secondary.name()};
 		positionCombo = createComboControl(group, items);
 		positionCombo.addSelectionListener(new SelectionAdapter() {
@@ -238,7 +227,7 @@ public class AxisPage extends AbstractSelectorPage {
 				positions[selectedIndex] = Position.valueOf(positionCombo.getText());
 			}
 		});
-		logScaleButton = createCheckBoxControl(group, "Enable log scale");
+		logScaleButton = createCheckBoxControl(group, Messages.getString(Messages.ENABLE_LOG_SCALE));
 		logScaleButton.addSelectionListener(new SelectionAdapter() {
 
 			@Override
@@ -248,7 +237,7 @@ public class AxisPage extends AbstractSelectorPage {
 			}
 		});
 		if(direction == Direction.X) {
-			categoryButton = createCheckBoxControl(group, "Enable category");
+			categoryButton = createCheckBoxControl(group, Messages.getString(Messages.ENABLE_CATEGORY));
 			categoryButton.addSelectionListener(new SelectionAdapter() {
 
 				@Override
@@ -268,8 +257,8 @@ public class AxisPage extends AbstractSelectorPage {
 	 */
 	private void addTitleGroup(Composite parent) {
 
-		Group group = createGroupControl(parent, "Title:", false);
-		showTitleButton = createCheckBoxControl(group, "Show title");
+		Group group = createGroupControl(parent, Messages.getString(Messages.TITLE), false); 
+		showTitleButton = createCheckBoxControl(group, Messages.getString(Messages.SHOW_TITLE));
 		showTitleButton.addSelectionListener(new SelectionAdapter() {
 
 			@Override
@@ -280,16 +269,17 @@ public class AxisPage extends AbstractSelectorPage {
 				setControlsEnable(visible);
 			}
 		});
-		titleLabel = createLabelControl(group, "Text:");
+		titleLabel = createLabelControl(group, Messages.getString(Messages.TEXT));
 		titleText = createTextControl(group);
 		titleText.addModifyListener(new ModifyListener() {
 
+			@Override
 			public void modifyText(ModifyEvent e) {
 
 				titleTexts[selectedIndex] = titleText.getText();
 			}
 		});
-		fontSizeLabel = createLabelControl(group, "Font size:");
+		fontSizeLabel = createLabelControl(group, Messages.getString(Messages.FONT_SIZE));
 		fontSizeSpinner = createSpinnerControl(group, 8, 30);
 		fontSizeSpinner.addSelectionListener(new SelectionAdapter() {
 
@@ -299,10 +289,11 @@ public class AxisPage extends AbstractSelectorPage {
 				titleFontSizes[selectedIndex] = fontSizeSpinner.getSelection();
 			}
 		});
-		titleColorLabel = createLabelControl(group, "Color:");
+		titleColorLabel = createLabelControl(group, Messages.getString(Messages.COLOR));
 		titleColorButton = createColorButtonControl(group);
 		titleColorButton.addListener(new IPropertyChangeListener() {
 
+			@Override
 			public void propertyChange(PropertyChangeEvent event) {
 
 				titleColors[selectedIndex] = titleColorButton.getColorValue();
@@ -326,9 +317,6 @@ public class AxisPage extends AbstractSelectorPage {
 		titleColorButton.setEnabled(enabled);
 	}
 
-	/*
-	 * @see AbstractPreferencePage#apply()
-	 */
 	@Override
 	public void apply() {
 
@@ -343,6 +331,7 @@ public class AxisPage extends AbstractSelectorPage {
 			if(resources.getFont(fontKey) == null) {
 				axes[i].addDisposeListener(new IDisposeListener() {
 
+					@Override
 					public void disposed(Event e) {
 
 						resources.removeFont(fontKey);
@@ -356,6 +345,7 @@ public class AxisPage extends AbstractSelectorPage {
 			if(resources.getColor(colorKey) == null) {
 				axes[i].addDisposeListener(new IDisposeListener() {
 
+					@Override
 					public void disposed(Event e) {
 
 						resources.removeColor(colorKey);
@@ -377,18 +367,15 @@ public class AxisPage extends AbstractSelectorPage {
 		}
 	}
 
-	/*
-	 * @see PreferencePage#performDefaults()
-	 */
 	@Override
 	protected void performDefaults() {
 
 		titleVisibleStates[selectedIndex] = true;
 		if(direction == Direction.X) {
-			titleTexts[selectedIndex] = "X Axis";
+			titleTexts[selectedIndex] = Messages.getString(Messages.X_AXIS); 
 			categoryStates[selectedIndex] = false;
 		} else if(direction == Direction.Y) {
-			titleTexts[selectedIndex] = "Y Axis";
+			titleTexts[selectedIndex] = Messages.getString(Messages.Y_AXIS);
 		}
 		positions[selectedIndex] = Position.Primary;
 		titleFontSizes[selectedIndex] = Constants.MEDIUM_FONT_SIZE;

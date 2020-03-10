@@ -9,6 +9,7 @@
  * 
  * Contributors:
  * Dr. Philip Wenig - initial API and implementation
+ * Frank Buloup - Internationalization
  *******************************************************************************/
 package org.eclipse.swtchart.extensions.customcharts;
 
@@ -35,10 +36,10 @@ public class PCAChart extends ScatterChart {
 	private Color COLOR_BLACK = getDisplay().getSystemColor(SWT.COLOR_BLACK);
 	//
 	private int symbolSize = 0;
-	private String chartTitle = "";
-	private String xAxisTitle = "PC1";
-	private String yAxisTitle = "PC2";
-	private DecimalFormat decimalFormat = new DecimalFormat(("0.0##"), new DecimalFormatSymbols(Locale.ENGLISH));
+	private String chartTitle = ""; //$NON-NLS-1$
+	private String xAxisTitle = "PC1"; //$NON-NLS-1$
+	private String yAxisTitle = "PC2"; //$NON-NLS-1$
+	private DecimalFormat decimalFormat = new DecimalFormat(("0.0##"), new DecimalFormatSymbols(Locale.ENGLISH)); //$NON-NLS-1$
 
 	public PCAChart() {
 		super();
@@ -132,7 +133,7 @@ public class PCAChart extends ScatterChart {
 	private void addSecondaryAxisSet(IChartSettings chartSettings) {
 
 		ISecondaryAxisSettings secondaryAxisSettingsX = new SecondaryAxisSettings(xAxisTitle, new PassThroughConverter());
-		secondaryAxisSettingsX.setTitle("");
+		secondaryAxisSettingsX.setTitle(""); //$NON-NLS-1$
 		secondaryAxisSettingsX.setPosition(Position.Secondary);
 		secondaryAxisSettingsX.setDecimalFormat(decimalFormat);
 		secondaryAxisSettingsX.setColor(COLOR_BLACK);

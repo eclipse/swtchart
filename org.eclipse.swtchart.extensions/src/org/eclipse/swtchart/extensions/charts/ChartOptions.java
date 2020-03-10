@@ -9,6 +9,7 @@
  * 
  * Contributors:
  * Dr. Philip Wenig - initial API and implementation
+ * Frank Buloup - Internationalization
  *******************************************************************************/
 package org.eclipse.swtchart.extensions.charts;
 
@@ -20,43 +21,43 @@ import org.eclipse.swtchart.extensions.linecharts.LineChart;
 
 public class ChartOptions {
 
-	public static String[][] FONT_STYLES = new String[][]{//
-			{"Normal", Integer.toString(SWT.NORMAL)}, //
-			{"Bold", Integer.toString(SWT.BOLD)}, //
-			{"Italic", Integer.toString(SWT.ITALIC)}//
+	public static String[][] FONT_STYLES = new String[][]{
+			{Messages.getString(Messages.NORMAL), Integer.toString(SWT.NORMAL)}, 
+			{Messages.getString(Messages.BOLD), Integer.toString(SWT.BOLD)}, 
+			{Messages.getString(Messages.ITALIC), Integer.toString(SWT.ITALIC)}
 	};
-	//
-	public static String[][] COMPRESSION_TYPES = new String[][]{//
-			{LineChart.COMPRESSION_EXTREME, LineChart.COMPRESSION_EXTREME}, //
-			{LineChart.COMPRESSION_HIGH, LineChart.COMPRESSION_HIGH}, //
-			{LineChart.COMPRESSION_MEDIUM, LineChart.COMPRESSION_MEDIUM}, //
-			{LineChart.COMPRESSION_LOW, LineChart.COMPRESSION_LOW}, {LineChart.COMPRESSION_AUTO, LineChart.COMPRESSION_AUTO}, //
-			{LineChart.COMPRESSION_NONE, LineChart.COMPRESSION_NONE}//
+
+	public static String[][] COMPRESSION_TYPES = new String[][]{
+			{LineChart.COMPRESSION_EXTREME, LineChart.COMPRESSION_EXTREME}, 
+			{LineChart.COMPRESSION_HIGH, LineChart.COMPRESSION_HIGH}, 
+			{LineChart.COMPRESSION_MEDIUM, LineChart.COMPRESSION_MEDIUM}, 
+			{LineChart.COMPRESSION_LOW, LineChart.COMPRESSION_LOW}, {LineChart.COMPRESSION_AUTO, LineChart.COMPRESSION_AUTO}, 
+			{LineChart.COMPRESSION_NONE, LineChart.COMPRESSION_NONE}
 	};
-	//
-	public static String[][] SYMBOL_TYPES = new String[][]{//
-			{"None", PlotSymbolType.NONE.toString()}, //
-			{"Circle", PlotSymbolType.CIRCLE.toString()}, //
-			{"Cross", PlotSymbolType.CROSS.toString()}, //
-			{"Diamond", PlotSymbolType.DIAMOND.toString()}, //
-			{"Inverted Triangle", PlotSymbolType.INVERTED_TRIANGLE.toString()}, //
-			{"Plus", PlotSymbolType.PLUS.toString()}, //
-			{"Square", PlotSymbolType.SQUARE.toString()}, //
-			{"Triangle", PlotSymbolType.TRIANGLE.toString()}, //
-			{"Emoji", PlotSymbolType.EMOJI.toString()}//
+
+	public static String[][] SYMBOL_TYPES = new String[][]{
+			{Messages.getString(Messages.NONE), PlotSymbolType.NONE.toString()},
+			{Messages.getString(Messages.CIRCLE), PlotSymbolType.CIRCLE.toString()}, 
+			{Messages.getString(Messages.CROSS), PlotSymbolType.CROSS.toString()},
+			{Messages.getString(Messages.DIAMON), PlotSymbolType.DIAMOND.toString()}, 
+			{Messages.getString(Messages.INVERTED_TRIANGLE), PlotSymbolType.INVERTED_TRIANGLE.toString()}, 
+			{Messages.getString(Messages.PLUS), PlotSymbolType.PLUS.toString()}, 
+			{Messages.getString(Messages.SQUARE), PlotSymbolType.SQUARE.toString()}, 
+			{Messages.getString(Messages.TRIANGLE), PlotSymbolType.TRIANGLE.toString()}, 
+			{Messages.getString(Messages.EMOJI), PlotSymbolType.EMOJI.toString()}
 	};
-	//
-	public static String[][] POSITIONS = new String[][]{//
-			{"Primary", Position.Primary.toString()}, //
-			{"Secondary", Position.Secondary.toString()}//
+
+	public static String[][] POSITIONS = new String[][]{
+			{Messages.getString(Messages.PRIMARY), Position.Primary.toString()},
+			{Messages.getString(Messages.SECONDARY), Position.Secondary.toString()}
 	};
-	//
-	public static String[][] LINE_STYLES = new String[][]{//
-			{"None", LineStyle.NONE.toString()}, //
-			{"-", LineStyle.DASH.toString()}, //
-			{"-.", LineStyle.DASHDOT.toString()}, //
-			{"-..", LineStyle.DASHDOTDOT.toString()}, //
-			{".", LineStyle.DOT.toString()}, //
-			{"Solid", LineStyle.SOLID.toString()}//
+
+	public static String[][] LINE_STYLES = new String[][]{
+			{Messages.getString(Messages.NONE), LineStyle.NONE.toString()}, 
+			{"-", LineStyle.DASH.toString()}, 
+			{"-.", LineStyle.DASHDOT.toString()}, 
+			{"-..", LineStyle.DASHDOTDOT.toString()}, 
+			{".", LineStyle.DOT.toString()}, 
+			{Messages.getString(Messages.SOLID), LineStyle.SOLID.toString()}
 	};
 }

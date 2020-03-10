@@ -2,14 +2,14 @@
 <feature
       id="org.eclipse.swtchart.feature"
       label="Eclipse SWTChart"
-      version="0.8.0.qualifier">
+      version="0.12.0.qualifier">
 
    <description url="https://projects.eclipse.org/projects/science.swtchart">
       This is the Eclipse SWTChart feature.
    </description>
 
    <copyright url="https://projects.eclipse.org/projects/science.swtchart">
-      Copyright (c) 2017, 2019 Lablicate GmbH.
+      Copyright (c) 2017, 2020 Lablicate GmbH.
 This program and the accompanying materials are made
 available under the terms of the Eclipse Public License 2.0
 which is available at https://www.eclipse.org/legal/epl-2.0/
@@ -17,7 +17,7 @@ SPDX-License-Identifier: EPL-2.0
    </copyright>
 
    <license url="https://www.eclipse.org/legal/epl-2.0/">
-      Copyright (c) 2017, 2019 Lablicate GmbH.
+      Copyright (c) 2017, 2020 Lablicate GmbH.
 This program and the accompanying materials are made
 available under the terms of the Eclipse Public License 2.0
 which is available at https://www.eclipse.org/legal/epl-2.0/

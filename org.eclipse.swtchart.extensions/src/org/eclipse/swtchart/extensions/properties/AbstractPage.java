@@ -52,9 +52,6 @@ public abstract class AbstractPage extends PreferencePage {
 		setTitle(title);
 	}
 
-	/*
-	 * @see PreferencePage#performOk()
-	 */
 	@Override
 	public boolean performOk() {
 

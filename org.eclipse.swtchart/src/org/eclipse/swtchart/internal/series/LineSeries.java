@@ -10,6 +10,7 @@
  * Contributors:
  * yoshitaka - initial API and implementation
  * Christoph Läubrich - add support for datamodel
+ * Frank Buloup = Internationalization
  *******************************************************************************/
 package org.eclipse.swtchart.internal.series;
 
@@ -59,7 +60,7 @@ public class LineSeries<T> extends Series<T> implements ILineSeries<T> {
 	/** the anti-aliasing value for drawing line */
 	private int antialias = DEFAULT_ANTIALIAS;
 	/** specific symbol */
-	private String extendedSymbolType = "😂";
+	private String extendedSymbolType = "😂"; //$NON-NLS-1$
 	/** the alpha value to draw area */
 	private static final int ALPHA = 50;
 	/** the default line style */
@@ -92,18 +93,12 @@ public class LineSeries<T> extends Series<T> implements ILineSeries<T> {
 		compressor = new CompressLineSeries();
 	}
 
-	/*
-	 * @see ILineSeries#getLineStyle()
-	 */
 	@Override
 	public LineStyle getLineStyle() {
 
 		return lineStyle;
 	}
 
-	/*
-	 * @see ILineSeries#setLineStyle(LineStyle)
-	 */
 	@Override
 	public void setLineStyle(LineStyle style) {
 
@@ -117,9 +112,6 @@ public class LineSeries<T> extends Series<T> implements ILineSeries<T> {
 		}
 	}
 
-	/*
-	 * @see ILineSeries#getLineColor()
-	 */
 	@Override
 	public Color getLineColor() {
 
@@ -129,9 +121,6 @@ public class LineSeries<T> extends Series<T> implements ILineSeries<T> {
 		return lineColor;
 	}
 
-	/*
-	 * @see ILineSeries#setLineColor(Color)
-	 */
 	@Override
 	public void setLineColor(Color color) {
 
@@ -145,18 +134,12 @@ public class LineSeries<T> extends Series<T> implements ILineSeries<T> {
 		}
 	}
 
-	/*
-	 * @see ILineSeries#getLineWidth()
-	 */
 	@Override
 	public int getLineWidth() {
 
 		return lineWidth;
 	}
 
-	/*
-	 * @see ILineSeries#setLineWidth(int)
-	 */
 	@Override
 	public void setLineWidth(int width) {
 
@@ -167,18 +150,12 @@ public class LineSeries<T> extends Series<T> implements ILineSeries<T> {
 		}
 	}
 
-	/*
-	 * @see ILineSeries#getSymbolType()
-	 */
 	@Override
 	public PlotSymbolType getSymbolType() {
 
 		return symbolType;
 	}
 
-	/*
-	 * @see ILineSeries#setSymbolType(PlotSymbolType)
-	 */
 	@Override
 	public void setSymbolType(PlotSymbolType type) {
 
@@ -189,36 +166,24 @@ public class LineSeries<T> extends Series<T> implements ILineSeries<T> {
 		}
 	}
 
-	/*
-	 * @see ILineSeries#getExtendedPlotSymbolType()
-	 */
 	@Override
 	public String getExtendedPlotSymbolType() {
 
 		return extendedSymbolType;
 	}
 
-	/*
-	 * @see ILineSeries#setExtendedPlotSymbolType(String)
-	 */
 	@Override
 	public void setExtendedPlotSymbolType(String type) {
 
 		extendedSymbolType = type;
 	}
 
-	/*
-	 * @see ILineSeries#getSymbolSize()
-	 */
 	@Override
 	public int getSymbolSize() {
 
 		return symbolSize;
 	}
 
-	/*
-	 * @see ILineSeries#setSymbolSize(int)
-	 */
 	@Override
 	public void setSymbolSize(int size) {
 
@@ -229,18 +194,12 @@ public class LineSeries<T> extends Series<T> implements ILineSeries<T> {
 		}
 	}
 
-	/*
-	 * @see ILineSeries#getSymbolColor()
-	 */
 	@Override
 	public Color getSymbolColor() {
 
 		return symbolColor;
 	}
 
-	/*
-	 * @see ILineSeries#setSymbolColor(Color)
-	 */
 	@Override
 	public void setSymbolColor(Color color) {
 
@@ -254,9 +213,6 @@ public class LineSeries<T> extends Series<T> implements ILineSeries<T> {
 		}
 	}
 
-	/*
-	 * @see ILineSeries#getSymbolColors()
-	 */
 	@Override
 	public Color[] getSymbolColors() {
 
@@ -265,9 +221,6 @@ public class LineSeries<T> extends Series<T> implements ILineSeries<T> {
 		return copiedSymbolColors;
 	}
 
-	/*
-	 * @see ILineSeries#setSymbolColors(Color [])
-	 */
 	@Override
 	public void setSymbolColors(Color[] colors) {
 
@@ -284,9 +237,6 @@ public class LineSeries<T> extends Series<T> implements ILineSeries<T> {
 		System.arraycopy(colors, 0, symbolColors, 0, colors.length);
 	}
 
-	/*
-	 * @see Series#setCompressor()
-	 */
 	@Override
 	protected void setCompressor() {
 
@@ -301,45 +251,30 @@ public class LineSeries<T> extends Series<T> implements ILineSeries<T> {
 		((CompressScatterSeries)compressor).setLineVisible(getLineStyle() != LineStyle.NONE);
 	}
 
-	/*
-	 * @see ILineSeries#enableArea(boolean)
-	 */
 	@Override
 	public void enableArea(boolean enabled) {
 
 		areaEnabled = enabled;
 	}
 
-	/*
-	 * @see ILineSeries#isAreaEnabled()
-	 */
 	@Override
 	public boolean isAreaEnabled() {
 
 		return areaEnabled;
 	}
 
-	/*
-	 * @see ILineSeries#enableStep(boolean)
-	 */
 	@Override
 	public void enableStep(boolean enabled) {
 
 		stepEnabled = enabled;
 	}
 
-	/*
-	 * @see ILineSeries#isStepEnabled()
-	 */
 	@Override
 	public boolean isStepEnabled() {
 
 		return stepEnabled;
 	}
 
-	/*
-	 * @see Series#getAdjustedRange(Axis, int)
-	 */
 	@Override
 	public Range getAdjustedRange(Axis axis, int length) {
 
@@ -354,18 +289,12 @@ public class LineSeries<T> extends Series<T> implements ILineSeries<T> {
 		return getRangeWithMargin(lowerPlotMargin, upperPlotMargin, length, axis, range);
 	}
 
-	/*
-	 * @see ILineSeries#getAntialias()
-	 */
 	@Override
 	public int getAntialias() {
 
 		return antialias;
 	}
 
-	/*
-	 * @see ILineSeries#setAntialias(int)
-	 */
 	@Override
 	public void setAntialias(int antialias) {
 
@@ -420,9 +349,6 @@ public class LineSeries<T> extends Series<T> implements ILineSeries<T> {
 		return new int[]{y1, x1, y2, x2, y3, x3, y4, x4};
 	}
 
-	/*
-	 * @see Series#draw(GC, int, int, Axis, Axis)
-	 */
 	@Override
 	protected void draw(GC gc, int width, int height, Axis xAxis, Axis yAxis) {
 

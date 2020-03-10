@@ -55,9 +55,7 @@ public class Grid implements IGrid {
 		isVisible = true;
 	}
 
-	/*
-	 * @see IGrid#getForeground()
-	 */
+	@Override
 	public Color getForeground() {
 
 		if(color.isDisposed()) {
@@ -66,9 +64,7 @@ public class Grid implements IGrid {
 		return color;
 	}
 
-	/*
-	 * @see IGrid#setForeground(Color)
-	 */
+	@Override
 	public void setForeground(Color color) {
 
 		if(color != null && color.isDisposed()) {
@@ -81,17 +77,13 @@ public class Grid implements IGrid {
 		}
 	}
 
-	/*
-	 * @see IGrid#getStyle()
-	 */
+	@Override
 	public LineStyle getStyle() {
 
 		return lineStyle;
 	}
 
-	/*
-	 * @see IGrid#setStyle(LineStyle)
-	 */
+	@Override
 	public void setStyle(LineStyle style) {
 
 		if(style == null) {

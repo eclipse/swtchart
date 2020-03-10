@@ -9,6 +9,7 @@
  * 
  * Contributors:
  * Dr. Philip Wenig - initial API and implementation
+ * Frank Buloup - Internationalization
  *******************************************************************************/
 package org.eclipse.swtchart.export.core;
 
@@ -16,6 +17,6 @@ import org.eclipse.swtchart.extensions.menu.IChartMenuEntry;
 
 public interface ISeriesExportConverter extends IChartMenuEntry {
 
-	String MESSAGE_OK = "The data has been exported successully.";
-	String MESSAGE_ERROR = "Sorry, something has gone wrong to export the data.";
+	String MESSAGE_OK = Messages.getString(Messages.DATA_EXPORT_SUCCESS);
+	String MESSAGE_ERROR = Messages.getString(Messages.DATA_EXPORT_ERROR);
 }

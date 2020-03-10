@@ -12,8 +12,6 @@
  *******************************************************************************/
 package org.eclipse.swtchart.extensions.axisconverter;
 
-import org.eclipse.swtchart.extensions.axisconverter.PassThroughConverter;
-
 import junit.framework.TestCase;
 
 public class PassThroughConverter_1_Test extends TestCase {

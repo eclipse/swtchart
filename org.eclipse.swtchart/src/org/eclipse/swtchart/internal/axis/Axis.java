@@ -10,7 +10,9 @@
  * Contributors:
  * yoshitaka - initial API and implementation
  * Christoph Läubrich - use getSize instead of bounds since we are not interested in the location anyways, add support for datamodel
+ * Frank Buloup - Internationalization
  *******************************************************************************/
+
 package org.eclipse.swtchart.internal.axis;
 
 import java.util.ArrayList;
@@ -110,45 +112,33 @@ public class Axis implements IAxis {
 		min = DEFAULT_MIN;
 		max = DEFAULT_MAX;
 		if(direction == Direction.X) {
-			title.setText("X axis");
+			title.setText(Messages.getString(Messages.X_AXIS)); 
 		} else if(direction == Direction.Y) {
-			title.setText("Y axis");
+			title.setText(Messages.getString(Messages.Y_AXIS)); 
 		}
 		logScaleEnabled = false;
 		categoryAxisEnabled = false;
 		reversed = false;
 	}
 
-	/*
-	 * @see IAxis#getId()
-	 */
 	@Override
 	public int getId() {
 
 		return id;
 	}
 
-	/*
-	 * @see IAxis#getDirection()
-	 */
 	@Override
 	public Direction getDirection() {
 
 		return direction;
 	}
 
-	/*
-	 * @see IAxis#getPosition()
-	 */
 	@Override
 	public Position getPosition() {
 
 		return position;
 	}
 
-	/*
-	 * @see IAxis#setPosition(Position)
-	 */
 	@Override
 	public void setPosition(Position position) {
 
@@ -162,9 +152,6 @@ public class Axis implements IAxis {
 		chart.updateLayout();
 	}
 
-	/*
-	 * @see IAxis#setRange(Range)
-	 */
 	@Override
 	public void setRange(Range range) {
 
@@ -186,7 +173,7 @@ public class Axis implements IAxis {
 			return; // to suppress warnings...
 		}
 		if(Double.isNaN(range.lower) || Double.isNaN(range.upper) || Double.isInfinite(range.lower) || Double.isInfinite(range.upper) || range.lower > range.upper) {
-			throw new IllegalArgumentException("Illegal range: " + range);
+			throw new IllegalArgumentException(Messages.getString(Messages.ILLEGAL_RANGE) + range); 
 		}
 		if(min == range.lower && max == range.upper) {
 			return;
@@ -202,7 +189,7 @@ public class Axis implements IAxis {
 			}
 		} else {
 			if(range.lower == range.upper) {
-				throw new IllegalArgumentException("Given range is invalid");
+				throw new IllegalArgumentException(Messages.getString(Messages.GIVEN_RANGE_INVALID)); 
 			}
 			if(logScaleEnabled && range.lower <= 0) {
 				range.lower = min;
@@ -218,36 +205,24 @@ public class Axis implements IAxis {
 		}
 	}
 
-	/*
-	 * @see IAxis#getRange()
-	 */
 	@Override
 	public Range getRange() {
 
 		return new Range(min, max);
 	}
 
-	/*
-	 * @see IAxis#getTitle()
-	 */
 	@Override
 	public ITitle getTitle() {
 
 		return title;
 	}
 
-	/*
-	 * @see IAxis#getTick()
-	 */
 	@Override
 	public AxisTick getTick() {
 
 		return tick;
 	}
 
-	/*
-	 * @see IAxis#enableLogScale(boolean)
-	 */
 	@Override
 	public void enableLogScale(boolean enabled) throws IllegalStateException {
 
@@ -258,7 +233,7 @@ public class Axis implements IAxis {
 			// check if series contain zero or negative value
 			double minSeriesValue = getMinSeriesValue();
 			if(minSeriesValue <= 0) {
-				throw new IllegalStateException("Series contain zero or negative value.");
+				throw new IllegalStateException(Messages.getString(Messages.SERIES_CONTAIN_INVALID_VALUES));
 			}
 			// adjust the range in order not to have zero or negative value
 			if(min <= 0) {
@@ -305,27 +280,18 @@ public class Axis implements IAxis {
 		return minimum;
 	}
 
-	/*
-	 * @see IAxis#isLogScaleEnabled()
-	 */
 	@Override
 	public boolean isLogScaleEnabled() {
 
 		return logScaleEnabled;
 	}
 
-	/*
-	 * @see IAxis#getGrid()
-	 */
 	@Override
 	public IGrid getGrid() {
 
 		return grid;
 	}
 
-	/*
-	 * @see IAxis#adjustRange()
-	 */
 	@Override
 	public void adjustRange() {
 
@@ -378,18 +344,12 @@ public class Axis implements IAxis {
 		}
 	}
 
-	/*
-	 * @see IAxis#zoomIn()
-	 */
 	@Override
 	public void zoomIn() {
 
 		zoomIn((max + min) / 2d);
 	}
 
-	/*
-	 * @see IAxis#zoomIn(double)
-	 */
 	@Override
 	public void zoomIn(double coordinate) {
 
@@ -419,18 +379,12 @@ public class Axis implements IAxis {
 		setRange(new Range(lower, upper));
 	}
 
-	/*
-	 * @see IAxis#zoomOut()
-	 */
 	@Override
 	public void zoomOut() {
 
 		zoomOut((min + max) / 2d);
 	}
 
-	/*
-	 * @see IAxis#zoomOut(double)
-	 */
 	@Override
 	public void zoomOut(double coordinate) {
 
@@ -458,9 +412,6 @@ public class Axis implements IAxis {
 		setRange(new Range(lower, upper));
 	}
 
-	/*
-	 * @see IAxis#scrollUp()
-	 */
 	@Override
 	public void scrollUp() {
 
@@ -483,9 +434,6 @@ public class Axis implements IAxis {
 		setRange(new Range(lower, upper));
 	}
 
-	/*
-	 * @see IAxis#scrollDown()
-	 */
 	@Override
 	public void scrollDown() {
 
@@ -508,9 +456,6 @@ public class Axis implements IAxis {
 		setRange(new Range(lower, upper));
 	}
 
-	/*
-	 * @see IAxis#isCategoryEnabled()
-	 */
 	@Override
 	public boolean isCategoryEnabled() {
 
@@ -527,9 +472,6 @@ public class Axis implements IAxis {
 		return categoryAxisEnabled && categorySeries != null && categorySeries.length != 0;
 	}
 
-	/*
-	 * @see IAxis#enableCategory(boolean)
-	 */
 	@Override
 	public void enableCategory(boolean enabled) {
 
@@ -538,7 +480,7 @@ public class Axis implements IAxis {
 		}
 		if(enabled) {
 			if(direction == Direction.Y) {
-				throw new IllegalStateException("Y axis cannot be category axis.");
+				throw new IllegalStateException(Messages.getString(Messages.Y_AXIS_CANNOT_BE_CATEGORY));
 			}
 			if(categorySeries != null && categorySeries.length != 0) {
 				min = (min < 0 || min >= categorySeries.length) ? 0 : (int)min;
@@ -552,9 +494,6 @@ public class Axis implements IAxis {
 		((SeriesSet)chart.getSeriesSet()).updateStackAndRiserData();
 	}
 
-	/*
-	 * @see IAxis#setCategorySeries(String[])
-	 */
 	@Override
 	public void setCategorySeries(String[] series) {
 
@@ -563,7 +502,7 @@ public class Axis implements IAxis {
 			return; // to suppress warnings...
 		}
 		if(direction == Direction.Y) {
-			throw new IllegalStateException("Y axis cannot be category axis.");
+			throw new IllegalStateException(Messages.getString(Messages.Y_AXIS_CANNOT_BE_CATEGORY)); 
 		}
 		String[] copiedSeries = new String[series.length];
 		System.arraycopy(series, 0, copiedSeries, 0, series.length);
@@ -577,9 +516,6 @@ public class Axis implements IAxis {
 		((SeriesSet)chart.getSeriesSet()).updateStackAndRiserData();
 	}
 
-	/*
-	 * @see IAxis#getCategorySeries()
-	 */
 	@Override
 	public String[] getCategorySeries() {
 
@@ -591,9 +527,6 @@ public class Axis implements IAxis {
 		return copiedCategorySeries;
 	}
 
-	/*
-	 * @see IAxis#setReversed(boolean)
-	 */
 	@Override
 	public void setReversed(boolean reversed) {
 
@@ -604,18 +537,12 @@ public class Axis implements IAxis {
 		chart.updateLayout();
 	}
 
-	/*
-	 * @see IAxis#isReversed()
-	 */
 	@Override
 	public boolean isReversed() {
 
 		return reversed;
 	}
 
-	/*
-	 * @see IAxis#getPixelCoordinate(double)
-	 */
 	@Override
 	public int getPixelCoordinate(double dataCoordinate) {
 
@@ -676,9 +603,6 @@ public class Axis implements IAxis {
 		return pixelCoordinate;
 	}
 
-	/*
-	 * @see IAxis#getDataCoordinate(int)
-	 */
 	@Override
 	public double getDataCoordinate(int pixelCoordinate) {
 
@@ -786,9 +710,6 @@ public class Axis implements IAxis {
 		}
 	}
 
-	/*
-	 * @see IAxis#addDisposeListener(IDisposeListener)
-	 */
 	@Override
 	public void addDisposeListener(IDisposeListener listener) {
 

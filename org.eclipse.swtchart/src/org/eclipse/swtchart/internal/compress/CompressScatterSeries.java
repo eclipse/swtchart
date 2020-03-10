@@ -24,9 +24,6 @@ public class CompressScatterSeries extends Compress {
 	/** flag indicating whether the grid is occupied */
 	private boolean occupied[][];
 
-	/*
-	 * @see Compress#addNecessaryPlots(ArrayList, ArrayList, ArrayList)
-	 */
 	@Override
 	protected void addNecessaryPlots(ArrayList<Double> xList, ArrayList<Double> yList, ArrayList<Integer> indexList) {
 

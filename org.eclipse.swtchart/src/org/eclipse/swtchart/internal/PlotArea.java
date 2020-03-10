@@ -84,6 +84,12 @@ public class PlotArea extends Composite implements PaintListener, IPlotArea {
 		chart.removeDisposeListener(disposeListener);
 	}
 
+	@Override
+	public Chart getChart() {
+
+		return chart;
+	}
+
 	/**
 	 * Gets the set of series.
 	 * 
@@ -103,9 +109,6 @@ public class PlotArea extends Composite implements PaintListener, IPlotArea {
 		return this;
 	}
 
-	/*
-	 * @see Control#setBounds(int, int, int, int)
-	 */
 	@Override
 	public void setBounds(int x, int y, int width, int height) {
 
@@ -113,9 +116,6 @@ public class PlotArea extends Composite implements PaintListener, IPlotArea {
 		((SeriesSet)getSeriesSet()).compressAllSeries();
 	}
 
-	/*
-	 * @see Control#setBackground(Color)
-	 */
 	@Override
 	public void setBackground(Color color) {
 
@@ -126,27 +126,18 @@ public class PlotArea extends Composite implements PaintListener, IPlotArea {
 		}
 	}
 
-	/*
-	 * @see IPlotArea#addCustomPaintListener(ICustomPaintListener)
-	 */
 	@Override
 	public void addCustomPaintListener(ICustomPaintListener listener) {
 
 		paintListeners.add(listener);
 	}
 
-	/*
-	 * @see IPlotArea#removeCustomPaintListener(ICustomPaintListener)
-	 */
 	@Override
 	public void removeCustomPaintListener(ICustomPaintListener listener) {
 
 		paintListeners.remove(listener);
 	}
 
-	/*
-	 * @see PaintListener#paintControl(PaintEvent)
-	 */
 	@Override
 	public void paintControl(PaintEvent e) {
 

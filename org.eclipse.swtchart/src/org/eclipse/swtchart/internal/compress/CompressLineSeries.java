@@ -44,9 +44,6 @@ public class CompressLineSeries extends Compress {
 	/** the flag indicating whether the previous point is out of range */
 	private boolean isPrevOutOfRange;
 
-	/*
-	 * @see Compress#addNecessaryPlots(ArrayList, ArrayList, ArrayList)
-	 */
 	@Override
 	protected void addNecessaryPlots(ArrayList<Double> xList, ArrayList<Double> yList, ArrayList<Integer> indexList) {
 

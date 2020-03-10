@@ -26,6 +26,7 @@ import org.eclipse.swt.widgets.Listener;
  */
 public interface IEventHandler extends Listener, PaintListener {
 
+	@Override
 	default void handleEvent(Event event) {
 
 		switch(event.type) {
@@ -56,6 +57,7 @@ public interface IEventHandler extends Listener, PaintListener {
 		}
 	}
 
+	@Override
 	default void paintControl(PaintEvent e) {
 
 	}

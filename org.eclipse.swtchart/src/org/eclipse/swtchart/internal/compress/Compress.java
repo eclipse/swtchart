@@ -56,9 +56,7 @@ public abstract class Compress implements ICompress {
 	/** the plot area height in pixels */
 	private long heightInPixel;
 
-	/*
-	 * @see ICompress#setXSeries(double[])
-	 */
+	@Override
 	public void setXSeries(double[] xSeries) {
 
 		if(xSeries == null) {
@@ -75,9 +73,7 @@ public abstract class Compress implements ICompress {
 		compressed = false;
 	}
 
-	/*
-	 * @see ICompress#setYSeries(double[])
-	 */
+	@Override
 	public void setYSeries(double[] ySeries) {
 
 		if(ySeries == null) {
@@ -90,9 +86,7 @@ public abstract class Compress implements ICompress {
 		compressed = false;
 	}
 
-	/*
-	 * @see ICompress#getCompressedXSeries()
-	 */
+	@Override
 	public double[] getCompressedXSeries() {
 
 		double[] copiedSeries = new double[compressedXSeries.length];
@@ -100,9 +94,7 @@ public abstract class Compress implements ICompress {
 		return copiedSeries;
 	}
 
-	/*
-	 * @see ICompress#getCompressedYSeries()
-	 */
+	@Override
 	public double[] getCompressedYSeries() {
 
 		double[] copiedSeries = new double[compressedYSeries.length];
@@ -110,9 +102,7 @@ public abstract class Compress implements ICompress {
 		return copiedSeries;
 	}
 
-	/*
-	 * @see ICompress#getCompressedIndexes()
-	 */
+	@Override
 	public int[] getCompressedIndexes() {
 
 		int[] copiedSeries = new int[compressedIndexes.length];
@@ -120,9 +110,7 @@ public abstract class Compress implements ICompress {
 		return copiedSeries;
 	}
 
-	/*
-	 * @see ICompress#compress(CompressConfig)
-	 */
+	@Override
 	final public boolean compress(CompressConfig compressConfig) {
 
 		if((compressConfig.equals(prevConfig) && compressed) || xSeries == null || ySeries == null) {

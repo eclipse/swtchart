@@ -19,9 +19,6 @@ import java.util.ArrayList;
  */
 public class CompressBarSeries extends Compress {
 
-	/*
-	 * @see Compress#addNecessaryPlots(ArrayList, ArrayList, ArrayList)
-	 */
 	@Override
 	protected void addNecessaryPlots(ArrayList<Double> xList, ArrayList<Double> yList, ArrayList<Integer> indexList) {
 

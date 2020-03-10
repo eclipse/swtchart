@@ -13,8 +13,6 @@
 package org.eclipse.swtchart.examples.advanced;
 
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.events.MouseEvent;
-import org.eclipse.swt.events.MouseMoveListener;
 import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.widgets.Composite;
@@ -83,16 +81,13 @@ public class LegendBoundsExample {
 		chart.getAxisSet().adjustRange();
 		// add mouse move listener to legend
 		final Control legend = (Control)chart.getLegend();
-		legend.addMouseMoveListener(new MouseMoveListener() {
+		legend.addMouseMoveListener(e -> {
 
-			public void mouseMove(MouseEvent e) {
-
-				for(ISeries series : chart.getSeriesSet().getSeries()) {
-					Rectangle r = chart.getLegend().getBounds(series.getId());
-					if(r.x < e.x && e.x < r.x + r.width && r.y < e.y && e.y < r.y + r.height) {
-						legend.setToolTipText(series.getId());
-						return;
-					}
+			for(ISeries series : chart.getSeriesSet().getSeries()) {
+				Rectangle r = chart.getLegend().getBounds(series.getId());
+				if(r.x < e.x && e.x < r.x + r.width && r.y < e.y && e.y < r.y + r.height) {
+					legend.setToolTipText(series.getId());
+					return;
 				}
 			}
 		});

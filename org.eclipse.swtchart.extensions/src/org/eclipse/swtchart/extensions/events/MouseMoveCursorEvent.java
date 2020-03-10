@@ -9,6 +9,7 @@
  * 
  * Contributors:
  * Dr. Philip Wenig - initial API and implementation
+ * Frank Buloup - Internationalization
  *******************************************************************************/
 package org.eclipse.swtchart.extensions.events;
 
@@ -17,6 +18,7 @@ import org.eclipse.swt.graphics.Cursor;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.ToolTip;
 import org.eclipse.swtchart.extensions.core.BaseChart;
+import org.eclipse.swtchart.extensions.core.IMouseSupport;
 
 public class MouseMoveCursorEvent extends AbstractHandledEventProcessor implements IHandledEventProcessor {
 
@@ -26,7 +28,7 @@ public class MouseMoveCursorEvent extends AbstractHandledEventProcessor implemen
 	@Override
 	public int getEvent() {
 
-		return BaseChart.EVENT_MOUSE_MOVE;
+		return IMouseSupport.EVENT_MOUSE_MOVE;
 	}
 
 	@Override
@@ -48,7 +50,7 @@ public class MouseMoveCursorEvent extends AbstractHandledEventProcessor implemen
 			}
 			//
 			String selectedSeriesId = baseChart.getSelectedseriesId(event);
-			if(selectedSeriesId.equals("")) {
+			if(selectedSeriesId.equals("")) { //$NON-NLS-1$
 				baseChart.setCursor(defaultCursor);
 				tooltip.setVisible(false);
 			} else {

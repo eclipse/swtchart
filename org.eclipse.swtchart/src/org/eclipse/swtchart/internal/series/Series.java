@@ -7,6 +7,7 @@
  * Contributors:
  * yoshitaka - initial API and implementation
  * Christoph Läubrich - add support for datamodel
+ * Frank Buloup = Internationalization
  *******************************************************************************/
 package org.eclipse.swtchart.internal.series;
 
@@ -98,18 +99,12 @@ abstract public class Series<T> implements ISeries<T> {
 		listeners = new ArrayList<IDisposeListener>();
 	}
 
-	/*
-	 * @see ISeries#getId()
-	 */
 	@Override
 	public String getId() {
 
 		return id;
 	}
 
-	/*
-	 * @see ISeries#setVisible(boolean)
-	 */
 	@Override
 	public void setVisible(boolean visible) {
 
@@ -120,27 +115,18 @@ abstract public class Series<T> implements ISeries<T> {
 		((SeriesSet)chart.getSeriesSet()).updateStackAndRiserData();
 	}
 
-	/*
-	 * @see ISeries#isVisible()
-	 */
 	@Override
 	public boolean isVisible() {
 
 		return visible;
 	}
 
-	/*
-	 * @see ISeries#getType()
-	 */
 	@Override
 	public SeriesType getType() {
 
 		return type;
 	}
 
-	/*
-	 * @see ISeries#isStackEnabled()
-	 */
 	@Override
 	public boolean isStackEnabled() {
 
@@ -177,15 +163,12 @@ abstract public class Series<T> implements ISeries<T> {
 		}
 	}
 
-	/*
-	 * @see ISeries#enableStack(boolean)
-	 */
 	@Override
 	public void enableStack(boolean enabled) {
 
 		Number minY = getDataModel().getMinY();
 		if(enabled && (minY != null && minY.doubleValue() < 0)) {
-			throw new IllegalStateException("Stacked series cannot contain minus values.");
+			throw new IllegalStateException(Messages.getString(Messages.STACKED_SERIES_CANT_CONTAIN_NEGATIVE_VALUES)); 
 		}
 		if(stackEnabled == enabled) {
 			return;
@@ -194,9 +177,6 @@ abstract public class Series<T> implements ISeries<T> {
 		((SeriesSet)chart.getSeriesSet()).updateStackAndRiserData();
 	}
 
-	/*
-	 * @see ISeries#setXSeries(double[])
-	 */
 	@SuppressWarnings("unchecked")
 	@Override
 	public void setXSeries(double[] series) {
@@ -236,9 +216,6 @@ abstract public class Series<T> implements ISeries<T> {
 		return StreamSupport.stream(dataModel.spliterator(), false).filter(t -> dataModel.getX(t) != null).map(value -> new Date(dataModel.getX(value).longValue())).toArray(Date[]::new);
 	}
 
-	/*
-	 * @see ISeries#getXSeries()
-	 */
 	@Override
 	public double[] getXSeries() {
 
@@ -249,9 +226,6 @@ abstract public class Series<T> implements ISeries<T> {
 		return StreamSupport.stream(dataModel.spliterator(), false).filter(t -> dataModel.getX(t) != null).mapToDouble(value -> dataModel.getX(value).doubleValue()).toArray();
 	}
 
-	/*
-	 * @see ISeries#setYSeries(double[])
-	 */
 	@SuppressWarnings("unchecked")
 	@Override
 	public void setYSeries(double[] series) {
@@ -273,9 +247,6 @@ abstract public class Series<T> implements ISeries<T> {
 		setDataModel((CartesianSeriesModel<T>)arraySeriesModel);
 	}
 
-	/*
-	 * @see ISeries#getYSeries()
-	 */
 	@Override
 	public double[] getYSeries() {
 
@@ -369,18 +340,12 @@ abstract public class Series<T> implements ISeries<T> {
 	 */
 	abstract protected void setCompressor();
 
-	/*
-	 * @see ISeries#getXAxisId()
-	 */
 	@Override
 	public int getXAxisId() {
 
 		return xAxisId;
 	}
 
-	/*
-	 * @see ISeries#setXAxisId(int)
-	 */
 	@Override
 	public void setXAxisId(int id) {
 
@@ -395,45 +360,30 @@ abstract public class Series<T> implements ISeries<T> {
 		((SeriesSet)chart.getSeriesSet()).updateStackAndRiserData();
 	}
 
-	/*
-	 * @see ISeries#getYAxisId()
-	 */
 	@Override
 	public int getYAxisId() {
 
 		return yAxisId;
 	}
 
-	/*
-	 * @see ISeries#setYAxisId(int)
-	 */
 	@Override
 	public void setYAxisId(int id) {
 
 		yAxisId = id;
 	}
 
-	/*
-	 * @see ISeries#getLabel()
-	 */
 	@Override
 	public ISeriesLabel getLabel() {
 
 		return seriesLabel;
 	}
 
-	/*
-	 * @see ISeries#getXErrorBar()
-	 */
 	@Override
 	public IErrorBar getXErrorBar() {
 
 		return xErrorBar;
 	}
 
-	/*
-	 * @see ISeries#getYErrorBar()
-	 */
 	@Override
 	public IErrorBar getYErrorBar() {
 
@@ -451,9 +401,6 @@ abstract public class Series<T> implements ISeries<T> {
 		this.stackSeries = stackSeries;
 	}
 
-	/*
-	 * @see ISeries#getPixelCoordinates(int)
-	 */
 	@Override
 	public Point getPixelCoordinates(int index) {
 
@@ -517,7 +464,7 @@ abstract public class Series<T> implements ISeries<T> {
 			// get the pixel coordinate
 			return axis.getPixelCoordinate(dataCoordinate);
 		} else {
-			throw new IllegalStateException("This requires a IndexedSeriesModel");
+			throw new IllegalStateException(Messages.getString(Messages.REQUIRES_INDEXED_SERIES_MODEL)); 
 		}
 	}
 
@@ -548,36 +495,24 @@ abstract public class Series<T> implements ISeries<T> {
 		return new Range(lower, upper);
 	}
 
-	/*
-	 * @see ISeries#setVisibleInLegend(boolean)
-	 */
 	@Override
 	public void setVisibleInLegend(boolean visible) {
 
 		visibleInLegend = visible;
 	}
 
-	/*
-	 * @see ISeries#isVisibleInLegend()
-	 */
 	@Override
 	public boolean isVisibleInLegend() {
 
 		return visibleInLegend;
 	}
 
-	/*
-	 * @see ISeries#setDescription(String)
-	 */
 	@Override
 	public void setDescription(String description) {
 
 		this.description = description;
 	}
 
-	/*
-	 * @see ISeries#getDescription()
-	 */
 	@Override
 	public String getDescription() {
 
@@ -594,9 +529,6 @@ abstract public class Series<T> implements ISeries<T> {
 		}
 	}
 
-	/*
-	 * @see IAxis#addDisposeListener(IDisposeListener)
-	 */
 	@Override
 	public void addDisposeListener(IDisposeListener listener) {
 

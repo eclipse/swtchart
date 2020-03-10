@@ -27,8 +27,8 @@ public class SVGFactory {
 
 	public SVGFactory() {
 		DOMImplementation domImpl = GenericDOMImplementation.getDOMImplementation();
-		String svgNS = "http://www.w3.org/2000/svg";
-		Document document = domImpl.createDocument(svgNS, "svg", null);
+		String svgNS = "http://www.w3.org/2000/svg"; //$NON-NLS-1$
+		Document document = domImpl.createDocument(svgNS, "svg", null); //$NON-NLS-1$
 		this.svgGraphics2D = new SVGGraphics2D(document);
 	}
 

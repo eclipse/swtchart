@@ -7,6 +7,7 @@
  * 
  * Contributors:
  * Christoph Läubrich - initial API and implementation
+ * Frank Buloup - Internationalization
  *******************************************************************************/
 package org.eclipse.swtchart.model;
 
@@ -31,7 +32,7 @@ public class DoubleArraySeriesModel implements IndexedSeriesModel<Integer>, Cart
 
 	public DoubleArraySeriesModel(double[] xSeries, double[] ySeries) {
 		if(xSeries.length != ySeries.length) {
-			throw new IllegalArgumentException("length of x and y data does not match");
+			throw new IllegalArgumentException(Messages.getString(Messages.X_Y_LENGTH_DOESNT_MATCH));
 		}
 		this.xdata = xSeries;
 		this.ydata = ySeries;

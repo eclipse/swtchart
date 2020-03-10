@@ -1,14 +1,15 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?><?pde version="3.8"?><target name="swtchart" sequenceNumber="3">
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<?pde version="3.8"?><target name="swtchart" sequenceNumber="3">
 <locations>
 <location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="true" type="InstallableUnit">
-<unit id="org.eclipse.sdk.ide" version="4.6.3.M20170301-0400"/>
-<repository location="http://download.eclipse.org/eclipse/updates/4.6"/>
+<unit id="org.eclipse.sdk.ide" version="4.14.0.I20191210-0610"/>
+<repository location="http://download.eclipse.org/eclipse/updates/4.14/R-4.14-201912100610/"/>
 </location>
-<location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="true" type="InstallableUnit"> 
-<unit id="org.apache.batik.svggen" version="0.0.0"/> 
-<unit id="org.apache.batik.ext.awt" version="0.0.0"/> 
-<unit id="org.apache.batik.dom" version="0.0.0"/> 
-<repository location="https://download.eclipse.org/tools/orbit/downloads/drops/S20190819183153/repository"/> 
+<location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="true" type="InstallableUnit">
+<unit id="org.apache.batik.svggen" version="0.0.0"/>
+<unit id="org.apache.batik.ext.awt" version="0.0.0"/>
+<unit id="org.apache.batik.dom" version="0.0.0"/>
+<repository location="https://download.eclipse.org/tools/orbit/downloads/drops/R20191126223242/repository"/>
 </location>
 </locations>
 </target>

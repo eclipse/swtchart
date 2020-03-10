@@ -9,6 +9,7 @@
  * 
  * Contributors:
  * yoshitaka - initial API and implementation
+ * Frank Buloup - Internationalization
  *******************************************************************************/
 package org.eclipse.swtchart.extensions.properties;
 
@@ -36,7 +37,7 @@ import org.eclipse.swtchart.extensions.charts.InteractiveChart;
 public class GridPage extends AbstractSelectorPage {
 
 	/** the key for grid foreground */
-	private static final String GRID_FOREGROUND = "org.eclipse.swtchart.grid.foreground";
+	private static final String GRID_FOREGROUND = "org.eclipse.swtchart.grid.foreground"; //$NON-NLS-1$
 	/** the axes */
 	private IAxis[] axes;
 	/** the style combo */
@@ -61,7 +62,7 @@ public class GridPage extends AbstractSelectorPage {
 	 *            the title
 	 */
 	public GridPage(InteractiveChart chart, PropertiesResources resources, Direction direction, String title) {
-		super(chart, resources, title, "Axes:");
+		super(chart, resources, title, Messages.getString(Messages.AXES));
 		if(direction == Direction.X) {
 			this.axes = chart.getAxisSet().getXAxes();
 		} else if(direction == Direction.Y) {
@@ -71,9 +72,6 @@ public class GridPage extends AbstractSelectorPage {
 		foregroundColors = new RGB[axes.length];
 	}
 
-	/*
-	 * @see AbstractSelectorPage#getListItems()
-	 */
 	@Override
 	protected String[] getListItems() {
 
@@ -84,9 +82,6 @@ public class GridPage extends AbstractSelectorPage {
 		return items;
 	}
 
-	/*
-	 * @see AbstractSelectorPage#selectInitialValues()
-	 */
 	@Override
 	protected void selectInitialValues() {
 
@@ -96,9 +91,6 @@ public class GridPage extends AbstractSelectorPage {
 		}
 	}
 
-	/*
-	 * @see AbstractSelectorPage#updateControlSelections()
-	 */
 	@Override
 	protected void updateControlSelections() {
 
@@ -106,9 +98,6 @@ public class GridPage extends AbstractSelectorPage {
 		foregroundButton.setColorValue(foregroundColors[selectedIndex]);
 	}
 
-	/*
-	 * @see AbstractSelectorPage#addRightPanelContents(Composite)
-	 */
 	@Override
 	protected void addRightPanelContents(Composite parent) {
 
@@ -128,7 +117,7 @@ public class GridPage extends AbstractSelectorPage {
 		gridData.horizontalSpan = 2;
 		group.setLayoutData(gridData);
 		group.setLayout(new GridLayout(2, false));
-		createLabelControl(group, "Line style:");
+		createLabelControl(group, Messages.getString(Messages.LINE_STYLE));
 		LineStyle[] values = LineStyle.values();
 		String[] labels = new String[values.length];
 		for(int i = 0; i < values.length; i++) {
@@ -150,10 +139,11 @@ public class GridPage extends AbstractSelectorPage {
 				styles[selectedIndex] = selectedStyle;
 			}
 		});
-		createLabelControl(group, "Color:");
+		createLabelControl(group, Messages.getString(Messages.COLOR));
 		foregroundButton = createColorButtonControl(group);
 		foregroundButton.addListener(new IPropertyChangeListener() {
 
+			@Override
 			public void propertyChange(PropertyChangeEvent event) {
 
 				foregroundColors[selectedIndex] = foregroundButton.getColorValue();
@@ -161,9 +151,6 @@ public class GridPage extends AbstractSelectorPage {
 		});
 	}
 
-	/*
-	 * @see AbstractPreferencePage#apply()
-	 */
 	@Override
 	public void apply() {
 
@@ -175,9 +162,6 @@ public class GridPage extends AbstractSelectorPage {
 		}
 	}
 
-	/*
-	 * @see PreferencePage#performDefaults()
-	 */
 	@Override
 	protected void performDefaults() {
 

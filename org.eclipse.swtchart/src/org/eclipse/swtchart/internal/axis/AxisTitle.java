@@ -9,6 +9,7 @@
  * 
  * Contributors:
  * yoshitaka - initial API and implementation
+ * Frank Buloup - Internationalization
  *******************************************************************************/
 package org.eclipse.swtchart.internal.axis;
 
@@ -26,9 +27,9 @@ import org.eclipse.swtchart.internal.Title;
 public class AxisTitle extends Title {
 
 	/** the default text for X Axis */
-	private static final String DEFAULT_TEXT_FOR_XAXIS = "X Axis";
+	private static final String DEFAULT_TEXT_FOR_XAXIS = Messages.getString(Messages.X_AXIS);
 	/** the default text for X Axis */
-	private static final String DEFAULT_TEXT_FOR_YAXIS = "Y Axis";
+	private static final String DEFAULT_TEXT_FOR_YAXIS = Messages.getString(Messages.Y_AXIS);
 	/** the default color */
 	private static final int DEFAULT_FONT_SIZE = Constants.MEDIUM_FONT_SIZE;
 	/** the default font */
@@ -54,14 +55,11 @@ public class AxisTitle extends Title {
 		super(chart);
 		this.axis = axis;
 		this.direction = direction;
-		defaultFont = new Font(Display.getDefault(), "Tahoma", DEFAULT_FONT_SIZE, SWT.BOLD);
+		defaultFont = new Font(Display.getDefault(), "Tahoma", DEFAULT_FONT_SIZE, SWT.BOLD); //$NON-NLS-1$
 		setFont(defaultFont);
 		setText(getDefaultText());
 	}
 
-	/*
-	 * @see Title#getDefaultText()
-	 */
 	@Override
 	protected String getDefaultText() {
 
@@ -71,18 +69,12 @@ public class AxisTitle extends Title {
 		return DEFAULT_TEXT_FOR_YAXIS;
 	}
 
-	/*
-	 * @see Title#isHorizontal()
-	 */
 	@Override
 	protected boolean isHorizontal() {
 
 		return axis.isHorizontalAxis();
 	}
 
-	/*
-	 * @see Title#dispose()
-	 */
 	@Override
 	public void dispose() {
 

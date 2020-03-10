@@ -31,6 +31,7 @@ public class LineSeriesSecondaryAxesPreferencePage extends FieldEditorPreference
 		setDescription("Set the secondary axis settings.");
 	}
 
+	@Override
 	public void createFieldEditors() {
 
 		addField(new SpacerFieldEditor(getFieldEditorParent()));
@@ -64,6 +65,7 @@ public class LineSeriesSecondaryAxesPreferencePage extends FieldEditorPreference
 		addField(new IntegerFieldEditor(LineSeriesPreferenceConstants.P_SECONDARY_Y_AXIS_EXTRA_SPACE_TITLE, "Secondary Y-Axis Extra Space Title:", getFieldEditorParent()));
 	}
 
+	@Override
 	public void init(IWorkbench workbench) {
 
 	}

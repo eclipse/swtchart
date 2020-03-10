@@ -3,7 +3,7 @@
 A) Install Eclipse for RCP/RAP Developers via the Eclipse installer [1]
 B) Install RCPTT (Menu -> Help -> Eclipse Marketplace)
 C) Clone/Import SWTChart repository -> branch "develop" [2]
-D) Run Application (SWTChart Extension Examples)
+D) Run Application (Create a new Eclipse Application "SWTChart Examples" and select "all workspace and enabled target plug-ins")
 
 [1] https://www.eclipse.org/downloads/
 [2] https://github.com/eclipse/swtchart
