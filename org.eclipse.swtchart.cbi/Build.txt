@@ -19,4 +19,4 @@ mvn -f org.eclipse.swtchart.cbi/pom.xml clean install
 A) Download Eclipse for RCP and RAP Developers
 B) org.eclipse.swtchart.extensions.demos.updatesite/site.xml -> Build All
 C) Copy features and plugins folder -> dropins folder of "Eclipse for RCP and RAP Developers"
-D) Run RCPTT tests
+D) Run RCPTT(Rich Client Platform Testing Tool) tests
