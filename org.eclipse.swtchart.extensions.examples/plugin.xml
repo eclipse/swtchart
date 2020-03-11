@@ -106,5 +106,19 @@
             MenuEntry="org.eclipse.swtchart.extensions.examples.menu.ResetYAxisHandler">
       </MenuItemSupplier>
    </extension>
-
+	<extension
+         point="org.eclipse.ui.views">
+      <category
+            name="Interactive Chart"
+            id="org.eclipse.swtchart.extensions.examples">
+      </category>
+      <view
+            id="org.eclipse.swtchart.extensions.examples.charts.InteractiveChartExample"
+            name="Interactive Chart"
+            icon="icons/sample.png"
+            class="org.eclipse.swtchart.extensions.examples.charts.InteractiveChartExample"
+            category="org.eclipse.swtchart.extensions.examples"
+            inject="true">
+      </view>
+   </extension>
 </plugin>
