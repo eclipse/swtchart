@@ -5,12 +5,12 @@
   <parent>
     <groupId>org.eclipse.swtchart</groupId>
     <artifactId>org.eclipse.swtchart.build</artifactId>
-    <version>0.12.0</version>
+    <version>0.13.0</version>
     <relativePath>../org.eclipse.swtchart.cbi/pom.xml</relativePath>
   </parent>
 
   <artifactId>org.eclipse.swtchart.export.test</artifactId>
   <packaging>eclipse-test-plugin</packaging>
-  <version>0.12.0-SNAPSHOT</version>
+  <version>0.13.0-SNAPSHOT</version>
   
 </project>
