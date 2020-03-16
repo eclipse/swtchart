@@ -36,6 +36,7 @@ public class AngledAxisTickLabelsExample {
 	 *            the arguments
 	 */
 	public static void main(String[] args) {
+
 		Display display = new Display();
 		Shell shell = new Shell(display);
 		shell.setText("Angled Axis Tick Labels");
@@ -59,6 +60,7 @@ public class AngledAxisTickLabelsExample {
 	 * @return The created chart
 	 */
 	static public Chart createChart(Composite parent) {
+
 		// create a chart
 		Chart chart = new Chart(parent, SWT.NONE);
 		chart.getTitle().setText("Angled Axis Tick Labels");
