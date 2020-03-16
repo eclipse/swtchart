@@ -35,7 +35,6 @@ import org.eclipse.swtchart.examples.advanced.DataToPixelConversionExample;
 import org.eclipse.swtchart.examples.advanced.LegendBoundsExample;
 import org.eclipse.swtchart.examples.advanced.PxielToDataConversionExample;
 import org.eclipse.swtchart.examples.advanced.SymbolBoundsExample;
-
 /**
  * The class to run all examples.
  */
@@ -87,7 +86,6 @@ public class RunAllExamples {
 			list.add(chart.getTitle().getText());
 		}
 		list.addSelectionListener(new SelectionAdapter() {
-
 			@Override
 			public void widgetSelected(SelectionEvent event) {
 
