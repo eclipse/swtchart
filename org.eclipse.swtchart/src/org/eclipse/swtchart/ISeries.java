@@ -31,7 +31,7 @@ public interface ISeries<DataType> {
 		/** the line */
 		LINE("Line"), //$NON-NLS-1$
 		/** the bar */
-		BAR("Bar"); //$NON-NLS-1$
+		BAR("Bar"), STEP("Step"), ; //$NON-NLS-1$
 
 		/** the label for series type */
 		public final String label;

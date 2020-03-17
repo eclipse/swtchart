@@ -79,7 +79,12 @@ public class SeriesSet implements ISeriesSet {
 			series = new BarSeries(chart, trimmedId);
 		} else if(type == SeriesType.LINE) {
 			series = new LineSeries(chart, trimmedId);
-		} else {
+		}
+		else if(type == SeriesType.STEP) {
+			series = new LineSeries(chart, trimmedId);
+			((LineSeries)series).enableStep(true);
+		}
+		else {
 			SWT.error(SWT.ERROR_INVALID_ARGUMENT);
 			return null; // to suppress warning...
 		}
