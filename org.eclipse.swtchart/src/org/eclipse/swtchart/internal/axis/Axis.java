@@ -111,13 +111,6 @@ public class Axis implements IAxis {
 		position = Position.Primary;
 		min = DEFAULT_MIN;
 		max = DEFAULT_MAX;
-		//The following if-else is present in the AxisTitle,java file, and is hence redundant.
-		//It shall be removed in the next commit.
-		if(direction == Direction.X) {
-			title.setText(Messages.getString(Messages.X_AXIS)); 
-		} else if(direction == Direction.Y) {
-			title.setText(Messages.getString(Messages.Y_AXIS)); 
-		}
 		logScaleEnabled = false;
 		categoryAxisEnabled = false;
 		reversed = false;
