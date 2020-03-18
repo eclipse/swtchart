@@ -111,11 +111,6 @@ public class Axis implements IAxis {
 		position = Position.Primary;
 		min = DEFAULT_MIN;
 		max = DEFAULT_MAX;
-		if(direction == Direction.X) {
-			title.setText(Messages.getString(Messages.X_AXIS)); 
-		} else if(direction == Direction.Y) {
-			title.setText(Messages.getString(Messages.Y_AXIS)); 
-		}
 		logScaleEnabled = false;
 		categoryAxisEnabled = false;
 		reversed = false;
