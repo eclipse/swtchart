@@ -75,6 +75,7 @@ public class BarSeries<T> extends Series<T> implements IBarSeries<T> {
 		barOverlay = false;
 		type = SeriesType.BAR;
 		compressor = new CompressBarSeries();
+		((Axis)chart.getAxisSet().getXAxis(this.xAxisId)).setIntegerDataPointAxis(true);
 	}
 
 	@Override
