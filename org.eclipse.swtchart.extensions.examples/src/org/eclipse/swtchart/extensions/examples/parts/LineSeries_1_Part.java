@@ -37,7 +37,6 @@ public class LineSeries_1_Part extends ChromatogramChart {
 
 	@Inject
 	public LineSeries_1_Part(Composite parent) {
-
 		super(parent, SWT.NONE);
 		setBackground(getDisplay().getSystemColor(SWT.COLOR_WHITE));
 		//
