@@ -91,6 +91,7 @@ public class StepChart extends ScrollableChart {
 			for(ILineSeriesData lineSeriesData : lineSeriesDataList) {
 				/*
 				 * Get the series data and apply the settings.
+				 * Enabling steps using setEnableStep()
 				 */
 				try {
 					ISeriesData seriesData = lineSeriesData.getSeriesData();
