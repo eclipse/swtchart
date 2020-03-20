@@ -51,6 +51,7 @@ public class SeriesSet implements ISeriesSet {
 	 *            the chart
 	 */
 	public SeriesSet(Chart chart) {
+
 		this.chart = chart;
 		seriesMap = new LinkedHashMap<String, Series>();
 		chart.addDisposeListener(new DisposeListener() {
@@ -79,12 +80,7 @@ public class SeriesSet implements ISeriesSet {
 			series = new BarSeries(chart, trimmedId);
 		} else if(type == SeriesType.LINE) {
 			series = new LineSeries(chart, trimmedId);
-		}
-		else if(type == SeriesType.STEP) {
-			series = new LineSeries(chart, trimmedId);
-			((LineSeries)series).enableStep(true);
-		}
-		else {
+		} else {
 			SWT.error(SWT.ERROR_INVALID_ARGUMENT);
 			return null; // to suppress warning...
 		}
@@ -236,7 +232,7 @@ public class SeriesSet implements ISeriesSet {
 		}
 		String trimmedId = id.trim();
 		if(seriesMap.get(trimmedId) == null) {
-			throw new IllegalArgumentException(Messages.getString(Messages.SERIES_ID_NOT_EXISTS)); 
+			throw new IllegalArgumentException(Messages.getString(Messages.SERIES_ID_NOT_EXISTS));
 		}
 		return trimmedId;
 	}

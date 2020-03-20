@@ -28,10 +28,11 @@ public interface ISeries<DataType> {
 	 * A Series type.
 	 */
 	public enum SeriesType {
+
 		/** the line */
 		LINE("Line"), //$NON-NLS-1$
 		/** the bar */
-		BAR("Bar"), STEP("Step"), ; //$NON-NLS-1$
+		BAR("Bar"),; //$NON-NLS-1$
 
 		/** the label for series type */
 		public final String label;
@@ -43,6 +44,7 @@ public interface ISeries<DataType> {
 		 *            the label for series type
 		 */
 		private SeriesType(String label) {
+
 			this.label = label;
 		}
 	}
