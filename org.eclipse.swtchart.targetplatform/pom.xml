@@ -3,14 +3,14 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.eclipse.swtchart</groupId>
 	<artifactId>org.eclipse.swtchart.targetplatform</artifactId>
-	<version>0.12.0</version>
+	<version>0.13.0</version>
 	<name>Target Project</name>
 	<description>This contains the target definition used to build swtchart enterprise</description>
 	<packaging>eclipse-target-definition</packaging>
 	<parent>
 		<groupId>org.eclipse.swtchart</groupId>
   		<artifactId>org.eclipse.swtchart.build</artifactId>
-		<version>0.12.0</version>
+		<version>0.13.0</version>
 		<relativePath>../org.eclipse.swtchart.cbi/pom.xml</relativePath>
 	</parent>
 </project>

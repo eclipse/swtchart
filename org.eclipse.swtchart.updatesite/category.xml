@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <site>
-   <feature id="org.eclipse.swtchart.feature" version="0.12.0.qualifier">
+   <feature id="org.eclipse.swtchart.feature" version="0.13.0.qualifier">
       <category name="org.eclipse.swtchart"/>
    </feature>
-   <feature id="org.eclipse.swtchart.feature.source" version="0.12.0.qualifier">
+   <feature id="org.eclipse.swtchart.feature.source" version="0.13.0.qualifier">
       <category name="org.eclipse.swtchart.source"/>
    </feature>
    <category-def name="org.eclipse.swtchart" label="Eclipse SWTChart" />

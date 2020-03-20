@@ -2,8 +2,8 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: SWTChart Test
 Bundle-SymbolicName: org.eclipse.swtchart.test
-Bundle-Version: 0.12.0.qualifier
+Bundle-Version: 0.13.0.qualifier
 Bundle-Vendor: SWTChart
-Fragment-Host: org.eclipse.swtchart;bundle-version="0.12.0"
+Fragment-Host: org.eclipse.swtchart;bundle-version="0.13.0"
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Require-Bundle: org.junit;bundle-version="4.12.0"

@@ -155,7 +155,7 @@ public class BaseChart extends AbstractExtendedChart implements IChartDataCoordi
 		yAxisPrimary.getTick().setFormat(new DecimalFormat());
 		yAxisPrimary.enableLogScale(false);
 		yAxisPrimary.enableCategory(false);
-		xAxisPrimary.setReversed(false);
+		yAxisPrimary.setReversed(false);
 		//
 		handledSelectionEvents = new Stack<double[]>();
 		redoSelection = null;
