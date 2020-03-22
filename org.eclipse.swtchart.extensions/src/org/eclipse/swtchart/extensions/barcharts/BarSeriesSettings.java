@@ -128,4 +128,5 @@ public class BarSeriesSettings extends AbstractSeriesSettings implements IBarSer
 		barSeriesSettings.setEnableStack(this.isEnableStack());
 		return barSeriesSettings;
 	}
+
 }

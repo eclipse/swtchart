@@ -146,6 +146,7 @@ public class BaseChart extends AbstractExtendedChart implements IChartDataCoordi
 		xAxisPrimary.enableCategory(false);
 		xAxisPrimary.setReversed(false);
 		xAxisPrimary.setCategorySeries(new String[]{});
+		xAxisPrimary.setIntegerDataPointAxis(false);
 		//
 		IAxis yAxisPrimary = axisSet.getYAxis(ID_PRIMARY_Y_AXIS);
 		ITitle titleY = yAxisPrimary.getTitle();
@@ -155,7 +156,8 @@ public class BaseChart extends AbstractExtendedChart implements IChartDataCoordi
 		yAxisPrimary.getTick().setFormat(new DecimalFormat());
 		yAxisPrimary.enableLogScale(false);
 		yAxisPrimary.enableCategory(false);
-		xAxisPrimary.setReversed(false);
+		yAxisPrimary.setReversed(false);
+		
 		//
 		handledSelectionEvents = new Stack<double[]>();
 		redoSelection = null;

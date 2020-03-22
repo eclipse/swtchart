@@ -38,6 +38,7 @@ public abstract class AbstractAxisSettings implements IAxisSettings {
 	private boolean enableLogScale;
 	private boolean reversed;
 	private int extraSpaceTitle;
+	private boolean integerDataPointAxis;
 	/*
 	 * The default font is only used if no font is set.
 	 */
@@ -65,6 +66,7 @@ public abstract class AbstractAxisSettings implements IAxisSettings {
 		enableLogScale = false;
 		reversed = false;
 		extraSpaceTitle = 25;
+		integerDataPointAxis =false;
 	}
 
 	@Override
@@ -239,7 +241,18 @@ public abstract class AbstractAxisSettings implements IAxisSettings {
 
 		this.enableLogScale = enableLogScale;
 	}
+	
+	@Override
+	public boolean isIntegerDataPointAxis() {
+		
+		return integerDataPointAxis;
+	}
 
+	@Override
+	public void setIntegerDataPointAxis(boolean isIntegerDataPointAxis) {
+		
+		this.integerDataPointAxis = isIntegerDataPointAxis;
+	}
 	@Override
 	public boolean isReversed() {
 
