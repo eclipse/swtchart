@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2017, 2019 Lablicate GmbH.
+ * Copyright (c) 2017, 2020 Lablicate GmbH.
  *
  * This program and the accompanying materials are made
  * available under the terms of the Eclipse Public License 2.0
@@ -45,6 +45,7 @@ public abstract class AbstractAxisSettings implements IAxisSettings {
 	private final Font defaultFont = new Font(Display.getDefault(), "Tahoma", Constants.MEDIUM_FONT_SIZE, SWT.BOLD); //$NON-NLS-1$
 
 	public AbstractAxisSettings(String title) {
+
 		/*
 		 * In this case, the title is used also as
 		 * the description.
@@ -53,6 +54,7 @@ public abstract class AbstractAxisSettings implements IAxisSettings {
 	}
 
 	public AbstractAxisSettings(String title, String description) {
+
 		this.title = title;
 		this.description = description;
 		titleVisible = true;
@@ -66,7 +68,7 @@ public abstract class AbstractAxisSettings implements IAxisSettings {
 		enableLogScale = false;
 		reversed = false;
 		extraSpaceTitle = 25;
-		integerDataPointAxis =false;
+		integerDataPointAxis = false;
 	}
 
 	@Override
@@ -80,7 +82,7 @@ public abstract class AbstractAxisSettings implements IAxisSettings {
 			 * print a note that no label is available.
 			 */
 			if(description.equals("")) { //$NON-NLS-1$
-				label = Messages.getString(Messages.LABEL_NOT_SET); 
+				label = Messages.getString(Messages.LABEL_NOT_SET);
 			} else {
 				label = description;
 			}
@@ -241,18 +243,7 @@ public abstract class AbstractAxisSettings implements IAxisSettings {
 
 		this.enableLogScale = enableLogScale;
 	}
-	
-	@Override
-	public boolean isIntegerDataPointAxis() {
-		
-		return integerDataPointAxis;
-	}
 
-	@Override
-	public void setIntegerDataPointAxis(boolean isIntegerDataPointAxis) {
-		
-		this.integerDataPointAxis = isIntegerDataPointAxis;
-	}
 	@Override
 	public boolean isReversed() {
 
@@ -275,6 +266,18 @@ public abstract class AbstractAxisSettings implements IAxisSettings {
 	public void setExtraSpaceTitle(int extraSpaceTitle) {
 
 		this.extraSpaceTitle = extraSpaceTitle;
+	}
+
+	@Override
+	public boolean isIntegerDataPointAxis() {
+
+		return integerDataPointAxis;
+	}
+
+	@Override
+	public void setIntegerDataPointAxis(boolean isIntegerDataPointAxis) {
+
+		this.integerDataPointAxis = isIntegerDataPointAxis;
 	}
 
 	@Override
