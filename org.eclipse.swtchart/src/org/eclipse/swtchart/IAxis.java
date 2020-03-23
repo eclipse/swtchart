@@ -242,4 +242,8 @@ public interface IAxis {
 	 *            the dispose listener
 	 */
 	void addDisposeListener(IDisposeListener listener);
+	
+	void setIntegerDataPointAxis(boolean integerDataPointAxis);
+	
+	boolean isIntegerDataPointAxis();
 }

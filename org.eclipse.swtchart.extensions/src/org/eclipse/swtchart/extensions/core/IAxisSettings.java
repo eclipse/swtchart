@@ -90,4 +90,12 @@ public interface IAxisSettings {
 	int getExtraSpaceTitle();
 
 	void setExtraSpaceTitle(int extraSpaceTitle);
+	
+	/**
+	 * @return
+	 * 		true, if the axis is supposed to tick only at integer data points.
+	 */
+	boolean isIntegerDataPointAxis();
+	
+	void setIntegerDataPointAxis(boolean isIntegerDataPointAxis);
 }

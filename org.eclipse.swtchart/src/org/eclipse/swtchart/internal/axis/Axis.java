@@ -74,6 +74,9 @@ public class Axis implements IAxis {
 	private boolean logScaleEnabled;
 	/** the state indicating if axis type is category */
 	private boolean categoryAxisEnabled;
+	
+	/**the state indicates if the axis data points are only integers*/
+	private boolean integerDataPointAxis;
 	/** the state indicating if axis is reversed */
 	private boolean reversed;
 	/** the category series */
@@ -114,6 +117,7 @@ public class Axis implements IAxis {
 		logScaleEnabled = false;
 		categoryAxisEnabled = false;
 		reversed = false;
+		integerDataPointAxis = false;
 	}
 
 	@Override
@@ -216,6 +220,31 @@ public class Axis implements IAxis {
 	public AxisTick getTick() {
 
 		return tick;
+	}
+	
+	public boolean isIntegerDataPointAxis() {
+		
+		return integerDataPointAxis;
+	}
+	
+	public void setIntegerDataPointAxis(boolean integerDataPointAxis) {
+		
+		if(this.integerDataPointAxis == integerDataPointAxis) {
+			return;
+		}
+		
+		if(integerDataPointAxis) {
+			if(isCategoryEnabled()) {
+				enableCategory(false);
+			}
+			if(isLogScaleEnabled()) {
+				enableLogScale(false);
+			}
+		}
+		
+		this.integerDataPointAxis = integerDataPointAxis;
+		
+		updateLayoutData();
 	}
 
 	@Override

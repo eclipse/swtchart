@@ -35,7 +35,9 @@ import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.graphics.Transform;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swtchart.Chart;
+import org.eclipse.swtchart.IAxis.Direction;
 import org.eclipse.swtchart.IAxis.Position;
+import org.eclipse.swtchart.ISeries;
 import org.eclipse.swtchart.internal.ChartLayoutData;
 import org.eclipse.swtchart.internal.Util;
 
@@ -652,6 +654,25 @@ public class AxisTickLabels implements PaintListener {
 		if(min >= max) {
 			throw new IllegalArgumentException(Messages.getString(Messages.MUST_BE_LESS_MAX)); 
 		}
+		if(axis.isIntegerDataPointAxis()) {
+			for(ISeries series : (ISeries[])chart.getSeriesSet().getSeries()) {
+				if(axis.getDirection()==Direction.X) {
+					if(series.getXAxisId()==axis.getId() && series.getXSeries().length!=0) {
+						int xSeriesLength = series.getXSeries().length;
+						double upper = series.getXSeries()[xSeriesLength-1], lower =series.getXSeries()[0];
+						BigDecimal commonDifference = BigDecimal.valueOf((upper-lower)/(xSeriesLength - 1));
+						return commonDifference;
+					}
+				}else {
+					if(series.getYAxisId()==axis.getId() && series.getYSeries().length!=0) {
+						
+						BigDecimal commonDifference = BigDecimal.valueOf(1.0);
+						return commonDifference;
+					}
+				}
+			}
+		}
+		
 		double length = Math.abs(max - min);
 		double gridStepHint = length / lengthInPixels * axis.getTick().getTickMarkStepHint();
 		// gridStepHint --> mantissa * 10 ** exponent

@@ -1089,6 +1089,8 @@ public class ScrollableChart extends Composite implements IScrollableChart, IEve
 			//
 			axis.enableLogScale(axisSettings.isEnableLogScale());
 			axis.setReversed(axisSettings.isReversed());
+			//
+			axis.setIntegerDataPointAxis(axisSettings.isIntegerDataPointAxis());
 			/*
 			 * Apply primary axis specific settings.
 			 */
