@@ -106,5 +106,4 @@
             MenuEntry="org.eclipse.swtchart.extensions.examples.menu.ResetYAxisHandler">
       </MenuItemSupplier>
    </extension>
-
 </plugin>

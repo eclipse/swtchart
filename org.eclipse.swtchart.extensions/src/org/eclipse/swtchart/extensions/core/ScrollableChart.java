@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2017, 2019 Lablicate GmbH.
+ * Copyright (c) 2017, 2020 Lablicate GmbH.
  *
  * This program and the accompanying materials are made
  * available under the terms of the Eclipse Public License 2.0
@@ -122,10 +122,12 @@ public class ScrollableChart extends Composite implements IScrollableChart, IEve
 	 * This constructor is used, when clazz.newInstance() is needed.
 	 */
 	public ScrollableChart() {
+
 		this(getSeparateShell(), SWT.NONE);
 	}
 
 	public ScrollableChart(Composite parent, int style) {
+
 		super(parent, style);
 		//
 		categoryMenuEntriesMap = new HashMap<String, Set<IChartMenuEntry>>();
@@ -159,7 +161,7 @@ public class ScrollableChart extends Composite implements IScrollableChart, IEve
 						/*
 						 * Draw the message.
 						 */
-						String label = Messages.getString(Messages.DOUBLE_CLICK_TO_SHOW_RANGE_INFO); 
+						String label = Messages.getString(Messages.DOUBLE_CLICK_TO_SHOW_RANGE_INFO);
 						Point labelSize = e.gc.textExtent(label);
 						e.gc.drawText(label, (int)(width / 2.0d - labelSize.x / 2.0d), 5, true);
 					}
@@ -1089,6 +1091,7 @@ public class ScrollableChart extends Composite implements IScrollableChart, IEve
 			//
 			axis.enableLogScale(axisSettings.isEnableLogScale());
 			axis.setReversed(axisSettings.isReversed());
+			axis.setIntegerDataPointAxis(axisSettings.isIntegerDataPointAxis());
 			/*
 			 * Apply primary axis specific settings.
 			 */

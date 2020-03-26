@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2008, 2019 SWTChart project.
+ * Copyright (c) 2008, 2020 SWTChart project.
  *
  * This program and the accompanying materials are made
  * available under the terms of the Eclipse Public License 2.0
@@ -12,7 +12,6 @@
  * Christoph Läubrich - use getSize instead of bounds since we are not interested in the location anyways, add support for datamodel
  * Frank Buloup - Internationalization
  *******************************************************************************/
-
 package org.eclipse.swtchart.internal.axis;
 
 import java.util.ArrayList;
@@ -76,6 +75,8 @@ public class Axis implements IAxis {
 	private boolean categoryAxisEnabled;
 	/** the state indicating if axis is reversed */
 	private boolean reversed;
+	/** the state indicates if the axis data points are only integers */
+	private boolean integerDataPointAxis;
 	/** the category series */
 	private String[] categorySeries;
 	/** the number of riser per category */
@@ -100,6 +101,7 @@ public class Axis implements IAxis {
 	 *            the chart
 	 */
 	public Axis(int id, Direction direction, Chart chart) {
+
 		this.id = id;
 		this.direction = direction;
 		this.chart = chart;
@@ -114,6 +116,7 @@ public class Axis implements IAxis {
 		logScaleEnabled = false;
 		categoryAxisEnabled = false;
 		reversed = false;
+		integerDataPointAxis = false;
 	}
 
 	@Override
@@ -168,7 +171,7 @@ public class Axis implements IAxis {
 			return; // to suppress warnings...
 		}
 		if(Double.isNaN(range.lower) || Double.isNaN(range.upper) || Double.isInfinite(range.lower) || Double.isInfinite(range.upper) || range.lower > range.upper) {
-			throw new IllegalArgumentException(Messages.getString(Messages.ILLEGAL_RANGE) + range); 
+			throw new IllegalArgumentException(Messages.getString(Messages.ILLEGAL_RANGE) + range);
 		}
 		if(min == range.lower && max == range.upper) {
 			return;
@@ -184,7 +187,7 @@ public class Axis implements IAxis {
 			}
 		} else {
 			if(range.lower == range.upper) {
-				throw new IllegalArgumentException(Messages.getString(Messages.GIVEN_RANGE_INVALID)); 
+				throw new IllegalArgumentException(Messages.getString(Messages.GIVEN_RANGE_INVALID));
 			}
 			if(logScaleEnabled && range.lower <= 0) {
 				range.lower = min;
@@ -216,6 +219,27 @@ public class Axis implements IAxis {
 	public AxisTick getTick() {
 
 		return tick;
+	}
+
+	@Override
+	public boolean isIntegerDataPointAxis() {
+
+		return integerDataPointAxis;
+	}
+
+	@Override
+	public void setIntegerDataPointAxis(boolean integerDataPointAxis) {
+
+		if(this.integerDataPointAxis == integerDataPointAxis) {
+			return;
+		} else {
+			this.integerDataPointAxis = integerDataPointAxis;
+			if(integerDataPointAxis) {
+				enableCategory(false);
+				enableLogScale(false);
+			}
+			updateLayoutData();
+		}
 	}
 
 	@Override
@@ -497,7 +521,7 @@ public class Axis implements IAxis {
 			return; // to suppress warnings...
 		}
 		if(direction == Direction.Y) {
-			throw new IllegalStateException(Messages.getString(Messages.Y_AXIS_CANNOT_BE_CATEGORY)); 
+			throw new IllegalStateException(Messages.getString(Messages.Y_AXIS_CANNOT_BE_CATEGORY));
 		}
 		String[] copiedSeries = new String[series.length];
 		System.arraycopy(series, 0, copiedSeries, 0, series.length);

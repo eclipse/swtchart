@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2008, 2019 SWTChart project.
+ * Copyright (c) 2008, 2020 SWTChart project.
  *
  * This program and the accompanying materials are made
  * available under the terms of the Eclipse Public License 2.0
@@ -67,6 +67,7 @@ public class BarSeries<T> extends Series<T> implements IBarSeries<T> {
 	 *            the series id
 	 */
 	protected BarSeries(Chart chart, String id) {
+
 		super(chart, id);
 		barColor = Display.getDefault().getSystemColor(DEFAULT_BAR_COLOR);
 		barWidthStyle = BarWidthStyle.STRETCHED;
@@ -376,7 +377,7 @@ public class BarSeries<T> extends Series<T> implements IBarSeries<T> {
 		} else if(barWidthStyle == BarWidthStyle.FIXED) {
 			return barWidth;
 		}
-		throw new IllegalStateException(Messages.getString(Messages.UNKNOWN_BAR_WIDTH_STYLE)); 
+		throw new IllegalStateException(Messages.getString(Messages.UNKNOWN_BAR_WIDTH_STYLE));
 	}
 
 	/**

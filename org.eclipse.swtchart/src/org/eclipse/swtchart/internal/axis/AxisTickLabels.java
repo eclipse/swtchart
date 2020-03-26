@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2008, 2019 SWTChart project.
+ * Copyright (c) 2008, 2020 SWTChart project.
  *
  * This program and the accompanying materials are made
  * available under the terms of the Eclipse Public License 2.0
@@ -35,7 +35,9 @@ import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.graphics.Transform;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swtchart.Chart;
+import org.eclipse.swtchart.IAxis.Direction;
 import org.eclipse.swtchart.IAxis.Position;
+import org.eclipse.swtchart.ISeries;
 import org.eclipse.swtchart.internal.ChartLayoutData;
 import org.eclipse.swtchart.internal.Util;
 
@@ -88,6 +90,7 @@ public class AxisTickLabels implements PaintListener {
 	 *            the axis
 	 */
 	protected AxisTickLabels(Chart chart, Axis axis) {
+
 		this.chart = chart;
 		this.axis = axis;
 		tickLabelValues = new ArrayList<Double>();
@@ -482,7 +485,7 @@ public class AxisTickLabels implements PaintListener {
 
 	private double parse(String label) throws ParseException {
 
-		if (format == null) {
+		if(format == null) {
 			return new DecimalFormat(DEFAULT_DECIMAL_FORMAT).parse(label).doubleValue();
 		}
 		Object parsed = format.parseObject(label);
@@ -644,14 +647,19 @@ public class AxisTickLabels implements PaintListener {
 	 *            maximum value
 	 * @return rounded value.
 	 */
+	@SuppressWarnings({"deprecation", "rawtypes"})
 	private BigDecimal getGridStep(int lengthInPixels, double min, double max) {
 
 		if(lengthInPixels <= 0) {
-			throw new IllegalArgumentException(Messages.getString(Messages.LENGTH_MUST_BE_POSITIVE)); 
+			throw new IllegalArgumentException(Messages.getString(Messages.LENGTH_MUST_BE_POSITIVE));
 		}
+		//
 		if(min >= max) {
-			throw new IllegalArgumentException(Messages.getString(Messages.MUST_BE_LESS_MAX)); 
+			throw new IllegalArgumentException(Messages.getString(Messages.MUST_BE_LESS_MAX));
 		}
+		/*
+		 * BigDecimal gridStep calculation.
+		 */
 		double length = Math.abs(max - min);
 		double gridStepHint = length / lengthInPixels * axis.getTick().getTickMarkStepHint();
 		// gridStepHint --> mantissa * 10 ** exponent
@@ -684,6 +692,26 @@ public class AxisTickLabels implements PaintListener {
 			// gridStep = 1.0 * 10 ** exponent
 			gridStep = pow(10, exponent);
 		}
+		/*
+		 * Advanced calculation.
+		 */
+		if(axis.isIntegerDataPointAxis()) {
+			for(ISeries series : (ISeries[])chart.getSeriesSet().getSeries()) {
+				if(axis.getDirection() == Direction.X) {
+					if(series.getXAxisId() == axis.getId() && series.getXSeries().length != 0) {
+						int xSeriesLength = series.getXSeries().length;
+						double upper = series.getXSeries()[xSeriesLength - 1],
+								lower = series.getXSeries()[0];
+						gridStep = BigDecimal.valueOf((upper - lower) / (xSeriesLength - 1));
+					}
+				} else {
+					if(series.getYAxisId() == axis.getId() && series.getYSeries().length != 0) {
+						gridStep = BigDecimal.valueOf(1.0);
+					}
+				}
+			}
+		}
+		//
 		return gridStep;
 	}
 
