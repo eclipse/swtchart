@@ -26,7 +26,7 @@ public class DoubleArraySeriesModel implements IndexedSeriesModel<Integer>, Cart
 	private final double[] ydata;
 	private final double minX;
 	private final double maxX;
-	private boolean isXMonotoneIncreasing;
+	private boolean isXMonotoneIncreasing = true;
 	private final double minY;
 	private final double maxY;
 
