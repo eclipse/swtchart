@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2019 Lablicate GmbH.
+ * Copyright (c) 2020 Lablicate GmbH.
  *
  * This program and the accompanying materials are made
  * available under the terms of the Eclipse Public License 2.0
@@ -26,7 +26,7 @@ public class DoubleArraySeriesModel implements IndexedSeriesModel<Integer>, Cart
 	private final double[] ydata;
 	private final double minX;
 	private final double maxX;
-	private boolean isXMonotoneIncreasing;
+	private boolean isXMonotoneIncreasing = true;
 	private final double minY;
 	private final double maxY;
 
