@@ -493,10 +493,10 @@ public class RScriptExportHandler extends AbstractSeriesExportHandler implements
 			if(dataSeries != null) {
 				if(exportVisibleOnly) {
 					if(dataSeries.isVisible()) {
-						printStepData(dataSeries, widthPlotArea, axisSettings, index++, printWriter);
+						printLineData(dataSeries, widthPlotArea, axisSettings, index++, printWriter);
 					}
 				} else {
-					printStepData(dataSeries, widthPlotArea, axisSettings, index++, printWriter);
+					printLineData(dataSeries, widthPlotArea, axisSettings, index++, printWriter);
 				}
 			}
 		}
@@ -561,48 +561,6 @@ public class RScriptExportHandler extends AbstractSeriesExportHandler implements
 		printWriter.println("		lwd=2"); //$NON-NLS-1$
 		printWriter.println("	)"); //$NON-NLS-1$
 		printWriter.println(""); //$NON-NLS-1$
-	}
-
-	private void printStepData(ISeries dataSeries, int widthPlotArea, AxisSettings axisSettings, int index, PrintWriter printWriter) {
-
-		int indexAxisX = axisSettings.getIndexAxisX();
-		int indexAxisY = axisSettings.getIndexAxisY();
-		IAxisScaleConverter axisScaleConverterX = axisSettings.getAxisScaleConverterX();
-		IAxisScaleConverter axisScaleConverterY = axisSettings.getAxisScaleConverterY();
-		//
-		double[] xSeries = dataSeries.getXSeries();
-		double[] ySeries = dataSeries.getYSeries();
-		int size = dataSeries.getXSeries().length;
-		//
-		for(int i = 0; i < size; i++) {
-			/*
-			 * Only export if the data point is visible.
-			 */
-			Point point = dataSeries.getPixelCoordinates(i);
-			if(point.x >= 0 && point.x <= widthPlotArea) {
-				printValueLinePlot(AXIS_X, index, printWriter, xSeries[i], indexAxisX, BaseChart.ID_PRIMARY_X_AXIS, axisScaleConverterX);
-				printValueLinePlot(AXIS_Y, index, printWriter, ySeries[i], indexAxisY, BaseChart.ID_PRIMARY_Y_AXIS, axisScaleConverterY);
-			}
-		}
-	}
-
-	private void printValueStepPlot(String axis, int index, PrintWriter printWriter, double value, int indexAxis, int indexPrimaryAxis, IAxisScaleConverter axisScaleConverter) {
-
-		if(indexAxis == indexPrimaryAxis || axisScaleConverter == null) {
-			if(axis.equals(AXIS_X)) {
-				printWriter.println("xValueList[[" + index + "]]<-c(xValueList[[" + index + "]]," + value + ")"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
-			} else if(axis.equals(AXIS_Y)) {
-				printWriter.println("yValueList[[" + index + "]]<-c(yValueList[[" + index + "]]," + value + ")"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
-			}
-		} else {
-			if(axisScaleConverter != null) {
-				if(axis.equals(AXIS_X)) {
-					printWriter.println("xValueList[[" + index + "]]<-c(xValueList[[" + index + "]]," + axisScaleConverter.convertToSecondaryUnit(value) + ")"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
-				} else if(axis.equals(AXIS_Y)) {
-					printWriter.println("yValueList[[" + index + "]]<-c(yValueList[[" + index + "]]," + axisScaleConverter.convertToSecondaryUnit(value) + ")"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
-				}
-			}
-		}
 	}
 
 	private void printExecuteInfo(String fileName, PrintWriter printWriter) {
