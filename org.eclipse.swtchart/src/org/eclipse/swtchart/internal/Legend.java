@@ -34,8 +34,10 @@ import org.eclipse.swtchart.Constants;
 import org.eclipse.swtchart.IBarSeries;
 import org.eclipse.swtchart.ILegend;
 import org.eclipse.swtchart.ILineSeries;
+import org.eclipse.swtchart.IPieSeries;
 import org.eclipse.swtchart.ISeries;
 import org.eclipse.swtchart.internal.series.LineSeries;
+import org.eclipse.swtchart.internal.series.PieSeries;
 import org.eclipse.swtchart.internal.series.Series;
 
 /**
@@ -390,6 +392,14 @@ public class Legend extends Composite implements ILegend, PaintListener {
 		for(int i = 0; i < seriesArray.length; i++) {
 			if(!seriesArray[i].isVisibleInLegend()) {
 				continue;
+			}
+			if(seriesArray[i] instanceof IPieSeries) {
+				PieSeries series = (PieSeries)seriesArray[i];
+				String[] labels = series.getLabelSeries();
+				for(String label : labels) {
+					Rectangle r = cellBounds.get(label);
+				}
+				return;
 			}
 			// draw plot line, symbol etc
 			String id = seriesArray[i].getId();

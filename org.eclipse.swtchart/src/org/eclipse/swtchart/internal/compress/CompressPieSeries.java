@@ -10,11 +10,11 @@ public class CompressPieSeries extends Compress{
 
 	String[] labels;
 	double[] values;
-	int[] colours = {SWT.COLOR_BLUE,SWT.COLOR_CYAN,SWT.COLOR_DARK_BLUE,SWT.COLOR_DARK_CYAN
+	private int[] colours = {SWT.COLOR_BLUE,SWT.COLOR_CYAN,SWT.COLOR_DARK_BLUE,SWT.COLOR_DARK_CYAN
 			,SWT.COLOR_DARK_GRAY,SWT.COLOR_DARK_MAGENTA,SWT.COLOR_DARK_RED,SWT.COLOR_DARK_YELLOW
 			,SWT.COLOR_GRAY,SWT.COLOR_GREEN,SWT.COLOR_MAGENTA,SWT.COLOR_RED,SWT.COLOR_YELLOW
 			,SWT.COLOR_WIDGET_HIGHLIGHT_SHADOW};
-	Color[] colors ;
+	private Color[] colors ;
 	
 	@Override
 	protected void addNecessaryPlots(ArrayList<Double> xList, ArrayList<Double> yList, ArrayList<Integer> indexList) {

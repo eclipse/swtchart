@@ -67,11 +67,10 @@ public class PieChartExample {
 		Chart chart = new Chart(parent, SWT.NONE);
 		// set titles
 		chart.getTitle().setText("Pie Chart");
-		// create bar series
-		Series barSeries = (Series)chart.getSeriesSet().createSeries(SeriesType.PIE, "pie series");
-		((PieSeries)barSeries).setSeries(labels, values);
-		// adjust the axis range
-		//chart.getAxisSet().adjustRange();
+		// create pie series
+		Series pieSeries = (Series)chart.getSeriesSet().createSeries(SeriesType.PIE, "pie series");
+		//sets the series.
+		((PieSeries)pieSeries).setSeries(labels, values);
 		return chart;
 	}
 }

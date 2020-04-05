@@ -1,5 +1,6 @@
 package org.eclipse.swtchart.internal.series;
 
+import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.GC;
 import org.eclipse.swt.graphics.Point;
@@ -8,10 +9,13 @@ import org.eclipse.swtchart.IAxis;
 import org.eclipse.swtchart.IPieSeries;
 import org.eclipse.swtchart.Range;
 import org.eclipse.swtchart.internal.axis.Axis;
+import org.eclipse.swtchart.internal.compress.CompressBarSeries;
 import org.eclipse.swtchart.internal.compress.CompressPieSeries;
+import org.eclipse.swtchart.model.StringArraySeriesModel;
 
 public class PieSeries extends Series implements IPieSeries{
 	Chart chart;
+	private StringArraySeriesModel stringArraySeriesModel;
 	
 	public PieSeries(Chart chart, String id) {
 		
@@ -39,13 +43,65 @@ public class PieSeries extends Series implements IPieSeries{
 
 		return null;
 	}
-
+	
+	public StringArraySeriesModel getStringArraySeriesModel() {
+		
+		return stringArraySeriesModel;
+	}
+	
+	public String[] getLabelSeries() {
+		StringArraySeriesModel stringArraySeriesModel = getStringArraySeriesModel();
+		String[] labels = stringArraySeriesModel.getLabels();
+		String[] ids = new String[labels.length];
+		System.arraycopy(labels, 0, ids, 0, labels.length);
+		return ids;
+	}
+	
+	public double[] getValueSeries() {
+		StringArraySeriesModel stringArraySeriesModel = getStringArraySeriesModel();
+		double[] values = stringArraySeriesModel.getValues();
+		double[] val = new double[values.length];
+		System.arraycopy(values, 0, val, 0, values.length);
+		return val;
+	}
+	
+	public Color[] getColors() {
+		return ((CompressPieSeries)compressor).getColors();
+	}
+	
 	@Override
 	protected void setCompressor() {
 
 		compressor = new CompressPieSeries();
 	}
 
+	public void setStringArrayModel(StringArraySeriesModel data) {
+		
+		this.stringArraySeriesModel = data;
+		setCompressor();
+		if(compressor instanceof CompressPieSeries) {
+			((CompressPieSeries)compressor).setLabelSeries(getLabelSeries());
+			((CompressPieSeries)compressor).setValueSeries(getValueSeries());
+		}
+		else if(compressor instanceof CompressBarSeries) {
+			//code for category series
+		}
+	}
+
+	public void setSeries(String[] labels, double[] values) {
+		
+		if(labels == null || values == null ) {
+			SWT.error(SWT.ERROR_NULL_ARGUMENT);
+			return; // to suppress warning...
+		}
+		String[] ids = new String[labels.length];
+		System.arraycopy(labels, 0, ids, 0, labels.length);
+		double[] val = new double[values.length];
+		System.arraycopy(values, 0, val, 0, values.length);
+		StringArraySeriesModel data = new StringArraySeriesModel(ids,val);
+		setStringArrayModel(data);
+	}
+	
 	@Override
 	protected void draw(GC gc, int width, int height, Axis xAxis, Axis yAxis) {
 
