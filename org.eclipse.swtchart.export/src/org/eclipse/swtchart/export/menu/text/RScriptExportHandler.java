@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2017, 2019 Lablicate GmbH.
+ * Copyright (c) 2017, 2020 Lablicate GmbH.
  *
  * This program and the accompanying materials are made
  * available under the terms of the Eclipse Public License 2.0
@@ -23,6 +23,11 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.widgets.FileDialog;
 import org.eclipse.swt.widgets.Shell;
+import org.eclipse.swtchart.ISeries;
+import org.eclipse.swtchart.export.core.AbstractSeriesExportHandler;
+import org.eclipse.swtchart.export.core.AxisSettings;
+import org.eclipse.swtchart.export.core.ExportSettingsDialog;
+import org.eclipse.swtchart.export.core.ISeriesExportConverter;
 import org.eclipse.swtchart.extensions.barcharts.BarChart;
 import org.eclipse.swtchart.extensions.core.BaseChart;
 import org.eclipse.swtchart.extensions.core.IAxisScaleConverter;
@@ -30,19 +35,15 @@ import org.eclipse.swtchart.extensions.core.IAxisSettings;
 import org.eclipse.swtchart.extensions.core.ISecondaryAxisSettings;
 import org.eclipse.swtchart.extensions.core.ScrollableChart;
 import org.eclipse.swtchart.extensions.linecharts.LineChart;
+import org.eclipse.swtchart.extensions.linecharts.StepChart;
 import org.eclipse.swtchart.extensions.scattercharts.ScatterChart;
-import org.eclipse.swtchart.ISeries;
-import org.eclipse.swtchart.export.core.AbstractSeriesExportHandler;
-import org.eclipse.swtchart.export.core.AxisSettings;
-import org.eclipse.swtchart.export.core.ExportSettingsDialog;
-import org.eclipse.swtchart.export.core.ISeriesExportConverter;
 
 public class RScriptExportHandler extends AbstractSeriesExportHandler implements ISeriesExportConverter {
 
-	private static final String FILE_EXTENSION = Messages.getString(Messages.R_EXTENSION); 
-	public static final String NAME = Messages.getString(Messages.IMAGE_R_SCRIPT) + FILE_EXTENSION + ")"; //$NON-NLS-1$ 
+	private static final String FILE_EXTENSION = Messages.getString(Messages.R_EXTENSION);
+	public static final String NAME = Messages.getString(Messages.IMAGE_R_SCRIPT) + FILE_EXTENSION + ")"; //$NON-NLS-1$
 	//
-	private static final String TITLE = Messages.getString(Messages.SAVE_AS_IMAGE_R_SCRIPT); 
+	private static final String TITLE = Messages.getString(Messages.SAVE_AS_IMAGE_R_SCRIPT);
 	//
 	private static final String AXIS_X = "x"; //$NON-NLS-1$
 	private static final String AXIS_Y = "y"; //$NON-NLS-1$
@@ -120,6 +121,8 @@ public class RScriptExportHandler extends AbstractSeriesExportHandler implements
 							printBarPlot(fileName, printWriter, scrollableChart, axisSettings);
 						} else if(scrollableChart instanceof ScatterChart) {
 							printScatterPlot(fileName, printWriter, scrollableChart, axisSettings);
+						} else if(scrollableChart instanceof StepChart) {
+							printStepPlot(fileName, printWriter, scrollableChart, axisSettings);
 						}
 						//
 						printWriter.flush();
@@ -195,7 +198,7 @@ public class RScriptExportHandler extends AbstractSeriesExportHandler implements
 		//
 		if(seriesSize > 1) {
 			printWriter.println("for(i in 2:" + seriesSize + "){"); //$NON-NLS-1$ //$NON-NLS-2$
-			printWriter.println("	points(xValueList[[i]], yValueList[[i]], type='l', col=colorList[(i+8)%%9+1])"); //$NON-NLS-1$
+			printWriter.println("	lines(xValueList[[i]], yValueList[[i]], type='l', col=colorList[(i+8)%%9+1])"); //$NON-NLS-1$
 			printWriter.println("}"); //$NON-NLS-1$
 			printWriter.println(""); //$NON-NLS-1$
 		}
@@ -458,6 +461,106 @@ public class RScriptExportHandler extends AbstractSeriesExportHandler implements
 				}
 			}
 		}
+	}
+
+	private void printStepPlot(String fileName, PrintWriter printWriter, ScrollableChart scrollableChart, AxisSettings axisSettings) {
+
+		IAxisSettings axisSettingsX = axisSettings.getAxisSettingsX();
+		IAxisSettings axisSettingsY = axisSettings.getAxisSettingsY();
+		boolean exportVisibleOnly = axisSettings.isExportVisibleOnly();
+		//
+		BaseChart baseChart = scrollableChart.getBaseChart();
+		ISeries[] series = baseChart.getSeriesSet().getSeries();
+		/*
+		 * Read from script.
+		 */
+		printExecuteInfo(fileName, printWriter);
+		/*
+		 * Header
+		 */
+		int seriesSize = getSeriesSize(series, exportVisibleOnly);
+		printWriter.println("# Header"); //$NON-NLS-1$
+		printWriter.println("xValueList<-vector(\"list\", " + seriesSize + ")"); //$NON-NLS-1$ //$NON-NLS-2$
+		printWriter.println("yValueList<-vector(\"list\", " + seriesSize + ")"); //$NON-NLS-1$ //$NON-NLS-2$
+		printWriter.println(""); //$NON-NLS-1$
+		/*
+		 * Data
+		 */
+		printWriter.println("# Data"); //$NON-NLS-1$
+		int widthPlotArea = baseChart.getPlotArea().getBounds().width;
+		int index = 1;
+		for(ISeries dataSeries : series) {
+			if(dataSeries != null) {
+				if(exportVisibleOnly) {
+					if(dataSeries.isVisible()) {
+						printLineData(dataSeries, widthPlotArea, axisSettings, index++, printWriter);
+					}
+				} else {
+					printLineData(dataSeries, widthPlotArea, axisSettings, index++, printWriter);
+				}
+			}
+		}
+		printWriter.println(""); //$NON-NLS-1$
+		/*
+		 * Footer
+		 */
+		printWriter.println("#  Footer"); //$NON-NLS-1$
+		printWriter.println("colorList<-c(\"black\", \"red\", \"blue\", \"green\", \"grey\", \"purple\", \"brown\", \"pink\", \"yellow\", \"orange\")"); //$NON-NLS-1$
+		//
+		printWriter.println(""); //$NON-NLS-1$
+		printWriter.println("plot("); //$NON-NLS-1$
+		printWriter.println("	xValueList[[1]], yValueList[[1]],"); //$NON-NLS-1$
+		printWriter.println("	xlim=c(range(xValueList)[1], range(xValueList)[2]),"); //$NON-NLS-1$
+		printWriter.println("	ylim=c(range(yValueList)[1], range(yValueList)[2]),"); //$NON-NLS-1$
+		printWriter.println("	type='s',"); //$NON-NLS-1$
+		printWriter.println("	col=colorList[1],"); //$NON-NLS-1$
+		printWriter.println("	ylab='" + axisSettingsY.getLabel() + "',"); //$NON-NLS-1$ //$NON-NLS-2$
+		printWriter.println("	xlab='" + axisSettingsX.getLabel() + "'"); //$NON-NLS-1$ //$NON-NLS-2$
+		printWriter.println(")"); //$NON-NLS-1$
+		printWriter.println(""); //$NON-NLS-1$
+		//
+		if(seriesSize > 1) {
+			printWriter.println("for(i in 2:" + seriesSize + "){"); //$NON-NLS-1$ //$NON-NLS-2$
+			printWriter.println("	lines(xValueList[[i]], yValueList[[i]], type='s', col=colorList[(i+8)%%9+1])"); //$NON-NLS-1$
+			printWriter.println("}"); //$NON-NLS-1$
+			printWriter.println(""); //$NON-NLS-1$
+		}
+		//
+		int size;
+		//
+		int k;
+		printWriter.println("legend('topleft',"); //$NON-NLS-1$
+		printWriter.println("		c("); //$NON-NLS-1$
+		k = 0;
+		size = series.length;
+		for(ISeries dataSeries : series) {
+			if(dataSeries != null) {
+				printWriter.print("			'Series " + dataSeries.getDescription() + "'"); //$NON-NLS-1$ //$NON-NLS-2$
+				if(k < size - 1) {
+					printWriter.print(","); //$NON-NLS-1$
+				}
+				printWriter.println();
+				k++;
+			}
+		}
+		printWriter.println("		),"); //$NON-NLS-1$
+		printWriter.println("		col=c("); //$NON-NLS-1$
+		k = 0;
+		size = series.length;
+		for(ISeries dataSeries : series) {
+			if(dataSeries != null) {
+				printWriter.print("			colorList[(" + (k + 1) + "+8)%%9+1]"); //$NON-NLS-1$ //$NON-NLS-2$
+				if(k < size - 1) {
+					printWriter.print(","); //$NON-NLS-1$
+				}
+				printWriter.println();
+				k++;
+			}
+		}
+		printWriter.println("		),"); //$NON-NLS-1$
+		printWriter.println("		lwd=2"); //$NON-NLS-1$
+		printWriter.println("	)"); //$NON-NLS-1$
+		printWriter.println(""); //$NON-NLS-1$
 	}
 
 	private void printExecuteInfo(String fileName, PrintWriter printWriter) {
