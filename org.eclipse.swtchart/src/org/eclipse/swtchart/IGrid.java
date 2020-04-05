@@ -20,6 +20,19 @@ import org.eclipse.swt.graphics.Color;
 public interface IGrid {
 
 	/**
+	 * returns the visibility of Grid
+	 * 
+	 * @returns if Grid is Visible
+	 */
+	public boolean isVisible();
+	
+	/**
+	 * sets visibility of the grid.
+	 * 
+	 * @param isVisible
+	 */
+	public void setVisible(boolean isVisible);
+	/**
 	 * Gets the foreground color.
 	 * 
 	 * @return the foreground color

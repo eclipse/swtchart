@@ -10,7 +10,11 @@ public class CompressPieSeries extends Compress{
 
 	String[] labels;
 	double[] values;
-	Color[] colors;
+	int[] colours = {SWT.COLOR_BLUE,SWT.COLOR_CYAN,SWT.COLOR_DARK_BLUE,SWT.COLOR_DARK_CYAN
+			,SWT.COLOR_DARK_GRAY,SWT.COLOR_DARK_MAGENTA,SWT.COLOR_DARK_RED,SWT.COLOR_DARK_YELLOW
+			,SWT.COLOR_GRAY,SWT.COLOR_GREEN,SWT.COLOR_MAGENTA,SWT.COLOR_RED,SWT.COLOR_YELLOW
+			,SWT.COLOR_WIDGET_HIGHLIGHT_SHADOW};
+	Color[] colors ;
 	
 	@Override
 	protected void addNecessaryPlots(ArrayList<Double> xList, ArrayList<Double> yList, ArrayList<Integer> indexList) {
@@ -32,46 +36,11 @@ public class CompressPieSeries extends Compress{
 	
 	public void setColors() {
 		colors = new Color[labels.length];
-		for(int i =0;i!=labels.length;i++) {
-			int colorNo = i%11;
-			switch (colorNo) {
-				case 0:
-					colors[i] = Display.getDefault().getSystemColor(SWT.COLOR_CYAN);
-					break;
-				case 1:
-					colors[i] = Display.getDefault().getSystemColor(SWT.COLOR_DARK_YELLOW);
-					break;
-				case 2:
-					colors[i] = Display.getDefault().getSystemColor(SWT.COLOR_RED);
-					break;
-				case 3:
-					colors[i] = Display.getDefault().getSystemColor(SWT.COLOR_DARK_CYAN);
-					break;
-				case 4:
-					colors[i] = Display.getDefault().getSystemColor(SWT.COLOR_DARK_BLUE);
-					break;
-				case 5:
-					colors[i] = Display.getDefault().getSystemColor(SWT.COLOR_BLUE);
-					break;
-				case 6:
-					colors[i] = Display.getDefault().getSystemColor(SWT.COLOR_DARK_MAGENTA);
-					break;
-				case 7:
-					colors[i] = Display.getDefault().getSystemColor(SWT.COLOR_DARK_RED);
-					break;
-				case 8:
-					colors[i] = Display.getDefault().getSystemColor(SWT.COLOR_GREEN);
-					break;
-				case 9:
-					colors[i] = Display.getDefault().getSystemColor(SWT.COLOR_CYAN);
-					break;
-				case 10:
-					colors[i] = Display.getDefault().getSystemColor(SWT.COLOR_CYAN);
-					break;
-				default:
-					colors[i] = Display.getDefault().getSystemColor(SWT.COLOR_CYAN);
-					break;
-			}
+		int color = colours.length;
+		colors[0] = Display.getDefault().getSystemColor(SWT.COLOR_WIDGET_NORMAL_SHADOW);
+		for(int i =1;i!=labels.length;i++) {
+			int colour = i%color;
+			colors[i] = Display.getDefault().getSystemColor(colours[i]);
 		}
 	}
 	

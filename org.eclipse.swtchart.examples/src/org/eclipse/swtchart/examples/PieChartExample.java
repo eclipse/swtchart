@@ -29,8 +29,8 @@ import org.eclipse.swtchart.internal.series.Series;
  */
 public class PieChartExample {
 
-	private static final double[] values = {0.2, 1.1, 1.9, 2.3, 1.8};
-	private static final String[] labels = {"hi","i","am","himanshu","balasamanta"};
+	private static final double[] values = {0.2, 1.1, 1.9, 2.3, 1.8,0.2, 1.1, 1.9, 2.3, 1.8};
+	private static final String[] labels = {"hi","i","am","himanshu","balasamanta","hi","i","am","himanshu","balasamanta"};
 	/**
 	 * The main method.
 	 * 
@@ -67,8 +67,6 @@ public class PieChartExample {
 		Chart chart = new Chart(parent, SWT.NONE);
 		// set titles
 		chart.getTitle().setText("Pie Chart");
-		chart.getAxisSet().getXAxis(0).getTitle().setText("Data Points");
-		chart.getAxisSet().getYAxis(0).getTitle().setText("Amplitude");
 		// create bar series
 		Series barSeries = (Series)chart.getSeriesSet().createSeries(SeriesType.PIE, "pie series");
 		((PieSeries)barSeries).setSeries(labels, values);

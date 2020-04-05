@@ -55,6 +55,15 @@ public class Grid implements IGrid {
 		isVisible = true;
 	}
 
+	public boolean isVisible() {
+		return isVisible;
+	}
+	
+	public void setVisible(boolean isVisible) {
+		
+		this.isVisible = isVisible;
+	}
+	
 	@Override
 	public Color getForeground() {
 
