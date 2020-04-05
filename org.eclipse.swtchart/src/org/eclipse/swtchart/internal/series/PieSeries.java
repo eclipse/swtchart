@@ -52,7 +52,6 @@ public class PieSeries extends Series implements IPieSeries{
 		setBothAxisRange(width,height,xAxis,yAxis);
 		int xStart = xAxis.getPixelCoordinate(-1), yStart = yAxis.getPixelCoordinate(1);
 		int xWidth = xAxis.getPixelCoordinate(1)-xStart, yWidth = yAxis.getPixelCoordinate(-1)-yStart;
-		String[] labels = ((CompressPieSeries)compressor).getLabelSeries();
 		double[] values = ((CompressPieSeries)compressor).getValueSeries();
 		Color[] colors = ((CompressPieSeries)compressor).getColors();
 		Point[] bounds = getAngleBounds(values);

@@ -176,7 +176,7 @@ public class PlotArea extends Composite implements PaintListener, IPlotArea {
 		}
 		// draw over series
 		for(ICustomPaintListener listener : paintListeners) {
-			if(listener.drawBehindSeries()) {
+			if(!listener.drawBehindSeries()) {
 				listener.paintControl(e);
 			}
 		}
