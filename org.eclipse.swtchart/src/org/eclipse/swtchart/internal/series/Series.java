@@ -29,11 +29,14 @@ import org.eclipse.swtchart.ISeries;
 import org.eclipse.swtchart.ISeriesLabel;
 import org.eclipse.swtchart.Range;
 import org.eclipse.swtchart.internal.axis.Axis;
+import org.eclipse.swtchart.internal.compress.CompressBarSeries;
+import org.eclipse.swtchart.internal.compress.CompressPieSeries;
 import org.eclipse.swtchart.internal.compress.ICompress;
 import org.eclipse.swtchart.model.CartesianSeriesModel;
 import org.eclipse.swtchart.model.DateArraySeriesModel;
 import org.eclipse.swtchart.model.DoubleArraySeriesModel;
 import org.eclipse.swtchart.model.IndexedSeriesModel;
+import org.eclipse.swtchart.model.StringArraySeriesModel;
 
 /**
  * Series.
@@ -73,6 +76,7 @@ abstract public class Series<T> implements ISeries<T> {
 	/** the list of dispose listeners */
 	private List<IDisposeListener> listeners;
 	private CartesianSeriesModel<T> model;
+	private StringArraySeriesModel stringArraySeriesModel;
 
 	/**
 	 * Constructor.
@@ -139,6 +143,11 @@ abstract public class Series<T> implements ISeries<T> {
 		return model;
 	}
 
+	public StringArraySeriesModel getStringArraySeriesModel() {
+		
+		return stringArraySeriesModel;
+	}
+	
 	@Override
 	public void setDataModel(CartesianSeriesModel<T> model) {
 
@@ -163,6 +172,19 @@ abstract public class Series<T> implements ISeries<T> {
 		}
 	}
 
+	public void setStringArrayModel(StringArraySeriesModel data) {
+		
+		this.stringArraySeriesModel = data;
+		setCompressor();
+		if(compressor instanceof CompressPieSeries) {
+			((CompressPieSeries)compressor).setLabelSeries(getLabelSeries());
+			((CompressPieSeries)compressor).setValueSeries(getValueSeries());
+		}
+		else if(compressor instanceof CompressBarSeries) {
+			//code for category series
+		}
+	}
+	
 	@Override
 	public void enableStack(boolean enabled) {
 
@@ -177,6 +199,20 @@ abstract public class Series<T> implements ISeries<T> {
 		((SeriesSet)chart.getSeriesSet()).updateStackAndRiserData();
 	}
 
+	public void setSeries(String[] labels, double[] values) {
+		
+		if(labels == null || values == null ) {
+			SWT.error(SWT.ERROR_NULL_ARGUMENT);
+			return; // to suppress warning...
+		}
+		String[] ids = new String[labels.length];
+		System.arraycopy(labels, 0, ids, 0, labels.length);
+		double[] val = new double[values.length];
+		System.arraycopy(values, 0, val, 0, values.length);
+		StringArraySeriesModel data = new StringArraySeriesModel(ids,val);
+		setStringArrayModel(data);
+	}
+	
 	@SuppressWarnings("unchecked")
 	@Override
 	public void setXSeries(double[] series) {
@@ -226,6 +262,22 @@ abstract public class Series<T> implements ISeries<T> {
 		return StreamSupport.stream(dataModel.spliterator(), false).filter(t -> dataModel.getX(t) != null).mapToDouble(value -> dataModel.getX(value).doubleValue()).toArray();
 	}
 
+	public String[] getLabelSeries() {
+		StringArraySeriesModel stringArraySeriesModel = getStringArraySeriesModel();
+		String[] labels = stringArraySeriesModel.getLabels();
+		String[] ids = new String[labels.length];
+		System.arraycopy(labels, 0, ids, 0, labels.length);
+		return ids;
+	}
+	
+	public double[] getValueSeries() {
+		StringArraySeriesModel stringArraySeriesModel = getStringArraySeriesModel();
+		double[] values = stringArraySeriesModel.getValues();
+		double[] val = new double[values.length];
+		System.arraycopy(values, 0, val, 0, values.length);
+		return val;
+	}
+	
 	@SuppressWarnings("unchecked")
 	@Override
 	public void setYSeries(double[] series) {

@@ -62,4 +62,6 @@ public interface ICompress {
 	 * @return true if the compression succeeds
 	 */
 	public abstract boolean compress(CompressConfig config);
+
+
 }
