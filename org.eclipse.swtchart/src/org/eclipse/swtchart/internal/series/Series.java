@@ -138,7 +138,7 @@ abstract public class Series<T> implements ISeries<T> {
 
 		return model;
 	}
-	
+
 	@Override
 	public void setDataModel(CartesianSeriesModel<T> model) {
 
@@ -162,7 +162,7 @@ abstract public class Series<T> implements ISeries<T> {
 			stackEnabled = false;
 		}
 	}
-	
+
 	@Override
 	public void enableStack(boolean enabled) {
 
@@ -176,7 +176,7 @@ abstract public class Series<T> implements ISeries<T> {
 		stackEnabled = enabled;
 		((SeriesSet)chart.getSeriesSet()).updateStackAndRiserData();
 	}
-	
+
 	@SuppressWarnings("unchecked")
 	@Override
 	public void setXSeries(double[] series) {
@@ -225,7 +225,6 @@ abstract public class Series<T> implements ISeries<T> {
 		}
 		return StreamSupport.stream(dataModel.spliterator(), false).filter(t -> dataModel.getX(t) != null).mapToDouble(value -> dataModel.getX(value).doubleValue()).toArray();
 	}
-
 
 	@SuppressWarnings("unchecked")
 	@Override
