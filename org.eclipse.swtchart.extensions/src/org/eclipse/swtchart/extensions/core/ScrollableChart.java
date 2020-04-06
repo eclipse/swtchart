@@ -30,6 +30,7 @@ import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.IExtensionRegistry;
 import org.eclipse.core.runtime.RegistryFactory;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.custom.SashForm;
 import org.eclipse.swt.custom.StyleRange;
 import org.eclipse.swt.events.MouseAdapter;
 import org.eclipse.swt.events.MouseEvent;
@@ -83,13 +84,15 @@ public class ScrollableChart extends Composite implements IScrollableChart, IEve
 	private static final String EXTENSION_POINT_MENU_ITEMS = "org.eclipse.swtchart.extensions.menuitems"; //$NON-NLS-1$
 	private static final String EXTENSION_POINT_MENU_ENTRY = "MenuEntry"; //$NON-NLS-1$
 	//
-	private Map<String, Set<IChartMenuEntry>> categoryMenuEntriesMap;
-	private Map<String, IChartMenuEntry> menuEntryMap;
+	private Map<String, Set<IChartMenuEntry>> categoryMenuEntriesMap = new HashMap<String, Set<IChartMenuEntry>>();
+	private Map<String, IChartMenuEntry> menuEntryMap = new HashMap<String, IChartMenuEntry>();
 	//
 	private Slider sliderVertical;
 	private Slider sliderHorizontal;
 	private RangeSelector rangeSelector;
+	private SashForm sashForm;
 	private BaseChart baseChart;
+	private ExtendedLegendUI extendedLegendUI;
 	/*
 	 * With enableRangeSelectorHint the gc draws an info
 	 * that the range selector can be activated by using a
@@ -105,7 +108,7 @@ public class ScrollableChart extends Composite implements IScrollableChart, IEve
 	 * This list contains all scrollable charts
 	 * that are linked with the current editor.
 	 */
-	private List<ScrollableChart> linkedScrollableCharts;
+	private List<ScrollableChart> linkedScrollableCharts = new ArrayList<ScrollableChart>();
 	//
 	private PositionMarker positionMarker;
 	private PlotCenterMarker plotCenterMarker;
@@ -117,23 +120,22 @@ public class ScrollableChart extends Composite implements IScrollableChart, IEve
 	 */
 	private static final int HORIZONTAL_SCROLL_LENGTH = 1000000;
 	private static final int VERTICAL_SCROLL_LENGTH = 1000000;
+	//
+	private static final int MAX_WEIGHT = 1000;
+	private static final int MIN_WEIGHT = 0;
+	private static final int[] DEFAULT_WEIGHTS = new int[]{MAX_WEIGHT, MIN_WEIGHT};
+	//
+	private int[] currentWeights = new int[]{800, 200};
 
 	/**
 	 * This constructor is used, when clazz.newInstance() is needed.
 	 */
 	public ScrollableChart() {
-
 		this(getSeparateShell(), SWT.NONE);
 	}
 
 	public ScrollableChart(Composite parent, int style) {
-
 		super(parent, style);
-		//
-		categoryMenuEntriesMap = new HashMap<String, Set<IChartMenuEntry>>();
-		menuEntryMap = new HashMap<String, IChartMenuEntry>();
-		linkedScrollableCharts = new ArrayList<ScrollableChart>();
-		//
 		initialize();
 	}
 
@@ -224,9 +226,9 @@ public class ScrollableChart extends Composite implements IScrollableChart, IEve
 	}
 
 	@Override
-	public ISeries createSeries(ISeriesData seriesData, ISeriesSettings seriesSettings) throws SeriesException {
+	public ISeries<?> createSeries(ISeriesData seriesData, ISeriesSettings seriesSettings) throws SeriesException {
 
-		ISeries series = baseChart.createSeries(seriesData, seriesSettings);
+		ISeries<?> series = baseChart.createSeries(seriesData, seriesSettings);
 		resetSlider();
 		return series;
 	}
@@ -245,7 +247,7 @@ public class ScrollableChart extends Composite implements IScrollableChart, IEve
 		if(!wasSuspend) {
 			baseChart.suspendUpdate(true);
 		}
-		for(ISeries series : baseChart.getSeriesSet().getSeries()) {
+		for(ISeries<?> series : baseChart.getSeriesSet().getSeries()) {
 			baseChart.deleteSeries(series.getId());
 		}
 		if(!wasSuspend) {
@@ -288,6 +290,7 @@ public class ScrollableChart extends Composite implements IScrollableChart, IEve
 
 		baseChart.adjustRange(adjustMinMax);
 		resetSlider();
+		updateLegend();
 	}
 
 	public void adjustXAxis() {
@@ -432,9 +435,24 @@ public class ScrollableChart extends Composite implements IScrollableChart, IEve
 
 	public void toggleSeriesLegendVisibility() {
 
-		ILegend legend = baseChart.getLegend();
-		legend.setVisible(!legend.isVisible());
-		baseChart.redraw();
+		/*
+		 * 2 elements in the SashForm
+		 */
+		int[] weights = sashForm.getWeights();
+		if(weights.length > 0) {
+			/*
+			 * Show/Hide the legend
+			 */
+			if(weights[0] == MAX_WEIGHT) {
+				sashForm.setWeights(currentWeights);
+			} else {
+				currentWeights = sashForm.getWeights();
+				sashForm.setWeights(DEFAULT_WEIGHTS);
+			}
+			//
+			baseChart.redraw();
+			redraw();
+		}
 	}
 
 	public void toggleAxisZeroVisibility() {
@@ -576,7 +594,7 @@ public class ScrollableChart extends Composite implements IScrollableChart, IEve
 		setBackground(chartSettings.getBackground());
 		baseChart.setOrientation(chartSettings.getOrientation());
 		baseChart.setBackground(chartSettings.getBackgroundChart());
-		baseChart.setBackgroundInPlotArea(chartSettings.getBackgroundPlotArea());
+		baseChart.getPlotArea().setBackground(chartSettings.getBackgroundPlotArea());
 		baseChart.enableCompress(chartSettings.isEnableCompress());
 		baseChart.setRangeRestriction(chartSettings.getRangeRestriction());
 		/*
@@ -838,6 +856,12 @@ public class ScrollableChart extends Composite implements IScrollableChart, IEve
 
 		setSliderSelection(true);
 		updateLinkedCharts();
+	}
+
+	private void updateLegend() {
+
+		ISeriesSet seriesSet = baseChart.getSeriesSet();
+		extendedLegendUI.setInput(seriesSet.getSeries());
 	}
 
 	private void setSliderSelection(boolean calculateIncrement) {
@@ -1160,7 +1184,19 @@ public class ScrollableChart extends Composite implements IScrollableChart, IEve
 	private void initialize() {
 
 		this.setLayout(new FillLayout());
-		Composite composite = new Composite(this, SWT.NONE);
+		sashForm = new SashForm(this, SWT.HORIZONTAL);
+		//
+		createChartSection(sashForm);
+		createLegendSection(sashForm);
+		/*
+		 * Legend is invisible by default.
+		 */
+		sashForm.setWeights(DEFAULT_WEIGHTS);
+	}
+
+	private void createChartSection(Composite parent) {
+
+		Composite composite = new Composite(parent, SWT.NONE);
 		composite.setLayout(new GridLayout(2, false));
 		/*
 		 * Composite
@@ -1168,6 +1204,13 @@ public class ScrollableChart extends Composite implements IScrollableChart, IEve
 		createSliderVertical(composite);
 		createChart(composite);
 		createSliderHorizontal(composite);
+	}
+
+	private void createLegendSection(Composite parent) {
+
+		extendedLegendUI = new ExtendedLegendUI(parent, SWT.NONE);
+		extendedLegendUI.setScrollableChart(this);
+		extendedLegendUI.setLayout(new GridLayout(1, true));
 	}
 
 	private void createSliderVertical(Composite parent) {
@@ -1212,9 +1255,6 @@ public class ScrollableChart extends Composite implements IScrollableChart, IEve
 
 	private void createChart(Composite parent) {
 
-		/*
-		 * Chart Area
-		 */
 		Composite composite = new Composite(parent, SWT.NONE);
 		composite.setLayoutData(new GridData(GridData.FILL_BOTH));
 		composite.setLayout(new GridLayout(1, true));

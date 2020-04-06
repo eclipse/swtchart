@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2008, 2019 SWTChart project.
+ * Copyright (c) 2008, 2020 SWTChart project.
  *
  * This program and the accompanying materials are made
  * available under the terms of the Eclipse Public License 2.0
@@ -75,7 +75,7 @@ public class SeriesPage extends AbstractSelectorPage {
 	/** the padding size spinner */
 	protected Spinner paddingSizeSpinner;
 	/** the series array */
-	private ISeries[] series;
+	private ISeries<?>[] series;
 	/** the items for x axis id combo */
 	private int[] xAxisIdItems;
 	/** the items for y axis id combo */
@@ -156,14 +156,14 @@ public class SeriesPage extends AbstractSelectorPage {
 			visibleStates[i] = series[i].isVisible();
 			stackedStates[i] = series[i].isStackEnabled();
 			if(series[i] instanceof ILineSeries) {
-				lineColors[i] = ((ILineSeries)series[i]).getLineColor().getRGB();
-				lineStyles[i] = ((ILineSeries)series[i]).getLineStyle();
-				symbolColors[i] = ((ILineSeries)series[i]).getSymbolColor().getRGB();
-				symbolTypes[i] = ((ILineSeries)series[i]).getSymbolType();
-				symbolSizes[i] = ((ILineSeries)series[i]).getSymbolSize();
+				lineColors[i] = ((ILineSeries<?>)series[i]).getLineColor().getRGB();
+				lineStyles[i] = ((ILineSeries<?>)series[i]).getLineStyle();
+				symbolColors[i] = ((ILineSeries<?>)series[i]).getSymbolColor().getRGB();
+				symbolTypes[i] = ((ILineSeries<?>)series[i]).getSymbolType();
+				symbolSizes[i] = ((ILineSeries<?>)series[i]).getSymbolSize();
 			} else if(series[i] instanceof IBarSeries) {
-				barColors[i] = ((IBarSeries)series[i]).getBarColor().getRGB();
-				paddings[i] = ((IBarSeries)series[i]).getBarPadding();
+				barColors[i] = ((IBarSeries<?>)series[i]).getBarColor().getRGB();
+				paddings[i] = ((IBarSeries<?>)series[i]).getBarPadding();
 			}
 			xAxisIds[i] = series[i].getXAxisId();
 			yAxisIds[i] = series[i].getYAxisId();
@@ -296,7 +296,7 @@ public class SeriesPage extends AbstractSelectorPage {
 	 */
 	private void addLineSeriesGroup(Composite parent) {
 
-		lineSeriesGroup = createGroupControl(parent, Messages.getString(Messages.LINE_SERIES), true); 
+		lineSeriesGroup = createGroupControl(parent, Messages.getString(Messages.LINE_SERIES), true);
 		stackLayout.topControl = lineSeriesGroup;
 		createLabelControl(lineSeriesGroup, Messages.getString(Messages.LINE_COLOR));
 		lineColorButton = createColorButtonControl(lineSeriesGroup);
@@ -385,7 +385,7 @@ public class SeriesPage extends AbstractSelectorPage {
 		barSeriesGroup = new Composite(parent, SWT.NONE);
 		barSeriesGroup.setLayout(new GridLayout(1, true));
 		barSeriesGroup.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
-		Group group = createGroupControl(barSeriesGroup, Messages.getString(Messages.BAR_SERIES), true); 
+		Group group = createGroupControl(barSeriesGroup, Messages.getString(Messages.BAR_SERIES), true);
 		createLabelControl(group, Messages.getString(Messages.COLOR));
 		barColorButton = createColorButtonControl(group);
 		barColorButton.addListener(new IPropertyChangeListener() {
@@ -436,7 +436,7 @@ public class SeriesPage extends AbstractSelectorPage {
 			series[i].setVisible(visibleStates[i]);
 			if(series[i] instanceof ILineSeries) {
 				Color lineColor = new Color(Display.getDefault(), lineColors[i]);
-				((ILineSeries)series[i]).setLineColor(lineColor);
+				((ILineSeries<?>)series[i]).setLineColor(lineColor);
 				final String lineColorKey = SERIES_LINE_COLOR + series[i].getId();
 				if(resources.getColor(lineColorKey) == null) {
 					series[i].addDisposeListener(new IDisposeListener() {
@@ -450,7 +450,7 @@ public class SeriesPage extends AbstractSelectorPage {
 				}
 				resources.put(lineColorKey, lineColor);
 				Color symbolColor = new Color(Display.getDefault(), symbolColors[i]);
-				((ILineSeries)series[i]).setSymbolColor(symbolColor);
+				((ILineSeries<?>)series[i]).setSymbolColor(symbolColor);
 				final String symbolColorKey = SERIES_SYMBOL_COLOR + series[i].getId();
 				if(resources.getColor(symbolColorKey) == null) {
 					series[i].addDisposeListener(new IDisposeListener() {
@@ -463,12 +463,12 @@ public class SeriesPage extends AbstractSelectorPage {
 					});
 				}
 				resources.put(symbolColorKey, symbolColor);
-				((ILineSeries)series[i]).setLineStyle(lineStyles[i]);
-				((ILineSeries)series[i]).setSymbolType(symbolTypes[i]);
-				((ILineSeries)series[i]).setSymbolSize(symbolSizes[i]);
+				((ILineSeries<?>)series[i]).setLineStyle(lineStyles[i]);
+				((ILineSeries<?>)series[i]).setSymbolType(symbolTypes[i]);
+				((ILineSeries<?>)series[i]).setSymbolSize(symbolSizes[i]);
 			} else if(series[i] instanceof IBarSeries) {
 				Color barColor = new Color(Display.getDefault(), barColors[i]);
-				((IBarSeries)series[i]).setBarColor(barColor);
+				((IBarSeries<?>)series[i]).setBarColor(barColor);
 				final String barColorKey = SERIES_BAR_COLOR + series[i].getId();
 				if(resources.getColor(barColorKey) == null) {
 					series[i].addDisposeListener(new IDisposeListener() {
@@ -481,7 +481,7 @@ public class SeriesPage extends AbstractSelectorPage {
 					});
 				}
 				resources.put(barColorKey, barColor);
-				((IBarSeries)series[i]).setBarPadding(paddings[i]);
+				((IBarSeries<?>)series[i]).setBarPadding(paddings[i]);
 			}
 			try {
 				series[i].enableStack(stackedStates[i]);

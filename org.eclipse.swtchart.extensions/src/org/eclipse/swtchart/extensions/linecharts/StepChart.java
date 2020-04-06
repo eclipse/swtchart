@@ -54,12 +54,10 @@ public class StepChart extends ScrollableChart {
 	public static final int NO_COMPRESSION = Integer.MAX_VALUE;
 
 	public StepChart() {
-
 		super();
 	}
 
 	public StepChart(Composite parent, int style) {
-
 		super(parent, style);
 	}
 
@@ -98,7 +96,7 @@ public class StepChart extends ScrollableChart {
 					ILineSeriesSettings lineSeriesSettings = lineSeriesData.getSettings();
 					lineSeriesSettings.getSeriesSettingsHighlight(); // Initialize
 					lineSeriesSettings.setEnableStep(true);
-					ILineSeries lineSeries = (ILineSeries)createSeries(optimizedSeriesData, lineSeriesSettings);
+					ILineSeries<?> lineSeries = (ILineSeries<?>)createSeries(optimizedSeriesData, lineSeriesSettings);
 					baseChart.applyLineSeriesSettings(lineSeries, lineSeriesSettings);
 				} catch(SeriesException e) {
 					//

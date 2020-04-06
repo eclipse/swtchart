@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2017, 2019 Lablicate GmbH.
+ * Copyright (c) 2017, 2020 Lablicate GmbH.
  *
  * This program and the accompanying materials are made
  * available under the terms of the Eclipse Public License 2.0
@@ -295,13 +295,13 @@ public abstract class AbstractExtendedChart extends AbstractHandledChart impleme
 			seriesSettingsMap.put(id, seriesSettings);
 			//
 			ISeriesSet seriesSet = getSeriesSet();
-			ISeries series = seriesSet.createSeries(seriesType, id);
+			ISeries<?> series = seriesSet.createSeries(seriesType, id);
 			series.setXSeries(xSeries);
 			series.setYSeries(ySeries);
 			calculateCoordinates(series);
 			return series;
 		} else {
-			throw new SeriesException(Messages.getString(Messages.X_Y_SERIES_LENGTH_DIFFERS)); 
+			throw new SeriesException(Messages.getString(Messages.X_Y_SERIES_LENGTH_DIFFERS));
 		}
 	}
 
@@ -313,7 +313,7 @@ public abstract class AbstractExtendedChart extends AbstractHandledChart impleme
 			resetCoordinates();
 			seriesSet.deleteSeries(id);
 			seriesSettingsMap.remove(id);
-			for(ISeries series : seriesSet.getSeries()) {
+			for(ISeries<?> series : seriesSet.getSeries()) {
 				calculateCoordinates(series);
 			}
 		}
@@ -324,7 +324,7 @@ public abstract class AbstractExtendedChart extends AbstractHandledChart impleme
 
 		if(seriesData != null) {
 			ISeriesSet seriesSet = getSeriesSet();
-			ISeries series = seriesSet.getSeries(seriesData.getId());
+			ISeries<?> series = seriesSet.getSeries(seriesData.getId());
 			if(series != null) {
 				/*
 				 * Append the data.
@@ -468,7 +468,7 @@ public abstract class AbstractExtendedChart extends AbstractHandledChart impleme
 		maxY = Double.NEGATIVE_INFINITY;
 	}
 
-	private void calculateCoordinates(ISeries series) {
+	private void calculateCoordinates(ISeries<?> series) {
 
 		double[] xSeries = series.getXSeries();
 		double[] ySeries = series.getYSeries();

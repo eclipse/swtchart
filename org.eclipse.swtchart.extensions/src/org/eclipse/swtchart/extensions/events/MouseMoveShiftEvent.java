@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2017, 2019 Lablicate GmbH.
+ * Copyright (c) 2017, 2020 Lablicate GmbH.
  *
  * This program and the accompanying materials are made
  * available under the terms of the Eclipse Public License 2.0
@@ -16,10 +16,10 @@ import java.util.Set;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Event;
+import org.eclipse.swtchart.ISeries;
 import org.eclipse.swtchart.extensions.core.BaseChart;
 import org.eclipse.swtchart.extensions.core.IExtendedChart;
 import org.eclipse.swtchart.extensions.core.IMouseSupport;
-import org.eclipse.swtchart.ISeries;
 
 public class MouseMoveShiftEvent extends AbstractHandledEventProcessor implements IHandledEventProcessor {
 
@@ -70,7 +70,7 @@ public class MouseMoveShiftEvent extends AbstractHandledEventProcessor implement
 						double shiftY = baseChart.getShiftValue(baseChart.getYMoveStart(), event.y, IExtendedChart.Y_AXIS);
 						//
 						for(String selectedSeriesId : selectedSeriesIds) {
-							ISeries dataSeries = baseChart.getSeriesSet().getSeries(selectedSeriesId);
+							ISeries<?> dataSeries = baseChart.getSeriesSet().getSeries(selectedSeriesId);
 							if(dataSeries != null) {
 								baseChart.shiftSeries(selectedSeriesId, shiftX, shiftY);
 							}

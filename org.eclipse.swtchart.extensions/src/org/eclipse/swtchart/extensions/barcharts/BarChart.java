@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2017, 2019 Lablicate GmbH.
+ * Copyright (c) 2017, 2020 Lablicate GmbH.
  *
  * This program and the accompanying materials are made
  * available under the terms of the Eclipse Public License 2.0
@@ -15,12 +15,12 @@ package org.eclipse.swtchart.extensions.barcharts;
 import java.util.List;
 
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swtchart.IBarSeries;
+import org.eclipse.swtchart.IBarSeries.BarWidthStyle;
 import org.eclipse.swtchart.extensions.core.BaseChart;
 import org.eclipse.swtchart.extensions.core.ISeriesData;
 import org.eclipse.swtchart.extensions.core.ScrollableChart;
 import org.eclipse.swtchart.extensions.exceptions.SeriesException;
-import org.eclipse.swtchart.IBarSeries;
-import org.eclipse.swtchart.IBarSeries.BarWidthStyle;
 
 public class BarChart extends ScrollableChart {
 
@@ -62,7 +62,7 @@ public class BarChart extends ScrollableChart {
 					ISeriesData optimizedSeriesData = calculateSeries(seriesData, compressToLength);
 					IBarSeriesSettings barSeriesSettings = barSeriesData.getSettings();
 					barSeriesSettings.getSeriesSettingsHighlight(); // Initialize
-					IBarSeries barSeries = (IBarSeries)createSeries(optimizedSeriesData, barSeriesSettings);
+					IBarSeries<?> barSeries = (IBarSeries<?>)createSeries(optimizedSeriesData, barSeriesSettings);
 					baseChart.applyBarSeriesSettings(barSeries, barSeriesSettings);
 					/*
 					 * Automatically use stretched if it is a large data set.

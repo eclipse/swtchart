@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2017, 2019 Lablicate GmbH.
+ * Copyright (c) 2017, 2020 Lablicate GmbH.
  *
  * This program and the accompanying materials are made
  * available under the terms of the Eclipse Public License 2.0
@@ -14,13 +14,13 @@ package org.eclipse.swtchart.extensions.internal.marker;
 
 import org.eclipse.swt.events.PaintEvent;
 import org.eclipse.swt.graphics.Point;
+import org.eclipse.swtchart.ISeries;
+import org.eclipse.swtchart.ISeriesSet;
 import org.eclipse.swtchart.extensions.core.BaseChart;
 import org.eclipse.swtchart.extensions.core.IPointSeriesSettings;
 import org.eclipse.swtchart.extensions.core.ISeriesSettings;
 import org.eclipse.swtchart.extensions.marker.AbstractBaseChartPaintListener;
 import org.eclipse.swtchart.extensions.marker.IBaseChartPaintListener;
-import org.eclipse.swtchart.ISeries;
-import org.eclipse.swtchart.ISeriesSet;
 
 public class SeriesLabelMarker extends AbstractBaseChartPaintListener implements IBaseChartPaintListener {
 
@@ -34,8 +34,8 @@ public class SeriesLabelMarker extends AbstractBaseChartPaintListener implements
 		if(isDraw()) {
 			BaseChart baseChart = getBaseChart();
 			ISeriesSet seriesSet = baseChart.getSeriesSet();
-			ISeries[] series = seriesSet.getSeries();
-			for(ISeries serie : series) {
+			ISeries<?>[] series = seriesSet.getSeries();
+			for(ISeries<?> serie : series) {
 				String label = serie.getId();
 				ISeriesSettings seriesSettings = baseChart.getSeriesSettings(label);
 				if(seriesSettings.isVisible()) {

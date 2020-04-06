@@ -35,9 +35,13 @@ import org.osgi.framework.BundleContext;
  */
 public class Activator implements BundleActivator {
 
-	public static final String ICON_SET_RANGE = "ICON_SET_RANGE"; // $NON-NLS-1$ //$NON-NLS-1$
-	public static final String ICON_HIDE = "ICON_HIDE"; // $NON-NLS-1$ //$NON-NLS-1$
-	public static final String ICON_RESET = "ICON_RESET"; // $NON-NLS-1$ //$NON-NLS-1$
+	public static final String ICON_SET_RANGE = "ICON_SET_RANGE"; // $NON-NLS-1$
+	public static final String ICON_HIDE = "ICON_HIDE"; // $NON-NLS-1$
+	public static final String ICON_RESET = "ICON_RESET"; // $NON-NLS-1$
+	public static final String ICON_CHECKED = "ICON_CHECKED"; // $NON-NLS-1$
+	public static final String ICON_UNCHECKED = "ICON_UNCHECKED"; // $NON-NLS-1$
+	public static final String ICON_LEGEND = "ICON_LEGEND"; // $NON-NLS-1$
+	public static final String ICON_POSITION = "ICON_POSITION"; // $NON-NLS-1$
 	//
 	private static Activator plugin;
 	/**
@@ -100,10 +104,16 @@ public class Activator implements BundleActivator {
 		} else {
 			imageRegistry = new ImageRegistry();
 		}
+		//
 		Map<String, String> imageHashMap = new HashMap<String, String>();
-		imageHashMap.put(ICON_SET_RANGE, "icons/16x16/set_range.gif"); // $NON-NLS-1$ //$NON-NLS-1$
-		imageHashMap.put(ICON_HIDE, "icons/16x16/hide.gif"); // $NON-NLS-1$ //$NON-NLS-1$
-		imageHashMap.put(ICON_RESET, "icons/16x16/reset.gif"); // $NON-NLS-1$ //$NON-NLS-1$
+		//
+		imageHashMap.put(ICON_SET_RANGE, "icons/16x16/set_range.gif"); // $NON-NLS-1$
+		imageHashMap.put(ICON_HIDE, "icons/16x16/hide.gif"); // $NON-NLS-1$
+		imageHashMap.put(ICON_RESET, "icons/16x16/reset.gif"); // $NON-NLS-1$
+		imageHashMap.put(ICON_CHECKED, "icons/16x16/checked.gif"); // $NON-NLS-1$
+		imageHashMap.put(ICON_UNCHECKED, "icons/16x16/unchecked.gif"); // $NON-NLS-1$
+		imageHashMap.put(ICON_LEGEND, "icons/16x16/legend.gif"); // $NON-NLS-1$
+		imageHashMap.put(ICON_POSITION, "icons/16x16/position.gif"); // $NON-NLS-1$
 		//
 		for(Map.Entry<String, String> entry : imageHashMap.entrySet()) {
 			imageRegistry.put(entry.getKey(), createImageDescriptor(getBundle(), entry.getValue()));

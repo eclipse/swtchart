@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2008, 2019 SWTChart project.
+ * Copyright (c) 2008, 2020 SWTChart project.
  *
  * This program and the accompanying materials are made
  * available under the terms of the Eclipse Public License 2.0
@@ -121,7 +121,7 @@ public class ChartPage extends AbstractPage {
 	 */
 	private void addTitleGroup(Composite parent) {
 
-		Group group = createGroupControl(parent, Messages.getString(Messages.TITLE), false); 
+		Group group = createGroupControl(parent, Messages.getString(Messages.TITLE), false);
 		showTitleButton = createCheckBoxControl(group, Messages.getString(Messages.SHOW_TITLE));
 		showTitleButton.addSelectionListener(new SelectionAdapter() {
 
@@ -144,7 +144,7 @@ public class ChartPage extends AbstractPage {
 	 */
 	private void selectValues() {
 
-		backgroundInPlotAreaButton.setColorValue(chart.getBackgroundInPlotArea().getRGB());
+		backgroundInPlotAreaButton.setColorValue(chart.getPlotArea().getBackground().getRGB());
 		backgroundButton.setColorValue(chart.getBackground().getRGB());
 		orientationButton.setSelection(chart.getOrientation() == SWT.VERTICAL);
 		ITitle title = chart.getTitle();
@@ -175,7 +175,7 @@ public class ChartPage extends AbstractPage {
 	public void apply() {
 
 		Color color = new Color(Display.getDefault(), backgroundInPlotAreaButton.getColorValue());
-		chart.setBackgroundInPlotArea(color);
+		chart.getPlotArea().setBackground(color);
 		resources.put(PLOT_AREA_BACKGROUND, color);
 		color = new Color(Display.getDefault(), backgroundButton.getColorValue());
 		chart.setBackground(color);

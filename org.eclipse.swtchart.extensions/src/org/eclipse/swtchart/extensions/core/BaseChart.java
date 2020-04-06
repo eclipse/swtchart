@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2017, 2019 Lablicate GmbH.
+ * Copyright (c) 2017, 2020 Lablicate GmbH.
  *
  * This program and the accompanying materials are made
  * available under the terms of the Eclipse Public License 2.0
@@ -29,7 +29,6 @@ import java.util.Stack;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.PaintEvent;
 import org.eclipse.swt.graphics.Point;
-import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swtchart.IAxis;
@@ -52,10 +51,10 @@ public class BaseChart extends AbstractExtendedChart implements IChartDataCoordi
 
 	public static final int ID_PRIMARY_X_AXIS = 0;
 	public static final int ID_PRIMARY_Y_AXIS = 0;
-	public static final String DEFAULT_TITLE_X_AXIS = Messages.getString(Messages.X_AXIS); 
-	public static final String DEFAULT_TITLE_Y_AXIS = Messages.getString(Messages.Y_AXIS); 
+	public static final String DEFAULT_TITLE_X_AXIS = Messages.getString(Messages.X_AXIS);
+	public static final String DEFAULT_TITLE_Y_AXIS = Messages.getString(Messages.Y_AXIS);
 	//
-	public static final String SELECTED_SERIES_NONE = Messages.getString(Messages.NONE); 
+	public static final String SELECTED_SERIES_NONE = Messages.getString(Messages.NONE);
 	/*
 	 * see: IHandledEventProcessor
 	 * Map<Integer, Map<Integer, Map<Integer, List<IEventProcessor>>>>
@@ -329,9 +328,9 @@ public class BaseChart extends AbstractExtendedChart implements IChartDataCoordi
 	}
 
 	@Override
-	public ISeries createSeries(ISeriesData seriesData, ISeriesSettings seriesSettings) throws SeriesException {
+	public ISeries<?> createSeries(ISeriesData seriesData, ISeriesSettings seriesSettings) throws SeriesException {
 
-		ISeries series = super.createSeries(seriesData, seriesSettings);
+		ISeries<?> series = super.createSeries(seriesData, seriesSettings);
 		calculateRedrawFrequency();
 		return series;
 	}
@@ -590,7 +589,7 @@ public class BaseChart extends AbstractExtendedChart implements IChartDataCoordi
 	public void selectSeries(String selectedSeriesId, boolean fireUpdate) {
 
 		if(isSeriesContained(selectedSeriesId)) {
-			ISeries dataSeries = getSeriesSet().getSeries(selectedSeriesId);
+			ISeries<?> dataSeries = getSeriesSet().getSeries(selectedSeriesId);
 			ISeriesSettings seriesSettings = getSeriesSettings(selectedSeriesId);
 			selectedSeriesIds.add(selectedSeriesId);
 			applySeriesSettings(dataSeries, seriesSettings.getSeriesSettingsHighlight());
@@ -607,7 +606,7 @@ public class BaseChart extends AbstractExtendedChart implements IChartDataCoordi
 
 	public void hideSeries(String selectedSeriesId, boolean fireUpdate) {
 
-		ISeries dataSeries = getSeriesSet().getSeries(selectedSeriesId);
+		ISeries<?> dataSeries = getSeriesSet().getSeries(selectedSeriesId);
 		if(dataSeries != null) {
 			selectedSeriesIds.remove(selectedSeriesId);
 			dataSeries.setVisible(false);
@@ -625,9 +624,9 @@ public class BaseChart extends AbstractExtendedChart implements IChartDataCoordi
 
 	public void resetSeriesSettings(boolean fireUpdate) {
 
-		ISeries[] series = getSeriesSet().getSeries();
+		ISeries<?>[] series = getSeriesSet().getSeries();
 		//
-		for(ISeries dataSeries : series) {
+		for(ISeries<?> dataSeries : series) {
 			ISeriesSettings seriesSettings = getSeriesSettings(dataSeries.getId());
 			applySeriesSettings(dataSeries, seriesSettings);
 		}
@@ -641,17 +640,17 @@ public class BaseChart extends AbstractExtendedChart implements IChartDataCoordi
 
 	public void showSeries(String selectedSeriesId) {
 
-		ISeries dataSeries = getSeriesSet().getSeries(selectedSeriesId);
+		ISeries<?> dataSeries = getSeriesSet().getSeries(selectedSeriesId);
 		if(dataSeries != null) {
 			dataSeries.setVisible(true);
 			dataSeries.setVisibleInLegend(true);
 		}
 	}
 
-	public void applySeriesSettings(ISeries dataSeries, ISeriesSettings seriesSettings) {
+	public void applySeriesSettings(ISeries<?> dataSeries, ISeriesSettings seriesSettings) {
 
 		if(dataSeries instanceof ILineSeries) {
-			ILineSeries lineSeries = (ILineSeries)dataSeries;
+			ILineSeries<?> lineSeries = (ILineSeries<?>)dataSeries;
 			if(seriesSettings instanceof ILineSeriesSettings) {
 				/*
 				 * Line Series
@@ -666,7 +665,7 @@ public class BaseChart extends AbstractExtendedChart implements IChartDataCoordi
 				applyScatterSeriesSettings(lineSeries, scatterSeriesSettings);
 			}
 		} else if(dataSeries instanceof IBarSeries) {
-			IBarSeries barSeries = (IBarSeries)dataSeries;
+			IBarSeries<?> barSeries = (IBarSeries<?>)dataSeries;
 			if(seriesSettings instanceof IBarSeriesSettings) {
 				/*
 				 * Bar Series
@@ -677,7 +676,7 @@ public class BaseChart extends AbstractExtendedChart implements IChartDataCoordi
 		}
 	}
 
-	public void applyLineSeriesSettings(ILineSeries lineSeries, ILineSeriesSettings lineSeriesSettings) {
+	public void applyLineSeriesSettings(ILineSeries<?> lineSeries, ILineSeriesSettings lineSeriesSettings) {
 
 		lineSeries.setDescription(lineSeriesSettings.getDescription());
 		lineSeries.setVisible(lineSeriesSettings.isVisible());
@@ -694,7 +693,7 @@ public class BaseChart extends AbstractExtendedChart implements IChartDataCoordi
 		lineSeries.setLineStyle(lineSeriesSettings.getLineStyle());
 	}
 
-	public void applyScatterSeriesSettings(ILineSeries scatterSeries, IScatterSeriesSettings scatterSeriesSettings) {
+	public void applyScatterSeriesSettings(ILineSeries<?> scatterSeries, IScatterSeriesSettings scatterSeriesSettings) {
 
 		scatterSeries.setDescription(scatterSeriesSettings.getDescription());
 		scatterSeries.setVisible(scatterSeriesSettings.isVisible());
@@ -706,7 +705,7 @@ public class BaseChart extends AbstractExtendedChart implements IChartDataCoordi
 		scatterSeries.setLineStyle(LineStyle.NONE);
 	}
 
-	public void applyBarSeriesSettings(IBarSeries barSeries, IBarSeriesSettings barSeriesSettings) {
+	public void applyBarSeriesSettings(IBarSeries<?> barSeries, IBarSeriesSettings barSeriesSettings) {
 
 		barSeries.setDescription(barSeriesSettings.getDescription());
 		barSeries.setVisible(barSeriesSettings.isVisible());
@@ -745,7 +744,7 @@ public class BaseChart extends AbstractExtendedChart implements IChartDataCoordi
 
 	public void shiftSeries(String selectedSeriesId, double shiftX, double shiftY) {
 
-		ISeries dataSeries = getSeriesSet().getSeries(selectedSeriesId);
+		ISeries<?> dataSeries = getSeriesSet().getSeries(selectedSeriesId);
 		if(dataSeries != null) {
 			//
 			if(shiftX != 0.0d || shiftY != 0.0d) {
@@ -866,7 +865,7 @@ public class BaseChart extends AbstractExtendedChart implements IChartDataCoordi
 	 */
 	public void multiplySeries(String selectedSeriesId, String axisId, double factor) {
 
-		ISeries dataSeries = getSeriesSet().getSeries(selectedSeriesId);
+		ISeries<?> dataSeries = getSeriesSet().getSeries(selectedSeriesId);
 		if(dataSeries != null) {
 			//
 			double[] xSeries = dataSeries.getXSeries();
@@ -911,7 +910,7 @@ public class BaseChart extends AbstractExtendedChart implements IChartDataCoordi
 			if(axisSettings != null) {
 				label = axisSettings.getLabel();
 			} else {
-				label = Messages.getString(Messages.NOT_SET); 
+				label = Messages.getString(Messages.NOT_SET);
 			}
 			items[i] = label;
 		}
@@ -1073,13 +1072,13 @@ public class BaseChart extends AbstractExtendedChart implements IChartDataCoordi
 
 	public String getSelectedseriesId(Event event) {
 
-		ISeries[] series = getSeriesSet().getSeries();
+		ISeries<?>[] series = getSeriesSet().getSeries();
 		String selectedSeriesId = ""; //$NON-NLS-1$
 		/*
 		 * Get the selected series id.
 		 */
 		exitloop:
-		for(ISeries dataSeries : series) {
+		for(ISeries<?> dataSeries : series) {
 			if(dataSeries != null) {
 				int size = dataSeries.getXSeries().length;
 				for(int i = 0; i < size; i++) {
@@ -1112,16 +1111,16 @@ public class BaseChart extends AbstractExtendedChart implements IChartDataCoordi
 		int deltaWidth;
 		int deltaHeight;
 		//
-		Rectangle bounds = getPlotArea().getBounds();
+		Point point = getPlotArea().getSize();
 		if((getOrientation() == SWT.HORIZONTAL)) {
-			minSelectedWidth = bounds.width / MIN_SELECTION_PERCENTAGE;
+			minSelectedWidth = point.x / MIN_SELECTION_PERCENTAGE;
 			deltaWidth = Math.abs(userSelection.getStartX() - event.x);
-			minSelectedHeight = bounds.height / MIN_SELECTION_PERCENTAGE;
+			minSelectedHeight = point.y / MIN_SELECTION_PERCENTAGE;
 			deltaHeight = Math.abs(userSelection.getStartY() - event.y);
 		} else {
-			minSelectedWidth = bounds.height / MIN_SELECTION_PERCENTAGE;
+			minSelectedWidth = point.y / MIN_SELECTION_PERCENTAGE;
 			deltaWidth = Math.abs(userSelection.getStartY() - event.y);
-			minSelectedHeight = bounds.width / MIN_SELECTION_PERCENTAGE;
+			minSelectedHeight = point.x / MIN_SELECTION_PERCENTAGE;
 			deltaHeight = Math.abs(userSelection.getStartX() - event.x);
 		}
 		/*

@@ -96,7 +96,7 @@ public class LineChart extends ScrollableChart {
 					ISeriesData optimizedSeriesData = calculateSeries(seriesData, compressToLength);
 					ILineSeriesSettings lineSeriesSettings = lineSeriesData.getSettings();
 					lineSeriesSettings.getSeriesSettingsHighlight(); // Initialize
-					ILineSeries lineSeries = (ILineSeries)createSeries(optimizedSeriesData, lineSeriesSettings);
+					ILineSeries<?> lineSeries = (ILineSeries<?>)createSeries(optimizedSeriesData, lineSeriesSettings);
 					baseChart.applyLineSeriesSettings(lineSeries, lineSeriesSettings);
 				} catch(SeriesException e) {
 					//

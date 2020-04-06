@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2008, 2019 SWTChart project.
+ * Copyright (c) 2008, 2020 SWTChart project.
  *
  * This program and the accompanying materials are made
  * available under the terms of the Eclipse Public License 2.0
@@ -47,7 +47,7 @@ public class SeriesLabelPage extends AbstractSelectorPage {
 	/** the key for series label font */
 	private static final String SERIES_LABEL_FONT = "org.eclipse.swtchart.series.font"; //$NON-NLS-1$
 	/** the series array */
-	private ISeries[] series;
+	private ISeries<?>[] series;
 	/** the show label button */
 	protected Button showLabelButton;
 	/** the color label */

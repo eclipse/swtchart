@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2017, 2019 Lablicate GmbH.
+ * Copyright (c) 2017, 2020 Lablicate GmbH.
  *
  * This program and the accompanying materials are made
  * available under the terms of the Eclipse Public License 2.0
@@ -124,14 +124,14 @@ public class MassSpectrumChart extends BarChart {
 		primaryAxisSettingsX.setColor(getDisplay().getSystemColor(SWT.COLOR_BLACK));
 		//
 		IPrimaryAxisSettings primaryAxisSettingsY = chartSettings.getPrimaryAxisSettingsY();
-		primaryAxisSettingsY.setTitle(Messages.getString(Messages.INTENSITY)); 
+		primaryAxisSettingsY.setTitle(Messages.getString(Messages.INTENSITY));
 		primaryAxisSettingsY.setDecimalFormat(new DecimalFormat(("0.0#E0"), new DecimalFormatSymbols(Locale.ENGLISH))); //$NON-NLS-1$
 		primaryAxisSettingsY.setColor(getDisplay().getSystemColor(SWT.COLOR_BLACK));
 	}
 
 	private void addSecondaryAxisSet(IChartSettings chartSettings) {
 
-		ISecondaryAxisSettings secondaryAxisSettingsY = new SecondaryAxisSettings(Messages.getString(Messages.RELATIVE_INTENSITY), new PercentageConverter(SWT.VERTICAL, true)); 
+		ISecondaryAxisSettings secondaryAxisSettingsY = new SecondaryAxisSettings(Messages.getString(Messages.RELATIVE_INTENSITY), new PercentageConverter(SWT.VERTICAL, true));
 		secondaryAxisSettingsY.setPosition(Position.Secondary);
 		secondaryAxisSettingsY.setDecimalFormat(new DecimalFormat(("0.00"), new DecimalFormatSymbols(Locale.ENGLISH))); //$NON-NLS-1$
 		secondaryAxisSettingsY.setColor(getDisplay().getSystemColor(SWT.COLOR_BLACK));
@@ -226,8 +226,8 @@ public class MassSpectrumChart extends BarChart {
 		List<BarSeriesIon> barSeriesIons = new ArrayList<BarSeriesIon>();
 		//
 		int widthPlotArea = getBaseChart().getPlotArea().getSize().x;
-		ISeries[] series = getBaseChart().getSeriesSet().getSeries();
-		for(ISeries barSeries : series) {
+		ISeries<?>[] series = getBaseChart().getSeriesSet().getSeries();
+		for(ISeries<?> barSeries : series) {
 			if(barSeries != null) {
 				//
 				double[] xSeries = barSeries.getXSeries();
