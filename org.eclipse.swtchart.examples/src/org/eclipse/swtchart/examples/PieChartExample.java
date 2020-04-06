@@ -23,7 +23,7 @@ import org.eclipse.swtchart.ISeries.SeriesType;
 import org.eclipse.swtchart.internal.series.PieSeries;
 
 /**
- * An example for bar chart.
+ * An example for pie chart.
  */
 public class PieChartExample {
 

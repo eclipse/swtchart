@@ -314,6 +314,25 @@ public class Legend extends Composite implements ILegend, PaintListener {
 				if(!series.isVisibleInLegend()) {
 					continue;
 				}
+				if(series instanceof IPieSeries) {
+					if(((PieSeries)series).getLabelSeries()!=null) {
+						String[] labels = ((PieSeries)series).getLabelSeries();
+						for(int i=0;i!=labels.length;i++) {
+							int textWidth = Util.getExtentInGC(getFont(), labels[i]).x;
+							int cellWidth = textWidth + SYMBOL_WIDTH + MARGIN * 3;
+							if(xPosition + cellWidth < r.width || xPosition == 0) {
+								xPosition += cellWidth;
+							} else {
+								rows++;
+								xPosition = cellWidth;
+							}
+							cellBounds.put(labels[i], new Rectangle(xPosition - cellWidth, (cellHeight + MARGIN) * (rows - 1) + MARGIN, cellWidth, cellHeight));
+							width = Math.max(xPosition, width);
+						}
+						height = (cellHeight + MARGIN) * rows + MARGIN;
+						continue;
+					}
+				}
 				String label = getLegendLabel(series);
 				int textWidth = Util.getExtentInGC(getFont(), label).x;
 				int cellWidth = textWidth + SYMBOL_WIDTH + MARGIN * 3;
