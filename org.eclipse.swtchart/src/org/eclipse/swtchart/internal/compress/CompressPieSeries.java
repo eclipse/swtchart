@@ -10,10 +10,10 @@ public class CompressPieSeries extends Compress{
 
 	String[] labels;
 	double[] values;
-	private int[] colours = {SWT.COLOR_BLUE,SWT.COLOR_CYAN,SWT.COLOR_DARK_BLUE,SWT.COLOR_DARK_CYAN
-			,SWT.COLOR_DARK_GRAY,SWT.COLOR_DARK_MAGENTA,SWT.COLOR_DARK_RED,SWT.COLOR_DARK_YELLOW
-			,SWT.COLOR_GRAY,SWT.COLOR_GREEN,SWT.COLOR_MAGENTA,SWT.COLOR_RED,SWT.COLOR_YELLOW
-			,SWT.COLOR_WIDGET_HIGHLIGHT_SHADOW};
+	private int[] colours = {SWT.COLOR_BLUE,SWT.COLOR_DARK_YELLOW,SWT.COLOR_GREEN,SWT.COLOR_CYAN,SWT.COLOR_RED,
+			 SWT.COLOR_DARK_BLUE,SWT.COLOR_DARK_RED,SWT.COLOR_DARK_CYAN,SWT.COLOR_MAGENTA
+			,SWT.COLOR_DARK_GRAY,SWT.COLOR_DARK_MAGENTA
+			,SWT.COLOR_GRAY,SWT.COLOR_WIDGET_NORMAL_SHADOW,SWT.COLOR_WIDGET_HIGHLIGHT_SHADOW};
 	private Color[] colors ;
 	
 	@Override
@@ -37,7 +37,7 @@ public class CompressPieSeries extends Compress{
 	public void setColors() {
 		colors = new Color[labels.length];
 		int color = colours.length;
-		colors[0] = Display.getDefault().getSystemColor(SWT.COLOR_WIDGET_NORMAL_SHADOW);
+		colors[0] = Display.getDefault().getSystemColor(SWT.COLOR_YELLOW);
 		for(int i =1;i!=labels.length;i++) {
 			int colour = i%color;
 			colors[i] = Display.getDefault().getSystemColor(colours[i]);

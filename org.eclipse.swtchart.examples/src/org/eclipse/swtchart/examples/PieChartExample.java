@@ -29,8 +29,8 @@ import org.eclipse.swtchart.internal.series.Series;
  */
 public class PieChartExample {
 
-	private static final double[] values = {0.2, 1.1, 1.9, 2.3, 1.8,0.2, 1.1, 1.9, 2.3, 1.8};
-	private static final String[] labels = {"hi","i","am","himanshu","balasamanta","hi","i","am","himanshu","balasamanta"};
+	private static final double[] values = {337309, 131646, 128948, 100123, 81708, 70478, 58226, 47806, 4067,265783};
+	private static final String[] labels = {"USA","Spain","Italy","Germany","China","France","Iran","UK","India","Other"};
 	/**
 	 * The main method.
 	 * 
@@ -66,7 +66,7 @@ public class PieChartExample {
 		// create a chart
 		Chart chart = new Chart(parent, SWT.NONE);
 		// set titles
-		chart.getTitle().setText("Pie Chart");
+		chart.getTitle().setText("COVID Cases around the Globe on 6/04/2020");
 		// create pie series
 		Series pieSeries = (Series)chart.getSeriesSet().createSeries(SeriesType.PIE, "pie series");
 		//sets the series.

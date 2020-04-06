@@ -51,6 +51,7 @@ public class PieSeries extends Series implements IPieSeries{
 	
 	public String[] getLabelSeries() {
 		StringArraySeriesModel stringArraySeriesModel = getStringArraySeriesModel();
+		if(stringArraySeriesModel==null)return null;
 		String[] labels = stringArraySeriesModel.getLabels();
 		String[] ids = new String[labels.length];
 		System.arraycopy(labels, 0, ids, 0, labels.length);
@@ -111,12 +112,14 @@ public class PieSeries extends Series implements IPieSeries{
 		double[] values = ((CompressPieSeries)compressor).getValueSeries();
 		Color[] colors = ((CompressPieSeries)compressor).getColors();
 		Point[] bounds = getAngleBounds(values);
+		//draw boundary of PieChart
+		gc.setLineWidth(2);
+		gc.drawArc(xStart+1, yStart+1, xStart + xWidth -1, yStart + yWidth -1, 0, 360);
 		
-		gc.drawArc(xStart, yStart, xStart + xWidth -1, yStart + yWidth -1, 0, 360);
 		for(int i=0;i!=bounds.length;i++) {
-			gc.setBackground(colors[i]);
 			
-			gc.fillArc(xStart, yStart, xWidth -1, yWidth -1, bounds[i].x, bounds[i].y);
+			gc.setBackground(colors[i]);
+			gc.fillArc(xStart+1, yStart+1, xWidth -2, yWidth -2, bounds[i].x, bounds[i].y);
 		}
 	}
 
