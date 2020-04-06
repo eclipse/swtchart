@@ -1,3 +1,15 @@
+/*******************************************************************************
+ * Copyright (c) 2020 SWTChart project.
+ *
+ * This program and the accompanying materials are made
+ * available under the terms of the Eclipse Public License 2.0
+ * which is available at https://www.eclipse.org/legal/epl-2.0/
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ * 
+ * Contributors:
+ * Himanshu Balasamanta - initial API and implementation
+ *******************************************************************************/
 package org.eclipse.swtchart.internal.series;
 
 import org.eclipse.swt.SWT;
@@ -28,7 +40,6 @@ public class PieSeries extends Series implements IPieSeries{
 
 	private void initialise() {
 
-		Color backgroundColor = chart.getPlotArea().getBackground();
 		IAxis[] axes = chart.getAxisSet().getAxes();
 		for(IAxis axis : axes) {
 			axis.getTick().setVisible(false);
@@ -49,6 +60,7 @@ public class PieSeries extends Series implements IPieSeries{
 		return stringArraySeriesModel;
 	}
 	
+	@Override
 	public String[] getLabelSeries() {
 		StringArraySeriesModel stringArraySeriesModel = getStringArraySeriesModel();
 		if(stringArraySeriesModel==null)return null;
@@ -58,6 +70,7 @@ public class PieSeries extends Series implements IPieSeries{
 		return ids;
 	}
 	
+	@Override
 	public double[] getValueSeries() {
 		StringArraySeriesModel stringArraySeriesModel = getStringArraySeriesModel();
 		double[] values = stringArraySeriesModel.getValues();
@@ -66,8 +79,22 @@ public class PieSeries extends Series implements IPieSeries{
 		return val;
 	}
 	
+	@Override
 	public Color[] getColors() {
 		return ((CompressPieSeries)compressor).getColors();
+	}
+	
+	@Override
+	public void setColor(String label, Color color) {
+		Color[] colors =  ((CompressPieSeries)compressor).getColors();
+		String[]labels = getLabelSeries();
+		for(int i=0;i!=labels.length;i++) {
+			if(labels[i]==label) {
+				colors[i]=color;
+				break;
+			}
+		}
+		((CompressPieSeries)compressor).setColors(colors);
 	}
 	
 	@Override
@@ -76,7 +103,7 @@ public class PieSeries extends Series implements IPieSeries{
 		compressor = new CompressPieSeries();
 	}
 
-	public void setStringArrayModel(StringArraySeriesModel data) {
+	private void setStringArrayModel(StringArraySeriesModel data) {
 		
 		this.stringArraySeriesModel = data;
 		setCompressor();
@@ -85,10 +112,13 @@ public class PieSeries extends Series implements IPieSeries{
 			((CompressPieSeries)compressor).setValueSeries(getValueSeries());
 		}
 		else if(compressor instanceof CompressBarSeries) {
-			//code for category series
+			//code for bar category series.This is just to show that the data model can be
+			//used to set category series in bar series, in case so desired, one may shift 
+			//the methods in this class to series class.
 		}
 	}
 
+	@Override
 	public void setSeries(String[] labels, double[] values) {
 		
 		if(labels == null || values == null ) {

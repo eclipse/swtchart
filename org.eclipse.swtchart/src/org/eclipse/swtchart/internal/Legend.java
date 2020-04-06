@@ -8,7 +8,7 @@
  * SPDX-License-Identifier: EPL-2.0
  * 
  * Contributors:
- * yoshitaka - initial API and implementation
+ * yoshitaka , Himanshu Balasamanta - initial API and implementation
  * Frank Buloup - Internationalization
  *******************************************************************************/
 package org.eclipse.swtchart.internal;

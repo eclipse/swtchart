@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2008, 2019 SWTChart project.
+ * Copyright (c) 2020 SWTChart project.
  *
  * This program and the accompanying materials are made
  * available under the terms of the Eclipse Public License 2.0
@@ -8,11 +8,12 @@
  * SPDX-License-Identifier: EPL-2.0
  * 
  * Contributors:
- * yoshitaka - initial API and implementation
+ * Himanshu Balasamanta - initial API and implementation
  *******************************************************************************/
 package org.eclipse.swtchart.examples;
 
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
@@ -68,9 +69,11 @@ public class PieChartExample {
 		// set titles
 		chart.getTitle().setText("COVID Cases around the Globe on 6/04/2020");
 		// create pie series
-		Series pieSeries = (Series)chart.getSeriesSet().createSeries(SeriesType.PIE, "pie series");
+		PieSeries pieSeries = (PieSeries)chart.getSeriesSet().createSeries(SeriesType.PIE, "pie series");
 		//sets the series.
 		((PieSeries)pieSeries).setSeries(labels, values);
+		Color color = Display.getDefault().getSystemColor(SWT.COLOR_DARK_RED);
+		pieSeries.setColor("India", color);
 		return chart;
 	}
 }
