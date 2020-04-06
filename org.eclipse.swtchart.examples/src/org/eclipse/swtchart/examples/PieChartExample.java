@@ -19,11 +19,8 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swtchart.Chart;
-import org.eclipse.swtchart.IBarSeries;
-import org.eclipse.swtchart.IPieSeries;
 import org.eclipse.swtchart.ISeries.SeriesType;
 import org.eclipse.swtchart.internal.series.PieSeries;
-import org.eclipse.swtchart.internal.series.Series;
 
 /**
  * An example for bar chart.
@@ -42,7 +39,7 @@ public class PieChartExample {
 
 		Display display = new Display();
 		Shell shell = new Shell(display);
-		shell.setText("Bar Chart");
+		shell.setText("Pie Chart");
 		shell.setSize(500, 400);
 		shell.setLayout(new FillLayout());
 		createChart(shell);
