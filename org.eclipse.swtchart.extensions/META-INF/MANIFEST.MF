@@ -7,7 +7,9 @@ Bundle-Activator: org.eclipse.swtchart.extensions.Activator
 Bundle-Vendor: Eclipse SWTChart
 Require-Bundle: org.eclipse.jface,
  org.eclipse.core.runtime,
- org.eclipse.swtchart;bundle-version="0.13.0"
+ org.eclipse.swtchart;bundle-version="0.13.0",
+ org.eclipse.swtchart.export,
+ org.swtchart
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Bundle-ActivationPolicy: lazy
 Export-Package: org.eclipse.swtchart.extensions.axisconverter,
@@ -21,6 +23,7 @@ Export-Package: org.eclipse.swtchart.extensions.axisconverter,
  org.eclipse.swtchart.extensions.marker,
  org.eclipse.swtchart.extensions.menu,
  org.eclipse.swtchart.extensions.menu.toggle,
+ org.eclipse.swtchart.extensions.piecharts,
  org.eclipse.swtchart.extensions.preferences,
  org.eclipse.swtchart.extensions.properties,
  org.eclipse.swtchart.extensions.scattercharts
