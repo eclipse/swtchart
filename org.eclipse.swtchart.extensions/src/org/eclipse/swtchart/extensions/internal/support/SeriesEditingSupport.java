@@ -63,6 +63,10 @@ public class SeriesEditingSupport extends EditingSupport {
 	@Override
 	protected CellEditor getCellEditor(Object element) {
 
+		/*
+		 * Probably, create a generic ISeriesSettings Cell Editor, which let's the
+		 * user modify all fields except the id.
+		 */
 		CellEditor cellEditor;
 		switch(title) {
 			case SeriesLabelProvider.VISIBLE:

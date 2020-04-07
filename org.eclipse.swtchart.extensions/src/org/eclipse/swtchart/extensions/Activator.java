@@ -42,6 +42,10 @@ public class Activator implements BundleActivator {
 	public static final String ICON_UNCHECKED = "ICON_UNCHECKED"; // $NON-NLS-1$
 	public static final String ICON_LEGEND = "ICON_LEGEND"; // $NON-NLS-1$
 	public static final String ICON_POSITION = "ICON_POSITION"; // $NON-NLS-1$
+	public static final String ARROW_LEFT = "ARROW_LEFT"; // $NON-NLS-1$
+	public static final String ARROW_RIGHT = "ARROW_RIGHT"; // $NON-NLS-1$
+	public static final String ARROW_UP = "ARROW_UP"; // $NON-NLS-1$
+	public static final String ARROW_DOWN = "ARROW_DOWN"; // $NON-NLS-1$
 	//
 	private static Activator plugin;
 	/**
@@ -114,6 +118,10 @@ public class Activator implements BundleActivator {
 		imageHashMap.put(ICON_UNCHECKED, "icons/16x16/unchecked.gif"); // $NON-NLS-1$
 		imageHashMap.put(ICON_LEGEND, "icons/16x16/legend.gif"); // $NON-NLS-1$
 		imageHashMap.put(ICON_POSITION, "icons/16x16/position.gif"); // $NON-NLS-1$
+		imageHashMap.put(ARROW_LEFT, "icons/16x16/arrowLeft.gif"); // $NON-NLS-1$
+		imageHashMap.put(ARROW_RIGHT, "icons/16x16/arrowRight.gif"); // $NON-NLS-1$
+		imageHashMap.put(ARROW_UP, "icons/16x16/arrowUp.gif"); // $NON-NLS-1$
+		imageHashMap.put(ARROW_DOWN, "icons/16x16/arrowDown.gif"); // $NON-NLS-1$
 		//
 		for(Map.Entry<String, String> entry : imageHashMap.entrySet()) {
 			imageRegistry.put(entry.getKey(), createImageDescriptor(getBundle(), entry.getValue()));

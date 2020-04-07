@@ -66,7 +66,7 @@ public class SeriesLabelProvider extends ColumnLabelProvider implements ITableLa
 		//
 		if(element instanceof ISeries<?>) {
 			ISeries<?> series = (ISeries<?>)element;
-			isVisible = series.isVisible();
+			isVisible = series.isVisibleInLegend();
 		}
 		//
 		return isVisible;

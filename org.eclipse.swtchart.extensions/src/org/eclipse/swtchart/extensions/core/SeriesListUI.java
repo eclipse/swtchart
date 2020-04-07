@@ -32,10 +32,12 @@ import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
+import org.eclipse.swtchart.ISeries;
 import org.eclipse.swtchart.extensions.internal.support.SeriesComparator;
 import org.eclipse.swtchart.extensions.internal.support.SeriesEditingSupport;
 import org.eclipse.swtchart.extensions.internal.support.SeriesFilter;
 import org.eclipse.swtchart.extensions.internal.support.SeriesLabelProvider;
+import org.eclipse.swtchart.extensions.internal.support.SeriesMapper;
 
 public class SeriesListUI extends TableViewer {
 
@@ -48,6 +50,8 @@ public class SeriesListUI extends TableViewer {
 	private SeriesFilter filter = new SeriesFilter();
 	//
 	private List<TableViewerColumn> columns = new ArrayList<>();
+	//
+	private ScrollableChart scrollableChart;
 
 	public SeriesListUI(Composite parent, int style) {
 		super(parent, style);
@@ -58,6 +62,28 @@ public class SeriesListUI extends TableViewer {
 
 		filter.setSearchText(searchText, caseSensitive);
 		refresh();
+	}
+
+	public void setScrollableChart(ScrollableChart scrollableChart) {
+
+		this.scrollableChart = scrollableChart;
+	}
+
+	@Override
+	public void refresh() {
+
+		Object input = getInput();
+		if(input instanceof ISeries<?>[] && scrollableChart != null) {
+			ISeries<?>[] seriesArray = (ISeries<?>[])input;
+			SeriesMapper seriesMapper = new SeriesMapper(scrollableChart.getBaseChart());
+			seriesMapper.mapSettings(seriesArray);
+		}
+		//
+		if(scrollableChart != null) {
+			scrollableChart.redraw();
+		}
+		//
+		super.refresh();
 	}
 
 	private void createControl() {
@@ -149,6 +175,9 @@ public class SeriesListUI extends TableViewer {
 				case SeriesLabelProvider.COLOR:
 					setColorColumnProvider(tableViewerColumn);
 					break;
+				case SeriesLabelProvider.ID:
+					setIdColumnProvider(tableViewerColumn);
+					break;
 			}
 			/*
 			 * Edit Support
@@ -165,12 +194,33 @@ public class SeriesListUI extends TableViewer {
 			public void update(ViewerCell cell) {
 
 				if(cell != null) {
-					String text = cell.getText();
 					Object object = cell.getElement();
 					Color color = SeriesLabelProvider.getColor(object);
 					cell.setBackground(color);
-					cell.setText(text);
+					cell.setText(""); // No text
 					super.update(cell);
+				}
+			}
+		});
+	}
+
+	private void setIdColumnProvider(TableViewerColumn tableViewerColumn) {
+
+		tableViewerColumn.setLabelProvider(new StyledCellLabelProvider() {
+
+			@Override
+			public void update(ViewerCell cell) {
+
+				if(cell != null) {
+					Object object = cell.getItem().getData();
+					if(object instanceof ISeries<?>) {
+						ISeries<?> series = (ISeries<?>)object;
+						String text = series.getId();
+						cell.setBackground(ColorsSupport.getColor(250, 250, 250));
+						cell.setForeground(ColorsSupport.getColor(125, 125, 125));
+						cell.setText(text);
+						super.update(cell);
+					}
 				}
 			}
 		});

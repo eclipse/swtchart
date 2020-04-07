@@ -47,15 +47,12 @@ public abstract class AbstractExtendedChart extends AbstractHandledChart impleme
 	private double extendedMinY;
 	private double extendedMaxY;
 	//
-	private Map<Integer, IAxisSettings> xAxisSettingsMap;
-	private Map<Integer, IAxisSettings> yAxisSettingsMap;
-	private Map<String, ISeriesSettings> seriesSettingsMap;
+	private Map<Integer, IAxisSettings> xAxisSettingsMap = new HashMap<Integer, IAxisSettings>();
+	private Map<Integer, IAxisSettings> yAxisSettingsMap = new HashMap<Integer, IAxisSettings>();
+	private Map<String, ISeriesSettings> seriesSettingsMap = new HashMap<String, ISeriesSettings>();
 
 	public AbstractExtendedChart(Composite parent, int style) {
 		super(parent, style);
-		xAxisSettingsMap = new HashMap<Integer, IAxisSettings>();
-		yAxisSettingsMap = new HashMap<Integer, IAxisSettings>();
-		seriesSettingsMap = new HashMap<String, ISeriesSettings>();
 		resetCoordinates();
 	}
 
@@ -281,7 +278,7 @@ public abstract class AbstractExtendedChart extends AbstractHandledChart impleme
 	}
 
 	@Override
-	public ISeries createSeries(ISeriesData seriesData, ISeriesSettings seriesSettings) throws SeriesException {
+	public ISeries<?> createSeries(ISeriesData seriesData, ISeriesSettings seriesSettings) throws SeriesException {
 
 		SeriesType seriesType = getSeriesType(seriesSettings);
 		double[] xSeries = seriesData.getXSeries();
