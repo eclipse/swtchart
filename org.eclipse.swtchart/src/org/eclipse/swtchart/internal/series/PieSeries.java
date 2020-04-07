@@ -21,16 +21,17 @@ import org.eclipse.swtchart.IAxis;
 import org.eclipse.swtchart.IPieSeries;
 import org.eclipse.swtchart.Range;
 import org.eclipse.swtchart.internal.axis.Axis;
-import org.eclipse.swtchart.internal.compress.CompressBarSeries;
 import org.eclipse.swtchart.internal.compress.CompressPieSeries;
+import org.eclipse.swtchart.model.CartesianSeriesModel;
 import org.eclipse.swtchart.model.StringArraySeriesModel;
 
-public class PieSeries extends Series implements IPieSeries{
-	Chart chart;
-	private StringArraySeriesModel stringArraySeriesModel;
-	
+public class PieSeries extends Series implements IPieSeries {
+
+	private Chart chart;
+	private StringArraySeriesModel model;
+
 	public PieSeries(Chart chart, String id) {
-		
+
 		super(chart, id);
 		this.chart = chart;
 		type = SeriesType.PIE;
@@ -38,90 +39,69 @@ public class PieSeries extends Series implements IPieSeries{
 		compressor = new CompressPieSeries();
 	}
 
-	private void initialise() {
-
-		IAxis[] axes = chart.getAxisSet().getAxes();
-		for(IAxis axis : axes) {
-			axis.getTick().setVisible(false);
-			axis.getGrid().setVisible(false);
-			axis.getTitle().setVisible(false);
-		}
-		
-	}
-
 	@Override
 	public Range getAdjustedRange(Axis axis, int length) {
 
 		return null;
 	}
-	
-	public StringArraySeriesModel getStringArraySeriesModel() {
-		
-		return stringArraySeriesModel;
+
+	@Override
+	public CartesianSeriesModel getDataModel() {
+
+		return model;
 	}
-	
+
 	@Override
 	public String[] getLabelSeries() {
-		StringArraySeriesModel stringArraySeriesModel = getStringArraySeriesModel();
-		if(stringArraySeriesModel==null)return null;
+
+		StringArraySeriesModel stringArraySeriesModel = (StringArraySeriesModel)getDataModel();
+		if(stringArraySeriesModel == null)
+			return null;
 		String[] labels = stringArraySeriesModel.getLabels();
 		String[] ids = new String[labels.length];
 		System.arraycopy(labels, 0, ids, 0, labels.length);
 		return ids;
 	}
-	
+
 	@Override
 	public double[] getValueSeries() {
-		StringArraySeriesModel stringArraySeriesModel = getStringArraySeriesModel();
+
+		StringArraySeriesModel stringArraySeriesModel = (StringArraySeriesModel)getDataModel();
 		double[] values = stringArraySeriesModel.getValues();
 		double[] val = new double[values.length];
 		System.arraycopy(values, 0, val, 0, values.length);
 		return val;
 	}
-	
+
 	@Override
 	public Color[] getColors() {
+
 		return ((CompressPieSeries)compressor).getColors();
 	}
-	
+
 	@Override
 	public void setColor(String label, Color color) {
-		Color[] colors =  ((CompressPieSeries)compressor).getColors();
-		String[]labels = getLabelSeries();
-		for(int i=0;i!=labels.length;i++) {
-			if(labels[i]==label) {
-				colors[i]=color;
+
+		Color[] colors = ((CompressPieSeries)compressor).getColors();
+		String[] labels = getLabelSeries();
+		for(int i = 0; i != labels.length; i++) {
+			if(labels[i] == label) {
+				colors[i] = color;
 				break;
 			}
 		}
 		((CompressPieSeries)compressor).setColors(colors);
 	}
-	
-	@Override
-	protected void setCompressor() {
 
-		compressor = new CompressPieSeries();
-	}
+	public void setColor(Color[] colors) {
 
-	private void setStringArrayModel(StringArraySeriesModel data) {
-		
-		this.stringArraySeriesModel = data;
-		setCompressor();
-		if(compressor instanceof CompressPieSeries) {
-			((CompressPieSeries)compressor).setLabelSeries(getLabelSeries());
-			((CompressPieSeries)compressor).setValueSeries(getValueSeries());
-		}
-		else if(compressor instanceof CompressBarSeries) {
-			//code for bar category series.This is just to show that the data model can be
-			//used to set category series in bar series, in case so desired, one may shift 
-			//the methods in this class to series class.
-		}
+		((CompressPieSeries)compressor).setColors(colors);
 	}
 
 	@Override
 	public void setSeries(String[] labels, double[] values) {
-		
-		if(labels == null || values == null ) {
+
+		if(labels == null || values == null) {
 			SWT.error(SWT.ERROR_NULL_ARGUMENT);
 			return; // to suppress warning...
 		}
@@ -129,31 +109,37 @@ public class PieSeries extends Series implements IPieSeries{
 		System.arraycopy(labels, 0, ids, 0, labels.length);
 		double[] val = new double[values.length];
 		System.arraycopy(values, 0, val, 0, values.length);
-		StringArraySeriesModel data = new StringArraySeriesModel(ids,val);
-		setStringArrayModel(data);
+		StringArraySeriesModel data = new StringArraySeriesModel(ids, val);
+		this.setDataModel(data);
 	}
-	
+
+	@Override
+	protected void setCompressor() {
+
+		compressor = new CompressPieSeries();
+	}
+
 	@Override
 	protected void draw(GC gc, int width, int height, Axis xAxis, Axis yAxis) {
 
-		setBothAxisRange(width,height,xAxis,yAxis);
-		int xStart = xAxis.getPixelCoordinate(-1), yStart = yAxis.getPixelCoordinate(1);
-		int xWidth = xAxis.getPixelCoordinate(1)-xStart, yWidth = yAxis.getPixelCoordinate(-1)-yStart;
+		setBothAxisRange(width, height, xAxis, yAxis);
+		int xStart = xAxis.getPixelCoordinate(-1),
+				yStart = yAxis.getPixelCoordinate(1);
+		int xWidth = xAxis.getPixelCoordinate(1) - xStart,
+				yWidth = yAxis.getPixelCoordinate(-1) - yStart;
 		double[] values = ((CompressPieSeries)compressor).getValueSeries();
 		Color[] colors = ((CompressPieSeries)compressor).getColors();
 		Point[] bounds = getAngleBounds(values);
-		//draw boundary of PieChart
+		// draw boundary of PieChart
 		gc.setLineWidth(2);
-		gc.drawArc(xStart+1, yStart+1, xStart + xWidth -1, yStart + yWidth -1, 0, 360);
-		
-		for(int i=0;i!=bounds.length;i++) {
-			
+		gc.drawArc(xStart + 1, yStart + 1, xStart + xWidth - 1, yStart + yWidth - 1, 0, 360);
+		for(int i = 0; i != bounds.length; i++) {
 			gc.setBackground(colors[i]);
-			gc.fillArc(xStart+1, yStart+1, xWidth -2, yWidth -2, bounds[i].x, bounds[i].y);
+			gc.fillArc(xStart + 1, yStart + 1, xWidth - 2, yWidth - 2, bounds[i].x, bounds[i].y);
 		}
 	}
 
-	/** 
+	/**
 	 * gets the start angle and angle width for each value in series.
 	 * 
 	 * @param values
@@ -162,26 +148,25 @@ public class PieSeries extends Series implements IPieSeries{
 	private Point[] getAngleBounds(double[] values) {
 
 		int start = 0, width;
-		double total =0,required = 0;
-		Point[]bounds = new Point[values.length];
+		double total = 0, required = 0;
+		Point[] bounds = new Point[values.length];
 		for(double val : values) {
-			total+=val;
+			total += val;
 		}
-		for(int i=0;i!=values.length;i++) {
-			width = (int)(((values[i]*360)/total));
+		for(int i = 0; i != values.length; i++) {
+			width = (int)(((values[i] * 360) / total));
 			if(width == 0) {
 				width = 1;
-				required-=1;
-			} 
-			else {
-				double diff = ((values[i]*360)/total)-width;
-				required+=diff;
-				if(required>0.999) {
+				required -= 1;
+			} else {
+				double diff = ((values[i] * 360) / total) - width;
+				required += diff;
+				if(required > 0.999) {
 					width++;
-					required-=1.0;
+					required -= 1.0;
 				}
 			}
-			Point p = new Point(start,width);
+			Point p = new Point(start, width);
 			start += width;
 			bounds[i] = p;
 		}
@@ -191,7 +176,7 @@ public class PieSeries extends Series implements IPieSeries{
 	/**
 	 * sets the range of the axis so that the pie to be drawn is drawn within the range
 	 * -1 to 1 in both X and Y axis.
-	 * This shall be changed when multi-level pie-chart will be implemented to enable 
+	 * This shall be changed when multi-level pie-chart will be implemented to enable
 	 * ease in multi-layer drawing.
 	 * 
 	 * @param width
@@ -201,24 +186,45 @@ public class PieSeries extends Series implements IPieSeries{
 	 */
 	private void setBothAxisRange(int width, int height, Axis xAxis, Axis yAxis) {
 
-		xAxis.setRange(new Range(-1,1));
-		yAxis.setRange(new Range(-1,1));
-		if(width>height) {
+		xAxis.setRange(new Range(-1, 1));
+		yAxis.setRange(new Range(-1, 1));
+		if(width > height) {
 			if(xAxis.isHorizontalAxis()) {
-				double ratio = (double)(2*width/(double)height);
-				xAxis.setRange(new Range(-1,ratio-1));
+				double ratio = (double)(2 * width / (double)height);
+				xAxis.setRange(new Range(-1, ratio - 1));
 			} else {
-				double ratio = (double)(2*width/(double)height);
-				yAxis.setRange(new Range(-1,ratio-1));
+				double ratio = (double)(2 * width / (double)height);
+				yAxis.setRange(new Range(-1, ratio - 1));
 			}
-		}else {
+		} else {
 			if(xAxis.isHorizontalAxis()) {
-				double ratio = (double)(2*height/(double)width);
-				yAxis.setRange(new Range(1-ratio,1));
+				double ratio = (double)(2 * height / (double)width);
+				yAxis.setRange(new Range(1 - ratio, 1));
 			} else {
-				double ratio = (double)(2*height/(double)width);
-				xAxis.setRange(new Range(1-ratio,1));
+				double ratio = (double)(2 * height / (double)width);
+				xAxis.setRange(new Range(1 - ratio, 1));
 			}
+		}
+	}
+
+	@Override
+	public void setDataModel(CartesianSeriesModel model) {
+
+		this.model = (StringArraySeriesModel)model;
+		setCompressor();
+		if(compressor instanceof CompressPieSeries) {
+			((CompressPieSeries)compressor).setLabelSeries(getLabelSeries());
+			((CompressPieSeries)compressor).setValueSeries(getValueSeries());
+		}
+	}
+
+	private void initialise() {
+
+		IAxis[] axes = chart.getAxisSet().getAxes();
+		for(IAxis axis : axes) {
+			axis.getTick().setVisible(false);
+			axis.getGrid().setVisible(false);
+			axis.getTitle().setVisible(false);
 		}
 	}
 }

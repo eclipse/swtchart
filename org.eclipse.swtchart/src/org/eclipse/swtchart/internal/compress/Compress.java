@@ -73,7 +73,6 @@ public abstract class Compress implements ICompress {
 		compressed = false;
 	}
 
-	
 	@Override
 	public void setYSeries(double[] ySeries) {
 

@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2008, 2019 SWTChart project.
+ * Copyright (c) 2008, 2020 SWTChart project.
  *
  * This program and the accompanying materials are made
  * available under the terms of the Eclipse Public License 2.0
@@ -8,7 +8,7 @@
  * SPDX-License-Identifier: EPL-2.0
  * 
  * Contributors:
- * yoshitaka , Himanshu Balasamanta - initial API and implementation
+ * yoshitaka - initial API and implementation
  * Frank Buloup - Internationalization
  *******************************************************************************/
 package org.eclipse.swtchart.internal;
@@ -79,6 +79,7 @@ public class Legend extends Composite implements ILegend, PaintListener {
 	 *            the style
 	 */
 	public Legend(Chart chart, int style) {
+
 		super(chart, style | SWT.DOUBLE_BUFFERED);
 		this.chart = chart;
 		visible = true;
@@ -274,9 +275,9 @@ public class Legend extends Composite implements ILegend, PaintListener {
 					continue;
 				}
 				if(series instanceof IPieSeries) {
-					if(((PieSeries)series).getLabelSeries()!=null) {
+					if(((PieSeries)series).getLabelSeries() != null) {
 						String[] labels = ((PieSeries)series).getLabelSeries();
-						for(int i=0;i!=labels.length;i++) {
+						for(int i = 0; i != labels.length; i++) {
 							int textWidth = Util.getExtentInGC(getFont(), labels[i]).x;
 							int cellWidth = textWidth + SYMBOL_WIDTH + MARGIN * 3;
 							maxCellWidth = Math.max(maxCellWidth, cellWidth);
@@ -315,9 +316,9 @@ public class Legend extends Composite implements ILegend, PaintListener {
 					continue;
 				}
 				if(series instanceof IPieSeries) {
-					if(((PieSeries)series).getLabelSeries()!=null) {
+					if(((PieSeries)series).getLabelSeries() != null) {
 						String[] labels = ((PieSeries)series).getLabelSeries();
-						for(int i=0;i!=labels.length;i++) {
+						for(int i = 0; i != labels.length; i++) {
 							int textWidth = Util.getExtentInGC(getFont(), labels[i]).x;
 							int cellWidth = textWidth + SYMBOL_WIDTH + MARGIN * 3;
 							if(xPosition + cellWidth < r.width || xPosition == 0) {
@@ -433,12 +434,12 @@ public class Legend extends Composite implements ILegend, PaintListener {
 				continue;
 			}
 			if(seriesArray[i] instanceof IPieSeries) {
-				PieSeries series = (PieSeries)seriesArray[i];
-				String[] labels = series.getLabelSeries();
-				Color[] color = series.getColors();
-				for(int j=0 ;j!=labels.length;j++) {
+				PieSeries pieSeries = (PieSeries)seriesArray[i];
+				String[] labels = pieSeries.getLabelSeries();
+				Color[] color = pieSeries.getColors();
+				for(int j = 0; j != labels.length; j++) {
 					Rectangle r = cellBounds.get(labels[j]);
-					drawPieSymbol(gc,labels[j],color[j],new Rectangle(r.x + MARGIN, r.y + MARGIN, SYMBOL_WIDTH, r.height - MARGIN * 2));
+					drawPieSymbol(gc, labels[j], color[j], new Rectangle(r.x + MARGIN, r.y + MARGIN, SYMBOL_WIDTH, r.height - MARGIN * 2));
 					gc.setBackground(getBackground());
 					gc.setForeground(getForeground());
 					gc.drawText(labels[j], r.x + SYMBOL_WIDTH + MARGIN * 2, r.y, true);
@@ -458,11 +459,11 @@ public class Legend extends Composite implements ILegend, PaintListener {
 	}
 
 	private void drawPieSymbol(GC gc, String string, Color color, Rectangle r) {
+
 		gc.setBackground(color);
 		int size = SYMBOL_WIDTH / 2;
 		int x = r.x + size / 2;
 		int y = (int)(r.y - size / 2d + r.height / 2d);
-		gc.fillArc(x, y, size, size,0,360);
-		
+		gc.fillArc(x, y, size, size, 0, 360);
 	}
 }

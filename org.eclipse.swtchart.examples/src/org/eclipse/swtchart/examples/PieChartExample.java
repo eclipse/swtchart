@@ -27,8 +27,9 @@ import org.eclipse.swtchart.internal.series.PieSeries;
  */
 public class PieChartExample {
 
-	private static final double[] values = {337309, 131646, 128948, 100123, 81708, 70478, 58226, 47806, 4067,265783};
-	private static final String[] labels = {"USA","Spain","Italy","Germany","China","France","Iran","UK","India","Other"};
+	private static final double[] values = {337309, 131646, 128948, 100123, 81708, 70478, 58226, 47806, 4067, 265783};
+	private static final String[] labels = {"USA", "Spain", "Italy", "Germany", "China", "France", "Iran", "UK", "India", "Other"};
+
 	/**
 	 * The main method.
 	 * 
@@ -67,8 +68,9 @@ public class PieChartExample {
 		chart.getTitle().setText("COVID Cases around the Globe on 6/04/2020");
 		// create pie series
 		PieSeries pieSeries = (PieSeries)chart.getSeriesSet().createSeries(SeriesType.PIE, "pie series");
-		//sets the series.
+		// sets the series.
 		((PieSeries)pieSeries).setSeries(labels, values);
+		// change color of India to DARK_RED
 		Color color = Display.getDefault().getSystemColor(SWT.COLOR_DARK_RED);
 		pieSeries.setColor("India", color);
 		return chart;

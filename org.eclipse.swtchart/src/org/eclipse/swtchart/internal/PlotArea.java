@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2008, 2019 SWTChart project.
+ * Copyright (c) 2008, 2020 SWTChart project.
  *
  * This program and the accompanying materials are made
  * available under the terms of the Eclipse Public License 2.0
@@ -61,6 +61,7 @@ public class PlotArea extends Composite implements PaintListener, IPlotArea {
 	 *            the style
 	 */
 	public PlotArea(Chart chart, int style) {
+
 		super(chart, style | SWT.NO_BACKGROUND | SWT.DOUBLE_BUFFERED);
 		this.chart = chart;
 		paintListeners = new ArrayList<ICustomPaintListener>();

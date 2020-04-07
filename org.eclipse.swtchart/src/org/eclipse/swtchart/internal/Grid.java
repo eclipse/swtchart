@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2008, 2019 SWTChart project.
+ * Copyright (c) 2008, 2020 SWTChart project.
  *
  * This program and the accompanying materials are made
  * available under the terms of the Eclipse Public License 2.0
@@ -49,6 +49,7 @@ public class Grid implements IGrid {
 	 *            the axis
 	 */
 	public Grid(Axis axis) {
+
 		this.axis = axis;
 		color = Display.getDefault().getSystemColor(DEFAULT_FOREGROUND);
 		lineStyle = DEFAULT_STYLE;
@@ -56,14 +57,15 @@ public class Grid implements IGrid {
 	}
 
 	public boolean isVisible() {
+
 		return isVisible;
 	}
-	
+
 	public void setVisible(boolean isVisible) {
-		
+
 		this.isVisible = isVisible;
 	}
-	
+
 	@Override
 	public Color getForeground() {
 

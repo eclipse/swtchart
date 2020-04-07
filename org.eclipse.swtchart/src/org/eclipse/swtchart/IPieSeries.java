@@ -15,33 +15,37 @@ package org.eclipse.swtchart;
 import org.eclipse.swt.graphics.Color;
 
 public interface IPieSeries {
-	
+
 	/**
 	 * gets the label series
+	 * 
 	 * @return labels that will be visible
 	 */
 	public String[] getLabelSeries();
-	
+
 	/**
 	 * gets the value series
+	 * 
 	 * @return the values input
 	 */
 	public double[] getValueSeries();
-	
+
 	/**
 	 * each element of this array is the color that the corresponding data
 	 * are present with same index in labelSeries and valueSeries
+	 * 
 	 * @return color[]
 	 */
 	public Color[] getColors();
-	
+
 	/**
 	 * sets the pie series.
+	 * 
 	 * @param labels
 	 * @param values
 	 */
 	public void setSeries(String[] labels, double[] values);
-	
+
 	/**
 	 * allows user to change color of given label to required color
 	 * 
@@ -49,4 +53,12 @@ public interface IPieSeries {
 	 * @param color
 	 */
 	public void setColor(String label, Color color);
+
+	/**
+	 * allows user to set multiple colors together. The colors are set corresponding to the
+	 * the labels in the label series.
+	 * 
+	 * @param colors
+	 */
+	public void setColor(Color[] colors);
 }
