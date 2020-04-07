@@ -26,14 +26,14 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.SWTException;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.widgets.Display;
+import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.osgi.framework.Bundle;
-import org.osgi.framework.BundleActivator;
 import org.osgi.framework.BundleContext;
 
 /**
  * The activator class controls the plug-in life cycle
  */
-public class Activator implements BundleActivator {
+public class Activator extends AbstractUIPlugin {
 
 	public static final String ICON_SET_RANGE = "ICON_SET_RANGE"; // $NON-NLS-1$
 	public static final String ICON_HIDE = "ICON_HIDE"; // $NON-NLS-1$
@@ -42,16 +42,17 @@ public class Activator implements BundleActivator {
 	public static final String ICON_UNCHECKED = "ICON_UNCHECKED"; // $NON-NLS-1$
 	public static final String ICON_LEGEND = "ICON_LEGEND"; // $NON-NLS-1$
 	public static final String ICON_POSITION = "ICON_POSITION"; // $NON-NLS-1$
+	public static final String ICON_SETTINGS = "ICON_SETTINGS"; // $NON-NLS-1$
+	public static final String ICON_MAPPINGS = "ICON_MAPPINGS"; // $NON-NLS-1$
+	public static final String ICON_DELETE = "ICON_DELETE"; // $NON-NLS-1$
+	public static final String ICON_DELETE_ALL = "ICON_DELETE_ALL"; // $NON-NLS-1$
+	//
 	public static final String ARROW_LEFT = "ARROW_LEFT"; // $NON-NLS-1$
 	public static final String ARROW_RIGHT = "ARROW_RIGHT"; // $NON-NLS-1$
 	public static final String ARROW_UP = "ARROW_UP"; // $NON-NLS-1$
 	public static final String ARROW_DOWN = "ARROW_DOWN"; // $NON-NLS-1$
 	//
 	private static Activator plugin;
-	/**
-	 * The bundle associated this plug-in
-	 */
-	private Bundle bundle;
 	private ImageRegistry imageRegistry;
 
 	/**
@@ -63,14 +64,15 @@ public class Activator implements BundleActivator {
 	@Override
 	public void start(BundleContext context) throws Exception {
 
+		super.start(context);
 		plugin = this;
-		this.bundle = context.getBundle();
 	}
 
 	@Override
 	public void stop(BundleContext context) throws Exception {
 
 		plugin = null;
+		super.stop(context);
 	}
 
 	public Image getImage(String key) {
@@ -79,16 +81,6 @@ public class Activator implements BundleActivator {
 			initializeImageRegistry();
 		}
 		return imageRegistry.get(key);
-	}
-
-	/**
-	 * Returns the bundle associated with this plug-in.
-	 *
-	 * @return the associated bundle
-	 */
-	public final Bundle getBundle() {
-
-		return bundle;
 	}
 
 	/**
@@ -118,6 +110,11 @@ public class Activator implements BundleActivator {
 		imageHashMap.put(ICON_UNCHECKED, "icons/16x16/unchecked.gif"); // $NON-NLS-1$
 		imageHashMap.put(ICON_LEGEND, "icons/16x16/legend.gif"); // $NON-NLS-1$
 		imageHashMap.put(ICON_POSITION, "icons/16x16/position.gif"); // $NON-NLS-1$
+		imageHashMap.put(ICON_SETTINGS, "icons/16x16/preferences.gif"); // $NON-NLS-1$
+		imageHashMap.put(ICON_MAPPINGS, "icons/16x16/mappings.gif"); // $NON-NLS-1$
+		imageHashMap.put(ICON_DELETE, "icons/16x16/delete.gif"); // $NON-NLS-1$
+		imageHashMap.put(ICON_DELETE_ALL, "icons/16x16/deleteAll.gif"); // $NON-NLS-1$
+		//
 		imageHashMap.put(ARROW_LEFT, "icons/16x16/arrowLeft.gif"); // $NON-NLS-1$
 		imageHashMap.put(ARROW_RIGHT, "icons/16x16/arrowRight.gif"); // $NON-NLS-1$
 		imageHashMap.put(ARROW_UP, "icons/16x16/arrowUp.gif"); // $NON-NLS-1$

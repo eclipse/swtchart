@@ -2,5 +2,19 @@
 <?eclipse version="3.4"?>
 <plugin>
    <extension-point id="org.eclipse.swtchart.extensions.menuitems" name="SWTChart MenuItem Extensions" schema="schema/org.eclipse.swtchart.extensions.menuitems.exsd"/>
-
+   <extension
+         point="org.eclipse.core.runtime.preferences">
+      <initializer
+            class="org.eclipse.swtchart.extensions.preferences.PreferenceInitializer">
+      </initializer>
+   </extension>
+   <extension
+         point="org.eclipse.ui.preferencePages">
+      <page
+            category="org.eclipse.chemclipse.rcp.app.ui.preferences.settingsPreferencePage"
+            class="org.eclipse.chemclipse.ux.extension.xxd.ui.preferences.PreferencePage"
+            id="org.eclipse.chemclipse.ux.extension.xxd.ui.preferences.preferencePage"
+            name="SWTChart Extensions">
+      </page>
+   </extension>       
 </plugin>

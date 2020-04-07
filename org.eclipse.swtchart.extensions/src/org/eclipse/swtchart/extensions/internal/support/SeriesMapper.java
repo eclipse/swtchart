@@ -12,8 +12,10 @@
  *******************************************************************************/
 package org.eclipse.swtchart.extensions.internal.support;
 
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 
 import org.eclipse.swtchart.IBarSeries;
 import org.eclipse.swtchart.ILineSeries;
@@ -35,6 +37,16 @@ public class SeriesMapper {
 	public static void clear() {
 
 		MAPPINGS.clear();
+	}
+
+	public static void remove(String key) {
+
+		MAPPINGS.remove(key);
+	}
+
+	public static Set<Map.Entry<String, ISeriesSettings>> getMappings() {
+
+		return Collections.unmodifiableSet(MAPPINGS.entrySet());
 	}
 
 	public void mapSettings(ISeries<?>[] seriesArray) {

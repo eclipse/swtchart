@@ -24,6 +24,7 @@ import org.eclipse.jface.viewers.TableViewerColumn;
 import org.eclipse.jface.viewers.ViewerCell;
 import org.eclipse.jface.viewers.ViewerFilter;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.SWTException;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.graphics.Color;
@@ -33,16 +34,20 @@ import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swtchart.ISeries;
+import org.eclipse.swtchart.extensions.Activator;
 import org.eclipse.swtchart.extensions.internal.support.SeriesComparator;
 import org.eclipse.swtchart.extensions.internal.support.SeriesEditingSupport;
 import org.eclipse.swtchart.extensions.internal.support.SeriesFilter;
 import org.eclipse.swtchart.extensions.internal.support.SeriesLabelProvider;
 import org.eclipse.swtchart.extensions.internal.support.SeriesMapper;
+import org.eclipse.swtchart.extensions.preferences.PreferenceConstants;
 
 public class SeriesListUI extends TableViewer {
 
 	private static final String[] TITLES = SeriesLabelProvider.TITLES;
 	private static final int[] BOUNDS = SeriesLabelProvider.BOUNDS;
+	//
+	private static final String COLUMN_DELIMITER = " ";
 	//
 	private ILabelProvider labelProvider = new SeriesLabelProvider();
 	private IContentProvider contentProvider = ArrayContentProvider.getInstance();
@@ -94,6 +99,7 @@ public class SeriesListUI extends TableViewer {
 		setComparator(comparator);
 		setFilters(new ViewerFilter[]{filter});
 		setCellColorAndEditSupport();
+		setColumnOrder(getTable());
 	}
 
 	private void createColumns(String[] titles, int[] bounds) {
@@ -158,7 +164,8 @@ public class SeriesListUI extends TableViewer {
 			@Override
 			public void handleEvent(Event event) {
 
-				// fireColumnMoved();
+				String columnOrder = getColumnOrder(getTable());
+				Activator.getDefault().getPreferenceStore().setValue(PreferenceConstants.P_LEGEND_COLUMN_ORDER, columnOrder);
 			}
 		});
 		return tableViewerColumn;
@@ -216,7 +223,7 @@ public class SeriesListUI extends TableViewer {
 					if(object instanceof ISeries<?>) {
 						ISeries<?> series = (ISeries<?>)object;
 						String text = series.getId();
-						cell.setBackground(ColorsSupport.getColor(250, 250, 250));
+						// cell.setBackground(ColorsSupport.getColor(250, 250, 250));
 						cell.setForeground(ColorsSupport.getColor(125, 125, 125));
 						cell.setText(text);
 						super.update(cell);
@@ -224,5 +231,50 @@ public class SeriesListUI extends TableViewer {
 				}
 			}
 		});
+	}
+
+	private void setColumnOrder(Table table) {
+
+		try {
+			String columnOrder = Activator.getDefault().getPreferenceStore().getString(PreferenceConstants.P_LEGEND_COLUMN_ORDER);
+			int[] columns = convertColumnOrder(columnOrder);
+			table.setColumnOrder(columns);
+		} catch(SWTException | IllegalArgumentException e) {
+			/*
+			 * On exception, default order will be used.
+			 */
+		}
+	}
+
+	private int[] convertColumnOrder(String columnOrder) {
+
+		String[] values = columnOrder.split(COLUMN_DELIMITER);
+		int size = values.length;
+		int[] columns = new int[size];
+		for(int i = 0; i < size; i++) {
+			try {
+				columns[i] = Integer.parseInt(values[i]);
+			} catch(NumberFormatException e) {
+				// logger.warn(e);
+			}
+		}
+		//
+		return columns;
+	}
+
+	private String getColumnOrder(Table table) {
+
+		return convertColumnOrder(table.getColumnOrder());
+	}
+
+	private String convertColumnOrder(int[] columnOrder) {
+
+		StringBuilder builder = new StringBuilder();
+		for(int i : columnOrder) {
+			builder.append(i);
+			builder.append(COLUMN_DELIMITER);
+		}
+		//
+		return builder.toString().trim();
 	}
 }

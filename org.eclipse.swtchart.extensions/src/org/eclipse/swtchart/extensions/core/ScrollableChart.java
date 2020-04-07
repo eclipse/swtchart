@@ -125,7 +125,7 @@ public class ScrollableChart extends Composite implements IScrollableChart, IEve
 	private static final int MIN_WEIGHT = 0;
 	private static final int[] DEFAULT_WEIGHTS = new int[]{MAX_WEIGHT, MIN_WEIGHT};
 	//
-	private int[] currentWeights = new int[]{800, 200};
+	private int[] currentWeights = new int[]{700, 300};
 
 	/**
 	 * This constructor is used, when clazz.newInstance() is needed.

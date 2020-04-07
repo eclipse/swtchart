@@ -15,9 +15,19 @@ package org.eclipse.swtchart.extensions.core;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.eclipse.core.databinding.validation.IValidator;
+import org.eclipse.core.runtime.IStatus;
+import org.eclipse.jface.dialogs.MessageDialog;
+import org.eclipse.jface.fieldassist.ControlDecoration;
+import org.eclipse.jface.fieldassist.FieldDecorationRegistry;
+import org.eclipse.jface.preference.IPreferenceStore;
+import org.eclipse.jface.preference.PreferenceDialog;
+import org.eclipse.jface.preference.PreferenceManager;
+import org.eclipse.jface.preference.PreferenceNode;
+import org.eclipse.jface.window.Window;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.events.ModifyEvent;
-import org.eclipse.swt.events.ModifyListener;
+import org.eclipse.swt.events.KeyAdapter;
+import org.eclipse.swt.events.KeyEvent;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.layout.GridData;
@@ -31,24 +41,24 @@ import org.eclipse.swt.widgets.Text;
 import org.eclipse.swtchart.ISeries;
 import org.eclipse.swtchart.extensions.Activator;
 import org.eclipse.swtchart.extensions.internal.marker.EmbeddedLegend;
+import org.eclipse.swtchart.extensions.internal.support.PositionValidator;
 import org.eclipse.swtchart.extensions.internal.support.SeriesMapper;
+import org.eclipse.swtchart.extensions.preferences.PreferenceConstants;
+import org.eclipse.swtchart.extensions.preferences.PreferencePage;
 
 public class ExtendedLegendUI extends Composite {
 
 	private ScrollableChart scrollableChart;
-	//
-	private static final int STEPS_MOVE_X = 10;
-	private static final int STEPS_MOVE_Y = 5;
 	//
 	private Text textX;
 	private Text textY;
 	private SeriesListUI seriesListUI;
 	//
 	private EmbeddedLegend embeddedLegend;
-	private int x = 0;
-	private int y = 0;
+	private boolean capturePosition = false;
 	//
 	private List<Control> controls = new ArrayList<>();
+	private IPreferenceStore preferenceStore = Activator.getDefault().getPreferenceStore();
 
 	public ExtendedLegendUI(Composite parent, int style) {
 		super(parent, style);
@@ -87,15 +97,14 @@ public class ExtendedLegendUI extends Composite {
 		seriesListUI = createListSection(this);
 		//
 		updateControls();
+		applySettings();
 	}
 
 	private void createToolbarMain(Composite parent) {
 
 		Composite composite = new Composite(parent, SWT.NONE);
-		GridData gridData = new GridData(GridData.FILL_HORIZONTAL);
-		gridData.horizontalAlignment = SWT.END;
-		composite.setLayoutData(gridData);
-		composite.setLayout(new GridLayout(8, false));
+		composite.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+		composite.setLayout(new GridLayout(10, false));
 		//
 		add(createButtonMove(composite, Activator.ARROW_LEFT, "Move Legend Left"));
 		add(createButtonMove(composite, Activator.ARROW_UP, "Move Legend Up"));
@@ -103,8 +112,10 @@ public class ExtendedLegendUI extends Composite {
 		add(createButtonMove(composite, Activator.ARROW_RIGHT, "Move Legend Right"));
 		add(textX = createTextPositionX(composite));
 		add(textY = createTextPositionY(composite));
-		add(createButtonPositionLegend(composite));
+		add(createButtonSetPosition(composite));
 		createButtonToggleLegend(composite);
+		createButtonMappings(composite);
+		createButtonSettings(composite);
 	}
 
 	private void add(Control control) {
@@ -127,6 +138,8 @@ public class ExtendedLegendUI extends Composite {
 					/*
 					 * Current position
 					 */
+					int moveX = preferenceStore != null ? preferenceStore.getInt(PreferenceConstants.P_MOVE_LEGEND_X) : PreferenceConstants.DEF_MOVE_LEGEND_X;
+					int moveY = preferenceStore != null ? preferenceStore.getInt(PreferenceConstants.P_MOVE_LEGEND_Y) : PreferenceConstants.DEF_MOVE_LEGEND_Y;
 					int x = embeddedLegend.getX();
 					int y = embeddedLegend.getY();
 					/*
@@ -134,22 +147,22 @@ public class ExtendedLegendUI extends Composite {
 					 */
 					switch(icon) {
 						case Activator.ARROW_LEFT:
-							x -= STEPS_MOVE_X;
+							x -= moveX;
 							break;
 						case Activator.ARROW_UP:
-							y -= STEPS_MOVE_Y;
+							y -= moveY;
 							break;
 						case Activator.ARROW_DOWN:
-							y += STEPS_MOVE_Y;
+							y += moveY;
 							break;
 						case Activator.ARROW_RIGHT:
-							x += STEPS_MOVE_X;
+							x += moveX;
 							break;
 					}
 					/*
 					 * Update the position
 					 */
-					updateLegendPosition(x, y);
+					updateLegendPosition(x, y, true);
 				}
 			}
 		});
@@ -163,18 +176,23 @@ public class ExtendedLegendUI extends Composite {
 		text.setText("");
 		text.setToolTipText("Legend Position X");
 		GridData gridData = new GridData(GridData.FILL_HORIZONTAL);
+		gridData.grabExcessHorizontalSpace = true;
 		gridData.minimumWidth = 80;
 		text.setLayoutData(gridData);
-		text.addModifyListener(new ModifyListener() {
+		//
+		PositionValidator validator = new PositionValidator();
+		ControlDecoration controlDecoration = new ControlDecoration(text, SWT.LEFT | SWT.TOP);
+		//
+		text.addKeyListener(new KeyAdapter() {
 
 			@Override
-			public void modifyText(ModifyEvent arg0) {
+			public void keyReleased(KeyEvent e) {
 
-				try {
-					int x = Integer.parseInt(text.getText().trim());
-					ExtendedLegendUI.this.x = x;
-				} catch(NumberFormatException e) {
-					// logger.warn(e);
+				if(validate(validator, controlDecoration, text)) {
+					if(preferenceStore != null) {
+						preferenceStore.setValue(PreferenceConstants.P_LEGEND_POSITION_X, validator.getPosition());
+						updateLegendPosition(true);
+					}
 				}
 			}
 		});
@@ -188,18 +206,23 @@ public class ExtendedLegendUI extends Composite {
 		text.setText("");
 		text.setToolTipText("Legend Position Y");
 		GridData gridData = new GridData(GridData.FILL_HORIZONTAL);
+		gridData.grabExcessHorizontalSpace = true;
 		gridData.minimumWidth = 80;
 		text.setLayoutData(gridData);
-		text.addModifyListener(new ModifyListener() {
+		//
+		PositionValidator validator = new PositionValidator();
+		ControlDecoration controlDecoration = new ControlDecoration(text, SWT.LEFT | SWT.TOP);
+		//
+		text.addKeyListener(new KeyAdapter() {
 
 			@Override
-			public void modifyText(ModifyEvent arg0) {
+			public void keyReleased(KeyEvent e) {
 
-				try {
-					int y = Integer.parseInt(text.getText().trim());
-					ExtendedLegendUI.this.y = y;
-				} catch(NumberFormatException e) {
-					// logger.warn(e);
+				if(validate(validator, controlDecoration, text)) {
+					if(preferenceStore != null) {
+						preferenceStore.setValue(PreferenceConstants.P_LEGEND_POSITION_Y, validator.getPosition());
+						updateLegendPosition(true);
+					}
 				}
 			}
 		});
@@ -207,7 +230,7 @@ public class ExtendedLegendUI extends Composite {
 		return text;
 	}
 
-	private Button createButtonPositionLegend(Composite parent) {
+	private Button createButtonSetPosition(Composite parent) {
 
 		Button button = new Button(parent, SWT.PUSH);
 		button.setText("");
@@ -218,22 +241,11 @@ public class ExtendedLegendUI extends Composite {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 
-				updateLegendPosition(x, y);
+				capturePosition = MessageDialog.openConfirm(e.display.getActiveShell(), "Legend Position", "Set the position manually by using left mouse button double-click in the chart.");
 			}
 		});
 		//
 		return button;
-	}
-
-	private void updateLegendPosition(int x, int y) {
-
-		if(embeddedLegend != null) {
-			embeddedLegend.setX(x);
-			embeddedLegend.setY(y);
-			if(scrollableChart != null) {
-				scrollableChart.redraw();
-			}
-		}
 	}
 
 	private Button createButtonToggleLegend(Composite parent) {
@@ -266,6 +278,59 @@ public class ExtendedLegendUI extends Composite {
 		return button;
 	}
 
+	private Button createButtonMappings(Composite parent) {
+
+		Button button = new Button(parent, SWT.PUSH);
+		button.setText("");
+		button.setToolTipText("Displays the mappings.");
+		button.setImage(Activator.getDefault().getImage(Activator.ICON_MAPPINGS));
+		button.addSelectionListener(new SelectionAdapter() {
+
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+
+				MappingsDialog mappingsDialog = new MappingsDialog(e.display.getActiveShell());
+				mappingsDialog.open();
+			}
+		});
+		//
+		return button;
+	}
+
+	private Button createButtonSettings(Composite parent) {
+
+		Button button = new Button(parent, SWT.PUSH);
+		button.setText("");
+		button.setToolTipText("Open the settings page.");
+		button.setImage(Activator.getDefault().getImage(Activator.ICON_SETTINGS));
+		button.addSelectionListener(new SelectionAdapter() {
+
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+
+				PreferenceManager preferenceManager = new PreferenceManager();
+				preferenceManager.addToRoot(new PreferenceNode("1", new PreferencePage()));
+				PreferenceDialog preferenceDialog = new PreferenceDialog(e.display.getActiveShell(), preferenceManager);
+				preferenceDialog.create();
+				preferenceDialog.setMessage("Settings");
+				if(preferenceDialog.open() == Window.OK) {
+					try {
+						applySettings();
+					} catch(Exception e1) {
+						MessageDialog.openError(e.display.getActiveShell(), "Settings", "Something has gone wrong to apply the settings.");
+					}
+				}
+			}
+		});
+		//
+		return button;
+	}
+
+	private void applySettings() {
+
+		updateLegendPosition(true);
+	}
+
 	private SeriesListUI createListSection(Composite parent) {
 
 		SeriesListUI seriesListUI = new SeriesListUI(parent, SWT.MULTI | SWT.H_SCROLL | SWT.V_SCROLL | SWT.FULL_SELECTION | SWT.BORDER);
@@ -281,6 +346,7 @@ public class ExtendedLegendUI extends Composite {
 			BaseChart baseChart = scrollableChart.getBaseChart();
 			embeddedLegend = new EmbeddedLegend(baseChart);
 			embeddedLegend.setDraw(false);
+			updateLegendPosition(false);
 			baseChart.getPlotArea().addCustomPaintListener(embeddedLegend);
 			/*
 			 * Left mouse double-click to get the position to place the legend.
@@ -291,13 +357,48 @@ public class ExtendedLegendUI extends Composite {
 				public void handleUserSelection(Event event) {
 
 					if(embeddedLegend.isDraw()) {
-						x = event.x;
-						textX.setText(Integer.toString(x));
-						y = event.y;
-						textY.setText(Integer.toString(y));
+						if(capturePosition) {
+							updateLegendPosition(event.x, event.y, true);
+							updateControls();
+							capturePosition = false;
+						}
 					}
 				}
 			});
+		}
+		updateControls();
+	}
+
+	private void updateLegendPosition(boolean redraw) {
+
+		if(preferenceStore != null) {
+			updateLegendPosition(preferenceStore.getInt(PreferenceConstants.P_LEGEND_POSITION_X), preferenceStore.getInt(PreferenceConstants.P_LEGEND_POSITION_Y), redraw);
+		}
+	}
+
+	private void updateLegendPosition(int x, int y, boolean redraw) {
+
+		if(embeddedLegend != null) {
+			/*
+			 * Legend
+			 */
+			embeddedLegend.setX(x);
+			embeddedLegend.setY(y);
+			if(preferenceStore != null) {
+				preferenceStore.setValue(PreferenceConstants.P_LEGEND_POSITION_X, x);
+				preferenceStore.setValue(PreferenceConstants.P_LEGEND_POSITION_Y, y);
+			}
+			/*
+			 * Text
+			 */
+			textX.setText(Integer.toString(embeddedLegend.getX()));
+			textY.setText(Integer.toString(embeddedLegend.getY()));
+			/*
+			 * Update
+			 */
+			if(scrollableChart != null && redraw) {
+				scrollableChart.redraw();
+			}
 		}
 	}
 
@@ -308,6 +409,20 @@ public class ExtendedLegendUI extends Composite {
 			for(Control control : controls) {
 				control.setEnabled(enabled);
 			}
+		}
+	}
+
+	private boolean validate(IValidator validator, ControlDecoration controlDecoration, Text text) {
+
+		IStatus status = validator.validate(text.getText().trim());
+		if(status.isOK()) {
+			controlDecoration.hide();
+			return true;
+		} else {
+			controlDecoration.setImage(FieldDecorationRegistry.getDefault().getFieldDecoration(FieldDecorationRegistry.DEC_CONTENT_PROPOSAL).getImage());
+			controlDecoration.showHoverText(status.getMessage());
+			controlDecoration.show();
+			return false;
 		}
 	}
 }
