@@ -35,6 +35,7 @@ import org.eclipse.swtchart.IAxis;
 import org.eclipse.swtchart.IBarSeries;
 import org.eclipse.swtchart.ICustomPaintListener;
 import org.eclipse.swtchart.ILineSeries;
+import org.eclipse.swtchart.IPieSeries;
 import org.eclipse.swtchart.IPlotArea;
 import org.eclipse.swtchart.ISeries;
 import org.eclipse.swtchart.ISeriesSet;
@@ -64,6 +65,7 @@ public class PlotArea extends Composite implements PaintListener, IPlotArea {
 	 *            the style
 	 */
 	public PlotArea(Chart chart, int style) {
+
 		super(chart, style | SWT.NO_BACKGROUND | SWT.DOUBLE_BUFFERED);
 		this.chart = chart;
 		paintListeners = new ArrayList<ICustomPaintListener>();
@@ -185,6 +187,11 @@ public class PlotArea extends Composite implements PaintListener, IPlotArea {
 		}
 		for(ISeries<?> series : chart.getSeriesSet().getSeries()) {
 			if(series instanceof ILineSeries) {
+				((Series<?>)series).draw(gc, p.x, p.y);
+			}
+		}
+		for(ISeries<?> series : chart.getSeriesSet().getSeries()) {
+			if(series instanceof IPieSeries) {
 				((Series<?>)series).draw(gc, p.x, p.y);
 			}
 		}

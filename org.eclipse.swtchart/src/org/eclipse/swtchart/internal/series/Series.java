@@ -83,6 +83,7 @@ abstract public class Series<T> implements ISeries<T> {
 	 *            the series id
 	 */
 	protected Series(Chart chart, String id) {
+
 		super();
 		this.chart = chart;
 		this.id = id;
@@ -168,7 +169,7 @@ abstract public class Series<T> implements ISeries<T> {
 
 		Number minY = getDataModel().getMinY();
 		if(enabled && (minY != null && minY.doubleValue() < 0)) {
-			throw new IllegalStateException(Messages.getString(Messages.STACKED_SERIES_CANT_CONTAIN_NEGATIVE_VALUES)); 
+			throw new IllegalStateException(Messages.getString(Messages.STACKED_SERIES_CANT_CONTAIN_NEGATIVE_VALUES));
 		}
 		if(stackEnabled == enabled) {
 			return;
@@ -464,7 +465,7 @@ abstract public class Series<T> implements ISeries<T> {
 			// get the pixel coordinate
 			return axis.getPixelCoordinate(dataCoordinate);
 		} else {
-			throw new IllegalStateException(Messages.getString(Messages.REQUIRES_INDEXED_SERIES_MODEL)); 
+			throw new IllegalStateException(Messages.getString(Messages.REQUIRES_INDEXED_SERIES_MODEL));
 		}
 	}
 

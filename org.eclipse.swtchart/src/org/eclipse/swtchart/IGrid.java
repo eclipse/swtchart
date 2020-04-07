@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2008, 2019 SWTChart project.
+ * Copyright (c) 2008, 2020 SWTChart project.
  *
  * This program and the accompanying materials are made
  * available under the terms of the Eclipse Public License 2.0
@@ -18,6 +18,20 @@ import org.eclipse.swt.graphics.Color;
  * A grid.
  */
 public interface IGrid {
+
+	/**
+	 * returns the visibility of Grid
+	 * 
+	 * @returns if Grid is Visible
+	 */
+	public boolean isVisible();
+
+	/**
+	 * sets visibility of the grid.
+	 * 
+	 * @param isVisible
+	 */
+	public void setVisible(boolean isVisible);
 
 	/**
 	 * Gets the foreground color.

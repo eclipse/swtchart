@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2008, 2019 SWTChart project.
+ * Copyright (c) 2008, 2020 SWTChart project.
  *
  * This program and the accompanying materials are made
  * available under the terms of the Eclipse Public License 2.0
@@ -34,8 +34,10 @@ import org.eclipse.swtchart.Constants;
 import org.eclipse.swtchart.IBarSeries;
 import org.eclipse.swtchart.ILegend;
 import org.eclipse.swtchart.ILineSeries;
+import org.eclipse.swtchart.IPieSeries;
 import org.eclipse.swtchart.ISeries;
 import org.eclipse.swtchart.internal.series.LineSeries;
+import org.eclipse.swtchart.internal.series.PieSeries;
 import org.eclipse.swtchart.internal.series.Series;
 
 /**
@@ -77,6 +79,7 @@ public class Legend extends Composite implements ILegend, PaintListener {
 	 *            the style
 	 */
 	public Legend(Chart chart, int style) {
+
 		super(chart, style | SWT.DOUBLE_BUFFERED);
 		this.chart = chart;
 		visible = true;
@@ -271,6 +274,26 @@ public class Legend extends Composite implements ILegend, PaintListener {
 				if(!series.isVisibleInLegend()) {
 					continue;
 				}
+				if(series instanceof IPieSeries) {
+					if(((PieSeries)series).getLabelSeries() != null) {
+						String[] labels = ((PieSeries)series).getLabelSeries();
+						for(int i = 0; i != labels.length; i++) {
+							int textWidth = Util.getExtentInGC(getFont(), labels[i]).x;
+							int cellWidth = textWidth + SYMBOL_WIDTH + MARGIN * 3;
+							maxCellWidth = Math.max(maxCellWidth, cellWidth);
+							if(yPosition + cellHeight < r.height - titleHeight - MARGIN || yPosition == MARGIN) {
+								yPosition += cellHeight + MARGIN;
+							} else {
+								columns++;
+								yPosition = cellHeight + MARGIN * 2;
+							}
+							cellBounds.put(labels[i], new Rectangle(maxCellWidth * (columns - 1), yPosition - cellHeight - MARGIN, cellWidth, cellHeight));
+							height = Math.max(yPosition, height);
+						}
+						width = maxCellWidth * columns;
+						continue;
+					}
+				}
 				String label = getLegendLabel(series);
 				int textWidth = Util.getExtentInGC(getFont(), label).x;
 				int cellWidth = textWidth + SYMBOL_WIDTH + MARGIN * 3;
@@ -291,6 +314,25 @@ public class Legend extends Composite implements ILegend, PaintListener {
 			for(ISeries series : seriesArray) {
 				if(!series.isVisibleInLegend()) {
 					continue;
+				}
+				if(series instanceof IPieSeries) {
+					if(((PieSeries)series).getLabelSeries() != null) {
+						String[] labels = ((PieSeries)series).getLabelSeries();
+						for(int i = 0; i != labels.length; i++) {
+							int textWidth = Util.getExtentInGC(getFont(), labels[i]).x;
+							int cellWidth = textWidth + SYMBOL_WIDTH + MARGIN * 3;
+							if(xPosition + cellWidth < r.width || xPosition == 0) {
+								xPosition += cellWidth;
+							} else {
+								rows++;
+								xPosition = cellWidth;
+							}
+							cellBounds.put(labels[i], new Rectangle(xPosition - cellWidth, (cellHeight + MARGIN) * (rows - 1) + MARGIN, cellWidth, cellHeight));
+							width = Math.max(xPosition, width);
+						}
+						height = (cellHeight + MARGIN) * rows + MARGIN;
+						continue;
+					}
 				}
 				String label = getLegendLabel(series);
 				int textWidth = Util.getExtentInGC(getFont(), label).x;
@@ -391,6 +433,19 @@ public class Legend extends Composite implements ILegend, PaintListener {
 			if(!seriesArray[i].isVisibleInLegend()) {
 				continue;
 			}
+			if(seriesArray[i] instanceof IPieSeries) {
+				PieSeries pieSeries = (PieSeries)seriesArray[i];
+				String[] labels = pieSeries.getLabelSeries();
+				Color[] color = pieSeries.getColors();
+				for(int j = 0; j != labels.length; j++) {
+					Rectangle r = cellBounds.get(labels[j]);
+					drawPieSymbol(gc, labels[j], color[j], new Rectangle(r.x + MARGIN, r.y + MARGIN, SYMBOL_WIDTH, r.height - MARGIN * 2));
+					gc.setBackground(getBackground());
+					gc.setForeground(getForeground());
+					gc.drawText(labels[j], r.x + SYMBOL_WIDTH + MARGIN * 2, r.y, true);
+				}
+				continue;
+			}
 			// draw plot line, symbol etc
 			String id = seriesArray[i].getId();
 			Rectangle r = cellBounds.get(id);
@@ -401,5 +456,14 @@ public class Legend extends Composite implements ILegend, PaintListener {
 			gc.setForeground(getForeground());
 			gc.drawText(label, r.x + SYMBOL_WIDTH + MARGIN * 2, r.y, true);
 		}
+	}
+
+	private void drawPieSymbol(GC gc, String string, Color color, Rectangle r) {
+
+		gc.setBackground(color);
+		int size = SYMBOL_WIDTH / 2;
+		int x = r.x + size / 2;
+		int y = (int)(r.y - size / 2d + r.height / 2d);
+		gc.fillArc(x, y, size, size, 0, 360);
 	}
 }
