@@ -123,20 +123,30 @@ public class PieSeries extends Series implements IPieSeries {
 	protected void draw(GC gc, int width, int height, Axis xAxis, Axis yAxis) {
 
 		setBothAxisRange(width, height, xAxis, yAxis);
-		int xStart = xAxis.getPixelCoordinate(-1),
-				yStart = yAxis.getPixelCoordinate(1);
-		int xWidth = xAxis.getPixelCoordinate(1) - xStart,
-				yWidth = yAxis.getPixelCoordinate(-1) - yStart;
+		int xStart = xAxis.getPixelCoordinate(-1);
+		int yStart = yAxis.getPixelCoordinate(1);
+		int xWidth = xAxis.getPixelCoordinate(1) - xStart;
+		int yWidth = yAxis.getPixelCoordinate(-1) - yStart;
+		int xZero = xAxis.getPixelCoordinate(0);
+		int yZero = yAxis.getPixelCoordinate(0);
 		double[] values = ((CompressPieSeries)compressor).getValueSeries();
 		Color[] colors = ((CompressPieSeries)compressor).getColors();
 		Point[] bounds = getAngleBounds(values);
+		gc.setLineWidth(1);
+		for(int i = 0; i != bounds.length; i++) {
+			// filling the background
+			gc.setBackground(colors[i]);
+			gc.fillArc(xStart + 1, yStart + 1, xWidth - 1, yWidth - 1, bounds[i].x, bounds[i].y);
+			// setting border between data elements
+			double xCoordinate = Math.cos(Math.toRadians(bounds[i].x));
+			double yCoordinate = -1 * Math.sin(Math.toRadians(bounds[i].x));
+			int xPixelCoordinate = xAxis.getPixelCoordinate(xCoordinate);
+			int yPixelCoordinate = xAxis.getPixelCoordinate(yCoordinate);
+			gc.drawLine(xZero, yZero, xPixelCoordinate, yPixelCoordinate);
+		}
 		// draw boundary of PieChart
 		gc.setLineWidth(2);
 		gc.drawArc(xStart + 1, yStart + 1, xStart + xWidth - 1, yStart + yWidth - 1, 0, 360);
-		for(int i = 0; i != bounds.length; i++) {
-			gc.setBackground(colors[i]);
-			gc.fillArc(xStart + 1, yStart + 1, xWidth - 2, yWidth - 2, bounds[i].x, bounds[i].y);
-		}
 	}
 
 	/**
