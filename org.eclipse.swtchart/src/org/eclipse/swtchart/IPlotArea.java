@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2008, 2019 SWTChart project.
+ * Copyright (c) 2008, 2020 SWTChart project.
  *
  * This program and the accompanying materials are made
  * available under the terms of the Eclipse Public License 2.0
@@ -10,11 +10,13 @@
  * Contributors:
  * yoshitaka - initial API and implementation
  * Christoph Läubrich - extend API so it is reusable
+ * Philip Wenig - added the background image option
  *******************************************************************************/
 package org.eclipse.swtchart;
 
 import org.eclipse.swt.events.MouseMoveListener;
 import org.eclipse.swt.graphics.Color;
+import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.widgets.Control;
@@ -58,6 +60,13 @@ public interface IPlotArea {
 	 * @param color
 	 */
 	public void setBackground(Color color);
+
+	/**
+	 * Draws the image centered in the plot area.
+	 * 
+	 * @param image
+	 */
+	public void setBackgroundImage(Image image);
 
 	/**
 	 * Returns a point describing the size in points.

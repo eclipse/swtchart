@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2008, 2019 SWTChart project.
+ * Copyright (c) 2008, 2020 SWTChart project.
  *
  * This program and the accompanying materials are made
  * available under the terms of the Eclipse Public License 2.0
@@ -10,6 +10,7 @@
  * Contributors:
  * yoshitaka - initial API and implementation
  * Christoph Läubrich - refactor for API changes of Plot area
+ * Philip Wenig - added the background image option
  *******************************************************************************/
 package org.eclipse.swtchart.internal;
 
@@ -23,7 +24,9 @@ import org.eclipse.swt.events.PaintEvent;
 import org.eclipse.swt.events.PaintListener;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.GC;
+import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.Point;
+import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Display;
@@ -44,12 +47,13 @@ import org.eclipse.swtchart.internal.series.SeriesSet;
 public class PlotArea extends Composite implements PaintListener, IPlotArea {
 
 	/** the chart */
-	protected Chart chart;
+	private Chart chart;
 	/** the custom paint listeners */
-	List<ICustomPaintListener> paintListeners;
+	private List<ICustomPaintListener> paintListeners;
 	/** the default background color */
 	private static final int DEFAULT_BACKGROUND = SWT.COLOR_WHITE;
 	private DisposeListener disposeListener;
+	private Image image = null;
 
 	/**
 	 * Constructor.
@@ -127,6 +131,12 @@ public class PlotArea extends Composite implements PaintListener, IPlotArea {
 	}
 
 	@Override
+	public void setBackgroundImage(Image image) {
+
+		this.image = image;
+	}
+
+	@Override
 	public void addCustomPaintListener(ICustomPaintListener listener) {
 
 		paintListeners.add(listener);
@@ -147,6 +157,16 @@ public class PlotArea extends Composite implements PaintListener, IPlotArea {
 		Color oldBackground = gc.getBackground();
 		gc.setBackground(getBackground());
 		gc.fillRectangle(0, 0, p.x, p.y);
+		/*
+		 * Draw the image centered if available.
+		 */
+		if(image != null) {
+			Rectangle source = image.getBounds();
+			Rectangle destination = getBounds();
+			int x = (int)(destination.width / 2.0d - source.width / 2.0d);
+			int y = (int)(destination.height / 2.0d - source.height / 2.0d);
+			e.gc.drawImage(image, x, y);
+		}
 		// draw grid
 		for(IAxis axis : chart.getAxisSet().getAxes()) {
 			((Grid)axis.getGrid()).draw(gc, p.x, p.y);
