@@ -15,6 +15,8 @@ package org.eclipse.swtchart.extensions.examples.charts;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
+import org.eclipse.swtchart.extensions.core.IChartSettings;
+import org.eclipse.swtchart.extensions.core.ScrollableChart;
 import org.eclipse.swtchart.extensions.examples.parts.LineSeries_1_Part;
 
 public class DemoChart {
@@ -26,11 +28,14 @@ public class DemoChart {
 		shell.setText("DemoChart");
 		shell.setSize(500, 400);
 		shell.setLayout(new FillLayout());
-		/*
-		 * test the sample part here
-		 */
-		new LineSeries_1_Part(shell);
+		//
+		ScrollableChart scrollableChart = new LineSeries_1_Part(shell);
 		shell.open();
+		//
+		IChartSettings chartSettings = scrollableChart.getChartSettings();
+		chartSettings.setLegendExtendedVisible(true);
+		scrollableChart.applySettings(chartSettings);
+		//
 		while(!shell.isDisposed()) {
 			if(!display.readAndDispatch()) {
 				display.sleep();

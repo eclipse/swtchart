@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2017, 2019 Lablicate GmbH.
+ * Copyright (c) 2017, 2020 Lablicate GmbH.
  *
  * This program and the accompanying materials are made
  * available under the terms of the Eclipse Public License 2.0
@@ -86,6 +86,10 @@ public interface IChartSettings {
 	 * @param legendPosition
 	 */
 	void setLegendPosition(int legendPosition);
+
+	boolean isLegendExtendedVisible();
+
+	void setLegendExtendedVisible(boolean legendExtendedVisible);
 
 	IPrimaryAxisSettings getPrimaryAxisSettingsX();
 

@@ -435,24 +435,11 @@ public class ScrollableChart extends Composite implements IScrollableChart, IEve
 
 	public void toggleSeriesLegendVisibility() {
 
-		/*
-		 * 2 elements in the SashForm
-		 */
-		int[] weights = sashForm.getWeights();
-		if(weights.length > 0) {
-			/*
-			 * Show/Hide the legend
-			 */
-			if(weights[0] == MAX_WEIGHT) {
-				sashForm.setWeights(currentWeights);
-			} else {
-				currentWeights = sashForm.getWeights();
-				sashForm.setWeights(DEFAULT_WEIGHTS);
-			}
-			//
-			baseChart.redraw();
-			redraw();
-		}
+		boolean visible = !isLegendExtendedVisible();
+		getChartSettings().setLegendExtendedVisible(visible);
+		setLegendExtendedVisible(visible);
+		baseChart.redraw();
+		redraw();
 	}
 
 	public void toggleAxisZeroVisibility() {
@@ -590,6 +577,7 @@ public class ScrollableChart extends Composite implements IScrollableChart, IEve
 		ILegend legend = baseChart.getLegend();
 		legend.setPosition(chartSettings.getLegendPosition());
 		legend.setVisible(chartSettings.isLegendVisible());
+		setLegendExtendedVisible(chartSettings.isLegendExtendedVisible());
 		//
 		setBackground(chartSettings.getBackground());
 		baseChart.setOrientation(chartSettings.getOrientation());
@@ -615,6 +603,38 @@ public class ScrollableChart extends Composite implements IScrollableChart, IEve
 		updateRangeHintPaintListener();
 		setMenuItems();
 		setEventProcessors();
+	}
+
+	private boolean isLegendExtendedVisible() {
+
+		boolean isLegendVisible = false;
+		int[] weights = sashForm.getWeights();
+		if(weights.length > 0) {
+			if(weights[0] < MAX_WEIGHT) {
+				isLegendVisible = true;
+			}
+		}
+		return isLegendVisible;
+	}
+
+	private void setLegendExtendedVisible(boolean visible) {
+
+		int[] weights = sashForm.getWeights();
+		if(weights.length > 0) {
+			if(visible) {
+				sashForm.setWeights(currentWeights);
+			} else {
+				/*
+				 * Save the weights only if the
+				 * legend changes its status from
+				 * visible to invisible.
+				 */
+				if(isLegendExtendedVisible()) {
+					currentWeights = weights;
+				}
+				sashForm.setWeights(DEFAULT_WEIGHTS);
+			}
+		}
 	}
 
 	private void adjustSeries() {

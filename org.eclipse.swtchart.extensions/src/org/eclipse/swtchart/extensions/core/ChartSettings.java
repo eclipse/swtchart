@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2017, 2019 Lablicate GmbH.
+ * Copyright (c) 2017, 2020 Lablicate GmbH.
  *
  * This program and the accompanying materials are made
  * available under the terms of the Eclipse Public License 2.0
@@ -67,6 +67,7 @@ public class ChartSettings implements IChartSettings {
 	//
 	private int legendPosition;
 	private boolean legendVisible;
+	private boolean legendExtendedVisible;
 	//
 	private IPrimaryAxisSettings primaryAxisSettingsX;
 	private IPrimaryAxisSettings primaryAxisSettingsY;
@@ -121,13 +122,14 @@ public class ChartSettings implements IChartSettings {
 		 * To display a space on top of the chart, a default
 		 * title is set and WHITE is used to hide it.
 		 */
-		title = Messages.getString(Messages.CHART_TITLE); 
+		title = Messages.getString(Messages.CHART_TITLE);
 		titleVisible = true;
 		titleColor = display.getSystemColor(SWT.COLOR_WHITE);
 		titleFont = defaultFont;
 		//
 		legendPosition = SWT.RIGHT;
 		legendVisible = false;
+		legendExtendedVisible = false;
 		//
 		primaryAxisSettingsX = new PrimaryAxisSettings(BaseChart.DEFAULT_TITLE_X_AXIS);
 		primaryAxisSettingsY = new PrimaryAxisSettings(BaseChart.DEFAULT_TITLE_Y_AXIS);
@@ -360,6 +362,18 @@ public class ChartSettings implements IChartSettings {
 	public void setLegendVisible(boolean legendVisible) {
 
 		this.legendVisible = legendVisible;
+	}
+
+	@Override
+	public boolean isLegendExtendedVisible() {
+
+		return legendExtendedVisible;
+	}
+
+	@Override
+	public void setLegendExtendedVisible(boolean legendExtendedVisible) {
+
+		this.legendExtendedVisible = legendExtendedVisible;
 	}
 
 	@Override
