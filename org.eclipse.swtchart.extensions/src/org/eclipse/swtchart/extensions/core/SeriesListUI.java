@@ -165,7 +165,9 @@ public class SeriesListUI extends TableViewer {
 			public void handleEvent(Event event) {
 
 				String columnOrder = getColumnOrder(getTable());
-				Activator.getDefault().getPreferenceStore().setValue(PreferenceConstants.P_LEGEND_COLUMN_ORDER, columnOrder);
+				if(Activator.getDefault() != null) {
+					Activator.getDefault().getPreferenceStore().setValue(PreferenceConstants.P_LEGEND_COLUMN_ORDER, columnOrder);
+				}
 			}
 		});
 		return tableViewerColumn;
@@ -236,9 +238,11 @@ public class SeriesListUI extends TableViewer {
 	private void setColumnOrder(Table table) {
 
 		try {
-			String columnOrder = Activator.getDefault().getPreferenceStore().getString(PreferenceConstants.P_LEGEND_COLUMN_ORDER);
-			int[] columns = convertColumnOrder(columnOrder);
-			table.setColumnOrder(columns);
+			if(Activator.getDefault() != null) {
+				String columnOrder = Activator.getDefault().getPreferenceStore().getString(PreferenceConstants.P_LEGEND_COLUMN_ORDER);
+				int[] columns = convertColumnOrder(columnOrder);
+				table.setColumnOrder(columns);
+			}
 		} catch(SWTException | IllegalArgumentException e) {
 			/*
 			 * On exception, default order will be used.
