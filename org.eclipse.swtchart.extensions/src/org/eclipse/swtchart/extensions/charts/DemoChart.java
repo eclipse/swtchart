@@ -1,3 +1,15 @@
+/*******************************************************************************
+ * Copyright (c) 2020 SWTChart project.
+ *
+ * This program and the accompanying materials are made
+ * available under the terms of the Eclipse Public License 2.0
+ * which is available at https://www.eclipse.org/legal/epl-2.0/
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *
+ * Contributors:
+ * Yash Bharatiya - initial API and implementation
+ *******************************************************************************/
 package org.eclipse.swtchart.extensions.charts;
 
 import org.eclipse.swt.layout.FillLayout;
@@ -14,7 +26,7 @@ public class DemoChart {
 		shell.setText("DemoChart");
 		shell.setSize(500, 400);
 		shell.setLayout(new FillLayout());
-		LineSeries_1_Part chart = new LineSeries_1_Part(shell);
+		LineSeries_1_Part chart = new LineSeries_1_Part(shell);// test the sample part here
 		shell.open();
 		while(!shell.isDisposed()) {
 			if(!display.readAndDispatch()) {
