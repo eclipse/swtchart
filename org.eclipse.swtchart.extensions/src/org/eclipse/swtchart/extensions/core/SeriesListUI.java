@@ -57,6 +57,8 @@ public class SeriesListUI extends TableViewer {
 	private List<TableViewerColumn> columns = new ArrayList<>();
 	//
 	private ScrollableChart scrollableChart;
+	//
+	private Activator activator = Activator.getDefault();
 
 	public SeriesListUI(Composite parent, int style) {
 		super(parent, style);
@@ -165,8 +167,8 @@ public class SeriesListUI extends TableViewer {
 			public void handleEvent(Event event) {
 
 				String columnOrder = getColumnOrder(getTable());
-				if(Activator.getDefault() != null) {
-					Activator.getDefault().getPreferenceStore().setValue(PreferenceConstants.P_LEGEND_COLUMN_ORDER, columnOrder);
+				if(activator != null) {
+					activator.getPreferenceStore().setValue(PreferenceConstants.P_LEGEND_COLUMN_ORDER, columnOrder);
 				}
 			}
 		});
@@ -238,8 +240,8 @@ public class SeriesListUI extends TableViewer {
 	private void setColumnOrder(Table table) {
 
 		try {
-			if(Activator.getDefault() != null) {
-				String columnOrder = Activator.getDefault().getPreferenceStore().getString(PreferenceConstants.P_LEGEND_COLUMN_ORDER);
+			if(activator != null) {
+				String columnOrder = activator.getPreferenceStore().getString(PreferenceConstants.P_LEGEND_COLUMN_ORDER);
 				int[] columns = convertColumnOrder(columnOrder);
 				table.setColumnOrder(columns);
 			}

@@ -32,6 +32,8 @@ public class SeriesLabelProvider extends ColumnLabelProvider implements ITableLa
 	public static final int INDEX_VISIBLE = 0;
 	public static final int INDEX_VISIBLE_IN_LEGEND = 1;
 	//
+	private Activator activator = Activator.getDefault();
+	//
 	public static final String[] TITLES = { //
 			VISIBLE, //
 			VISIBLE_IN_LEGEND, //
@@ -104,7 +106,6 @@ public class SeriesLabelProvider extends ColumnLabelProvider implements ITableLa
 			/*
 			 * CheckBoxes
 			 */
-			Activator activator = Activator.getDefault();
 			if(activator != null) {
 				Image checked = activator.getImage(Activator.ICON_CHECKED);
 				Image unchecked = activator.getImage(Activator.ICON_UNCHECKED);

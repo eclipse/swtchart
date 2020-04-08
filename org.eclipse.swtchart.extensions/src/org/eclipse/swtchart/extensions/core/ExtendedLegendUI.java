@@ -58,11 +58,12 @@ public class ExtendedLegendUI extends Composite {
 	private boolean capturePosition = false;
 	//
 	private List<Control> controls = new ArrayList<>();
+	//
 	private IPreferenceStore preferenceStore;
+	private Activator activator = Activator.getDefault();
 
 	public ExtendedLegendUI(Composite parent, int style) {
 		super(parent, style);
-		Activator activator = Activator.getDefault();
 		if(activator != null) {
 			preferenceStore = activator.getPreferenceStore();
 		}
@@ -110,10 +111,10 @@ public class ExtendedLegendUI extends Composite {
 		composite.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 		composite.setLayout(new GridLayout(10, false));
 		//
-		add(createButtonMove(composite, Activator.ARROW_LEFT, "Move Legend Left"));
-		add(createButtonMove(composite, Activator.ARROW_UP, "Move Legend Up"));
-		add(createButtonMove(composite, Activator.ARROW_DOWN, "Move Legend Down"));
-		add(createButtonMove(composite, Activator.ARROW_RIGHT, "Move Legend Right"));
+		add(createButtonMove(composite, Activator.ARROW_LEFT, "Left", "Move Legend Left"));
+		add(createButtonMove(composite, Activator.ARROW_UP, "Up", "Move Legend Up"));
+		add(createButtonMove(composite, Activator.ARROW_DOWN, "Down", "Move Legend Down"));
+		add(createButtonMove(composite, Activator.ARROW_RIGHT, "Right", "Move Legend Right"));
 		add(textX = createTextPositionX(composite));
 		add(textY = createTextPositionY(composite));
 		add(createButtonSetPosition(composite));
@@ -127,12 +128,12 @@ public class ExtendedLegendUI extends Composite {
 		controls.add(control);
 	}
 
-	private Button createButtonMove(Composite parent, String icon, String tooltip) {
+	private Button createButtonMove(Composite parent, String icon, String text, String tooltip) {
 
 		Button button = new Button(parent, SWT.PUSH);
-		button.setText("");
+		button.setText(activator != null ? "" : text);
 		button.setToolTipText(tooltip);
-		button.setImage(Activator.getDefault() != null ? Activator.getDefault().getImage(icon) : null);
+		button.setImage(activator != null ? activator.getImage(icon) : null);
 		button.addSelectionListener(new SelectionAdapter() {
 
 			@Override
@@ -237,9 +238,9 @@ public class ExtendedLegendUI extends Composite {
 	private Button createButtonSetPosition(Composite parent) {
 
 		Button button = new Button(parent, SWT.PUSH);
-		button.setText("");
+		button.setText(activator != null ? "" : "Set Position");
 		button.setToolTipText("Set the position of the legend.");
-		button.setImage(Activator.getDefault() != null ? Activator.getDefault().getImage(Activator.ICON_POSITION) : null);
+		button.setImage(activator != null ? activator.getImage(Activator.ICON_POSITION) : null);
 		button.addSelectionListener(new SelectionAdapter() {
 
 			@Override
@@ -255,9 +256,9 @@ public class ExtendedLegendUI extends Composite {
 	private Button createButtonToggleLegend(Composite parent) {
 
 		Button button = new Button(parent, SWT.PUSH);
-		button.setText("");
+		button.setText(activator != null ? "" : "Toggle Legend");
 		button.setToolTipText("Toggle the visibility of the embedded legend.");
-		button.setImage(Activator.getDefault() != null ? Activator.getDefault().getImage(Activator.ICON_LEGEND) : null);
+		button.setImage(activator != null ? activator.getImage(Activator.ICON_LEGEND) : null);
 		button.addSelectionListener(new SelectionAdapter() {
 
 			@Override
@@ -285,9 +286,9 @@ public class ExtendedLegendUI extends Composite {
 	private Button createButtonMappings(Composite parent) {
 
 		Button button = new Button(parent, SWT.PUSH);
-		button.setText("");
+		button.setText(activator != null ? "" : "Mappings");
 		button.setToolTipText("Displays the mappings.");
-		button.setImage(Activator.getDefault() != null ? Activator.getDefault().getImage(Activator.ICON_MAPPINGS) : null);
+		button.setImage(activator != null ? activator.getImage(Activator.ICON_MAPPINGS) : null);
 		button.addSelectionListener(new SelectionAdapter() {
 
 			@Override
@@ -304,9 +305,9 @@ public class ExtendedLegendUI extends Composite {
 	private Button createButtonSettings(Composite parent) {
 
 		Button button = new Button(parent, SWT.PUSH);
-		button.setText("");
+		button.setText(activator != null ? "" : "Settings");
 		button.setToolTipText("Open the settings page.");
-		button.setImage(Activator.getDefault() != null ? Activator.getDefault().getImage(Activator.ICON_SETTINGS) : null);
+		button.setImage(activator != null ? activator.getImage(Activator.ICON_SETTINGS) : null);
 		button.addSelectionListener(new SelectionAdapter() {
 
 			@Override
