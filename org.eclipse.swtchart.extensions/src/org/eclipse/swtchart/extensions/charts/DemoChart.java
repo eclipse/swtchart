@@ -11,7 +11,7 @@ public class DemoChart {
 
 		Display display = new Display();
 		Shell shell = new Shell(display);
-		shell.setText("Step Chart");
+		shell.setText("DemoChart");
 		shell.setSize(500, 400);
 		shell.setLayout(new FillLayout());
 		LineSeries_1_Part chart = new LineSeries_1_Part(shell);
