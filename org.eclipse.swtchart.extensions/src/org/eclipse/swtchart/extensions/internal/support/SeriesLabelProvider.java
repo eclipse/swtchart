@@ -104,13 +104,16 @@ public class SeriesLabelProvider extends ColumnLabelProvider implements ITableLa
 			/*
 			 * CheckBoxes
 			 */
-			Image checked = Activator.getDefault().getImage(Activator.ICON_CHECKED);
-			Image unchecked = Activator.getDefault().getImage(Activator.ICON_UNCHECKED);
-			//
-			if(columnIndex == INDEX_VISIBLE) {
-				return isVisible(element) ? checked : unchecked;
-			} else if(columnIndex == INDEX_VISIBLE_IN_LEGEND) {
-				return isVisibleInLegend(element) ? checked : unchecked;
+			Activator activator = Activator.getDefault();
+			if(activator != null) {
+				Image checked = activator.getImage(Activator.ICON_CHECKED);
+				Image unchecked = activator.getImage(Activator.ICON_UNCHECKED);
+				//
+				if(columnIndex == INDEX_VISIBLE) {
+					return isVisible(element) ? checked : unchecked;
+				} else if(columnIndex == INDEX_VISIBLE_IN_LEGEND) {
+					return isVisibleInLegend(element) ? checked : unchecked;
+				}
 			}
 		}
 		return null;

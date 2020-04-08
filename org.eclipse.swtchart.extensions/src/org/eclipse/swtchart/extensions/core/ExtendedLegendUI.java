@@ -58,10 +58,14 @@ public class ExtendedLegendUI extends Composite {
 	private boolean capturePosition = false;
 	//
 	private List<Control> controls = new ArrayList<>();
-	private IPreferenceStore preferenceStore = Activator.getDefault().getPreferenceStore();
+	private IPreferenceStore preferenceStore;
 
 	public ExtendedLegendUI(Composite parent, int style) {
 		super(parent, style);
+		Activator activator = Activator.getDefault();
+		if(activator != null) {
+			preferenceStore = activator.getPreferenceStore();
+		}
 		createControl();
 	}
 
@@ -128,7 +132,7 @@ public class ExtendedLegendUI extends Composite {
 		Button button = new Button(parent, SWT.PUSH);
 		button.setText("");
 		button.setToolTipText(tooltip);
-		button.setImage(Activator.getDefault().getImage(icon));
+		button.setImage(Activator.getDefault() != null ? Activator.getDefault().getImage(icon) : null);
 		button.addSelectionListener(new SelectionAdapter() {
 
 			@Override
@@ -235,7 +239,7 @@ public class ExtendedLegendUI extends Composite {
 		Button button = new Button(parent, SWT.PUSH);
 		button.setText("");
 		button.setToolTipText("Set the position of the legend.");
-		button.setImage(Activator.getDefault().getImage(Activator.ICON_POSITION));
+		button.setImage(Activator.getDefault() != null ? Activator.getDefault().getImage(Activator.ICON_POSITION) : null);
 		button.addSelectionListener(new SelectionAdapter() {
 
 			@Override
@@ -253,7 +257,7 @@ public class ExtendedLegendUI extends Composite {
 		Button button = new Button(parent, SWT.PUSH);
 		button.setText("");
 		button.setToolTipText("Toggle the visibility of the embedded legend.");
-		button.setImage(Activator.getDefault().getImage(Activator.ICON_LEGEND));
+		button.setImage(Activator.getDefault() != null ? Activator.getDefault().getImage(Activator.ICON_LEGEND) : null);
 		button.addSelectionListener(new SelectionAdapter() {
 
 			@Override
@@ -283,7 +287,7 @@ public class ExtendedLegendUI extends Composite {
 		Button button = new Button(parent, SWT.PUSH);
 		button.setText("");
 		button.setToolTipText("Displays the mappings.");
-		button.setImage(Activator.getDefault().getImage(Activator.ICON_MAPPINGS));
+		button.setImage(Activator.getDefault() != null ? Activator.getDefault().getImage(Activator.ICON_MAPPINGS) : null);
 		button.addSelectionListener(new SelectionAdapter() {
 
 			@Override
@@ -302,7 +306,7 @@ public class ExtendedLegendUI extends Composite {
 		Button button = new Button(parent, SWT.PUSH);
 		button.setText("");
 		button.setToolTipText("Open the settings page.");
-		button.setImage(Activator.getDefault().getImage(Activator.ICON_SETTINGS));
+		button.setImage(Activator.getDefault() != null ? Activator.getDefault().getImage(Activator.ICON_SETTINGS) : null);
 		button.addSelectionListener(new SelectionAdapter() {
 
 			@Override
