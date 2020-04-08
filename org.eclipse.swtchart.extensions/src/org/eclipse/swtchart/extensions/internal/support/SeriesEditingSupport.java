@@ -23,7 +23,7 @@ import org.eclipse.swt.graphics.RGB;
 import org.eclipse.swtchart.IBarSeries;
 import org.eclipse.swtchart.ILineSeries;
 import org.eclipse.swtchart.ISeries;
-import org.eclipse.swtchart.extensions.core.ColorsSupport;
+import org.eclipse.swtchart.extensions.core.ResourceSupport;
 
 public class SeriesEditingSupport extends EditingSupport {
 
@@ -131,7 +131,7 @@ public class SeriesEditingSupport extends EditingSupport {
 						 * Create the color
 						 */
 						RGB rgb = (RGB)object;
-						Color color = ColorsSupport.getColor(rgb);
+						Color color = ResourceSupport.getColor(rgb);
 						//
 						if(series instanceof IBarSeries) {
 							IBarSeries<?> barSeries = (IBarSeries<?>)element;

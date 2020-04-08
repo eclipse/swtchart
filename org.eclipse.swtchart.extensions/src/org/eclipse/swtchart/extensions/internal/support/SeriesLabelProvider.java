@@ -19,7 +19,7 @@ import org.eclipse.swt.graphics.Image;
 import org.eclipse.swtchart.IBarSeries;
 import org.eclipse.swtchart.ILineSeries;
 import org.eclipse.swtchart.ISeries;
-import org.eclipse.swtchart.extensions.Activator;
+import org.eclipse.swtchart.extensions.core.ResourceSupport;
 
 public class SeriesLabelProvider extends ColumnLabelProvider implements ITableLabelProvider {
 
@@ -31,8 +31,6 @@ public class SeriesLabelProvider extends ColumnLabelProvider implements ITableLa
 	//
 	public static final int INDEX_VISIBLE = 0;
 	public static final int INDEX_VISIBLE_IN_LEGEND = 1;
-	//
-	private Activator activator = Activator.getDefault();
 	//
 	public static final String[] TITLES = { //
 			VISIBLE, //
@@ -106,15 +104,13 @@ public class SeriesLabelProvider extends ColumnLabelProvider implements ITableLa
 			/*
 			 * CheckBoxes
 			 */
-			if(activator != null) {
-				Image checked = activator.getImage(Activator.ICON_CHECKED);
-				Image unchecked = activator.getImage(Activator.ICON_UNCHECKED);
-				//
-				if(columnIndex == INDEX_VISIBLE) {
-					return isVisible(element) ? checked : unchecked;
-				} else if(columnIndex == INDEX_VISIBLE_IN_LEGEND) {
-					return isVisibleInLegend(element) ? checked : unchecked;
-				}
+			Image checked = ResourceSupport.getImage(ResourceSupport.ICON_CHECKED);
+			Image unchecked = ResourceSupport.getImage(ResourceSupport.ICON_UNCHECKED);
+			//
+			if(columnIndex == INDEX_VISIBLE) {
+				return isVisible(element) ? checked : unchecked;
+			} else if(columnIndex == INDEX_VISIBLE_IN_LEGEND) {
+				return isVisibleInLegend(element) ? checked : unchecked;
 			}
 		}
 		return null;

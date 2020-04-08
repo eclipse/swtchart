@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2008, 2019 SWTChart project.
+ * Copyright (c) 2008, 2020 SWTChart project.
  *
  * This program and the accompanying materials are made
  * available under the terms of the Eclipse Public License 2.0
@@ -49,17 +49,17 @@ public class InteractiveChartExample extends ViewPart {
 		chart.getAxisSet().getXAxis(0).enableCategory(true);
 		chart.getAxisSet().getXAxis(0).setCategorySeries(categorySeries);
 		// create line series 1
-		ILineSeries lineSeries1 = (ILineSeries)chart.getSeriesSet().createSeries(SeriesType.LINE, "line series 1");
+		ILineSeries<?> lineSeries1 = (ILineSeries<?>)chart.getSeriesSet().createSeries(SeriesType.LINE, "line series 1");
 		lineSeries1.setYSeries(yLineSeries1);
 		// create line series 2
-		ILineSeries lineSeries2 = (ILineSeries)chart.getSeriesSet().createSeries(SeriesType.LINE, "line series 2");
+		ILineSeries<?> lineSeries2 = (ILineSeries<?>)chart.getSeriesSet().createSeries(SeriesType.LINE, "line series 2");
 		lineSeries2.setYSeries(yLineSeries2);
 		lineSeries2.setLineColor(Display.getDefault().getSystemColor(SWT.COLOR_RED));
 		// create bar series 1
-		IBarSeries barSeries1 = (IBarSeries)chart.getSeriesSet().createSeries(SeriesType.BAR, "bar series 1");
+		IBarSeries<?> barSeries1 = (IBarSeries<?>)chart.getSeriesSet().createSeries(SeriesType.BAR, "bar series 1");
 		barSeries1.setYSeries(yBarSeries1);
 		// create bar series 2
-		IBarSeries barSeries2 = (IBarSeries)chart.getSeriesSet().createSeries(SeriesType.BAR, "bar series 2");
+		IBarSeries<?> barSeries2 = (IBarSeries<?>)chart.getSeriesSet().createSeries(SeriesType.BAR, "bar series 2");
 		barSeries2.setYSeries(yBarSeries2);
 		barSeries2.setBarColor(Display.getDefault().getSystemColor(SWT.COLOR_GREEN));
 		// adjust the axis range

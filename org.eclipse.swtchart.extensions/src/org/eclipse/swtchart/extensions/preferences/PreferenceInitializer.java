@@ -14,19 +14,20 @@ package org.eclipse.swtchart.extensions.preferences;
 
 import org.eclipse.core.runtime.preferences.AbstractPreferenceInitializer;
 import org.eclipse.jface.preference.IPreferenceStore;
-import org.eclipse.swtchart.extensions.Activator;
+import org.eclipse.swtchart.extensions.core.ResourceSupport;
 
 public class PreferenceInitializer extends AbstractPreferenceInitializer {
 
 	@Override
 	public void initializeDefaultPreferences() {
 
-		IPreferenceStore preferenceStore = Activator.getDefault().getPreferenceStore();
-		//
-		preferenceStore.setDefault(PreferenceConstants.P_MOVE_LEGEND_X, PreferenceConstants.DEF_MOVE_LEGEND_X);
-		preferenceStore.setDefault(PreferenceConstants.P_MOVE_LEGEND_Y, PreferenceConstants.DEF_MOVE_LEGEND_Y);
-		preferenceStore.setDefault(PreferenceConstants.P_LEGEND_POSITION_X, PreferenceConstants.DEF_LEGEND_POSITION_X);
-		preferenceStore.setDefault(PreferenceConstants.P_LEGEND_POSITION_Y, PreferenceConstants.DEF_LEGEND_POSITION_Y);
-		preferenceStore.setDefault(PreferenceConstants.P_LEGEND_COLUMN_ORDER, PreferenceConstants.DEF_LEGEND_COLUMN_ORDER);
+		IPreferenceStore preferenceStore = ResourceSupport.getPreferenceStore();
+		if(preferenceStore != null) {
+			preferenceStore.setDefault(PreferenceConstants.P_MOVE_LEGEND_X, PreferenceConstants.DEF_MOVE_LEGEND_X);
+			preferenceStore.setDefault(PreferenceConstants.P_MOVE_LEGEND_Y, PreferenceConstants.DEF_MOVE_LEGEND_Y);
+			preferenceStore.setDefault(PreferenceConstants.P_LEGEND_POSITION_X, PreferenceConstants.DEF_LEGEND_POSITION_X);
+			preferenceStore.setDefault(PreferenceConstants.P_LEGEND_POSITION_Y, PreferenceConstants.DEF_LEGEND_POSITION_Y);
+			preferenceStore.setDefault(PreferenceConstants.P_LEGEND_COLUMN_ORDER, PreferenceConstants.DEF_LEGEND_COLUMN_ORDER);
+		}
 	}
 }

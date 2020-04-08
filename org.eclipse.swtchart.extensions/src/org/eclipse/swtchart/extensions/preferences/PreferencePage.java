@@ -12,29 +12,21 @@
  *******************************************************************************/
 package org.eclipse.swtchart.extensions.preferences;
 
-import org.eclipse.core.runtime.preferences.InstanceScope;
 import org.eclipse.jface.preference.FieldEditorPreferencePage;
+import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.jface.preference.IntegerFieldEditor;
 import org.eclipse.jface.preference.StringFieldEditor;
-import org.eclipse.swtchart.extensions.Activator;
+import org.eclipse.swtchart.extensions.core.ResourceSupport;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPreferencePage;
-import org.eclipse.ui.preferences.ScopedPreferenceStore;
 
 public class PreferencePage extends FieldEditorPreferencePage implements IWorkbenchPreferencePage {
 
-	private ScopedPreferenceStore fallbackStore = null;
-
 	public PreferencePage() {
 		super(GRID);
-		Activator activator = Activator.getDefault();
-		if(activator != null) {
-			setPreferenceStore(activator.getPreferenceStore());
-		} else {
-			if(fallbackStore == null) {
-				fallbackStore = new ScopedPreferenceStore(InstanceScope.INSTANCE, "org.eclipse.swtchart.extensions");
-			}
-			setPreferenceStore(fallbackStore);
+		IPreferenceStore preferenceStore = ResourceSupport.getPreferenceStore();
+		if(preferenceStore != null) {
+			setPreferenceStore(preferenceStore);
 		}
 		setTitle("SWTChart Extensions");
 		setDescription("");
@@ -51,5 +43,7 @@ public class PreferencePage extends FieldEditorPreferencePage implements IWorkbe
 
 	public void init(IWorkbench workbench) {
 
+		PreferenceInitializer preferenceInitializer = new PreferenceInitializer();
+		preferenceInitializer.initializeDefaultPreferences();
 	}
 }
