@@ -15,6 +15,7 @@ package org.eclipse.swtchart.extensions.core;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.jface.viewers.ArrayContentProvider;
 import org.eclipse.jface.viewers.IContentProvider;
 import org.eclipse.jface.viewers.ILabelProvider;
@@ -34,7 +35,6 @@ import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swtchart.ISeries;
-import org.eclipse.swtchart.extensions.Activator;
 import org.eclipse.swtchart.extensions.internal.support.SeriesComparator;
 import org.eclipse.swtchart.extensions.internal.support.SeriesEditingSupport;
 import org.eclipse.swtchart.extensions.internal.support.SeriesFilter;
@@ -58,7 +58,7 @@ public class SeriesListUI extends TableViewer {
 	//
 	private ScrollableChart scrollableChart;
 	//
-	private Activator activator = Activator.getDefault();
+	private IPreferenceStore preferenceStore = ResourceSupport.getPreferenceStore();
 
 	public SeriesListUI(Composite parent, int style) {
 		super(parent, style);
@@ -167,8 +167,8 @@ public class SeriesListUI extends TableViewer {
 			public void handleEvent(Event event) {
 
 				String columnOrder = getColumnOrder(getTable());
-				if(activator != null) {
-					activator.getPreferenceStore().setValue(PreferenceConstants.P_LEGEND_COLUMN_ORDER, columnOrder);
+				if(preferenceStore != null) {
+					preferenceStore.setValue(PreferenceConstants.P_LEGEND_COLUMN_ORDER, columnOrder);
 				}
 			}
 		});
@@ -227,8 +227,7 @@ public class SeriesListUI extends TableViewer {
 					if(object instanceof ISeries<?>) {
 						ISeries<?> series = (ISeries<?>)object;
 						String text = series.getId();
-						// cell.setBackground(ColorsSupport.getColor(250, 250, 250));
-						cell.setForeground(ColorsSupport.getColor(125, 125, 125));
+						cell.setForeground(ResourceSupport.getColor(125, 125, 125));
 						cell.setText(text);
 						super.update(cell);
 					}
@@ -239,16 +238,16 @@ public class SeriesListUI extends TableViewer {
 
 	private void setColumnOrder(Table table) {
 
-		try {
-			if(activator != null) {
-				String columnOrder = activator.getPreferenceStore().getString(PreferenceConstants.P_LEGEND_COLUMN_ORDER);
+		if(preferenceStore != null) {
+			try {
+				String columnOrder = preferenceStore.getString(PreferenceConstants.P_LEGEND_COLUMN_ORDER);
 				int[] columns = convertColumnOrder(columnOrder);
 				table.setColumnOrder(columns);
+			} catch(SWTException | IllegalArgumentException e) {
+				/*
+				 * On exception, default order will be used.
+				 */
 			}
-		} catch(SWTException | IllegalArgumentException e) {
-			/*
-			 * On exception, default order will be used.
-			 */
 		}
 	}
 

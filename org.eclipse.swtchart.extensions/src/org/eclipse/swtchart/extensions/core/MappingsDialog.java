@@ -26,7 +26,6 @@ import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Shell;
-import org.eclipse.swtchart.extensions.Activator;
 import org.eclipse.swtchart.extensions.internal.support.SeriesMapper;
 
 public class MappingsDialog extends Dialog {
@@ -92,7 +91,7 @@ public class MappingsDialog extends Dialog {
 		Button button = new Button(parent, SWT.PUSH);
 		button.setText("");
 		button.setToolTipText("Delete selected mapping(s).");
-		button.setImage(Activator.getDefault().getImage(Activator.ICON_DELETE));
+		button.setImage(ResourceSupport.getImage(ResourceSupport.ICON_DELETE));
 		button.addSelectionListener(new SelectionAdapter() {
 
 			@SuppressWarnings({"rawtypes", "unchecked"})
@@ -119,7 +118,7 @@ public class MappingsDialog extends Dialog {
 		Button button = new Button(parent, SWT.PUSH);
 		button.setText("");
 		button.setToolTipText("Delete all mappings.");
-		button.setImage(Activator.getDefault().getImage(Activator.ICON_DELETE_ALL));
+		button.setImage(ResourceSupport.getImage(ResourceSupport.ICON_DELETE_ALL));
 		button.addSelectionListener(new SelectionAdapter() {
 
 			@Override

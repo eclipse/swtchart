@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2017, 2019 Lablicate GmbH.
+ * Copyright (c) 2017, 2020 Lablicate GmbH.
  *
  * This program and the accompanying materials are made
  * available under the terms of the Eclipse Public License 2.0
@@ -25,7 +25,6 @@ import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Text;
-import org.eclipse.swtchart.extensions.Activator;
 import org.eclipse.swtchart.IAxis;
 import org.eclipse.swtchart.Range;
 
@@ -168,12 +167,8 @@ public class RangeSelector extends Composite {
 		});
 		//
 		Button buttonSetRange = new Button(this, SWT.PUSH);
-		if(Activator.getDefault() != null) {
-			buttonSetRange.setText(""); //$NON-NLS-1$
-			buttonSetRange.setImage(Activator.getDefault().getImage(Activator.ICON_SET_RANGE));
-		} else {
-			buttonSetRange.setText(Messages.getString(Messages.SET)); 
-		}
+		buttonSetRange.setText(""); //$NON-NLS-1$
+		buttonSetRange.setImage(ResourceSupport.getImage(ResourceSupport.ICON_SET_RANGE));
 		buttonSetRange.setToolTipText(Messages.getString(Messages.SET_CURRENT_SELECTION));
 		buttonSetRange.setLayoutData(getButtonGridData());
 		buttonSetRange.addSelectionListener(new SelectionAdapter() {
@@ -190,12 +185,8 @@ public class RangeSelector extends Composite {
 		});
 		//
 		Button buttonResetRange = new Button(this, SWT.PUSH);
-		if(Activator.getDefault() != null) {
-			buttonResetRange.setText(""); //$NON-NLS-1$
-			buttonResetRange.setImage(Activator.getDefault().getImage(Activator.ICON_RESET));
-		} else {
-			buttonResetRange.setText(Messages.getString(Messages.RESET)); 
-		}
+		buttonResetRange.setText(""); //$NON-NLS-1$
+		buttonResetRange.setImage(ResourceSupport.getImage(ResourceSupport.ICON_RESET));
 		buttonResetRange.setToolTipText(Messages.getString(Messages.RESET_RANGE));
 		buttonResetRange.setLayoutData(getButtonGridData());
 		buttonResetRange.addSelectionListener(new SelectionAdapter() {
@@ -212,13 +203,9 @@ public class RangeSelector extends Composite {
 		});
 		//
 		Button buttonHide = new Button(this, SWT.PUSH);
-		if(Activator.getDefault() != null) {
-			buttonHide.setText(""); //$NON-NLS-1$
-			buttonHide.setImage(Activator.getDefault().getImage(Activator.ICON_HIDE));
-		} else {
-			buttonHide.setText(Messages.getString(Messages.HIDE));
-		}
-		buttonHide.setToolTipText(Messages.getString(Messages.HIDE_RANGE_SELECTOR_UI)); 
+		buttonHide.setText(""); //$NON-NLS-1$
+		buttonHide.setImage(ResourceSupport.getImage(ResourceSupport.ICON_HIDE));
+		buttonHide.setToolTipText(Messages.getString(Messages.HIDE_RANGE_SELECTOR_UI));
 		buttonHide.setLayoutData(getButtonGridData());
 		buttonHide.addSelectionListener(new SelectionAdapter() {
 
