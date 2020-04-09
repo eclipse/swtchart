@@ -897,16 +897,13 @@ public class BaseChart extends AbstractExtendedChart implements IChartDataCoordi
 
 	public String[] getAxisLabels(String axisOrientation) {
 
-		IAxis[] axes = getAxes(axisOrientation);
-		int size = axes.length;
+		List<IAxisSettings> axisSettingsList = getAxisSettings(axisOrientation);
+		int size = axisSettingsList.size();
 		String[] items = new String[size];
 		//
 		for(int i = 0; i < size; i++) {
-			/*
-			 * Get the label.
-			 */
+			IAxisSettings axisSettings = axisSettingsList.get(i);
 			String label;
-			IAxisSettings axisSettings = getAxisSettings(axisOrientation, i);
 			if(axisSettings != null) {
 				label = axisSettings.getLabel();
 			} else {
@@ -914,7 +911,23 @@ public class BaseChart extends AbstractExtendedChart implements IChartDataCoordi
 			}
 			items[i] = label;
 		}
+		//
 		return items;
+	}
+
+	public List<IAxisSettings> getAxisSettings(String axisOrientation) {
+
+		List<IAxisSettings> axisSettingsList = new ArrayList<>();
+		IAxis[] axes = getAxes(axisOrientation);
+		//
+		for(int i = 0; i < axes.length; i++) {
+			IAxisSettings axisSettings = getAxisSettings(axisOrientation, i);
+			if(axisSettings != null) {
+				axisSettingsList.add(axisSettings);
+			}
+		}
+		//
+		return axisSettingsList;
 	}
 
 	public DecimalFormat getDecimalFormat(String axisOrientation, int id) {
