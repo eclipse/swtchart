@@ -1046,6 +1046,9 @@ public class BaseChart extends AbstractExtendedChart implements IChartDataCoordi
 					case ISeriesStatusListener.RESET:
 						seriesStatusListener.handleSeriesResetEvent(seriesId);
 						break;
+					case ISeriesStatusListener.REDRAW:
+						seriesStatusListener.handleRedrawEvent();
+						break;
 				}
 			} catch(Exception e) {
 				System.out.println(e);
@@ -1152,6 +1155,13 @@ public class BaseChart extends AbstractExtendedChart implements IChartDataCoordi
 		//
 		userSelection.reset();
 		redraw();
+	}
+
+	@Override
+	public void redraw() {
+
+		super.redraw();
+		fireSeriesStatusEvent("", ISeriesStatusListener.REDRAW);
 	}
 
 	private void handleUserSelectionXY(Event event) {
