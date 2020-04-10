@@ -28,8 +28,11 @@ import java.util.Stack;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.PaintEvent;
+import org.eclipse.swt.graphics.GC;
+import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swtchart.IAxis;
 import org.eclipse.swtchart.IAxis.Position;
@@ -37,9 +40,11 @@ import org.eclipse.swtchart.IAxisSet;
 import org.eclipse.swtchart.IBarSeries;
 import org.eclipse.swtchart.ILineSeries;
 import org.eclipse.swtchart.ISeries;
+import org.eclipse.swtchart.ISeriesSet;
 import org.eclipse.swtchart.ITitle;
 import org.eclipse.swtchart.LineStyle;
 import org.eclipse.swtchart.Range;
+import org.eclipse.swtchart.export.images.ImageSupplier;
 import org.eclipse.swtchart.extensions.barcharts.IBarSeriesSettings;
 import org.eclipse.swtchart.extensions.events.IEventProcessor;
 import org.eclipse.swtchart.extensions.events.IHandledEventProcessor;
@@ -117,6 +122,7 @@ public class BaseChart extends AbstractExtendedChart implements IChartDataCoordi
 	private Map<String, List<double[]>> dataShiftHistory;
 
 	public BaseChart(Composite parent, int style) {
+
 		super(parent, style);
 		//
 		chartSettings = new ChartSettings();
@@ -1123,6 +1129,7 @@ public class BaseChart extends AbstractExtendedChart implements IChartDataCoordi
 		int minSelectedHeight;
 		int deltaWidth;
 		int deltaHeight;
+		ImageSupplier supplier = new ImageSupplier();
 		//
 		Point point = getPlotArea().getSize();
 		if((getOrientation() == SWT.HORIZONTAL)) {
@@ -1139,6 +1146,20 @@ public class BaseChart extends AbstractExtendedChart implements IChartDataCoordi
 		/*
 		 * Prevent accidental zooming.
 		 */
+		suspendUpdate(true);
+		Image image = new Image(Display.getDefault(), supplier.getImageData(this));
+		Image scaled = new Image(Display.getDefault(), 1910, 955);
+		ISeriesSet set = getSeriesSet();
+		ISeries[] series = set.getSeries();
+		GC gc = new GC(scaled);
+		gc.drawImage(image, 0, 0);
+		gc.dispose();
+		for(ISeries serie : series) {
+			hideSeries(serie.getId());
+		}
+		getPlotArea().setBackgroundImage(scaled);
+		suspendUpdate(false);
+		redraw();
 		RangeRestriction rangeRestriction = getRangeRestriction();
 		if(rangeRestriction.isYZoomOnly()) {
 			if(deltaHeight >= minSelectedHeight) {
@@ -1150,6 +1171,12 @@ public class BaseChart extends AbstractExtendedChart implements IChartDataCoordi
 			}
 		}
 		//
+		suspendUpdate(true);
+		getPlotArea().setBackgroundImage(null);
+		for(ISeries serie : series) {
+			showSeries(serie.getId());
+		}
+		suspendUpdate(false);
 		userSelection.reset();
 		redraw();
 	}
