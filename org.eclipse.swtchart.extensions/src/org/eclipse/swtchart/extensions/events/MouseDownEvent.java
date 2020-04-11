@@ -66,7 +66,6 @@ public class MouseDownEvent extends AbstractHandledEventProcessor implements IHa
 		for(ISeries<?> serie : series) {
 			if(serie.isVisible()) {
 				visibleSeriesId.add(serie.getId());
-				System.out.println(visibleSeriesId);
 			}
 		}
 		if(baseChart.getChartSettings().isBufferSelection()) {
