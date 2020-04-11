@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2017, 2019 Lablicate GmbH.
+ * Copyright (c) 2017, 2020 Lablicate GmbH.
  *
  * This program and the accompanying materials are made
  * available under the terms of the Eclipse Public License 2.0
@@ -35,6 +35,7 @@ public class LineSeries_4_Part extends ChromatogramChart {
 
 	@Inject
 	public LineSeries_4_Part(Composite parent) {
+
 		super(parent, SWT.NONE);
 		setBackground(getDisplay().getSystemColor(SWT.COLOR_WHITE));
 		try {
@@ -51,6 +52,7 @@ public class LineSeries_4_Part extends ChromatogramChart {
 		 */
 		IChartSettings chartSettings = getChartSettings();
 		chartSettings.setCreateMenu(true);
+		chartSettings.setBufferSelection(true);
 		applySettings(chartSettings);
 		/*
 		 * Create series.
