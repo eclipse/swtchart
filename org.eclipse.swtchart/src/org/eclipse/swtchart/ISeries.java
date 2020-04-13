@@ -28,11 +28,12 @@ public interface ISeries<DataType> {
 	 * A Series type.
 	 */
 	public enum SeriesType {
+
 		/** the line */
 		LINE("Line"), //$NON-NLS-1$
 		/** the bar */
-		BAR("Bar"),//$NON-NLS-1$
-		/**the pie*/
+		BAR("Bar"), //$NON-NLS-1$
+		/** the pie */
 		PIE("Pie"); //$NON-NLS-1$
 
 		/** the label for series type */
@@ -45,6 +46,7 @@ public interface ISeries<DataType> {
 		 *            the label for series type
 		 */
 		private SeriesType(String label) {
+
 			this.label = label;
 		}
 	}
@@ -65,11 +67,26 @@ public interface ISeries<DataType> {
 	void setVisible(boolean visible);
 
 	/**
+	 * Sets the visibility buffer state.
+	 * 
+	 * @param visible
+	 *            the visibility buffer state
+	 */
+	void setVisibleBuffered(boolean visible);
+
+	/**
 	 * Gets the visibility state.
 	 * 
 	 * @return true if series is visible
 	 */
 	boolean isVisible();
+
+	/**
+	 * Gets the visibility buffer state.
+	 * 
+	 * @return true if series is visible in buffer
+	 */
+	boolean isVisibleBuffered();
 
 	/**
 	 * Gets the series type.

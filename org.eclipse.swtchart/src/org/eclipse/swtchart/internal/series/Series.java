@@ -52,6 +52,8 @@ abstract public class Series<T> implements ISeries<T> {
 	protected int yAxisId;
 	/** the visibility of series */
 	protected boolean visible;
+	/** the visibility buffer status of series */
+	protected boolean visibleBufferStatus;
 	/** the series type */
 	protected SeriesType type;
 	/** the series label */
@@ -90,6 +92,7 @@ abstract public class Series<T> implements ISeries<T> {
 		xAxisId = 0;
 		yAxisId = 0;
 		visible = true;
+		visibleBufferStatus = false;
 		type = DEFAULT_SERIES_TYPE;
 		stackEnabled = false;
 		// isXMonotoneIncreasing = true;
@@ -117,9 +120,21 @@ abstract public class Series<T> implements ISeries<T> {
 	}
 
 	@Override
+	public void setVisibleBuffered(boolean visible) {
+
+		visibleBufferStatus = visible;
+	}
+
+	@Override
 	public boolean isVisible() {
 
 		return visible;
+	}
+
+	@Override
+	public boolean isVisibleBuffered() {
+
+		return visibleBufferStatus;
 	}
 
 	@Override

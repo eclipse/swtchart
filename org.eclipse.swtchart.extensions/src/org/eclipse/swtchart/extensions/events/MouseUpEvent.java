@@ -12,10 +12,10 @@
  *******************************************************************************/
 package org.eclipse.swtchart.extensions.events;
 
-import java.util.Set;
-
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Event;
+import org.eclipse.swtchart.ISeries;
+import org.eclipse.swtchart.ISeriesSet;
 import org.eclipse.swtchart.extensions.core.BaseChart;
 import org.eclipse.swtchart.extensions.core.IMouseSupport;
 
@@ -48,9 +48,13 @@ public class MouseUpEvent extends AbstractHandledEventProcessor implements IHand
 		if(baseChart.getChartSettings().isBufferSelection()) {
 			baseChart.suspendUpdate(true);
 			baseChart.getPlotArea().setBackgroundImage(null);
-			Set<String> set = MouseDownEvent.getVisibleSeriesId();
-			for(String id : set) {
-				baseChart.showSeries(id);
+			ISeriesSet set = baseChart.getSeriesSet();
+			ISeries<?>[] series = set.getSeries();
+			for(ISeries<?> serie : series) {
+				if(serie.isVisibleBuffered()) {
+					baseChart.showSeries(serie.getId());
+					serie.setVisibleBuffered(false);
+				}
 			}
 			baseChart.suspendUpdate(false);
 		}

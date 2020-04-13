@@ -12,10 +12,6 @@
  *******************************************************************************/
 package org.eclipse.swtchart.extensions.events;
 
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.Set;
-
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.widgets.Display;
@@ -26,8 +22,6 @@ import org.eclipse.swtchart.extensions.core.BaseChart;
 import org.eclipse.swtchart.extensions.core.IMouseSupport;
 
 public class MouseDownEvent extends AbstractHandledEventProcessor implements IHandledEventProcessor {
-
-	private static Set<String> visibleSeriesId;
 
 	@Override
 	public int getEvent() {
@@ -47,11 +41,6 @@ public class MouseDownEvent extends AbstractHandledEventProcessor implements IHa
 		return SWT.NONE;
 	}
 
-	public static Set<String> getVisibleSeriesId() {
-
-		return Collections.unmodifiableSet(visibleSeriesId);
-	}
-
 	@Override
 	public void handleEvent(BaseChart baseChart, Event event) {
 
@@ -60,18 +49,13 @@ public class MouseDownEvent extends AbstractHandledEventProcessor implements IHa
 		/*
 		 * Disable the buffered status.
 		 */
-		visibleSeriesId = new HashSet<String>();
-		ISeriesSet set = baseChart.getSeriesSet();
-		ISeries<?>[] series = set.getSeries();
-		for(ISeries<?> serie : series) {
-			if(serie.isVisible()) {
-				visibleSeriesId.add(serie.getId());
-			}
-		}
 		if(baseChart.getChartSettings().isBufferSelection()) {
 			baseChart.suspendUpdate(true);
 			Image image = new Image(Display.getDefault(), baseChart.getPlotArea().getImageData());
+			ISeriesSet set = baseChart.getSeriesSet();
+			ISeries<?>[] series = set.getSeries();
 			for(ISeries<?> serie : series) {
+				serie.setVisibleBuffered(serie.isVisible());
 				baseChart.hideSeries(serie.getId());
 			}
 			baseChart.getPlotArea().setBackgroundImage(image);
