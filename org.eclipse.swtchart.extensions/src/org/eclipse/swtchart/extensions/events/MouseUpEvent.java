@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2017, 2019 Lablicate GmbH.
+ * Copyright (c) 2017, 2020 Lablicate GmbH.
  *
  * This program and the accompanying materials are made
  * available under the terms of the Eclipse Public License 2.0
@@ -14,6 +14,8 @@ package org.eclipse.swtchart.extensions.events;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Event;
+import org.eclipse.swtchart.ISeries;
+import org.eclipse.swtchart.ISeriesSet;
 import org.eclipse.swtchart.extensions.core.BaseChart;
 import org.eclipse.swtchart.extensions.core.IMouseSupport;
 
@@ -40,6 +42,23 @@ public class MouseUpEvent extends AbstractHandledEventProcessor implements IHand
 	@Override
 	public void handleEvent(BaseChart baseChart, Event event) {
 
+		/*
+		 * Disable the buffered status.
+		 */
+		if(baseChart.getChartSettings().isBufferSelection()) {
+			baseChart.suspendUpdate(true);
+			baseChart.getPlotArea().setBackgroundImage(null);
+			ISeriesSet set = baseChart.getSeriesSet();
+			ISeries<?>[] series = set.getSeries();
+			for(ISeries<?> serie : series) {
+				if(serie.isVisibleBuffered()) {
+					baseChart.showSeries(serie.getId());
+					serie.setVisibleBuffered(false);
+				}
+			}
+			baseChart.suspendUpdate(false);
+		}
+		//
 		long deltaTime = System.currentTimeMillis() - baseChart.getClickStartTime();
 		if(deltaTime >= BaseChart.DELTA_CLICK_TIME) {
 			baseChart.handleUserSelection(event);

@@ -17,6 +17,7 @@ package org.eclipse.swtchart;
 import org.eclipse.swt.events.MouseMoveListener;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Image;
+import org.eclipse.swt.graphics.ImageData;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.widgets.Control;
@@ -67,6 +68,13 @@ public interface IPlotArea {
 	 * @param image
 	 */
 	public void setBackgroundImage(Image image);
+
+	/**
+	 * Returns the image data of the plot area.
+	 * 
+	 * @return {@link ImageData}
+	 */
+	ImageData getImageData();
 
 	/**
 	 * Returns a point describing the size in points.

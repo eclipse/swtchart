@@ -25,8 +25,9 @@ import org.eclipse.swt.events.PaintListener;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.GC;
 import org.eclipse.swt.graphics.Image;
+import org.eclipse.swt.graphics.ImageData;
+import org.eclipse.swt.graphics.PaletteData;
 import org.eclipse.swt.graphics.Point;
-import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Display;
@@ -163,11 +164,7 @@ public class PlotArea extends Composite implements PaintListener, IPlotArea {
 		 * Draw the image centered if available.
 		 */
 		if(image != null) {
-			Rectangle source = image.getBounds();
-			Rectangle destination = getBounds();
-			int x = (int)(destination.width / 2.0d - source.width / 2.0d);
-			int y = (int)(destination.height / 2.0d - source.height / 2.0d);
-			e.gc.drawImage(image, x, y);
+			e.gc.drawImage(image, 0, 0);
 		}
 		// draw grid
 		for(IAxis axis : chart.getAxisSet().getAxes()) {
@@ -202,5 +199,36 @@ public class PlotArea extends Composite implements PaintListener, IPlotArea {
 			}
 		}
 		e.gc.setBackground(oldBackground);
+	}
+
+	@Override
+	public ImageData getImageData() {
+
+		ImageData imageData = null;
+		Point chartSize = getSize();
+		Image image = null;
+		GC gc = null;
+		//
+		try {
+			image = new Image(getDisplay(), new ImageData(chartSize.x, chartSize.y, 32, new PaletteData(0xFF, 0xFF00, 0xFF0000)));
+			gc = new GC(this);
+			gc.copyArea(image, 0, 0);
+			imageData = image.getImageData();
+		} finally {
+			/*
+			 * Dispose GC
+			 */
+			if(gc != null && !gc.isDisposed()) {
+				gc.dispose();
+			}
+			/*
+			 * Dispose Image
+			 */
+			if(image != null && !image.isDisposed()) {
+				image.dispose();
+			}
+		}
+		//
+		return imageData;
 	}
 }

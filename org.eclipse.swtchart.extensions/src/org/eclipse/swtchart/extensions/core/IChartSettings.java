@@ -192,4 +192,8 @@ public interface IChartSettings {
 	Set<IHandledEventProcessor> getHandledEventProcessors();
 
 	void clearHandledEventProcessors();
+
+	boolean isBufferSelection();
+
+	void setBufferSelection(boolean bufferSelection);
 }

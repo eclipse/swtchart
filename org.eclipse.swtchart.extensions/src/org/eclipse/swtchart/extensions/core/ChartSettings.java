@@ -51,6 +51,8 @@ import org.eclipse.swtchart.extensions.menu.toggle.ToggleSeriesLegendHandler;
 
 public class ChartSettings implements IChartSettings {
 
+	private boolean bufferSelection;
+	//
 	private boolean enableRangeSelector;
 	private boolean showRangeSelectorInitially;
 	private Color colorHintRangeSelector;
@@ -104,11 +106,14 @@ public class ChartSettings implements IChartSettings {
 	private final Font defaultFont = new Font(Display.getDefault(), "Tahoma", Constants.MEDIUM_FONT_SIZE, SWT.BOLD); //$NON-NLS-1$
 
 	public ChartSettings() {
+
 		//
 		Display display = Display.getDefault();
 		/*
 		 * Set the chart.
 		 */
+		bufferSelection = false;
+		//
 		enableRangeSelector = false;
 		showRangeSelectorInitially = true;
 		colorHintRangeSelector = display.getSystemColor(SWT.COLOR_RED);
@@ -195,6 +200,18 @@ public class ChartSettings implements IChartSettings {
 		handledEventProcessors.add(new UndoRedoEvent());
 		//
 		supportDataShift = false;
+	}
+
+	@Override
+	public boolean isBufferSelection() {
+
+		return bufferSelection;
+	}
+
+	@Override
+	public void setBufferSelection(boolean bufferSelection) {
+
+		this.bufferSelection = bufferSelection;
 	}
 
 	@Override
