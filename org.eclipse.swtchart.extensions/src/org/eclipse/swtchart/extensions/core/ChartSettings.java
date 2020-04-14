@@ -109,11 +109,12 @@ public class ChartSettings implements IChartSettings {
 		//
 		Display display = Display.getDefault();
 		/*
-		 * macOS
-		 * Bug #150
-		 * https://github.com/eclipse/swtchart/issues/150
+		 * As it turned out, that buffered rendering under macOS fails somehow,
+		 * the bufferSelection option is deactivated by default. Charts shall
+		 * enable buffering via an option, so that it can be tested in several
+		 * environments, e.g. macOS, GTK3, ... .
 		 */
-		bufferSelection = isMacOS() ? false : true;
+		bufferSelection = false;
 		//
 		enableRangeSelector = false;
 		showRangeSelectorInitially = true;
