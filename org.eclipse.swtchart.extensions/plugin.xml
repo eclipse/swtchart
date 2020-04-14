@@ -5,9 +5,8 @@
    <extension
          point="org.eclipse.ui.preferencePages">
       <page
-            category="org.eclipse.chemclipse.rcp.app.ui.preferences.settingsPreferencePage"
-            class="org.eclipse.chemclipse.ux.extension.xxd.ui.preferences.PreferencePage"
-            id="org.eclipse.chemclipse.ux.extension.xxd.ui.preferences.preferencePage"
+            class="org.eclipse.swtchart.extensions.preferences.PreferencePage"
+            id="org.eclipse.swtchart.extensions.preferences.preferencePage"
             name="SWTChart Extensions">
       </page>
    </extension>       
