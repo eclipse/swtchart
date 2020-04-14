@@ -109,9 +109,11 @@ public class ChartSettings implements IChartSettings {
 		//
 		Display display = Display.getDefault();
 		/*
-		 * Set the chart.
+		 * macOS
+		 * Bug #150
+		 * https://github.com/eclipse/swtchart/issues/150
 		 */
-		bufferSelection = true;
+		bufferSelection = isMacOS() ? false : true;
 		//
 		enableRangeSelector = false;
 		showRangeSelectorInitially = true;
@@ -210,7 +212,12 @@ public class ChartSettings implements IChartSettings {
 	@Override
 	public void setBufferSelection(boolean bufferSelection) {
 
-		this.bufferSelection = bufferSelection;
+		/*
+		 * macOS
+		 * Bug #150
+		 * https://github.com/eclipse/swtchart/issues/150
+		 */
+		this.bufferSelection = isMacOS() ? false : bufferSelection;
 	}
 
 	@Override
@@ -711,5 +718,14 @@ public class ChartSettings implements IChartSettings {
 		if(!defaultFont.isDisposed()) {
 			defaultFont.dispose();
 		}
+	}
+
+	private boolean isMacOS() {
+
+		String os = System.getProperty("os.name");
+		if(os != null) {
+			return os.toLowerCase().indexOf("mac") >= 0;
+		}
+		return false;
 	}
 }
