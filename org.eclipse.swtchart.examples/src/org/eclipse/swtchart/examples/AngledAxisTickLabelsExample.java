@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2008, 2019 SWTChart project.
+ * Copyright (c) 2008, 2020 SWTChart project.
  *
  * This program and the accompanying materials are made
  * available under the terms of the Eclipse Public License 2.0
@@ -69,7 +69,7 @@ public class AngledAxisTickLabelsExample {
 		chart.getAxisSet().getXAxis(0).setCategorySeries(cagetorySeries);
 		chart.getAxisSet().getXAxis(0).getTick().setTickLabelAngle(45);
 		// add bar series
-		ISeries barSeries = chart.getSeriesSet().createSeries(SeriesType.BAR, "bar series");
+		ISeries<?> barSeries = chart.getSeriesSet().createSeries(SeriesType.BAR, "bar series");
 		barSeries.setYSeries(ySeries);
 		chart.getAxisSet().adjustRange();
 		return chart;

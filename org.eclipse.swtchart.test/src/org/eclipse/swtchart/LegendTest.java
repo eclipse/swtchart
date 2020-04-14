@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2008, 2019 SWTChart project.
+ * Copyright (c) 2008, 2020 SWTChart project.
  *
  * This program and the accompanying materials are made
  * available under the terms of the Eclipse Public License 2.0
@@ -62,7 +62,7 @@ public class LegendTest extends ChartTestCase {
 		assertTrue(legend.isVisible());
 		showChart();
 		// show legend for one series
-		ISeries series1 = chart.getSeriesSet().createSeries(SeriesType.LINE, "series 1");
+		ISeries<?> series1 = chart.getSeriesSet().createSeries(SeriesType.LINE, "series 1");
 		series1.setYSeries(ySeries1);
 		showChart();
 		legend.setVisible(false);
@@ -72,9 +72,9 @@ public class LegendTest extends ChartTestCase {
 		assertTrue(legend.isVisible());
 		showChart();
 		// show legend for tree series
-		ISeries series2 = chart.getSeriesSet().createSeries(SeriesType.LINE, "series 2");
+		ISeries<?> series2 = chart.getSeriesSet().createSeries(SeriesType.LINE, "series 2");
 		series2.setYSeries(ySeries2);
-		ISeries series3 = chart.getSeriesSet().createSeries(SeriesType.LINE, "series 3");
+		ISeries<?> series3 = chart.getSeriesSet().createSeries(SeriesType.LINE, "series 3");
 		series3.setYSeries(ySeries3);
 		showChart();
 		legend.setVisible(false);
@@ -92,7 +92,7 @@ public class LegendTest extends ChartTestCase {
 	public void testForeground() throws Exception {
 
 		// default
-		ISeries series1 = chart.getSeriesSet().createSeries(SeriesType.LINE, "series 1");
+		ISeries<?> series1 = chart.getSeriesSet().createSeries(SeriesType.LINE, "series 1");
 		series1.setYSeries(ySeries1);
 		assertEquals(new RGB(0, 0, 0), legend.getForeground().getRGB());
 		showChart();
@@ -126,7 +126,7 @@ public class LegendTest extends ChartTestCase {
 		Color color = legend.getBackground();
 		assertEquals(new RGB(255, 255, 255), color.getRGB());
 		// set color
-		ISeries series1 = chart.getSeriesSet().createSeries(SeriesType.LINE, "series 1");
+		ISeries<?> series1 = chart.getSeriesSet().createSeries(SeriesType.LINE, "series 1");
 		series1.setYSeries(ySeries1);
 		legend.setVisible(true);
 		Color red = Display.getDefault().getSystemColor(SWT.COLOR_RED);
@@ -160,7 +160,7 @@ public class LegendTest extends ChartTestCase {
 		assertEquals(systemFontData.getHeight(), fontData.getHeight());
 		assertEquals(systemFontData.getStyle(), fontData.getStyle());
 		// set font
-		ISeries series1 = chart.getSeriesSet().createSeries(SeriesType.LINE, "series 1");
+		ISeries<?> series1 = chart.getSeriesSet().createSeries(SeriesType.LINE, "series 1");
 		series1.setYSeries(ySeries1);
 		legend.setVisible(true);
 		font.dispose();
@@ -201,11 +201,11 @@ public class LegendTest extends ChartTestCase {
 	@Test
 	public void testPosition() throws Exception {
 
-		ISeries series1 = chart.getSeriesSet().createSeries(SeriesType.LINE, "series 1");
+		ISeries<?> series1 = chart.getSeriesSet().createSeries(SeriesType.LINE, "series 1");
 		series1.setYSeries(ySeries1);
-		ISeries series2 = chart.getSeriesSet().createSeries(SeriesType.LINE, "series 2");
+		ISeries<?> series2 = chart.getSeriesSet().createSeries(SeriesType.LINE, "series 2");
 		series2.setYSeries(ySeries2);
-		ISeries series3 = chart.getSeriesSet().createSeries(SeriesType.LINE, "series 3");
+		ISeries<?> series3 = chart.getSeriesSet().createSeries(SeriesType.LINE, "series 3");
 		series3.setYSeries(ySeries3);
 		chart.getAxisSet().adjustRange();
 		showChart();
@@ -238,13 +238,13 @@ public class LegendTest extends ChartTestCase {
 	@Ignore("environment dependent")
 	public void testBounds() throws Exception {
 
-		ISeries series1 = chart.getSeriesSet().createSeries(SeriesType.LINE, "series1");
+		ISeries<?> series1 = chart.getSeriesSet().createSeries(SeriesType.LINE, "series1");
 		series1.setYSeries(ySeries1);
-		ISeries series2 = chart.getSeriesSet().createSeries(SeriesType.LINE, "series2");
+		ISeries<?> series2 = chart.getSeriesSet().createSeries(SeriesType.LINE, "series2");
 		series2.setYSeries(ySeries2);
-		ISeries series3 = chart.getSeriesSet().createSeries(SeriesType.LINE, "series3");
+		ISeries<?> series3 = chart.getSeriesSet().createSeries(SeriesType.LINE, "series3");
 		series3.setYSeries(ySeries3);
-		ISeries series4 = chart.getSeriesSet().createSeries(SeriesType.LINE, "series4");
+		ISeries<?> series4 = chart.getSeriesSet().createSeries(SeriesType.LINE, "series4");
 		series4.setYSeries(ySeries4);
 		chart.getAxisSet().adjustRange();
 		// right position + no truncated

@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2008, 2019 SWTChart project.
+ * Copyright (c) 2008, 2020 SWTChart project.
  *
  * This program and the accompanying materials are made
  * available under the terms of the Eclipse Public License 2.0
@@ -69,21 +69,20 @@ public class LegendBoundsExample {
 		final Chart chart = new Chart(parent, SWT.NONE);
 		chart.getTitle().setText("Legend Bounds");
 		// create bar series
-		IBarSeries series1 = (IBarSeries)chart.getSeriesSet().createSeries(SeriesType.BAR, "series 1");
+		IBarSeries<?> series1 = (IBarSeries<?>)chart.getSeriesSet().createSeries(SeriesType.BAR, "series 1");
 		series1.setYSeries(ySeries1);
 		series1.setBarColor(Display.getDefault().getSystemColor(SWT.COLOR_GREEN));
-		IBarSeries series2 = (IBarSeries)chart.getSeriesSet().createSeries(SeriesType.BAR, "series 2");
+		IBarSeries<?> series2 = (IBarSeries<?>)chart.getSeriesSet().createSeries(SeriesType.BAR, "series 2");
 		series2.setYSeries(ySeries2);
 		series2.setBarColor(Display.getDefault().getSystemColor(SWT.COLOR_MAGENTA));
-		IBarSeries series3 = (IBarSeries)chart.getSeriesSet().createSeries(SeriesType.BAR, "series 3");
+		IBarSeries<?> series3 = (IBarSeries<?>)chart.getSeriesSet().createSeries(SeriesType.BAR, "series 3");
 		series3.setYSeries(ySeries3);
 		// adjust the axis range
 		chart.getAxisSet().adjustRange();
 		// add mouse move listener to legend
 		final Control legend = (Control)chart.getLegend();
 		legend.addMouseMoveListener(e -> {
-
-			for(ISeries series : chart.getSeriesSet().getSeries()) {
+			for(ISeries<?> series : chart.getSeriesSet().getSeries()) {
 				Rectangle r = chart.getLegend().getBounds(series.getId());
 				if(r.x < e.x && e.x < r.x + r.width && r.y < e.y && e.y < r.y + r.height) {
 					legend.setToolTipText(series.getId());

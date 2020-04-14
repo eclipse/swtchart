@@ -20,7 +20,6 @@ import java.text.Format;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -76,8 +75,6 @@ public class AxisTickLabels implements PaintListener {
 	private static final String DEFAULT_DECIMAL_FORMAT = "#.###########"; //$NON-NLS-1$
 	/** the possible tick steps */
 	private Map<Integer, Integer[]> possibleTickSteps;
-	/** the time unit for tick step */
-	private int timeUnit;
 	/** the font */
 	private Font font;
 
@@ -90,7 +87,6 @@ public class AxisTickLabels implements PaintListener {
 	 *            the axis
 	 */
 	protected AxisTickLabels(Chart chart, Axis axis) {
-
 		this.chart = chart;
 		this.axis = axis;
 		tickLabelValues = new ArrayList<Double>();
@@ -172,98 +168,6 @@ public class AxisTickLabels implements PaintListener {
 			updateTickLabelForLinearScale(length);
 		}
 		updateTickVisibility();
-	}
-
-	/**
-	 * Updates tick label for date axis.
-	 * 
-	 * @param length
-	 *            the length of axis
-	 */
-	private void updateTickLabelForDateAxis(int length) {
-
-		double min = axis.getRange().lower;
-		double max = axis.getRange().upper;
-		double gridStepHint = Math.abs(max - min) / length * axis.getTick().getTickMarkStepHint();
-		timeUnit = getTimeUnit(gridStepHint);
-		if(timeUnit == Calendar.MILLISECOND || timeUnit == Calendar.SECOND || timeUnit == Calendar.MINUTE || timeUnit == Calendar.HOUR_OF_DAY || timeUnit == Calendar.DATE) {
-			Integer[] steps = possibleTickSteps.get(timeUnit);
-			for(int i = 0; i < steps.length - 1; i++) {
-				if(gridStepHint < (getPeriodInMillis(timeUnit, steps[i]) + getPeriodInMillis(timeUnit, steps[i + 1])) / 2d) {
-					BigDecimal gridStep = BigDecimal.valueOf(getPeriodInMillis(timeUnit, steps[i]));
-					updateTickLabelForLinearScale(length, gridStep);
-					break;
-				}
-			}
-		} else if(timeUnit == Calendar.MONTH || timeUnit == Calendar.YEAR) {
-			updateTickLabelForMonthOrYear(length, gridStepHint, timeUnit);
-		}
-	}
-
-	/**
-	 * Updates the tick label for month or year. The month and year are handled
-	 * differently from other units of time, since 1 month and 1 year can be
-	 * different depending on which time to start counting.
-	 * 
-	 * @param length
-	 *            the length of axis
-	 * @param gridStepHint
-	 *            the grid step hint
-	 * @param tickStepUnit
-	 *            the tick step unit of time
-	 */
-	private void updateTickLabelForMonthOrYear(int length, double gridStepHint, int tickStepUnit) {
-
-		double min = axis.getRange().lower;
-		double max = axis.getRange().upper;
-		// get initial position
-		Calendar cal = Calendar.getInstance();
-		cal.setTime(new Date((long)min));
-		int month = cal.get(Calendar.MONTH);
-		int year = cal.get(Calendar.YEAR);
-		if(tickStepUnit == Calendar.MONTH) {
-			if(month == Calendar.DECEMBER) {
-				year++;
-				month = Calendar.JANUARY;
-			} else {
-				month++;
-			}
-		} else if(tickStepUnit == Calendar.YEAR) {
-			month = Calendar.JANUARY;
-			year++;
-		}
-		// get tick step
-		Integer[] steps = possibleTickSteps.get(tickStepUnit);
-		int step = steps[steps.length - 1];
-		for(int i = 0; i < steps.length - 1; i++) {
-			if(gridStepHint < (getPeriodInMillis(tickStepUnit, steps[i]) + getPeriodInMillis(tickStepUnit, steps[i + 1])) / 2d) {
-				step = steps[i];
-				break;
-			}
-		}
-		// set tick labels
-		cal.clear();
-		cal.set(year, month, 1);
-		while(cal.getTimeInMillis() < max) {
-			tickLabelValues.add(Double.valueOf(cal.getTimeInMillis()));
-			tickLabels.add(format(cal.getTimeInMillis()));
-			int tickLabelPosition = (int)((cal.getTimeInMillis() - min) / (max - min) * length);
-			if(axis.isReversed()) {
-				tickLabelPosition = correctPositionInReversedAxis(tickLabelPosition);
-			}
-			tickLabelPositions.add(tickLabelPosition);
-			if(tickStepUnit == Calendar.MONTH) {
-				month += step;
-				if(month + step > Calendar.DECEMBER) {
-					year++;
-					month -= Calendar.DECEMBER + 1;
-				}
-			} else if(tickStepUnit == Calendar.YEAR) {
-				year += step;
-			}
-			cal.clear();
-			cal.set(year, month, 1);
-		}
 	}
 
 	/**
@@ -429,43 +333,6 @@ public class AxisTickLabels implements PaintListener {
 				tickVisibilities.set(i, Boolean.FALSE);
 			}
 		}
-	}
-
-	/**
-	 * Gets the tick step unit.
-	 * 
-	 * @param gridStepHint
-	 *            the grid step hint
-	 * @return the tick step unit.
-	 */
-	private int getTimeUnit(double gridStepHint) {
-
-		final Integer[] units = {Calendar.MILLISECOND, Calendar.SECOND, Calendar.MINUTE, Calendar.HOUR_OF_DAY, Calendar.DATE, Calendar.MONTH, Calendar.YEAR};
-		for(Integer unit : units) {
-			Integer[] steps = possibleTickSteps.get(unit);
-			if(gridStepHint < (getPeriodInMillis(unit, steps[steps.length - 2]) + getPeriodInMillis(unit, steps[steps.length - 1])) / 2d) {
-				return unit;
-			}
-		}
-		return Calendar.YEAR;
-	}
-
-	/**
-	 * Gets the period in milliseconds of given unit of date and amount. The
-	 * period is calculated based on UTC of January 1, 1970.
-	 * 
-	 * @param unit
-	 *            the unit of time like <tt>Calendar.YEAR<tt>.
-	 * @param amount
-	 *            the amount of period.
-	 * @return the period in milliseconds
-	 */
-	private static long getPeriodInMillis(int unit, int amount) {
-
-		Calendar cal = Calendar.getInstance();
-		cal.setTimeInMillis(0);
-		cal.roll(unit, amount);
-		return cal.getTimeInMillis();
 	}
 
 	/**
@@ -647,7 +514,7 @@ public class AxisTickLabels implements PaintListener {
 	 *            maximum value
 	 * @return rounded value.
 	 */
-	@SuppressWarnings({"deprecation", "rawtypes"})
+	@SuppressWarnings({"rawtypes"})
 	private BigDecimal getGridStep(int lengthInPixels, double min, double max) {
 
 		if(lengthInPixels <= 0) {

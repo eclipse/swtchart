@@ -76,10 +76,10 @@ public class CompressPieSeries extends Compress {
 	private void setColor() {
 
 		colors = new Color[labels.length];
-		int color = colours.length;
+		// int color = colours.length;
 		colors[0] = Display.getDefault().getSystemColor(SWT.COLOR_YELLOW);
 		for(int i = 1; i != labels.length; i++) {
-			int colour = i % color;
+			// int colour = i % color;
 			colors[i] = Display.getDefault().getSystemColor(colours[i]);
 		}
 	}

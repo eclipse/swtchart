@@ -101,7 +101,6 @@ public class Axis implements IAxis {
 	 *            the chart
 	 */
 	public Axis(int id, Direction direction, Chart chart) {
-
 		this.id = id;
 		this.direction = direction;
 		this.chart = chart;
@@ -280,15 +279,15 @@ public class Axis implements IAxis {
 	private double getMinSeriesValue() {
 
 		double minimum = Double.NaN;
-		for(ISeries series : chart.getSeriesSet().getSeries()) {
+		for(ISeries<?> series : chart.getSeriesSet().getSeries()) {
 			if(series.getYSeries().length == 0) {
 				continue;
 			}
 			double lower;
 			if(direction == Direction.X && series.getXAxisId() == getId()) {
-				lower = ((Series)series).getXRange().lower;
+				lower = ((Series<?>)series).getXRange().lower;
 			} else if(direction == Direction.Y && series.getYAxisId() == getId()) {
-				lower = ((Series)series).getYRange().lower;
+				lower = ((Series<?>)series).getYRange().lower;
 			} else {
 				continue;
 			}
@@ -331,7 +330,7 @@ public class Axis implements IAxis {
 		}
 		double minimum = Double.NaN;
 		double maximum = Double.NaN;
-		for(ISeries series : chart.getSeriesSet().getSeries()) {
+		for(ISeries<?> series : chart.getSeriesSet().getSeries()) {
 			int axisId = direction == Direction.X ? series.getXAxisId() : series.getYAxisId();
 			if(!series.isVisible() || getId() != axisId) {
 				continue;
@@ -344,7 +343,7 @@ public class Axis implements IAxis {
 				length = chart.getPlotArea().getSize().y;
 			}
 			// get min and max value of series
-			Range range = ((Series)series).getAdjustedRange(this, length);
+			Range range = ((Series<?>)series).getAdjustedRange(this, length);
 			if(Double.isNaN(minimum) || range.lower < minimum) {
 				minimum = range.lower;
 			}

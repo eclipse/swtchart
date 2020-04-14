@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2017, 2019 Lablicate GmbH.
+ * Copyright (c) 2017, 2020 Lablicate GmbH.
  *
  * This program and the accompanying materials are made
  * available under the terms of the Eclipse Public License 2.0
@@ -24,23 +24,23 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.widgets.FileDialog;
 import org.eclipse.swt.widgets.Shell;
-import org.eclipse.swtchart.extensions.core.BaseChart;
-import org.eclipse.swtchart.extensions.core.IAxisScaleConverter;
-import org.eclipse.swtchart.extensions.core.IAxisSettings;
-import org.eclipse.swtchart.extensions.core.ISecondaryAxisSettings;
-import org.eclipse.swtchart.extensions.core.ScrollableChart;
 import org.eclipse.swtchart.ISeries;
 import org.eclipse.swtchart.export.core.AbstractSeriesExportHandler;
 import org.eclipse.swtchart.export.core.AxisSettings;
 import org.eclipse.swtchart.export.core.ExportSettingsDialog;
 import org.eclipse.swtchart.export.core.ISeriesExportConverter;
+import org.eclipse.swtchart.extensions.core.BaseChart;
+import org.eclipse.swtchart.extensions.core.IAxisScaleConverter;
+import org.eclipse.swtchart.extensions.core.IAxisSettings;
+import org.eclipse.swtchart.extensions.core.ISecondaryAxisSettings;
+import org.eclipse.swtchart.extensions.core.ScrollableChart;
 
 public class LaTeXTableExportHandler extends AbstractSeriesExportHandler implements ISeriesExportConverter {
 
 	private static final String FILE_EXTENSION = "*.tex"; //$NON-NLS-1$
-	public static final String NAME = Messages.getString(Messages.LATEX_TABLE) + FILE_EXTENSION + ")"; //$NON-NLS-1$ 
+	public static final String NAME = Messages.getString(Messages.LATEX_TABLE) + FILE_EXTENSION + ")"; //$NON-NLS-1$
 	//
-	private static final String TITLE = Messages.getString(Messages.SAVE_AS_LATEX); 
+	private static final String TITLE = Messages.getString(Messages.SAVE_AS_LATEX);
 	private static final String TAB = "\t"; //$NON-NLS-1$
 	private static final String DELIMITER = " & "; //$NON-NLS-1$
 	private static final String HORIZONTAL_LINE = "\\hline"; //$NON-NLS-1$
@@ -127,9 +127,9 @@ public class LaTeXTableExportHandler extends AbstractSeriesExportHandler impleme
 						/*
 						 * Data
 						 */
-						int widthPlotArea = baseChart.getPlotArea().getBounds().width;
-						ISeries[] series = baseChart.getSeriesSet().getSeries();
-						for(ISeries dataSeries : series) {
+						int widthPlotArea = baseChart.getPlotArea().getSize().x;
+						ISeries<?>[] series = baseChart.getSeriesSet().getSeries();
+						for(ISeries<?> dataSeries : series) {
 							if(dataSeries != null) {
 								if(exportVisibleOnly) {
 									if(dataSeries.isVisible()) {
@@ -158,7 +158,7 @@ public class LaTeXTableExportHandler extends AbstractSeriesExportHandler impleme
 		}
 	}
 
-	private void exportSeries(ISeries dataSeries, int widthPlotArea, AxisSettings axisSettings, PrintWriter printWriter) {
+	private void exportSeries(ISeries<?> dataSeries, int widthPlotArea, AxisSettings axisSettings, PrintWriter printWriter) {
 
 		int indexAxisX = axisSettings.getIndexAxisX();
 		int indexAxisY = axisSettings.getIndexAxisY();

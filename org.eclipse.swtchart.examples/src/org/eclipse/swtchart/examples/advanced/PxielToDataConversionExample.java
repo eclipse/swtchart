@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2008, 2019 SWTChart project.
+ * Copyright (c) 2008, 2020 SWTChart project.
  *
  * This program and the accompanying materials are made
  * available under the terms of the Eclipse Public License 2.0
@@ -68,13 +68,12 @@ public class PxielToDataConversionExample {
 		final IAxis xAxis = chart.getAxisSet().getXAxis(0);
 		final IAxis yAxis = chart.getAxisSet().getYAxis(0);
 		// create line series
-		ILineSeries series = (ILineSeries)chart.getSeriesSet().createSeries(SeriesType.LINE, "line series");
+		ILineSeries<?> series = (ILineSeries<?>)chart.getSeriesSet().createSeries(SeriesType.LINE, "line series");
 		series.setYSeries(ySeries);
 		// adjust the axis range
 		chart.getAxisSet().adjustRange();
 		// add mouse move listener to show mouse position on tooltip
 		chart.getPlotArea().addMouseMoveListener(e -> {
-
 			double x = xAxis.getDataCoordinate(e.x);
 			double y = yAxis.getDataCoordinate(e.y);
 			chart.getPlotArea().setToolTipText("x:" + x + ", y:" + y);

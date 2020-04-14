@@ -42,7 +42,7 @@ public class SeriesSet implements ISeriesSet {
 	/** the chart */
 	private final Chart chart;
 	/** the series */
-	private LinkedHashMap<String, Series> seriesMap;
+	private LinkedHashMap<String, Series<?>> seriesMap;
 
 	/**
 	 * Constructor.
@@ -51,9 +51,8 @@ public class SeriesSet implements ISeriesSet {
 	 *            the chart
 	 */
 	public SeriesSet(Chart chart) {
-
 		this.chart = chart;
-		seriesMap = new LinkedHashMap<String, Series>();
+		seriesMap = new LinkedHashMap<String, Series<?>>();
 		chart.addDisposeListener(new DisposeListener() {
 
 			@Override
@@ -64,8 +63,9 @@ public class SeriesSet implements ISeriesSet {
 		});
 	}
 
+	@SuppressWarnings("rawtypes")
 	@Override
-	public ISeries createSeries(SeriesType type, String id) {
+	public ISeries<?> createSeries(SeriesType type, String id) {
 
 		if(id == null) {
 			SWT.error(SWT.ERROR_NULL_ARGUMENT);
@@ -75,7 +75,7 @@ public class SeriesSet implements ISeriesSet {
 		if("".equals(trimmedId)) { //$NON-NLS-1$
 			SWT.error(SWT.ERROR_INVALID_ARGUMENT);
 		}
-		Series series = null;
+		Series<?> series = null;
 		if(type == SeriesType.BAR) {
 			series = new BarSeries(chart, trimmedId);
 		} else if(type == SeriesType.LINE) {
@@ -86,7 +86,7 @@ public class SeriesSet implements ISeriesSet {
 			SWT.error(SWT.ERROR_INVALID_ARGUMENT);
 			return null; // to suppress warning...
 		}
-		Series oldSeries = seriesMap.get(trimmedId);
+		Series<?> oldSeries = seriesMap.get(trimmedId);
 		if(oldSeries != null) {
 			oldSeries.dispose();
 		}
@@ -105,7 +105,7 @@ public class SeriesSet implements ISeriesSet {
 	}
 
 	@Override
-	public ISeries getSeries(String id) {
+	public ISeries<?> getSeries(String id) {
 
 		if(id == null) {
 			SWT.error(SWT.ERROR_NULL_ARGUMENT);
@@ -115,10 +115,10 @@ public class SeriesSet implements ISeriesSet {
 	}
 
 	@Override
-	public ISeries[] getSeries() {
+	public ISeries<?>[] getSeries() {
 
 		Set<String> keys = seriesMap.keySet();
-		ISeries[] series = new ISeries[keys.size()];
+		ISeries<?>[] series = new ISeries[keys.size()];
 		int i = 0;
 		for(String key : keys) {
 			series[i++] = seriesMap.get(key);
@@ -142,8 +142,8 @@ public class SeriesSet implements ISeriesSet {
 
 		String trimmedId = validateSeriesId(id);
 		String seriesId = null;
-		LinkedHashMap<String, Series> newSeriesMap = new LinkedHashMap<String, Series>();
-		for(Entry<String, Series> entry : seriesMap.entrySet()) {
+		LinkedHashMap<String, Series<?>> newSeriesMap = new LinkedHashMap<String, Series<?>>();
+		for(Entry<String, Series<?>> entry : seriesMap.entrySet()) {
 			if(entry.getKey().equals(trimmedId)) {
 				seriesId = trimmedId;
 				continue;
@@ -166,7 +166,7 @@ public class SeriesSet implements ISeriesSet {
 	public void bringToFront(String id) {
 
 		String trimmedId = validateSeriesId(id);
-		Series series = seriesMap.get(trimmedId);
+		Series<?> series = seriesMap.get(trimmedId);
 		seriesMap.remove(trimmedId);
 		seriesMap.put(series.getId(), series);
 		updateStackAndRiserData();
@@ -178,8 +178,8 @@ public class SeriesSet implements ISeriesSet {
 
 		String trimmedId = validateSeriesId(id);
 		String seriesId = null;
-		LinkedHashMap<String, Series> newSeriesMap = new LinkedHashMap<String, Series>();
-		for(Entry<String, Series> entry : seriesMap.entrySet()) {
+		LinkedHashMap<String, Series<?>> newSeriesMap = new LinkedHashMap<String, Series<?>>();
+		for(Entry<String, Series<?>> entry : seriesMap.entrySet()) {
 			if(!entry.getKey().equals(trimmedId) || seriesId == null) {
 				newSeriesMap.put(entry.getKey(), entry.getValue());
 				seriesId = entry.getKey();
@@ -198,9 +198,9 @@ public class SeriesSet implements ISeriesSet {
 	public void sendToBack(String id) {
 
 		String trimmedId = validateSeriesId(id);
-		LinkedHashMap<String, Series> newSeriesMap = new LinkedHashMap<String, Series>();
+		LinkedHashMap<String, Series<?>> newSeriesMap = new LinkedHashMap<String, Series<?>>();
 		newSeriesMap.put(trimmedId, seriesMap.get(trimmedId));
-		for(Entry<String, Series> entry : seriesMap.entrySet()) {
+		for(Entry<String, Series<?>> entry : seriesMap.entrySet()) {
 			if(!entry.getKey().equals(trimmedId)) {
 				newSeriesMap.put(entry.getKey(), entry.getValue());
 			}
@@ -215,7 +215,7 @@ public class SeriesSet implements ISeriesSet {
 	 */
 	public void dispose() {
 
-		for(Entry<String, Series> entry : seriesMap.entrySet()) {
+		for(Entry<String, Series<?>> entry : seriesMap.entrySet()) {
 			entry.getValue().dispose();
 		}
 	}
@@ -253,7 +253,7 @@ public class SeriesSet implements ISeriesSet {
 		int width = p.x * PRECISION;
 		int height = p.y * PRECISION;
 		config.setSizeInPixel(width, height);
-		for(ISeries series : getSeries()) {
+		for(ISeries<?> series : getSeries()) {
 			int xAxisId = series.getXAxisId();
 			int yAxisId = series.getYAxisId();
 			IAxis xAxis = chart.getAxisSet().getXAxis(xAxisId);
@@ -275,16 +275,16 @@ public class SeriesSet implements ISeriesSet {
 			double lower = xMin - (xMax - xMin) * 0.015;
 			double upper = xMax + (xMax - xMin) * 0.015;
 			if(xAxis.isLogScaleEnabled()) {
-				lower = ((Series)series).getXRange().lower;
+				lower = ((Series<?>)series).getXRange().lower;
 			}
 			config.setXRange(lower, upper);
 			lower = yMin - (yMax - yMin) * 0.015;
 			upper = yMax + (yMax - yMin) * 0.015;
 			if(yAxis.isLogScaleEnabled()) {
-				lower = ((Series)series).getYRange().lower;
+				lower = ((Series<?>)series).getYRange().lower;
 			}
 			config.setYRange(lower, upper);
-			ICompress compressor = ((Series)series).getCompressor();
+			ICompress compressor = ((Series<?>)series).getCompressor();
 			compressor.compress(config);
 		}
 	}
@@ -301,12 +301,12 @@ public class SeriesSet implements ISeriesSet {
 	 */
 	public void updateCompressor(Axis axis) {
 
-		for(ISeries series : getSeries()) {
+		for(ISeries<?> series : getSeries()) {
 			int axisId = (axis.getDirection() == Direction.X) ? series.getXAxisId() : series.getYAxisId();
 			if(axisId != axis.getId()) {
 				continue;
 			}
-			ICompress compressor = ((Series)series).getCompressor();
+			ICompress compressor = ((Series<?>)series).getCompressor();
 			if(axis.isValidCategoryAxis()) {
 				String[] categorySeries = axis.getCategorySeries();
 				if(categorySeries == null) {
@@ -317,8 +317,8 @@ public class SeriesSet implements ISeriesSet {
 					xSeries[i] = i;
 				}
 				compressor.setXSeries(xSeries);
-			} else if(((Series)series).getXSeries() != null) {
-				compressor.setXSeries(((Series)series).getXSeries());
+			} else if(((Series<?>)series).getXSeries() != null) {
+				compressor.setXSeries(((Series<?>)series).getXSeries());
 			}
 		}
 		compressAllSeries();
@@ -362,7 +362,7 @@ public class SeriesSet implements ISeriesSet {
 				stackLineSeries = new double[size];
 			}
 		}
-		for(ISeries series : getSeries()) {
+		for(ISeries<?> series : getSeries()) {
 			if(series.getXAxisId() != xAxis.getId() || series.getYAxisId() != yAxis.getId() || !series.isVisible()) {
 				continue;
 			}
@@ -372,14 +372,14 @@ public class SeriesSet implements ISeriesSet {
 						stackRiserPosition = riserCnt;
 						riserCnt++;
 					}
-					((BarSeries)series).setRiserIndex(((Axis)xAxis).getNumRisers() + stackRiserPosition);
+					((BarSeries<?>)series).setRiserIndex(((Axis)xAxis).getNumRisers() + stackRiserPosition);
 					setStackSeries(stackBarSeries, series);
 				} else if(series.getType() == SeriesType.LINE) {
 					setStackSeries(stackLineSeries, series);
 				}
 			} else {
 				if(series.getType() == SeriesType.BAR) {
-					((BarSeries)series).setRiserIndex(((Axis)xAxis).getNumRisers() + riserCnt++);
+					((BarSeries<?>)series).setRiserIndex(((Axis)xAxis).getNumRisers() + riserCnt++);
 				}
 			}
 		}
@@ -394,7 +394,7 @@ public class SeriesSet implements ISeriesSet {
 	 * @param series
 	 *            the series
 	 */
-	private static void setStackSeries(double[] stackSeries, ISeries series) {
+	private static void setStackSeries(double[] stackSeries, ISeries<?> series) {
 
 		double[] ySeries = series.getYSeries();
 		if(ySeries == null || stackSeries == null) {
@@ -408,6 +408,6 @@ public class SeriesSet implements ISeriesSet {
 		}
 		double[] copiedStackSeries = new double[stackSeries.length];
 		System.arraycopy(stackSeries, 0, copiedStackSeries, 0, stackSeries.length);
-		((Series)series).setStackSeries(copiedStackSeries);
+		((Series<?>)series).setStackSeries(copiedStackSeries);
 	}
 }

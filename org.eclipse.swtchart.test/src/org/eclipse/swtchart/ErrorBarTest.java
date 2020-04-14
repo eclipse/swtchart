@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2008, 2019 SWTChart project.
+ * Copyright (c) 2008, 2020 SWTChart project.
  *
  * This program and the accompanying materials are made
  * available under the terms of the Eclipse Public License 2.0
@@ -41,7 +41,7 @@ public class ErrorBarTest extends ChartTestCase {
 	public void setUp() throws Exception {
 
 		super.setUp();
-		ISeries series = chart.getSeriesSet().createSeries(SeriesType.LINE, "series");
+		ISeries<?> series = chart.getSeriesSet().createSeries(SeriesType.LINE, "series");
 		series.setYSeries(ySeries1);
 		xErrorBar = series.getXErrorBar();
 		xErrorBar.setVisible(true);
@@ -186,7 +186,7 @@ public class ErrorBarTest extends ChartTestCase {
 		assertEquals(0.5, yErrorBar.getError(), 0.01);
 		showChart();
 		// log scale
-		ISeries series = chart.getSeriesSet().getSeries("series");
+		ISeries<?> series = chart.getSeriesSet().getSeries("series");
 		series.setYSeries(ySeries2);
 		yErrorBar.setError(0.1);
 		chart.getAxisSet().getYAxis(0).enableLogScale(true);
@@ -232,7 +232,7 @@ public class ErrorBarTest extends ChartTestCase {
 	public void testVisibility() throws Exception {
 
 		chart.getSeriesSet().deleteSeries("series");
-		ISeries series = chart.getSeriesSet().createSeries(SeriesType.BAR, "series");
+		ISeries<?> series = chart.getSeriesSet().createSeries(SeriesType.BAR, "series");
 		series.setYSeries(ySeries1);
 		xErrorBar = series.getXErrorBar();
 		yErrorBar = series.getYErrorBar();

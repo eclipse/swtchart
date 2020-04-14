@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2008, 2019 SWTChart project.
+ * Copyright (c) 2008, 2020 SWTChart project.
  *
  * This program and the accompanying materials are made
  * available under the terms of the Eclipse Public License 2.0
@@ -69,9 +69,9 @@ public class SymbolBoundsExample {
 		final Chart chart = new Chart(parent, SWT.NONE);
 		chart.getTitle().setText("Symbol Bounds");
 		// create line series
-		ILineSeries series1 = (ILineSeries)chart.getSeriesSet().createSeries(SeriesType.LINE, "series 1");
+		ILineSeries<?> series1 = (ILineSeries<?>)chart.getSeriesSet().createSeries(SeriesType.LINE, "series 1");
 		series1.setYSeries(ySeries1);
-		ILineSeries series2 = (ILineSeries)chart.getSeriesSet().createSeries(SeriesType.LINE, "series 2");
+		ILineSeries<?> series2 = (ILineSeries<?>)chart.getSeriesSet().createSeries(SeriesType.LINE, "series 2");
 		series2.setYSeries(ySeries2);
 		series2.setLineColor(Display.getDefault().getSystemColor(SWT.COLOR_RED));
 		// adjust the axis range
@@ -82,11 +82,11 @@ public class SymbolBoundsExample {
 			@Override
 			public void mouseMove(MouseEvent e) {
 
-				for(ISeries series : chart.getSeriesSet().getSeries()) {
+				for(ISeries<?> series : chart.getSeriesSet().getSeries()) {
 					for(int i = 0; i < series.getYSeries().length; i++) {
 						Point p = series.getPixelCoordinates(i);
 						double distance = Math.sqrt(Math.pow(e.x - p.x, 2) + Math.pow(e.y - p.y, 2));
-						if(distance < ((ILineSeries)series).getSymbolSize()) {
+						if(distance < ((ILineSeries<?>)series).getSymbolSize()) {
 							setToolTipText(series, i);
 							return;
 						}
@@ -95,7 +95,7 @@ public class SymbolBoundsExample {
 				chart.getPlotArea().setToolTipText(null);
 			}
 
-			private void setToolTipText(ISeries series, int index) {
+			private void setToolTipText(ISeries<?> series, int index) {
 
 				chart.getPlotArea().setToolTipText("Series: " + series.getId() + "\nValue: " + series.getYSeries()[index]);
 			}

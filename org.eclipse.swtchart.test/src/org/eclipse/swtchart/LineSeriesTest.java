@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2008, 2019 SWTChart project.
+ * Copyright (c) 2008, 2020 SWTChart project.
  *
  * This program and the accompanying materials are made
  * available under the terms of the Eclipse Public License 2.0
@@ -20,7 +20,6 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.graphics.RGB;
-import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swtchart.ILineSeries.PlotSymbolType;
 import org.eclipse.swtchart.ISeries.SeriesType;
@@ -53,7 +52,7 @@ public class LineSeriesTest extends ChartTestCase {
 	@Test
 	public void testType() throws Exception {
 
-		ISeries series = seriesSet.createSeries(SeriesType.LINE, "series");
+		ISeries<?> series = seriesSet.createSeries(SeriesType.LINE, "series");
 		series.setYSeries(ySeries1);
 		assertEquals(SeriesType.LINE, series.getType());
 	}
@@ -64,7 +63,7 @@ public class LineSeriesTest extends ChartTestCase {
 	@Test
 	public void testVisibility() throws Exception {
 
-		ISeries series = seriesSet.createSeries(SeriesType.LINE, "series1");
+		ISeries<?> series = seriesSet.createSeries(SeriesType.LINE, "series1");
 		series.setYSeries(ySeries1);
 		chart.getAxisSet().adjustRange();
 		showChart();
@@ -79,9 +78,9 @@ public class LineSeriesTest extends ChartTestCase {
 	@Test
 	public void testStack() throws Exception {
 
-		ISeries series1 = seriesSet.createSeries(SeriesType.LINE, "series1");
+		ISeries<?> series1 = seriesSet.createSeries(SeriesType.LINE, "series1");
 		series1.setYSeries(ySeries1);
-		ISeries series2 = seriesSet.createSeries(SeriesType.LINE, "series2");
+		ISeries<?> series2 = seriesSet.createSeries(SeriesType.LINE, "series2");
 		series2.setYSeries(ySeries2);
 		IAxis xAxis = chart.getAxisSet().getXAxis(0);
 		xAxis.setCategorySeries(categorySeries);
@@ -107,7 +106,7 @@ public class LineSeriesTest extends ChartTestCase {
 	public void testSeries() {
 
 		// set null
-		ISeries series = seriesSet.createSeries(SeriesType.LINE, "series");
+		ISeries<?> series = seriesSet.createSeries(SeriesType.LINE, "series");
 		try {
 			series.setXSeries(null);
 			fail();
@@ -153,7 +152,7 @@ public class LineSeriesTest extends ChartTestCase {
 	@Test
 	public void testAxisId() {
 
-		ISeries series = seriesSet.createSeries(SeriesType.LINE, "series");
+		ISeries<?> series = seriesSet.createSeries(SeriesType.LINE, "series");
 		series.setXSeries(xSeries1);
 		chart.getAxisSet().createXAxis();
 		chart.getAxisSet().createYAxis();
@@ -169,35 +168,35 @@ public class LineSeriesTest extends ChartTestCase {
 	@Test
 	public void testPixelCoordinates() throws Exception {
 
-		ILineSeries series1 = (ILineSeries)seriesSet.createSeries(SeriesType.LINE, "series 1");
+		ILineSeries<?> series1 = (ILineSeries<?>)seriesSet.createSeries(SeriesType.LINE, "series 1");
 		series1.setXSeries(xSeries1);
 		series1.setYSeries(ySeries1);
 		IAxis xAxis = chart.getAxisSet().getXAxis(0);
 		IAxis yAxis = chart.getAxisSet().getYAxis(0);
 		xAxis.setRange(new Range(1, 5));
 		yAxis.setRange(new Range(0.1, 0.5));
-		Rectangle r = chart.getPlotArea().getBounds();
+		Point r = chart.getPlotArea().getSize();
 		// horizontal
 		Point p = series1.getPixelCoordinates(1);
-		assertEquals(r.width / 4d, p.x, 1);
-		assertEquals(r.height / 4d * 3, p.y, 1);
+		assertEquals(r.x / 4d, p.x, 1);
+		assertEquals(r.y / 4d * 3, p.y, 1);
 		// horizontal + category
 		xAxis.setCategorySeries(categorySeries);
 		xAxis.enableCategory(true);
 		xAxis.adjustRange();
 		p = series1.getPixelCoordinates(1);
-		assertEquals(r.width / 10d * 3, p.x, 1);
-		assertEquals(r.height / 4d * 3, p.y, 1);
+		assertEquals(r.x / 10d * 3, p.x, 1);
+		assertEquals(r.y / 4d * 3, p.y, 1);
 		// horizontal + stack
-		ILineSeries series2 = (ILineSeries)seriesSet.createSeries(SeriesType.LINE, "series 2");
+		ILineSeries<?> series2 = (ILineSeries<?>)seriesSet.createSeries(SeriesType.LINE, "series 2");
 		series2.setYSeries(ySeries2);
 		series1.enableStack(true);
 		series2.enableStack(true);
 		xAxis.setRange(new Range(0, 4));
 		yAxis.setRange(new Range(0, 0.7));
 		p = series2.getPixelCoordinates(1);
-		assertEquals(r.width / 10d * 3, p.x, 1);
-		assertEquals(r.height / 7d, p.y, 1);
+		assertEquals(r.x / 10d * 3, p.x, 1);
+		assertEquals(r.y / 7d, p.y, 1);
 		// vertical
 		chart.setOrientation(SWT.VERTICAL);
 		xAxis.enableCategory(false);
@@ -205,24 +204,24 @@ public class LineSeriesTest extends ChartTestCase {
 		series2.enableStack(false);
 		xAxis.setRange(new Range(1, 5));
 		yAxis.setRange(new Range(0.1, 0.5));
-		r = chart.getPlotArea().getBounds();
+		r = chart.getPlotArea().getSize();
 		p = series1.getPixelCoordinates(1);
-		assertEquals(r.width / 4d, p.x, 1);
-		assertEquals(r.height / 4d * 3, p.y, 1);
+		assertEquals(r.x / 4d, p.x, 1);
+		assertEquals(r.y / 4d * 3, p.y, 1);
 		// vertical + category
 		xAxis.enableCategory(true);
 		xAxis.setRange(new Range(0, 4));
 		yAxis.setRange(new Range(0, 0.7));
-		r = chart.getPlotArea().getBounds();
+		r = chart.getPlotArea().getSize();
 		p = series1.getPixelCoordinates(1);
-		assertEquals(r.width / 7d * 2, p.x, 1);
-		assertEquals(r.height / 10d * 7, p.y, 1);
+		assertEquals(r.x / 7d * 2, p.x, 1);
+		assertEquals(r.y / 10d * 7, p.y, 1);
 		// vertical + stack
 		series1.enableStack(true);
 		series2.enableStack(true);
 		p = series2.getPixelCoordinates(1);
-		assertEquals(r.width / 7d * 6, p.x, 1);
-		assertEquals(r.height / 10d * 7, p.y, 1);
+		assertEquals(r.x / 7d * 6, p.x, 1);
+		assertEquals(r.y / 10d * 7, p.y, 1);
 	}
 
 	/**
@@ -231,7 +230,7 @@ public class LineSeriesTest extends ChartTestCase {
 	@Test
 	public void testLineStyle() throws Exception {
 
-		ILineSeries series = (ILineSeries)seriesSet.createSeries(SeriesType.LINE, "series");
+		ILineSeries<?> series = (ILineSeries<?>)seriesSet.createSeries(SeriesType.LINE, "series");
 		series.setYSeries(ySeries1);
 		series.setSymbolType(PlotSymbolType.NONE);
 		chart.getAxisSet().adjustRange();
@@ -263,7 +262,7 @@ public class LineSeriesTest extends ChartTestCase {
 	@Test
 	public void testLineColor() throws Exception {
 
-		ILineSeries series = (ILineSeries)seriesSet.createSeries(SeriesType.LINE, "series");
+		ILineSeries<?> series = (ILineSeries<?>)seriesSet.createSeries(SeriesType.LINE, "series");
 		series.setYSeries(ySeries1);
 		series.setAntialias(SWT.ON);
 		series.setSymbolType(PlotSymbolType.NONE);
@@ -293,7 +292,7 @@ public class LineSeriesTest extends ChartTestCase {
 	@Test
 	public void testLineWidth() throws Exception {
 
-		ILineSeries series = (ILineSeries)seriesSet.createSeries(SeriesType.LINE, "series");
+		ILineSeries<?> series = (ILineSeries<?>)seriesSet.createSeries(SeriesType.LINE, "series");
 		series.setYSeries(ySeries1);
 		series.setAntialias(SWT.ON);
 		series.setSymbolType(PlotSymbolType.NONE);
@@ -319,7 +318,7 @@ public class LineSeriesTest extends ChartTestCase {
 	@Test
 	public void testSymbolType() throws Exception {
 
-		ILineSeries series = (ILineSeries)seriesSet.createSeries(SeriesType.LINE, "plot series 1");
+		ILineSeries<?> series = (ILineSeries<?>)seriesSet.createSeries(SeriesType.LINE, "plot series 1");
 		series.setYSeries(ySeries1);
 		series.setLineStyle(LineStyle.NONE);
 		chart.getAxisSet().adjustRange();
@@ -364,7 +363,7 @@ public class LineSeriesTest extends ChartTestCase {
 	@Test
 	public void testSymbolSize() throws Exception {
 
-		ILineSeries series = (ILineSeries)seriesSet.createSeries(SeriesType.LINE, "series");
+		ILineSeries<?> series = (ILineSeries<?>)seriesSet.createSeries(SeriesType.LINE, "series");
 		series.setYSeries(ySeries1);
 		series.setLineStyle(LineStyle.NONE);
 		chart.getAxisSet().adjustRange();
@@ -393,7 +392,7 @@ public class LineSeriesTest extends ChartTestCase {
 	@Test
 	public void testSymbolColor() throws Exception {
 
-		ILineSeries series = (ILineSeries)seriesSet.createSeries(SeriesType.LINE, "series");
+		ILineSeries<?> series = (ILineSeries<?>)seriesSet.createSeries(SeriesType.LINE, "series");
 		series.setYSeries(ySeries1);
 		series.setLineStyle(LineStyle.NONE);
 		chart.getAxisSet().adjustRange();
@@ -424,7 +423,7 @@ public class LineSeriesTest extends ChartTestCase {
 	@Test
 	public void testSymbolColors() throws Exception {
 
-		ILineSeries series = (ILineSeries)seriesSet.createSeries(SeriesType.LINE, "series");
+		ILineSeries<?> series = (ILineSeries<?>)seriesSet.createSeries(SeriesType.LINE, "series");
 		series.setYSeries(ySeries1);
 		series.setLineStyle(LineStyle.NONE);
 		chart.getAxisSet().adjustRange();
@@ -459,9 +458,9 @@ public class LineSeriesTest extends ChartTestCase {
 	@Test
 	public void testArea() throws Exception {
 
-		ILineSeries series1 = (ILineSeries)seriesSet.createSeries(SeriesType.LINE, "series1");
+		ILineSeries<?> series1 = (ILineSeries<?>)seriesSet.createSeries(SeriesType.LINE, "series1");
 		series1.setYSeries(ySeries1);
-		ILineSeries series2 = (ILineSeries)seriesSet.createSeries(SeriesType.LINE, "series2");
+		ILineSeries<?> series2 = (ILineSeries<?>)seriesSet.createSeries(SeriesType.LINE, "series2");
 		series2.setYSeries(ySeries2);
 		series2.setLineColor(Display.getDefault().getSystemColor(SWT.COLOR_GREEN));
 		IAxis xAxis = chart.getAxisSet().getXAxis(0);
@@ -512,7 +511,7 @@ public class LineSeriesTest extends ChartTestCase {
 	public void testStep() throws Exception {
 
 		// create line series
-		ILineSeries series1 = (ILineSeries)chart.getSeriesSet().createSeries(SeriesType.LINE, "series 1");
+		ILineSeries<?> series1 = (ILineSeries<?>)chart.getSeriesSet().createSeries(SeriesType.LINE, "series 1");
 		series1.setYSeries(ySeries1);
 		series1.setSymbolType(PlotSymbolType.NONE);
 		series1.enableStep(true);
@@ -532,7 +531,7 @@ public class LineSeriesTest extends ChartTestCase {
 		chart.getAxisSet().adjustRange();
 		showChart();
 		// horizontal + step + category + stack
-		ILineSeries series2 = (ILineSeries)seriesSet.createSeries(SeriesType.LINE, "series 2");
+		ILineSeries<?> series2 = (ILineSeries<?>)seriesSet.createSeries(SeriesType.LINE, "series 2");
 		series2.setYSeries(ySeries2);
 		series2.setLineColor(Display.getDefault().getSystemColor(SWT.COLOR_DARK_GRAY));
 		series2.setSymbolType(PlotSymbolType.NONE);
@@ -558,7 +557,7 @@ public class LineSeriesTest extends ChartTestCase {
 		chart.getAxisSet().adjustRange();
 		showChart();
 		// vertical + step + category + stack
-		series2 = (ILineSeries)seriesSet.createSeries(SeriesType.LINE, "series 2");
+		series2 = (ILineSeries<?>)seriesSet.createSeries(SeriesType.LINE, "series 2");
 		series2.setLineColor(Display.getDefault().getSystemColor(SWT.COLOR_DARK_GRAY));
 		series2.setYSeries(ySeries2);
 		series2.setSymbolType(PlotSymbolType.NONE);
@@ -576,7 +575,7 @@ public class LineSeriesTest extends ChartTestCase {
 	@Test
 	public void testScatter() throws Throwable {
 
-		ILineSeries series = (ILineSeries)chart.getSeriesSet().createSeries(SeriesType.LINE, "series");
+		ILineSeries<?> series = (ILineSeries<?>)chart.getSeriesSet().createSeries(SeriesType.LINE, "series");
 		series.setXSeries(xSeries2);
 		series.setYSeries(ySeries1);
 		series.setLineStyle(LineStyle.NONE);

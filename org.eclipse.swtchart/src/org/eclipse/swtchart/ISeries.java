@@ -28,7 +28,6 @@ public interface ISeries<DataType> {
 	 * A Series type.
 	 */
 	public enum SeriesType {
-
 		/** the line */
 		LINE("Line"), //$NON-NLS-1$
 		/** the bar */
@@ -46,7 +45,6 @@ public interface ISeries<DataType> {
 		 *            the label for series type
 		 */
 		private SeriesType(String label) {
-
 			this.label = label;
 		}
 	}
@@ -113,21 +111,23 @@ public interface ISeries<DataType> {
 	boolean isStackEnabled();
 
 	/**
+	 * This is a legacy/convenient method to create series.
 	 * Sets the X series.
+	 * A DoubleArraySeriesModel will be created.
 	 * 
 	 * @param series
 	 *            the X series
 	 */
-	@Deprecated
 	void setXSeries(double[] series);
 
 	/**
+	 * This is a legacy/convenient method to create series.
 	 * Sets the Y series.
+	 * A DoubleArraySeriesModel will be created.
 	 * 
 	 * @param series
 	 *            the Y series
 	 */
-	@Deprecated
 	void setYSeries(double[] series);
 
 	@Deprecated
@@ -137,20 +137,22 @@ public interface ISeries<DataType> {
 	Date[] getXDateSeries();
 
 	/**
+	 * This is a legacy/convenient method.
 	 * Gets the X series. If the X series is not set, empty array will be returned.
+	 * Better use getDataModel() to retrieve the x array.
 	 * 
 	 * @return the X series
 	 */
-	@Deprecated
 	double[] getXSeries();
 
 	/**
+	 * This is a legacy/convenient method.
 	 * Gets the Y series. If the Y series haven't been set yet, empty array will be
 	 * returned.
+	 * Better use getDataModel() to retrieve the y array.
 	 * 
 	 * @return the Y series
 	 */
-	@Deprecated
 	double[] getYSeries();
 
 	/**

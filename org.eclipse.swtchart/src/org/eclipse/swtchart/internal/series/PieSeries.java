@@ -25,13 +25,14 @@ import org.eclipse.swtchart.internal.compress.CompressPieSeries;
 import org.eclipse.swtchart.model.CartesianSeriesModel;
 import org.eclipse.swtchart.model.StringArraySeriesModel;
 
+@SuppressWarnings("rawtypes")
 public class PieSeries extends Series implements IPieSeries {
 
 	private Chart chart;
 	private StringArraySeriesModel model;
 
+	@SuppressWarnings("unchecked")
 	public PieSeries(Chart chart, String id) {
-
 		super(chart, id);
 		this.chart = chart;
 		type = SeriesType.PIE;
@@ -113,6 +114,7 @@ public class PieSeries extends Series implements IPieSeries {
 		this.setDataModel(data);
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	protected void setCompressor() {
 

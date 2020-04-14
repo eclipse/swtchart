@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2017, 2019 Lablicate GmbH.
+ * Copyright (c) 2017, 2020 Lablicate GmbH.
  *
  * This program and the accompanying materials are made
  * available under the terms of the Eclipse Public License 2.0
@@ -113,9 +113,9 @@ public abstract class AbstractSeparatedValueHandler extends AbstractSeriesExport
 						/*
 						 * Data
 						 */
-						int widthPlotArea = baseChart.getPlotArea().getBounds().width;
-						ISeries[] series = baseChart.getSeriesSet().getSeries();
-						for(ISeries dataSeries : series) {
+						int widthPlotArea = baseChart.getPlotArea().getSize().x;
+						ISeries<?>[] series = baseChart.getSeriesSet().getSeries();
+						for(ISeries<?> dataSeries : series) {
 							if(dataSeries != null) {
 								if(exportVisibleOnly) {
 									if(dataSeries.isVisible()) {
@@ -142,7 +142,7 @@ public abstract class AbstractSeparatedValueHandler extends AbstractSeriesExport
 		}
 	}
 
-	private void exportSeries(ISeries dataSeries, int widthPlotArea, AxisSettings axisSettings, PrintWriter printWriter) {
+	private void exportSeries(ISeries<?> dataSeries, int widthPlotArea, AxisSettings axisSettings, PrintWriter printWriter) {
 
 		int indexAxisX = axisSettings.getIndexAxisX();
 		int indexAxisY = axisSettings.getIndexAxisY();

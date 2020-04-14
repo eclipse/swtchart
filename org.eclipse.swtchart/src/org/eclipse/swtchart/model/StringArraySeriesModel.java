@@ -15,13 +15,13 @@ package org.eclipse.swtchart.model;
 import java.util.Iterator;
 import java.util.stream.IntStream;
 
+@SuppressWarnings("rawtypes")
 public class StringArraySeriesModel implements CartesianSeriesModel {
 
 	private final String[] labels;
 	private final double[] values;
 
 	public StringArraySeriesModel(String[] labels, double[] values) {
-
 		if(labels.length != values.length) {
 			throw new IllegalArgumentException(Messages.getString(Messages.X_Y_LENGTH_DOESNT_MATCH));
 		}
@@ -49,6 +49,7 @@ public class StringArraySeriesModel implements CartesianSeriesModel {
 		}
 	}
 
+	@SuppressWarnings("null")
 	public double getValue(Integer data) {
 
 		int value = data.intValue();

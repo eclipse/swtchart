@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2008, 2019 SWTChart project.
+ * Copyright (c) 2008, 2020 SWTChart project.
  *
  * This program and the accompanying materials are made
  * available under the terms of the Eclipse Public License 2.0
@@ -46,7 +46,7 @@ public class SeriesLabelTest extends ChartTestCase {
 	public void setUp() throws Exception {
 
 		super.setUp();
-		ISeries series = chart.getSeriesSet().createSeries(SeriesType.LINE, "series");
+		ISeries<?> series = chart.getSeriesSet().createSeries(SeriesType.LINE, "series");
 		series.setYSeries(ySeries1);
 		label = series.getLabel();
 		label.setVisible(true);
@@ -77,7 +77,7 @@ public class SeriesLabelTest extends ChartTestCase {
 		// horizontal + bar
 		chart.setOrientation(SWT.HORIZONTAL);
 		chart.getSeriesSet().deleteSeries("series");
-		ISeries series2 = chart.getSeriesSet().createSeries(SeriesType.BAR, "series2");
+		ISeries<?> series2 = chart.getSeriesSet().createSeries(SeriesType.BAR, "series2");
 		series2.setYSeries(ySeries2);
 		series2.getLabel().setVisible(true);
 		chart.getAxisSet().adjustRange();
@@ -92,7 +92,7 @@ public class SeriesLabelTest extends ChartTestCase {
 		chart.getAxisSet().getXAxis(0).enableCategory(true);
 		showChart();
 		// horizontal + bar + category + stack
-		ISeries series3 = chart.getSeriesSet().createSeries(SeriesType.BAR, "series3");
+		ISeries<?> series3 = chart.getSeriesSet().createSeries(SeriesType.BAR, "series3");
 		series3.setYSeries(ySeries3);
 		series3.getLabel().setVisible(true);
 		series3.enableStack(true);
@@ -101,7 +101,7 @@ public class SeriesLabelTest extends ChartTestCase {
 		chart.getAxisSet().adjustRange();
 		showChart();
 		// horizontal + bars + category + stack
-		ISeries series1 = chart.getSeriesSet().createSeries(SeriesType.BAR, "series1");
+		ISeries<?> series1 = chart.getSeriesSet().createSeries(SeriesType.BAR, "series1");
 		series1.setYSeries(ySeries1);
 		series1.getLabel().setVisible(true);
 		chart.getAxisSet().adjustRange();
@@ -130,18 +130,18 @@ public class SeriesLabelTest extends ChartTestCase {
 		showChart();
 		// horizontal + bar + category + stack
 		chart.getSeriesSet().deleteSeries("series");
-		ISeries series1 = chart.getSeriesSet().createSeries(SeriesType.BAR, "series1");
+		ISeries<?> series1 = chart.getSeriesSet().createSeries(SeriesType.BAR, "series1");
 		series1.setYSeries(ySeries1);
 		series1.getLabel().setVisible(true);
 		series1.getLabel().setFormats(formats1);
 		chart.getAxisSet().getXAxis(0).setCategorySeries(categorySeries);
 		chart.getAxisSet().getXAxis(0).enableCategory(true);
-		ISeries series2 = chart.getSeriesSet().createSeries(SeriesType.BAR, "series2");
+		ISeries<?> series2 = chart.getSeriesSet().createSeries(SeriesType.BAR, "series2");
 		series2.getLabel().setVisible(true);
 		series2.setYSeries(ySeries2);
 		series2.enableStack(true);
 		series2.getLabel().setFormats(formats2);
-		ISeries series3 = chart.getSeriesSet().createSeries(SeriesType.BAR, "series3");
+		ISeries<?> series3 = chart.getSeriesSet().createSeries(SeriesType.BAR, "series3");
 		series3.setYSeries(ySeries3);
 		series3.getLabel().setVisible(true);
 		series3.enableStack(true);

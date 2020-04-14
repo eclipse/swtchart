@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2008, 2019 SWTChart project.
+ * Copyright (c) 2008, 2020 SWTChart project.
  *
  * This program and the accompanying materials are made
  * available under the terms of the Eclipse Public License 2.0
@@ -29,7 +29,7 @@ public interface ISeriesSet {
 	 *            the id for series
 	 * @return the series
 	 */
-	ISeries createSeries(SeriesType type, String id);
+	ISeries<?> createSeries(SeriesType type, String id);
 
 	/**
 	 * Gets the series for given id.
@@ -38,14 +38,14 @@ public interface ISeriesSet {
 	 *            the id for series
 	 * @return the series, or null if series doesn't exist for the given id.
 	 */
-	ISeries getSeries(String id);
+	ISeries<?> getSeries(String id);
 
 	/**
 	 * Gets the array of series
 	 * 
 	 * @return the array of series
 	 */
-	ISeries[] getSeries();
+	ISeries<?>[] getSeries();
 
 	/**
 	 * Deletes the series for given id.

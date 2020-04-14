@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2008, 2019 SWTChart project.
+ * Copyright (c) 2008, 2020 SWTChart project.
  *
  * This program and the accompanying materials are made
  * available under the terms of the Eclipse Public License 2.0
@@ -74,12 +74,12 @@ public class SeriesSetTest extends ChartTestCase {
 		}
 		// create series
 		showChart();
-		ISeries series1 = seriesSet.createSeries(SeriesType.LINE, "series1");
+		ISeries<?> series1 = seriesSet.createSeries(SeriesType.LINE, "series1");
 		assertEquals(0, series1.getXAxisId());
 		assertEquals(0, series1.getYAxisId());
 		assertEquals("series1", series1.getId());
 		series1.setYSeries(ySeries1);
-		ISeries series2 = seriesSet.createSeries(SeriesType.BAR, "series2");
+		ISeries<?> series2 = seriesSet.createSeries(SeriesType.BAR, "series2");
 		assertEquals(0, series2.getXAxisId());
 		assertEquals(0, series2.getYAxisId());
 		assertEquals("series2", series2.getId());
@@ -102,14 +102,14 @@ public class SeriesSetTest extends ChartTestCase {
 			// expected to reach here
 		}
 		// get series with unavailable key
-		ISeries series = seriesSet.getSeries("foo");
+		ISeries<?> series = seriesSet.getSeries("foo");
 		assertNull(series);
 		// get series
-		ISeries[] seriesArray = seriesSet.getSeries();
+		ISeries<?>[] seriesArray = seriesSet.getSeries();
 		assertEquals(0, seriesArray.length);
-		ISeries series1 = seriesSet.createSeries(SeriesType.LINE, "series1");
+		ISeries<?> series1 = seriesSet.createSeries(SeriesType.LINE, "series1");
 		series1.setYSeries(ySeries1);
-		ISeries series2 = seriesSet.createSeries(SeriesType.LINE, "series2");
+		ISeries<?> series2 = seriesSet.createSeries(SeriesType.LINE, "series2");
 		series2.setYSeries(ySeries2);
 		series = seriesSet.getSeries("series1");
 		double[] ySeries = series.getYSeries();
@@ -142,14 +142,14 @@ public class SeriesSetTest extends ChartTestCase {
 			// expected to reach here
 		}
 		// delete series
-		ISeries series1 = seriesSet.createSeries(SeriesType.LINE, "series1");
+		ISeries<?> series1 = seriesSet.createSeries(SeriesType.LINE, "series1");
 		series1.setYSeries(ySeries1);
-		ISeries series2 = seriesSet.createSeries(SeriesType.LINE, "series2");
+		ISeries<?> series2 = seriesSet.createSeries(SeriesType.LINE, "series2");
 		series2.setYSeries(ySeries2);
 		chart.getAxisSet().adjustRange();
 		showChart();
 		seriesSet.deleteSeries("series1");
-		ISeries series = seriesSet.getSeries("series1");
+		ISeries<?> series = seriesSet.getSeries("series1");
 		assertNull(series);
 		chart.getAxisSet().adjustRange();
 		showChart();
@@ -161,13 +161,13 @@ public class SeriesSetTest extends ChartTestCase {
 	@Test
 	public void testSeriesOrder() throws Exception {
 
-		IBarSeries series1 = (IBarSeries)seriesSet.createSeries(SeriesType.BAR, "series1");
+		IBarSeries<?> series1 = (IBarSeries<?>)seriesSet.createSeries(SeriesType.BAR, "series1");
 		series1.setYSeries(ySeries1);
 		series1.setBarColor(Display.getDefault().getSystemColor(SWT.COLOR_GRAY));
-		IBarSeries series2 = (IBarSeries)seriesSet.createSeries(SeriesType.BAR, "series2");
+		IBarSeries<?> series2 = (IBarSeries<?>)seriesSet.createSeries(SeriesType.BAR, "series2");
 		series2.setYSeries(ySeries2);
 		series2.setBarColor(Display.getDefault().getSystemColor(SWT.COLOR_DARK_GRAY));
-		IBarSeries series3 = (IBarSeries)seriesSet.createSeries(SeriesType.BAR, "series3");
+		IBarSeries<?> series3 = (IBarSeries<?>)seriesSet.createSeries(SeriesType.BAR, "series3");
 		series3.setYSeries(ySeries3);
 		IAxis xAxis = chart.getAxisSet().getXAxis(0);
 		xAxis.setCategorySeries(categorySeries);
@@ -176,7 +176,7 @@ public class SeriesSetTest extends ChartTestCase {
 		series2.enableStack(true);
 		series3.enableStack(true);
 		chart.getAxisSet().adjustRange();
-		ISeries[] seriesArray = seriesSet.getSeries();
+		ISeries<?>[] seriesArray = seriesSet.getSeries();
 		assertEquals("series1", seriesArray[0].getId());
 		assertEquals("series2", seriesArray[1].getId());
 		assertEquals("series3", seriesArray[2].getId());
