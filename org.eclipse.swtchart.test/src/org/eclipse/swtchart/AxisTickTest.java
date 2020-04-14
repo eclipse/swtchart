@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2008, 2019 SWTChart project.
+ * Copyright (c) 2008, 2020 SWTChart project.
  *
  * This program and the accompanying materials are made
  * available under the terms of the Eclipse Public License 2.0
@@ -21,8 +21,6 @@ import static org.junit.Assert.fail;
 import java.text.DateFormat;
 import java.text.DecimalFormat;
 import java.text.Format;
-import java.util.Calendar;
-import java.util.Date;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Color;
@@ -44,12 +42,6 @@ public class AxisTickTest extends ChartTestCase {
 
 	private IAxisTick xAxisTick;
 	private IAxisTick yAxisTick;
-	private static Date[] xSecondSeries = {getTime(18, 50, 14), getTime(18, 50, 15), getTime(18, 50, 16), getTime(18, 50, 17), getTime(18, 50, 18)};
-	private static Date[] xMinuteSeries = {getTime(18, 50, 0), getTime(18, 51, 0), getTime(18, 52, 0), getTime(18, 53, 0), getTime(18, 54, 0)};
-	private static Date[] xHourSeries = {getTime(18, 0, 0), getTime(19, 0, 0), getTime(20, 0, 0), getTime(21, 0, 0), getTime(22, 0, 0)};
-	private static Date[] xDateSeries = {getDate(1998, 2, 10), getDate(1998, 2, 11), getDate(1998, 2, 12), getDate(1998, 2, 13), getDate(1998, 2, 14)};
-	private static Date[] xMonthSeries = {getDate(1998, 8, 1), getDate(1998, 9, 1), getDate(1998, 10, 1), getDate(1998, 11, 1), getDate(1998, 12, 1)};
-	private static Date[] xYearSeries = {getDate(1998, 0, 1), getDate(1999, 0, 1), getDate(2000, 0, 1), getDate(2001, 0, 1), getDate(2002, 0, 1)};
 	private static final double[] ySeries = {0.0, 0.38, 0.71, 0.92, 1.0};
 
 	@Override
@@ -245,7 +237,7 @@ public class AxisTickTest extends ChartTestCase {
 	public void testFormat() throws Exception {
 
 		// create line series
-		ILineSeries lineSeries = (ILineSeries)chart.getSeriesSet().createSeries(SeriesType.LINE, "line series");
+		ILineSeries<?> lineSeries = (ILineSeries<?>)chart.getSeriesSet().createSeries(SeriesType.LINE, "line series");
 		lineSeries.setYSeries(ySeries);
 		chart.getAxisSet().adjustRange();
 		showChart();
@@ -273,7 +265,7 @@ public class AxisTickTest extends ChartTestCase {
 	@Test
 	public void testTickLabelValues() throws Throwable {
 
-		ILineSeries lineSeries = (ILineSeries)chart.getSeriesSet().createSeries(SeriesType.LINE, "line series");
+		ILineSeries<?> lineSeries = (ILineSeries<?>)chart.getSeriesSet().createSeries(SeriesType.LINE, "line series");
 		lineSeries.setYSeries(ySeries);
 		chart.getAxisSet().adjustRange();
 		showChart();
@@ -291,7 +283,7 @@ public class AxisTickTest extends ChartTestCase {
 	@Test
 	public void testTickLabelAngle() throws Throwable {
 
-		ILineSeries lineSeries = (ILineSeries)chart.getSeriesSet().createSeries(SeriesType.LINE, "line series");
+		ILineSeries<?> lineSeries = (ILineSeries<?>)chart.getSeriesSet().createSeries(SeriesType.LINE, "line series");
 		lineSeries.setYSeries(ySeries);
 		chart.getAxisSet().adjustRange();
 		xAxisTick.setTickLabelAngle(45);
@@ -305,7 +297,7 @@ public class AxisTickTest extends ChartTestCase {
 	@Ignore("environment dependent")
 	public void testBounds() throws Throwable {
 
-		ILineSeries lineSeries = (ILineSeries)chart.getSeriesSet().createSeries(SeriesType.LINE, "line series");
+		ILineSeries<?> lineSeries = (ILineSeries<?>)chart.getSeriesSet().createSeries(SeriesType.LINE, "line series");
 		lineSeries.setYSeries(ySeries);
 		chart.getAxisSet().adjustRange();
 		showChart();
@@ -332,21 +324,5 @@ public class AxisTickTest extends ChartTestCase {
 		assertEquals(78, yAxisBounds.y);
 		assertEquals(35, yAxisBounds.width);
 		assertEquals(217, yAxisBounds.height);
-	}
-
-	private static Date getDate(int year, int month, int date) {
-
-		Calendar cal = Calendar.getInstance();
-		cal.clear();
-		cal.set(year, month, date);
-		return cal.getTime();
-	}
-
-	private static Date getTime(int hrs, int min, int sec) {
-
-		Calendar cal = Calendar.getInstance();
-		cal.clear();
-		cal.set(2008, 11, 1, hrs, min, sec);
-		return cal.getTime();
 	}
 }

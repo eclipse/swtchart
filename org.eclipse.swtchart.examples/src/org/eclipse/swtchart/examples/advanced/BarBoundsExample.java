@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2008, 2019 SWTChart project.
+ * Copyright (c) 2008, 2020 SWTChart project.
  *
  * This program and the accompanying materials are made
  * available under the terms of the Eclipse Public License 2.0
@@ -69,9 +69,9 @@ public class BarBoundsExample {
 		final Chart chart = new Chart(parent, SWT.NONE);
 		chart.getTitle().setText("Bar Bounds");
 		// create bar series
-		IBarSeries series1 = (IBarSeries)chart.getSeriesSet().createSeries(SeriesType.BAR, "series 1");
+		IBarSeries<?> series1 = (IBarSeries<?>)chart.getSeriesSet().createSeries(SeriesType.BAR, "series 1");
 		series1.setYSeries(ySeries1);
-		IBarSeries series2 = (IBarSeries)chart.getSeriesSet().createSeries(SeriesType.BAR, "series 2");
+		IBarSeries<?> series2 = (IBarSeries<?>)chart.getSeriesSet().createSeries(SeriesType.BAR, "series 2");
 		series2.setYSeries(ySeries2);
 		series2.setBarColor(Display.getDefault().getSystemColor(SWT.COLOR_GREEN));
 		// adjust the axis range
@@ -82,8 +82,8 @@ public class BarBoundsExample {
 			@Override
 			public void mouseMove(MouseEvent e) {
 
-				for(ISeries series : chart.getSeriesSet().getSeries()) {
-					Rectangle[] rs = ((IBarSeries)series).getBounds();
+				for(ISeries<?> series : chart.getSeriesSet().getSeries()) {
+					Rectangle[] rs = ((IBarSeries<?>)series).getBounds();
 					for(int i = 0; i < rs.length; i++) {
 						if(rs[i] != null) {
 							if(rs[i].x < e.x && e.x < rs[i].x + rs[i].width && rs[i].y < e.y && e.y < rs[i].y + rs[i].height) {
@@ -96,7 +96,7 @@ public class BarBoundsExample {
 				chart.getPlotArea().setToolTipText(null);
 			}
 
-			private void setToolTipText(ISeries series, int index) {
+			private void setToolTipText(ISeries<?> series, int index) {
 
 				chart.getPlotArea().setToolTipText("Series: " + series.getId() + "\nValue: " + series.getYSeries()[index]);
 			}

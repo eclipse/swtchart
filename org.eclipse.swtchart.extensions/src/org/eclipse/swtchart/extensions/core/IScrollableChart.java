@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2017, 2019 Lablicate GmbH.
+ * Copyright (c) 2017, 2020 Lablicate GmbH.
  *
  * This program and the accompanying materials are made
  * available under the terms of the Eclipse Public License 2.0
@@ -24,12 +24,12 @@ public interface IScrollableChart {
 
 	BaseChart getBaseChart();
 
-	default ISeries addSeries(IChartSeriesData chartSeriesData) throws SeriesException {
+	default ISeries<?> addSeries(IChartSeriesData chartSeriesData) throws SeriesException {
 
 		ISeriesData seriesData = chartSeriesData.getSeriesData();
 		ISeriesSettings seriesSettings = chartSeriesData.getSettings();
 		BaseChart baseChart = getBaseChart();
-		ISeries series = baseChart.createSeries(seriesData, seriesSettings);
+		ISeries<?> series = baseChart.createSeries(seriesData, seriesSettings);
 		baseChart.applySeriesSettings(series, seriesSettings);
 		return series;
 	}

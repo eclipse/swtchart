@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2008, 2019 SWTChart project.
+ * Copyright (c) 2008, 2020 SWTChart project.
  *
  * This program and the accompanying materials are made
  * available under the terms of the Eclipse Public License 2.0
@@ -69,7 +69,7 @@ public class ScatterChartExample {
 		chart.getAxisSet().getXAxis(0).getTitle().setText("Score A");
 		chart.getAxisSet().getYAxis(0).getTitle().setText("Score B");
 		// create scatter series
-		ILineSeries scatterSeries = (ILineSeries)chart.getSeriesSet().createSeries(SeriesType.LINE, "scatter series");
+		ILineSeries<?> scatterSeries = (ILineSeries<?>)chart.getSeriesSet().createSeries(SeriesType.LINE, "scatter series");
 		scatterSeries.setLineStyle(LineStyle.NONE);
 		scatterSeries.setXSeries(xSeries);
 		scatterSeries.setYSeries(ySeries);

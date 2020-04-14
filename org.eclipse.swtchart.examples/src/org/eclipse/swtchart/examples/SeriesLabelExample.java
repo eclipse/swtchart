@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2008, 2019 SWTChart project.
+ * Copyright (c) 2008, 2020 SWTChart project.
  *
  * This program and the accompanying materials are made
  * available under the terms of the Eclipse Public License 2.0
@@ -67,7 +67,7 @@ public class SeriesLabelExample {
 		chart.getAxisSet().getXAxis(0).getTitle().setText("Data Points");
 		chart.getAxisSet().getYAxis(0).getTitle().setText("Amplitude");
 		// create line series
-		ILineSeries lineSeries = (ILineSeries)chart.getSeriesSet().createSeries(SeriesType.LINE, "line series");
+		ILineSeries<?> lineSeries = (ILineSeries<?>)chart.getSeriesSet().createSeries(SeriesType.LINE, "line series");
 		lineSeries.setYSeries(ySeries);
 		// set label visible
 		lineSeries.getLabel().setVisible(true);

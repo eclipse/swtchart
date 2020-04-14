@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2017, 2019 Lablicate GmbH.
+ * Copyright (c) 2017, 2020 Lablicate GmbH.
  *
  * This program and the accompanying materials are made
  * available under the terms of the Eclipse Public License 2.0
@@ -22,7 +22,6 @@ import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Point;
-import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
@@ -102,10 +101,10 @@ public class ScatterSeries_Edit_Part extends Composite {
 				 * Set Selection
 				 */
 				BaseChart baseChart = getBaseChart();
-				Rectangle plotAreaBounds = baseChart.getPlotArea().getBounds();
-				ISeries[] series = baseChart.getSeriesSet().getSeries();
+				Point plotAreaBounds = baseChart.getPlotArea().getSize();
+				ISeries<?>[] series = baseChart.getSeriesSet().getSeries();
 				//
-				for(ISeries scatterSeries : series) {
+				for(ISeries<?> scatterSeries : series) {
 					if(scatterSeries != null) {
 						//
 						// double[] xSeries = scatterSeries.getXSeries();
@@ -313,9 +312,9 @@ public class ScatterSeries_Edit_Part extends Composite {
 		handledChart.addSeriesData(scatterSeriesDataList);
 	}
 
-	private boolean isPointVisible(Point point, Rectangle plotAreaBounds) {
+	private boolean isPointVisible(Point point, Point plotAreaBounds) {
 
-		if(point.x >= 0 && point.x <= plotAreaBounds.width && point.y >= 0 && point.y <= plotAreaBounds.height) {
+		if(point.x >= 0 && point.x <= plotAreaBounds.x && point.y >= 0 && point.y <= plotAreaBounds.y) {
 			return true;
 		} else {
 			return false;

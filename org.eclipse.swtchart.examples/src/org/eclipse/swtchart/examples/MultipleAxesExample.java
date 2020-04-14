@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2008, 2019 SWTChart project.
+ * Copyright (c) 2008, 2020 SWTChart project.
  *
  * This program and the accompanying materials are made
  * available under the terms of the Eclipse Public License 2.0
@@ -80,9 +80,9 @@ public class MultipleAxesExample {
 		yAxis2.getTitle().setForeground(RED);
 		yAxis2.getTitle().setText("Amplitude 2");
 		// create line series
-		ILineSeries lineSeries1 = (ILineSeries)chart.getSeriesSet().createSeries(SeriesType.LINE, "line series 1");
+		ILineSeries<?> lineSeries1 = (ILineSeries<?>)chart.getSeriesSet().createSeries(SeriesType.LINE, "line series 1");
 		lineSeries1.setYSeries(ySeries1);
-		ILineSeries lineSeries2 = (ILineSeries)chart.getSeriesSet().createSeries(SeriesType.LINE, "line series 2");
+		ILineSeries<?> lineSeries2 = (ILineSeries<?>)chart.getSeriesSet().createSeries(SeriesType.LINE, "line series 2");
 		lineSeries2.setYSeries(ySeries2);
 		lineSeries2.setLineColor(RED);
 		// assign series to second Y axis

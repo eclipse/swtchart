@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2008, 2019 SWTChart project.
+ * Copyright (c) 2008, 2020 SWTChart project.
  *
  * This program and the accompanying materials are made
  * available under the terms of the Eclipse Public License 2.0
@@ -65,7 +65,7 @@ public class ErrorBarsExample {
 		Chart chart = new Chart(parent, SWT.NONE);
 		chart.getTitle().setText("Error Bars");
 		// create series
-		ISeries series = chart.getSeriesSet().createSeries(SeriesType.LINE, "line series");
+		ISeries<?> series = chart.getSeriesSet().createSeries(SeriesType.LINE, "line series");
 		series.setYSeries(ySeries);
 		// set error bars
 		IErrorBar errorBar = series.getYErrorBar();

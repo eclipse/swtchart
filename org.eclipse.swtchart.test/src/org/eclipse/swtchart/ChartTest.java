@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2008, 2019 SWTChart project.
+ * Copyright (c) 2008, 2020 SWTChart project.
  *
  * This program and the accompanying materials are made
  * available under the terms of the Eclipse Public License 2.0
@@ -85,32 +85,32 @@ public class ChartTest extends ChartTestCase {
 
 		// check the default color
 		showChart();
-		Color color = chart.getBackgroundInPlotArea();
+		Color color = chart.getPlotArea().getBackground();
 		assertEquals(new RGB(255, 255, 255), color.getRGB());
 		// set color
-		Color syan = Display.getDefault().getSystemColor(SWT.COLOR_CYAN);
-		chart.setBackgroundInPlotArea(syan);
-		color = chart.getBackgroundInPlotArea();
-		assertEquals(syan.getRGB(), color.getRGB());
+		Color cyan = Display.getDefault().getSystemColor(SWT.COLOR_CYAN);
+		chart.getPlotArea().setBackground(cyan);
+		color = chart.getPlotArea().getBackground();
+		assertEquals(cyan.getRGB(), color.getRGB());
 		showChart();
 		// set the disposed color
 		color = new Color(Display.getDefault(), 0, 0, 0);
 		color.dispose();
 		try {
-			chart.setBackgroundInPlotArea(color);
+			chart.getPlotArea().setBackground(color);
 			fail();
 		} catch(IllegalArgumentException e) {
 			// expected to reach here
 		}
-		color = chart.getBackgroundInPlotArea();
-		assertEquals(syan.getRGB(), color.getRGB());
+		color = chart.getPlotArea().getBackground();
+		assertEquals(cyan.getRGB(), color.getRGB());
 		// set null
 		try {
-			chart.setBackgroundInPlotArea(null);
+			chart.getPlotArea().setBackground(null);
 		} catch(IllegalArgumentException e) {
 			fail();
 		}
-		color = chart.getBackgroundInPlotArea();
+		color = chart.getPlotArea().getBackground();
 		assertEquals(new RGB(255, 255, 255), color.getRGB());
 		showChart();
 	}
@@ -122,12 +122,12 @@ public class ChartTest extends ChartTestCase {
 	public void testOrientation1() throws Exception {
 
 		// create line series
-		ILineSeries lineSeries1 = (ILineSeries)chart.getSeriesSet().createSeries(SeriesType.LINE, "line series 1");
+		ILineSeries<?> lineSeries1 = (ILineSeries<?>)chart.getSeriesSet().createSeries(SeriesType.LINE, "line series 1");
 		lineSeries1.setXSeries(xSeries);
 		lineSeries1.setYSeries(ySeries1);
 		lineSeries1.enableStack(true);
 		lineSeries1.enableArea(true);
-		ILineSeries lineSeries2 = (ILineSeries)chart.getSeriesSet().createSeries(SeriesType.LINE, "line series 2");
+		ILineSeries<?> lineSeries2 = (ILineSeries<?>)chart.getSeriesSet().createSeries(SeriesType.LINE, "line series 2");
 		lineSeries2.setXSeries(xSeries);
 		lineSeries2.setYSeries(ySeries2);
 		lineSeries2.setLineColor(Display.getDefault().getSystemColor(SWT.COLOR_GREEN));
@@ -237,11 +237,11 @@ public class ChartTest extends ChartTestCase {
 	public void testOrientation2() throws Exception {
 
 		// create bar series
-		IBarSeries barSeries1 = (IBarSeries)chart.getSeriesSet().createSeries(SeriesType.BAR, "bar series 1");
+		IBarSeries<?> barSeries1 = (IBarSeries<?>)chart.getSeriesSet().createSeries(SeriesType.BAR, "bar series 1");
 		barSeries1.setXSeries(xSeries);
 		barSeries1.setYSeries(ySeries1);
 		barSeries1.enableStack(true);
-		IBarSeries barSeries2 = (IBarSeries)chart.getSeriesSet().createSeries(SeriesType.BAR, "bar series 2");
+		IBarSeries<?> barSeries2 = (IBarSeries<?>)chart.getSeriesSet().createSeries(SeriesType.BAR, "bar series 2");
 		barSeries2.setXSeries(xSeries);
 		barSeries2.setYSeries(ySeries2);
 		barSeries2.setBarColor(Display.getDefault().getSystemColor(SWT.COLOR_GREEN));
@@ -350,9 +350,9 @@ public class ChartTest extends ChartTestCase {
 	@Test
 	public void testSuspendUpdate() throws Throwable {
 
-		ISeries series1 = chart.getSeriesSet().createSeries(SeriesType.LINE, "series1");
+		ISeries<?> series1 = chart.getSeriesSet().createSeries(SeriesType.LINE, "series1");
 		series1.setYSeries(ySeries1);
-		ISeries series2 = chart.getSeriesSet().createSeries(SeriesType.LINE, "series2");
+		ISeries<?> series2 = chart.getSeriesSet().createSeries(SeriesType.LINE, "series2");
 		series2.setYSeries(ySeries2);
 		chart.getAxisSet().getXAxis(0).enableCategory(true);
 		chart.getAxisSet().getXAxis(0).setCategorySeries(categorySeries);
@@ -380,7 +380,7 @@ public class ChartTest extends ChartTestCase {
 	@Ignore("environment dependent")
 	public void testSaveToFile() throws Throwable {
 
-		ISeries series = chart.getSeriesSet().createSeries(SeriesType.LINE, "series1");
+		ISeries<?> series = chart.getSeriesSet().createSeries(SeriesType.LINE, "series1");
 		series.setYSeries(ySeries1);
 		chart.getAxisSet().adjustRange();
 		showChart();
@@ -405,7 +405,7 @@ public class ChartTest extends ChartTestCase {
 	@Test
 	public void testSwtResources() throws Throwable {
 
-		ISeries barSeries = chart.getSeriesSet().createSeries(SeriesType.BAR, "bar series");
+		ISeries<?> barSeries = chart.getSeriesSet().createSeries(SeriesType.BAR, "bar series");
 		barSeries.setYSeries(ySeries1);
 		chart.getAxisSet().getXAxis(0).getTick().setTickLabelAngle(45);
 		chart.getAxisSet().adjustRange();

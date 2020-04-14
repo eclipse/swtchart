@@ -79,7 +79,6 @@ public class Legend extends Composite implements ILegend, PaintListener {
 	 *            the style
 	 */
 	public Legend(Chart chart, int style) {
-
 		super(chart, style | SWT.DOUBLE_BUFFERED);
 		this.chart = chart;
 		visible = true;
@@ -187,23 +186,23 @@ public class Legend extends Composite implements ILegend, PaintListener {
 	 *            the series array
 	 * @return the sorted series array
 	 */
-	private ISeries[] sort(ISeries[] seriesArray) {
+	private ISeries<?>[] sort(ISeries<?>[] seriesArray) {
 
 		// create a map between axis id and series list
-		Map<Integer, List<ISeries>> map = new HashMap<Integer, List<ISeries>>();
-		for(ISeries series : seriesArray) {
+		Map<Integer, List<ISeries<?>>> map = new HashMap<Integer, List<ISeries<?>>>();
+		for(ISeries<?> series : seriesArray) {
 			int axisId = series.getXAxisId();
-			List<ISeries> list = map.get(axisId);
+			List<ISeries<?>> list = map.get(axisId);
 			if(list == null) {
-				list = new ArrayList<ISeries>();
+				list = new ArrayList<ISeries<?>>();
 			}
 			list.add(series);
 			map.put(axisId, list);
 		}
 		// sort an each series list
-		List<ISeries> sortedArray = new ArrayList<ISeries>();
+		List<ISeries<?>> sortedArray = new ArrayList<ISeries<?>>();
 		boolean isVertical = chart.getOrientation() == SWT.VERTICAL;
-		for(Entry<Integer, List<ISeries>> entry : map.entrySet()) {
+		for(Entry<Integer, List<ISeries<?>>> entry : map.entrySet()) {
 			boolean isCategoryEnabled = chart.getAxisSet().getXAxis(entry.getKey()).isCategoryEnabled();
 			sortedArray.addAll(sort(entry.getValue(), isCategoryEnabled, isVertical));
 		}
@@ -227,13 +226,13 @@ public class Legend extends Composite implements ILegend, PaintListener {
 	 *            true in the case of vertical orientation
 	 * @return the sorted series array
 	 */
-	private static List<ISeries> sort(List<ISeries> seriesList, boolean isCategoryEnabled, boolean isVertical) {
+	private static List<ISeries<?>> sort(List<ISeries<?>> seriesList, boolean isCategoryEnabled, boolean isVertical) {
 
-		List<ISeries> sortedArray = new ArrayList<ISeries>();
+		List<ISeries<?>> sortedArray = new ArrayList<ISeries<?>>();
 		// gather the stacked series reversing the order of stack series
 		int insertIndex = -1;
 		for(int i = 0; i < seriesList.size(); i++) {
-			if(isCategoryEnabled && ((Series)seriesList.get(i)).isValidStackSeries()) {
+			if(isCategoryEnabled && ((Series<?>)seriesList.get(i)).isValidStackSeries()) {
 				if(insertIndex == -1) {
 					insertIndex = i;
 				} else {
@@ -261,7 +260,7 @@ public class Legend extends Composite implements ILegend, PaintListener {
 		}
 		int width = 0;
 		int height = 0;
-		ISeries[] seriesArray = sort(chart.getSeriesSet().getSeries());
+		ISeries<?>[] seriesArray = sort(chart.getSeriesSet().getSeries());
 		Rectangle r = chart.getClientArea();
 		Rectangle titleBounds = ((Title)chart.getTitle()).getBounds();
 		int titleHeight = titleBounds.y + titleBounds.height;
@@ -270,7 +269,7 @@ public class Legend extends Composite implements ILegend, PaintListener {
 			int columns = 1;
 			int yPosition = MARGIN;
 			int maxCellWidth = 0;
-			for(ISeries series : seriesArray) {
+			for(ISeries<?> series : seriesArray) {
 				if(!series.isVisibleInLegend()) {
 					continue;
 				}
@@ -311,7 +310,7 @@ public class Legend extends Composite implements ILegend, PaintListener {
 		} else if(position == SWT.TOP || position == SWT.BOTTOM) {
 			int rows = 1;
 			int xPosition = 0;
-			for(ISeries series : seriesArray) {
+			for(ISeries<?> series : seriesArray) {
 				if(!series.isVisibleInLegend()) {
 					continue;
 				}
@@ -358,7 +357,7 @@ public class Legend extends Composite implements ILegend, PaintListener {
 	 *            the series
 	 * @return the legend label
 	 */
-	private static String getLegendLabel(ISeries series) {
+	private static String getLegendLabel(ISeries<?> series) {
 
 		String description = series.getDescription();
 		if(description == null) {
@@ -377,16 +376,16 @@ public class Legend extends Composite implements ILegend, PaintListener {
 	 * @param r
 	 *            the rectangle to draw the symbol of series
 	 */
-	protected void drawSymbol(GC gc, Series series, Rectangle r) {
+	protected void drawSymbol(GC gc, Series<?> series, Rectangle r) {
 
 		if(!visible) {
 			return;
 		}
 		if(series instanceof ILineSeries) {
 			// draw plot line
-			gc.setForeground(((ILineSeries)series).getLineColor());
+			gc.setForeground(((ILineSeries<?>)series).getLineColor());
 			gc.setLineWidth(LINE_WIDTH);
-			int lineStyle = Util.getIndexDefinedInSWT(((ILineSeries)series).getLineStyle());
+			int lineStyle = Util.getIndexDefinedInSWT(((ILineSeries<?>)series).getLineStyle());
 			int x = r.x;
 			int y = r.y + r.height / 2;
 			if(lineStyle != SWT.NONE) {
@@ -394,15 +393,15 @@ public class Legend extends Composite implements ILegend, PaintListener {
 				gc.drawLine(x, y, x + SYMBOL_WIDTH, y);
 			}
 			// draw series symbol
-			Color color = ((ILineSeries)series).getSymbolColor();
-			Color[] colors = ((ILineSeries)series).getSymbolColors();
+			Color color = ((ILineSeries<?>)series).getSymbolColor();
+			Color[] colors = ((ILineSeries<?>)series).getSymbolColors();
 			if(colors != null && colors.length > 0) {
 				color = colors[0];
 			}
-			((LineSeries)series).drawSeriesSymbol(gc, x + SYMBOL_WIDTH / 2, y, color);
+			((LineSeries<?>)series).drawSeriesSymbol(gc, x + SYMBOL_WIDTH / 2, y, color);
 		} else if(series instanceof IBarSeries) {
 			// draw riser
-			gc.setBackground(((IBarSeries)series).getBarColor());
+			gc.setBackground(((IBarSeries<?>)series).getBarColor());
 			int size = SYMBOL_WIDTH / 2;
 			int x = r.x + size / 2;
 			int y = (int)(r.y - size / 2d + r.height / 2d);
@@ -418,7 +417,7 @@ public class Legend extends Composite implements ILegend, PaintListener {
 		}
 		GC gc = e.gc;
 		gc.setFont(getFont());
-		ISeries[] seriesArray = chart.getSeriesSet().getSeries();
+		ISeries<?>[] seriesArray = chart.getSeriesSet().getSeries();
 		if(seriesArray.length == 0) {
 			return;
 		}
@@ -449,7 +448,7 @@ public class Legend extends Composite implements ILegend, PaintListener {
 			// draw plot line, symbol etc
 			String id = seriesArray[i].getId();
 			Rectangle r = cellBounds.get(id);
-			drawSymbol(gc, (Series)seriesArray[i], new Rectangle(r.x + MARGIN, r.y + MARGIN, SYMBOL_WIDTH, r.height - MARGIN * 2));
+			drawSymbol(gc, (Series<?>)seriesArray[i], new Rectangle(r.x + MARGIN, r.y + MARGIN, SYMBOL_WIDTH, r.height - MARGIN * 2));
 			// draw label
 			String label = getLegendLabel(seriesArray[i]);
 			gc.setBackground(getBackground());

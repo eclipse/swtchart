@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2008, 2019 SWTChart project.
+ * Copyright (c) 2008, 2020 SWTChart project.
  *
  * This program and the accompanying materials are made
  * available under the terms of the Eclipse Public License 2.0
@@ -71,10 +71,10 @@ public class CategoryExample {
 		chart.getAxisSet().getXAxis(0).enableCategory(true);
 		chart.getAxisSet().getXAxis(0).setCategorySeries(new String[]{"Jan", "Feb", "Mar", "Apr", "May"});
 		// create bar series
-		IBarSeries barSeries1 = (IBarSeries)chart.getSeriesSet().createSeries(SeriesType.BAR, "bar series 1");
+		IBarSeries<?> barSeries1 = (IBarSeries<?>)chart.getSeriesSet().createSeries(SeriesType.BAR, "bar series 1");
 		barSeries1.setYSeries(ySeries1);
 		barSeries1.setBarColor(Display.getDefault().getSystemColor(SWT.COLOR_GREEN));
-		IBarSeries barSeries2 = (IBarSeries)chart.getSeriesSet().createSeries(SeriesType.BAR, "bar series 2");
+		IBarSeries<?> barSeries2 = (IBarSeries<?>)chart.getSeriesSet().createSeries(SeriesType.BAR, "bar series 2");
 		barSeries2.setYSeries(ySeries2);
 		// adjust the axis range
 		chart.getAxisSet().adjustRange();

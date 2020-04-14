@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2008, 2019 SWTChart project.
+ * Copyright (c) 2008, 2020 SWTChart project.
  *
  * This program and the accompanying materials are made
  * available under the terms of the Eclipse Public License 2.0
@@ -21,7 +21,7 @@ import static org.junit.Assert.fail;
 import java.util.List;
 
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.graphics.Rectangle;
+import org.eclipse.swt.graphics.Point;
 import org.eclipse.swtchart.IAxis.Position;
 import org.eclipse.swtchart.ISeries.SeriesType;
 import org.eclipse.swtchart.internal.axis.AxisTick;
@@ -61,7 +61,7 @@ public class AxisTest extends ChartTestCase {
 	@Test
 	public void testPosition() throws Exception {
 
-		ISeries barSeries = chart.getSeriesSet().createSeries(SeriesType.BAR, "bar series");
+		ISeries<?> barSeries = chart.getSeriesSet().createSeries(SeriesType.BAR, "bar series");
 		barSeries.setYSeries(ySeries1);
 		chart.getAxisSet().adjustRange();
 		// check the default position
@@ -136,7 +136,7 @@ public class AxisTest extends ChartTestCase {
 	@Test
 	public void testRange() throws Exception {
 
-		ISeries barSeries = chart.getSeriesSet().createSeries(SeriesType.BAR, "bar series");
+		ISeries<?> barSeries = chart.getSeriesSet().createSeries(SeriesType.BAR, "bar series");
 		barSeries.setXSeries(xSeries1);
 		barSeries.setYSeries(ySeries1);
 		chart.getAxisSet().adjustRange();
@@ -211,7 +211,7 @@ public class AxisTest extends ChartTestCase {
 		assertFalse(xAxis.isLogScaleEnabled());
 		assertFalse(yAxis.isLogScaleEnabled());
 		// series contain negative value
-		ISeries lineSeries = chart.getSeriesSet().createSeries(SeriesType.LINE, "line series");
+		ISeries<?> lineSeries = chart.getSeriesSet().createSeries(SeriesType.LINE, "line series");
 		lineSeries.setXSeries(xSeries2);
 		lineSeries.setYSeries(ySeries2);
 		xAxis.enableLogScale(false);
@@ -279,7 +279,7 @@ public class AxisTest extends ChartTestCase {
 	public void testAdjustRange() throws Exception {
 
 		// line
-		ISeries lineSeries = chart.getSeriesSet().createSeries(SeriesType.LINE, "line series");
+		ISeries<?> lineSeries = chart.getSeriesSet().createSeries(SeriesType.LINE, "line series");
 		lineSeries.setYSeries(ySeries2);
 		xAxis.setRange(new Range(0, 4));
 		yAxis.setRange(new Range(-0.2, 0.2));
@@ -340,7 +340,7 @@ public class AxisTest extends ChartTestCase {
 		// bar
 		chart.setOrientation(SWT.HORIZONTAL);
 		chart.getSeriesSet().deleteSeries("line series");
-		ISeries barSeries = chart.getSeriesSet().createSeries(SeriesType.BAR, "bar series");
+		ISeries<?> barSeries = chart.getSeriesSet().createSeries(SeriesType.BAR, "bar series");
 		barSeries.setYSeries(ySeries1);
 		xAxis.setRange(new Range(0, 4));
 		yAxis.setRange(new Range(0.1, 0.5));
@@ -502,7 +502,7 @@ public class AxisTest extends ChartTestCase {
 	@Test
 	public void testZoom() throws Exception {
 
-		ISeries lineSeries = chart.getSeriesSet().createSeries(SeriesType.LINE, "line series");
+		ISeries<?> lineSeries = chart.getSeriesSet().createSeries(SeriesType.LINE, "line series");
 		lineSeries.setXSeries(series);
 		lineSeries.setYSeries(series);
 		// zoom X axis
@@ -595,7 +595,7 @@ public class AxisTest extends ChartTestCase {
 	@Test
 	public void testZoomAt() throws Exception {
 
-		ISeries lineSeries = chart.getSeriesSet().createSeries(SeriesType.LINE, "line series");
+		ISeries<?> lineSeries = chart.getSeriesSet().createSeries(SeriesType.LINE, "line series");
 		lineSeries.setXSeries(series);
 		lineSeries.setYSeries(series);
 		// zoom X axis
@@ -698,7 +698,7 @@ public class AxisTest extends ChartTestCase {
 	@Test
 	public void testScroll() throws Exception {
 
-		ISeries lineSeries = chart.getSeriesSet().createSeries(SeriesType.LINE, "line series");
+		ISeries<?> lineSeries = chart.getSeriesSet().createSeries(SeriesType.LINE, "line series");
 		lineSeries.setXSeries(xSeries1);
 		lineSeries.setYSeries(ySeries1);
 		xAxis.setRange(new Range(1, 5));
@@ -924,43 +924,43 @@ public class AxisTest extends ChartTestCase {
 
 		xAxis.setRange(new Range(0, 100));
 		yAxis.setRange(new Range(0, 10));
-		Rectangle r = chart.getPlotArea().getBounds();
-		double dataX = xAxis.getDataCoordinate((int)(r.width * 0.4));
-		double dataY = yAxis.getDataCoordinate((int)(r.height * 0.3));
+		Point r = chart.getPlotArea().getSize();
+		double dataX = xAxis.getDataCoordinate((int)(r.x * 0.4));
+		double dataY = yAxis.getDataCoordinate((int)(r.y * 0.3));
 		showChart();
 		assertEquals(40, dataX, 1);
 		assertEquals(7d, dataY, 0.04);
 		int pixelX = xAxis.getPixelCoordinate(40);
 		int pixelY = yAxis.getPixelCoordinate(7);
-		assertEquals(r.width * 0.4, pixelX, 1);
-		assertEquals(r.height * 0.3, pixelY, 1);
+		assertEquals(r.x * 0.4, pixelX, 1);
+		assertEquals(r.y * 0.3, pixelY, 1);
 		// log scale
 		xAxis.enableLogScale(true);
 		yAxis.enableLogScale(true);
 		xAxis.setRange(new Range(0.1, 1000));
 		yAxis.setRange(new Range(0.1, 100));
-		r = chart.getPlotArea().getBounds();
-		dataX = xAxis.getDataCoordinate((int)(r.width / 4d));
-		dataY = yAxis.getDataCoordinate((int)(r.height * 2 / 3d));
+		r = chart.getPlotArea().getSize();
+		dataX = xAxis.getDataCoordinate((int)(r.x / 4d));
+		dataY = yAxis.getDataCoordinate((int)(r.y * 2 / 3d));
 		assertEquals(1d, dataX, 0.02);
 		assertEquals(1d, dataY, 0.03);
 		pixelX = xAxis.getPixelCoordinate(100.0);
 		pixelY = yAxis.getPixelCoordinate(10.0);
-		assertEquals(r.width * 3 / 4d, pixelX, 1);
-		assertEquals(r.height / 3d, pixelY, 1);
+		assertEquals(r.x * 3 / 4d, pixelX, 1);
+		assertEquals(r.y / 3d, pixelY, 1);
 		// category
 		xAxis.setCategorySeries(categorySeries);
 		xAxis.enableCategory(true);
 		xAxis.adjustRange();
-		r = chart.getPlotArea().getBounds();
-		dataX = xAxis.getDataCoordinate((int)(r.width * 0.21));
+		r = chart.getPlotArea().getSize();
+		dataX = xAxis.getDataCoordinate((int)(r.x * 0.21));
 		assertEquals(1.0, dataX, 0.001);
-		dataX = xAxis.getDataCoordinate((int)(r.width * 0.39));
+		dataX = xAxis.getDataCoordinate((int)(r.x * 0.39));
 		assertEquals(1.0, dataX, 0.001);
-		dataX = xAxis.getDataCoordinate((int)(r.width * 0.41));
+		dataX = xAxis.getDataCoordinate((int)(r.x * 0.41));
 		assertEquals(2.0, dataX, 0.001);
 		pixelX = xAxis.getPixelCoordinate(3);
-		assertEquals(r.width * 0.7, pixelX, 1);
+		assertEquals(r.x * 0.7, pixelX, 1);
 		// vertical orientation
 		chart.setOrientation(SWT.VERTICAL);
 		xAxis.enableCategory(false);
@@ -968,43 +968,43 @@ public class AxisTest extends ChartTestCase {
 		yAxis.enableLogScale(false);
 		xAxis.setRange(new Range(0, 100));
 		yAxis.setRange(new Range(0, 10));
-		r = chart.getPlotArea().getBounds();
-		dataX = xAxis.getDataCoordinate((int)(r.height * 0.4));
-		dataY = yAxis.getDataCoordinate((int)(r.width * 0.3));
+		r = chart.getPlotArea().getSize();
+		dataX = xAxis.getDataCoordinate((int)(r.y * 0.4));
+		dataY = yAxis.getDataCoordinate((int)(r.x * 0.3));
 		assertEquals(60, dataX, 1);
 		assertEquals(3d, dataY, 0.02);
 		pixelX = xAxis.getPixelCoordinate(40);
 		pixelY = yAxis.getPixelCoordinate(7);
-		assertEquals(r.height * 0.6, pixelX, 1);
-		assertEquals(r.width * 0.7, pixelY, 1);
+		assertEquals(r.y * 0.6, pixelX, 1);
+		assertEquals(r.x * 0.7, pixelY, 1);
 		// log scale + vertical orientation
 		xAxis.enableLogScale(true);
 		yAxis.enableLogScale(true);
 		xAxis.setRange(new Range(0.1, 1000));
 		yAxis.setRange(new Range(0.1, 100));
-		r = chart.getPlotArea().getBounds();
-		dataX = xAxis.getDataCoordinate((int)(r.height / 4d));
-		dataY = yAxis.getDataCoordinate((int)(r.width * 2 / 3d));
+		r = chart.getPlotArea().getSize();
+		dataX = xAxis.getDataCoordinate((int)(r.y / 4d));
+		dataY = yAxis.getDataCoordinate((int)(r.x * 2 / 3d));
 		showChart();
 		assertEquals(100d, dataX, 3);
 		assertEquals(10d, dataY, 0.3);
 		pixelX = xAxis.getPixelCoordinate(10d);
 		pixelY = yAxis.getPixelCoordinate(1d);
-		assertEquals(r.height / 2d, pixelX, 1);
-		assertEquals(r.width / 3d, pixelY, 1);
+		assertEquals(r.y / 2d, pixelX, 1);
+		assertEquals(r.x / 3d, pixelY, 1);
 		// category + vertical orientation
 		xAxis.setCategorySeries(categorySeries);
 		xAxis.enableCategory(true);
-		r = chart.getPlotArea().getBounds();
+		r = chart.getPlotArea().getSize();
 		showChart();
-		dataX = xAxis.getDataCoordinate((int)(r.height * 0.21));
+		dataX = xAxis.getDataCoordinate((int)(r.y * 0.21));
 		assertEquals(3.0, dataX, 0.001);
-		dataX = xAxis.getDataCoordinate((int)(r.height * 0.39));
+		dataX = xAxis.getDataCoordinate((int)(r.y * 0.39));
 		assertEquals(3.0, dataX, 0.001);
-		dataX = xAxis.getDataCoordinate((int)(r.height * 0.41));
+		dataX = xAxis.getDataCoordinate((int)(r.y * 0.41));
 		assertEquals(2.0, dataX, 0.001);
 		pixelX = xAxis.getPixelCoordinate(3);
-		assertEquals(r.height * 0.3, pixelX, 1);
+		assertEquals(r.y * 0.3, pixelX, 1);
 		// reversed
 		xAxis.setReversed(true);
 		yAxis.setReversed(true);
@@ -1013,17 +1013,17 @@ public class AxisTest extends ChartTestCase {
 		yAxis.enableLogScale(false);
 		xAxis.setRange(new Range(0, 100));
 		yAxis.setRange(new Range(0, 10));
-		r = chart.getPlotArea().getBounds();
+		r = chart.getPlotArea().getSize();
 		showChart();
-		dataX = xAxis.getDataCoordinate((int)(r.width * 0.4));
-		dataY = yAxis.getDataCoordinate((int)(r.height * 0.3));
+		dataX = xAxis.getDataCoordinate((int)(r.y * 0.4));
+		dataY = yAxis.getDataCoordinate((int)(r.y * 0.3));
 		showChart();
 		assertEquals(61.3, dataX, 1);
 		assertEquals(8.05, dataY, 0.04);
 		pixelX = xAxis.getPixelCoordinate(dataX);
 		pixelY = yAxis.getPixelCoordinate(dataY);
-		assertEquals(r.width * 0.4, pixelX, 1);
-		assertEquals(r.height * 0.3, pixelY, 1);
+		assertEquals(r.x * 0.4, pixelX, 1);
+		assertEquals(r.y * 0.3, pixelY, 1);
 	}
 
 	/**
@@ -1033,7 +1033,7 @@ public class AxisTest extends ChartTestCase {
 	public void testReversed() throws Exception {
 
 		// linear scale
-		ISeries lineSeries = chart.getSeriesSet().createSeries(SeriesType.LINE, "line series");
+		ISeries<?> lineSeries = chart.getSeriesSet().createSeries(SeriesType.LINE, "line series");
 		lineSeries.setXSeries(xSeries3);
 		lineSeries.setYSeries(ySeries1);
 		xAxis.setReversed(false);

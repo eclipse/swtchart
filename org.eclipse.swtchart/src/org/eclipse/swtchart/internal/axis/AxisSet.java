@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2008, 2019 SWTChart project.
+ * Copyright (c) 2008, 2020 SWTChart project.
  *
  * This program and the accompanying materials are made
  * available under the terms of the Eclipse Public License 2.0
@@ -226,11 +226,11 @@ public class AxisSet implements IAxisSet {
 			SWT.error(SWT.ERROR_CANNOT_BE_ZERO);
 		}
 		if(getAxisMap(direction).get(id) == null) {
-			throw new IllegalArgumentException(Messages.getString(Messages.AXIS_ID_DONT_EXIST)); 
+			throw new IllegalArgumentException(Messages.getString(Messages.AXIS_ID_DONT_EXIST));
 		}
 		((Axis)getAxis(id, direction)).dispose();
 		getAxisMap(direction).remove(id);
-		for(ISeries series : chart.getSeriesSet().getSeries()) {
+		for(ISeries<?> series : chart.getSeriesSet().getSeries()) {
 			if(direction == Direction.X) {
 				if(series.getXAxisId() == id) {
 					series.setXAxisId(0);

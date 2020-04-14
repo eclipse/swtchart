@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2008, 2019 SWTChart project.
+ * Copyright (c) 2008, 2020 SWTChart project.
  *
  * This program and the accompanying materials are made
  * available under the terms of the Eclipse Public License 2.0
@@ -67,13 +67,12 @@ public class AxisTickBoundsExample {
 		final Chart chart = new Chart(parent, SWT.NONE);
 		chart.getTitle().setText("Axis Tick Bounds");
 		// create bar series
-		IBarSeries series1 = (IBarSeries)chart.getSeriesSet().createSeries(SeriesType.BAR, "series");
+		IBarSeries<?> series1 = (IBarSeries<?>)chart.getSeriesSet().createSeries(SeriesType.BAR, "series");
 		series1.setYSeries(ySeries);
 		// adjust the axis range
 		chart.getAxisSet().adjustRange();
 		// add mouse move listener to chart
 		chart.addMouseMoveListener(e -> {
-
 			for(IAxis axis : chart.getAxisSet().getAxes()) {
 				Rectangle r = axis.getTick().getBounds();
 				// check if mouse cursor is on axis tick

@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2008, 2019 SWTChart project.
+ * Copyright (c) 2008, 2020 SWTChart project.
  *
  * This program and the accompanying materials are made
  * available under the terms of the Eclipse Public License 2.0
@@ -85,7 +85,7 @@ public class AxisSetTest extends ChartTestCase {
 	@Test
 	public void testCreateAndDeleteAxes() throws Exception {
 
-		ISeries series1 = chart.getSeriesSet().createSeries(SeriesType.LINE, "series 1");
+		ISeries<?> series1 = chart.getSeriesSet().createSeries(SeriesType.LINE, "series 1");
 		series1.setYSeries(ySeries1);
 		axisSet.adjustRange();
 		showChart();
@@ -140,7 +140,7 @@ public class AxisSetTest extends ChartTestCase {
 		} catch(IllegalArgumentException e) {
 			// expected to reach here
 		}
-		ISeries series2 = chart.getSeriesSet().createSeries(SeriesType.LINE, "series 2");
+		ISeries<?> series2 = chart.getSeriesSet().createSeries(SeriesType.LINE, "series 2");
 		series2.setYSeries(ySeries2);
 		series2.setXAxisId(1);
 		series2.setYAxisId(2);
@@ -162,8 +162,8 @@ public class AxisSetTest extends ChartTestCase {
 	@Test
 	public void testAdjustRange() throws Exception {
 
-		ISeries series1 = chart.getSeriesSet().createSeries(SeriesType.LINE, "series 1");
-		ISeries series2 = chart.getSeriesSet().createSeries(SeriesType.LINE, "series 2");
+		ISeries<?> series1 = chart.getSeriesSet().createSeries(SeriesType.LINE, "series 1");
+		ISeries<?> series2 = chart.getSeriesSet().createSeries(SeriesType.LINE, "series 2");
 		series1.setYSeries(ySeries1);
 		series2.setYSeries(ySeries2);
 		showChart();
@@ -184,7 +184,7 @@ public class AxisSetTest extends ChartTestCase {
 	@Test
 	public void testZoomInOut() throws Exception {
 
-		ISeries series1 = chart.getSeriesSet().createSeries(SeriesType.LINE, "series 1");
+		ISeries<?> series1 = chart.getSeriesSet().createSeries(SeriesType.LINE, "series 1");
 		series1.setYSeries(ySeries1);
 		axisSet.adjustRange();
 		showChart();

@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2008, 2019 SWTChart project.
+ * Copyright (c) 2008, 2020 SWTChart project.
  *
  * This program and the accompanying materials are made
  * available under the terms of the Eclipse Public License 2.0
@@ -52,7 +52,7 @@ public class BarSeriesTest extends ChartTestCase {
 	@Test
 	public void testType() throws Exception {
 
-		final ISeries series = seriesSet.createSeries(SeriesType.BAR, "series");
+		final ISeries<?> series = seriesSet.createSeries(SeriesType.BAR, "series");
 		series.setYSeries(ySeries1);
 		assertEquals(SeriesType.BAR, series.getType());
 	}
@@ -63,7 +63,7 @@ public class BarSeriesTest extends ChartTestCase {
 	@Test
 	public void testVisibility() throws Exception {
 
-		ISeries series = seriesSet.createSeries(SeriesType.BAR, "series");
+		ISeries<?> series = seriesSet.createSeries(SeriesType.BAR, "series");
 		series.setYSeries(ySeries1);
 		chart.getAxisSet().adjustRange();
 		showChart();
@@ -79,11 +79,11 @@ public class BarSeriesTest extends ChartTestCase {
 	public void testStack() throws Exception {
 
 		// stacked bar series on category axis
-		ISeries series1 = seriesSet.createSeries(SeriesType.BAR, "series1");
+		ISeries<?> series1 = seriesSet.createSeries(SeriesType.BAR, "series1");
 		series1.setYSeries(ySeries1);
-		ISeries series2 = seriesSet.createSeries(SeriesType.BAR, "series2");
+		ISeries<?> series2 = seriesSet.createSeries(SeriesType.BAR, "series2");
 		series2.setYSeries(ySeries2);
-		((IBarSeries)series2).setBarColor(Display.getDefault().getSystemColor(SWT.COLOR_GREEN));
+		((IBarSeries<?>)series2).setBarColor(Display.getDefault().getSystemColor(SWT.COLOR_GREEN));
 		IAxis xAxis = chart.getAxisSet().getXAxis(0);
 		xAxis.setCategorySeries(categorySeries);
 		chart.getAxisSet().adjustRange();
@@ -97,16 +97,16 @@ public class BarSeriesTest extends ChartTestCase {
 		chart.getAxisSet().adjustRange();
 		showChart();
 		// horizontal + category + stacked series + non-stacked series
-		ISeries series3 = seriesSet.createSeries(SeriesType.BAR, "series3");
+		ISeries<?> series3 = seriesSet.createSeries(SeriesType.BAR, "series3");
 		series3.setYSeries(ySeries3);
-		((IBarSeries)series3).setBarColor(Display.getDefault().getSystemColor(SWT.COLOR_GREEN));
-		ISeries series4 = seriesSet.createSeries(SeriesType.LINE, "series4");
+		((IBarSeries<?>)series3).setBarColor(Display.getDefault().getSystemColor(SWT.COLOR_GREEN));
+		ISeries<?> series4 = seriesSet.createSeries(SeriesType.LINE, "series4");
 		series4.setYSeries(ySeries2);
 		chart.getAxisSet().adjustRange();
 		chart.getAxisSet().adjustRange();
 		showChart();
 		// horizontal + category + stacked bar series + stacked line series
-		ISeries series5 = seriesSet.createSeries(SeriesType.LINE, "series5");
+		ISeries<?> series5 = seriesSet.createSeries(SeriesType.LINE, "series5");
 		series5.setYSeries(ySeries1);
 		series4.enableStack(true);
 		series5.enableStack(true);
@@ -121,7 +121,7 @@ public class BarSeriesTest extends ChartTestCase {
 	public void testSeries() {
 
 		// set null
-		ISeries series = seriesSet.createSeries(SeriesType.LINE, "series");
+		ISeries<?> series = seriesSet.createSeries(SeriesType.LINE, "series");
 		try {
 			series.setXSeries(null);
 			fail();
@@ -167,7 +167,7 @@ public class BarSeriesTest extends ChartTestCase {
 	@Test
 	public void testAxisId() {
 
-		ISeries series = seriesSet.createSeries(SeriesType.LINE, "series");
+		ISeries<?> series = seriesSet.createSeries(SeriesType.LINE, "series");
 		series.setXSeries(xSeries1);
 		chart.getAxisSet().createXAxis();
 		chart.getAxisSet().createYAxis();
@@ -183,35 +183,35 @@ public class BarSeriesTest extends ChartTestCase {
 	@Test
 	public void testPixelCoordinates() throws Exception {
 
-		ISeries series1 = chart.getSeriesSet().createSeries(SeriesType.BAR, "series1");
+		ISeries<?> series1 = chart.getSeriesSet().createSeries(SeriesType.BAR, "series1");
 		series1.setXSeries(xSeries1);
 		series1.setYSeries(ySeries1);
 		IAxis xAxis = chart.getAxisSet().getXAxis(0);
 		IAxis yAxis = chart.getAxisSet().getYAxis(0);
 		xAxis.setRange(new Range(1, 5));
 		yAxis.setRange(new Range(0.1, 0.5));
-		Rectangle r = chart.getPlotArea().getBounds();
+		Point r = chart.getPlotArea().getSize();
 		// horizontal
 		Point p = series1.getPixelCoordinates(1);
-		assertEquals(r.width / 4d, p.x, 1);
-		assertEquals(r.height / 4d * 3, p.y, 1);
+		assertEquals(r.x / 4d, p.x, 1);
+		assertEquals(r.y / 4d * 3, p.y, 1);
 		// horizontal + category
 		xAxis.setCategorySeries(categorySeries);
 		xAxis.enableCategory(true);
 		xAxis.adjustRange();
 		p = series1.getPixelCoordinates(1);
-		assertEquals(r.width / 10d * 3, p.x, 1);
-		assertEquals(r.height / 4d * 3, p.y, 1);
+		assertEquals(r.x / 10d * 3, p.x, 1);
+		assertEquals(r.y / 4d * 3, p.y, 1);
 		// horizontal + stack
-		ISeries series2 = seriesSet.createSeries(SeriesType.BAR, "series2");
+		ISeries<?> series2 = seriesSet.createSeries(SeriesType.BAR, "series2");
 		series2.setYSeries(ySeries2);
 		series1.enableStack(true);
 		series2.enableStack(true);
 		xAxis.setRange(new Range(0, 4));
 		yAxis.setRange(new Range(0, 0.7));
 		p = series2.getPixelCoordinates(1);
-		assertEquals(r.width / 10d * 3, p.x, 1);
-		assertEquals(r.height / 7d, p.y, 1);
+		assertEquals(r.x / 10d * 3, p.x, 1);
+		assertEquals(r.y / 7d, p.y, 1);
 		// vertical
 		chart.setOrientation(SWT.VERTICAL);
 		xAxis.enableCategory(false);
@@ -219,24 +219,24 @@ public class BarSeriesTest extends ChartTestCase {
 		series2.enableStack(false);
 		xAxis.setRange(new Range(1, 5));
 		yAxis.setRange(new Range(0.1, 0.5));
-		r = chart.getPlotArea().getBounds();
+		r = chart.getPlotArea().getSize();
 		p = series1.getPixelCoordinates(1);
-		assertEquals(r.width / 4d, p.x, 1);
-		assertEquals(r.height / 4d * 3, p.y, 1);
+		assertEquals(r.x / 4d, p.x, 1);
+		assertEquals(r.y / 4d * 3, p.y, 1);
 		// vertical + category
 		xAxis.enableCategory(true);
 		xAxis.setRange(new Range(0, 4));
 		yAxis.setRange(new Range(0, 0.7));
-		r = chart.getPlotArea().getBounds();
+		r = chart.getPlotArea().getSize();
 		p = series1.getPixelCoordinates(1);
-		assertEquals(r.width / 7d * 2, p.x, 1);
-		assertEquals(r.height / 10d * 7, p.y, 1);
+		assertEquals(r.x / 7d * 2, p.x, 1);
+		assertEquals(r.y / 10d * 7, p.y, 1);
 		// vertical + stack
 		series1.enableStack(true);
 		series2.enableStack(true);
 		p = series2.getPixelCoordinates(1);
-		assertEquals(r.width / 7d * 6, p.x, 1);
-		assertEquals(r.height / 10d * 7, p.y, 1);
+		assertEquals(r.x / 7d * 6, p.x, 1);
+		assertEquals(r.y / 10d * 7, p.y, 1);
 	}
 
 	/**
@@ -246,7 +246,7 @@ public class BarSeriesTest extends ChartTestCase {
 	public void testPadding() throws Exception {
 
 		// set illegal padding
-		IBarSeries series = (IBarSeries)chart.getSeriesSet().createSeries(SeriesType.BAR, "bar series 1");
+		IBarSeries<?> series = (IBarSeries<?>)chart.getSeriesSet().createSeries(SeriesType.BAR, "bar series 1");
 		try {
 			series.setBarPadding(-10);
 			fail();
@@ -284,7 +284,7 @@ public class BarSeriesTest extends ChartTestCase {
 	public void testBarColor() throws Exception {
 
 		// specify null
-		IBarSeries series = (IBarSeries)chart.getSeriesSet().createSeries(SeriesType.BAR, "bar series 1");
+		IBarSeries<?> series = (IBarSeries<?>)chart.getSeriesSet().createSeries(SeriesType.BAR, "bar series 1");
 		series.setBarColor(null);
 		Color syan = Display.getDefault().getSystemColor(SWT.COLOR_CYAN);
 		assertEquals(syan.getRGB(), series.getBarColor().getRGB());
@@ -317,14 +317,14 @@ public class BarSeriesTest extends ChartTestCase {
 	@Ignore("environment dependent")
 	public void testBounds() throws Exception {
 
-		IBarSeries series1 = (IBarSeries)seriesSet.createSeries(SeriesType.BAR, "series1");
+		IBarSeries<?> series1 = (IBarSeries<?>)seriesSet.createSeries(SeriesType.BAR, "series1");
 		series1.setYSeries(ySeries1);
 		series1.enableStack(true);
-		IBarSeries series2 = (IBarSeries)seriesSet.createSeries(SeriesType.BAR, "series2");
+		IBarSeries<?> series2 = (IBarSeries<?>)seriesSet.createSeries(SeriesType.BAR, "series2");
 		series2.setYSeries(ySeries2);
 		series2.enableStack(true);
 		series2.setBarColor(Display.getDefault().getSystemColor(SWT.COLOR_GREEN));
-		IBarSeries series3 = (IBarSeries)seriesSet.createSeries(SeriesType.BAR, "series3");
+		IBarSeries<?> series3 = (IBarSeries<?>)seriesSet.createSeries(SeriesType.BAR, "series3");
 		series3.setYSeries(ySeries3);
 		series3.setBarColor(Display.getDefault().getSystemColor(SWT.COLOR_MAGENTA));
 		chart.getAxisSet().getXAxis(0).setCategorySeries(categorySeries);
