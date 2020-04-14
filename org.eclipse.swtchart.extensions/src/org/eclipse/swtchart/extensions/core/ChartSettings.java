@@ -106,13 +106,12 @@ public class ChartSettings implements IChartSettings {
 	private final Font defaultFont = new Font(Display.getDefault(), "Tahoma", Constants.MEDIUM_FONT_SIZE, SWT.BOLD); //$NON-NLS-1$
 
 	public ChartSettings() {
-
 		//
 		Display display = Display.getDefault();
 		/*
 		 * Set the chart.
 		 */
-		bufferSelection = false;
+		bufferSelection = true;
 		//
 		enableRangeSelector = false;
 		showRangeSelectorInitially = true;
