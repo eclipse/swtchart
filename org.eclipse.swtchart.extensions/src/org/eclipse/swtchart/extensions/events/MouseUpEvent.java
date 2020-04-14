@@ -57,6 +57,7 @@ public class MouseUpEvent extends AbstractHandledEventProcessor implements IHand
 				}
 			}
 			baseChart.suspendUpdate(false);
+			baseChart.redraw();
 		}
 		//
 		long deltaTime = System.currentTimeMillis() - baseChart.getClickStartTime();
