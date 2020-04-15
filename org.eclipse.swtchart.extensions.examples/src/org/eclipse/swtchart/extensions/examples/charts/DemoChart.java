@@ -31,9 +31,13 @@ public class DemoChart {
 		//
 		ScrollableChart scrollableChart = new LineSeries_1_Part(shell);
 		shell.open();
-		//
+		/*
+		 * Use this demo to test the buffer selection in different
+		 * environments.
+		 */
 		IChartSettings chartSettings = scrollableChart.getChartSettings();
 		chartSettings.setLegendExtendedVisible(true);
+		chartSettings.setBufferSelection(true);
 		scrollableChart.applySettings(chartSettings);
 		//
 		while(!shell.isDisposed()) {

@@ -51,6 +51,13 @@ public class MouseDownEvent extends AbstractHandledEventProcessor implements IHa
 		 */
 		if(baseChart.getChartSettings().isBufferSelection()) {
 			baseChart.suspendUpdate(true);
+			/*
+			 * Prevent label markers etc. from being plotted
+			 * until the mouse move selection event sets the
+			 * status to active = true.
+			 */
+			baseChart.getUserSelection().setActive(true);
+			//
 			Image image = new Image(Display.getDefault(), baseChart.getPlotArea().getImageData());
 			ISeriesSet set = baseChart.getSeriesSet();
 			ISeries<?>[] series = set.getSeries();

@@ -218,7 +218,12 @@ public class ChartSettings implements IChartSettings {
 		 * Bug #150
 		 * https://github.com/eclipse/swtchart/issues/150
 		 */
-		this.bufferSelection = isMacOS() ? false : bufferSelection;
+		if(isMacOS()) {
+			System.out.println("Can't set buffer selection on macOS true, see: https://github.com/eclipse/swtchart/issues/150");
+			this.bufferSelection = false;
+		} else {
+			this.bufferSelection = bufferSelection;
+		}
 	}
 
 	@Override
