@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2017, 2019 Lablicate GmbH.
+ * Copyright (c) 2017, 2020 Lablicate GmbH.
  *
  * This program and the accompanying materials are made
  * available under the terms of the Eclipse Public License 2.0
@@ -9,6 +9,7 @@
  * 
  * Contributors:
  * Dr. Philip Wenig - initial API and implementation
+ * Christoph Läubrich - don't init color in constructor
  *******************************************************************************/
 package org.eclipse.swtchart.extensions.marker;
 
@@ -23,8 +24,8 @@ public abstract class AbstractBaseChartPaintListener implements IBaseChartPaintL
 	private boolean draw = true;
 
 	public AbstractBaseChartPaintListener(BaseChart baseChart) {
+
 		this.baseChart = baseChart;
-		foregroundColor = baseChart.getDisplay().getSystemColor(SWT.COLOR_BLACK);
 	}
 
 	@Override
@@ -47,6 +48,9 @@ public abstract class AbstractBaseChartPaintListener implements IBaseChartPaintL
 
 	protected Color getForegroundColor() {
 
+		if(foregroundColor == null) {
+			return getBaseChart().getDisplay().getSystemColor(SWT.COLOR_BLACK);
+		}
 		return foregroundColor;
 	}
 
