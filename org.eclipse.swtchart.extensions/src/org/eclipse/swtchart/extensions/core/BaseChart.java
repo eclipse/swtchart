@@ -117,7 +117,6 @@ public class BaseChart extends AbstractExtendedChart implements IChartDataCoordi
 	private Map<String, List<double[]>> dataShiftHistory;
 
 	public BaseChart(Composite parent, int style) {
-
 		super(parent, style);
 		//
 		chartSettings = new ChartSettings();
@@ -1163,6 +1162,16 @@ public class BaseChart extends AbstractExtendedChart implements IChartDataCoordi
 
 		super.redraw();
 		fireSeriesStatusEvent("", ISeriesStatusListener.REDRAW);
+	}
+
+	/**
+	 * Returns if a buffered action is currently active.
+	 * 
+	 * @return boolean
+	 */
+	public boolean isBufferActive() {
+
+		return getChartSettings().isBufferSelection() && userSelection.isActive();
 	}
 
 	private void handleUserSelectionXY(Event event) {

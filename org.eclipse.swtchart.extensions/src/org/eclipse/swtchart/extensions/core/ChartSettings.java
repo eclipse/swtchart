@@ -109,9 +109,12 @@ public class ChartSettings implements IChartSettings {
 		//
 		Display display = Display.getDefault();
 		/*
-		 * Set the chart.
+		 * As it turned out, that buffered rendering under macOS fails somehow,
+		 * the bufferSelection option is deactivated by default. Charts shall
+		 * enable buffering via an option, so that it can be tested in several
+		 * environments, e.g. macOS, GTK3, ... .
 		 */
-		bufferSelection = true;
+		bufferSelection = false;
 		//
 		enableRangeSelector = false;
 		showRangeSelectorInitially = true;
@@ -210,7 +213,12 @@ public class ChartSettings implements IChartSettings {
 	@Override
 	public void setBufferSelection(boolean bufferSelection) {
 
-		this.bufferSelection = bufferSelection;
+		/*
+		 * macOS
+		 * Bug #150
+		 * https://github.com/eclipse/swtchart/issues/150
+		 */
+		this.bufferSelection = isMacOS() ? false : bufferSelection;
 	}
 
 	@Override
@@ -711,5 +719,14 @@ public class ChartSettings implements IChartSettings {
 		if(!defaultFont.isDisposed()) {
 			defaultFont.dispose();
 		}
+	}
+
+	private boolean isMacOS() {
+
+		String os = System.getProperty("os.name");
+		if(os != null) {
+			return os.toLowerCase().indexOf("mac") >= 0;
+		}
+		return false;
 	}
 }

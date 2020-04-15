@@ -76,65 +76,67 @@ public class LabelMarker extends AbstractBaseChartPaintListener implements IBase
 	@Override
 	public void paintControl(PaintEvent e) {
 
-		ISeries<?> serie = getSeries();
-		if(serie == null) {
-			return;
-		}
-		//
-		BaseChart baseChart = getBaseChart();
-		IPlotArea plotArea = baseChart.getPlotArea();
-		//
-		Rectangle rectangle;
-		if(plotArea instanceof Scrollable) {
-			rectangle = ((Scrollable)plotArea).getClientArea();
-		} else {
-			rectangle = plotArea.getBounds();
-		}
-		//
-		int size = serie.getXSeries().length;
-		Transform transform = null;
-		if(orientation == SWT.VERTICAL) {
-			transform = new Transform(e.gc.getDevice());
-			transform.rotate(-90);
-		}
-		//
-		try {
-			for(int index : labels.keySet()) {
-				if(index < size) {
-					/*
-					 * Draw the label if the index is within the
-					 * range of the double array.
-					 */
-					String label = labels.get(index);
-					if(label == null || label.isEmpty()) {
-						continue;
-					}
-					Point point = serie.getPixelCoordinates(index);
-					//
-					if(point.x > 0 && rectangle.contains(point)) {
+		if(!getBaseChart().isBufferActive()) {
+			ISeries<?> serie = getSeries();
+			if(serie == null) {
+				return;
+			}
+			//
+			BaseChart baseChart = getBaseChart();
+			IPlotArea plotArea = baseChart.getPlotArea();
+			//
+			Rectangle rectangle;
+			if(plotArea instanceof Scrollable) {
+				rectangle = ((Scrollable)plotArea).getClientArea();
+			} else {
+				rectangle = plotArea.getBounds();
+			}
+			//
+			int size = serie.getXSeries().length;
+			Transform transform = null;
+			if(orientation == SWT.VERTICAL) {
+				transform = new Transform(e.gc.getDevice());
+				transform.rotate(-90);
+			}
+			//
+			try {
+				for(int index : labels.keySet()) {
+					if(index < size) {
 						/*
-						 * Calculate x and y
+						 * Draw the label if the index is within the
+						 * range of the double array.
 						 */
-						int x;
-						int y;
-						Point labelSize = e.gc.textExtent(label);
-						GC gc = e.gc;
-						if(transform != null) {
-							gc.setTransform(transform);
-							x = -labelSize.x - (point.y - labelSize.x - 15);
-							y = point.x - (labelSize.y / 2);
-						} else {
-							x = point.x - labelSize.x / 2;
-							y = point.y - labelSize.y - 15;
+						String label = labels.get(index);
+						if(label == null || label.isEmpty()) {
+							continue;
 						}
-						gc.drawText(label, x, y, true);
+						Point point = serie.getPixelCoordinates(index);
+						//
+						if(point.x > 0 && rectangle.contains(point)) {
+							/*
+							 * Calculate x and y
+							 */
+							int x;
+							int y;
+							Point labelSize = e.gc.textExtent(label);
+							GC gc = e.gc;
+							if(transform != null) {
+								gc.setTransform(transform);
+								x = -labelSize.x - (point.y - labelSize.x - 15);
+								y = point.x - (labelSize.y / 2);
+							} else {
+								x = point.x - labelSize.x / 2;
+								y = point.y - labelSize.y - 15;
+							}
+							gc.drawText(label, x, y, true);
+						}
 					}
 				}
-			}
-		} finally {
-			e.gc.setTransform(null);
-			if(transform != null) {
-				transform.dispose();
+			} finally {
+				e.gc.setTransform(null);
+				if(transform != null) {
+					transform.dispose();
+				}
 			}
 		}
 	}
