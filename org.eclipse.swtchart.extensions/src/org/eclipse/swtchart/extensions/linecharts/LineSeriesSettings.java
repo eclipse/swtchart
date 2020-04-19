@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2017, 2019 Lablicate GmbH.
+ * Copyright (c) 2017, 2020 Lablicate GmbH.
  *
  * This program and the accompanying materials are made
  * available under the terms of the Eclipse Public License 2.0
@@ -9,6 +9,7 @@
  * 
  * Contributors:
  * Dr. Philip Wenig - initial API and implementation
+ * Christoph Läubrich - don't fetch default color in constructor
  *******************************************************************************/
 package org.eclipse.swtchart.extensions.linecharts;
 
@@ -23,7 +24,7 @@ public class LineSeriesSettings extends AbstractPointSeriesSettings implements I
 
 	private int antialias = SWT.DEFAULT;
 	private boolean enableArea = true;
-	private Color lineColor = Display.getDefault().getSystemColor(SWT.COLOR_RED);
+	private Color lineColor;
 	private int lineWidth = 1;
 	private boolean enableStack = false;
 	private boolean enableStep = false;
@@ -57,6 +58,9 @@ public class LineSeriesSettings extends AbstractPointSeriesSettings implements I
 	@Override
 	public Color getLineColor() {
 
+		if(lineColor == null) {
+			return Display.getDefault().getSystemColor(SWT.COLOR_RED);
+		}
 		return lineColor;
 	}
 
