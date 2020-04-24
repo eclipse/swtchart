@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2017, 2019 Lablicate GmbH.
+ * Copyright (c) 2017, 2020 Lablicate GmbH.
  *
  * This program and the accompanying materials are made
  * available under the terms of the Eclipse Public License 2.0
@@ -20,12 +20,16 @@ public class RangeRestriction {
 	}
 
 	public static final int NONE = 1; // No flag is set.
-	public static final int ZERO_X = 2; // Only values x >= 0 are displayed.
-	public static final int ZERO_Y = 4; // Only values y >= 0 are displayed.
-	public static final int RESTRICT_ZOOM = 8; // It's not possible to zoom outside of the min/max values.
-	public static final int X_ZOOM_ONLY = 16; // When doing a user selection, only zoom x.
-	public static final int Y_ZOOM_ONLY = 32; // When doing a user selection, only zoom y.
-	public static final int FORCE_ZERO_MIN_Y = 64; // Instead of starting with the lowest Y values, 0 is set.
+	public static final int ZERO_X = 1 << 1; // Only values x >= 0 are displayed.
+	public static final int ZERO_Y = 1 << 2; // Only values y >= 0 are displayed.
+	public static final int RESTRICT_FRAME = 1 << 3; // It's not possible to zoom outside of the min/max values.
+	public static final int RESTRICT_SELECT_X = 1 << 4; // When doing a user selection, only do the selection on the x axis.
+	public static final int RESTRICT_SELECT_Y = 1 << 5; // When doing a user selection, only do the selection on the y axis.
+	public static final int FORCE_ZERO_MIN_Y = 1 << 6; // Instead of starting with the lowest Y value, 0 is set.
+	public static final int REFERENCE_ZOOM_ZERO_Y = 1 << 7; // 0 is the base when doing an y zoomIn/zoomOut action.
+	public static final int REFERENCE_ZOOM_ZERO_X = 1 << 8; // 0 is the base when doing an x zoomIn/zoomOut action.
+	public static final int RESTRICT_ZOOM_X = 1 << 9; // When doing a zoom action, only do the zoom on the x axis.
+	public static final int RESTRICT_ZOOM_Y = 1 << 10; // When doing a zoom action, only do the zoom on the y axis.
 	//
 	private ExtendType extendTypeX;
 	private double extendMinX;
@@ -55,12 +59,6 @@ public class RangeRestriction {
 		return isFlagSet(ZERO_X);
 	}
 
-	/**
-	 * 0 is the lowest x value.
-	 * Otherwise, the lowest x values of the series is used.
-	 * 
-	 * @param zeroX
-	 */
 	public void setZeroX(boolean zeroX) {
 
 		flagSelection(zeroX, ZERO_X);
@@ -71,60 +69,105 @@ public class RangeRestriction {
 		return isFlagSet(ZERO_Y);
 	}
 
-	/**
-	 * 0 is the lowest y value.
-	 * Otherwise, the lowest y values of the series is used.
-	 * 
-	 * @param zeroY
-	 */
 	public void setZeroY(boolean zeroY) {
 
 		flagSelection(zeroY, ZERO_Y);
 	}
 
+	/**
+	 * Use isRestrictFrame(); instead
+	 * 
+	 * @return boolean
+	 */
+	@Deprecated
 	public boolean isRestrictZoom() {
 
-		return isFlagSet(RESTRICT_ZOOM);
+		return isRestrictFrame();
+	}
+
+	public boolean isRestrictFrame() {
+
+		return isFlagSet(RESTRICT_FRAME);
 	}
 
 	/**
-	 * Set true if zooming shall not exceed the min/max values.
+	 * Use setRestrictFrame(restrictZoom); instead.
 	 * 
 	 * @param restrictZoom
 	 */
+	@Deprecated
 	public void setRestrictZoom(boolean restrictZoom) {
 
-		flagSelection(restrictZoom, RESTRICT_ZOOM);
+		setRestrictFrame(restrictZoom);
 	}
 
-	public boolean isXZoomOnly() {
+	public void setRestrictFrame(boolean restrictFrame) {
 
-		return isFlagSet(X_ZOOM_ONLY);
+		flagSelection(restrictFrame, RESTRICT_FRAME);
 	}
 
 	/**
-	 * Set true if only the x-Axis shall be zoomed.
+	 * Use isRestrictSelectX(); instead.
+	 * 
+	 * @return boolean
+	 */
+	@Deprecated
+	public boolean isXZoomOnly() {
+
+		return isRestrictSelectX();
+	}
+
+	public boolean isRestrictSelectX() {
+
+		return isFlagSet(RESTRICT_SELECT_X);
+	}
+
+	/**
+	 * Use setRestrictSelectX(xZoomOnly); instead.
 	 * 
 	 * @param xZoomOnly
 	 */
+	@Deprecated
 	public void setXZoomOnly(boolean xZoomOnly) {
 
-		flagSelection(xZoomOnly, X_ZOOM_ONLY);
+		setRestrictSelectX(xZoomOnly);
 	}
 
-	public boolean isYZoomOnly() {
+	public void setRestrictSelectX(boolean restrictSelectX) {
 
-		return isFlagSet(Y_ZOOM_ONLY);
+		flagSelection(restrictSelectX, RESTRICT_SELECT_X);
 	}
 
 	/**
-	 * Set true if only the y-Axis shall be zoomed.
+	 * Use isRestrictSelectY(); instead.
+	 * 
+	 * @return boolean
+	 */
+	@Deprecated
+	public boolean isYZoomOnly() {
+
+		return isRestrictSelectY();
+	}
+
+	public boolean isRestrictSelectY() {
+
+		return isFlagSet(RESTRICT_SELECT_Y);
+	}
+
+	/**
+	 * Use setRestrictSelectY(yZoomOnly); instead.
 	 * 
 	 * @param yZoomOnly
 	 */
+	@Deprecated
 	public void setYZoomOnly(boolean yZoomOnly) {
 
-		flagSelection(yZoomOnly, Y_ZOOM_ONLY);
+		setRestrictSelectY(yZoomOnly);
+	}
+
+	public void setRestrictSelectY(boolean restrictSelectY) {
+
+		flagSelection(restrictSelectY, RESTRICT_SELECT_Y);
 	}
 
 	public boolean isForceZeroMinY() {
@@ -132,14 +175,49 @@ public class RangeRestriction {
 		return isFlagSet(FORCE_ZERO_MIN_Y);
 	}
 
-	/**
-	 * Set true if only lowest y value starts at 0 in any case.
-	 * 
-	 * @param forceZeroMinY
-	 */
 	public void setForceZeroMinY(boolean forceZeroMinY) {
 
 		flagSelection(forceZeroMinY, FORCE_ZERO_MIN_Y);
+	}
+
+	public boolean isReferenceZoomZeroY() {
+
+		return isFlagSet(REFERENCE_ZOOM_ZERO_Y);
+	}
+
+	public void setReferenceZoomZeroY(boolean referenceZoomZeroY) {
+
+		flagSelection(referenceZoomZeroY, REFERENCE_ZOOM_ZERO_Y);
+	}
+
+	public boolean isReferenceZoomZeroX() {
+
+		return isFlagSet(REFERENCE_ZOOM_ZERO_X);
+	}
+
+	public void setReferenceZoomZeroX(boolean referenceZoomZeroX) {
+
+		flagSelection(referenceZoomZeroX, REFERENCE_ZOOM_ZERO_X);
+	}
+
+	public boolean isRestrictZoomX() {
+
+		return isFlagSet(RESTRICT_ZOOM_X);
+	}
+
+	public void setRestrictZoomX(boolean restrictZoomX) {
+
+		flagSelection(restrictZoomX, RESTRICT_ZOOM_X);
+	}
+
+	public boolean isRestrictZoomY() {
+
+		return isFlagSet(RESTRICT_ZOOM_Y);
+	}
+
+	public void setRestrictZoomY(boolean restrictZoomY) {
+
+		flagSelection(restrictZoomY, RESTRICT_ZOOM_Y);
 	}
 
 	public ExtendType getExtendTypeX() {

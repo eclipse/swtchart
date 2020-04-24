@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2017, 2019 Lablicate GmbH.
+ * Copyright (c) 2017, 2020 Lablicate GmbH.
  *
  * This program and the accompanying materials are made
  * available under the terms of the Eclipse Public License 2.0
@@ -35,39 +35,39 @@ public class RangeRestriction_8_Test extends TestCase {
 
 		rangeRestriction.setZeroX(true);
 		rangeRestriction.setZeroY(true);
-		rangeRestriction.setRestrictZoom(true);
-		rangeRestriction.setXZoomOnly(true);
-		rangeRestriction.setYZoomOnly(true);
+		rangeRestriction.setRestrictFrame(true);
+		rangeRestriction.setRestrictSelectX(true);
+		rangeRestriction.setRestrictSelectY(true);
 		rangeRestriction.setForceZeroMinY(true);
 		assertTrue(rangeRestriction.isZeroX());
 		assertTrue(rangeRestriction.isZeroY());
-		assertTrue(rangeRestriction.isRestrictZoom());
-		assertTrue(rangeRestriction.isXZoomOnly());
-		assertTrue(rangeRestriction.isYZoomOnly());
+		assertTrue(rangeRestriction.isRestrictFrame());
+		assertTrue(rangeRestriction.isRestrictSelectX());
+		assertTrue(rangeRestriction.isRestrictSelectY());
 		assertTrue(rangeRestriction.isForceZeroMinY());
 	}
 
 	public void test2() {
 
 		rangeRestriction.setZeroX(true);
-		rangeRestriction.setRestrictZoom(true);
+		rangeRestriction.setRestrictFrame(true);
 		assertTrue(rangeRestriction.isZeroX());
 		assertFalse(rangeRestriction.isZeroY());
-		assertTrue(rangeRestriction.isRestrictZoom());
-		assertFalse(rangeRestriction.isXZoomOnly());
-		assertFalse(rangeRestriction.isYZoomOnly());
+		assertTrue(rangeRestriction.isRestrictFrame());
+		assertFalse(rangeRestriction.isRestrictSelectX());
+		assertFalse(rangeRestriction.isRestrictSelectY());
 		assertFalse(rangeRestriction.isForceZeroMinY());
 	}
 
 	public void test3() {
 
 		rangeRestriction.setZeroY(true);
-		rangeRestriction.setRestrictZoom(true);
+		rangeRestriction.setRestrictFrame(true);
 		assertFalse(rangeRestriction.isZeroX());
 		assertTrue(rangeRestriction.isZeroY());
-		assertTrue(rangeRestriction.isRestrictZoom());
-		assertFalse(rangeRestriction.isXZoomOnly());
-		assertFalse(rangeRestriction.isYZoomOnly());
+		assertTrue(rangeRestriction.isRestrictFrame());
+		assertFalse(rangeRestriction.isRestrictSelectX());
+		assertFalse(rangeRestriction.isRestrictSelectY());
 		assertFalse(rangeRestriction.isForceZeroMinY());
 	}
 
@@ -77,43 +77,43 @@ public class RangeRestriction_8_Test extends TestCase {
 		rangeRestriction.setZeroY(true);
 		assertTrue(rangeRestriction.isZeroX());
 		assertTrue(rangeRestriction.isZeroY());
-		assertFalse(rangeRestriction.isRestrictZoom());
-		assertFalse(rangeRestriction.isXZoomOnly());
-		assertFalse(rangeRestriction.isYZoomOnly());
+		assertFalse(rangeRestriction.isRestrictFrame());
+		assertFalse(rangeRestriction.isRestrictSelectX());
+		assertFalse(rangeRestriction.isRestrictSelectY());
 		assertFalse(rangeRestriction.isForceZeroMinY());
 	}
 
 	public void test5() {
 
-		rangeRestriction.setXZoomOnly(true);
+		rangeRestriction.setRestrictSelectX(true);
 		assertFalse(rangeRestriction.isZeroX());
 		assertFalse(rangeRestriction.isZeroY());
-		assertFalse(rangeRestriction.isRestrictZoom());
-		assertTrue(rangeRestriction.isXZoomOnly());
-		assertFalse(rangeRestriction.isYZoomOnly());
+		assertFalse(rangeRestriction.isRestrictFrame());
+		assertTrue(rangeRestriction.isRestrictSelectX());
+		assertFalse(rangeRestriction.isRestrictSelectY());
 		assertFalse(rangeRestriction.isForceZeroMinY());
 	}
 
 	public void test6() {
 
-		rangeRestriction.setYZoomOnly(true);
+		rangeRestriction.setRestrictSelectY(true);
 		assertFalse(rangeRestriction.isZeroX());
 		assertFalse(rangeRestriction.isZeroY());
-		assertFalse(rangeRestriction.isRestrictZoom());
-		assertFalse(rangeRestriction.isXZoomOnly());
-		assertTrue(rangeRestriction.isYZoomOnly());
+		assertFalse(rangeRestriction.isRestrictFrame());
+		assertFalse(rangeRestriction.isRestrictSelectX());
+		assertTrue(rangeRestriction.isRestrictSelectY());
 		assertFalse(rangeRestriction.isForceZeroMinY());
 	}
 
 	public void test7() {
 
-		rangeRestriction.setYZoomOnly(true);
+		rangeRestriction.setRestrictSelectY(true);
 		rangeRestriction.setForceZeroMinY(true);
 		assertFalse(rangeRestriction.isZeroX());
 		assertFalse(rangeRestriction.isZeroY());
-		assertFalse(rangeRestriction.isRestrictZoom());
-		assertFalse(rangeRestriction.isXZoomOnly());
-		assertTrue(rangeRestriction.isYZoomOnly());
+		assertFalse(rangeRestriction.isRestrictFrame());
+		assertFalse(rangeRestriction.isRestrictSelectX());
+		assertTrue(rangeRestriction.isRestrictSelectY());
 		assertTrue(rangeRestriction.isForceZeroMinY());
 	}
 }

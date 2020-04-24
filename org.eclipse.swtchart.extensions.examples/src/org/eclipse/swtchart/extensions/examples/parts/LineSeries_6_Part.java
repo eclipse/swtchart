@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2017, 2019 Lablicate GmbH.
+ * Copyright (c) 2017, 2020 Lablicate GmbH.
  *
  * This program and the accompanying materials are made
  * available under the terms of the Eclipse Public License 2.0
@@ -59,7 +59,7 @@ public class LineSeries_6_Part extends LineChart {
 		chartSettings.setVerticalSliderVisible(false);
 		chartSettings.getRangeRestriction().setZeroX(false);
 		chartSettings.getRangeRestriction().setZeroY(true);
-		chartSettings.getRangeRestriction().setRestrictZoom(false);
+		chartSettings.getRangeRestriction().setRestrictFrame(false);
 		chartSettings.setCreateMenu(true);
 		/*
 		 * Primary X-Axis

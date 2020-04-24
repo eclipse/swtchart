@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2017, 2019 Lablicate GmbH.
+ * Copyright (c) 2017, 2020 Lablicate GmbH.
  *
  * This program and the accompanying materials are made
  * available under the terms of the Eclipse Public License 2.0
@@ -22,7 +22,7 @@ public class RangeRestriction_6_Test extends TestCase {
 	protected void setUp() throws Exception {
 
 		super.setUp();
-		rangeRestriction = new RangeRestriction(RangeRestriction.X_ZOOM_ONLY);
+		rangeRestriction = new RangeRestriction(RangeRestriction.RESTRICT_SELECT_X);
 	}
 
 	@Override
@@ -43,17 +43,17 @@ public class RangeRestriction_6_Test extends TestCase {
 
 	public void test3() {
 
-		assertFalse(rangeRestriction.isRestrictZoom());
+		assertFalse(rangeRestriction.isRestrictFrame());
 	}
 
 	public void test4() {
 
-		assertTrue(rangeRestriction.isXZoomOnly());
+		assertTrue(rangeRestriction.isRestrictSelectX());
 	}
 
 	public void test5() {
 
-		assertFalse(rangeRestriction.isYZoomOnly());
+		assertFalse(rangeRestriction.isRestrictSelectY());
 	}
 
 	public void test6() {

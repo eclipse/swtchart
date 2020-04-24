@@ -472,7 +472,7 @@ public class BaseChart extends AbstractExtendedChart implements IChartDataCoordi
 			int yMax = Math.max(userSelection.getStartY(), userSelection.getStopY());
 			//
 			RangeRestriction rangeRestriction = getRangeRestriction();
-			if(isZoomXAndY(rangeRestriction)) {
+			if(isSelectXY(rangeRestriction)) {
 				/*
 				 * X and Y zoom.
 				 */
@@ -481,9 +481,9 @@ public class BaseChart extends AbstractExtendedChart implements IChartDataCoordi
 				/*
 				 * X or Y zoom.
 				 */
-				if(rangeRestriction.isXZoomOnly()) {
+				if(rangeRestriction.isRestrictSelectX()) {
 					e.gc.drawLine(xMin, yMin, xMax, yMin);
-				} else if(rangeRestriction.isYZoomOnly()) {
+				} else if(rangeRestriction.isRestrictSelectY()) {
 					e.gc.drawLine(xMin, yMin, xMin, yMax);
 				}
 			}
@@ -1058,31 +1058,41 @@ public class BaseChart extends AbstractExtendedChart implements IChartDataCoordi
 
 	public void zoomX(IAxis xAxis, Event event) {
 
-		/*
-		 * X Axis
-		 */
 		trackUndoSelection();
-		double coordinateX = xAxis.getDataCoordinate(event.x);
+		//
+		boolean isZoomReferenceX0 = getChartSettings().getRangeRestriction().isReferenceZoomZeroX();
+		double coordinateX = isZoomReferenceX0 ? 0.0d : xAxis.getDataCoordinate(event.x);
+		//
 		if(event.count > 0) {
 			xAxis.zoomIn(coordinateX);
 		} else {
-			xAxis.zoomOut(coordinateX);
+			if(isZoomReferenceX0) {
+				xAxis.zoomOut();
+			} else {
+				xAxis.zoomOut(coordinateX);
+			}
 		}
+		//
 		trackRedoSelection();
 	}
 
 	public void zoomY(IAxis yAxis, Event event) {
 
-		/*
-		 * Y Axis
-		 */
 		trackUndoSelection();
-		double coordinateY = yAxis.getDataCoordinate(event.y);
+		//
+		boolean isZoomReferenceY0 = getChartSettings().getRangeRestriction().isReferenceZoomZeroY();
+		double coordinateY = isZoomReferenceY0 ? 0.0d : yAxis.getDataCoordinate(event.y);
+		//
 		if(event.count > 0) {
 			yAxis.zoomIn(coordinateY);
 		} else {
-			yAxis.zoomOut(coordinateY);
+			if(isZoomReferenceY0) {
+				yAxis.zoomOut();
+			} else {
+				yAxis.zoomOut(coordinateY);
+			}
 		}
+		//
 		trackRedoSelection();
 	}
 
@@ -1143,7 +1153,7 @@ public class BaseChart extends AbstractExtendedChart implements IChartDataCoordi
 		 * Prevent accidental zooming.
 		 */
 		RangeRestriction rangeRestriction = getRangeRestriction();
-		if(rangeRestriction.isYZoomOnly()) {
+		if(rangeRestriction.isRestrictSelectY()) {
 			if(deltaHeight >= minSelectedHeight) {
 				handleUserSelectionXY(event);
 			}
@@ -1253,7 +1263,7 @@ public class BaseChart extends AbstractExtendedChart implements IChartDataCoordi
 	private void setHorizontalRange(IAxis xAxis, IAxis yAxis, int xStart, int xStop, int yStart, int yStop) {
 
 		RangeRestriction rangeRestriction = getRangeRestriction();
-		if(isZoomXAndY(rangeRestriction)) {
+		if(isSelectXY(rangeRestriction)) {
 			/*
 			 * X and Y zoom.
 			 */
@@ -1263,9 +1273,9 @@ public class BaseChart extends AbstractExtendedChart implements IChartDataCoordi
 			/*
 			 * X or Y zoom.
 			 */
-			if(rangeRestriction.isXZoomOnly()) {
+			if(rangeRestriction.isRestrictSelectX()) {
 				setRange(xAxis, xStart, xStop, true);
-			} else if(rangeRestriction.isYZoomOnly()) {
+			} else if(rangeRestriction.isRestrictSelectY()) {
 				setRange(yAxis, yStart, yStop, true);
 			}
 		}
@@ -1274,7 +1284,7 @@ public class BaseChart extends AbstractExtendedChart implements IChartDataCoordi
 	private void setVerticalRange(IAxis xAxis, IAxis yAxis, int xStart, int xStop, int yStart, int yStop) {
 
 		RangeRestriction rangeRestriction = getRangeRestriction();
-		if(isZoomXAndY(rangeRestriction)) {
+		if(isSelectXY(rangeRestriction)) {
 			/*
 			 * X and Y zoom.
 			 */
@@ -1284,9 +1294,9 @@ public class BaseChart extends AbstractExtendedChart implements IChartDataCoordi
 			/*
 			 * X or Y zoom.
 			 */
-			if(rangeRestriction.isXZoomOnly()) {
+			if(rangeRestriction.isRestrictSelectX()) {
 				setRange(xAxis, yStart, yStop, true);
-			} else if(rangeRestriction.isYZoomOnly()) {
+			} else if(rangeRestriction.isRestrictSelectY()) {
 				setRange(yAxis, xStart, xStop, true);
 			}
 		}
@@ -1314,15 +1324,39 @@ public class BaseChart extends AbstractExtendedChart implements IChartDataCoordi
 		return axisSettings;
 	}
 
+	/**
+	 * Use isSelectXY(rangeRestriction) instead.
+	 * 
+	 * @param rangeRestriction
+	 * @return boolean
+	 */
+	@Deprecated
 	public boolean isZoomXAndY(RangeRestriction rangeRestriction) {
 
-		boolean zoomXAndY = false;
-		if(!rangeRestriction.isXZoomOnly() && !rangeRestriction.isYZoomOnly()) {
-			zoomXAndY = true;
-		} else if(rangeRestriction.isXZoomOnly() && rangeRestriction.isYZoomOnly()) {
-			zoomXAndY = true;
+		return isSelectXY(rangeRestriction);
+	}
+
+	public boolean isSelectXY(RangeRestriction rangeRestriction) {
+
+		boolean enableAction = false;
+		if(!rangeRestriction.isRestrictSelectX() && !rangeRestriction.isRestrictSelectY()) {
+			enableAction = true;
+		} else if(rangeRestriction.isRestrictSelectX() && rangeRestriction.isRestrictSelectY()) {
+			enableAction = true;
 		}
 		//
-		return zoomXAndY;
+		return enableAction;
+	}
+
+	public boolean isZoomXY(RangeRestriction rangeRestriction) {
+
+		boolean enableAction = false;
+		if(!rangeRestriction.isRestrictZoomX() && !rangeRestriction.isRestrictZoomY()) {
+			enableAction = true;
+		} else if(rangeRestriction.isRestrictZoomX() && rangeRestriction.isRestrictZoomY()) {
+			enableAction = true;
+		}
+		//
+		return enableAction;
 	}
 }

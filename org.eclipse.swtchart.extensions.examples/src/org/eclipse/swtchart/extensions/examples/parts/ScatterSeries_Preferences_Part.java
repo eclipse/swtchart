@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2017, 2019 Lablicate GmbH.
+ * Copyright (c) 2017, 2020 Lablicate GmbH.
  *
  * This program and the accompanying materials are made
  * available under the terms of the Eclipse Public License 2.0
@@ -182,9 +182,9 @@ public class ScatterSeries_Preferences_Part extends Composite {
 		RangeRestriction rangeRestriction = chartSettings.getRangeRestriction();
 		rangeRestriction.setZeroX(preferenceStore.getBoolean(ScatterSeriesPreferenceConstants.P_ZERO_X));
 		rangeRestriction.setZeroY(preferenceStore.getBoolean(ScatterSeriesPreferenceConstants.P_ZERO_Y));
-		rangeRestriction.setRestrictZoom(preferenceStore.getBoolean(ScatterSeriesPreferenceConstants.P_RESTRICT_ZOOM));
-		rangeRestriction.setXZoomOnly(preferenceStore.getBoolean(ScatterSeriesPreferenceConstants.P_X_ZOOM_ONLY));
-		rangeRestriction.setYZoomOnly(preferenceStore.getBoolean(ScatterSeriesPreferenceConstants.P_Y_ZOOM_ONLY));
+		rangeRestriction.setRestrictFrame(preferenceStore.getBoolean(ScatterSeriesPreferenceConstants.P_RESTRICT_ZOOM));
+		rangeRestriction.setRestrictSelectX(preferenceStore.getBoolean(ScatterSeriesPreferenceConstants.P_X_ZOOM_ONLY));
+		rangeRestriction.setRestrictSelectY(preferenceStore.getBoolean(ScatterSeriesPreferenceConstants.P_Y_ZOOM_ONLY));
 		rangeRestriction.setForceZeroMinY(preferenceStore.getBoolean(ScatterSeriesPreferenceConstants.P_FORCE_ZERO_MIN_Y));
 		rangeRestriction.setExtendTypeX(RangeRestriction.ExtendType.valueOf(preferenceStore.getString(ScatterSeriesPreferenceConstants.P_EXTEND_TYPE_X)));
 		rangeRestriction.setExtendMinX(preferenceStore.getDouble(ScatterSeriesPreferenceConstants.P_EXTEND_MIN_X));
