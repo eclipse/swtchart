@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2017, 2019 Lablicate GmbH.
+ * Copyright (c) 2017, 2020 Lablicate GmbH.
  *
  * This program and the accompanying materials are made
  * available under the terms of the Eclipse Public License 2.0
@@ -62,7 +62,7 @@ public class ScatterSeries_3_Part extends ScatterChart {
 		rangeRestriction.setExtendTypeY(RangeRestriction.ExtendType.RELATIVE);
 		rangeRestriction.setExtendMinY(0.25d);
 		rangeRestriction.setExtendMaxY(0.1d);
-		rangeRestriction.setRestrictZoom(false);
+		rangeRestriction.setRestrictFrame(false);
 		chartSettings.setCreateMenu(true);
 		//
 		IPrimaryAxisSettings primaryAxisSettingsX = chartSettings.getPrimaryAxisSettingsX();

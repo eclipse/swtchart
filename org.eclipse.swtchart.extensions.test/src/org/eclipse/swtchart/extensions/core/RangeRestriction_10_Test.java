@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2017, 2019 Lablicate GmbH.
+ * Copyright (c) 2017, 2020 Lablicate GmbH.
  *
  * This program and the accompanying materials are made
  * available under the terms of the Eclipse Public License 2.0
@@ -22,7 +22,7 @@ public class RangeRestriction_10_Test extends TestCase {
 	protected void setUp() throws Exception {
 
 		super.setUp();
-		rangeRestriction = new RangeRestriction(RangeRestriction.ZERO_X | RangeRestriction.ZERO_Y | RangeRestriction.RESTRICT_ZOOM);
+		rangeRestriction = new RangeRestriction(RangeRestriction.ZERO_X | RangeRestriction.ZERO_Y | RangeRestriction.RESTRICT_FRAME);
 	}
 
 	@Override
@@ -35,7 +35,7 @@ public class RangeRestriction_10_Test extends TestCase {
 
 		assertTrue(rangeRestriction.isZeroX());
 		assertTrue(rangeRestriction.isZeroY());
-		assertTrue(rangeRestriction.isRestrictZoom());
+		assertTrue(rangeRestriction.isRestrictFrame());
 	}
 
 	public void test2() {
@@ -43,7 +43,7 @@ public class RangeRestriction_10_Test extends TestCase {
 		rangeRestriction.setZeroX(false);
 		assertFalse(rangeRestriction.isZeroX());
 		assertTrue(rangeRestriction.isZeroY());
-		assertTrue(rangeRestriction.isRestrictZoom());
+		assertTrue(rangeRestriction.isRestrictFrame());
 	}
 
 	public void test3() {
@@ -51,14 +51,14 @@ public class RangeRestriction_10_Test extends TestCase {
 		rangeRestriction.setZeroY(false);
 		assertTrue(rangeRestriction.isZeroX());
 		assertFalse(rangeRestriction.isZeroY());
-		assertTrue(rangeRestriction.isRestrictZoom());
+		assertTrue(rangeRestriction.isRestrictFrame());
 	}
 
 	public void test4() {
 
-		rangeRestriction.setRestrictZoom(false);
+		rangeRestriction.setRestrictFrame(false);
 		assertTrue(rangeRestriction.isZeroX());
 		assertTrue(rangeRestriction.isZeroY());
-		assertFalse(rangeRestriction.isRestrictZoom());
+		assertFalse(rangeRestriction.isRestrictFrame());
 	}
 }

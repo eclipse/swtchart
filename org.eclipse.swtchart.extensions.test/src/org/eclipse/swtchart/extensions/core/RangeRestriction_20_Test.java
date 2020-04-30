@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2017, 2019 Lablicate GmbH.
+ * Copyright (c) 2017, 2020 Lablicate GmbH.
  *
  * This program and the accompanying materials are made
  * available under the terms of the Eclipse Public License 2.0
@@ -22,7 +22,7 @@ public class RangeRestriction_20_Test extends TestCase {
 	protected void setUp() throws Exception {
 
 		super.setUp();
-		rangeRestriction = new RangeRestriction(RangeRestriction.X_ZOOM_ONLY | RangeRestriction.Y_ZOOM_ONLY);
+		rangeRestriction = new RangeRestriction(RangeRestriction.RESTRICT_SELECT_X | RangeRestriction.RESTRICT_SELECT_Y);
 	}
 
 	@Override
@@ -33,21 +33,21 @@ public class RangeRestriction_20_Test extends TestCase {
 
 	public void test1() {
 
-		assertTrue(rangeRestriction.isXZoomOnly());
-		assertTrue(rangeRestriction.isYZoomOnly());
+		assertTrue(rangeRestriction.isRestrictSelectX());
+		assertTrue(rangeRestriction.isRestrictSelectY());
 	}
 
 	public void test2() {
 
-		rangeRestriction.setXZoomOnly(false);
-		assertFalse(rangeRestriction.isXZoomOnly());
-		assertTrue(rangeRestriction.isYZoomOnly());
+		rangeRestriction.setRestrictSelectX(false);
+		assertFalse(rangeRestriction.isRestrictSelectX());
+		assertTrue(rangeRestriction.isRestrictSelectY());
 	}
 
 	public void test3() {
 
-		rangeRestriction.setYZoomOnly(false);
-		assertTrue(rangeRestriction.isXZoomOnly());
-		assertFalse(rangeRestriction.isYZoomOnly());
+		rangeRestriction.setRestrictSelectY(false);
+		assertTrue(rangeRestriction.isRestrictSelectX());
+		assertFalse(rangeRestriction.isRestrictSelectY());
 	}
 }

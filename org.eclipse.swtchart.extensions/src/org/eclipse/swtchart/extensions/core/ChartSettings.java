@@ -34,7 +34,7 @@ import org.eclipse.swtchart.extensions.events.ResetSeriesEvent;
 import org.eclipse.swtchart.extensions.events.SelectDataPointEvent;
 import org.eclipse.swtchart.extensions.events.SelectHideSeriesEvent;
 import org.eclipse.swtchart.extensions.events.UndoRedoEvent;
-import org.eclipse.swtchart.extensions.events.ZoomEvent;
+import org.eclipse.swtchart.extensions.events.MouseWheelEvent;
 import org.eclipse.swtchart.extensions.menu.IChartMenuEntry;
 import org.eclipse.swtchart.extensions.menu.RedoSelectionHandler;
 import org.eclipse.swtchart.extensions.menu.ResetChartHandler;
@@ -151,7 +151,7 @@ public class ChartSettings implements IChartSettings {
 		rangeRestriction = new RangeRestriction();
 		rangeRestriction.setZeroX(true);
 		rangeRestriction.setZeroY(true);
-		rangeRestriction.setRestrictZoom(true);
+		rangeRestriction.setRestrictFrame(true);
 		//
 		showPositionMarker = false;
 		colorPositionMarker = display.getSystemColor(SWT.COLOR_DARK_GRAY);
@@ -193,7 +193,7 @@ public class ChartSettings implements IChartSettings {
 		handledEventProcessors.add(new SelectHideSeriesEvent());
 		handledEventProcessors.add(new ResetSeriesEvent());
 		handledEventProcessors.add(new SelectDataPointEvent());
-		handledEventProcessors.add(new ZoomEvent());
+		handledEventProcessors.add(new MouseWheelEvent());
 		handledEventProcessors.add(new MouseDownEvent());
 		handledEventProcessors.add(new MouseMoveSelectionEvent());
 		handledEventProcessors.add(new MouseMoveShiftEvent());
@@ -218,7 +218,12 @@ public class ChartSettings implements IChartSettings {
 		 * Bug #150
 		 * https://github.com/eclipse/swtchart/issues/150
 		 */
-		this.bufferSelection = isMacOS() ? false : bufferSelection;
+		if(isMacOS()) {
+			System.out.println("Can't set buffer selection on macOS true, see: https://github.com/eclipse/swtchart/issues/150");
+			this.bufferSelection = false;
+		} else {
+			this.bufferSelection = bufferSelection;
+		}
 	}
 
 	@Override
