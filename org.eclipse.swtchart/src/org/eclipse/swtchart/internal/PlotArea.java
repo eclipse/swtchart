@@ -56,6 +56,7 @@ public class PlotArea extends Composite implements PaintListener, IPlotArea {
 	private static final int DEFAULT_BACKGROUND = SWT.COLOR_WHITE;
 	private DisposeListener disposeListener;
 	private Image image = null;
+	private boolean buffered = false;
 
 	/**
 	 * Constructor.
@@ -66,7 +67,6 @@ public class PlotArea extends Composite implements PaintListener, IPlotArea {
 	 *            the style
 	 */
 	public PlotArea(Chart chart, int style) {
-
 		super(chart, style | SWT.NO_BACKGROUND | SWT.DOUBLE_BUFFERED);
 		this.chart = chart;
 		paintListeners = new ArrayList<ICustomPaintListener>();
@@ -230,5 +230,17 @@ public class PlotArea extends Composite implements PaintListener, IPlotArea {
 		}
 		//
 		return imageData;
+	}
+
+	@Override
+	public boolean isBuffered() {
+
+		return buffered;
+	}
+
+	@Override
+	public void setBuffered(boolean buffered) {
+
+		this.buffered = buffered;
 	}
 }

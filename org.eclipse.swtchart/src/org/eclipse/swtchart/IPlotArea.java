@@ -63,6 +63,24 @@ public interface IPlotArea {
 	public void setBackground(Color color);
 
 	/**
+	 * Returns if the buffer is currently active.
+	 * 
+	 * @return boolean
+	 */
+	public boolean isBuffered();
+
+	/**
+	 * Set the buffer status. Normally, the background image is set
+	 * as part of the buffer process. But it's not possible to
+	 * return the status dependent on the availability of the
+	 * background image as one could also set a background image
+	 * manually.
+	 * 
+	 * @param buffered
+	 */
+	public void setBuffered(boolean buffered);
+
+	/**
 	 * Draws the image centered in the plot area.
 	 * 
 	 * @param image

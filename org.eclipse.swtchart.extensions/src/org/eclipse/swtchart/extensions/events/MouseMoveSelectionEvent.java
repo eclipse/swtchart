@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2017, 2019 Lablicate GmbH.
+ * Copyright (c) 2017, 2020 Lablicate GmbH.
  *
  * This program and the accompanying materials are made
  * available under the terms of the Eclipse Public License 2.0
@@ -13,7 +13,12 @@
 package org.eclipse.swtchart.extensions.events;
 
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.graphics.Image;
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Event;
+import org.eclipse.swtchart.IPlotArea;
+import org.eclipse.swtchart.ISeries;
+import org.eclipse.swtchart.ISeriesSet;
 import org.eclipse.swtchart.extensions.core.BaseChart;
 import org.eclipse.swtchart.extensions.core.IMouseSupport;
 
@@ -34,6 +39,26 @@ public class MouseMoveSelectionEvent extends AbstractHandledEventProcessor imple
 	@Override
 	public void handleEvent(BaseChart baseChart, Event event) {
 
+		/*
+		 * Buffer the selection on the first event.
+		 */
+		IPlotArea plotArea = baseChart.getPlotArea();
+		if(!plotArea.isBuffered()) {
+			if(baseChart.getChartSettings().isBufferSelection()) {
+				baseChart.suspendUpdate(true);
+				Image image = new Image(Display.getDefault(), baseChart.getPlotArea().getImageData());
+				ISeriesSet set = baseChart.getSeriesSet();
+				ISeries<?>[] series = set.getSeries();
+				for(ISeries<?> serie : series) {
+					serie.setVisibleBuffered(serie.isVisible());
+					baseChart.hideSeries(serie.getId());
+				}
+				plotArea.setBackgroundImage(image);
+				plotArea.setBuffered(true);
+				baseChart.suspendUpdate(false);
+				baseChart.redraw();
+			}
+		}
 		/*
 		 * Set Selection Range
 		 */

@@ -1181,7 +1181,7 @@ public class BaseChart extends AbstractExtendedChart implements IChartDataCoordi
 	 */
 	public boolean isBufferActive() {
 
-		return getChartSettings().isBufferSelection() && userSelection.isActive();
+		return getPlotArea().isBuffered();
 	}
 
 	private void handleUserSelectionXY(Event event) {
