@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2017, 2019 Lablicate GmbH.
+ * Copyright (c) 2017, 2020 Lablicate GmbH.
  *
  * This program and the accompanying materials are made
  * available under the terms of the Eclipse Public License 2.0
@@ -12,6 +12,7 @@
  *******************************************************************************/
 package org.eclipse.swtchart.extensions.events;
 
+import org.eclipse.swt.widgets.Event;
 import org.eclipse.swtchart.extensions.core.IMouseSupport;
 
 public abstract class AbstractHandledEventProcessor implements IHandledEventProcessor {
@@ -20,5 +21,10 @@ public abstract class AbstractHandledEventProcessor implements IHandledEventProc
 	public int getButton() {
 
 		return IMouseSupport.MOUSE_BUTTON_NONE;
+	}
+
+	protected boolean isSingleClick(Event event) {
+
+		return event.count == 1;
 	}
 }

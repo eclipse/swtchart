@@ -13,11 +13,7 @@
 package org.eclipse.swtchart.extensions.events;
 
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.graphics.Image;
-import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Event;
-import org.eclipse.swtchart.ISeries;
-import org.eclipse.swtchart.ISeriesSet;
 import org.eclipse.swtchart.extensions.core.BaseChart;
 import org.eclipse.swtchart.extensions.core.IMouseSupport;
 
@@ -44,23 +40,14 @@ public class MouseDownEvent extends AbstractHandledEventProcessor implements IHa
 	@Override
 	public void handleEvent(BaseChart baseChart, Event event) {
 
-		baseChart.getUserSelection().setStartCoordinate(event.x, event.y);
-		baseChart.setClickStartTime(System.currentTimeMillis());
 		/*
-		 * Disable the buffered status.
+		 * Activate the selection if the user made a single click.
 		 */
-		if(baseChart.getChartSettings().isBufferSelection()) {
-			baseChart.suspendUpdate(true);
-			Image image = new Image(Display.getDefault(), baseChart.getPlotArea().getImageData());
-			ISeriesSet set = baseChart.getSeriesSet();
-			ISeries<?>[] series = set.getSeries();
-			for(ISeries<?> serie : series) {
-				serie.setVisibleBuffered(serie.isVisible());
-				baseChart.hideSeries(serie.getId());
-			}
-			baseChart.getPlotArea().setBackgroundImage(image);
-			baseChart.suspendUpdate(false);
-			baseChart.redraw();
+		if(isSingleClick(event)) {
+			baseChart.getUserSelection().setStartCoordinate(event.x, event.y);
+			baseChart.setClickStartTime(System.currentTimeMillis());
+		} else {
+			baseChart.getUserSelection().reset();
 		}
 	}
 }

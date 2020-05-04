@@ -14,6 +14,7 @@ package org.eclipse.swtchart.extensions.events;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Event;
+import org.eclipse.swtchart.IPlotArea;
 import org.eclipse.swtchart.ISeries;
 import org.eclipse.swtchart.ISeriesSet;
 import org.eclipse.swtchart.extensions.core.BaseChart;
@@ -43,11 +44,13 @@ public class MouseUpEvent extends AbstractHandledEventProcessor implements IHand
 	public void handleEvent(BaseChart baseChart, Event event) {
 
 		/*
-		 * Disable the buffered status.
+		 * Disable to buffer the data.
 		 */
-		if(baseChart.getChartSettings().isBufferSelection()) {
+		IPlotArea plotArea = baseChart.getPlotArea();
+		if(plotArea.isBuffered()) {
 			baseChart.suspendUpdate(true);
-			baseChart.getPlotArea().setBackgroundImage(null);
+			plotArea.setBackgroundImage(null);
+			plotArea.setBuffered(false);
 			ISeriesSet set = baseChart.getSeriesSet();
 			ISeries<?>[] series = set.getSeries();
 			for(ISeries<?> serie : series) {
@@ -59,10 +62,16 @@ public class MouseUpEvent extends AbstractHandledEventProcessor implements IHand
 			baseChart.suspendUpdate(false);
 			baseChart.redraw();
 		}
-		//
-		long deltaTime = System.currentTimeMillis() - baseChart.getClickStartTime();
-		if(deltaTime >= BaseChart.DELTA_CLICK_TIME) {
-			baseChart.handleUserSelection(event);
+		/*
+		 * Apply the selection.
+		 */
+		if(isSingleClick(event)) {
+			long deltaTime = System.currentTimeMillis() - baseChart.getClickStartTime();
+			if(deltaTime >= BaseChart.DELTA_CLICK_TIME) {
+				baseChart.handleUserSelection(event);
+			} else {
+				baseChart.getUserSelection().reset();
+			}
 		}
 	}
 }

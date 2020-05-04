@@ -14,11 +14,11 @@ package org.eclipse.swtchart.extensions.core;
 
 public class UserSelection {
 
-	private boolean active;
-	private int startX;
-	private int startY;
-	private int stopX;
-	private int stopY;
+	private boolean active = false;
+	private int startX = 0;
+	private int startY = 0;
+	private int stopX = 0;
+	private int stopY = 0;
 
 	public UserSelection() {
 		reset();
