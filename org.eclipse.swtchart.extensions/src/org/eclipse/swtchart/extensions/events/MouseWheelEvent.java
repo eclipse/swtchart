@@ -44,8 +44,6 @@ public class MouseWheelEvent extends AbstractHandledEventProcessor implements IH
 	@Override
 	public void handleEvent(BaseChart baseChart, Event event) {
 
-		System.out.println(baseChart);
-		System.out.println(event);
 		runZoomAction(baseChart, event);
 		postValidateZoom(baseChart);
 		//
