@@ -104,7 +104,7 @@ public class ExtendedLegendUI extends Composite {
 
 		Composite composite = new Composite(parent, SWT.NONE);
 		composite.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
-		composite.setLayout(new GridLayout(10, false));
+		composite.setLayout(new GridLayout(11, false));
 		//
 		add(createButtonMove(composite, ResourceSupport.ARROW_LEFT, "Move Legend Left"));
 		add(createButtonMove(composite, ResourceSupport.ARROW_UP, "Move Legend Up"));
@@ -114,6 +114,7 @@ public class ExtendedLegendUI extends Composite {
 		add(textY = createTextPositionY(composite));
 		add(createButtonSetPosition(composite));
 		createButtonToggleLegend(composite);
+		createButtonToggleSort(composite);
 		createButtonMappings(composite);
 		createButtonSettings(composite);
 	}
@@ -278,6 +279,27 @@ public class ExtendedLegendUI extends Composite {
 		return button;
 	}
 
+	private Button createButtonToggleSort(Composite parent) {
+
+		Button button = new Button(parent, SWT.CHECK);
+		button.setText("");
+		button.setToolTipText("Sort the table.");
+		button.setSelection(preferenceStore.getBoolean(PreferenceConstants.P_SORT_LEGEND_TABLE));
+		button.addSelectionListener(new SelectionAdapter() {
+
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+
+				boolean enable = button.getSelection();
+				seriesListUI.setTableSortable(enable);
+				preferenceStore.setValue(PreferenceConstants.P_SORT_LEGEND_TABLE, enable);
+				seriesListUI.getTable().redraw();
+			}
+		});
+		//
+		return button;
+	}
+
 	private Button createButtonMappings(Composite parent) {
 
 		Button button = new Button(parent, SWT.PUSH);
@@ -334,6 +356,7 @@ public class ExtendedLegendUI extends Composite {
 	private SeriesListUI createListSection(Composite parent) {
 
 		SeriesListUI seriesListUI = new SeriesListUI(parent, SWT.MULTI | SWT.H_SCROLL | SWT.V_SCROLL | SWT.FULL_SELECTION | SWT.BORDER);
+		seriesListUI.setTableSortable(preferenceStore.getBoolean(PreferenceConstants.P_SORT_LEGEND_TABLE));
 		Table table = seriesListUI.getTable();
 		table.setLayoutData(new GridData(GridData.FILL_BOTH));
 		//
