@@ -1,4 +1,5 @@
 Manifest-Version: 1.0
+Automatic-Module-Name: org.eclipse.swtchart
 Bundle-ManifestVersion: 2
 Bundle-Name: SWTChart
 Bundle-SymbolicName: org.eclipse.swtchart

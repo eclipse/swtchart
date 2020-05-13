@@ -1,4 +1,5 @@
 Manifest-Version: 1.0
+Automatic-Module-Name: org.eclipse.swtchart.export
 Bundle-ManifestVersion: 2
 Bundle-Name: SWTChart Export Options
 Bundle-SymbolicName: org.eclipse.swtchart.export;singleton:=true
