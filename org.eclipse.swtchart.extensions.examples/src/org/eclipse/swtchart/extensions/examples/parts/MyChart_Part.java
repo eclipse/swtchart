@@ -53,6 +53,7 @@ public class MyChart_Part extends BarChart {
 		IChartSettings chartSettings = getChartSettings();
 		chartSettings.setCreateMenu(true);
 		chartSettings.setHorizontalSliderVisible(true);
+		chartSettings.setVerticalSliderVisible(true);
 		RangeRestriction rangeRestriction = chartSettings.getRangeRestriction();
 		rangeRestriction.setRestrictFrame(false);
 		//

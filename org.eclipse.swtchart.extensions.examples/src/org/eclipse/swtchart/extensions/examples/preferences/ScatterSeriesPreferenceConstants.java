@@ -15,10 +15,10 @@ package org.eclipse.swtchart.extensions.examples.preferences;
 import java.util.Locale;
 
 import org.eclipse.swt.SWT;
-import org.eclipse.swtchart.extensions.core.RangeRestriction;
 import org.eclipse.swtchart.IAxis.Position;
 import org.eclipse.swtchart.ILineSeries.PlotSymbolType;
 import org.eclipse.swtchart.LineStyle;
+import org.eclipse.swtchart.extensions.core.RangeRestriction;
 
 public class ScatterSeriesPreferenceConstants {
 
@@ -36,7 +36,7 @@ public class ScatterSeriesPreferenceConstants {
 	public static final int DEF_RANGE_SELECTOR_DEFAULT_AXIS_Y = 0; // Index
 	//
 	public static final String P_VERTICAL_SLIDER_VISIBLE = "verticalSliderVisible" + POSTFIX;
-	public static final boolean DEF_VERTICAL_SLIDER_VISIBLE = false;
+	public static final boolean DEF_VERTICAL_SLIDER_VISIBLE = true;
 	public static final String P_HORIZONTAL_SLIDER_VISIBLE = "HorizontalSliderVisible" + POSTFIX;
 	public static final boolean DEF_HORIZONTALSLIDER_VISIBLE = true;
 	//

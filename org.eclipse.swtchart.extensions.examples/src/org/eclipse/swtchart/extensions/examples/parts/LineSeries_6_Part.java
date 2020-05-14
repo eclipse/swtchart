@@ -56,7 +56,7 @@ public class LineSeries_6_Part extends LineChart {
 		IChartSettings chartSettings = getChartSettings();
 		chartSettings.setOrientation(SWT.HORIZONTAL);
 		chartSettings.setHorizontalSliderVisible(true);
-		chartSettings.setVerticalSliderVisible(false);
+		chartSettings.setVerticalSliderVisible(true);
 		chartSettings.getRangeRestriction().setZeroX(false);
 		chartSettings.getRangeRestriction().setZeroY(true);
 		chartSettings.getRangeRestriction().setRestrictFrame(false);

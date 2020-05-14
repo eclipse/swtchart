@@ -54,7 +54,7 @@ public class MeasurementSeries_1_Part extends LineChart {
 		IChartSettings chartSettings = getChartSettings();
 		chartSettings.setOrientation(SWT.HORIZONTAL);
 		chartSettings.setHorizontalSliderVisible(true);
-		chartSettings.setVerticalSliderVisible(false);
+		chartSettings.setVerticalSliderVisible(true);
 		chartSettings.getRangeRestriction().setZeroX(true);
 		chartSettings.getRangeRestriction().setZeroY(true);
 		chartSettings.setCreateMenu(true);
