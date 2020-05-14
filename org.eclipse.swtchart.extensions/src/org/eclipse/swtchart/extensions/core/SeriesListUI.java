@@ -65,6 +65,20 @@ public class SeriesListUI extends TableViewer {
 		createControl();
 	}
 
+	public boolean isTableSortable() {
+
+		return getComparator() != null;
+	}
+
+	public void setTableSortable(boolean enable) {
+
+		if(enable) {
+			setComparator(comparator);
+		} else {
+			setComparator(null);
+		}
+	}
+
 	public void setSearchText(String searchText, boolean caseSensitive) {
 
 		filter.setSearchText(searchText, caseSensitive);
@@ -98,7 +112,7 @@ public class SeriesListUI extends TableViewer {
 		createColumns(TITLES, BOUNDS);
 		setLabelProvider(labelProvider);
 		setContentProvider(contentProvider);
-		setComparator(comparator);
+		setComparator(null);
 		setFilters(new ViewerFilter[]{filter});
 		setCellColorAndEditSupport();
 		setColumnOrder(getTable());

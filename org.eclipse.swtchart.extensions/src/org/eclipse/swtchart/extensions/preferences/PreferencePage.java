@@ -12,6 +12,7 @@
  *******************************************************************************/
 package org.eclipse.swtchart.extensions.preferences;
 
+import org.eclipse.jface.preference.BooleanFieldEditor;
 import org.eclipse.jface.preference.FieldEditorPreferencePage;
 import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.jface.preference.IntegerFieldEditor;
@@ -38,6 +39,7 @@ public class PreferencePage extends FieldEditorPreferencePage implements IWorkbe
 		addField(new IntegerFieldEditor(PreferenceConstants.P_MOVE_LEGEND_Y, "Move Legend [Y]", getFieldEditorParent()));
 		addField(new IntegerFieldEditor(PreferenceConstants.P_LEGEND_POSITION_X, "Legend Position [X]", getFieldEditorParent()));
 		addField(new IntegerFieldEditor(PreferenceConstants.P_LEGEND_POSITION_Y, "Legend Position [Y]", getFieldEditorParent()));
+		addField(new BooleanFieldEditor(PreferenceConstants.P_SORT_LEGEND_TABLE, "Sort Legend Table", getFieldEditorParent()));
 		addField(new StringFieldEditor(PreferenceConstants.P_LEGEND_COLUMN_ORDER, "Sort Order Columns Legend", getFieldEditorParent()));
 	}
 

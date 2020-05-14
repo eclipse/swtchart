@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2017, 2019 Lablicate GmbH.
+ * Copyright (c) 2017, 2020 Lablicate GmbH.
  *
  * This program and the accompanying materials are made
  * available under the terms of the Eclipse Public License 2.0
@@ -15,10 +15,10 @@ package org.eclipse.swtchart.extensions.examples.preferences;
 import java.util.Locale;
 
 import org.eclipse.swt.SWT;
-import org.eclipse.swtchart.extensions.core.RangeRestriction;
 import org.eclipse.swtchart.IAxis.Position;
 import org.eclipse.swtchart.ILineSeries.PlotSymbolType;
 import org.eclipse.swtchart.LineStyle;
+import org.eclipse.swtchart.extensions.core.RangeRestriction;
 
 public class LineSeriesPreferenceConstants {
 
@@ -113,9 +113,9 @@ public class LineSeriesPreferenceConstants {
 	public static final boolean DEF_CREATE_MENU = true;
 	//
 	public static final String P_PRIMARY_X_AXIS_TITLE = "primaryXAxisTitle" + POSTFIX;
-	public static final String DEF_PRIMARY_X_AXIS_TITLE = "Milliseconds";
+	public static final String DEF_PRIMARY_X_AXIS_TITLE = "Time [ms]";
 	public static final String P_PRIMARY_X_AXIS_DESCRIPTION = "primaryXAxisDescription" + POSTFIX;
-	public static final String DEF_PRIMARY_X_AXIS_DESCRIPTION = "Retention Time (milliseconds)";
+	public static final String DEF_PRIMARY_X_AXIS_DESCRIPTION = "Time [ms]";
 	public static final String P_PRIMARY_X_AXIS_DECIMAL_FORMAT_PATTERN = "primaryXAxisDecimalFormatPattern" + POSTFIX;
 	public static final String DEF_PRIMARY_X_AXIS_DECIMAL_FORMAT_PATTERN = "0.0##";
 	public static final String P_PRIMARY_X_AXIS_DECIMAL_FORMAT_LOCALE = "primaryXAxisDecimalFormatLocale" + POSTFIX;
@@ -134,9 +134,9 @@ public class LineSeriesPreferenceConstants {
 	public static final int DEF_PRIMARY_X_AXIS_EXTRA_SPACE_TITLE = 25;
 	//
 	public static final String P_PRIMARY_Y_AXIS_TITLE = "primaryYAxisTitle" + POSTFIX;
-	public static final String DEF_PRIMARY_Y_AXIS_TITLE = "Intensity";
+	public static final String DEF_PRIMARY_Y_AXIS_TITLE = "Intensity [counts]";
 	public static final String P_PRIMARY_Y_AXIS_DESCRIPTION = "primaryYAxisDescription" + POSTFIX;
-	public static final String DEF_PRIMARY_Y_AXIS_DESCRIPTION = "Intensity";
+	public static final String DEF_PRIMARY_Y_AXIS_DESCRIPTION = "Intensity [counts]";
 	public static final String P_PRIMARY_Y_AXIS_DECIMAL_FORMAT_PATTERN = "primaryYAxisDecimalFormatPattern" + POSTFIX;
 	public static final String DEF_PRIMARY_Y_AXIS_DECIMAL_FORMAT_PATTERN = "0.0#E0";
 	public static final String P_PRIMARY_Y_AXIS_DECIMAL_FORMAT_LOCALE = "primaryYAxisDecimalFormatLocale" + POSTFIX;
@@ -155,9 +155,9 @@ public class LineSeriesPreferenceConstants {
 	public static final int DEF_PRIMARY_Y_AXIS_EXTRA_SPACE_TITLE = 25;
 	//
 	public static final String P_SECONDARY_X_AXIS_TITLE = "secondaryXAxisTitle" + POSTFIX;
-	public static final String DEF_SECONDARY_X_AXIS_TITLE = "Min";
+	public static final String DEF_SECONDARY_X_AXIS_TITLE = "Time [min]";
 	public static final String P_SECONDARY_X_AXIS_DESCRIPTION = "secondaryXAxisDescription" + POSTFIX;
-	public static final String DEF_SECONDARY_X_AXIS_DESCRIPTION = "Minutes";
+	public static final String DEF_SECONDARY_X_AXIS_DESCRIPTION = "Time [min]";
 	public static final String P_SECONDARY_X_AXIS_DECIMAL_FORMAT_PATTERN = "secondaryXAxisDecimalFormatPattern" + POSTFIX;
 	public static final String DEF_SECONDARY_X_AXIS_DECIMAL_FORMAT_PATTERN = "0.0##";
 	public static final String P_SECONDARY_X_AXIS_DECIMAL_FORMAT_LOCALE = "secondaryXAxisDecimalFormatLocale" + POSTFIX;
@@ -176,9 +176,9 @@ public class LineSeriesPreferenceConstants {
 	public static final int DEF_SECONDARY_X_AXIS_EXTRA_SPACE_TITLE = 25;
 	//
 	public static final String P_SECONDARY_Y_AXIS_TITLE = "secondaryYAxisTitle" + POSTFIX;
-	public static final String DEF_SECONDARY_Y_AXIS_TITLE = "Int [%]";
+	public static final String DEF_SECONDARY_Y_AXIS_TITLE = "Intensity [%]";
 	public static final String P_SECONDARY_Y_AXIS_DESCRIPTION = "secondaryYAxisDescription" + POSTFIX;
-	public static final String DEF_SECONDARY_Y_AXIS_DESCRIPTION = "Relative Intensity [%]";
+	public static final String DEF_SECONDARY_Y_AXIS_DESCRIPTION = "Intensity [%]";
 	public static final String P_SECONDARY_Y_AXIS_DECIMAL_FORMAT_PATTERN = "secondaryYAxisDecimalFormatPattern" + POSTFIX;
 	public static final String DEF_SECONDARY_Y_AXIS_DECIMAL_FORMAT_PATTERN = "0.00";
 	public static final String P_SECONDARY_Y_AXIS_DECIMAL_FORMAT_LOCALE = "secondaryYAxisDecimalFormatLocale" + POSTFIX;

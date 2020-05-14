@@ -1,6 +1,7 @@
 Manifest-Version: 1.0
+Automatic-Module-Name: org.eclipse.swtchart.extensions
 Bundle-ManifestVersion: 2
-Bundle-Name: SWTCHart and extensions
+Bundle-Name: SWTChart and extensions
 Bundle-SymbolicName: org.eclipse.swtchart.extensions;singleton:=true
 Bundle-Version: 0.13.0.qualifier
 Bundle-Activator: org.eclipse.swtchart.extensions.Activator

@@ -1,8 +1,9 @@
 Manifest-Version: 1.0
+Automatic-Module-Name: org.eclipse.swtchart.extensions.examples
 Bundle-ManifestVersion: 2
 Bundle-Name: SWTChat Extension Examples
 Bundle-SymbolicName: org.eclipse.swtchart.extensions.examples;singleton:=true
-Bundle-Version: 0.7.0.qualifier
+Bundle-Version: 0.13.0.qualifier
 Bundle-Activator: org.eclipse.swtchart.extensions.examples.Activator
 Bundle-Vendor: Eclipse
 Require-Bundle: org.eclipse.ui,

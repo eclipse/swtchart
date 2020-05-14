@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2017, 2019 Lablicate GmbH.
+ * Copyright (c) 2017, 2020 Lablicate GmbH.
  *
  * This program and the accompanying materials are made
  * available under the terms of the Eclipse Public License 2.0
@@ -44,6 +44,7 @@ public class LineSeries_3_Part extends LineChart {
 
 	@Inject
 	public LineSeries_3_Part(Composite parent) {
+
 		super(parent, SWT.NONE);
 		setBackground(getDisplay().getSystemColor(SWT.COLOR_WHITE));
 		try {
@@ -73,7 +74,7 @@ public class LineSeries_3_Part extends LineChart {
 		 * Primary X-Axis
 		 */
 		IPrimaryAxisSettings primaryAxisSettingsX = chartSettings.getPrimaryAxisSettingsX();
-		primaryAxisSettingsX.setTitle("Retention Time (milliseconds)");
+		primaryAxisSettingsX.setTitle("Time [ms]");
 		primaryAxisSettingsX.setDecimalFormat(new DecimalFormat(("0.0##"), new DecimalFormatSymbols(Locale.ENGLISH)));
 		primaryAxisSettingsX.setColor(getDisplay().getSystemColor(SWT.COLOR_BLACK));
 		primaryAxisSettingsX.setPosition(Position.Secondary);
@@ -83,7 +84,7 @@ public class LineSeries_3_Part extends LineChart {
 		 * Primary Y-Axis
 		 */
 		IPrimaryAxisSettings primaryAxisSettingsY = chartSettings.getPrimaryAxisSettingsY();
-		primaryAxisSettingsY.setTitle("Intensity");
+		primaryAxisSettingsY.setTitle("Intensity [counts]");
 		primaryAxisSettingsY.setDecimalFormat(new DecimalFormat(("0.0#E0"), new DecimalFormatSymbols(Locale.ENGLISH)));
 		primaryAxisSettingsY.setColor(getDisplay().getSystemColor(SWT.COLOR_BLACK));
 		primaryAxisSettingsY.setGridLineStyle(LineStyle.NONE);
@@ -97,7 +98,7 @@ public class LineSeries_3_Part extends LineChart {
 		secondaryAxisSettingsX1.setExtraSpaceTitle(0);
 		chartSettings.getSecondaryAxisSettingsListX().add(secondaryAxisSettingsX1);
 		//
-		ISecondaryAxisSettings secondaryAxisSettingsX2 = new SecondaryAxisSettings("Minutes", new MillisecondsToMinuteConverter());
+		ISecondaryAxisSettings secondaryAxisSettingsX2 = new SecondaryAxisSettings("Time [min]", new MillisecondsToMinuteConverter());
 		secondaryAxisSettingsX2.setPosition(Position.Primary);
 		secondaryAxisSettingsX2.setDecimalFormat(new DecimalFormat(("0.00"), new DecimalFormatSymbols(Locale.ENGLISH)));
 		secondaryAxisSettingsX2.setColor(getDisplay().getSystemColor(SWT.COLOR_BLACK));
@@ -106,7 +107,7 @@ public class LineSeries_3_Part extends LineChart {
 		/*
 		 * Secondary Y-Axes
 		 */
-		ISecondaryAxisSettings secondaryAxisSettingsY1 = new SecondaryAxisSettings("Relative Intensity [%]", new PercentageConverter(SWT.VERTICAL, true));
+		ISecondaryAxisSettings secondaryAxisSettingsY1 = new SecondaryAxisSettings("Intensity [%]", new PercentageConverter(SWT.VERTICAL, true));
 		secondaryAxisSettingsY1.setPosition(Position.Secondary);
 		secondaryAxisSettingsY1.setDecimalFormat(new DecimalFormat(("0.00"), new DecimalFormatSymbols(Locale.ENGLISH)));
 		secondaryAxisSettingsY1.setColor(getDisplay().getSystemColor(SWT.COLOR_BLACK));

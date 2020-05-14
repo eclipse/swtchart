@@ -27,6 +27,9 @@ public class PreferenceConstants {
 	public static final String P_LEGEND_POSITION_Y = "legendPositionY";
 	public static final int DEF_LEGEND_POSITION_Y = 100;
 	//
+	public static final String P_SORT_LEGEND_TABLE = "sortLegendTable";
+	public static final boolean DEF_SORT_LEGEND_TABLE = false;
+	//
 	public static final String P_LEGEND_COLUMN_ORDER = "legendColumnOrder";
 	public static final String DEF_LEGEND_COLUMN_ORDER = "";
 }
