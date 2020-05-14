@@ -72,6 +72,7 @@ public class LineSeries_Selection_Part extends Composite {
 
 	@Inject
 	public LineSeries_Selection_Part(Composite parent) {
+
 		super(parent, SWT.NONE);
 		try {
 			initialize();
@@ -210,21 +211,21 @@ public class LineSeries_Selection_Part extends Composite {
 		 * Primary X-Axis
 		 */
 		IPrimaryAxisSettings primaryAxisSettingsX = chartSettings.getPrimaryAxisSettingsX();
-		primaryAxisSettingsX.setTitle("Retention Time [ms]");
+		primaryAxisSettingsX.setTitle("Time [ms]");
 		primaryAxisSettingsX.setDecimalFormat(new DecimalFormat(("0.0##"), new DecimalFormatSymbols(Locale.ENGLISH)));
 		primaryAxisSettingsX.setColor(getDisplay().getSystemColor(SWT.COLOR_BLACK));
 		/*
 		 * Primary Y-Axis
 		 */
 		IPrimaryAxisSettings primaryAxisSettingsY = chartSettings.getPrimaryAxisSettingsY();
-		primaryAxisSettingsY.setTitle("Intensity");
+		primaryAxisSettingsY.setTitle("Intensity [counts]");
 		primaryAxisSettingsY.setDecimalFormat(new DecimalFormat(("0.0#E0"), new DecimalFormatSymbols(Locale.ENGLISH)));
 		primaryAxisSettingsY.setColor(getDisplay().getSystemColor(SWT.COLOR_BLACK));
 		primaryAxisSettingsY.setGridLineStyle(LineStyle.NONE);
 		/*
 		 * Secondary Y-Axes
 		 */
-		ISecondaryAxisSettings secondaryAxisSettingsY1 = new SecondaryAxisSettings("Relative Intensity [%]", new PercentageConverter(SWT.VERTICAL, true));
+		ISecondaryAxisSettings secondaryAxisSettingsY1 = new SecondaryAxisSettings("Intensity [%]", new PercentageConverter(SWT.VERTICAL, true));
 		secondaryAxisSettingsY1.setPosition(Position.Secondary);
 		secondaryAxisSettingsY1.setDecimalFormat(new DecimalFormat(("0.00"), new DecimalFormatSymbols(Locale.ENGLISH)));
 		secondaryAxisSettingsY1.setColor(getDisplay().getSystemColor(SWT.COLOR_BLACK));

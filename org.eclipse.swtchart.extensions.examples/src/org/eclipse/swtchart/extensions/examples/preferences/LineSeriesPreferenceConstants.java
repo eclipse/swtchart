@@ -113,9 +113,9 @@ public class LineSeriesPreferenceConstants {
 	public static final boolean DEF_CREATE_MENU = true;
 	//
 	public static final String P_PRIMARY_X_AXIS_TITLE = "primaryXAxisTitle" + POSTFIX;
-	public static final String DEF_PRIMARY_X_AXIS_TITLE = "Milliseconds";
+	public static final String DEF_PRIMARY_X_AXIS_TITLE = "Time [ms]";
 	public static final String P_PRIMARY_X_AXIS_DESCRIPTION = "primaryXAxisDescription" + POSTFIX;
-	public static final String DEF_PRIMARY_X_AXIS_DESCRIPTION = "Retention Time [ms]";
+	public static final String DEF_PRIMARY_X_AXIS_DESCRIPTION = "Time [ms]";
 	public static final String P_PRIMARY_X_AXIS_DECIMAL_FORMAT_PATTERN = "primaryXAxisDecimalFormatPattern" + POSTFIX;
 	public static final String DEF_PRIMARY_X_AXIS_DECIMAL_FORMAT_PATTERN = "0.0##";
 	public static final String P_PRIMARY_X_AXIS_DECIMAL_FORMAT_LOCALE = "primaryXAxisDecimalFormatLocale" + POSTFIX;
@@ -134,7 +134,7 @@ public class LineSeriesPreferenceConstants {
 	public static final int DEF_PRIMARY_X_AXIS_EXTRA_SPACE_TITLE = 25;
 	//
 	public static final String P_PRIMARY_Y_AXIS_TITLE = "primaryYAxisTitle" + POSTFIX;
-	public static final String DEF_PRIMARY_Y_AXIS_TITLE = "Intensity";
+	public static final String DEF_PRIMARY_Y_AXIS_TITLE = "Intensity [counts]";
 	public static final String P_PRIMARY_Y_AXIS_DESCRIPTION = "primaryYAxisDescription" + POSTFIX;
 	public static final String DEF_PRIMARY_Y_AXIS_DESCRIPTION = "Intensity [counts]";
 	public static final String P_PRIMARY_Y_AXIS_DECIMAL_FORMAT_PATTERN = "primaryYAxisDecimalFormatPattern" + POSTFIX;
@@ -155,9 +155,9 @@ public class LineSeriesPreferenceConstants {
 	public static final int DEF_PRIMARY_Y_AXIS_EXTRA_SPACE_TITLE = 25;
 	//
 	public static final String P_SECONDARY_X_AXIS_TITLE = "secondaryXAxisTitle" + POSTFIX;
-	public static final String DEF_SECONDARY_X_AXIS_TITLE = "Min";
+	public static final String DEF_SECONDARY_X_AXIS_TITLE = "Time [min]";
 	public static final String P_SECONDARY_X_AXIS_DESCRIPTION = "secondaryXAxisDescription" + POSTFIX;
-	public static final String DEF_SECONDARY_X_AXIS_DESCRIPTION = "Minutes [min]";
+	public static final String DEF_SECONDARY_X_AXIS_DESCRIPTION = "Time [min]";
 	public static final String P_SECONDARY_X_AXIS_DECIMAL_FORMAT_PATTERN = "secondaryXAxisDecimalFormatPattern" + POSTFIX;
 	public static final String DEF_SECONDARY_X_AXIS_DECIMAL_FORMAT_PATTERN = "0.0##";
 	public static final String P_SECONDARY_X_AXIS_DECIMAL_FORMAT_LOCALE = "secondaryXAxisDecimalFormatLocale" + POSTFIX;
