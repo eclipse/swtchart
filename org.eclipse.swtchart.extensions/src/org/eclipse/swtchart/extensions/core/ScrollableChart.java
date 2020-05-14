@@ -916,8 +916,10 @@ public class ScrollableChart extends Composite implements IScrollableChart, IEve
 					return;
 				}
 				//
-				double minRangeY = (yAxis.getRange().lower - baseChart.getMinY()) * coeffY;
-				double maxRangeY = (yAxis.getRange().upper - baseChart.getMaxY()) * coeffY;
+				// double minRangeY = (yAxis.getRange().lower - baseChart.getMinY()) * coeffY;
+				// double maxRangeY = (yAxis.getRange().upper - baseChart.getMinY()) * coeffY;
+				double minRangeY = (baseChart.getMaxY() - yAxis.getRange().upper) * coeffY;
+				double maxRangeY = (baseChart.getMaxY() - yAxis.getRange().lower) * coeffY;
 				double thumbRangeY = maxRangeY - minRangeY;
 				/*
 				 * Can't handle NaN values
@@ -1006,7 +1008,12 @@ public class ScrollableChart extends Composite implements IScrollableChart, IEve
 			double coeffX = maxX / deltaX;
 			double coeffY = maxY / deltaY;
 			double shiftX = -coeffX * baseChart.getMinX();
-			double shiftY = -coeffY * baseChart.getMinY();
+			// double shiftY = -coeffY * baseChart.getMinY();
+			// The slider selection is 0 when at the top.
+			// So, shiftX or shiftY denote the position where
+			// the slider selection is 0. This was the bug.
+			// double shiftY = -coeffY * baseChart.getMinY();
+			double shiftY = coeffY * baseChart.getMaxY();
 			/*
 			 * Validate
 			 */
@@ -1017,11 +1024,11 @@ public class ScrollableChart extends Composite implements IScrollableChart, IEve
 				int selection = slider.getSelection();
 				boolean isChartHorizontal = isOrientationHorizontal();
 				//
-				double min = (sliderOrientation == SWT.HORIZONTAL && isChartHorizontal || sliderOrientation == SWT.VERTICAL && !isChartHorizontal ? (selection - shiftX) / coeffX : (selection - shiftY) / coeffY);
-				double max = min + (range.upper - range.lower);
+				double min = (sliderOrientation == SWT.HORIZONTAL && isChartHorizontal || sliderOrientation == SWT.VERTICAL && !isChartHorizontal ? (selection - shiftX) / coeffX : (shiftY - selection) / coeffY);
+				double max = min - (range.upper - range.lower);
 				//
 				if(!Double.isNaN(min) && !Double.isNaN(max)) {
-					return new Range(min, max);
+					return new Range(max, min);
 				}
 			}
 		}
