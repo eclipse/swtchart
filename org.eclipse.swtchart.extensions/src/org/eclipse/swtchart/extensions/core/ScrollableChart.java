@@ -916,8 +916,6 @@ public class ScrollableChart extends Composite implements IScrollableChart, IEve
 					return;
 				}
 				//
-				// double minRangeY = (yAxis.getRange().lower - baseChart.getMinY()) * coeffY;
-				// double maxRangeY = (yAxis.getRange().upper - baseChart.getMinY()) * coeffY;
 				double minRangeY = (baseChart.getMaxY() - yAxis.getRange().upper) * coeffY;
 				double maxRangeY = (baseChart.getMaxY() - yAxis.getRange().lower) * coeffY;
 				double thumbRangeY = maxRangeY - minRangeY;
@@ -1008,11 +1006,6 @@ public class ScrollableChart extends Composite implements IScrollableChart, IEve
 			double coeffX = maxX / deltaX;
 			double coeffY = maxY / deltaY;
 			double shiftX = -coeffX * baseChart.getMinX();
-			// double shiftY = -coeffY * baseChart.getMinY();
-			// The slider selection is 0 when at the top.
-			// So, shiftX or shiftY denote the position where
-			// the slider selection is 0. This was the bug.
-			// double shiftY = -coeffY * baseChart.getMinY();
 			double shiftY = coeffY * baseChart.getMaxY();
 			/*
 			 * Validate
