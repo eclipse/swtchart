@@ -1018,7 +1018,7 @@ public class ScrollableChart extends Composite implements IScrollableChart, IEve
 				boolean isChartHorizontal = isOrientationHorizontal();
 				//
 				double min = (sliderOrientation == SWT.HORIZONTAL && isChartHorizontal || sliderOrientation == SWT.VERTICAL && !isChartHorizontal ? (selection - shiftX) / coeffX : (shiftY - selection) / coeffY);
-				double max = min - (range.upper - range.lower);
+				double max = (sliderOrientation == SWT.HORIZONTAL && isChartHorizontal || sliderOrientation == SWT.VERTICAL && !isChartHorizontal ? min + (range.upper - range.lower) : min - (range.upper - range.lower));
 				//
 				if(!Double.isNaN(min) && !Double.isNaN(max)) {
 					return new Range(max, min);
