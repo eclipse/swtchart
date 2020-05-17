@@ -916,9 +916,9 @@ public class ScrollableChart extends Composite implements IScrollableChart, IEve
 					return;
 				}
 				//
-				double minRangeY = (yAxis.getRange().lower - baseChart.getMinY()) * coeffY;
-				double maxRangeY = (yAxis.getRange().upper - baseChart.getMaxY()) * coeffY;
-				double thumbRangeY = maxRangeY - minRangeY;
+				double maxRangeY = (baseChart.getMaxY() - yAxis.getRange().upper) * coeffY;
+				double minRangeY = (baseChart.getMaxY() - yAxis.getRange().lower) * coeffY;
+				double thumbRangeY = Math.abs(minRangeY - maxRangeY);
 				/*
 				 * Can't handle NaN values
 				 */
@@ -931,7 +931,7 @@ public class ScrollableChart extends Composite implements IScrollableChart, IEve
 				int minSelectionX = (minRangeX < 0) ? 0 : (int)minRangeX;
 				int thumbSelectionX = (thumbRangeX < 1) ? 1 : (int)thumbRangeX;
 				//
-				int minSelectionY = (minRangeY < 0) ? 0 : (int)minRangeY;
+				int maxSelectionY = (maxRangeY < 0) ? 0 : (int)maxRangeY;
 				int thumbSelectionY = (thumbRangeY < 1) ? 1 : (int)thumbRangeY;
 				//
 				boolean isHorizontal = isOrientationHorizontal();
@@ -939,12 +939,12 @@ public class ScrollableChart extends Composite implements IScrollableChart, IEve
 				sliderVertical.setMinimum(0);
 				sliderVertical.setMaximum((isHorizontal) ? maxY : maxX);
 				sliderVertical.setThumb((isHorizontal) ? thumbSelectionY : thumbSelectionX);
-				sliderVertical.setSelection((isHorizontal) ? minSelectionY : minSelectionX);
+				sliderVertical.setSelection((isHorizontal) ? maxSelectionY : minSelectionX);
 				//
 				sliderHorizontal.setMinimum(0);
 				sliderHorizontal.setMaximum((isHorizontal) ? maxX : maxY);
 				sliderHorizontal.setThumb((isHorizontal) ? thumbSelectionX : thumbSelectionY);
-				sliderHorizontal.setSelection((isHorizontal) ? minSelectionX : minSelectionY);
+				sliderHorizontal.setSelection((isHorizontal) ? minSelectionX : maxSelectionY);
 				/*
 				 * Calculate the increment.
 				 */
@@ -1006,7 +1006,7 @@ public class ScrollableChart extends Composite implements IScrollableChart, IEve
 			double coeffX = maxX / deltaX;
 			double coeffY = maxY / deltaY;
 			double shiftX = -coeffX * baseChart.getMinX();
-			double shiftY = -coeffY * baseChart.getMinY();
+			double shiftY = coeffY * baseChart.getMaxY();
 			/*
 			 * Validate
 			 */
@@ -1017,8 +1017,15 @@ public class ScrollableChart extends Composite implements IScrollableChart, IEve
 				int selection = slider.getSelection();
 				boolean isChartHorizontal = isOrientationHorizontal();
 				//
-				double min = (sliderOrientation == SWT.HORIZONTAL && isChartHorizontal || sliderOrientation == SWT.VERTICAL && !isChartHorizontal ? (selection - shiftX) / coeffX : (selection - shiftY) / coeffY);
-				double max = min + (range.upper - range.lower);
+				double max;
+				double min;
+				if(sliderOrientation == SWT.HORIZONTAL) {
+					min = (isChartHorizontal ? (selection - shiftX) / coeffX : (shiftY - selection) / coeffY);
+					max = (isChartHorizontal ? min + (range.upper - range.lower) : min - (range.upper - range.lower));
+				} else {
+					max = (!isChartHorizontal ? (selection - shiftX) / coeffX : (shiftY - selection) / coeffY);
+					min = (!isChartHorizontal ? max + (range.upper - range.lower) : max - (range.upper - range.lower));
+				}
 				//
 				if(!Double.isNaN(min) && !Double.isNaN(max)) {
 					return new Range(min, max);

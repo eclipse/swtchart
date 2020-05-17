@@ -67,7 +67,7 @@ public class CustomLineChart1 extends LineChart {
 			chartSettings.setOrientation(SWT.HORIZONTAL);
 			chartSettings.setEnableRangeSelector(enableRangeSelector);
 			chartSettings.setHorizontalSliderVisible(enableHorizontalSlider);
-			chartSettings.setVerticalSliderVisible(false);
+			chartSettings.setVerticalSliderVisible(enableHorizontalSlider);
 			chartSettings.getRangeRestriction().setZeroX(true);
 			chartSettings.getRangeRestriction().setZeroY(true);
 			//
