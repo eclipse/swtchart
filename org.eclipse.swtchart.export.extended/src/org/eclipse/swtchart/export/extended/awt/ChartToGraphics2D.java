@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2019 SWTChart project.
+ * Copyright (c) 2019, 2020 SWTChart project.
  *
  * This program and the accompanying materials are made
  * available under the terms of the Eclipse Public License 2.0
@@ -10,7 +10,7 @@
  * Contributors:
  * Sanatt Abrol - initial API and implementation
  *******************************************************************************/
-package org.eclipse.swtchart.export.awt;
+package org.eclipse.swtchart.export.extended.awt;
 
 import java.awt.BasicStroke;
 import java.awt.Graphics2D;
@@ -33,7 +33,7 @@ import org.eclipse.swtchart.internal.compress.CompressScatterSeries;
 import org.eclipse.swtchart.internal.series.BarSeries;
 import org.eclipse.swtchart.internal.series.LineSeries;
 
-@SuppressWarnings("rawtypes")
+@SuppressWarnings({"rawtypes", "restriction"})
 public class ChartToGraphics2D {
 
 	/** The chart object to be converted to SVG */
@@ -66,6 +66,7 @@ public class ChartToGraphics2D {
 	 *            the java.awt.Graphics2D object to be created
 	 */
 	public ChartToGraphics2D(Chart chart, int indexAxisX, int indexAxisY, Graphics2D g2d) {
+
 		this.chart = chart;
 		this.graphics2D = g2d;
 		this.xAxis = (Axis)chart.getAxisSet().getXAxis(indexAxisX);

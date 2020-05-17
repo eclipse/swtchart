@@ -36,7 +36,7 @@ public class LineSeriesPreferenceConstants {
 	public static final int DEF_RANGE_SELECTOR_DEFAULT_AXIS_Y = 0; // Index
 	//
 	public static final String P_VERTICAL_SLIDER_VISIBLE = "verticalSliderVisible" + POSTFIX;
-	public static final boolean DEF_VERTICAL_SLIDER_VISIBLE = false;
+	public static final boolean DEF_VERTICAL_SLIDER_VISIBLE = true;
 	public static final String P_HORIZONTAL_SLIDER_VISIBLE = "HorizontalSliderVisible" + POSTFIX;
 	public static final boolean DEF_HORIZONTALSLIDER_VISIBLE = true;
 	//

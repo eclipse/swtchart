@@ -10,7 +10,6 @@
  * Contributors:
  * Frank Buloup - initial API and implementation
  *******************************************************************************/
-
 package org.eclipse.swtchart.export.menu.vector;
 
 import java.util.MissingResourceException;
@@ -20,10 +19,9 @@ public class Messages {
 
 	private static final String BUNDLE_NAME = "org.eclipse.swtchart.export.menu.vector.messages"; //$NON-NLS-1$
 	private static final ResourceBundle RESOURCE_BUNDLE = ResourceBundle.getBundle(BUNDLE_NAME);
-	
-	 public static final String EXPORT_TO_SVG = "EXPORT_TO_SVG";
-	 public static final String SAVE_AS_SVG = "SAVE_AS_SVG";
-	 public static final String SVG = "SVG";
+	public static final String EXPORT_TO_SVG = "EXPORT_TO_SVG";
+	public static final String SAVE_AS_SVG = "SAVE_AS_SVG";
+	public static final String SVG = "SVG";
 
 	private Messages() {
 

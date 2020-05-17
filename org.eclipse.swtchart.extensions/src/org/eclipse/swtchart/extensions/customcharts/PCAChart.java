@@ -98,7 +98,7 @@ public class PCAChart extends ScatterChart {
 		chartSettings.setTitleColor(COLOR_BLACK);
 		chartSettings.setOrientation(SWT.HORIZONTAL);
 		chartSettings.setHorizontalSliderVisible(false);
-		chartSettings.setVerticalSliderVisible(false);
+		chartSettings.setVerticalSliderVisible(true);
 		RangeRestriction rangeRestriction = chartSettings.getRangeRestriction();
 		rangeRestriction.setZeroX(false);
 		rangeRestriction.setZeroY(false);

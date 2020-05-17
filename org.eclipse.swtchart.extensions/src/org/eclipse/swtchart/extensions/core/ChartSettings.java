@@ -30,11 +30,11 @@ import org.eclipse.swtchart.extensions.events.MouseMoveCursorEvent;
 import org.eclipse.swtchart.extensions.events.MouseMoveSelectionEvent;
 import org.eclipse.swtchart.extensions.events.MouseMoveShiftEvent;
 import org.eclipse.swtchart.extensions.events.MouseUpEvent;
+import org.eclipse.swtchart.extensions.events.MouseWheelEvent;
 import org.eclipse.swtchart.extensions.events.ResetSeriesEvent;
 import org.eclipse.swtchart.extensions.events.SelectDataPointEvent;
 import org.eclipse.swtchart.extensions.events.SelectHideSeriesEvent;
 import org.eclipse.swtchart.extensions.events.UndoRedoEvent;
-import org.eclipse.swtchart.extensions.events.MouseWheelEvent;
 import org.eclipse.swtchart.extensions.menu.IChartMenuEntry;
 import org.eclipse.swtchart.extensions.menu.RedoSelectionHandler;
 import org.eclipse.swtchart.extensions.menu.ResetChartHandler;
@@ -295,14 +295,7 @@ public class ChartSettings implements IChartSettings {
 	@Override
 	public void setVerticalSliderVisible(boolean verticalSliderVisible) {
 
-		/*
-		 * There is a bug when using the SWT.RIGHT_TO_LEFT orientation.
-		 * https://bugs.eclipse.org/bugs/show_bug.cgi?id=511257
-		 * That's why the vertical slider is not visible yet.
-		 */
-		// this.verticalSliderVisible = verticalSliderVisible;
-		this.verticalSliderVisible = false;
-		System.out.println("Can't set vertical slider true, see: https://bugs.eclipse.org/bugs/show_bug.cgi?id=511257"); //$NON-NLS-1$
+		this.verticalSliderVisible = verticalSliderVisible;
 	}
 
 	@Override

@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2019 Lablicate GmbH.
+ * Copyright (c) 2019, 2020 Lablicate GmbH.
  *
  * This program and the accompanying materials are made
  * available under the terms of the Eclipse Public License 2.0
@@ -14,9 +14,6 @@
  *******************************************************************************/
 package org.eclipse.swtchart.export.menu.vector;
 
-import java.io.FileOutputStream;
-import java.io.OutputStreamWriter;
-import java.io.Writer;
 import java.lang.reflect.InvocationTargetException;
 
 import org.eclipse.core.runtime.IProgressMonitor;
@@ -30,7 +27,6 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swtchart.export.core.AbstractSeriesExportHandler;
 import org.eclipse.swtchart.export.core.ExportSettingsDialog;
 import org.eclipse.swtchart.export.core.ISeriesExportConverter;
-import org.eclipse.swtchart.export.svg.SVGFactory;
 import org.eclipse.swtchart.extensions.core.BaseChart;
 import org.eclipse.swtchart.extensions.core.ScrollableChart;
 
@@ -38,7 +34,7 @@ public class SVGExportHandler extends AbstractSeriesExportHandler implements ISe
 
 	private static final String FILE_EXTENSION = "*.svg"; //$NON-NLS-1$
 	private static final String NAME = Messages.getString(Messages.SVG) + FILE_EXTENSION + ")"; //$NON-NLS-1$
-	private static final String TITLE = Messages.getString(Messages.SAVE_AS_SVG); 
+	private static final String TITLE = Messages.getString(Messages.SAVE_AS_SVG);
 
 	@Override
 	public String getName() {
@@ -72,16 +68,10 @@ public class SVGExportHandler extends AbstractSeriesExportHandler implements ISe
 								public void run(IProgressMonitor monitor) throws InvocationTargetException, InterruptedException {
 
 									try {
-										monitor.beginTask(Messages.getString(Messages.EXPORT_TO_SVG), IProgressMonitor.UNKNOWN); 
-										boolean useCSS = true;
-										Writer output = new OutputStreamWriter(new FileOutputStream(fileName), "UTF-8"); //$NON-NLS-1$
-										SVGFactory svgFactory = new SVGFactory();
-										svgFactory.createSvg(baseChart, indexAxisX, indexAxisY);
-										if(svgFactory.stream(output, useCSS)) {
-											MessageDialog.openInformation(fileDialog.getParent(), TITLE, MESSAGE_OK);
-										} else {
-											MessageDialog.openInformation(fileDialog.getParent(), TITLE, MESSAGE_ERROR);
-										}
+										monitor.beginTask(Messages.getString(Messages.EXPORT_TO_SVG), IProgressMonitor.UNKNOWN);
+										/*
+										 * TODO Template SVG export implementation
+										 */
 									} catch(Exception e) {
 										e.printStackTrace();
 									} finally {
