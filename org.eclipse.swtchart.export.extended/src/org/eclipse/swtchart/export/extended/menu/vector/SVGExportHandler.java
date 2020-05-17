@@ -12,8 +12,11 @@
  * Sanatt Abrol - SVG export code
  * Frank Buloup - Internationalization
  *******************************************************************************/
-package org.eclipse.swtchart.export.menu.vector;
+package org.eclipse.swtchart.export.extended.menu.vector;
 
+import java.io.FileOutputStream;
+import java.io.OutputStreamWriter;
+import java.io.Writer;
 import java.lang.reflect.InvocationTargetException;
 
 import org.eclipse.core.runtime.IProgressMonitor;
@@ -27,6 +30,7 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swtchart.export.core.AbstractSeriesExportHandler;
 import org.eclipse.swtchart.export.core.ExportSettingsDialog;
 import org.eclipse.swtchart.export.core.ISeriesExportConverter;
+import org.eclipse.swtchart.export.extended.svg.SVGFactory;
 import org.eclipse.swtchart.extensions.core.BaseChart;
 import org.eclipse.swtchart.extensions.core.ScrollableChart;
 
@@ -69,9 +73,15 @@ public class SVGExportHandler extends AbstractSeriesExportHandler implements ISe
 
 									try {
 										monitor.beginTask(Messages.getString(Messages.EXPORT_TO_SVG), IProgressMonitor.UNKNOWN);
-										/*
-										 * TODO Template SVG export implementation
-										 */
+										boolean useCSS = true;
+										Writer output = new OutputStreamWriter(new FileOutputStream(fileName), "UTF-8"); //$NON-NLS-1$
+										SVGFactory svgFactory = new SVGFactory();
+										svgFactory.createSvg(baseChart, indexAxisX, indexAxisY);
+										if(svgFactory.stream(output, useCSS)) {
+											MessageDialog.openInformation(fileDialog.getParent(), TITLE, MESSAGE_OK);
+										} else {
+											MessageDialog.openInformation(fileDialog.getParent(), TITLE, MESSAGE_ERROR);
+										}
 									} catch(Exception e) {
 										e.printStackTrace();
 									} finally {
