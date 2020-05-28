@@ -48,7 +48,7 @@ public class IdNodeDataModel {
 		rootNode.changeParent(rootNode);
 		rootNode.setVisibility(true);
 		rootNode.setAngleBounds(new Point(0, 360));
-		rootNode.data = this;
+		rootNode.setDataModel(this);
 		rootNode.setColor(Display.getDefault().getSystemColor(SWT.COLOR_WHITE));
 		tree.put(Id, rootNode);
 	}
@@ -61,5 +61,14 @@ public class IdNodeDataModel {
 	public HashMap<String, Node> getTree() {
 
 		return tree;
+	}
+
+	/**
+	 * @param id
+	 * @return the node with the given id.
+	 */
+	public Node getNodeById(String id) {
+
+		return tree.get(id);
 	}
 }

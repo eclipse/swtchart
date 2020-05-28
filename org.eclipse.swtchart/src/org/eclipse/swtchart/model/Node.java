@@ -14,8 +14,10 @@ package org.eclipse.swtchart.model;
 
 import java.util.HashMap;
 
+import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Point;
+import org.eclipse.swt.widgets.Display;
 
 /**
  * Each Object of this class represents a slice of the multi-level pie chart
@@ -37,7 +39,8 @@ public class Node {
 	/** stores at which level the pie slice is */
 	private int level;
 	private String id;
-	IdNodeDataModel data;
+	/** the data model that the node is part of */
+	private IdNodeDataModel data;
 	private HashMap<String, Node> children;
 	/** the angle extremities between which the Pie "slice" is drawn. */
 	private Point angleBounds;
@@ -68,7 +71,8 @@ public class Node {
 	/**
 	 * To be used for generating nodes. As of now, if the user calls this
 	 * method to create node, then will have to update the pie data manually.
-	 * So not advisable for user to use it directly.
+	 * So not advisable for user to use it directly. Should use
+	 * addChild()
 	 * 
 	 * @param id
 	 * @param val
@@ -83,6 +87,7 @@ public class Node {
 		this.parent = parent;
 		this.level = parent.level + 1;
 		this.data = parent.data;
+		setColor(Display.getDefault().getSystemColor(SWT.COLOR_RED));
 		data.getTree().put(this.id, this);
 		this.parent.children.put(id, this);
 	}
@@ -135,6 +140,16 @@ public class Node {
 	}
 
 	/**
+	 * color with which node shall be drawn with
+	 * 
+	 * @return
+	 */
+	public Color getColor() {
+
+		return color;
+	}
+
+	/**
 	 * @return visibility of the node.
 	 */
 	public boolean isVisible() {
@@ -157,6 +172,11 @@ public class Node {
 		return maxSubTreeDepth;
 	}
 
+	public IdNodeDataModel getDataModel() {
+
+		return data;
+	}
+
 	public void setValue(double value) {
 
 		this.val = value;
@@ -177,6 +197,11 @@ public class Node {
 	public void changeParent(Node parent) {
 
 		this.parent = parent;
+	}
+
+	public void setDataModel(IdNodeDataModel model) {
+
+		this.data = model;
 	}
 
 	/**
@@ -207,7 +232,6 @@ public class Node {
 		}
 		data.getRootNode().updateValues();
 		data.getRootNode().updateAngularBounds();
-		data.getRootNode().setVisibility(true);
 	}
 
 	/**
