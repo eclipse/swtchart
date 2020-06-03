@@ -69,7 +69,7 @@ public class PieChartExample {
 		// create pie series
 		PieSeries pieSeries = (PieSeries)chart.getSeriesSet().createSeries(SeriesType.PIE, "pie series");
 		// sets the series.
-		((PieSeries)pieSeries).setSeries(labels, values);
+		pieSeries.setSeries(labels, values);
 		// change color of India to DARK_RED
 		Color color = Display.getDefault().getSystemColor(SWT.COLOR_DARK_RED);
 		pieSeries.setColor("India", color);

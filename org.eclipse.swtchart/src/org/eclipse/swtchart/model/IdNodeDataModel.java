@@ -17,6 +17,7 @@ import java.util.HashMap;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.widgets.Display;
+import org.eclipse.swtchart.internal.series.Series;
 
 /**
  * This shall be called as soon as the Series.Type is set to be MULTI_LEVEL_PIE.
@@ -32,12 +33,14 @@ public class IdNodeDataModel {
 	private int maxTreeDepth;
 	/** this node is the parent of all nodes, shall not be kept visible */
 	private Node rootNode;
+	private Series series;
 	private HashMap<String, Node> tree;
 
-	public IdNodeDataModel(String Id) {
+	public IdNodeDataModel(String Id, Series series) {
 
 		this.Id = Id;
 		maxTreeDepth = 0;
+		this.series = series;
 		this.rootNode = new Node(Id, -1);
 		tree = new HashMap<String, Node>();
 		initialiseRootNode();
@@ -49,8 +52,13 @@ public class IdNodeDataModel {
 		rootNode.setVisibility(true);
 		rootNode.setAngleBounds(new Point(0, 360));
 		rootNode.setDataModel(this);
-		rootNode.setColor(Display.getDefault().getSystemColor(SWT.COLOR_WHITE));
+		rootNode.setColor(Display.getDefault().getSystemColor(SWT.COLOR_BLACK));
 		tree.put(Id, rootNode);
+	}
+
+	public Series getSeries() {
+
+		return series;
 	}
 
 	public Node getRootNode() {
