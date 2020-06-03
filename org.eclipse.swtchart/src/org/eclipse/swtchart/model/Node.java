@@ -49,9 +49,10 @@ public class Node {
 	private boolean isVisible;
 	/** parent of the given node */
 	private Node parent;
-	/** the max Depth of SubTree Starting from here */
-	/** array having the parent, left and right connections that the node has */
-	/** adjacent nodes that lie at the same level or in parent level */
+	/**
+	 * array having the parent, left and right connections that the node has
+	 * adjacent nodes that lie at the same level or in parent level
+	 */
 	private Node[] connections;
 	/** the depth of the tree starting from this node. The tree includes node also */
 	private int maxSubTreeDepth;

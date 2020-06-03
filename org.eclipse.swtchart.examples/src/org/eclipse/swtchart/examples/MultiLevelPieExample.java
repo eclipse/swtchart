@@ -22,18 +22,21 @@ import org.eclipse.swtchart.ISeries.SeriesType;
 import org.eclipse.swtchart.internal.series.MultiLevelPie;
 
 /**
- * An example for pie chart.
+ * An example for multi-level pie chart.
  */
 public class MultiLevelPieExample {
 
-	private static final double[] continentValues = {17212000, 11608000, 9365000, 6880000, 5100000, 3837000, 2968000};
 	private static final String[] continentLabels = {"Asia", "Africa", "North America", "South America", "Antarctica", "Europe", "Australia"};
-	private static final String[] IndianStatesLabels = {"Maharashtra", "Rajasthan", "Uttar Pradesh", "Madhya Pradesh"};
-	private static final double[] IndianStateValues = {742238, 708350, 707713, 54329};
-	private static final double[] asianCountriesValues = {3746887, 5083540, 1269010};
-	private static final String[] asianCountriesLabels = {"China", "Russia", "India"};
+	private static final double[] continentValues = {17212000, 11608000, 9365000, 6880000, 5100000, 3837000, 2968000};
+
+	private static final String[] AsianCountriesLabels = {"China", "Russia", "India"};
+	private static final double[] AsianCountriesValues = {3746887, 5083540, 1269010};
+
 	private static final String[] EuropeCountriesLabels = {"France", "Ukraine", "Germany", "Spain"};
 	private static final double[] EuropeanCountriesValues = {212954, 232951, 137846, 195313};
+
+	private static final String[] IndianStatesLabels = {"Maharashtra", "Rajasthan", "Uttar Pradesh", "Madhya Pradesh"};
+	private static final double[] IndianStateValues = {742238, 708350, 707713, 54329};
 
 	/**
 	 * The main method.
@@ -45,7 +48,7 @@ public class MultiLevelPieExample {
 
 		Display display = new Display();
 		Shell shell = new Shell(display);
-		shell.setText("Pie Chart");
+		shell.setText("Multi-Level Pie Chart");
 		shell.setSize(500, 400);
 		shell.setLayout(new FillLayout());
 		createChart(shell);
@@ -75,12 +78,17 @@ public class MultiLevelPieExample {
 		MultiLevelPie multiLevelPie = (MultiLevelPie)chart.getSeriesSet().createSeries(SeriesType.MULTI_LEVEL_PIE, "countries");
 		// sets the series.
 		multiLevelPie.addSeries(continentLabels, continentValues);
-		multiLevelPie.getNodeById("Asia").addChildren(asianCountriesLabels, asianCountriesValues);
+		// adding Asian countries. These go in as second level
+		multiLevelPie.getNodeById("Asia").addChildren(AsianCountriesLabels, AsianCountriesValues);
+		// adding Indian states. These go as third level
 		multiLevelPie.getNodeById("India").addChildren(IndianStatesLabels, IndianStateValues);
+		/*
+		 * Adding European countries.
+		 * This is to demonstrate that even though the land mass should occupy is less than 1 degree.
+		 * It is still kept one degree so as it is visible.
+		 */
 		multiLevelPie.getNodeById("Europe").addChildren(EuropeCountriesLabels, EuropeanCountriesValues);
-		// ((CompressMultiLevelPie)multiLevelPie.getCompressor()).update();
-		// new Node("mea", 45600, multiLevelPie.getNodeById("Goa"));
-		// System.out.println(multiLevelPie.getNodeById("Odisha").getValue());
+
 		return chart;
 	}
 }

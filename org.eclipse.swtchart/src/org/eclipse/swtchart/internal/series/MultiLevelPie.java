@@ -102,24 +102,12 @@ public class MultiLevelPie extends Series implements IMultiLevelPie {
 		Set<String> nodeIds = model.getTree().keySet();
 		String[] ids = new String[nodeIds.size()];
 		System.arraycopy(nodeIds.toArray(), 0, ids, 0, nodeIds.size());
-		// return array of strings.
 		return ids;
 	}
 
 	@Override
 	public Color[] getColors() {
 
-		/*
-		 * Set<Node> nodes = (Set<Node>)model.getTree().values();
-		 * Color[] colors = new Color[nodes.size()];
-		 * int i = 0;
-		 * // this loop may be overridden later, as
-		 * for(Node node : nodes) {
-		 * colors[i++] = node.getColor();
-		 * }
-		 * // get colors of each and return them.
-		 * return colors;
-		 */
 		return null;
 	}
 
@@ -186,6 +174,7 @@ public class MultiLevelPie extends Series implements IMultiLevelPie {
 		int angleStart = node.getAngleBounds().x,
 				angleWidth = node.getAngleBounds().y;
 		gc.setBackground(node.getColor());
+
 		// coloring the pie "slice"
 		gc.fillArc(xStart, yStart, xWidth, yWidth, angleStart, angleWidth);
 		// drawing the arc boundary
