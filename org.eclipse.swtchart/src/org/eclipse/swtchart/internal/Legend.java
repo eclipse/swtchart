@@ -79,6 +79,7 @@ public class Legend extends Composite implements ILegend, PaintListener {
 	 *            the style
 	 */
 	public Legend(Chart chart, int style) {
+
 		super(chart, style | SWT.DOUBLE_BUFFERED);
 		this.chart = chart;
 		visible = true;

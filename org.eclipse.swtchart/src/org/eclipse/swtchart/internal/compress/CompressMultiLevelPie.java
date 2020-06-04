@@ -24,14 +24,13 @@ import org.eclipse.swtchart.model.Node;
 
 public class CompressMultiLevelPie extends Compress {
 
-	IdNodeDataModel model;
-	HashMap<String, Node> data;
-	List<Map<Integer, Node>> levelNodes;
+	private IdNodeDataModel model;
+	private HashMap<String, Node> data;
+	private List<Map<Integer, Node>> levelNodes;
 	private int maxTreeDepth;
 	private int colorQuantity[];
 	private HashMap<Node, Node[]> connections;
-	private int[] colours = {SWT.COLOR_BLUE, SWT.COLOR_DARK_YELLOW, SWT.COLOR_GREEN, SWT.COLOR_CYAN, SWT.COLOR_RED, SWT.COLOR_DARK_BLUE, SWT.COLOR_DARK_RED, SWT.COLOR_DARK_CYAN, SWT.COLOR_MAGENTA, SWT.COLOR_DARK_GRAY, SWT.COLOR_YELLOW, SWT.COLOR_DARK_MAGENTA};
-
+	private int[] colours = {SWT.COLOR_DARK_YELLOW, SWT.COLOR_GREEN, SWT.COLOR_CYAN, SWT.COLOR_RED, SWT.COLOR_DARK_BLUE, SWT.COLOR_DARK_RED, SWT.COLOR_DARK_CYAN, SWT.COLOR_MAGENTA, SWT.COLOR_DARK_GRAY, SWT.COLOR_DARK_MAGENTA, SWT.COLOR_YELLOW, SWT.COLOR_WIDGET_NORMAL_SHADOW, SWT.COLOR_BLUE, SWT.COLOR_WIDGET_HIGHLIGHT_SHADOW};
 	public CompressMultiLevelPie(IdNodeDataModel model) {
 
 		this.model = model;
