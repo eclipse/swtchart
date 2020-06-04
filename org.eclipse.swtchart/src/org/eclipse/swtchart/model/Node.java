@@ -18,6 +18,8 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.widgets.Display;
+import org.eclipse.swtchart.internal.compress.CompressMultiLevelPie;
+import org.eclipse.swtchart.internal.series.MultiLevelPie;
 
 /**
  * Each Object of this class represents a slice of the multi-level pie chart
@@ -199,7 +201,7 @@ public class Node {
 		this.val = value;
 		data.getRootNode().updateValues();
 		data.getRootNode().updateAngularBounds();
-		// ((CompressMultiLevelPie)((MultiLevelPie)data.getSeries()).getCompressor()).update();
+		((CompressMultiLevelPie)((MultiLevelPie)data.getSeries()).getCompressor()).update();
 	}
 
 	public void setId(String label) {
@@ -250,7 +252,7 @@ public class Node {
 		}
 		data.getRootNode().updateValues();
 		data.getRootNode().updateAngularBounds();
-		// ((CompressMultiLevelPie)((MultiLevelPie)data.getSeries()).getCompressor()).update();
+		((CompressMultiLevelPie)((MultiLevelPie)data.getSeries()).getCompressor()).update();
 	}
 
 	/**
@@ -270,7 +272,7 @@ public class Node {
 		}
 		data.getRootNode().updateValues();
 		data.getRootNode().updateAngularBounds();
-		// ((CompressMultiLevelPie)((MultiLevelPie)data.getSeries()).getCompressor()).update();
+		((CompressMultiLevelPie)((MultiLevelPie)data.getSeries()).getCompressor()).update();
 	}
 
 	/**
@@ -285,7 +287,7 @@ public class Node {
 		Node node = new Node(label, value, this);
 		data.getRootNode().updateValues();
 		data.getRootNode().updateAngularBounds();
-		// ((CompressMultiLevelPie)((MultiLevelPie)data.getSeries()).getCompressor()).update();
+		((CompressMultiLevelPie)((MultiLevelPie)data.getSeries()).getCompressor()).update();
 		return node;
 	}
 
@@ -305,7 +307,7 @@ public class Node {
 		data.getTree().remove(child);
 		data.getRootNode().updateValues();
 		data.getRootNode().updateAngularBounds();
-		// ((CompressMultiLevelPie)((MultiLevelPie)data.getSeries()).getCompressor()).update();
+		((CompressMultiLevelPie)((MultiLevelPie)data.getSeries()).getCompressor()).update();
 		return node;
 	}
 

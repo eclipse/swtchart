@@ -253,6 +253,6 @@ public class MultiLevelPie extends Series implements IMultiLevelPie {
 		model.getRootNode().updateValues();
 		model.getRootNode().updateAngularBounds();
 		model.getRootNode().setVisibility(true);
-		// setCompressor();
+		setCompressor();
 	}
 }
