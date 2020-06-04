@@ -18,6 +18,8 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.widgets.Display;
+import org.eclipse.swtchart.internal.compress.CompressMultiLevelPie;
+import org.eclipse.swtchart.internal.series.MultiLevelPie;
 
 /**
  * Each Object of this class represents a slice of the multi-level pie chart
@@ -49,7 +51,12 @@ public class Node {
 	private boolean isVisible;
 	/** parent of the given node */
 	private Node parent;
-	/** the max Depth of SubTree Starting from here */
+	/**
+	 * array having the parent, left and right connections that the node has
+	 * adjacent nodes that lie at the same level or in parent level
+	 */
+	private Node[] connections;
+	/** the depth of the tree starting from this node. The tree includes node also */
 	private int maxSubTreeDepth;
 
 	/**
@@ -66,6 +73,8 @@ public class Node {
 		this.level = 0;
 		children = new HashMap<String, Node>();
 		this.isVisible = true;
+		connections = new Node[3];
+		connections[0] = parent;
 	}
 
 	/**
@@ -90,6 +99,8 @@ public class Node {
 		setColor(Display.getDefault().getSystemColor(SWT.COLOR_RED));
 		data.getTree().put(this.id, this);
 		this.parent.children.put(id, this);
+		connections = new Node[3];
+		connections[0] = parent;
 	}
 
 	/**
@@ -177,11 +188,20 @@ public class Node {
 		return data;
 	}
 
+	/**
+	 * @return parent, and the two nodes connected at the same level
+	 */
+	public Node[] getConnections() {
+
+		return connections;
+	}
+
 	public void setValue(double value) {
 
 		this.val = value;
 		data.getRootNode().updateValues();
 		data.getRootNode().updateAngularBounds();
+		((CompressMultiLevelPie)((MultiLevelPie)data.getSeries()).getCompressor()).update();
 	}
 
 	public void setId(String label) {
@@ -232,6 +252,7 @@ public class Node {
 		}
 		data.getRootNode().updateValues();
 		data.getRootNode().updateAngularBounds();
+		((CompressMultiLevelPie)((MultiLevelPie)data.getSeries()).getCompressor()).update();
 	}
 
 	/**
@@ -251,6 +272,7 @@ public class Node {
 		}
 		data.getRootNode().updateValues();
 		data.getRootNode().updateAngularBounds();
+		((CompressMultiLevelPie)((MultiLevelPie)data.getSeries()).getCompressor()).update();
 	}
 
 	/**
@@ -265,6 +287,7 @@ public class Node {
 		Node node = new Node(label, value, this);
 		data.getRootNode().updateValues();
 		data.getRootNode().updateAngularBounds();
+		((CompressMultiLevelPie)((MultiLevelPie)data.getSeries()).getCompressor()).update();
 		return node;
 	}
 
@@ -284,6 +307,7 @@ public class Node {
 		data.getTree().remove(child);
 		data.getRootNode().updateValues();
 		data.getRootNode().updateAngularBounds();
+		((CompressMultiLevelPie)((MultiLevelPie)data.getSeries()).getCompressor()).update();
 		return node;
 	}
 
@@ -355,9 +379,9 @@ public class Node {
 		int start = angleBounds.x;
 		double diff = 0, required = 0;
 		for(Node node : nodes) {
-			// calc the angle covered
+			// calculates the angle covered
 			int angleCovered = (int)((node.getValue() * angleBounds.y) / this.getValue());
-			// ensures that no non zero node value goes undrawn
+			// ensures that no non zero node value goes without being drawn
 			if(angleCovered == 0 && node.getValue() != 0) {
 				angleCovered = 1;
 				required -= 1.0;

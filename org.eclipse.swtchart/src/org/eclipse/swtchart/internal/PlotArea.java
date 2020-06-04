@@ -36,6 +36,7 @@ import org.eclipse.swtchart.IAxis;
 import org.eclipse.swtchart.IBarSeries;
 import org.eclipse.swtchart.ICustomPaintListener;
 import org.eclipse.swtchart.ILineSeries;
+import org.eclipse.swtchart.IMultiLevelPie;
 import org.eclipse.swtchart.IPieSeries;
 import org.eclipse.swtchart.IPlotArea;
 import org.eclipse.swtchart.ISeries;
@@ -189,6 +190,11 @@ public class PlotArea extends Composite implements PaintListener, IPlotArea {
 		}
 		for(ISeries<?> series : chart.getSeriesSet().getSeries()) {
 			if(series instanceof IPieSeries) {
+				((Series<?>)series).draw(gc, p.x, p.y);
+			}
+		}
+		for(ISeries<?> series : chart.getSeriesSet().getSeries()) {
+			if(series instanceof IMultiLevelPie) {
 				((Series<?>)series).draw(gc, p.x, p.y);
 			}
 		}

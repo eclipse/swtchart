@@ -94,6 +94,7 @@ public class PieSeries extends Series implements IPieSeries {
 		((CompressPieSeries)compressor).setColors(colors);
 	}
 
+	@Override
 	public void setColor(Color[] colors) {
 
 		((CompressPieSeries)compressor).setColors(colors);
@@ -141,14 +142,14 @@ public class PieSeries extends Series implements IPieSeries {
 			gc.fillArc(xStart + 1, yStart + 1, xWidth - 1, yWidth - 1, bounds[i].x, bounds[i].y);
 			// setting border between data elements
 			double xCoordinate = Math.cos(Math.toRadians(bounds[i].x));
-			double yCoordinate = -1 * Math.sin(Math.toRadians(bounds[i].x));
+			double yCoordinate = Math.sin(Math.toRadians(bounds[i].x));
 			int xPixelCoordinate = xAxis.getPixelCoordinate(xCoordinate);
-			int yPixelCoordinate = xAxis.getPixelCoordinate(yCoordinate);
+			int yPixelCoordinate = yAxis.getPixelCoordinate(yCoordinate);
 			gc.drawLine(xZero, yZero, xPixelCoordinate, yPixelCoordinate);
 		}
 		// draw boundary of PieChart
 		gc.setLineWidth(2);
-		gc.drawArc(xStart + 1, yStart + 1, xStart + xWidth - 1, yStart + yWidth - 1, 0, 360);
+		gc.drawArc(xStart + 1, yStart + 1, xWidth - 1, yWidth - 1, 0, 360);
 	}
 
 	/**
@@ -202,18 +203,18 @@ public class PieSeries extends Series implements IPieSeries {
 		yAxis.setRange(new Range(-1, 1));
 		if(width > height) {
 			if(xAxis.isHorizontalAxis()) {
-				double ratio = (double)(2 * width / (double)height);
+				double ratio = 2 * width / (double)height;
 				xAxis.setRange(new Range(-1, ratio - 1));
 			} else {
-				double ratio = (double)(2 * width / (double)height);
+				double ratio = 2 * width / (double)height;
 				yAxis.setRange(new Range(-1, ratio - 1));
 			}
 		} else {
 			if(xAxis.isHorizontalAxis()) {
-				double ratio = (double)(2 * height / (double)width);
+				double ratio = 2 * height / (double)width;
 				yAxis.setRange(new Range(1 - ratio, 1));
 			} else {
-				double ratio = (double)(2 * height / (double)width);
+				double ratio = 2 * height / (double)width;
 				xAxis.setRange(new Range(1 - ratio, 1));
 			}
 		}
