@@ -82,6 +82,8 @@ public class SeriesSet implements ISeriesSet {
 			series = new LineSeries(chart, trimmedId);
 		} else if(type == SeriesType.PIE) {
 			series = new PieSeries(chart, trimmedId);
+		} else if(type == SeriesType.MULTI_LEVEL_PIE) {
+			series = new MultiLevelPie(chart, trimmedId);
 		} else {
 			SWT.error(SWT.ERROR_INVALID_ARGUMENT);
 			return null; // to suppress warning...
