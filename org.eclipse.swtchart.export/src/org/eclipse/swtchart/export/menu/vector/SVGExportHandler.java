@@ -435,7 +435,7 @@ public class SVGExportHandler extends AbstractSeriesExportHandler implements ISe
 						}
 						out.append("\n");
 					}
-					line = line.replaceAll(regexX, new String(out));
+					line = line.replaceAll(regexX, out.toString());
 				} else if(Pattern.matches(regexY, line)) {
 					int ticklabel_size = yTicks.length;
 					double start = 279.90709;
@@ -459,7 +459,7 @@ public class SVGExportHandler extends AbstractSeriesExportHandler implements ISe
 						}
 						out.append("\n");
 					}
-					line = line.replaceAll(regexY, new String(out));
+					line = line.replaceAll(regexY, out.toString());
 				} else if(Pattern.matches(titleX, line)) {
 					line = line.replace("%PLACEHOLDER X-AXIS%", axisSettingsX.getTitle());
 				} else if(Pattern.matches(titleY, line)) {
@@ -494,7 +494,7 @@ public class SVGExportHandler extends AbstractSeriesExportHandler implements ISe
 						}
 						out.append("\n");
 					}
-					line = line.replaceAll(regex_legend, new String(out));
+					line = line.replaceAll(regex_legend, out.toString());
 				} else if(Pattern.matches(data_series, line)) {
 					StringBuilder out = new StringBuilder("");
 					int widthPlotArea = baseChart.getPlotArea().getSize().x;
@@ -514,7 +514,7 @@ public class SVGExportHandler extends AbstractSeriesExportHandler implements ISe
 							out.append(string);
 						}
 					}
-					line = line.replaceAll(data_series, new String(out));
+					line = line.replaceAll(data_series, out.toString());
 				}
 				printWriter.println(line);
 			}
