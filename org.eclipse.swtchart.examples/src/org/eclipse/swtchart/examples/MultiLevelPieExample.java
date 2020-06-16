@@ -22,7 +22,7 @@ import org.eclipse.swtchart.ISeries.SeriesType;
 import org.eclipse.swtchart.internal.series.MultiLevelPie;
 
 /**
- * An example for multi-level pie chart.
+ * An example for MultiLevel pie chart.
  */
 public class MultiLevelPieExample {
 
@@ -30,13 +30,16 @@ public class MultiLevelPieExample {
 	private static final double[] continentValues = {17212000, 11608000, 9365000, 6880000, 5100000, 3837000, 2968000};
 
 	private static final String[] AsianCountriesLabels = {"China", "Russia", "India"};
-	private static final double[] AsianCountriesValues = {3746887, 5083540, 1269010};
+	private static final double[] AsianCountriesValues = {3746887, 5083540, 1269219};
 
-	private static final String[] EuropeCountriesLabels = {"France", "Ukraine", "Germany", "Spain"};
-	private static final double[] EuropeanCountriesValues = {212954, 232951, 137846, 195313};
+	private static final String[] AfricanCountriesLabels = {"Algeria", "Congo"};
+	private static final double[] AfricanCountriesValues = {919595, 905355};
+
+	private static final String[] NorthAmericanCountriesLabels = {"Canada", "USA"};
+	private static final double[] NorthAmericanCountriesValues = {3900261, 3761363};
 
 	private static final String[] IndianStatesLabels = {"Maharashtra", "Rajasthan", "Uttar Pradesh", "Madhya Pradesh"};
-	private static final double[] IndianStateValues = {742238, 708350, 707713, 54329};
+	private static final double[] IndianStateValues = {92320, 213900, 150580, 192718};
 
 	/**
 	 * The main method.
@@ -49,7 +52,7 @@ public class MultiLevelPieExample {
 		Display display = new Display();
 		Shell shell = new Shell(display);
 		shell.setText("Multi-Level Pie Chart");
-		shell.setSize(500, 400);
+		shell.setSize(800, 500);
 		shell.setLayout(new FillLayout());
 		createChart(shell);
 		shell.open();
@@ -73,21 +76,25 @@ public class MultiLevelPieExample {
 		// create a chart
 		Chart chart = new Chart(parent, SWT.NONE);
 		// set titles
-		chart.getTitle().setText("Landmass Distribution across continents and contries");
+		chart.getTitle().setText("Landmass Distribution across continents and contries in sq. miles");
 		// create pie series
 		MultiLevelPie multiLevelPie = (MultiLevelPie)chart.getSeriesSet().createSeries(SeriesType.MULTI_LEVEL_PIE, "countries");
 		// sets the series.
-		multiLevelPie.addSeries(continentLabels, continentValues);
+		multiLevelPie.setSeries(continentLabels, continentValues);
+
 		// adding Asian countries. These go in as second level
 		multiLevelPie.getNodeById("Asia").addChildren(AsianCountriesLabels, AsianCountriesValues);
-		// adding Indian states. These go as third level
-		multiLevelPie.getNodeById("India").addChildren(IndianStatesLabels, IndianStateValues);
+		//
+		multiLevelPie.getNodeById("Africa").addChildren(AfricanCountriesLabels, AfricanCountriesValues);
+		//
+		multiLevelPie.getNodeById("North America").addChildren(NorthAmericanCountriesLabels, NorthAmericanCountriesValues);
 		/*
-		 * Adding European countries.
-		 * This is to demonstrate that even though the land mass should occupy is less than 1 degree.
-		 * It is still kept one degree so as it is visible.
+		 * Adding Indian states. These go as third level.
+		 * Added to show that those too small for 1 degree, are also made visible
 		 */
-		multiLevelPie.getNodeById("Europe").addChildren(EuropeCountriesLabels, EuropeanCountriesValues);
+		multiLevelPie.getNodeById("India").addChildren(IndianStatesLabels, IndianStateValues);
+		// Another API
+		multiLevelPie.getNodeById("Europe").addChild("Germany", 137847);
 
 		return chart;
 	}

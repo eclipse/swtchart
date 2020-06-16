@@ -14,15 +14,15 @@ package org.eclipse.swtchart.internal.compress;
 
 import java.util.ArrayList;
 
-import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Color;
+import org.eclipse.swt.graphics.Device;
+import org.eclipse.swt.graphics.RGB;
 import org.eclipse.swt.widgets.Display;
 
 public class CompressPieSeries extends Compress {
 
 	private String[] labels;
 	private double[] values;
-	private int[] colours = {SWT.COLOR_BLUE, SWT.COLOR_DARK_YELLOW, SWT.COLOR_GREEN, SWT.COLOR_CYAN, SWT.COLOR_RED, SWT.COLOR_DARK_BLUE, SWT.COLOR_DARK_RED, SWT.COLOR_DARK_CYAN, SWT.COLOR_MAGENTA, SWT.COLOR_DARK_GRAY, SWT.COLOR_DARK_MAGENTA, SWT.COLOR_GRAY, SWT.COLOR_WIDGET_NORMAL_SHADOW, SWT.COLOR_WIDGET_HIGHLIGHT_SHADOW};
 	private Color[] colors;
 
 	@Override
@@ -52,6 +52,10 @@ public class CompressPieSeries extends Compress {
 		this.colors = color;
 	}
 
+	/**
+	 * 
+	 * @return copy of the label series
+	 */
 	public String[] getLabelSeries() {
 
 		String[] ids = new String[labels.length];
@@ -59,6 +63,10 @@ public class CompressPieSeries extends Compress {
 		return ids;
 	}
 
+	/**
+	 * 
+	 * @return a copy of the value series
+	 */
 	public double[] getValueSeries() {
 
 		double[] val = new double[values.length];
@@ -66,6 +74,10 @@ public class CompressPieSeries extends Compress {
 		return val;
 	}
 
+	/**
+	 * 
+	 * @return copy of colors array that is required to draw the pie chart
+	 */
 	public Color[] getColors() {
 
 		Color[] color = new Color[colors.length];
@@ -73,14 +85,18 @@ public class CompressPieSeries extends Compress {
 		return color;
 	}
 
+	/**
+	 * sets the color using HSB color model.
+	 * This model allows a smooth color transition across the pie chart.
+	 */
 	private void setColor() {
 
-		colors = new Color[labels.length];
-		// int color = colours.length;
-		colors[0] = Display.getDefault().getSystemColor(SWT.COLOR_YELLOW);
-		for(int i = 1; i != labels.length; i++) {
-			// int colour = i % color;
-			colors[i] = Display.getDefault().getSystemColor(colours[i]);
+		int colour = labels.length;
+		float anglePerColor = 360 / colour;
+		colors = new Color[colour];
+		for(int i = 0; i != colour; i++) {
+			Device device = Display.getDefault();
+			colors[i] = new Color(device, new RGB(anglePerColor * i, 1, 1));
 		}
 	}
 }

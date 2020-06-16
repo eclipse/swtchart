@@ -37,7 +37,6 @@ import org.eclipse.swtchart.ILineSeries;
 import org.eclipse.swtchart.IPieSeries;
 import org.eclipse.swtchart.ISeries;
 import org.eclipse.swtchart.internal.series.LineSeries;
-import org.eclipse.swtchart.internal.series.PieSeries;
 import org.eclipse.swtchart.internal.series.Series;
 
 /**
@@ -275,8 +274,8 @@ public class Legend extends Composite implements ILegend, PaintListener {
 					continue;
 				}
 				if(series instanceof IPieSeries) {
-					if(((PieSeries)series).getLabelSeries() != null) {
-						String[] labels = ((PieSeries)series).getLabelSeries();
+					if(((IPieSeries)series).getLabels() != null) {
+						String[] labels = ((IPieSeries)series).getLabels();
 						for(int i = 0; i != labels.length; i++) {
 							int textWidth = Util.getExtentInGC(getFont(), labels[i]).x;
 							int cellWidth = textWidth + SYMBOL_WIDTH + MARGIN * 3;
@@ -316,8 +315,8 @@ public class Legend extends Composite implements ILegend, PaintListener {
 					continue;
 				}
 				if(series instanceof IPieSeries) {
-					if(((PieSeries)series).getLabelSeries() != null) {
-						String[] labels = ((PieSeries)series).getLabelSeries();
+					if(((IPieSeries)series).getLabels() != null) {
+						String[] labels = ((IPieSeries)series).getLabels();
 						for(int i = 0; i != labels.length; i++) {
 							int textWidth = Util.getExtentInGC(getFont(), labels[i]).x;
 							int cellWidth = textWidth + SYMBOL_WIDTH + MARGIN * 3;
@@ -434,8 +433,8 @@ public class Legend extends Composite implements ILegend, PaintListener {
 				continue;
 			}
 			if(seriesArray[i] instanceof IPieSeries) {
-				PieSeries pieSeries = (PieSeries)seriesArray[i];
-				String[] labels = pieSeries.getLabelSeries();
+				IPieSeries pieSeries = (IPieSeries)seriesArray[i];
+				String[] labels = pieSeries.getLabels();
 				Color[] color = pieSeries.getColors();
 				for(int j = 0; j != labels.length; j++) {
 					Rectangle r = cellBounds.get(labels[j]);
