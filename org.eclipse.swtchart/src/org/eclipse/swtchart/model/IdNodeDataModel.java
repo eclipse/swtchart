@@ -12,7 +12,9 @@
  *******************************************************************************/
 package org.eclipse.swtchart.model;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Point;
@@ -29,17 +31,17 @@ import org.eclipse.swtchart.internal.series.Series;
 public class IdNodeDataModel {
 
 	private String Id;
-	/** the number of levels of the chart */
-	private int maxTreeDepth;
 	/** this node is the parent of all nodes, shall not be kept visible */
 	private Node rootNode;
-	private Series series;
+	private Series<?> series;
+	/** data structure that holds all the nodes and allows access in O(1) time. */
 	private HashMap<String, Node> tree;
+	/** stores nodes in order of the levels they are in. */
+	private List<Node> nodesAtLevels[];
 
-	public IdNodeDataModel(String Id, Series series) {
+	public IdNodeDataModel(String Id, Series<?> series) {
 
 		this.Id = Id;
-		maxTreeDepth = 0;
 		this.series = series;
 		this.rootNode = new Node(Id, -1);
 		tree = new HashMap<String, Node>();
@@ -56,7 +58,7 @@ public class IdNodeDataModel {
 		tree.put(Id, rootNode);
 	}
 
-	public Series getSeries() {
+	public Series<?> getSeries() {
 
 		return series;
 	}
@@ -78,5 +80,15 @@ public class IdNodeDataModel {
 	public Node getNodeById(String id) {
 
 		return tree.get(id);
+	}
+
+	public List<Node>[] getNodes() {
+
+		return nodesAtLevels;
+	}
+
+	public void setNodes(ArrayList<Node>[] arrayList) {
+
+		this.nodesAtLevels = arrayList;
 	}
 }

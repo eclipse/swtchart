@@ -12,8 +12,8 @@
  *******************************************************************************/
 package org.eclipse.swtchart.internal.series;
 
-import java.util.HashMap;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Color;
@@ -22,6 +22,7 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.swtchart.Chart;
 import org.eclipse.swtchart.IAxis;
 import org.eclipse.swtchart.IMultiLevelPie;
+import org.eclipse.swtchart.IPieSeries;
 import org.eclipse.swtchart.Range;
 import org.eclipse.swtchart.internal.axis.Axis;
 import org.eclipse.swtchart.internal.compress.Compress;
@@ -29,13 +30,15 @@ import org.eclipse.swtchart.internal.compress.CompressMultiLevelPie;
 import org.eclipse.swtchart.model.IdNodeDataModel;
 import org.eclipse.swtchart.model.Node;
 
-public class MultiLevelPie extends Series implements IMultiLevelPie {
+@SuppressWarnings("rawtypes")
+public class MultiLevelPie extends Series implements IMultiLevelPie, IPieSeries {
 
 	private Chart chart;
 	private IdNodeDataModel model;
 	private Node rootNode;
 	private int maxTreeDepth;
 
+	@SuppressWarnings("unchecked")
 	protected MultiLevelPie(Chart chart, String id) {
 
 		super(chart, id);
@@ -66,26 +69,26 @@ public class MultiLevelPie extends Series implements IMultiLevelPie {
 	}
 
 	@Override
-	public void addSeries(String[] labels, double[] values) {
+	public void setSeries(String[] labels, double[] values) {
 
 		int length = labels.length;
 		if(values.length != length) {
 			// throw error
 		}
 		for(int i = 0; i != length; i++) {
-			Node node = new Node(labels[i], values[i], rootNode);
+			new Node(labels[i], values[i], rootNode);
 		}
 		update();
 	}
 
 	/**
-	 * This returns the orignal series that we provided as input.
+	 * This returns the original series that we provided as input.
 	 * This is added here so as to provide the functionalities of the simple pie chart
 	 * 
 	 * @return
 	 */
 	@Override
-	public HashMap<String, Node> getSeries() {
+	public List<Node> getSeries() {
 
 		return rootNode.getChildren();
 	}
@@ -99,16 +102,57 @@ public class MultiLevelPie extends Series implements IMultiLevelPie {
 	@Override
 	public String[] getLabels() {
 
-		Set<String> nodeIds = model.getTree().keySet();
-		String[] ids = new String[nodeIds.size()];
-		System.arraycopy(nodeIds.toArray(), 0, ids, 0, nodeIds.size());
-		return ids;
+		String[] labels = new String[model.getTree().size() - 1];
+		List<Node>[] nodes = model.getNodes();
+		int index = 0;
+		for(int i = 1; i <= maxTreeDepth; i++) {
+			int len = nodes[i].size();
+			for(int j = 0; j != len; j++) {
+				labels[index] = nodes[i].get(j).getId();
+				index++;
+			}
+		}
+		return labels;
 	}
 
 	@Override
 	public Color[] getColors() {
 
-		return null;
+		Color[] colors = new Color[model.getTree().size() - 1];
+		List<Node>[] nodes = model.getNodes();
+		int ind = 0;
+		for(int i = 1; i <= maxTreeDepth; i++) {
+			int len = nodes[i].size();
+			for(int j = 0; j != len; j++) {
+				colors[ind] = nodes[i].get(j).getColor();
+				ind++;
+			}
+		}
+		return colors;
+	}
+
+	@Override
+	public void setColor(String label, Color color) {
+
+		Node node = model.getNodeById(label);
+		if(node == null) {
+			// throw error
+			return;
+		}
+		node.setColor(color);
+	}
+
+	@Override
+	public void setColor(Color[] colors) {
+
+		int length = getLabels().length;
+		if(colors.length != length) {
+			// Throw Error
+		}
+		for(int i = 0; i != length; i++) {
+			if(colors[i] != null)
+				model.getNodeById(getLabels()[i]).setColor(colors[i]);
+		}
 	}
 
 	@Override
@@ -154,7 +198,7 @@ public class MultiLevelPie extends Series implements IMultiLevelPie {
 
 		// children drawn first as parent overrides it's section of drawing
 		if(!node.getChildren().isEmpty()) {
-			for(Node nodes : node.getChildren().values()) {
+			for(Node nodes : node.getChildren()) {
 				drawNode(nodes, gc, xAxis, yAxis);
 			}
 		}
@@ -178,7 +222,7 @@ public class MultiLevelPie extends Series implements IMultiLevelPie {
 		// coloring the pie "slice"
 		gc.fillArc(xStart, yStart, xWidth, yWidth, angleStart, angleWidth);
 		// drawing the arc boundary
-		gc.drawArc(xStart, yStart, xWidth - 1, yWidth - 1, angleStart, angleWidth);
+		gc.drawArc(xStart, yStart, xWidth, yWidth, angleStart, angleWidth);
 		/*
 		 * drawing the start boundary
 		 */
@@ -232,7 +276,7 @@ public class MultiLevelPie extends Series implements IMultiLevelPie {
 	}
 
 	/**
-	 * initialise the chart make it fit for drawing a pie chart.
+	 * Initialize the chart make it fit for drawing a pie chart.
 	 */
 	private void initialise() {
 
@@ -248,11 +292,29 @@ public class MultiLevelPie extends Series implements IMultiLevelPie {
 	 * update functions that ensures the changes made by user do make sense, and
 	 * handles those which do not make sense. If changes can't be made, throws error.
 	 */
+	@SuppressWarnings("unchecked")
 	public void update() {
 
 		model.getRootNode().updateValues();
+		/*
+		 * update nodes length
+		 */
+		maxTreeDepth = model.getRootNode().getMaxSubTreeDepth() - 1;
+		model.setNodes(new ArrayList[maxTreeDepth + 1]);
+		//
+		ArrayList<Node>[] node = (ArrayList<Node>[])model.getNodes();
+		for(int i = 1; i <= maxTreeDepth; i++) {
+			node[i] = new ArrayList<Node>();
+		}
+		model.setNodes(node);
+		/*
+		 * angular bounds
+		 */
 		model.getRootNode().updateAngularBounds();
+		//
 		model.getRootNode().setVisibility(true);
+		//
 		setCompressor();
 	}
+
 }

@@ -14,6 +14,9 @@ package org.eclipse.swtchart;
 
 import org.eclipse.swt.graphics.Color;
 
+/**
+ * Contains methods to be implemented that are common to both PieSeries and MultiLevel Pie Series
+ */
 public interface IPieSeries {
 
 	/**
@@ -21,14 +24,7 @@ public interface IPieSeries {
 	 * 
 	 * @return labels that will be visible
 	 */
-	public String[] getLabelSeries();
-
-	/**
-	 * gets the value series
-	 * 
-	 * @return the values input
-	 */
-	public double[] getValueSeries();
+	public String[] getLabels();
 
 	/**
 	 * each element of this array is the color that the corresponding data
@@ -47,7 +43,8 @@ public interface IPieSeries {
 	public void setSeries(String[] labels, double[] values);
 
 	/**
-	 * allows user to change color of given label to required color
+	 * allows user to change color of given label to required color.
+	 * This must be called after adding all the series, else it will be overridden.
 	 * 
 	 * @param label
 	 * @param color
@@ -57,6 +54,7 @@ public interface IPieSeries {
 	/**
 	 * allows user to set multiple colors together. The colors are set corresponding to the
 	 * the labels in the label series.
+	 * This must be called after adding all the series, else it will be overridden.
 	 * 
 	 * @param colors
 	 */

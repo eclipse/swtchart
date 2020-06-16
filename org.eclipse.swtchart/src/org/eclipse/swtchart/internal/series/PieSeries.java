@@ -53,7 +53,7 @@ public class PieSeries extends Series implements IPieSeries {
 	}
 
 	@Override
-	public String[] getLabelSeries() {
+	public String[] getLabels() {
 
 		StringArraySeriesModel stringArraySeriesModel = (StringArraySeriesModel)getDataModel();
 		if(stringArraySeriesModel == null)
@@ -64,7 +64,6 @@ public class PieSeries extends Series implements IPieSeries {
 		return ids;
 	}
 
-	@Override
 	public double[] getValueSeries() {
 
 		StringArraySeriesModel stringArraySeriesModel = (StringArraySeriesModel)getDataModel();
@@ -84,7 +83,7 @@ public class PieSeries extends Series implements IPieSeries {
 	public void setColor(String label, Color color) {
 
 		Color[] colors = ((CompressPieSeries)compressor).getColors();
-		String[] labels = getLabelSeries();
+		String[] labels = getLabels();
 		for(int i = 0; i != labels.length; i++) {
 			if(labels[i] == label) {
 				colors[i] = color;
@@ -156,7 +155,7 @@ public class PieSeries extends Series implements IPieSeries {
 	 * gets the start angle and angle width for each value in series.
 	 * 
 	 * @param values
-	 * @return Point[], where x is the start angle, y is the anglular width in degrees.
+	 * @return Point[], where x is the start angle, y is the angular width in degrees.
 	 */
 	private Point[] getAngleBounds(double[] values) {
 
@@ -189,8 +188,8 @@ public class PieSeries extends Series implements IPieSeries {
 	/**
 	 * sets the range of the axis so that the pie to be drawn is drawn within the range
 	 * -1 to 1 in both X and Y axis.
-	 * This shall be changed when multi-level pie-chart will be implemented to enable
-	 * ease in multi-layer drawing.
+	 * This shall be changed when MultiLevel pie-chart will be implemented to enable
+	 * ease in MultiLayer drawing.
 	 * 
 	 * @param width
 	 * @param height
@@ -226,7 +225,7 @@ public class PieSeries extends Series implements IPieSeries {
 		this.model = (StringArraySeriesModel)model;
 		setCompressor();
 		if(compressor instanceof CompressPieSeries) {
-			((CompressPieSeries)compressor).setLabelSeries(getLabelSeries());
+			((CompressPieSeries)compressor).setLabelSeries(getLabels());
 			((CompressPieSeries)compressor).setValueSeries(getValueSeries());
 		}
 	}

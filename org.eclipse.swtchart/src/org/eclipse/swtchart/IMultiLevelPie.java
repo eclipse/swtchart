@@ -12,9 +12,8 @@
  *******************************************************************************/
 package org.eclipse.swtchart;
 
-import java.util.HashMap;
+import java.util.List;
 
-import org.eclipse.swt.graphics.Color;
 import org.eclipse.swtchart.model.Node;
 
 public interface IMultiLevelPie {
@@ -35,20 +34,11 @@ public interface IMultiLevelPie {
 	public Node getNodeById(String id);
 	
 	/**
-	 * creates a series with given parameter data.
-	 * Nodes are created with corresponding values.
-	 * 
-	 * @param labels
-	 * @param values
-	 */
-	public void addSeries(String[] labels, double[] values);
-	
-	/**
 	 * gets the MultiLevelPie Series as Series.
 	 * 
 	 * @return
 	 */
-	public HashMap<String, Node> getSeries();
+	public List<Node> getSeries();
 
 	/**
 	 * adds a node to the primary series.
@@ -57,15 +47,5 @@ public interface IMultiLevelPie {
 	 * @param val
 	 */
 	public void addNode(String id, double val);
-
-	/**
-	 * @return labels for the legend to draw from
-	 */
-	public String[] getLabels();
-
-	/**
-	 * @return The colors of the nodes so that the legend can be drawn successfully.
-	 */
-	public Color[] getColors();
 
 }

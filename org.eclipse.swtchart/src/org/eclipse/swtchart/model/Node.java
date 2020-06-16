@@ -12,7 +12,8 @@
  *******************************************************************************/
 package org.eclipse.swtchart.model;
 
-import java.util.HashMap;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Color;
@@ -22,7 +23,7 @@ import org.eclipse.swtchart.internal.compress.CompressMultiLevelPie;
 import org.eclipse.swtchart.internal.series.MultiLevelPie;
 
 /**
- * Each Object of this class represents a slice of the multi-level pie chart
+ * Each Object of this class represents a slice of the MultiLevel pie chart
  * A node contains
  * 1) Id (This, as for now is same as Label of the node)
  * 2) level (the distance from rootNode at which it is situated.)
@@ -33,7 +34,7 @@ import org.eclipse.swtchart.internal.series.MultiLevelPie;
  * 7) other data required for extensions package are added for now, shall be implemented later.
  * 
  * If the user tries to declare a node by his own, without using the methods,
- * He has to use new Node(String id, double val, Node parent).
+ * He has to use new Node(String id, double value, Node parent).
  */
 public class Node {
 
@@ -43,7 +44,7 @@ public class Node {
 	private String id;
 	/** the data model that the node is part of */
 	private IdNodeDataModel data;
-	private HashMap<String, Node> children;
+	private List<Node> children;
 	/** the angle extremities between which the Pie "slice" is drawn. */
 	private Point angleBounds;
 	/** this color is just the color constant from SWT */
@@ -51,11 +52,6 @@ public class Node {
 	private boolean isVisible;
 	/** parent of the given node */
 	private Node parent;
-	/**
-	 * array having the parent, left and right connections that the node has
-	 * adjacent nodes that lie at the same level or in parent level
-	 */
-	private Node[] connections;
 	/** the depth of the tree starting from this node. The tree includes node also */
 	private int maxSubTreeDepth;
 
@@ -71,10 +67,8 @@ public class Node {
 		this.id = id;
 		this.val = val;
 		this.level = 0;
-		children = new HashMap<String, Node>();
+		children = new ArrayList<Node>();
 		this.isVisible = true;
-		connections = new Node[3];
-		connections[0] = parent;
 	}
 
 	/**
@@ -91,16 +85,14 @@ public class Node {
 
 		this.id = id;
 		this.val = val;
-		children = new HashMap<String, Node>();
+		children = new ArrayList<Node>();
 		this.isVisible = parent.isVisible;
 		this.parent = parent;
 		this.level = parent.level + 1;
 		this.data = parent.data;
 		setColor(Display.getDefault().getSystemColor(SWT.COLOR_RED));
-		data.getTree().put(this.id, this);
-		this.parent.children.put(id, this);
-		connections = new Node[3];
-		connections[0] = parent;
+		data.getTree().put(id, this);
+		this.getParent().getChildren().add(this);
 	}
 
 	/**
@@ -135,9 +127,9 @@ public class Node {
 	}
 
 	/**
-	 * @return Hashmap that maps the id of the node to it's value.
+	 * @return List of children nodes.
 	 */
-	public HashMap<String, Node> getChildren() {
+	public List<Node> getChildren() {
 
 		return children;
 	}
@@ -186,14 +178,6 @@ public class Node {
 	public IdNodeDataModel getDataModel() {
 
 		return data;
-	}
-
-	/**
-	 * @return parent, and the two nodes connected at the same level
-	 */
-	public Node[] getConnections() {
-
-		return connections;
 	}
 
 	public void setValue(double value) {
@@ -248,11 +232,9 @@ public class Node {
 			// To Do Throw error
 		}
 		for(int i = 0; i < length; i++) {
-			Node node = new Node(labels[i], vals[i], this);
+			new Node(labels[i], vals[i], this);
 		}
-		data.getRootNode().updateValues();
-		data.getRootNode().updateAngularBounds();
-		((CompressMultiLevelPie)((MultiLevelPie)data.getSeries()).getCompressor()).update();
+		update();
 	}
 
 	/**
@@ -270,9 +252,7 @@ public class Node {
 			double value = node.val;
 			new Node(label, value, this);
 		}
-		data.getRootNode().updateValues();
-		data.getRootNode().updateAngularBounds();
-		((CompressMultiLevelPie)((MultiLevelPie)data.getSeries()).getCompressor()).update();
+		update();
 	}
 
 	/**
@@ -285,9 +265,7 @@ public class Node {
 	public Node addChild(String label, double value) {
 
 		Node node = new Node(label, value, this);
-		data.getRootNode().updateValues();
-		data.getRootNode().updateAngularBounds();
-		((CompressMultiLevelPie)((MultiLevelPie)data.getSeries()).getCompressor()).update();
+		update();
 		return node;
 	}
 
@@ -298,16 +276,18 @@ public class Node {
 	 */
 	Node removeChild(String child) {
 
-		Node node = children.get(child);
+		Node node = null;
+		for(Node nodes : children) {
+			if(nodes.getId() == child)
+				node = nodes;
+		}
 		if(node == null) {
 			// throw error
 			return null;
 		}
-		children.remove(child);
+		children.remove(node);
 		data.getTree().remove(child);
-		data.getRootNode().updateValues();
-		data.getRootNode().updateAngularBounds();
-		((CompressMultiLevelPie)((MultiLevelPie)data.getSeries()).getCompressor()).update();
+		update();
 		return node;
 	}
 
@@ -326,7 +306,7 @@ public class Node {
 				// throw error.
 			}
 		}
-		Iterable<Node> nodes = children.values();
+		Iterable<Node> nodes = children;
 		// DFS function call to children.
 		// update nodes visibility only for visible nodes
 		for(Node node : nodes) {
@@ -351,7 +331,7 @@ public class Node {
 			return;
 		}
 		double total = 0;
-		Iterable<Node> nodes = children.values();
+		Iterable<Node> nodes = children;
 		for(Node node : nodes) {
 			node.updateValues();
 			total += node.val;
@@ -368,11 +348,11 @@ public class Node {
 	 * This function is called after calling updateValues() method.
 	 * It sets the lower angular extremity and width of a pie "slice".
 	 * Each node's angular bounds are of the form of a Point.
-	 * Point.x is min, Point.y is width
+	 * Point.x is minimum, Point.y is width
 	 */
 	public void updateAngularBounds() {
 
-		Iterable<Node> nodes = children.values();
+		Iterable<Node> nodes = children;
 		if(nodes == null)
 			return;
 		//
@@ -396,10 +376,33 @@ public class Node {
 				}
 			}
 			node.setAngleBounds(new Point(start, angleCovered));
+			if(node == this.data.getRootNode())
+				return;
+			data.getNodes()[node.getLevel()].add(node);
 			// the DFS call to children after this node data is set.
 			node.updateAngularBounds();
 			// updating for the next child node.
 			start += angleCovered;
 		}
+	}
+
+	@SuppressWarnings("unchecked")
+	public void update() {
+
+		data.getRootNode().updateValues();
+		//
+		int maxTreeDepth = data.getRootNode().getMaxSubTreeDepth() - 1;
+		data.setNodes(new ArrayList[maxTreeDepth + 1]);
+		//
+		List<Node>[] node = data.getNodes();
+		for(int i = 1; i <= maxTreeDepth; i++) {
+			node[i] = new ArrayList<Node>();
+		}
+		//
+		data.getRootNode().updateAngularBounds();
+		//
+		data.getRootNode().setVisibility(true);
+		//
+		((CompressMultiLevelPie)((MultiLevelPie)data.getSeries()).getCompressor()).update();
 	}
 }
