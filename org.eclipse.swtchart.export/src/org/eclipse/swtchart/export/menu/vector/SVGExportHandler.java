@@ -133,13 +133,13 @@ public class SVGExportHandler extends AbstractSeriesExportHandler implements ISe
 												printScatterPlot(fileName, printWriter, scrollableChart, axisSettings);
 											}
 											//
-											printWriter.flush();
 											MessageDialog.openInformation(shell, TITLE, MESSAGE_OK);
 										} catch(FileNotFoundException e) {
 											MessageDialog.openError(shell, TITLE, MESSAGE_ERROR);
 											System.out.println(e);
 										} finally {
 											if(printWriter != null) {
+												printWriter.flush();
 												printWriter.close();
 											}
 										}
@@ -270,7 +270,7 @@ public class SVGExportHandler extends AbstractSeriesExportHandler implements ISe
 						}
 						out.append("\n");
 					}
-					line = line.replaceAll(regex_legend, new String(out));
+					line = line.replaceAll(regex_legend, out.toString());
 				} else if(Pattern.matches(data_series, line)) {
 					StringBuilder out = new StringBuilder("");
 					int widthPlotArea = baseChart.getPlotArea().getSize().x;
