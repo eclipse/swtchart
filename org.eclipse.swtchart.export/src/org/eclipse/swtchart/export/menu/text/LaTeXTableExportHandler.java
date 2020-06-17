@@ -172,7 +172,7 @@ public class LaTeXTableExportHandler extends AbstractSeriesExportHandler impleme
 		 * Series
 		 */
 		printWriter.println(TAB + HORIZONTAL_LINE);
-		printWriter.println(TAB + dataSeries.getId() + DELIMITER + LINE_END);
+		printWriter.println(TAB + getIdentifier(dataSeries) + DELIMITER + LINE_END);
 		printWriter.println(TAB + HORIZONTAL_LINE);
 		//
 		double[] xSeries = dataSeries.getXSeries();
