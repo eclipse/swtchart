@@ -76,7 +76,7 @@ public class MultiLevelPieExample {
 		// create a chart
 		Chart chart = new Chart(parent, SWT.NONE);
 		// set titles
-		chart.getTitle().setText("Landmass Distribution across continents and contries in sq. miles");
+		chart.getTitle().setText("Landmass Distribution of the world");
 		// create pie series
 		MultiLevelPie multiLevelPie = (MultiLevelPie)chart.getSeriesSet().createSeries(SeriesType.MULTI_LEVEL_PIE, "countries");
 		// sets the series.
