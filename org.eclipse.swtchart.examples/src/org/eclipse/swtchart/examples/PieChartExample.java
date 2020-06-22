@@ -65,7 +65,7 @@ public class PieChartExample {
 		// create a chart
 		Chart chart = new Chart(parent, SWT.NONE);
 		// set titles
-		chart.getTitle().setText("COVID Cases around the Globe on 6/04/2020");
+		chart.getTitle().setText("Pie Chart");
 		// create pie series
 		PieSeries pieSeries = (PieSeries)chart.getSeriesSet().createSeries(SeriesType.PIE, "pie series");
 		// sets the series.
@@ -73,6 +73,7 @@ public class PieChartExample {
 		// change color of India to DARK_RED
 		Color color = Display.getDefault().getSystemColor(SWT.COLOR_DARK_RED);
 		pieSeries.setColor("India", color);
+		//
 		return chart;
 	}
 }

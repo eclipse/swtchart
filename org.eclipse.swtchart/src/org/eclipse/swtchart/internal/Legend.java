@@ -432,28 +432,35 @@ public class Legend extends Composite implements ILegend, PaintListener {
 			if(!seriesArray[i].isVisibleInLegend()) {
 				continue;
 			}
+			//
 			if(seriesArray[i] instanceof IPieSeries) {
 				IPieSeries pieSeries = (IPieSeries)seriesArray[i];
 				String[] labels = pieSeries.getLabels();
 				Color[] color = pieSeries.getColors();
 				for(int j = 0; j != labels.length; j++) {
 					Rectangle r = cellBounds.get(labels[j]);
-					drawPieSymbol(gc, labels[j], color[j], new Rectangle(r.x + MARGIN, r.y + MARGIN, SYMBOL_WIDTH, r.height - MARGIN * 2));
-					gc.setBackground(getBackground());
-					gc.setForeground(getForeground());
-					gc.drawText(labels[j], r.x + SYMBOL_WIDTH + MARGIN * 2, r.y, true);
+					if(r != null) {
+						String labelPie = labels[j];
+						Color colorPie = color[j];
+						if(labelPie != null && colorPie != null) {
+							drawPieSymbol(gc, labelPie, colorPie, new Rectangle(r.x + MARGIN, r.y + MARGIN, SYMBOL_WIDTH, r.height - MARGIN * 2));
+							gc.setBackground(getBackground());
+							gc.setForeground(getForeground());
+							gc.drawText(labelPie, r.x + SYMBOL_WIDTH + MARGIN * 2, r.y, true);
+						}
+					}
 				}
-				continue;
+			} else {
+				// draw plot line, symbol etc
+				String id = seriesArray[i].getId();
+				Rectangle r = cellBounds.get(id);
+				drawSymbol(gc, (Series<?>)seriesArray[i], new Rectangle(r.x + MARGIN, r.y + MARGIN, SYMBOL_WIDTH, r.height - MARGIN * 2));
+				// draw label
+				String label = getLegendLabel(seriesArray[i]);
+				gc.setBackground(getBackground());
+				gc.setForeground(getForeground());
+				gc.drawText(label, r.x + SYMBOL_WIDTH + MARGIN * 2, r.y, true);
 			}
-			// draw plot line, symbol etc
-			String id = seriesArray[i].getId();
-			Rectangle r = cellBounds.get(id);
-			drawSymbol(gc, (Series<?>)seriesArray[i], new Rectangle(r.x + MARGIN, r.y + MARGIN, SYMBOL_WIDTH, r.height - MARGIN * 2));
-			// draw label
-			String label = getLegendLabel(seriesArray[i]);
-			gc.setBackground(getBackground());
-			gc.setForeground(getForeground());
-			gc.drawText(label, r.x + SYMBOL_WIDTH + MARGIN * 2, r.y, true);
 		}
 	}
 

@@ -28,16 +28,12 @@ public class MultiLevelPieExample {
 
 	private static final String[] continentLabels = {"Asia", "Africa", "North America", "South America", "Antarctica", "Europe", "Australia"};
 	private static final double[] continentValues = {17212000, 11608000, 9365000, 6880000, 5100000, 3837000, 2968000};
-
 	private static final String[] AsianCountriesLabels = {"China", "Russia", "India"};
 	private static final double[] AsianCountriesValues = {3746887, 5083540, 1269219};
-
 	private static final String[] AfricanCountriesLabels = {"Algeria", "Congo"};
 	private static final double[] AfricanCountriesValues = {919595, 905355};
-
 	private static final String[] NorthAmericanCountriesLabels = {"Canada", "USA"};
 	private static final double[] NorthAmericanCountriesValues = {3900261, 3761363};
-
 	private static final String[] IndianStatesLabels = {"Maharashtra", "Rajasthan", "Uttar Pradesh", "Madhya Pradesh"};
 	private static final double[] IndianStateValues = {92320, 213900, 150580, 192718};
 
@@ -76,12 +72,11 @@ public class MultiLevelPieExample {
 		// create a chart
 		Chart chart = new Chart(parent, SWT.NONE);
 		// set titles
-		chart.getTitle().setText("Landmass Distribution of the world");
+		chart.getTitle().setText("Multi-Level Pie Chart");
 		// create pie series
 		MultiLevelPie multiLevelPie = (MultiLevelPie)chart.getSeriesSet().createSeries(SeriesType.MULTI_LEVEL_PIE, "countries");
 		// sets the series.
 		multiLevelPie.setSeries(continentLabels, continentValues);
-
 		// adding Asian countries. These go in as second level
 		multiLevelPie.getNodeById("Asia").addChildren(AsianCountriesLabels, AsianCountriesValues);
 		//
@@ -95,7 +90,7 @@ public class MultiLevelPieExample {
 		multiLevelPie.getNodeById("India").addChildren(IndianStatesLabels, IndianStateValues);
 		// Another API
 		multiLevelPie.getNodeById("Europe").addChild("Germany", 137847);
-
+		//
 		return chart;
 	}
 }
