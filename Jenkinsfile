@@ -1,7 +1,7 @@
 pipeline {
     agent {
       kubernetes {
-        label 'ui-test'
+        label 'centos-7'
       }
     }
     triggers {
