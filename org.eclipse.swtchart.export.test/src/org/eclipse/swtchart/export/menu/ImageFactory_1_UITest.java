@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2017, 2019 Lablicate GmbH.
+ * Copyright (c) 2017, 2020 Lablicate GmbH.
  *
  * This program and the accompanying materials are made
  * available under the terms of the Eclipse Public License 2.0
@@ -17,11 +17,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.swt.SWT;
+import org.eclipse.swtchart.customcharts.core.ChromatogramChart;
 import org.eclipse.swtchart.export.SeriesConverter;
 import org.eclipse.swtchart.export.TestPathHelper;
 import org.eclipse.swtchart.export.images.ImageFactory;
 import org.eclipse.swtchart.extensions.core.ISeriesData;
-import org.eclipse.swtchart.extensions.customcharts.ChromatogramChart;
 import org.eclipse.swtchart.extensions.linecharts.ILineSeriesData;
 import org.eclipse.swtchart.extensions.linecharts.ILineSeriesSettings;
 import org.eclipse.swtchart.extensions.linecharts.LineSeriesData;

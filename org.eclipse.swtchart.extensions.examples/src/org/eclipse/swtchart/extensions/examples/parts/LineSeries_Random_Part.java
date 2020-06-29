@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2017, 2019 Lablicate GmbH.
+ * Copyright (c) 2017, 2020 Lablicate GmbH.
  *
  * This program and the accompanying materials are made
  * available under the terms of the Eclipse Public License 2.0
@@ -25,9 +25,9 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
+import org.eclipse.swtchart.customcharts.core.ChromatogramChart;
 import org.eclipse.swtchart.extensions.core.ISeriesData;
 import org.eclipse.swtchart.extensions.core.SeriesData;
-import org.eclipse.swtchart.extensions.customcharts.ChromatogramChart;
 import org.eclipse.swtchart.extensions.examples.Activator;
 import org.eclipse.swtchart.extensions.linecharts.ILineSeriesData;
 import org.eclipse.swtchart.extensions.linecharts.ILineSeriesSettings;
@@ -50,6 +50,7 @@ public class LineSeries_Random_Part extends Composite {
 
 	@Inject
 	public LineSeries_Random_Part(Composite parent) {
+
 		super(parent, SWT.NONE);
 		setBackground(getDisplay().getSystemColor(SWT.COLOR_WHITE));
 		try {

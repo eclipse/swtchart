@@ -1,4 +1,3 @@
-
 /*******************************************************************************
  * Copyright (c) 2020 SWT Chart Project
  *
@@ -11,16 +10,15 @@
  * Contributors:
  * Frank Buloup - initial API and implementation
  *******************************************************************************/
-package org.eclipse.swtchart.extensions.customcharts;
+package org.eclipse.swtchart.customcharts.core;
 
 import java.util.MissingResourceException;
 import java.util.ResourceBundle;
 
 public class Messages {
 
-	private static final String BUNDLE_NAME = "org.eclipse.swtchart.extensions.customcharts.messages"; //$NON-NLS-1$
+	private static final String BUNDLE_NAME = "org.eclipse.swtchart.customcharts.core.messages"; //$NON-NLS-1$
 	private static final ResourceBundle RESOURCE_BUNDLE = ResourceBundle.getBundle(BUNDLE_NAME);
-	
 	public static String INTENSITY = "INTENSITY";
 	public static String MINUTES = "MINUTES";
 	public static String RELATIVE_INTENSITY = "RELATIVE_INTENSITY";

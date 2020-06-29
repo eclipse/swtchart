@@ -11,7 +11,7 @@
  * Dr. Philip Wenig - initial API and implementation
  * Frank Buloup - Internationalization
  *******************************************************************************/
-package org.eclipse.swtchart.extensions.customcharts;
+package org.eclipse.swtchart.customcharts.core;
 
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;

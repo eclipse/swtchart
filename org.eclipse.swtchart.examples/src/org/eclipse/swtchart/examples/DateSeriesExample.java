@@ -58,6 +58,7 @@ public class DateSeriesExample {
 	 *            The parent composite
 	 * @return The created chart
 	 */
+	@SuppressWarnings("deprecation")
 	static public Chart createChart(Composite parent) {
 
 		// create a chart

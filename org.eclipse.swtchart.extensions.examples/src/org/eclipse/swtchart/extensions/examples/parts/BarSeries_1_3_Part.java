@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2017, 2019 Lablicate GmbH.
+ * Copyright (c) 2017, 2020 Lablicate GmbH.
  *
  * This program and the accompanying materials are made
  * available under the terms of the Eclipse Public License 2.0
@@ -21,16 +21,17 @@ import javax.inject.Inject;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swtchart.customcharts.core.MassSpectrumChart;
 import org.eclipse.swtchart.extensions.barcharts.BarSeriesData;
 import org.eclipse.swtchart.extensions.barcharts.IBarSeriesData;
 import org.eclipse.swtchart.extensions.core.ISeriesData;
-import org.eclipse.swtchart.extensions.customcharts.MassSpectrumChart;
 import org.eclipse.swtchart.extensions.examples.support.SeriesConverter;
 
 public class BarSeries_1_3_Part extends MassSpectrumChart {
 
 	@Inject
 	public BarSeries_1_3_Part(Composite parent) {
+
 		super(parent, SWT.NONE);
 		setBackground(getDisplay().getSystemColor(SWT.COLOR_WHITE));
 		initialize();

@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2017, 2019 Lablicate GmbH.
+ * Copyright (c) 2017, 2020 Lablicate GmbH.
  *
  * This program and the accompanying materials are made
  * available under the terms of the Eclipse Public License 2.0
@@ -21,9 +21,9 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swtchart.ILineSeries.PlotSymbolType;
+import org.eclipse.swtchart.customcharts.core.PCAChart;
 import org.eclipse.swtchart.extensions.core.IChartSettings;
 import org.eclipse.swtchart.extensions.core.ISeriesData;
-import org.eclipse.swtchart.extensions.customcharts.PCAChart;
 import org.eclipse.swtchart.extensions.examples.support.SeriesConverter;
 import org.eclipse.swtchart.extensions.scattercharts.IScatterSeriesData;
 import org.eclipse.swtchart.extensions.scattercharts.IScatterSeriesSettings;
@@ -41,6 +41,7 @@ public class ScatterSeries_1_Part extends PCAChart {
 
 	@Inject
 	public ScatterSeries_1_Part(Composite parent) {
+
 		super(parent, SWT.NONE);
 		setBackground(getDisplay().getSystemColor(SWT.COLOR_WHITE));
 		initialize();

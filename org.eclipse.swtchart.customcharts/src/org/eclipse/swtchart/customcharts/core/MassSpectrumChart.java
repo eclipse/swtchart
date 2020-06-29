@@ -11,7 +11,7 @@
  * Dr. Philip Wenig - initial API and implementation
  * Frank Buloup - Internationalization
  *******************************************************************************/
-package org.eclipse.swtchart.extensions.customcharts;
+package org.eclipse.swtchart.customcharts.core;
 
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
@@ -30,6 +30,8 @@ import org.eclipse.swtchart.IAxis.Position;
 import org.eclipse.swtchart.ICustomPaintListener;
 import org.eclipse.swtchart.IPlotArea;
 import org.eclipse.swtchart.ISeries;
+import org.eclipse.swtchart.customcharts.internal.support.BarSeriesIon;
+import org.eclipse.swtchart.customcharts.internal.support.BarSeriesIonComparator;
 import org.eclipse.swtchart.extensions.axisconverter.PercentageConverter;
 import org.eclipse.swtchart.extensions.barcharts.BarChart;
 import org.eclipse.swtchart.extensions.core.BaseChart;
@@ -39,8 +41,6 @@ import org.eclipse.swtchart.extensions.core.IPrimaryAxisSettings;
 import org.eclipse.swtchart.extensions.core.ISecondaryAxisSettings;
 import org.eclipse.swtchart.extensions.core.RangeRestriction;
 import org.eclipse.swtchart.extensions.core.SecondaryAxisSettings;
-import org.eclipse.swtchart.extensions.internal.support.BarSeriesIon;
-import org.eclipse.swtchart.extensions.internal.support.BarSeriesIonComparator;
 
 public class MassSpectrumChart extends BarChart {
 
@@ -56,11 +56,13 @@ public class MassSpectrumChart extends BarChart {
 	private Map<Double, String> customLabels;
 
 	public MassSpectrumChart() {
+
 		super();
 		initialize();
 	}
 
 	public MassSpectrumChart(Composite parent, int style) {
+
 		super(parent, style);
 		initialize();
 	}
