@@ -41,6 +41,7 @@ public class BarSeries_3_Part extends MassSpectrumChart {
 	private void initialize() {
 
 		IChartSettings chartSettings = getChartSettings();
+		chartSettings.setCreateMenu(true);
 		RangeRestriction rangeRestriction = chartSettings.getRangeRestriction();
 		rangeRestriction.setExtendTypeY(RangeRestriction.ExtendType.RELATIVE);
 		rangeRestriction.setExtendMinY(0.1d);

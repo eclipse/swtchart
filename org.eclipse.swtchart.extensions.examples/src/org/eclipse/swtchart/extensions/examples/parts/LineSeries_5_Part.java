@@ -44,6 +44,7 @@ public class LineSeries_5_Part extends ChromatogramChart {
 	private void initialize() throws Exception {
 
 		IChartSettings chartSettings = getChartSettings();
+		chartSettings.setCreateMenu(true);
 		chartSettings.getRangeRestriction().setZeroY(false);
 		applySettings(chartSettings);
 		//
