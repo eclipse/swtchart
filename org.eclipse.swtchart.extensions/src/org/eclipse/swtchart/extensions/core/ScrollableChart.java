@@ -91,6 +91,8 @@ public class ScrollableChart extends Composite implements IScrollableChart, IEve
 	private Slider sliderHorizontal;
 	private RangeSelector rangeSelector;
 	private SashForm sashForm;
+	private Composite chartSection;
+	private Composite compositeChart;
 	private BaseChart baseChart;
 	private ExtendedLegendUI extendedLegendUI;
 	/*
@@ -131,12 +133,23 @@ public class ScrollableChart extends Composite implements IScrollableChart, IEve
 	 * This constructor is used, when clazz.newInstance() is needed.
 	 */
 	public ScrollableChart() {
+
 		this(getSeparateShell(), SWT.NONE);
 	}
 
 	public ScrollableChart(Composite parent, int style) {
+
 		super(parent, style);
 		initialize();
+	}
+
+	@Override
+	public void setBackground(Color color) {
+
+		super.setBackground(color);
+		sashForm.setBackground(color);
+		chartSection.setBackground(color);
+		compositeChart.setBackground(color);
 	}
 
 	private class RangeHintPaintListener implements PaintListener {
@@ -1213,15 +1226,15 @@ public class ScrollableChart extends Composite implements IScrollableChart, IEve
 		this.setLayout(new FillLayout());
 		sashForm = new SashForm(this, SWT.HORIZONTAL);
 		//
-		createChartSection(sashForm);
-		createLegendSection(sashForm);
+		chartSection = createChartSection(sashForm);
+		extendedLegendUI = createLegendSection(sashForm);
 		/*
 		 * Legend is invisible by default.
 		 */
 		sashForm.setWeights(DEFAULT_WEIGHTS);
 	}
 
-	private void createChartSection(Composite parent) {
+	private Composite createChartSection(Composite parent) {
 
 		Composite composite = new Composite(parent, SWT.NONE);
 		composite.setLayout(new GridLayout(2, false));
@@ -1229,15 +1242,19 @@ public class ScrollableChart extends Composite implements IScrollableChart, IEve
 		 * Composite
 		 */
 		createSliderVertical(composite);
-		createChart(composite);
+		compositeChart = createChart(composite);
 		createSliderHorizontal(composite);
+		//
+		return composite;
 	}
 
-	private void createLegendSection(Composite parent) {
+	private ExtendedLegendUI createLegendSection(Composite parent) {
 
-		extendedLegendUI = new ExtendedLegendUI(parent, SWT.NONE);
+		ExtendedLegendUI extendedLegendUI = new ExtendedLegendUI(parent, SWT.NONE);
 		extendedLegendUI.setScrollableChart(this);
 		extendedLegendUI.setLayout(new GridLayout(1, true));
+		//
+		return extendedLegendUI;
 	}
 
 	private void createSliderVertical(Composite parent) {
@@ -1280,7 +1297,7 @@ public class ScrollableChart extends Composite implements IScrollableChart, IEve
 		});
 	}
 
-	private void createChart(Composite parent) {
+	private Composite createChart(Composite parent) {
 
 		Composite composite = new Composite(parent, SWT.NONE);
 		composite.setLayoutData(new GridData(GridData.FILL_BOTH));
@@ -1288,6 +1305,8 @@ public class ScrollableChart extends Composite implements IScrollableChart, IEve
 		//
 		createRangeInfoUI(composite);
 		createBaseChart(composite);
+		//
+		return composite;
 	}
 
 	private void createRangeInfoUI(Composite parent) {
