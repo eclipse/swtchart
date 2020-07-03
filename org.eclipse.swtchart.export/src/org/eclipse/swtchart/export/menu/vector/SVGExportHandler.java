@@ -35,6 +35,7 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swtchart.IAxis;
 import org.eclipse.swtchart.IAxisSet;
 import org.eclipse.swtchart.ISeries;
+import org.eclipse.swtchart.LineStyle;
 import org.eclipse.swtchart.export.core.AbstractSeriesExportHandler;
 import org.eclipse.swtchart.export.core.AxisSettings;
 import org.eclipse.swtchart.export.core.ExportSettingsDialog;
@@ -47,6 +48,7 @@ import org.eclipse.swtchart.extensions.core.ISecondaryAxisSettings;
 import org.eclipse.swtchart.extensions.core.ScrollableChart;
 import org.eclipse.swtchart.extensions.linecharts.LineChart;
 import org.eclipse.swtchart.extensions.scattercharts.ScatterChart;
+import org.eclipse.swtchart.internal.series.LineSeries;
 
 public class SVGExportHandler extends AbstractSeriesExportHandler implements ISeriesExportConverter {
 
@@ -281,14 +283,26 @@ public class SVGExportHandler extends AbstractSeriesExportHandler implements ISe
 					IAxisSet axisSet = baseChart.getAxisSet();
 					int index = 0;
 					for(ISeries<?> dataSeries : series) {
+						LineSeries lineSeries = (LineSeries)dataSeries;
+						LineStyle lineStyle = lineSeries.getLineStyle();
 						if(dataSeries != null) {
 							StringBuilder string = null;
-							if(exportVisibleOnly) {
-								if(dataSeries.isVisible()) {
+							if(lineStyle != LineStyle.NONE) {
+								if(exportVisibleOnly) {
+									if(dataSeries.isVisible()) {
+										string = printLineData(dataSeries, widthPlotArea, heightPlotArea, axisSettings, index++, printWriter, axisSet);
+									}
+								} else {
 									string = printLineData(dataSeries, widthPlotArea, heightPlotArea, axisSettings, index++, printWriter, axisSet);
 								}
 							} else {
-								string = printLineData(dataSeries, widthPlotArea, heightPlotArea, axisSettings, index++, printWriter, axisSet);
+								if(exportVisibleOnly) {
+									if(dataSeries.isVisible()) {
+										string = printScatterData(dataSeries, widthPlotArea, heightPlotArea, axisSettings, index++, printWriter, axisSet);
+									}
+								} else {
+									string = printScatterData(dataSeries, widthPlotArea, heightPlotArea, axisSettings, index++, printWriter, axisSet);
+								}
 							}
 							out.append(string);
 						}
