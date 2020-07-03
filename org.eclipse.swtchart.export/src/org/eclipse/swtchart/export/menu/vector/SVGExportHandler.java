@@ -20,6 +20,7 @@ import java.io.FileNotFoundException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.lang.reflect.InvocationTargetException;
+import java.text.DecimalFormat;
 import java.util.regex.Pattern;
 
 import org.eclipse.core.runtime.IProgressMonitor;
@@ -170,6 +171,8 @@ public class SVGExportHandler extends AbstractSeriesExportHandler implements ISe
 		IAxisSettings axisSettingsX = axisSettings.getAxisSettingsX();
 		IAxisSettings axisSettingsY = axisSettings.getAxisSettingsY();
 		boolean exportVisibleOnly = axisSettings.isExportVisibleOnly();
+		DecimalFormat formatX = axisSettingsX.getDecimalFormat();
+		DecimalFormat formatY = axisSettingsY.getDecimalFormat();
 		//
 		BaseChart baseChart = scrollableChart.getBaseChart();
 		ISeries<?>[] series = baseChart.getSeriesSet().getSeries();
@@ -204,7 +207,7 @@ public class SVGExportHandler extends AbstractSeriesExportHandler implements ISe
 							if(Pattern.matches(match1, string)) {
 								string = string.replace("%x-coordinate%", String.valueOf(x));
 							} else if(Pattern.matches(match2, string)) {
-								string = string.replace("%X01%", String.valueOf(xTicks[count]));
+								string = string.replace("%X01%", String.valueOf(formatX.format(xTicks[count])));
 							}
 							out.append(string);
 							out.append("\n");
@@ -228,7 +231,7 @@ public class SVGExportHandler extends AbstractSeriesExportHandler implements ISe
 							if(Pattern.matches(match1, string)) {
 								string = string.replace("%y-coordinate%", String.valueOf(y));
 							} else if(Pattern.matches(match2, string)) {
-								string = string.replace("%Y01%", String.valueOf(yTicks[count]));
+								string = string.replace("%Y01%", String.valueOf(formatY.format(yTicks[count])));
 							}
 							out.append(string);
 							out.append("\n");
@@ -394,6 +397,8 @@ public class SVGExportHandler extends AbstractSeriesExportHandler implements ISe
 		IAxisSettings axisSettingsX = axisSettings.getAxisSettingsX();
 		IAxisSettings axisSettingsY = axisSettings.getAxisSettingsY();
 		boolean exportVisibleOnly = axisSettings.isExportVisibleOnly();
+		DecimalFormat formatX = axisSettingsX.getDecimalFormat();
+		DecimalFormat formatY = axisSettingsY.getDecimalFormat();
 		//
 		BaseChart baseChart = scrollableChart.getBaseChart();
 		ISeries<?>[] series = baseChart.getSeriesSet().getSeries();
@@ -428,7 +433,7 @@ public class SVGExportHandler extends AbstractSeriesExportHandler implements ISe
 							if(Pattern.matches(match1, string)) {
 								string = string.replace("%x-coordinate%", String.valueOf(x));
 							} else if(Pattern.matches(match2, string)) {
-								string = string.replace("%X01%", String.valueOf(xTicks[count]));
+								string = string.replace("%X01%", String.valueOf(formatX.format(xTicks[count])));
 							}
 							out.append(string);
 							out.append("\n");
@@ -452,7 +457,7 @@ public class SVGExportHandler extends AbstractSeriesExportHandler implements ISe
 							if(Pattern.matches(match1, string)) {
 								string = string.replace("%y-coordinate%", String.valueOf(y));
 							} else if(Pattern.matches(match2, string)) {
-								string = string.replace("%Y01%", String.valueOf(yTicks[count]));
+								string = string.replace("%Y01%", String.valueOf(formatY.format(yTicks[count])));
 							}
 							out.append(string);
 							out.append("\n");
@@ -677,6 +682,8 @@ public class SVGExportHandler extends AbstractSeriesExportHandler implements ISe
 		IAxisSettings axisSettingsX = axisSettings.getAxisSettingsX();
 		IAxisSettings axisSettingsY = axisSettings.getAxisSettingsY();
 		boolean exportVisibleOnly = axisSettings.isExportVisibleOnly();
+		DecimalFormat formatX = axisSettingsX.getDecimalFormat();
+		DecimalFormat formatY = axisSettingsY.getDecimalFormat();
 		//
 		BaseChart baseChart = scrollableChart.getBaseChart();
 		ISeries<?>[] series = baseChart.getSeriesSet().getSeries();
@@ -711,7 +718,7 @@ public class SVGExportHandler extends AbstractSeriesExportHandler implements ISe
 							if(Pattern.matches(match1, string)) {
 								string = string.replace("%x-coordinate%", String.valueOf(x));
 							} else if(Pattern.matches(match2, string)) {
-								string = string.replace("%X01%", String.valueOf(xTicks[count]));
+								string = string.replace("%X01%", String.valueOf(formatX.format(xTicks[count])));
 							}
 							out.append(string);
 							out.append("\n");
@@ -735,7 +742,7 @@ public class SVGExportHandler extends AbstractSeriesExportHandler implements ISe
 							if(Pattern.matches(match1, string)) {
 								string = string.replace("%y-coordinate%", String.valueOf(y));
 							} else if(Pattern.matches(match2, string)) {
-								string = string.replace("%Y01%", String.valueOf(yTicks[count]));
+								string = string.replace("%Y01%", String.valueOf(formatY.format(yTicks[count])));
 							}
 							out.append(string);
 							out.append("\n");
