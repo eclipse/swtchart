@@ -38,7 +38,7 @@ public abstract class AbstractExtendedChart extends AbstractHandledChart impleme
 	private double maxX;
 	private double minY;
 	private double maxY;
-	private RangeRestriction rangeRestriction;
+	private RangeRestriction rangeRestriction = new RangeRestriction();
 	/*
 	 * The extended values are only used internally.
 	 */
@@ -52,6 +52,7 @@ public abstract class AbstractExtendedChart extends AbstractHandledChart impleme
 	private Map<String, ISeriesSettings> seriesSettingsMap = new HashMap<String, ISeriesSettings>();
 
 	public AbstractExtendedChart(Composite parent, int style) {
+
 		super(parent, style);
 		resetCoordinates();
 	}

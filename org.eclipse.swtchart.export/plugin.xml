@@ -26,6 +26,9 @@
       </MenuItemSupplier>
       <MenuItemSupplier
             MenuEntry="org.eclipse.swtchart.export.menu.text.TSVExportHandler">
-      </MenuItemSupplier>       
+      </MenuItemSupplier>
+      <MenuItemSupplier
+            MenuEntry="org.eclipse.swtchart.export.menu.vector.SVGExportHandler">
+      </MenuItemSupplier>             
    </extension>
 </plugin>

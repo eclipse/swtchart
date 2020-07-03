@@ -38,6 +38,7 @@ public abstract class AbstractSeparatedValueHandler extends AbstractSeriesExport
 	private String delimiter;
 
 	public AbstractSeparatedValueHandler(String title, String fileExtension, String delimiter) {
+
 		this.title = title;
 		this.fileExtension = fileExtension;
 		this.delimiter = delimiter;
@@ -155,7 +156,7 @@ public abstract class AbstractSeparatedValueHandler extends AbstractSeriesExport
 		/*
 		 * Series
 		 */
-		printWriter.println(dataSeries.getId());
+		printWriter.println(getIdentifier(dataSeries));
 		//
 		double[] xSeries = dataSeries.getXSeries();
 		double[] ySeries = dataSeries.getYSeries();

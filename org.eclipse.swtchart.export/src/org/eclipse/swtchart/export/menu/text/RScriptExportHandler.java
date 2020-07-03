@@ -437,7 +437,7 @@ public class RScriptExportHandler extends AbstractSeriesExportHandler implements
 			 */
 			Point point = dataSeries.getPixelCoordinates(i);
 			if(point.x >= 0 && point.x <= widthPlotArea) {
-				printWriter.println("scatter_labels<-c(scatter_labels,'" + dataSeries.getId() + "')"); //$NON-NLS-1$ //$NON-NLS-2$
+				printWriter.println("scatter_labels<-c(scatter_labels,'" + getIdentifier(dataSeries) + "')"); //$NON-NLS-1$ //$NON-NLS-2$
 				printValueScatterPlot(AXIS_X, printWriter, xSeries[i], indexAxisX, BaseChart.ID_PRIMARY_X_AXIS, axisScaleConverterX);
 				printValueScatterPlot(AXIS_Y, printWriter, ySeries[i], indexAxisY, BaseChart.ID_PRIMARY_Y_AXIS, axisScaleConverterY);
 			}
@@ -535,7 +535,7 @@ public class RScriptExportHandler extends AbstractSeriesExportHandler implements
 		size = series.length;
 		for(ISeries<?> dataSeries : series) {
 			if(dataSeries != null) {
-				printWriter.print("			'Series " + dataSeries.getDescription() + "'"); //$NON-NLS-1$ //$NON-NLS-2$
+				printWriter.print("			'" + dataSeries.getDescription() + "'"); //$NON-NLS-1$ //$NON-NLS-2$
 				if(k < size - 1) {
 					printWriter.print(","); //$NON-NLS-1$
 				}

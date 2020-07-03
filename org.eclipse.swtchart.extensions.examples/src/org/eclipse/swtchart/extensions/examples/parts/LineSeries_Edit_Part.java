@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2017, 2019 Lablicate GmbH.
+ * Copyright (c) 2017, 2020 Lablicate GmbH.
  *
  * This program and the accompanying materials are made
  * available under the terms of the Eclipse Public License 2.0
@@ -37,12 +37,12 @@ import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.TableItem;
 import org.eclipse.swt.widgets.Text;
+import org.eclipse.swtchart.customcharts.core.ChromatogramChart;
 import org.eclipse.swtchart.extensions.core.BaseChart;
 import org.eclipse.swtchart.extensions.core.IAxisScaleConverter;
 import org.eclipse.swtchart.extensions.core.IChartSettings;
 import org.eclipse.swtchart.extensions.core.IExtendedChart;
 import org.eclipse.swtchart.extensions.core.ISeriesData;
-import org.eclipse.swtchart.extensions.customcharts.ChromatogramChart;
 import org.eclipse.swtchart.extensions.examples.Activator;
 import org.eclipse.swtchart.extensions.examples.support.SeriesConverter;
 import org.eclipse.swtchart.extensions.linecharts.ILineSeriesData;
@@ -77,6 +77,7 @@ public class LineSeries_Edit_Part extends Composite {
 
 	@Inject
 	public LineSeries_Edit_Part(Composite parent) {
+
 		super(parent, SWT.NONE);
 		setBackground(getDisplay().getSystemColor(SWT.COLOR_WHITE));
 		try {

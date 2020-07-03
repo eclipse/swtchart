@@ -34,10 +34,10 @@ import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.TableItem;
 import org.eclipse.swtchart.ILineSeries.PlotSymbolType;
 import org.eclipse.swtchart.ISeries;
+import org.eclipse.swtchart.customcharts.core.PCAChart;
 import org.eclipse.swtchart.extensions.core.BaseChart;
 import org.eclipse.swtchart.extensions.core.IChartSettings;
 import org.eclipse.swtchart.extensions.core.ISeriesData;
-import org.eclipse.swtchart.extensions.customcharts.PCAChart;
 import org.eclipse.swtchart.extensions.examples.Activator;
 import org.eclipse.swtchart.extensions.examples.support.SeriesConverter;
 import org.eclipse.swtchart.extensions.scattercharts.IScatterSeriesData;
@@ -66,6 +66,7 @@ public class ScatterSeries_Edit_Part extends Composite {
 	private class HandledChart extends PCAChart {
 
 		public HandledChart(Composite parent, int style) {
+
 			super(parent, style);
 		}
 
@@ -132,6 +133,7 @@ public class ScatterSeries_Edit_Part extends Composite {
 
 	@Inject
 	public ScatterSeries_Edit_Part(Composite parent) {
+
 		super(parent, SWT.NONE);
 		setBackground(getDisplay().getSystemColor(SWT.COLOR_WHITE));
 		try {
