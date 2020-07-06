@@ -251,29 +251,32 @@ public class SVGExportHandler extends AbstractSeriesExportHandler implements ISe
 					String color[] = {"#000000", "#FF0000", "#0000FF", "#008000", "#808080", "#800080", "#FFFF00", "#A52A2A", "#FFC0CB", "#FFA500"};
 					StringBuilder out = new StringBuilder("");
 					for(int count = 0; count < series.length; count++) {
-						String col = color[count % 10];
-						double y1 = start1 + 6 * count;
-						double y2 = start2 + 6 * count;
-						String des = series[count].getDescription();
-						String split[] = legend.toString().split("\\n");
-						String match1 = ".*%y1-coordinate%.*";
-						String match2 = ".*%y2-coordinate%.*";
-						String match3 = ".*%COLOR%.*";
-						String match4 = ".*%SERIES A%.*";
-						for(String string : split) {
-							if(Pattern.matches(match1, string)) {
-								string = string.replace("%y1-coordinate%", String.valueOf(y1));
-							} else if(Pattern.matches(match2, string)) {
-								string = string.replace("%y2-coordinate%", String.valueOf(y2));
-							} else if(Pattern.matches(match3, string)) {
-								string = string.replace("%COLOR%", col);
-							} else if(Pattern.matches(match4, string)) {
-								string = string.replace("%SERIES A%", des);
+							String col = color[count % 10];
+							/*
+							 * 6 taken just to keep appropriate distance between the Series names in the legend.
+							 */
+							double y1 = start1 + 6 * count;
+							double y2 = start2 + 6 * count;
+							String des = series[count].getDescription();
+							String split[] = legend.toString().split("\\n");
+							String match1 = ".*%y1-coordinate%.*";
+							String match2 = ".*%y2-coordinate%.*";
+							String match3 = ".*%COLOR%.*";
+							String match4 = ".*%SERIES A%.*";
+							for(String string : split) {
+								if(Pattern.matches(match1, string)) {
+									string = string.replace("%y1-coordinate%", String.valueOf(y1));
+								} else if(Pattern.matches(match2, string)) {
+									string = string.replace("%y2-coordinate%", String.valueOf(y2));
+								} else if(Pattern.matches(match3, string)) {
+									string = string.replace("%COLOR%", col);
+								} else if(Pattern.matches(match4, string)) {
+									string = string.replace("%SERIES A%", des);
+								}
+								out.append(string);
+								out.append("\n");
 							}
-							out.append(string);
 							out.append("\n");
-						}
-						out.append("\n");
 					}
 					line = line.replaceAll(regex_legend, out.toString());
 				} else if(Pattern.matches(data_series, line)) {
@@ -322,7 +325,7 @@ public class SVGExportHandler extends AbstractSeriesExportHandler implements ISe
 	private StringBuilder printLineData(ISeries<?> dataSeries, int widthPlotArea, int heightPlotArea, AxisSettings axisSettings, int index, PrintWriter printWriter, IAxisSet axisSet) {
 
 		StringBuilder out = new StringBuilder("");
-		StringBuilder data = new StringBuilder("<path\n" + "               style=\"fill:none;stroke:%COLOR%;stroke-width:0.45888707;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1\"\n" + "               d=\"M %DATA POINTS%\"\n" + "               id=\"path1740\"\n" + "               inkscape:connector-curvature=\"0\" />");
+		StringBuilder data = new StringBuilder("<path\n" + "               style=\"fill:none;stroke:%COLOR%;stroke-width:0.45888707;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1\"\n" + "               d=\"M %DATA POINTS%\"\n" + "               id=\"path1740\"\n" + "               inkscape:connector-curvature=\"0\" />");
 		String color[] = {"#000000", "#FF0000", "#0000FF", "#008000", "#808080", "#800080", "#FFFF00", "#A52A2A", "#FFC0CB", "#FFA500"};
 		int indexAxisX = axisSettings.getIndexAxisX();
 		int indexAxisY = axisSettings.getIndexAxisY();
