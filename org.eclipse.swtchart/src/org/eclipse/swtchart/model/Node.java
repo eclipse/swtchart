@@ -19,8 +19,7 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.widgets.Display;
-import org.eclipse.swtchart.internal.compress.CompressMultiLevelPie;
-import org.eclipse.swtchart.internal.series.MultiLevelPie;
+import org.eclipse.swtchart.ICircularSeries;
 
 /**
  * Each Object of this class represents a slice of the MultiLevel pie chart
@@ -62,11 +61,12 @@ public class Node {
 	 * @param id
 	 * @param val
 	 */
-	Node(String id, double val) {
+	Node(String id, double val, IdNodeDataModel data) {
 
 		this.id = id;
 		this.val = val;
-		this.level = 0;
+		this.data = data;
+		this.level = ((ICircularSeries)data.getSeries()).getRootNodeLevel();
 		children = new ArrayList<Node>();
 		this.isVisible = true;
 	}
@@ -183,9 +183,7 @@ public class Node {
 	public void setValue(double value) {
 
 		this.val = value;
-		data.getRootNode().updateValues();
-		data.getRootNode().updateAngularBounds();
-		((CompressMultiLevelPie)((MultiLevelPie)data.getSeries()).getCompressor()).update();
+		update();
 	}
 
 	public void setId(String label) {
@@ -389,20 +387,6 @@ public class Node {
 	@SuppressWarnings("unchecked")
 	public void update() {
 
-		data.getRootNode().updateValues();
-		//
-		int maxTreeDepth = data.getRootNode().getMaxSubTreeDepth() - 1;
-		data.setNodes(new ArrayList[maxTreeDepth + 1]);
-		//
-		List<Node>[] node = data.getNodes();
-		for(int i = 1; i <= maxTreeDepth; i++) {
-			node[i] = new ArrayList<Node>();
-		}
-		//
-		data.getRootNode().updateAngularBounds();
-		//
-		data.getRootNode().setVisibility(true);
-		//
-		((CompressMultiLevelPie)((MultiLevelPie)data.getSeries()).getCompressor()).update();
+		((ICircularSeries)data.getSeries()).update();
 	}
 }

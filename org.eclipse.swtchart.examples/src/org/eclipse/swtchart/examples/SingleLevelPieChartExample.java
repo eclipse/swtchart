@@ -20,12 +20,12 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swtchart.Chart;
 import org.eclipse.swtchart.ISeries.SeriesType;
-import org.eclipse.swtchart.internal.series.PieSeries;
+import org.eclipse.swtchart.internal.series.CircularSeries;
 
 /**
  * An example for pie chart.
  */
-public class PieChartExample {
+public class SingleLevelPieChartExample {
 
 	private static final double[] values = {337309, 131646, 128948, 100123, 81708, 70478, 58226, 47806, 4067, 265783};
 	private static final String[] labels = {"USA", "Spain", "Italy", "Germany", "China", "France", "Iran", "UK", "India", "Other"};
@@ -65,14 +65,14 @@ public class PieChartExample {
 		// create a chart
 		Chart chart = new Chart(parent, SWT.NONE);
 		// set titles
-		chart.getTitle().setText("Pie Chart");
-		// create pie series
-		PieSeries pieSeries = (PieSeries)chart.getSeriesSet().createSeries(SeriesType.PIE, "pie series");
+		chart.getTitle().setText("Single Level Pie Chart");
+		// May replace the CircularSeries Class with Pie... Makes no difference
+		CircularSeries circularSeries = (CircularSeries)chart.getSeriesSet().createSeries(SeriesType.PIE, "pie series");
 		// sets the series.
-		pieSeries.setSeries(labels, values);
+		circularSeries.setSeries(labels, values);
 		// change color of India to DARK_RED
 		Color color = Display.getDefault().getSystemColor(SWT.COLOR_DARK_RED);
-		pieSeries.setColor("India", color);
+		circularSeries.setColor("India", color);
 		//
 		return chart;
 	}

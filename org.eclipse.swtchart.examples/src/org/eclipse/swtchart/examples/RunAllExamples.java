@@ -104,11 +104,13 @@ public class RunAllExamples {
 		basicCharts.add(LineChartExample.createChart(parent));
 		basicCharts.add(BarChartExample.createChart(parent));
 		basicCharts.add(ScatterChartExample.createChart(parent));
-		basicCharts.add(PieChartExample.createChart(parent));
 		basicCharts.add(AreaChartExample.createChart(parent));
 		basicCharts.add(StepChartExample.createChart(parent));
 		basicCharts.add(StackSeriesExample.createChart(parent));
+		basicCharts.add(SingleLevelPieChartExample.createChart(parent));
+		basicCharts.add(SingleLevelDoughnutChartExample.createChart(parent));
 		basicCharts.add(MultiLevelPieExample.createChart(parent));
+		basicCharts.add(MultiLevelDoughnutChart.createChart(parent));
 		basicCharts.add(LogScaleExample.createChart(parent));
 		basicCharts.add(OrientationExample.createChart(parent));
 		basicCharts.add(CategoryExample.createChart(parent));

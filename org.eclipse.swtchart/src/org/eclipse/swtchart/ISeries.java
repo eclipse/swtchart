@@ -28,14 +28,15 @@ public interface ISeries<DataType> {
 	 * A Series type.
 	 */
 	public enum SeriesType {
+
 		/** the line */
 		LINE("Line"), //$NON-NLS-1$
 		/** the bar */
 		BAR("Bar"), //$NON-NLS-1$
 		/** the pie */
 		PIE("Pie"), //$NON-NLS-1$
-		/** multi_level_pie */
-		MULTI_LEVEL_PIE("Multi_Level_Pie"); //$NON-NLS-1$
+		/** the doughnut */
+		DOUGHNUT("Doughnut"); // $NON-NLS-1$
 
 		/** the label for series type */
 		public final String label;
@@ -47,6 +48,7 @@ public interface ISeries<DataType> {
 		 *            the label for series type
 		 */
 		private SeriesType(String label) {
+
 			this.label = label;
 		}
 	}
