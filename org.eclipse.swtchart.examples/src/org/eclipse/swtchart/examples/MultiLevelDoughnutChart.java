@@ -22,9 +22,9 @@ import org.eclipse.swtchart.ISeries.SeriesType;
 import org.eclipse.swtchart.internal.series.CircularSeries;
 
 /**
- * An example for MultiLevel pie chart.
+ * An example for MultiLevel doughnut chart.
  */
-public class MultiLevelPieExample {
+public class MultiLevelDoughnutChart {
 
 	private static final String[] continentLabels = {"Asia", "Africa", "North America", "South America", "Antarctica", "Europe", "Australia"};
 	private static final double[] continentValues = {17212000, 11608000, 9365000, 6880000, 5100000, 3837000, 2968000};
@@ -47,7 +47,7 @@ public class MultiLevelPieExample {
 
 		Display display = new Display();
 		Shell shell = new Shell(display);
-		shell.setText("Multi Level Pie Chart");
+		shell.setText("Multi Level Doughnut Chart");
 		shell.setSize(800, 500);
 		shell.setLayout(new FillLayout());
 		createChart(shell);
@@ -72,25 +72,24 @@ public class MultiLevelPieExample {
 		// create a chart
 		Chart chart = new Chart(parent, SWT.NONE);
 		// set titles
-		chart.getTitle().setText("Multi Level Pie Chart");
-		// create pie series
-		// Doughnut multiLevelPie = (Doughnut)chart.getSeriesSet().createSeries(SeriesType.DOUGHNUT, "countries");
-		CircularSeries multiLevelPie = (CircularSeries)chart.getSeriesSet().createSeries(SeriesType.PIE, "countries");
+		chart.getTitle().setText("Multi Level Doughnut Chart");
+		// create doughnut series
+		CircularSeries multiLevelDoughnut = (CircularSeries)chart.getSeriesSet().createSeries(SeriesType.DOUGHNUT, "countries");
 		// sets the series.
-		multiLevelPie.setSeries(continentLabels, continentValues);
+		multiLevelDoughnut.setSeries(continentLabels, continentValues);
 		// adding Asian countries. These go in as second level
-		multiLevelPie.getNodeById("Asia").addChildren(AsianCountriesLabels, AsianCountriesValues);
+		multiLevelDoughnut.getNodeById("Asia").addChildren(AsianCountriesLabels, AsianCountriesValues);
 		//
-		multiLevelPie.getNodeById("Africa").addChildren(AfricanCountriesLabels, AfricanCountriesValues);
+		multiLevelDoughnut.getNodeById("Africa").addChildren(AfricanCountriesLabels, AfricanCountriesValues);
 		//
-		multiLevelPie.getNodeById("North America").addChildren(NorthAmericanCountriesLabels, NorthAmericanCountriesValues);
+		multiLevelDoughnut.getNodeById("North America").addChildren(NorthAmericanCountriesLabels, NorthAmericanCountriesValues);
 		/*
 		 * Adding Indian states. These go as third level.
 		 * Added to show that those too small for 1 degree, are also made visible
 		 */
-		multiLevelPie.getNodeById("India").addChildren(IndianStatesLabels, IndianStateValues);
+		multiLevelDoughnut.getNodeById("India").addChildren(IndianStatesLabels, IndianStateValues);
 		// Another API
-		multiLevelPie.getNodeById("Europe").addChild("Germany", 137847);
+		multiLevelDoughnut.getNodeById("Europe").addChild("Germany", 137847);
 		//
 		return chart;
 	}

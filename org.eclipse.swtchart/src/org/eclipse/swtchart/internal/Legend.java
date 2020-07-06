@@ -32,9 +32,9 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.swtchart.Chart;
 import org.eclipse.swtchart.Constants;
 import org.eclipse.swtchart.IBarSeries;
+import org.eclipse.swtchart.ICircularSeries;
 import org.eclipse.swtchart.ILegend;
 import org.eclipse.swtchart.ILineSeries;
-import org.eclipse.swtchart.IPieSeries;
 import org.eclipse.swtchart.ISeries;
 import org.eclipse.swtchart.internal.series.LineSeries;
 import org.eclipse.swtchart.internal.series.Series;
@@ -273,9 +273,9 @@ public class Legend extends Composite implements ILegend, PaintListener {
 				if(!series.isVisibleInLegend()) {
 					continue;
 				}
-				if(series instanceof IPieSeries) {
-					if(((IPieSeries)series).getLabels() != null) {
-						String[] labels = ((IPieSeries)series).getLabels();
+				if(series instanceof ICircularSeries) {
+					if(((ICircularSeries)series).getLabels() != null) {
+						String[] labels = ((ICircularSeries)series).getLabels();
 						for(int i = 0; i != labels.length; i++) {
 							int textWidth = Util.getExtentInGC(getFont(), labels[i]).x;
 							int cellWidth = textWidth + SYMBOL_WIDTH + MARGIN * 3;
@@ -314,9 +314,9 @@ public class Legend extends Composite implements ILegend, PaintListener {
 				if(!series.isVisibleInLegend()) {
 					continue;
 				}
-				if(series instanceof IPieSeries) {
-					if(((IPieSeries)series).getLabels() != null) {
-						String[] labels = ((IPieSeries)series).getLabels();
+				if(series instanceof ICircularSeries) {
+					if(((ICircularSeries)series).getLabels() != null) {
+						String[] labels = ((ICircularSeries)series).getLabels();
 						for(int i = 0; i != labels.length; i++) {
 							int textWidth = Util.getExtentInGC(getFont(), labels[i]).x;
 							int cellWidth = textWidth + SYMBOL_WIDTH + MARGIN * 3;
@@ -433,8 +433,8 @@ public class Legend extends Composite implements ILegend, PaintListener {
 				continue;
 			}
 			//
-			if(seriesArray[i] instanceof IPieSeries) {
-				IPieSeries pieSeries = (IPieSeries)seriesArray[i];
+			if(seriesArray[i] instanceof ICircularSeries) {
+				ICircularSeries pieSeries = (ICircularSeries)seriesArray[i];
 				String[] labels = pieSeries.getLabels();
 				Color[] color = pieSeries.getColors();
 				for(int j = 0; j != labels.length; j++) {

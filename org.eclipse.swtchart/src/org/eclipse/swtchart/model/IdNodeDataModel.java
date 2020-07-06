@@ -43,7 +43,7 @@ public class IdNodeDataModel {
 
 		this.Id = Id;
 		this.series = series;
-		this.rootNode = new Node(Id, -1);
+		this.rootNode = new Node(Id, -1,this);
 		tree = new HashMap<String, Node>();
 		initialiseRootNode();
 	}
@@ -54,7 +54,7 @@ public class IdNodeDataModel {
 		rootNode.setVisibility(true);
 		rootNode.setAngleBounds(new Point(0, 360));
 		rootNode.setDataModel(this);
-		rootNode.setColor(Display.getDefault().getSystemColor(SWT.COLOR_BLACK));
+		rootNode.setColor(Display.getDefault().getSystemColor(SWT.COLOR_WHITE));
 		tree.put(Id, rootNode);
 	}
 

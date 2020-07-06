@@ -51,6 +51,7 @@ public class SeriesSet implements ISeriesSet {
 	 *            the chart
 	 */
 	public SeriesSet(Chart chart) {
+
 		this.chart = chart;
 		seriesMap = new LinkedHashMap<String, Series<?>>();
 		chart.addDisposeListener(new DisposeListener() {
@@ -81,9 +82,9 @@ public class SeriesSet implements ISeriesSet {
 		} else if(type == SeriesType.LINE) {
 			series = new LineSeries(chart, trimmedId);
 		} else if(type == SeriesType.PIE) {
-			series = new PieSeries(chart, trimmedId);
-		} else if(type == SeriesType.MULTI_LEVEL_PIE) {
-			series = new MultiLevelPie(chart, trimmedId);
+			series = new Pie(chart, trimmedId);
+		} else if(type == SeriesType.DOUGHNUT) {
+			series = new Doughnut(chart, trimmedId);
 		} else {
 			SWT.error(SWT.ERROR_INVALID_ARGUMENT);
 			return null; // to suppress warning...
