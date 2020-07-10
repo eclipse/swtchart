@@ -173,6 +173,8 @@ public class SVGExportHandler extends AbstractSeriesExportHandler implements ISe
 		IAxisSettings axisSettingsX = axisSettings.getAxisSettingsX();
 		IAxisSettings axisSettingsY = axisSettings.getAxisSettingsY();
 		boolean exportVisibleOnly = axisSettings.isExportVisibleOnly();
+		boolean isReversedX = axisSettingsX.isReversed();
+		boolean isReversedY = axisSettingsY.isReversed();
 		DecimalFormat formatX = axisSettingsX.getDecimalFormat();
 		DecimalFormat formatY = axisSettingsY.getDecimalFormat();
 		//
@@ -204,7 +206,12 @@ public class SVGExportHandler extends AbstractSeriesExportHandler implements ISe
 						String split[] = tickX.toString().split("\\n");
 						String match1 = ".*%x-coordinate%.*";
 						String match2 = ".*%X01%.*";
-						double x = start + ((xTicks[count] - lower) / (upper - lower) * height);
+						double x;
+						if(!isReversedX) {
+							x = start + ((xTicks[count] - lower) / (upper - lower) * height);
+						} else {
+							x = ((start + height) - (((xTicks[count] - lower) / (upper - lower) * height)));
+						}
 						for(String string : split) {
 							if(Pattern.matches(match1, string)) {
 								string = string.replace("%x-coordinate%", String.valueOf(x));
@@ -228,7 +235,12 @@ public class SVGExportHandler extends AbstractSeriesExportHandler implements ISe
 						String split[] = tickY.toString().split("\\n");
 						String match1 = ".*%y-coordinate%.*";
 						String match2 = ".*%Y01%.*";
-						double y = start - (height - ((upper - yTicks[count]) / (upper - lower) * height));
+						double y;
+						if(!isReversedY) {
+							y = start - (height - ((upper - yTicks[count]) / (upper - lower) * height));
+						} else {
+							y = ((start - height) + (height - ((upper - yTicks[count]) / (upper - lower) * height)));
+						}
 						for(String string : split) {
 							if(Pattern.matches(match1, string)) {
 								string = string.replace("%y-coordinate%", String.valueOf(y));
@@ -251,32 +263,32 @@ public class SVGExportHandler extends AbstractSeriesExportHandler implements ISe
 					String color[] = {"#000000", "#FF0000", "#0000FF", "#008000", "#808080", "#800080", "#FFFF00", "#A52A2A", "#FFC0CB", "#FFA500"};
 					StringBuilder out = new StringBuilder("");
 					for(int count = 0; count < series.length; count++) {
-							String col = color[count % 10];
-							/*
-							 * 6 taken just to keep appropriate distance between the Series names in the legend.
-							 */
-							double y1 = start1 + 6 * count;
-							double y2 = start2 + 6 * count;
-							String des = series[count].getDescription();
-							String split[] = legend.toString().split("\\n");
-							String match1 = ".*%y1-coordinate%.*";
-							String match2 = ".*%y2-coordinate%.*";
-							String match3 = ".*%COLOR%.*";
-							String match4 = ".*%SERIES A%.*";
-							for(String string : split) {
-								if(Pattern.matches(match1, string)) {
-									string = string.replace("%y1-coordinate%", String.valueOf(y1));
-								} else if(Pattern.matches(match2, string)) {
-									string = string.replace("%y2-coordinate%", String.valueOf(y2));
-								} else if(Pattern.matches(match3, string)) {
-									string = string.replace("%COLOR%", col);
-								} else if(Pattern.matches(match4, string)) {
-									string = string.replace("%SERIES A%", des);
-								}
-								out.append(string);
-								out.append("\n");
+						String col = color[count % 10];
+						/*
+						 * 6 taken just to keep appropriate distance between the Series names in the legend.
+						 */
+						double y1 = start1 + 6 * count;
+						double y2 = start2 + 6 * count;
+						String des = series[count].getDescription();
+						String split[] = legend.toString().split("\\n");
+						String match1 = ".*%y1-coordinate%.*";
+						String match2 = ".*%y2-coordinate%.*";
+						String match3 = ".*%COLOR%.*";
+						String match4 = ".*%SERIES A%.*";
+						for(String string : split) {
+							if(Pattern.matches(match1, string)) {
+								string = string.replace("%y1-coordinate%", String.valueOf(y1));
+							} else if(Pattern.matches(match2, string)) {
+								string = string.replace("%y2-coordinate%", String.valueOf(y2));
+							} else if(Pattern.matches(match3, string)) {
+								string = string.replace("%COLOR%", col);
+							} else if(Pattern.matches(match4, string)) {
+								string = string.replace("%SERIES A%", des);
 							}
+							out.append(string);
 							out.append("\n");
+						}
+						out.append("\n");
 					}
 					line = line.replaceAll(regex_legend, out.toString());
 				} else if(Pattern.matches(data_series, line)) {
@@ -293,18 +305,18 @@ public class SVGExportHandler extends AbstractSeriesExportHandler implements ISe
 							if(lineStyle != LineStyle.NONE) {
 								if(exportVisibleOnly) {
 									if(dataSeries.isVisible()) {
-										string = printLineData(dataSeries, widthPlotArea, heightPlotArea, axisSettings, index++, printWriter, axisSet);
+										string = printLineData(dataSeries, widthPlotArea, heightPlotArea, axisSettings, index++, printWriter, axisSet, isReversedX, isReversedY);
 									}
 								} else {
-									string = printLineData(dataSeries, widthPlotArea, heightPlotArea, axisSettings, index++, printWriter, axisSet);
+									string = printLineData(dataSeries, widthPlotArea, heightPlotArea, axisSettings, index++, printWriter, axisSet, isReversedX, isReversedY);
 								}
 							} else {
 								if(exportVisibleOnly) {
 									if(dataSeries.isVisible()) {
-										string = printScatterData(dataSeries, widthPlotArea, heightPlotArea, axisSettings, index++, printWriter, axisSet);
+										string = printScatterData(dataSeries, widthPlotArea, heightPlotArea, axisSettings, index++, printWriter, axisSet, isReversedX, isReversedY);
 									}
 								} else {
-									string = printScatterData(dataSeries, widthPlotArea, heightPlotArea, axisSettings, index++, printWriter, axisSet);
+									string = printScatterData(dataSeries, widthPlotArea, heightPlotArea, axisSettings, index++, printWriter, axisSet, isReversedX, isReversedY);
 								}
 							}
 							out.append(string);
@@ -322,7 +334,7 @@ public class SVGExportHandler extends AbstractSeriesExportHandler implements ISe
 	/*
 	 * returns the data series to be replaced in the data series in template
 	 */
-	private StringBuilder printLineData(ISeries<?> dataSeries, int widthPlotArea, int heightPlotArea, AxisSettings axisSettings, int index, PrintWriter printWriter, IAxisSet axisSet) {
+	private StringBuilder printLineData(ISeries<?> dataSeries, int widthPlotArea, int heightPlotArea, AxisSettings axisSettings, int index, PrintWriter printWriter, IAxisSet axisSet, boolean isReversedX, boolean isReversedY) {
 
 		StringBuilder out = new StringBuilder("");
 		StringBuilder data = new StringBuilder("<path\n" + "               style=\"fill:none;stroke:%COLOR%;stroke-width:0.45888707;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1\"\n" + "               d=\"M %DATA POINTS%\"\n" + "               id=\"path1740\"\n" + "               inkscape:connector-curvature=\"0\" />");
@@ -350,9 +362,9 @@ public class SVGExportHandler extends AbstractSeriesExportHandler implements ISe
 					 */
 					Point point = dataSeries.getPixelCoordinates(i);
 					if((point.x >= 0 && point.x <= widthPlotArea) && (point.y >= 0 && point.y <= heightPlotArea)) {
-						rep.append(printValueLinePlot(AXIS_X, index, printWriter, xSeries[i], indexAxisX, axisSet, BaseChart.ID_PRIMARY_X_AXIS, axisScaleConverterX));
+						rep.append(printValueLinePlot(AXIS_X, index, printWriter, xSeries[i], indexAxisX, axisSet, BaseChart.ID_PRIMARY_X_AXIS, axisScaleConverterX, isReversedX, isReversedY));
 						rep.append(",");
-						rep.append(printValueLinePlot(AXIS_Y, index, printWriter, ySeries[i], indexAxisY, axisSet, BaseChart.ID_PRIMARY_Y_AXIS, axisScaleConverterY));
+						rep.append(printValueLinePlot(AXIS_Y, index, printWriter, ySeries[i], indexAxisY, axisSet, BaseChart.ID_PRIMARY_Y_AXIS, axisScaleConverterY, isReversedX, isReversedY));
 						rep.append(" ");
 					}
 				}
@@ -367,7 +379,7 @@ public class SVGExportHandler extends AbstractSeriesExportHandler implements ISe
 	/*
 	 * returns value scaled to the appropriate coordinates in SVG
 	 */
-	private String printValueLinePlot(String axis, int index, PrintWriter printWriter, double value, int indexAxis, IAxisSet axisSet, int indexPrimaryAxis, IAxisScaleConverter axisScaleConverter) {
+	private String printValueLinePlot(String axis, int index, PrintWriter printWriter, double value, int indexAxis, IAxisSet axisSet, int indexPrimaryAxis, IAxisScaleConverter axisScaleConverter, boolean isReversedX, boolean isReversedY) {
 
 		String ret = "";
 		double x = 255.5 - 23.5;
@@ -377,13 +389,23 @@ public class SVGExportHandler extends AbstractSeriesExportHandler implements ISe
 				IAxis xAxis = axisSet.getXAxis(indexAxis);
 				double xUpper = xAxis.getRange().upper;
 				double xLower = xAxis.getRange().lower;
-				double x1 = 23.5 + ((value - xLower) / (xUpper - xLower) * x);
+				double x1;
+				if(!isReversedX) {
+					x1 = 23.5 + ((value - xLower) / (xUpper - xLower) * x);
+				} else {
+					x1 = ((23.5 + x) - ((value - xLower) / (xUpper - xLower) * x));
+				}
 				ret = String.valueOf(x1);// $NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
 			} else if(axis.equals(AXIS_Y)) {
 				IAxis yAxis = axisSet.getYAxis(indexAxis);
 				double yUpper = yAxis.getRange().upper;
 				double yLower = yAxis.getRange().lower;
-				double y1 = 263.5 - (y - ((yUpper - value) / (yUpper - yLower) * y));
+				double y1;
+				if(!isReversedY) {
+					y1 = 263.5 - (y - ((yUpper - value) / (yUpper - yLower) * y));
+				} else {
+					y1 = ((263.5 - y) + (y - ((yUpper - value) / (yUpper - yLower) * y)));
+				}
 				ret = String.valueOf(y1);// $NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
 			}
 		} else {
@@ -392,13 +414,23 @@ public class SVGExportHandler extends AbstractSeriesExportHandler implements ISe
 					IAxis xAxis = axisSet.getXAxis(indexAxis);
 					double xUpper = xAxis.getRange().upper;
 					double xLower = xAxis.getRange().lower;
-					double x1 = 23.5 + ((axisScaleConverter.convertToSecondaryUnit(value) - xLower) / (xUpper - xLower) * x);
+					double x1;
+					if(!isReversedX) {
+						x1 = 23.5 + ((axisScaleConverter.convertToSecondaryUnit(value) - xLower) / (xUpper - xLower) * x);
+					} else {
+						x1 = ((23.5 + x) - ((axisScaleConverter.convertToSecondaryUnit(value) - xLower) / (xUpper - xLower) * x));
+					}
 					ret = String.valueOf(x1);// $NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
 				} else if(axis.equals(AXIS_Y)) {
 					IAxis yAxis = axisSet.getYAxis(indexAxis);
 					double yUpper = yAxis.getRange().upper;
 					double yLower = yAxis.getRange().lower;
-					double y1 = 80.0 + ((yUpper - axisScaleConverter.convertToSecondaryUnit(value)) / (yUpper - yLower) * y);
+					double y1;
+					if(!isReversedY) {
+						y1 = 80.5 + ((yUpper - axisScaleConverter.convertToSecondaryUnit(value)) / (yUpper - yLower) * y);
+					} else {
+						y1 = ((263.5 - y) + ((yUpper - axisScaleConverter.convertToSecondaryUnit(value)) / (yUpper - yLower) * y));
+					}
 					ret = String.valueOf(y1);// $NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
 				}
 			}
@@ -414,6 +446,8 @@ public class SVGExportHandler extends AbstractSeriesExportHandler implements ISe
 		IAxisSettings axisSettingsX = axisSettings.getAxisSettingsX();
 		IAxisSettings axisSettingsY = axisSettings.getAxisSettingsY();
 		boolean exportVisibleOnly = axisSettings.isExportVisibleOnly();
+		boolean isReversedX = axisSettingsX.isReversed();
+		boolean isReversedY = axisSettingsY.isReversed();
 		DecimalFormat formatX = axisSettingsX.getDecimalFormat();
 		DecimalFormat formatY = axisSettingsY.getDecimalFormat();
 		//
@@ -445,7 +479,12 @@ public class SVGExportHandler extends AbstractSeriesExportHandler implements ISe
 						String split[] = tickX.toString().split("\\n");
 						String match1 = ".*%x-coordinate%.*";
 						String match2 = ".*%X01%.*";
-						double x = start + ((xTicks[count] - lower) / (upper - lower) * height);
+						double x;
+						if(!isReversedX) {
+							x = start + ((xTicks[count] - lower) / (upper - lower) * height);
+						} else {
+							x = ((start + height) - (((xTicks[count] - lower) / (upper - lower) * height)));
+						}
 						for(String string : split) {
 							if(Pattern.matches(match1, string)) {
 								string = string.replace("%x-coordinate%", String.valueOf(x));
@@ -469,7 +508,12 @@ public class SVGExportHandler extends AbstractSeriesExportHandler implements ISe
 						String split[] = tickY.toString().split("\\n");
 						String match1 = ".*%y-coordinate%.*";
 						String match2 = ".*%Y01%.*";
-						double y = start - (height - ((upper - yTicks[count]) / (upper - lower) * height));
+						double y;
+						if(!isReversedY) {
+							y = start - (height - ((upper - yTicks[count]) / (upper - lower) * height));
+						} else {
+							y = ((start - height) + (height - ((upper - yTicks[count]) / (upper - lower) * height)));
+						}
 						for(String string : split) {
 							if(Pattern.matches(match1, string)) {
 								string = string.replace("%y-coordinate%", String.valueOf(y));
@@ -528,10 +572,10 @@ public class SVGExportHandler extends AbstractSeriesExportHandler implements ISe
 							StringBuilder string = null;
 							if(exportVisibleOnly) {
 								if(dataSeries.isVisible()) {
-									string = printBarData(dataSeries, widthPlotArea, heightPlotArea, axisSettings, index++, printWriter, axisSet);
+									string = printBarData(dataSeries, widthPlotArea, heightPlotArea, axisSettings, index++, printWriter, axisSet, isReversedX, isReversedY);
 								}
 							} else {
-								string = printBarData(dataSeries, widthPlotArea, heightPlotArea, axisSettings, index++, printWriter, axisSet);
+								string = printBarData(dataSeries, widthPlotArea, heightPlotArea, axisSettings, index++, printWriter, axisSet, isReversedX, isReversedY);
 							}
 							out.append(string);
 						}
@@ -548,7 +592,7 @@ public class SVGExportHandler extends AbstractSeriesExportHandler implements ISe
 	/*
 	 * returns the data series to be replaced in the data series in template
 	 */
-	private StringBuilder printBarData(ISeries<?> dataSeries, int widthPlotArea, int heightPlotArea, AxisSettings axisSettings, int index, PrintWriter printWriter, IAxisSet axisSet) {
+	private StringBuilder printBarData(ISeries<?> dataSeries, int widthPlotArea, int heightPlotArea, AxisSettings axisSettings, int index, PrintWriter printWriter, IAxisSet axisSet, boolean isReversedX, boolean isReversedY) {
 
 		StringBuilder out = new StringBuilder("");
 		/* BarSeries to be added to the template during export */
@@ -575,9 +619,9 @@ public class SVGExportHandler extends AbstractSeriesExportHandler implements ISe
 			Point point = dataSeries.getPixelCoordinates(i);
 			if((point.x >= 0 && point.x <= widthPlotArea)) {
 				double offset = 0.25;
-				double x = Double.parseDouble(printValueBarPlot(AXIS_X, index, printWriter, xSeries[i], indexAxisX, axisSet, BaseChart.ID_PRIMARY_X_AXIS, axisScaleConverterX));
-				double y = Double.parseDouble(printValueBarPlot(AXIS_Y, index, printWriter, ySeries[i], indexAxisY, axisSet, BaseChart.ID_PRIMARY_Y_AXIS, axisScaleConverterY));
-				double base = Double.parseDouble(printValueBarPlot(AXIS_Y, index, printWriter, 0.0, indexAxisY, axisSet, BaseChart.ID_PRIMARY_Y_AXIS, axisScaleConverterY));
+				double x = Double.parseDouble(printValueBarPlot(AXIS_X, index, printWriter, xSeries[i], indexAxisX, axisSet, BaseChart.ID_PRIMARY_X_AXIS, axisScaleConverterX, isReversedX, isReversedY));
+				double y = Double.parseDouble(printValueBarPlot(AXIS_Y, index, printWriter, ySeries[i], indexAxisY, axisSet, BaseChart.ID_PRIMARY_Y_AXIS, axisScaleConverterY, isReversedX, isReversedY));
+				double base = Double.parseDouble(printValueBarPlot(AXIS_Y, index, printWriter, 0.0, indexAxisY, axisSet, BaseChart.ID_PRIMARY_Y_AXIS, axisScaleConverterY, isReversedX, isReversedY));
 				double height = Math.abs(y - base);
 				/* Width for BarSeries in the Export */
 				double width = 1.0;
@@ -645,7 +689,7 @@ public class SVGExportHandler extends AbstractSeriesExportHandler implements ISe
 	/*
 	 * returns value scaled to the appropriate coordinates in SVG
 	 */
-	private String printValueBarPlot(String axis, int index, PrintWriter printWriter, double value, int indexAxis, IAxisSet axisSet, int indexPrimaryAxis, IAxisScaleConverter axisScaleConverter) {
+	private String printValueBarPlot(String axis, int index, PrintWriter printWriter, double value, int indexAxis, IAxisSet axisSet, int indexPrimaryAxis, IAxisScaleConverter axisScaleConverter, boolean isReversedX, boolean isReversedY) {
 
 		String ret = null;
 		double x = 255.5 - 23.5;
@@ -657,7 +701,12 @@ public class SVGExportHandler extends AbstractSeriesExportHandler implements ISe
 				double xLower = xAxis.getRange().lower;
 				value = (value > xUpper) ? xUpper : value;
 				value = (value < xLower) ? xLower : value;
-				double x1 = 23.5 + ((value - xLower) / (xUpper - xLower) * x);
+				double x1;
+				if(!isReversedX) {
+					x1 = 23.5 + ((value - xLower) / (xUpper - xLower) * x);
+				} else {
+					x1 = ((23.5 + x) - ((value - xLower) / (xUpper - xLower) * x));
+				}
 				ret = String.valueOf(x1);// $NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
 			} else if(axis.equals(AXIS_Y)) {
 				IAxis yAxis = axisSet.getYAxis(indexAxis);
@@ -665,7 +714,12 @@ public class SVGExportHandler extends AbstractSeriesExportHandler implements ISe
 				double yLower = yAxis.getRange().lower;
 				value = (value > yUpper) ? yUpper : value;
 				value = (value < yLower) ? yLower : value;
-				double y1 = 263.5 - (y - ((yUpper - value) / (yUpper - yLower) * y));
+				double y1;
+				if(!isReversedY) {
+					y1 = 263.5 - (y - ((yUpper - value) / (yUpper - yLower) * y));
+				} else {
+					y1 = ((263.5 - y) + (y - ((yUpper - value) / (yUpper - yLower) * y)));
+				}
 				ret = String.valueOf(y1);// $NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
 			}
 		} else {
@@ -677,7 +731,12 @@ public class SVGExportHandler extends AbstractSeriesExportHandler implements ISe
 					value = axisScaleConverter.convertToSecondaryUnit(value);
 					value = (value > xUpper) ? xUpper : value;
 					value = (value < xLower) ? xLower : value;
-					double x1 = 23.5 + ((value - xLower) / (xUpper - xLower) * x);
+					double x1;
+					if(!isReversedX) {
+						x1 = 23.5 + ((axisScaleConverter.convertToSecondaryUnit(value) - xLower) / (xUpper - xLower) * x);
+					} else {
+						x1 = ((23.5 + x) + ((axisScaleConverter.convertToSecondaryUnit(value) - xLower) / (xUpper - xLower) * x));
+					}
 					ret = String.valueOf(x1);// $NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
 				} else if(axis.equals(AXIS_Y)) {
 					IAxis yAxis = axisSet.getYAxis(indexAxis);
@@ -686,7 +745,12 @@ public class SVGExportHandler extends AbstractSeriesExportHandler implements ISe
 					value = axisScaleConverter.convertToSecondaryUnit(value);
 					value = (value > yUpper) ? yUpper : value;
 					value = (value < yLower) ? yLower : value;
-					double y1 = 80.5 + ((yUpper - value) / (yUpper - yLower) * y);
+					double y1;
+					if(!isReversedY) {
+						y1 = 80.5 + ((yUpper - axisScaleConverter.convertToSecondaryUnit(value)) / (yUpper - yLower) * y);
+					} else {
+						y1 = ((263.5 - y) - ((yUpper - axisScaleConverter.convertToSecondaryUnit(value)) / (yUpper - yLower) * y));
+					}
 					ret = String.valueOf(y1);// $NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
 				}
 			}
@@ -699,6 +763,8 @@ public class SVGExportHandler extends AbstractSeriesExportHandler implements ISe
 		IAxisSettings axisSettingsX = axisSettings.getAxisSettingsX();
 		IAxisSettings axisSettingsY = axisSettings.getAxisSettingsY();
 		boolean exportVisibleOnly = axisSettings.isExportVisibleOnly();
+		boolean isReversedX = axisSettingsX.isReversed();
+		boolean isReversedY = axisSettingsY.isReversed();
 		DecimalFormat formatX = axisSettingsX.getDecimalFormat();
 		DecimalFormat formatY = axisSettingsY.getDecimalFormat();
 		//
@@ -730,7 +796,12 @@ public class SVGExportHandler extends AbstractSeriesExportHandler implements ISe
 						String split[] = tickX.toString().split("\\n");
 						String match1 = ".*%x-coordinate%.*";
 						String match2 = ".*%X01%.*";
-						double x = start + ((xTicks[count] - lower) / (upper - lower) * height);
+						double x;
+						if(!isReversedX) {
+							x = start + ((xTicks[count] - lower) / (upper - lower) * height);
+						} else {
+							x = ((start + height) - (((xTicks[count] - lower) / (upper - lower) * height)));
+						}
 						for(String string : split) {
 							if(Pattern.matches(match1, string)) {
 								string = string.replace("%x-coordinate%", String.valueOf(x));
@@ -754,7 +825,12 @@ public class SVGExportHandler extends AbstractSeriesExportHandler implements ISe
 						String split[] = tickY.toString().split("\\n");
 						String match1 = ".*%y-coordinate%.*";
 						String match2 = ".*%Y01%.*";
-						double y = start - (height - ((upper - yTicks[count]) / (upper - lower) * height));
+						double y;
+						if(!isReversedY) {
+							y = start - (height - ((upper - yTicks[count]) / (upper - lower) * height));
+						} else {
+							y = ((start - height) + (height - ((upper - yTicks[count]) / (upper - lower) * height)));
+						}
 						for(String string : split) {
 							if(Pattern.matches(match1, string)) {
 								string = string.replace("%y-coordinate%", String.valueOf(y));
@@ -813,10 +889,10 @@ public class SVGExportHandler extends AbstractSeriesExportHandler implements ISe
 							StringBuilder string = null;
 							if(exportVisibleOnly) {
 								if(dataSeries.isVisible()) {
-									string = printScatterData(dataSeries, widthPlotArea, heightPlotArea, axisSettings, index++, printWriter, axisSet);
+									string = printScatterData(dataSeries, widthPlotArea, heightPlotArea, axisSettings, index++, printWriter, axisSet, isReversedX, isReversedY);
 								}
 							} else {
-								string = printScatterData(dataSeries, widthPlotArea, heightPlotArea, axisSettings, index++, printWriter, axisSet);
+								string = printScatterData(dataSeries, widthPlotArea, heightPlotArea, axisSettings, index++, printWriter, axisSet, isReversedX, isReversedY);
 							}
 							out.append(string);
 						}
@@ -830,7 +906,7 @@ public class SVGExportHandler extends AbstractSeriesExportHandler implements ISe
 		}
 	}
 
-	private StringBuilder printScatterData(ISeries<?> dataSeries, int widthPlotArea, int heightPlotArea, AxisSettings axisSettings, int index, PrintWriter printWriter, IAxisSet axisSet) {
+	private StringBuilder printScatterData(ISeries<?> dataSeries, int widthPlotArea, int heightPlotArea, AxisSettings axisSettings, int index, PrintWriter printWriter, IAxisSet axisSet, boolean isReversedX, boolean isReversedY) {
 
 		StringBuilder out = new StringBuilder("");
 		StringBuilder data = new StringBuilder("<circle\n" + "         style=\"opacity:1;fill:%COLOR%;fill-opacity:1;stroke:none;stroke-width:0.96499991;stroke-linecap:square;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1\"\n" + "         id=\"rect901\"\n" + "	 cx=\"%x-coordinate%\"\n" + "	 cy=\"%y-coordinate%\"\n" + "	 r=\"1\" />");
@@ -854,8 +930,8 @@ public class SVGExportHandler extends AbstractSeriesExportHandler implements ISe
 			 */
 			Point point = dataSeries.getPixelCoordinates(i);
 			if((point.x >= 0 && point.x <= widthPlotArea) && (point.y >= 0 && point.y <= heightPlotArea)) {
-				double x = Double.parseDouble(printValueScatterPlot(AXIS_X, index, printWriter, xSeries[i], indexAxisX, axisSet, BaseChart.ID_PRIMARY_X_AXIS, axisScaleConverterX));
-				double y = Double.parseDouble(printValueScatterPlot(AXIS_Y, index, printWriter, ySeries[i], indexAxisY, axisSet, BaseChart.ID_PRIMARY_Y_AXIS, axisScaleConverterY));
+				double x = Double.parseDouble(printValueScatterPlot(AXIS_X, index, printWriter, xSeries[i], indexAxisX, axisSet, BaseChart.ID_PRIMARY_X_AXIS, axisScaleConverterX, isReversedX, isReversedY));
+				double y = Double.parseDouble(printValueScatterPlot(AXIS_Y, index, printWriter, ySeries[i], indexAxisY, axisSet, BaseChart.ID_PRIMARY_Y_AXIS, axisScaleConverterY, isReversedX, isReversedY));
 				for(String string : split) {
 					if(Pattern.matches(match1, string)) {
 						string = string.replace("%COLOR%", color[index % 10]);
@@ -872,7 +948,7 @@ public class SVGExportHandler extends AbstractSeriesExportHandler implements ISe
 		return out;
 	}
 
-	private String printValueScatterPlot(String axis, int index, PrintWriter printWriter, double value, int indexAxis, IAxisSet axisSet, int indexPrimaryAxis, IAxisScaleConverter axisScaleConverter) {
+	private String printValueScatterPlot(String axis, int index, PrintWriter printWriter, double value, int indexAxis, IAxisSet axisSet, int indexPrimaryAxis, IAxisScaleConverter axisScaleConverter, boolean isReversedX, boolean isReversedY) {
 
 		String ret = null;
 		double x = 255.5 - 23.5;
@@ -882,7 +958,12 @@ public class SVGExportHandler extends AbstractSeriesExportHandler implements ISe
 				IAxis xAxis = axisSet.getXAxis(indexAxis);
 				double xUpper = xAxis.getRange().upper;
 				double xLower = xAxis.getRange().lower;
-				double x1 = 23.5 + ((value - xLower) / (xUpper - xLower) * x);
+				double x1;
+				if(!isReversedX) {
+					x1 = 23.5 + ((value - xLower) / (xUpper - xLower) * x);
+				} else {
+					x1 = ((23.5 + x) - ((value - xLower) / (xUpper - xLower) * x));
+				}
 				ret = String.valueOf(x1);// $NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
 			} else if(axis.equals(AXIS_Y)) {
 				IAxis yAxis = axisSet.getYAxis(indexAxis);
@@ -898,14 +979,24 @@ public class SVGExportHandler extends AbstractSeriesExportHandler implements ISe
 					double xUpper = xAxis.getRange().upper;
 					double xLower = xAxis.getRange().lower;
 					value = axisScaleConverter.convertToSecondaryUnit(value);
-					double x1 = 23.5 + ((value - xLower) / (xUpper - xLower) * x);
+					double x1;
+					if(!isReversedX) {
+						x1 = 23.5 + ((axisScaleConverter.convertToSecondaryUnit(value) - xLower) / (xUpper - xLower) * x);
+					} else {
+						x1 = ((23.5 + x) - ((axisScaleConverter.convertToSecondaryUnit(value) - xLower) / (xUpper - xLower) * x));
+					}
 					ret = String.valueOf(x1);// $NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
 				} else if(axis.equals(AXIS_Y)) {
 					IAxis yAxis = axisSet.getYAxis(indexAxis);
 					double yUpper = yAxis.getRange().upper;
 					double yLower = yAxis.getRange().lower;
 					value = axisScaleConverter.convertToSecondaryUnit(value);
-					double y1 = 80.5 + ((yUpper - value) / (yUpper - yLower) * y);
+					double y1;
+					if(!isReversedY) {
+						y1 = 80.5 + ((yUpper - axisScaleConverter.convertToSecondaryUnit(value)) / (yUpper - yLower) * y);
+					} else {
+						y1 = ((263.5 - y) + ((yUpper - axisScaleConverter.convertToSecondaryUnit(value)) / (yUpper - yLower) * y));
+					}
 					ret = String.valueOf(y1);// $NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
 				}
 			}
