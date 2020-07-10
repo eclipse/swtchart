@@ -45,18 +45,12 @@ public abstract class CircularSeries extends Series implements ICircularSeries {
 		super(chart, id);
 		this.chart = chart;
 		initialise();
-		model = new IdNodeDataModel(id, this);
+		model = new IdNodeDataModel(id);
 		rootNode = model.getRootNode();
-		compressor = new CompressCircularSeries(model);
+		compressor = model.getCompressor();
 		borderColor = Display.getDefault().getSystemColor(SWT.COLOR_BLACK);
 		borderWidth = 1;
 		borderStyle = SWT.LINE_SOLID;
-	}
-
-	@Override
-	public Range getAdjustedRange(Axis axis, int length) {
-
-		return null;
 	}
 
 	@Override
@@ -196,7 +190,7 @@ public abstract class CircularSeries extends Series implements ICircularSeries {
 		for(int i = 0; i != length; i++) {
 			new Node(labels[i], values[i], rootNode);
 		}
-		update();
+		model.update();
 	}
 
 	@Override
@@ -220,37 +214,7 @@ public abstract class CircularSeries extends Series implements ICircularSeries {
 		drawNode(rootNode, gc, xAxis, yAxis);
 	}
 
-	/**
-	 * sets the range of the axis such that the chart drawn is always circular.
-	 * 
-	 * @param width
-	 * @param height
-	 * @param xAxis
-	 * @param yAxis
-	 */
-	protected void setBothAxisRange(int width, int height, Axis xAxis, Axis yAxis) {
-
-		maxTreeDepth = getMaxTreeDepth();
-		xAxis.setRange(new Range(-maxTreeDepth, maxTreeDepth));
-		yAxis.setRange(new Range(-maxTreeDepth, maxTreeDepth));
-		if(width > height) {
-			if(xAxis.isHorizontalAxis()) {
-				double ratio = 2 * maxTreeDepth * width / (double)height;
-				xAxis.setRange(new Range(-maxTreeDepth, ratio - maxTreeDepth));
-			} else {
-				double ratio = 2 * maxTreeDepth * width / (double)height;
-				yAxis.setRange(new Range(-maxTreeDepth, ratio - maxTreeDepth));
-			}
-		} else {
-			if(xAxis.isHorizontalAxis()) {
-				double ratio = 2 * maxTreeDepth * height / (double)width;
-				yAxis.setRange(new Range(maxTreeDepth - ratio, maxTreeDepth));
-			} else {
-				double ratio = 2 * maxTreeDepth * height / (double)width;
-				xAxis.setRange(new Range(maxTreeDepth - ratio, maxTreeDepth));
-			}
-		}
-	}
+	protected abstract void setBothAxisRange(int width, int height, Axis xAxis, Axis yAxis);
 
 	protected abstract void drawNode(Node rootNode2, GC gc, Axis xAxis, Axis yAxis);
 
@@ -258,6 +222,12 @@ public abstract class CircularSeries extends Series implements ICircularSeries {
 	protected void setCompressor() {
 
 		((CompressCircularSeries)compressor).update();
+	}
+
+	@Override
+	public int getMaxTreeDepth() {
+
+		return rootNode.getMaxSubTreeDepth() - 1;
 	}
 
 	private void initialise() {
@@ -268,5 +238,25 @@ public abstract class CircularSeries extends Series implements ICircularSeries {
 			axis.getGrid().setVisible(false);
 			axis.getTitle().setVisible(false);
 		}
+	}
+
+	@Override
+	public Range getAdjustedRange(Axis axis, int length) {
+
+		return null;
+	}
+
+	@Override
+	public IdNodeDataModel getModel() {
+
+		return model;
+	}
+
+	@Override
+	public void setDataModel(IdNodeDataModel data) {
+
+		this.model = data;
+		this.rootNode = model.getRootNode();
+		maxTreeDepth = rootNode.getMaxSubTreeDepth() - 1;
 	}
 }

@@ -12,8 +12,6 @@
  *******************************************************************************/
 package org.eclipse.swtchart.internal.series;
 
-import java.util.ArrayList;
-
 import org.eclipse.swt.graphics.GC;
 import org.eclipse.swtchart.Chart;
 import org.eclipse.swtchart.Range;
@@ -28,18 +26,6 @@ public class Doughnut extends CircularSeries {
 
 		super(chart, id);
 		type = SeriesType.DOUGHNUT;
-	}
-
-	@Override
-	public int getRootNodeLevel() {
-
-		return 1;
-	}
-
-	@Override
-	public Range getAdjustedRange(Axis axis, int length) {
-
-		return null;
 	}
 
 	/**
@@ -62,7 +48,7 @@ public class Doughnut extends CircularSeries {
 		}
 		if(node.isVisible() == false)
 			return;
-		int level = node.getLevel();
+		int level = node.getLevel() + 1;
 		/*
 		 * the center of the chart is (0,0). The x and y axis are set such that
 		 * a node at level = i, will be drawn starting from (-level,level), till (level,-level).
@@ -112,61 +98,26 @@ public class Doughnut extends CircularSeries {
 	 */
 	protected void setBothAxisRange(int width, int height, Axis xAxis, Axis yAxis) {
 
-		maxTreeDepth = getMaxTreeDepth();
-		xAxis.setRange(new Range(-maxTreeDepth, maxTreeDepth));
-		yAxis.setRange(new Range(-maxTreeDepth, maxTreeDepth));
+		maxTreeDepth = rootNode.getMaxSubTreeDepth() - 1;
+		int rangeMax = maxTreeDepth + 1;
+		xAxis.setRange(new Range(-rangeMax, rangeMax));
+		yAxis.setRange(new Range(-rangeMax, rangeMax));
 		if(width > height) {
 			if(xAxis.isHorizontalAxis()) {
-				double ratio = 2 * maxTreeDepth * width / (double)height;
-				xAxis.setRange(new Range(-maxTreeDepth, ratio - maxTreeDepth));
+				double ratio = 2 * rangeMax * width / (double)height;
+				xAxis.setRange(new Range(-rangeMax, ratio - rangeMax));
 			} else {
-				double ratio = 2 * maxTreeDepth * width / (double)height;
-				yAxis.setRange(new Range(-maxTreeDepth, ratio - maxTreeDepth));
+				double ratio = 2 * rangeMax * width / (double)height;
+				yAxis.setRange(new Range(-rangeMax, ratio - rangeMax));
 			}
 		} else {
 			if(xAxis.isHorizontalAxis()) {
-				double ratio = 2 * maxTreeDepth * height / (double)width;
-				yAxis.setRange(new Range(maxTreeDepth - ratio, maxTreeDepth));
+				double ratio = 2 * rangeMax * height / (double)width;
+				yAxis.setRange(new Range(rangeMax - ratio, rangeMax));
 			} else {
-				double ratio = 2 * maxTreeDepth * height / (double)width;
-				xAxis.setRange(new Range(maxTreeDepth - ratio, maxTreeDepth));
+				double ratio = 2 * rangeMax * height / (double)width;
+				xAxis.setRange(new Range(rangeMax - ratio, rangeMax));
 			}
 		}
-	}
-
-	/**
-	 * update functions that ensures the changes made by user do make sense, and
-	 * handles those which do not make sense. If changes can't be made, throws error.
-	 */
-	@SuppressWarnings("unchecked")
-	@Override
-	public void update() {
-
-		model.getRootNode().updateValues();
-		/*
-		 * update nodes length
-		 */
-		maxTreeDepth = getMaxTreeDepth();
-		model.setNodes(new ArrayList[maxTreeDepth + 1]);
-		//
-		ArrayList<Node>[] node = (ArrayList<Node>[])model.getNodes();
-		for(int i = 1; i <= maxTreeDepth; i++) {
-			node[i] = new ArrayList<Node>();
-		}
-		model.setNodes(node);
-		/*
-		 * angular bounds
-		 */
-		model.getRootNode().updateAngularBounds();
-		//
-		model.getRootNode().setVisibility(true);
-		//
-		setCompressor();
-	}
-
-	@Override
-	public int getMaxTreeDepth() {
-
-		return rootNode.getMaxSubTreeDepth();
 	}
 }
