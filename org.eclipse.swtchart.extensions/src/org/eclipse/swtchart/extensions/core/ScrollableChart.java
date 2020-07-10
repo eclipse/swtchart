@@ -11,6 +11,7 @@
  * Dr. Philip Wenig - initial API and implementation
  * Christoph Läubrich - rework redraw of the plot area, enhance menu item handling
  * Frank Buloup - Internationalization
+ * Himanshu Balasamanta - Circular charts
  *******************************************************************************/
 package org.eclipse.swtchart.extensions.core;
 

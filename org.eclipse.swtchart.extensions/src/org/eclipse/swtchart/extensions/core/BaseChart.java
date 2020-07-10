@@ -10,6 +10,7 @@
  * Contributors:
  * Dr. Philip Wenig - initial API and implementation
  * Frank Buloup - Internationalization
+ * Himanshu Balasamanta - Circular Charts
  *******************************************************************************/
 package org.eclipse.swtchart.extensions.core;
 
