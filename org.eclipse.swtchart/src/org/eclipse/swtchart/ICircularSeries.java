@@ -16,12 +16,13 @@ import java.util.List;
 
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swtchart.internal.compress.Compress;
+import org.eclipse.swtchart.model.IdNodeDataModel;
 import org.eclipse.swtchart.model.Node;
 
 /**
  * Contains methods to be implemented that are common to both PieSeries and Doughnut Series
  */
-public interface ICircularSeries {
+public interface ICircularSeries extends ISeries {
 
 	/**
 	 * gets the label series
@@ -65,12 +66,6 @@ public interface ICircularSeries {
 	public void setColor(Color[] colors);
 
 	public Compress getCompressor();
-
-	/**
-	 * 
-	 * @return the level that the rootNode is assigned at.
-	 */
-	public int getRootNodeLevel();
 
 	/**
 	 * sets the color of the border
@@ -142,11 +137,21 @@ public interface ICircularSeries {
 	public void addNode(String id, double val);
 
 	/**
-	 * This function is to be called after every modification in the data.
-	 * It assigns the angular bounds and levels for every node, and intelligent color
-	 * assigning to the nodes. Data is readjusted.
+	 *
+	 * @return data model used in the series.
 	 */
-	public void update();
+	public IdNodeDataModel getModel();
 
+	/**
+	 * sets the given data model, and updates the related data in the series
+	 * 
+	 * @param data
+	 */
+	public void setDataModel(IdNodeDataModel data);
+
+	/**
+	 * 
+	 * @return the number of levels the data model has.
+	 */
 	public int getMaxTreeDepth();
 }

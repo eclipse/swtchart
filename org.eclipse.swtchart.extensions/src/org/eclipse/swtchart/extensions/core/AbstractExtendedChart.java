@@ -23,6 +23,7 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swtchart.IAxis;
 import org.eclipse.swtchart.IAxis.Direction;
 import org.eclipse.swtchart.IAxisSet;
+import org.eclipse.swtchart.ICircularSeries;
 import org.eclipse.swtchart.ISeries;
 import org.eclipse.swtchart.ISeries.SeriesType;
 import org.eclipse.swtchart.ISeriesSet;
@@ -30,6 +31,10 @@ import org.eclipse.swtchart.Range;
 import org.eclipse.swtchart.extensions.barcharts.IBarSeriesSettings;
 import org.eclipse.swtchart.extensions.core.RangeRestriction.ExtendType;
 import org.eclipse.swtchart.extensions.exceptions.SeriesException;
+import org.eclipse.swtchart.extensions.piecharts.ICircularSeriesData;
+import org.eclipse.swtchart.extensions.piecharts.ICircularSeriesSettings;
+import org.eclipse.swtchart.internal.series.CircularSeries;
+import org.eclipse.swtchart.model.IdNodeDataModel;
 
 public abstract class AbstractExtendedChart extends AbstractHandledChart implements IChartDataCoordinates, IRangeSupport, IExtendedChart {
 
@@ -301,6 +306,22 @@ public abstract class AbstractExtendedChart extends AbstractHandledChart impleme
 		} else {
 			throw new SeriesException(Messages.getString(Messages.X_Y_SERIES_LENGTH_DIFFERS));
 		}
+	}
+
+	/*
+	 * Implement them soon. The method is to return the Series.
+	 */
+	public ICircularSeries createCircularSeries(ICircularSeriesData circularSeriesData, ICircularSeriesSettings circularSeriesSettings) {
+
+		IdNodeDataModel model = circularSeriesData.getDataModel();
+		SeriesType seriesType = circularSeriesSettings.getSeriesType();
+		/*
+		 * Do we have to add the seriesSettings into the settings Map?
+		 */
+		ISeriesSet seriesSet = getSeriesSet();
+		ISeries<?> series = seriesSet.createSeries(seriesType, "Circular Series");
+		((CircularSeries)series).setDataModel(model);
+		return (ICircularSeries)series;
 	}
 
 	@Override

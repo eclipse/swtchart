@@ -11,6 +11,7 @@
  * Dr. Philip Wenig - initial API and implementation
  * Christoph Läubrich - rework redraw of the plot area, enhance menu item handling
  * Frank Buloup - Internationalization
+ * Himanshu Balasamanta - Circular charts
  *******************************************************************************/
 package org.eclipse.swtchart.extensions.core;
 
@@ -59,6 +60,7 @@ import org.eclipse.swtchart.IAxis.Direction;
 import org.eclipse.swtchart.IAxis.Position;
 import org.eclipse.swtchart.IAxisSet;
 import org.eclipse.swtchart.IAxisTick;
+import org.eclipse.swtchart.ICircularSeries;
 import org.eclipse.swtchart.IGrid;
 import org.eclipse.swtchart.ILegend;
 import org.eclipse.swtchart.IPlotArea;
@@ -74,6 +76,8 @@ import org.eclipse.swtchart.extensions.internal.marker.PlotCenterMarker;
 import org.eclipse.swtchart.extensions.internal.marker.PositionMarker;
 import org.eclipse.swtchart.extensions.internal.marker.SeriesLabelMarker;
 import org.eclipse.swtchart.extensions.menu.IChartMenuEntry;
+import org.eclipse.swtchart.extensions.piecharts.ICircularSeriesData;
+import org.eclipse.swtchart.extensions.piecharts.ICircularSeriesSettings;
 
 public class ScrollableChart extends Composite implements IScrollableChart, IEventHandler, IExtendedChart {
 
@@ -244,6 +248,13 @@ public class ScrollableChart extends Composite implements IScrollableChart, IEve
 		ISeries<?> series = baseChart.createSeries(seriesData, seriesSettings);
 		resetSlider();
 		return series;
+	}
+
+	public ICircularSeries createCircularSeries(ICircularSeriesData circularData, ICircularSeriesSettings circularSeriesSettings) {
+
+		ICircularSeries circularSeries = baseChart.createCircularSeries(circularData, circularSeriesSettings);
+		resetSlider();
+		return circularSeries;
 	}
 
 	@Override

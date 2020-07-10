@@ -19,7 +19,6 @@ import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Device;
 import org.eclipse.swt.graphics.RGB;
 import org.eclipse.swt.widgets.Display;
-import org.eclipse.swtchart.ICircularSeries;
 import org.eclipse.swtchart.model.IdNodeDataModel;
 import org.eclipse.swtchart.model.Node;
 
@@ -40,18 +39,18 @@ public class CompressCircularSeries extends Compress {
 	 */
 	public void setColors() {
 
-		int rootNodeLevel = ((ICircularSeries)model.getSeries()).getRootNodeLevel();
+		// int rootNodeLevel = 0;
 		Device device = Display.getDefault();
-		maxTreeDepth = model.getRootNode().getMaxSubTreeDepth() - 1 + rootNodeLevel;
+		maxTreeDepth = model.getRootNode().getMaxSubTreeDepth() - 1;
 		List<Node>[] nodes = model.getNodes();
 		// traversing each level
-		for(int i = 1 + rootNodeLevel; i <= maxTreeDepth; i++) {
+		for(int i = 1; i <= maxTreeDepth; i++) {
 			// number of nodes in each level
 			int len = nodes[i].size();
 			// angle allocated to each node.
 			float anglePerNode = 360.0f / len;
 			// decreasing the brightness linearly as level increases.
-			float brightness = Math.max(0, (i - 1 - rootNodeLevel) / ((float)maxTreeDepth));
+			float brightness = Math.max(0, (i - 1) / ((float)maxTreeDepth));
 			for(int j = 0; j != len; j++) {
 				RGB rgb = new RGB(anglePerNode * j, 1, 1 - brightness);
 				Color color = new Color(device, rgb);

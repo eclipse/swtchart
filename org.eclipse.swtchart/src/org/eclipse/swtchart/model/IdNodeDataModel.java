@@ -19,7 +19,7 @@ import java.util.List;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.widgets.Display;
-import org.eclipse.swtchart.internal.series.Series;
+import org.eclipse.swtchart.internal.compress.CompressCircularSeries;
 
 /**
  * This shall be called as soon as the Series.Type is set to be MULTI_LEVEL_PIE.
@@ -33,19 +33,24 @@ public class IdNodeDataModel {
 	private String Id;
 	/** this node is the parent of all nodes, shall not be kept visible */
 	private Node rootNode;
-	private Series<?> series;
 	/** data structure that holds all the nodes and allows access in O(1) time. */
 	private HashMap<String, Node> tree;
 	/** stores nodes in order of the levels they are in. */
 	private List<Node> nodesAtLevels[];
+	private CompressCircularSeries compress;
 
-	public IdNodeDataModel(String Id, Series<?> series) {
+	public IdNodeDataModel() {
+
+		this("Circular Chart");
+	}
+
+	public IdNodeDataModel(String Id) {
 
 		this.Id = Id;
-		this.series = series;
-		this.rootNode = new Node(Id, -1,this);
+		this.rootNode = new Node(Id, -1, this);
 		tree = new HashMap<String, Node>();
 		initialiseRootNode();
+		compress = new CompressCircularSeries(this);
 	}
 
 	private void initialiseRootNode() {
@@ -56,11 +61,6 @@ public class IdNodeDataModel {
 		rootNode.setDataModel(this);
 		rootNode.setColor(Display.getDefault().getSystemColor(SWT.COLOR_WHITE));
 		tree.put(Id, rootNode);
-	}
-
-	public Series<?> getSeries() {
-
-		return series;
 	}
 
 	public Node getRootNode() {
@@ -90,5 +90,39 @@ public class IdNodeDataModel {
 	public void setNodes(ArrayList<Node>[] arrayList) {
 
 		this.nodesAtLevels = arrayList;
+	}
+
+	/**
+	 * update functions that ensures the changes made by user do make sense, and
+	 * handles those which do not make sense. If changes can't be made, throws error.
+	 */
+	@SuppressWarnings("unchecked")
+	public void update() {
+
+		getRootNode().updateValues();
+		/*
+		 * update nodes length
+		 */
+		int maxTreeDepth = rootNode.getMaxSubTreeDepth() - 1;
+		setNodes(new ArrayList[maxTreeDepth + 1]);
+		//
+		ArrayList<Node>[] node = (ArrayList<Node>[])getNodes();
+		for(int i = 0; i <= maxTreeDepth; i++) {
+			node[i] = new ArrayList<Node>();
+		}
+		setNodes(node);
+		/*
+		 * angular bounds
+		 */
+		getRootNode().updateAngularBounds();
+		//
+		getRootNode().setVisibility(true);
+		//
+		compress.update();
+	}
+
+	public CompressCircularSeries getCompressor() {
+
+		return compress;
 	}
 }

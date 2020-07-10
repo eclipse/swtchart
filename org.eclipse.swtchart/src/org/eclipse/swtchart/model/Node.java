@@ -19,7 +19,6 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.widgets.Display;
-import org.eclipse.swtchart.ICircularSeries;
 
 /**
  * Each Object of this class represents a slice of the MultiLevel pie chart
@@ -66,7 +65,7 @@ public class Node {
 		this.id = id;
 		this.val = val;
 		this.data = data;
-		this.level = ((ICircularSeries)data.getSeries()).getRootNodeLevel();
+		this.level = 0;
 		children = new ArrayList<Node>();
 		this.isVisible = true;
 	}
@@ -387,6 +386,6 @@ public class Node {
 	@SuppressWarnings("unchecked")
 	public void update() {
 
-		((ICircularSeries)data.getSeries()).update();
+		data.update();
 	}
 }
