@@ -35,6 +35,7 @@ import org.eclipse.swtchart.IAxis;
 import org.eclipse.swtchart.IAxis.Position;
 import org.eclipse.swtchart.IAxisSet;
 import org.eclipse.swtchart.IBarSeries;
+import org.eclipse.swtchart.ICircularSeries;
 import org.eclipse.swtchart.ILineSeries;
 import org.eclipse.swtchart.ISeries;
 import org.eclipse.swtchart.ITitle;
@@ -45,6 +46,7 @@ import org.eclipse.swtchart.extensions.events.IEventProcessor;
 import org.eclipse.swtchart.extensions.events.IHandledEventProcessor;
 import org.eclipse.swtchart.extensions.exceptions.SeriesException;
 import org.eclipse.swtchart.extensions.linecharts.ILineSeriesSettings;
+import org.eclipse.swtchart.extensions.piecharts.ICircularSeriesSettings;
 import org.eclipse.swtchart.extensions.scattercharts.IScatterSeriesSettings;
 
 public class BaseChart extends AbstractExtendedChart implements IChartDataCoordinates, IRangeSupport, IExtendedChart, IKeyboardSupport {
@@ -117,6 +119,7 @@ public class BaseChart extends AbstractExtendedChart implements IChartDataCoordi
 	private Map<String, List<double[]>> dataShiftHistory;
 
 	public BaseChart(Composite parent, int style) {
+
 		super(parent, style);
 		//
 		chartSettings = new ChartSettings();
@@ -673,6 +676,15 @@ public class BaseChart extends AbstractExtendedChart implements IChartDataCoordi
 				IBarSeriesSettings barSeriesSettings = (IBarSeriesSettings)seriesSettings;
 				applyBarSeriesSettings(barSeries, barSeriesSettings);
 			}
+		} else if(dataSeries instanceof ICircularSeries) {
+			ICircularSeries pieSeries = (ICircularSeries)dataSeries;
+			if(seriesSettings instanceof ICircularSeriesSettings) {
+				/*
+				 * Pie Series
+				 */
+				ICircularSeriesSettings pieSeriesSettings = (ICircularSeriesSettings)seriesSettings;
+				applyCircularSeriesSettings(pieSeries, pieSeriesSettings);
+			}
 		}
 	}
 
@@ -715,6 +727,18 @@ public class BaseChart extends AbstractExtendedChart implements IChartDataCoordi
 		barSeries.setBarWidth(barSeriesSettings.getBarWidth());
 		barSeries.setBarOverlay(barSeriesSettings.isBarOverlay());
 		barSeries.enableStack(barSeriesSettings.isEnableStack());
+	}
+
+	public void applyCircularSeriesSettings(ICircularSeries pieSeries, ICircularSeriesSettings pieSeriesSettings) {
+
+		pieSeries.setBorderColor(pieSeriesSettings.getBorderColor());
+		pieSeries.setBorderWidth(pieSeriesSettings.getBorderWidth());
+		pieSeries.setBorderStyle(pieSeriesSettings.getBorderStyle());
+		this.getTitle().setText(pieSeriesSettings.getDescription());
+		// add one for doughnut chart.
+		/*
+		 * MORE TO COME!!! STAY TUNED:)
+		 */
 	}
 
 	public List<double[]> getDataShiftHistory(String selectedSeriesId) {
