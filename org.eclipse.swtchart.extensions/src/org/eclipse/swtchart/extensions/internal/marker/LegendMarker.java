@@ -14,14 +14,22 @@
 package org.eclipse.swtchart.extensions.internal.marker;
 
 import java.text.DecimalFormat;
+import java.util.List;
 
 import org.eclipse.swt.events.PaintEvent;
+import org.eclipse.swtchart.ICircularSeries;
+import org.eclipse.swtchart.ISeries;
+import org.eclipse.swtchart.ISeries.SeriesType;
 import org.eclipse.swtchart.extensions.core.BaseChart;
 import org.eclipse.swtchart.extensions.core.IAxisScaleConverter;
 import org.eclipse.swtchart.extensions.core.IAxisSettings;
 import org.eclipse.swtchart.extensions.core.IExtendedChart;
 import org.eclipse.swtchart.extensions.marker.AbstractPositionPaintListener;
 import org.eclipse.swtchart.extensions.marker.IPositionPaintListener;
+import org.eclipse.swtchart.internal.series.CircularSeries;
+import org.eclipse.swtchart.internal.series.Pie;
+import org.eclipse.swtchart.internal.series.Series;
+import org.eclipse.swtchart.model.Node;
 
 public class LegendMarker extends AbstractPositionPaintListener implements IPositionPaintListener {
 
@@ -51,11 +59,51 @@ public class LegendMarker extends AbstractPositionPaintListener implements IPosi
 			BaseChart baseChart = getBaseChart();
 			double primaryValueX = baseChart.getSelectedPrimaryAxisValue(getX(), IExtendedChart.X_AXIS);
 			double primaryValueY = baseChart.getSelectedPrimaryAxisValue(getY(), IExtendedChart.Y_AXIS);
-			//
-			drawXAxes(primaryValueX);
-			drawYAxes(primaryValueY);
+			//this is for cartesian charts
+			boolean isCircularChart = false;
+			for(ISeries<?> series : getBaseChart().getSeriesSet().getSeries()) {
+				if(series instanceof ICircularSeries) {
+					isCircularChart = true;
+					drawNodes(primaryValueX,primaryValueY, (CircularSeries)series);
+				}
+			}
+			if(isCircularChart == false) {
+				drawXAxes(primaryValueX);
+				drawYAxes(primaryValueY);
+			}
+			//for circular charts, implement drawNode();
 			e.gc.drawText(stringBuilder.toString(), 10, 10);
 		}
+	}
+
+	private void drawNodes(double primaryValueX, double primaryValueY, CircularSeries series) {
+		double radius = Math.sqrt(primaryValueX*primaryValueX + primaryValueY * primaryValueY);
+		int level = ((int)radius) + 1 - (series instanceof Pie ? 0 : 1);
+		Node node = null;
+		double angleOfInspection = Math.atan2(primaryValueY, primaryValueX);
+		if(angleOfInspection < 0.0)angleOfInspection += 2*Math.PI;
+		if(level < series.getModel().getNodes().length)
+		for(Node noda : series.getModel().getNodes()[level]) {
+			//System.out.println(noda.getId());
+			double lowerBound = (noda.getAngleBounds().x * Math.PI) /(double)180.0;
+			double upperBound = ((noda.getAngleBounds().x + noda.getAngleBounds().y)* Math.PI) /(double)180.0;
+			if((lowerBound <= angleOfInspection) && (upperBound >= angleOfInspection)) {
+				node = noda;
+				break;
+			}
+		}
+		String id = "---", val = "---", percentage = "---";
+		if(node != null) {
+			
+			id = node.getId();
+			double percent = ((node.getValue() * 100.0)/ (node.getDataModel().getRootNode().getValue()));
+			DecimalFormat dec = new DecimalFormat();
+			val = dec.format(node.getValue());
+			percentage = dec.format(percent);
+		}
+		stringBuilder.append("Node : " + id + "\n");
+		stringBuilder.append("Value : " + val + "\n");
+		stringBuilder.append("Percent Of Total : " + percentage + "%\n");
 	}
 
 	private void drawXAxes(double primaryValueX) {

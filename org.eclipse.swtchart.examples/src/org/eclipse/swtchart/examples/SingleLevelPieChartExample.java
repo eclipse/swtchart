@@ -19,8 +19,9 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swtchart.Chart;
+import org.eclipse.swtchart.ICircularSeries;
 import org.eclipse.swtchart.ISeries.SeriesType;
-import org.eclipse.swtchart.internal.series.CircularSeries;
+import org.eclipse.swtchart.Range;
 
 /**
  * An example for pie chart.
@@ -67,13 +68,14 @@ public class SingleLevelPieChartExample {
 		// set titles
 		chart.getTitle().setText("Single Level Pie Chart");
 		// May replace the CircularSeries Class with Pie... Makes no difference
-		CircularSeries circularSeries = (CircularSeries)chart.getSeriesSet().createSeries(SeriesType.PIE, "pie series");
+		ICircularSeries circularSeries = (ICircularSeries)chart.getSeriesSet().createSeries(SeriesType.PIE, "pie series");
 		// sets the series.
 		circularSeries.setSeries(labels, values);
 		// change color of India to DARK_RED
 		Color color = Display.getDefault().getSystemColor(SWT.COLOR_DARK_RED);
 		circularSeries.setColor("India", color);
 		//
+		chart.getAxisSet().getXAxis(0).setRange(new Range(-0.5,0.5));
 		return chart;
 	}
 }

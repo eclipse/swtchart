@@ -120,4 +120,11 @@ public class Doughnut extends CircularSeries {
 			}
 		}
 	}
+	
+	@Override
+	public Range getAdjustedRange(Axis axis, int length) {
+
+		maxTreeDepth = rootNode.getMaxSubTreeDepth() - 1;
+		return new Range(-maxTreeDepth - 1,maxTreeDepth + 1);
+	}
 }

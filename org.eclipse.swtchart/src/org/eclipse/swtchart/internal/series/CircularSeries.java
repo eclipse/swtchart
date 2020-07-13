@@ -241,12 +241,6 @@ public abstract class CircularSeries extends Series implements ICircularSeries {
 	}
 
 	@Override
-	public Range getAdjustedRange(Axis axis, int length) {
-
-		return null;
-	}
-
-	@Override
 	public IdNodeDataModel getModel() {
 
 		return model;

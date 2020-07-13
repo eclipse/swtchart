@@ -226,8 +226,11 @@ public class InteractiveChart extends Chart implements PaintListener {
 	 * @param event
 	 *            the mouse move event
 	 */
+	//moving the mouse
 	private void handleMouseMoveEvent(Event event) {
 
+		//if the selection process is going on, then
+		//the end point to be following the cursor.
 		if(!selection.isDisposed()) {
 			selection.setEndPoint(event.x, event.y);
 			redraw();
@@ -254,6 +257,7 @@ public class InteractiveChart extends Chart implements PaintListener {
 	 * @param event
 	 *            the mouse up event
 	 */
+	//when after dragging, one releases the cursor rectangle selected.
 	private void handleMouseUpEvent(Event event) {
 
 		if(event.button == 1 && System.currentTimeMillis() - clickedTime > 100) {

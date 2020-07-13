@@ -16,6 +16,9 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swtchart.IAxis;
 import org.eclipse.swtchart.ICircularSeries;
 import org.eclipse.swtchart.extensions.core.BaseChart;
+import org.eclipse.swtchart.extensions.core.ChartSettings;
+import org.eclipse.swtchart.extensions.core.IChartSettings;
+import org.eclipse.swtchart.extensions.core.IPrimaryAxisSettings;
 import org.eclipse.swtchart.extensions.core.ScrollableChart;
 import org.eclipse.swtchart.extensions.exceptions.SeriesException;
 
@@ -39,13 +42,28 @@ public class PieChart extends ScrollableChart {
 		if(model != null && model.getRootNode() != null) {
 			BaseChart baseChart = getBaseChart();
 			baseChart.suspendUpdate(true);
-			initialise(baseChart);
 			// for(IPieSeriesData pieSeriesData : pieSeriesDataList) {
 			/*
 			 * Get the series data and apply the settings.
 			 */
 			try {
 				ICircularSeriesSettings pieSeriesSettings = (ICircularSeriesSettings)model.getSettings();
+				IChartSettings chartSettings = getChartSettings();
+				//
+				chartSettings.setHorizontalSliderVisible(false);
+				chartSettings.setVerticalSliderVisible(false);
+				//
+				chartSettings.getRangeRestriction().setZeroX(false);
+				chartSettings.getRangeRestriction().setZeroY(false);
+				chartSettings.setLegendVisible(true);
+				//
+				IPrimaryAxisSettings primaryAxisSettingsX = chartSettings.getPrimaryAxisSettingsX();
+				primaryAxisSettingsX.setVisible(false);
+				IPrimaryAxisSettings primaryAxisSettingsY = chartSettings.getPrimaryAxisSettingsY();
+				primaryAxisSettingsY.setVisible(false);
+				//chartSettings.setShowPositionMarker(true);
+				chartSettings.setShowLegendMarker(true);
+				applySettings(chartSettings);
 				ICircularSeries pieSeries = (ICircularSeries)createCircularSeries(model, pieSeriesSettings);
 				baseChart.applyCircularSeriesSettings(pieSeries, pieSeriesSettings);
 			} catch(SeriesException e) {
@@ -53,20 +71,10 @@ public class PieChart extends ScrollableChart {
 			}
 			// }
 			baseChart.suspendUpdate(false);
-			// adjustRange(true);
+			adjustRange(true);
 			baseChart.redraw();
 		} else {
 			// throw error
-		}
-	}
-
-	private void initialise(BaseChart chart) {
-
-		IAxis[] axes = chart.getAxisSet().getAxes();
-		for(IAxis axis : axes) {
-			axis.getTick().setVisible(false);
-			axis.getGrid().setVisible(false);
-			axis.getTitle().setVisible(false);
 		}
 	}
 }

@@ -18,8 +18,8 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swtchart.Chart;
+import org.eclipse.swtchart.ICircularSeries;
 import org.eclipse.swtchart.ISeries.SeriesType;
-import org.eclipse.swtchart.internal.series.CircularSeries;
 
 /**
  * An example for MultiLevel pie chart.
@@ -75,7 +75,7 @@ public class MultiLevelPieExample {
 		chart.getTitle().setText("Multi Level Pie Chart");
 		// create pie series
 		// Doughnut multiLevelPie = (Doughnut)chart.getSeriesSet().createSeries(SeriesType.DOUGHNUT, "countries");
-		CircularSeries multiLevelPie = (CircularSeries)chart.getSeriesSet().createSeries(SeriesType.PIE, "countries");
+		ICircularSeries multiLevelPie = (ICircularSeries)chart.getSeriesSet().createSeries(SeriesType.PIE, "countries");
 		// sets the series.
 		multiLevelPie.setSeries(continentLabels, continentValues);
 		// adding Asian countries. These go in as second level

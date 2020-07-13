@@ -118,4 +118,11 @@ public class Pie extends CircularSeries {
 			}
 		}
 	}
+
+	@Override
+	public Range getAdjustedRange(Axis axis, int length) {
+
+		maxTreeDepth = rootNode.getMaxSubTreeDepth() - 1;
+		return new Range(-maxTreeDepth,maxTreeDepth);
+	}
 }
