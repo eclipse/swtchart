@@ -18,7 +18,6 @@ import org.eclipse.swtchart.Range;
 import org.eclipse.swtchart.internal.axis.Axis;
 import org.eclipse.swtchart.model.Node;
 
-@SuppressWarnings("rawtypes")
 public class Doughnut extends CircularSeries {
 
 	@SuppressWarnings("unchecked")
@@ -119,5 +118,12 @@ public class Doughnut extends CircularSeries {
 				xAxis.setRange(new Range(rangeMax - ratio, rangeMax));
 			}
 		}
+	}
+
+	@Override
+	public Range getAdjustedRange(Axis axis, int length) {
+
+		maxTreeDepth = rootNode.getMaxSubTreeDepth() - 1;
+		return new Range(-maxTreeDepth - 1, maxTreeDepth + 1);
 	}
 }

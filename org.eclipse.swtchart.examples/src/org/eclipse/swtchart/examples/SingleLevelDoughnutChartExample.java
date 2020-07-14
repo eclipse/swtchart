@@ -19,8 +19,8 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swtchart.Chart;
+import org.eclipse.swtchart.ICircularSeries;
 import org.eclipse.swtchart.ISeries.SeriesType;
-import org.eclipse.swtchart.internal.series.CircularSeries;
 
 /**
  * An example for pie chart.
@@ -67,7 +67,7 @@ public class SingleLevelDoughnutChartExample {
 		// set titles
 		chart.getTitle().setText("Doughnut Chart");
 		// May replace the CircularSeries Class with Pie... Makes no difference
-		CircularSeries circularSeries = (CircularSeries)chart.getSeriesSet().createSeries(SeriesType.DOUGHNUT, "pie series");
+		ICircularSeries circularSeries = (ICircularSeries)chart.getSeriesSet().createSeries(SeriesType.DOUGHNUT, "pie series");
 		// sets the series.
 		circularSeries.setSeries(labels, values);
 		// change color of India to DARK_RED

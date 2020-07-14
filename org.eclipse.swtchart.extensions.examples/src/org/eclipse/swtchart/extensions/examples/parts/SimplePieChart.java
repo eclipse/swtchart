@@ -16,6 +16,7 @@ import javax.inject.Inject;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swtchart.ISeries.SeriesType;
 import org.eclipse.swtchart.extensions.piecharts.CircularSeriesData;
 import org.eclipse.swtchart.extensions.piecharts.ICircularSeriesData;
 import org.eclipse.swtchart.extensions.piecharts.ICircularSeriesSettings;
@@ -75,6 +76,7 @@ public class SimplePieChart extends PieChart {
 		settings.setDescription("Landmass Distribultion");
 		settings.setBorderStyle(SWT.LINE_SOLID);
 		//
+		multiLevelDoughnut.getSettings().setSeriesType(SeriesType.DOUGHNUT);
 		/*
 		 * Set series.
 		 * ICircularSeriesData

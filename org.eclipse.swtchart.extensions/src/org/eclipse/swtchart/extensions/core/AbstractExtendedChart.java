@@ -33,7 +33,6 @@ import org.eclipse.swtchart.extensions.core.RangeRestriction.ExtendType;
 import org.eclipse.swtchart.extensions.exceptions.SeriesException;
 import org.eclipse.swtchart.extensions.piecharts.ICircularSeriesData;
 import org.eclipse.swtchart.extensions.piecharts.ICircularSeriesSettings;
-import org.eclipse.swtchart.internal.series.CircularSeries;
 import org.eclipse.swtchart.model.IdNodeDataModel;
 
 public abstract class AbstractExtendedChart extends AbstractHandledChart implements IChartDataCoordinates, IRangeSupport, IExtendedChart {
@@ -320,7 +319,10 @@ public abstract class AbstractExtendedChart extends AbstractHandledChart impleme
 		 */
 		ISeriesSet seriesSet = getSeriesSet();
 		ISeries<?> series = seriesSet.createSeries(seriesType, "Circular Series");
-		((CircularSeries)series).setDataModel(model);
+		((ICircularSeries)series).setDataModel(model);
+		//calculateCoordinates(series);
+		double depth = model.getRootNode().getMaxSubTreeDepth() - 1;
+		updateCoordinates(-depth, depth, -depth, depth);
 		return (ICircularSeries)series;
 	}
 

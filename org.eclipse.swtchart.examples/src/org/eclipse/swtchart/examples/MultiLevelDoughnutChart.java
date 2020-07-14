@@ -18,8 +18,8 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swtchart.Chart;
+import org.eclipse.swtchart.ICircularSeries;
 import org.eclipse.swtchart.ISeries.SeriesType;
-import org.eclipse.swtchart.internal.series.CircularSeries;
 
 /**
  * An example for MultiLevel doughnut chart.
@@ -74,7 +74,7 @@ public class MultiLevelDoughnutChart {
 		// set titles
 		chart.getTitle().setText("Multi Level Doughnut Chart");
 		// create doughnut series
-		CircularSeries multiLevelDoughnut = (CircularSeries)chart.getSeriesSet().createSeries(SeriesType.DOUGHNUT, "countries");
+		ICircularSeries multiLevelDoughnut = (ICircularSeries)chart.getSeriesSet().createSeries(SeriesType.DOUGHNUT, "countries");
 		// sets the series.
 		multiLevelDoughnut.setSeries(continentLabels, continentValues);
 		// adding Asian countries. These go in as second level
