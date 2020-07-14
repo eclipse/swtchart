@@ -13,10 +13,8 @@
 package org.eclipse.swtchart.extensions.piecharts;
 
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swtchart.IAxis;
 import org.eclipse.swtchart.ICircularSeries;
 import org.eclipse.swtchart.extensions.core.BaseChart;
-import org.eclipse.swtchart.extensions.core.ChartSettings;
 import org.eclipse.swtchart.extensions.core.IChartSettings;
 import org.eclipse.swtchart.extensions.core.IPrimaryAxisSettings;
 import org.eclipse.swtchart.extensions.core.ScrollableChart;
@@ -42,7 +40,6 @@ public class PieChart extends ScrollableChart {
 		if(model != null && model.getRootNode() != null) {
 			BaseChart baseChart = getBaseChart();
 			baseChart.suspendUpdate(true);
-			// for(IPieSeriesData pieSeriesData : pieSeriesDataList) {
 			/*
 			 * Get the series data and apply the settings.
 			 */
@@ -61,7 +58,6 @@ public class PieChart extends ScrollableChart {
 				primaryAxisSettingsX.setVisible(false);
 				IPrimaryAxisSettings primaryAxisSettingsY = chartSettings.getPrimaryAxisSettingsY();
 				primaryAxisSettingsY.setVisible(false);
-				//chartSettings.setShowPositionMarker(true);
 				chartSettings.setShowLegendMarker(true);
 				applySettings(chartSettings);
 				ICircularSeries pieSeries = (ICircularSeries)createCircularSeries(model, pieSeriesSettings);
@@ -69,7 +65,6 @@ public class PieChart extends ScrollableChart {
 			} catch(SeriesException e) {
 				//
 			}
-			// }
 			baseChart.suspendUpdate(false);
 			adjustRange(true);
 			baseChart.redraw();

@@ -21,7 +21,6 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swtchart.Chart;
 import org.eclipse.swtchart.ICircularSeries;
 import org.eclipse.swtchart.ISeries.SeriesType;
-import org.eclipse.swtchart.Range;
 
 /**
  * An example for pie chart.
@@ -75,7 +74,6 @@ public class SingleLevelPieChartExample {
 		Color color = Display.getDefault().getSystemColor(SWT.COLOR_DARK_RED);
 		circularSeries.setColor("India", color);
 		//
-		chart.getAxisSet().getXAxis(0).setRange(new Range(-0.5,0.5));
 		return chart;
 	}
 }
