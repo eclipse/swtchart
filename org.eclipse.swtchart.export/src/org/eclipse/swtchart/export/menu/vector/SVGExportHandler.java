@@ -314,21 +314,23 @@ public class SVGExportHandler extends AbstractSeriesExportHandler implements ISe
 						} else {
 							x1 = ((start1 + height1) - (((0.0 - lower) / (upper - lower) * height1)));
 						}
-						for(String string : split) {
-							if(Pattern.matches(match1, string)) {
-								string = string.replace("%x1-coordinate%", String.valueOf(x1));
+						if(x1 >= start1 && x1 <= start1 + height1) {
+							for(String string : split) {
+								if(Pattern.matches(match1, string)) {
+									string = string.replace("%x1-coordinate%", String.valueOf(x1));
+								}
+								if(Pattern.matches(match3, string)) {
+									string = string.replace("%y1-coordinate%", String.valueOf(start2));
+								}
+								if(Pattern.matches(match2, string)) {
+									string = string.replace("%x2-coordinate%", String.valueOf(x1));
+								}
+								if(Pattern.matches(match4, string)) {
+									string = string.replace("%y2-coordinate%", String.valueOf(start2 - height2));
+								}
+								out.append(string);
+								out.append("\n");
 							}
-							if(Pattern.matches(match3, string)) {
-								string = string.replace("%y1-coordinate%", String.valueOf(start2));
-							}
-							if(Pattern.matches(match2, string)) {
-								string = string.replace("%x2-coordinate%", String.valueOf(x1));
-							}
-							if(Pattern.matches(match4, string)) {
-								string = string.replace("%y2-coordinate%", String.valueOf(start2 - height2));
-							}
-							out.append(string);
-							out.append("\n");
 						}
 						out.append("\n");
 						double upper2 = baseChart.getAxisSet().getYAxis(axisSettings.getIndexAxisY()).getRange().upper;
@@ -339,21 +341,23 @@ public class SVGExportHandler extends AbstractSeriesExportHandler implements ISe
 						} else {
 							y1 = ((start2 - height2) + (height2 - ((upper2 - 0.0) / (upper2 - lower2) * height2)));
 						}
-						for(String string : split) {
-							if(Pattern.matches(match1, string)) {
-								string = string.replace("%x1-coordinate%", String.valueOf(start1));
+						if(y1 <= start2 && y1 >= start2 - height2) {
+							for(String string : split) {
+								if(Pattern.matches(match1, string)) {
+									string = string.replace("%x1-coordinate%", String.valueOf(start1));
+								}
+								if(Pattern.matches(match3, string)) {
+									string = string.replace("%y1-coordinate%", String.valueOf(y1));
+								}
+								if(Pattern.matches(match2, string)) {
+									string = string.replace("%x2-coordinate%", String.valueOf(start1 + height1));
+								}
+								if(Pattern.matches(match4, string)) {
+									string = string.replace("%y2-coordinate%", String.valueOf(y1));
+								}
+								out.append(string);
+								out.append("\n");
 							}
-							if(Pattern.matches(match3, string)) {
-								string = string.replace("%y1-coordinate%", String.valueOf(y1));
-							}
-							if(Pattern.matches(match2, string)) {
-								string = string.replace("%x2-coordinate%", String.valueOf(start1 + height1));
-							}
-							if(Pattern.matches(match4, string)) {
-								string = string.replace("%y2-coordinate%", String.valueOf(y1));
-							}
-							out.append(string);
-							out.append("\n");
 						}
 						line = line.replaceAll(axis_label, out.toString());
 					}
@@ -650,21 +654,23 @@ public class SVGExportHandler extends AbstractSeriesExportHandler implements ISe
 						} else {
 							x1 = ((start1 + height1) - (((0.0 - lower) / (upper - lower) * height1)));
 						}
-						for(String string : split) {
-							if(Pattern.matches(match1, string)) {
-								string = string.replace("%x1-coordinate%", String.valueOf(x1));
+						if(x1 >= start1 && x1 <= start1 + height1) {
+							for(String string : split) {
+								if(Pattern.matches(match1, string)) {
+									string = string.replace("%x1-coordinate%", String.valueOf(x1));
+								}
+								if(Pattern.matches(match3, string)) {
+									string = string.replace("%y1-coordinate%", String.valueOf(start2));
+								}
+								if(Pattern.matches(match2, string)) {
+									string = string.replace("%x2-coordinate%", String.valueOf(x1));
+								}
+								if(Pattern.matches(match4, string)) {
+									string = string.replace("%y2-coordinate%", String.valueOf(start2 - height2));
+								}
+								out.append(string);
+								out.append("\n");
 							}
-							if(Pattern.matches(match3, string)) {
-								string = string.replace("%y1-coordinate%", String.valueOf(start2));
-							}
-							if(Pattern.matches(match2, string)) {
-								string = string.replace("%x2-coordinate%", String.valueOf(x1));
-							}
-							if(Pattern.matches(match4, string)) {
-								string = string.replace("%y2-coordinate%", String.valueOf(start2 - height2));
-							}
-							out.append(string);
-							out.append("\n");
 						}
 						out.append("\n");
 						double upper2 = baseChart.getAxisSet().getYAxis(axisSettings.getIndexAxisY()).getRange().upper;
@@ -675,21 +681,23 @@ public class SVGExportHandler extends AbstractSeriesExportHandler implements ISe
 						} else {
 							y1 = ((start2 - height2) + (height2 - ((upper2 - 0.0) / (upper2 - lower2) * height2)));
 						}
-						for(String string : split) {
-							if(Pattern.matches(match1, string)) {
-								string = string.replace("%x1-coordinate%", String.valueOf(start1));
+						if(y1 <= start2 && y1 >= start2 - height2) {
+							for(String string : split) {
+								if(Pattern.matches(match1, string)) {
+									string = string.replace("%x1-coordinate%", String.valueOf(start1));
+								}
+								if(Pattern.matches(match3, string)) {
+									string = string.replace("%y1-coordinate%", String.valueOf(y1));
+								}
+								if(Pattern.matches(match2, string)) {
+									string = string.replace("%x2-coordinate%", String.valueOf(start1 + height1));
+								}
+								if(Pattern.matches(match4, string)) {
+									string = string.replace("%y2-coordinate%", String.valueOf(y1));
+								}
+								out.append(string);
+								out.append("\n");
 							}
-							if(Pattern.matches(match3, string)) {
-								string = string.replace("%y1-coordinate%", String.valueOf(y1));
-							}
-							if(Pattern.matches(match2, string)) {
-								string = string.replace("%x2-coordinate%", String.valueOf(start1 + height1));
-							}
-							if(Pattern.matches(match4, string)) {
-								string = string.replace("%y2-coordinate%", String.valueOf(y1));
-							}
-							out.append(string);
-							out.append("\n");
 						}
 						line = line.replaceAll(axis_label, out.toString());
 					}
@@ -1034,21 +1042,23 @@ public class SVGExportHandler extends AbstractSeriesExportHandler implements ISe
 						} else {
 							x1 = ((start1 + height1) - (((0.0 - lower) / (upper - lower) * height1)));
 						}
-						for(String string : split) {
-							if(Pattern.matches(match1, string)) {
-								string = string.replace("%x1-coordinate%", String.valueOf(x1));
+						if(x1 >= start1 && x1 <= start1 + height1) {
+							for(String string : split) {
+								if(Pattern.matches(match1, string)) {
+									string = string.replace("%x1-coordinate%", String.valueOf(x1));
+								}
+								if(Pattern.matches(match3, string)) {
+									string = string.replace("%y1-coordinate%", String.valueOf(start2));
+								}
+								if(Pattern.matches(match2, string)) {
+									string = string.replace("%x2-coordinate%", String.valueOf(x1));
+								}
+								if(Pattern.matches(match4, string)) {
+									string = string.replace("%y2-coordinate%", String.valueOf(start2 - height2));
+								}
+								out.append(string);
+								out.append("\n");
 							}
-							if(Pattern.matches(match3, string)) {
-								string = string.replace("%y1-coordinate%", String.valueOf(start2));
-							}
-							if(Pattern.matches(match2, string)) {
-								string = string.replace("%x2-coordinate%", String.valueOf(x1));
-							}
-							if(Pattern.matches(match4, string)) {
-								string = string.replace("%y2-coordinate%", String.valueOf(start2 - height2));
-							}
-							out.append(string);
-							out.append("\n");
 						}
 						out.append("\n");
 						double upper2 = baseChart.getAxisSet().getYAxis(axisSettings.getIndexAxisY()).getRange().upper;
@@ -1059,21 +1069,23 @@ public class SVGExportHandler extends AbstractSeriesExportHandler implements ISe
 						} else {
 							y1 = ((start2 - height2) + (height2 - ((upper2 - 0.0) / (upper2 - lower2) * height2)));
 						}
-						for(String string : split) {
-							if(Pattern.matches(match1, string)) {
-								string = string.replace("%x1-coordinate%", String.valueOf(start1));
+						if(y1 <= start2 && y1 >= start2 - height2) {
+							for(String string : split) {
+								if(Pattern.matches(match1, string)) {
+									string = string.replace("%x1-coordinate%", String.valueOf(start1));
+								}
+								if(Pattern.matches(match3, string)) {
+									string = string.replace("%y1-coordinate%", String.valueOf(y1));
+								}
+								if(Pattern.matches(match2, string)) {
+									string = string.replace("%x2-coordinate%", String.valueOf(start1 + height1));
+								}
+								if(Pattern.matches(match4, string)) {
+									string = string.replace("%y2-coordinate%", String.valueOf(y1));
+								}
+								out.append(string);
+								out.append("\n");
 							}
-							if(Pattern.matches(match3, string)) {
-								string = string.replace("%y1-coordinate%", String.valueOf(y1));
-							}
-							if(Pattern.matches(match2, string)) {
-								string = string.replace("%x2-coordinate%", String.valueOf(start1 + height1));
-							}
-							if(Pattern.matches(match4, string)) {
-								string = string.replace("%y2-coordinate%", String.valueOf(y1));
-							}
-							out.append(string);
-							out.append("\n");
 						}
 						line = line.replaceAll(axis_label, out.toString());
 					}
