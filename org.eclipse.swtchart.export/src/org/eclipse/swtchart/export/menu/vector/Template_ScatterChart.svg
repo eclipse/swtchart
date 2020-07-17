@@ -184,7 +184,8 @@
                        sodipodi:role="line">%PLACEHOLDER X-AXIS%</tspan></text>
                   <g
                      id="g2088">                    
-                    <!--%X-AXIS_TICKS%-->			
+                    <!--%X-AXIS_TICKS%-->	
+                    <!--%AXIS LABELS%-->		
                   </g>
                 </g>
                 <g
@@ -209,7 +210,7 @@
 		
                   <g
                      id="g2055">
-                    <!--%Y-AXIS_TICKS%-->
+                    <!--%Y-AXIS_TICKS%-->	
                   </g>
                 </g>
               </g>
