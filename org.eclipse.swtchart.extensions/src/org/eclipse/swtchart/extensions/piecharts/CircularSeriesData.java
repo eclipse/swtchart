@@ -12,7 +12,6 @@
  *******************************************************************************/
 package org.eclipse.swtchart.extensions.piecharts;
 
-import java.util.HashMap;
 import java.util.List;
 
 import org.eclipse.swtchart.model.IdNodeDataModel;
@@ -23,13 +22,16 @@ public class CircularSeriesData implements ICircularSeriesData {
 	private IdNodeDataModel model;
 	private Node rootNode;
 	private ICircularSeriesSettings pieSeriesSettings;
-	private HashMap<String, Node> tree;
+	private String nodeClass;
+	private String valueClass;
 
 	public CircularSeriesData() {
 
 		model = new IdNodeDataModel();
 		rootNode = model.getRootNode();
 		this.pieSeriesSettings = new CircularSeriesSettings();
+		nodeClass = "Node";
+		valueClass = "Value";
 	}
 
 	public CircularSeriesData(ICircularSeriesData pieSeriesData) {
@@ -43,7 +45,7 @@ public class CircularSeriesData implements ICircularSeriesData {
 
 	public String getId() {
 
-		return rootNode.getId();
+		return model.getId();
 	}
 
 	@Override
@@ -92,5 +94,35 @@ public class CircularSeriesData implements ICircularSeriesData {
 	public ICircularSeriesSettings getSettings() {
 
 		return pieSeriesSettings;
+	}
+
+	@Override
+	public void setId(String id) {
+
+		model.setId(id);
+	}
+
+	@Override
+	public String getNodeClass() {
+
+		return nodeClass;
+	}
+
+	@Override
+	public void setNodeClass(String nodeClass) {
+
+		this.nodeClass = nodeClass;
+	}
+
+	@Override
+	public String getValueClass() {
+
+		return valueClass;
+	}
+
+	@Override
+	public void setValueClass(String valueClass) {
+
+		this.valueClass = valueClass;
 	}
 }

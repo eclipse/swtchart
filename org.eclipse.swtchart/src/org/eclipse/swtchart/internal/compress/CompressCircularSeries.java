@@ -41,7 +41,7 @@ public class CompressCircularSeries extends Compress {
 
 		// int rootNodeLevel = 0;
 		Device device = Display.getDefault();
-		maxTreeDepth = model.getRootNode().getMaxSubTreeDepth() - 1;
+		maxTreeDepth = model.getRootPointer().getMaxSubTreeDepth() - 1;
 		List<Node>[] nodes = model.getNodes();
 		// traversing each level
 		for(int i = 1; i <= maxTreeDepth; i++) {

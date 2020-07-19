@@ -373,9 +373,7 @@ public class Node {
 				}
 			}
 			node.setAngleBounds(new Point(start, angleCovered));
-			if(node == this.data.getRootNode())
-				return;
-			data.getNodes()[node.getLevel()].add(node);
+			data.getNodes()[node.getLevel() - data.getRootPointer().getLevel()].add(node);
 			// the DFS call to children after this node data is set.
 			node.updateAngularBounds();
 			// updating for the next child node.

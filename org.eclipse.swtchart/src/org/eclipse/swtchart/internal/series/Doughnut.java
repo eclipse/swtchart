@@ -47,7 +47,7 @@ public class Doughnut extends CircularSeries {
 		}
 		if(node.isVisible() == false)
 			return;
-		int level = node.getLevel() + 1;
+		int level = node.getLevel() - getRootPointer().getLevel() + 1;
 		/*
 		 * the center of the chart is (0,0). The x and y axis are set such that
 		 * a node at level = i, will be drawn starting from (-level,level), till (level,-level).
@@ -73,7 +73,7 @@ public class Doughnut extends CircularSeries {
 		int xStartPixelCoordinate = xAxis.getPixelCoordinate(xStartCoordinate);
 		int yStartPixelCoordinate = yAxis.getPixelCoordinate(yStartCoordinate);
 		//
-		if(node != rootNode)
+		if(node != getRootPointer())
 			gc.drawLine(xZero, yZero, xStartPixelCoordinate, yStartPixelCoordinate);
 		/*
 		 * drawing the end boundary
@@ -83,7 +83,7 @@ public class Doughnut extends CircularSeries {
 		int xEndPixelCoordinate = xAxis.getPixelCoordinate(xEndCoordinate);
 		int yEndPixelCoordinate = yAxis.getPixelCoordinate(yEndCoordinate);
 		//
-		if(node != rootNode)
+		if(node != getRootPointer())
 			gc.drawLine(xZero, yZero, xEndPixelCoordinate, yEndPixelCoordinate);
 	}
 
@@ -97,7 +97,7 @@ public class Doughnut extends CircularSeries {
 	 */
 	protected void setBothAxisRange(int width, int height, Axis xAxis, Axis yAxis) {
 
-		maxTreeDepth = rootNode.getMaxSubTreeDepth() - 1;
+		maxTreeDepth = rootPointer.getMaxSubTreeDepth() - 1;
 		int rangeMax = maxTreeDepth + 1;
 		xAxis.setRange(new Range(-rangeMax, rangeMax));
 		yAxis.setRange(new Range(-rangeMax, rangeMax));

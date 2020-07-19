@@ -33,6 +33,8 @@ public class IdNodeDataModel {
 	private String Id;
 	/** this node is the parent of all nodes, shall not be kept visible */
 	private Node rootNode;
+	/** this is the pointer node that will point to the node from wheere the drawing is to occur */
+	private Node rootPointer;
 	/** data structure that holds all the nodes and allows access in O(1) time. */
 	private HashMap<String, Node> tree;
 	/** stores nodes in order of the levels they are in. */
@@ -50,6 +52,7 @@ public class IdNodeDataModel {
 		this.rootNode = new Node(Id, -1, this);
 		tree = new HashMap<String, Node>();
 		initialiseRootNode();
+		rootPointer = rootNode;
 		compress = new CompressCircularSeries(this);
 	}
 
@@ -92,6 +95,30 @@ public class IdNodeDataModel {
 		this.nodesAtLevels = arrayList;
 	}
 
+	public Node getRootPointer() {
+
+		return rootPointer;
+	}
+
+	public void setRootPointer(Node pointer) {
+
+		this.rootPointer = pointer;
+		rootPointer.setColor(Display.getDefault().getSystemColor(SWT.COLOR_WHITE));
+		rootPointer.setAngleBounds(new Point(0, 360));
+		update();
+	}
+
+	public String getId() {
+
+		return Id;
+	}
+
+	public void setId(String id) {
+
+		this.Id = id;
+		rootNode.setId(id);
+	}
+
 	/**
 	 * update functions that ensures the changes made by user do make sense, and
 	 * handles those which do not make sense. If changes can't be made, throws error.
@@ -99,11 +126,11 @@ public class IdNodeDataModel {
 	@SuppressWarnings("unchecked")
 	public void update() {
 
-		getRootNode().updateValues();
+		getRootPointer().updateValues();
 		/*
 		 * update nodes length
 		 */
-		int maxTreeDepth = rootNode.getMaxSubTreeDepth() - 1;
+		int maxTreeDepth = rootPointer.getMaxSubTreeDepth() - 1;
 		setNodes(new ArrayList[maxTreeDepth + 1]);
 		//
 		ArrayList<Node>[] node = (ArrayList<Node>[])getNodes();
@@ -114,9 +141,10 @@ public class IdNodeDataModel {
 		/*
 		 * angular bounds
 		 */
-		getRootNode().updateAngularBounds();
+		node[0].add(rootPointer);
+		getRootPointer().updateAngularBounds();
 		//
-		getRootNode().setVisibility(true);
+		getRootPointer().setVisibility(true);
 		//
 		compress.update();
 	}

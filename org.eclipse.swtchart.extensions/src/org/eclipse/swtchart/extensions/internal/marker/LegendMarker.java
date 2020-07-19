@@ -94,14 +94,17 @@ public class LegendMarker extends AbstractPositionPaintListener implements IPosi
 		String id = "---", val = "---", percentage = "---";
 		if(node != null) {
 			id = node.getId();
-			double percent = ((node.getValue() * 100.0) / (node.getDataModel().getRootNode().getValue()));
+			double percent = ((node.getValue() * 100.0) / (node.getDataModel().getRootPointer().getValue()));
 			DecimalFormat dec = new DecimalFormat();
 			val = dec.format(node.getValue());
 			percentage = dec.format(percent);
 		}
-		stringBuilder.append("Node : " + id + "\n");
-		stringBuilder.append("Value : " + val + "\n");
-		stringBuilder.append("Percent Of Total : " + percentage + "%\n");
+		String nodeClass = getBaseChart().getAxisSet().getXAxis(0).getTitle().getText();
+		String valueClass = getBaseChart().getAxisSet().getYAxis(0).getTitle().getText();
+		stringBuilder.append(nodeClass + " : " + id + "\n");
+		stringBuilder.append(valueClass + " : " + val + "\n");
+		if(node != null)
+			stringBuilder.append("Percent of " + node.getDataModel().getRootPointer().getId() + " : " + percentage + "%\n");
 	}
 
 	private void drawXAxes(double primaryValueX) {
