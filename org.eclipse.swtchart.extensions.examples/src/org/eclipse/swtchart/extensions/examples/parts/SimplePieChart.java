@@ -53,11 +53,11 @@ public class SimplePieChart extends PieChart {
 		 * Create series.
 		 */
 		ICircularSeriesData multiLevelDoughnut = new CircularSeriesData();
-		// seriesData.setSeries(labels, values);
-		// chart.getTitle().setText("Multi Level Doughnut Chart");
-		// create doughnut series
-		// CircularSeries multiLevelDoughnut = (CircularSeries)chart.getSeriesSet().createSeries(SeriesType.DOUGHNUT, "countries");
-		// sets the series.
+		//
+		multiLevelDoughnut.setId("World");
+		multiLevelDoughnut.setNodeClass("Landmass Name");
+		multiLevelDoughnut.setValueClass("Area in sq miles");
+		//
 		multiLevelDoughnut.setSeries(continentLabels, continentValues);
 		// adding Asian countries. These go in as second level
 		multiLevelDoughnut.getNodeById("Asia").addChildren(AsianCountriesLabels, AsianCountriesValues);
@@ -72,6 +72,8 @@ public class SimplePieChart extends PieChart {
 		multiLevelDoughnut.getNodeById("India").addChildren(IndianStatesLabels, IndianStateValues);
 		// Another API
 		multiLevelDoughnut.getNodeById("Europe").addChild("Germany", 137847);
+		//
+		//
 		ICircularSeriesSettings settings = multiLevelDoughnut.getSettings();
 		settings.setDescription("Landmass Distribultion");
 		settings.setBorderStyle(SWT.LINE_SOLID);

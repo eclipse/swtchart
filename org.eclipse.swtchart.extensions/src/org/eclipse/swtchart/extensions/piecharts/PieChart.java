@@ -12,7 +12,9 @@
  *******************************************************************************/
 package org.eclipse.swtchart.extensions.piecharts;
 
+import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.swtchart.ICircularSeries;
 import org.eclipse.swtchart.extensions.core.BaseChart;
 import org.eclipse.swtchart.extensions.core.IChartSettings;
@@ -55,12 +57,19 @@ public class PieChart extends ScrollableChart {
 				chartSettings.setLegendVisible(true);
 				//
 				IPrimaryAxisSettings primaryAxisSettingsX = chartSettings.getPrimaryAxisSettingsX();
+				primaryAxisSettingsX.setTitle(model.getNodeClass());
 				primaryAxisSettingsX.setVisible(false);
+				//
 				IPrimaryAxisSettings primaryAxisSettingsY = chartSettings.getPrimaryAxisSettingsY();
+				primaryAxisSettingsY.setTitle(model.getValueClass());
 				primaryAxisSettingsY.setVisible(false);
+				//
 				chartSettings.setShowLegendMarker(true);
+				chartSettings.setColorLegendMarker(Display.getDefault().getSystemColor(SWT.COLOR_BLACK));
+				//
 				applySettings(chartSettings);
 				ICircularSeries pieSeries = (ICircularSeries)createCircularSeries(model, pieSeriesSettings);
+				//
 				baseChart.applyCircularSeriesSettings(pieSeries, pieSeriesSettings);
 			} catch(SeriesException e) {
 				//

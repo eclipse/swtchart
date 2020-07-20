@@ -47,7 +47,7 @@ public class Pie extends CircularSeries {
 		}
 		if(node.isVisible() == false)
 			return;
-		int level = node.getLevel();
+		int level = node.getLevel() - getRootPointer().getLevel();
 		/*
 		 * the center of the chart is (0,0). The x and y axis are set such that
 		 * a node at level = i, will be drawn starting from (-level,level), till (level,-level).
@@ -95,7 +95,7 @@ public class Pie extends CircularSeries {
 	 */
 	protected void setBothAxisRange(int width, int height, Axis xAxis, Axis yAxis) {
 
-		maxTreeDepth = rootNode.getMaxSubTreeDepth() - 1;
+		maxTreeDepth = rootPointer.getMaxSubTreeDepth() - 1;
 		int rangeMax = maxTreeDepth;
 		xAxis.setRange(new Range(-rangeMax, rangeMax));
 		yAxis.setRange(new Range(-rangeMax, rangeMax));
@@ -121,7 +121,7 @@ public class Pie extends CircularSeries {
 	@Override
 	public Range getAdjustedRange(Axis axis, int length) {
 
-		maxTreeDepth = rootNode.getMaxSubTreeDepth() - 1;
+		maxTreeDepth = rootPointer.getMaxSubTreeDepth() - 1;
 		return new Range(-maxTreeDepth, maxTreeDepth);
 	}
 }

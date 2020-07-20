@@ -51,6 +51,8 @@ public abstract class AbstractExtendedChart extends AbstractHandledChart impleme
 	private double extendedMinY;
 	private double extendedMaxY;
 	//
+	private boolean isCircularSeries;
+	//
 	private Map<Integer, IAxisSettings> xAxisSettingsMap = new HashMap<Integer, IAxisSettings>();
 	private Map<Integer, IAxisSettings> yAxisSettingsMap = new HashMap<Integer, IAxisSettings>();
 	private Map<String, ISeriesSettings> seriesSettingsMap = new HashMap<String, ISeriesSettings>();
@@ -116,6 +118,11 @@ public abstract class AbstractExtendedChart extends AbstractHandledChart impleme
 	public void putXAxisSettings(int key, IAxisSettings axisSettings) {
 
 		xAxisSettingsMap.put(key, axisSettings);
+	}
+
+	public boolean isCircularChart() {
+
+		return isCircularSeries;
 	}
 
 	public void removeXAxisSettings() {
@@ -312,6 +319,7 @@ public abstract class AbstractExtendedChart extends AbstractHandledChart impleme
 	 */
 	public ICircularSeries createCircularSeries(ICircularSeriesData circularSeriesData, ICircularSeriesSettings circularSeriesSettings) {
 
+		isCircularSeries = true;
 		IdNodeDataModel model = circularSeriesData.getDataModel();
 		SeriesType seriesType = circularSeriesSettings.getSeriesType();
 		/*
@@ -320,8 +328,7 @@ public abstract class AbstractExtendedChart extends AbstractHandledChart impleme
 		ISeriesSet seriesSet = getSeriesSet();
 		ISeries<?> series = seriesSet.createSeries(seriesType, "Circular Series");
 		((ICircularSeries)series).setDataModel(model);
-		//calculateCoordinates(series);
-		double depth = model.getRootNode().getMaxSubTreeDepth() - 1;
+		double depth = model.getRootPointer().getMaxSubTreeDepth() - 1;
 		updateCoordinates(-depth, depth, -depth, depth);
 		return (ICircularSeries)series;
 	}

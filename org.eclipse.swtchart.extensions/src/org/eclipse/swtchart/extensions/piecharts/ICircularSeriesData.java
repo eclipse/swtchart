@@ -33,5 +33,15 @@ public interface ICircularSeriesData {
 
 	public String getId();
 
+	public void setId(String id);
+
 	public ICircularSeriesSettings getSettings();
+
+	public String getNodeClass();
+
+	public void setNodeClass(String nodeClass);
+
+	public String getValueClass();
+
+	public void setValueClass(String valueClass);
 }

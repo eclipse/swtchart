@@ -21,7 +21,6 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.swtchart.Chart;
 import org.eclipse.swtchart.IAxis;
 import org.eclipse.swtchart.ICircularSeries;
-import org.eclipse.swtchart.Range;
 import org.eclipse.swtchart.internal.axis.Axis;
 import org.eclipse.swtchart.internal.compress.Compress;
 import org.eclipse.swtchart.internal.compress.CompressCircularSeries;
@@ -34,6 +33,7 @@ public abstract class CircularSeries extends Series implements ICircularSeries {
 	protected Chart chart;
 	protected IdNodeDataModel model;
 	protected Node rootNode;
+	protected Node rootPointer;
 	protected int maxTreeDepth;
 	protected Color borderColor;
 	protected int borderWidth;
@@ -47,6 +47,7 @@ public abstract class CircularSeries extends Series implements ICircularSeries {
 		initialise();
 		model = new IdNodeDataModel(id);
 		rootNode = model.getRootNode();
+		rootPointer = model.getRootPointer();
 		compressor = model.getCompressor();
 		borderColor = Display.getDefault().getSystemColor(SWT.COLOR_BLACK);
 		borderWidth = 1;
@@ -100,6 +101,11 @@ public abstract class CircularSeries extends Series implements ICircularSeries {
 		return rootNode;
 	}
 
+	public Node getRootPointer() {
+
+		return model.getRootPointer();
+	}
+
 	@Override
 	public Node getNodeById(String id) {
 
@@ -127,9 +133,13 @@ public abstract class CircularSeries extends Series implements ICircularSeries {
 	@Override
 	public String[] getLabels() {
 
-		String[] labels = new String[model.getTree().size() - 1];
 		List<Node>[] nodes = model.getNodes();
-		int index = 0;
+		int tot = 0, index = 0;
+		maxTreeDepth = getRootPointer().getMaxSubTreeDepth() - 1;
+		for(int i = 1; i <= maxTreeDepth; i++) {
+			tot += nodes[i].size();
+		}
+		String[] labels = new String[tot];
 		for(int i = 1; i <= maxTreeDepth; i++) {
 			int len = nodes[i].size();
 			for(int j = 0; j != len; j++) {
@@ -143,9 +153,12 @@ public abstract class CircularSeries extends Series implements ICircularSeries {
 	@Override
 	public Color[] getColors() {
 
-		Color[] colors = new Color[model.getTree().size() - 1];
 		List<Node>[] nodes = model.getNodes();
-		int ind = 0;
+		int tot = 0, ind = 0;
+		for(int i = 1; i <= maxTreeDepth; i++) {
+			tot += nodes[i].size();
+		}
+		Color[] colors = new Color[tot];
 		for(int i = 1; i <= maxTreeDepth; i++) {
 			int len = nodes[i].size();
 			for(int j = 0; j != len; j++) {
@@ -211,7 +224,7 @@ public abstract class CircularSeries extends Series implements ICircularSeries {
 		/*
 		 * A DFS function which draws the node after drawing it's children.
 		 */
-		drawNode(rootNode, gc, xAxis, yAxis);
+		drawNode(getRootPointer(), gc, xAxis, yAxis);
 	}
 
 	protected abstract void setBothAxisRange(int width, int height, Axis xAxis, Axis yAxis);
@@ -227,7 +240,7 @@ public abstract class CircularSeries extends Series implements ICircularSeries {
 	@Override
 	public int getMaxTreeDepth() {
 
-		return rootNode.getMaxSubTreeDepth() - 1;
+		return rootPointer.getMaxSubTreeDepth() - 1;
 	}
 
 	private void initialise() {
@@ -251,6 +264,7 @@ public abstract class CircularSeries extends Series implements ICircularSeries {
 
 		this.model = data;
 		this.rootNode = model.getRootNode();
-		maxTreeDepth = rootNode.getMaxSubTreeDepth() - 1;
+		this.rootPointer = model.getRootPointer();
+		maxTreeDepth = rootPointer.getMaxSubTreeDepth() - 1;
 	}
 }
