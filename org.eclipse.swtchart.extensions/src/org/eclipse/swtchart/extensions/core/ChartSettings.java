@@ -106,6 +106,7 @@ public class ChartSettings implements IChartSettings {
 	private final Font defaultFont = new Font(Display.getDefault(), "Tahoma", Constants.MEDIUM_FONT_SIZE, SWT.BOLD); //$NON-NLS-1$
 
 	public ChartSettings() {
+
 		//
 		Display display = Display.getDefault();
 		/*
@@ -202,6 +203,7 @@ public class ChartSettings implements IChartSettings {
 		handledEventProcessors.add(new UndoRedoEvent());
 		//
 		supportDataShift = false;
+		enableTooltips = true;
 	}
 
 	@Override
