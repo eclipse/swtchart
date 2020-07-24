@@ -13,8 +13,12 @@
  *******************************************************************************/
 package org.eclipse.swtchart.export.core;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.eclipse.jface.dialogs.IMessageProvider;
 import org.eclipse.jface.dialogs.TitleAreaDialog;
+import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
@@ -23,29 +27,41 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
+import org.eclipse.swt.widgets.Table;
+import org.eclipse.swtchart.ISeries;
 import org.eclipse.swtchart.extensions.core.BaseChart;
 import org.eclipse.swtchart.extensions.core.IExtendedChart;
+import org.eclipse.swtchart.extensions.core.ISeriesSettings;
+import org.eclipse.swtchart.extensions.core.ResourceSupport;
+import org.eclipse.swtchart.extensions.core.SeriesListUI;
+import org.eclipse.swtchart.extensions.preferences.PreferenceConstants;
 
 public class ExportSettingsDialog extends TitleAreaDialog {
 
 	private BaseChart baseChart;
+	private Map<String, ISeriesSettings> cache;
+	private SeriesListUI seriesListUI;
+	private IPreferenceStore preferenceStore = ResourceSupport.getPreferenceStore();
 	//
 	private Combo comboScaleX;
 	private Combo comboScaleY;
-	private Combo comboExportOption;
 	//
 	private int indexAxisX;
 	private int indexAxisY;
-	private boolean exportVisibleOnly;
-	//
-	private static final String SERIES_ALL = Messages.getString(Messages.ALL_SERIES);
-	private static final String SERIES_VISIBLE = Messages.getString(Messages.VISIBLE_SERIES);
-	private String[] exportOptions;
 
 	public ExportSettingsDialog(Shell parent, BaseChart baseChart) {
+
 		super(parent);
 		this.baseChart = baseChart;
-		exportOptions = new String[]{SERIES_ALL, SERIES_VISIBLE};
+		ISeries<?>[] seriesArray = baseChart.getSeriesSet().getSeries();
+		cache = new HashMap<String, ISeriesSettings>();
+		for(ISeries<?> series : seriesArray) {
+			String id = series.getId();
+			ISeriesSettings seriesSetting = baseChart.getSeriesSettings(id);
+			if(seriesSetting != null) {
+				cache.put(id, seriesSetting);
+			}
+		}
 	}
 
 	@Override
@@ -53,7 +69,7 @@ public class ExportSettingsDialog extends TitleAreaDialog {
 
 		super.create();
 		setTitle(Messages.getString(Messages.EXPORT_AXIS_SELECTION));
-		setMessage(Messages.getString(Messages.SELECT_X_Y_TO_EXPORT), IMessageProvider.INFORMATION); //$NON-NLS-1$
+		setMessage(Messages.getString(Messages.SELECT_X_Y_TO_EXPORT), IMessageProvider.INFORMATION); // $NON-NLS-1$
 	}
 
 	@Override
@@ -67,9 +83,20 @@ public class ExportSettingsDialog extends TitleAreaDialog {
 		//
 		createSelectionAxisX(container);
 		createSelectionAxisY(container);
-		createExportOptionSelection(container);
+		createSeriesList(container);
 		//
 		return composite;
+	}
+
+	private void createSeriesList(Composite container) {
+
+		seriesListUI = new SeriesListUI(container, SWT.MULTI | SWT.H_SCROLL | SWT.V_SCROLL | SWT.FULL_SELECTION | SWT.BORDER);
+		seriesListUI.setTableSortable(preferenceStore.getBoolean(PreferenceConstants.P_SORT_LEGEND_TABLE));
+		Table table = seriesListUI.getTable();
+		GridData gridData = new GridData(GridData.FILL_BOTH);
+		gridData.horizontalSpan = 2;
+		table.setLayoutData(gridData);
+		seriesListUI.setInput(baseChart.getSeriesSet().getSeries());
 	}
 
 	private void createSelectionAxisX(Composite container) {
@@ -100,19 +127,6 @@ public class ExportSettingsDialog extends TitleAreaDialog {
 		}
 	}
 
-	private void createExportOptionSelection(Composite container) {
-
-		Label label = new Label(container, SWT.NONE);
-		label.setText(Messages.getString(Messages.EXPORT));
-		//
-		comboExportOption = new Combo(container, SWT.READ_ONLY);
-		comboExportOption.setItems(exportOptions);
-		comboExportOption.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
-		if(exportOptions.length > 0) {
-			comboExportOption.select(0);
-		}
-	}
-
 	@Override
 	protected boolean isResizable() {
 
@@ -123,7 +137,6 @@ public class ExportSettingsDialog extends TitleAreaDialog {
 
 		indexAxisX = comboScaleX.getSelectionIndex();
 		indexAxisY = comboScaleY.getSelectionIndex();
-		exportVisibleOnly = SERIES_VISIBLE.equals(comboExportOption.getText().trim());
 	}
 
 	@Override
@@ -143,8 +156,14 @@ public class ExportSettingsDialog extends TitleAreaDialog {
 		return indexAxisY;
 	}
 
-	public boolean isExportVisibleOnly() {
+	public void reset(BaseChart baseChart) {
 
-		return exportVisibleOnly;
+		ISeries<?>[] seriesArray = baseChart.getSeriesSet().getSeries();
+		for(ISeries<?> series : seriesArray) {
+			ISeriesSettings seriesSettings = cache.get(series.getId());
+			if(seriesSettings != null) {
+				baseChart.applySeriesSettings(series, seriesSettings);
+			}
+		}
 	}
 }
