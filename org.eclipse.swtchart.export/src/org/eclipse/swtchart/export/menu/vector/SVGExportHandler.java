@@ -29,11 +29,13 @@ import org.eclipse.jface.dialogs.ProgressMonitorDialog;
 import org.eclipse.jface.operation.IRunnableWithProgress;
 import org.eclipse.jface.window.Window;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.widgets.FileDialog;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swtchart.IAxis;
 import org.eclipse.swtchart.IAxisSet;
+import org.eclipse.swtchart.IBarSeries;
 import org.eclipse.swtchart.ILineSeries;
 import org.eclipse.swtchart.ISeries;
 import org.eclipse.swtchart.LineStyle;
@@ -58,6 +60,8 @@ public class SVGExportHandler extends AbstractSeriesExportHandler implements ISe
 	//
 	private static final String AXIS_X = "x"; //$NON-NLS-1$
 	private static final String AXIS_Y = "y"; //$NON-NLS-1$
+	//
+	// private static final Map<>
 
 	@Override
 	public String getName() {
@@ -126,7 +130,6 @@ public class SVGExportHandler extends AbstractSeriesExportHandler implements ISe
 											axisSettings.setAxisScaleConverterX(axisScaleConverterX);
 											axisSettings.setAxisSettingsY(axisSettingsY);
 											axisSettings.setAxisScaleConverterY(axisScaleConverterY);
-											axisSettings.setExportVisibleOnly(exportSettingsDialog.isExportVisibleOnly());
 											//
 											if(scrollableChart instanceof LineChart) {
 												printLinePlot(fileName, printWriter, scrollableChart, axisSettings);
@@ -150,6 +153,7 @@ public class SVGExportHandler extends AbstractSeriesExportHandler implements ISe
 										e.printStackTrace();
 									} finally {
 										monitor.done();
+										exportSettingsDialog.reset(baseChart);
 									}
 								}
 							});
@@ -165,6 +169,36 @@ public class SVGExportHandler extends AbstractSeriesExportHandler implements ISe
 		}
 	}
 
+	private String getColor(Color color) {
+
+		StringBuilder hex_color = new StringBuilder("#");
+		double r = (double)color.getRed();
+		double g = (double)color.getGreen();
+		double b = (double)color.getBlue();
+		double[] rgb = new double[]{r, g, b};
+		for(double x : rgb) {
+			double hex = 16.0d;
+			double div = x / hex;
+			int count = (int)div;
+			double rem = div - count;
+			rem = (int)(rem * hex);
+			char first, second;
+			if(count >= 10) {
+				first = (char)('a' + (count - 10));
+			} else {
+				first = (char)('0' + count);
+			}
+			if(rem >= 10) {
+				second = (char)('a' + (rem - 10));
+			} else {
+				second = (char)('0' + rem);
+			}
+			hex_color.append(first);
+			hex_color.append(second);
+		}
+		return hex_color.toString();
+	}
+
 	/*
 	 * Exports The LineSeries Chart to SVG via the Inkscape Template
 	 */
@@ -172,7 +206,6 @@ public class SVGExportHandler extends AbstractSeriesExportHandler implements ISe
 
 		IAxisSettings axisSettingsX = axisSettings.getAxisSettingsX();
 		IAxisSettings axisSettingsY = axisSettings.getAxisSettingsY();
-		boolean exportVisibleOnly = axisSettings.isExportVisibleOnly();
 		boolean isReversedX = axisSettingsX.isReversed();
 		boolean isReversedY = axisSettingsY.isReversed();
 		DecimalFormat formatX = axisSettingsX.getDecimalFormat();
@@ -263,35 +296,40 @@ public class SVGExportHandler extends AbstractSeriesExportHandler implements ISe
 				} else if(Pattern.matches(regex_legend, line)) {
 					double start1 = 100.5815;
 					double start2 = 102.06668;
-					String color[] = {"#000000", "#FF0000", "#0000FF", "#008000", "#808080", "#800080", "#FFFF00", "#A52A2A", "#FFC0CB", "#FFA500"};
 					StringBuilder out = new StringBuilder("");
-					for(int count = 0; count < series.length; count++) {
-						String col = color[count % 10];
-						/*
-						 * 6 taken just to keep appropriate distance between the Series names in the legend.
-						 */
-						double y1 = start1 + 6 * count;
-						double y2 = start2 + 6 * count;
-						String des = series[count].getDescription();
-						String split[] = legend.toString().split("\\n");
-						String match1 = ".*%y1-coordinate%.*";
-						String match2 = ".*%y2-coordinate%.*";
-						String match3 = ".*%COLOR%.*";
-						String match4 = ".*%SERIES A%.*";
-						for(String string : split) {
-							if(Pattern.matches(match1, string)) {
-								string = string.replace("%y1-coordinate%", String.valueOf(y1));
-							} else if(Pattern.matches(match2, string)) {
-								string = string.replace("%y2-coordinate%", String.valueOf(y2));
-							} else if(Pattern.matches(match3, string)) {
-								string = string.replace("%COLOR%", col);
-							} else if(Pattern.matches(match4, string)) {
-								string = string.replace("%SERIES A%", des);
+					int count = 0;
+					for(ISeries<?> serie : series) {
+						if(serie.isVisible()) {
+							ILineSeries<?> lineSerie = (ILineSeries<?>)serie;
+							Color color = lineSerie.getLineColor();
+							String col = getColor(color);
+							/*
+							 * 6 taken just to keep appropriate distance between the Series names in the legend.
+							 */
+							double y1 = start1 + 6 * count;
+							double y2 = start2 + 6 * count;
+							String des = serie.getDescription();
+							String split[] = legend.toString().split("\\n");
+							String match1 = ".*%y1-coordinate%.*";
+							String match2 = ".*%y2-coordinate%.*";
+							String match3 = ".*%COLOR%.*";
+							String match4 = ".*%SERIES A%.*";
+							for(String string : split) {
+								if(Pattern.matches(match1, string)) {
+									string = string.replace("%y1-coordinate%", String.valueOf(y1));
+								} else if(Pattern.matches(match2, string)) {
+									string = string.replace("%y2-coordinate%", String.valueOf(y2));
+								} else if(Pattern.matches(match3, string)) {
+									string = string.replace("%COLOR%", col);
+								} else if(Pattern.matches(match4, string)) {
+									string = string.replace("%SERIES A%", des);
+								}
+								out.append(string);
+								out.append("\n");
 							}
-							out.append(string);
 							out.append("\n");
+							count++;
 						}
-						out.append("\n");
 					}
 					line = line.replaceAll(regex_legend, out.toString());
 				} else if(Pattern.matches(axis_label, line)) {
@@ -368,26 +406,14 @@ public class SVGExportHandler extends AbstractSeriesExportHandler implements ISe
 					IAxisSet axisSet = baseChart.getAxisSet();
 					int index = 0;
 					for(ISeries<?> dataSeries : series) {
-						ILineSeries<?> lineSeries = (ILineSeries<?>)dataSeries;
-						LineStyle lineStyle = lineSeries.getLineStyle();
-						if(dataSeries != null) {
+						if(dataSeries != null && dataSeries.isVisible()) {
+							ILineSeries<?> lineSeries = (ILineSeries<?>)dataSeries;
+							LineStyle lineStyle = lineSeries.getLineStyle();
 							StringBuilder string = null;
 							if(lineStyle != LineStyle.NONE) {
-								if(exportVisibleOnly) {
-									if(dataSeries.isVisible()) {
-										string = printLineData(dataSeries, widthPlotArea, heightPlotArea, axisSettings, index++, printWriter, axisSet, isReversedX, isReversedY);
-									}
-								} else {
-									string = printLineData(dataSeries, widthPlotArea, heightPlotArea, axisSettings, index++, printWriter, axisSet, isReversedX, isReversedY);
-								}
+								string = printLineData(dataSeries, widthPlotArea, heightPlotArea, axisSettings, index++, printWriter, axisSet, isReversedX, isReversedY);
 							} else {
-								if(exportVisibleOnly) {
-									if(dataSeries.isVisible()) {
-										string = printScatterData(dataSeries, widthPlotArea, heightPlotArea, axisSettings, index++, printWriter, axisSet, isReversedX, isReversedY);
-									}
-								} else {
-									string = printScatterData(dataSeries, widthPlotArea, heightPlotArea, axisSettings, index++, printWriter, axisSet, isReversedX, isReversedY);
-								}
+								string = printScatterData(dataSeries, widthPlotArea, heightPlotArea, axisSettings, index++, printWriter, axisSet, isReversedX, isReversedY);
 							}
 							out.append(string);
 						}
@@ -408,7 +434,9 @@ public class SVGExportHandler extends AbstractSeriesExportHandler implements ISe
 
 		StringBuilder out = new StringBuilder("");
 		StringBuilder data = new StringBuilder("<path\n" + "               style=\"fill:none;stroke:%COLOR%;stroke-width:0.45888707;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1\"\n" + "               d=\"M %DATA POINTS%\"\n" + "               id=\"path1740\"\n" + "               inkscape:connector-curvature=\"0\" />");
-		String color[] = {"#000000", "#FF0000", "#0000FF", "#008000", "#808080", "#800080", "#FFFF00", "#A52A2A", "#FFC0CB", "#FFA500"};
+		ILineSeries<?> lineSeries = (ILineSeries<?>)dataSeries;
+		Color lineColor = lineSeries.getLineColor();
+		String color = getColor(lineColor);
 		int indexAxisX = axisSettings.getIndexAxisX();
 		int indexAxisY = axisSettings.getIndexAxisY();
 		IAxisScaleConverter axisScaleConverterX = axisSettings.getAxisScaleConverterX();
@@ -423,7 +451,7 @@ public class SVGExportHandler extends AbstractSeriesExportHandler implements ISe
 		String match2 = ".*%DATA POINTS%.*";
 		for(String string : split) {
 			if(Pattern.matches(match1, string)) {
-				string = string.replace("%COLOR%", color[index % 10]);
+				string = string.replace("%COLOR%", color);
 			} else if(Pattern.matches(match2, string)) {
 				StringBuilder rep = new StringBuilder("");
 				for(int i = 0; i < size; i++) {
@@ -515,7 +543,6 @@ public class SVGExportHandler extends AbstractSeriesExportHandler implements ISe
 
 		IAxisSettings axisSettingsX = axisSettings.getAxisSettingsX();
 		IAxisSettings axisSettingsY = axisSettings.getAxisSettingsY();
-		boolean exportVisibleOnly = axisSettings.isExportVisibleOnly();
 		boolean isReversedX = axisSettingsX.isReversed();
 		boolean isReversedY = axisSettingsY.isReversed();
 		DecimalFormat formatX = axisSettingsX.getDecimalFormat();
@@ -606,32 +633,40 @@ public class SVGExportHandler extends AbstractSeriesExportHandler implements ISe
 				} else if(Pattern.matches(regex_legend, line)) {
 					double start1 = 100.5815;
 					double start2 = 102.06668;
-					String color[] = {"#FF0000", "#000000", "#0000FF", "#008000", "#808080", "#800080", "#FFFF00", "#A52A2A", "#FFC0CB", "#FFA500"};
 					StringBuilder out = new StringBuilder("");
-					for(int count = 0; count < series.length; count++) {
-						String col = color[count % 10];
-						double y1 = start1 + 6 * count;
-						double y2 = start2 + 6 * count;
-						String des = series[count].getDescription();
-						String split[] = legend.toString().split("\\n");
-						String match1 = ".*%y1-coordinate%.*";
-						String match2 = ".*%y2-coordinate%.*";
-						String match3 = ".*%COLOR%.*";
-						String match4 = ".*%SERIES A%.*";
-						for(String string : split) {
-							if(Pattern.matches(match1, string)) {
-								string = string.replace("%y1-coordinate%", String.valueOf(y1));
-							} else if(Pattern.matches(match2, string)) {
-								string = string.replace("%y2-coordinate%", String.valueOf(y2));
-							} else if(Pattern.matches(match3, string)) {
-								string = string.replace("%COLOR%", col);
-							} else if(Pattern.matches(match4, string)) {
-								string = string.replace("%SERIES A%", des);
+					int count = 0;
+					for(ISeries<?> serie : series) {
+						if(serie.isVisible()) {
+							IBarSeries<?> barSerie = (IBarSeries<?>)serie;
+							Color color = barSerie.getBarColor();
+							String col = getColor(color);
+							/*
+							 * 6 taken just to keep appropriate distance between the Series names in the legend.
+							 */
+							double y1 = start1 + 6 * count;
+							double y2 = start2 + 6 * count;
+							String des = serie.getDescription();
+							String split[] = legend.toString().split("\\n");
+							String match1 = ".*%y1-coordinate%.*";
+							String match2 = ".*%y2-coordinate%.*";
+							String match3 = ".*%COLOR%.*";
+							String match4 = ".*%SERIES A%.*";
+							for(String string : split) {
+								if(Pattern.matches(match1, string)) {
+									string = string.replace("%y1-coordinate%", String.valueOf(y1));
+								} else if(Pattern.matches(match2, string)) {
+									string = string.replace("%y2-coordinate%", String.valueOf(y2));
+								} else if(Pattern.matches(match3, string)) {
+									string = string.replace("%COLOR%", col);
+								} else if(Pattern.matches(match4, string)) {
+									string = string.replace("%SERIES A%", des);
+								}
+								out.append(string);
+								out.append("\n");
 							}
-							out.append(string);
 							out.append("\n");
+							count++;
 						}
-						out.append("\n");
 					}
 					line = line.replaceAll(regex_legend, out.toString());
 				} else if(Pattern.matches(axis_label, line)) {
@@ -708,15 +743,8 @@ public class SVGExportHandler extends AbstractSeriesExportHandler implements ISe
 					IAxisSet axisSet = baseChart.getAxisSet();
 					int index = 0;
 					for(ISeries<?> dataSeries : series) {
-						if(dataSeries != null) {
-							StringBuilder string = null;
-							if(exportVisibleOnly) {
-								if(dataSeries.isVisible()) {
-									string = printBarData(dataSeries, widthPlotArea, heightPlotArea, axisSettings, index++, printWriter, axisSet, isReversedX, isReversedY);
-								}
-							} else {
-								string = printBarData(dataSeries, widthPlotArea, heightPlotArea, axisSettings, index++, printWriter, axisSet, isReversedX, isReversedY);
-							}
+						if(dataSeries != null && dataSeries.isVisible()) {
+							StringBuilder string = printBarData(dataSeries, widthPlotArea, heightPlotArea, axisSettings, index++, printWriter, axisSet, isReversedX, isReversedY);
 							out.append(string);
 						}
 					}
@@ -737,7 +765,9 @@ public class SVGExportHandler extends AbstractSeriesExportHandler implements ISe
 		StringBuilder out = new StringBuilder("");
 		/* BarSeries to be added to the template during export */
 		StringBuilder data = new StringBuilder("<rect\n" + "         style=\"opacity:1;fill:%COLOR%;fill-opacity:1;stroke:none;stroke-width:0.96499991;stroke-linecap:square;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1\"\n" + "         id=\"rect901\"\n" + "         width=\"1\"\n" + "         height=\"%height%\"\n" + "         x=\"%x-coordinate%\"\n" + "         y=\"%y-coordinate%\"\n" + "         ry=\"0\" />");
-		String color[] = {"#FF0000", "#000000", "#0000FF", "#008000", "#808080", "#800080", "#FFFF00", "#A52A2A", "#FFC0CB", "#FFA500"};
+		IBarSeries<?> barSeries = (IBarSeries<?>)dataSeries;
+		Color barColor = barSeries.getBarColor();
+		String color = getColor(barColor);
 		int indexAxisX = axisSettings.getIndexAxisX();
 		int indexAxisY = axisSettings.getIndexAxisY();
 		IAxisScaleConverter axisScaleConverterX = axisSettings.getAxisScaleConverterX();
@@ -806,7 +836,7 @@ public class SVGExportHandler extends AbstractSeriesExportHandler implements ISe
 				}
 				for(String string : split) {
 					if(Pattern.matches(match1, string)) {
-						string = string.replace("%COLOR%", color[index % 10]);
+						string = string.replace("%COLOR%", color);
 					} else if(Pattern.matches(match2, string)) {
 						string = string.replace("%x-coordinate%", String.valueOf(newX));
 					} else if(Pattern.matches(match3, string)) {
@@ -902,7 +932,6 @@ public class SVGExportHandler extends AbstractSeriesExportHandler implements ISe
 
 		IAxisSettings axisSettingsX = axisSettings.getAxisSettingsX();
 		IAxisSettings axisSettingsY = axisSettings.getAxisSettingsY();
-		boolean exportVisibleOnly = axisSettings.isExportVisibleOnly();
 		boolean isReversedX = axisSettingsX.isReversed();
 		boolean isReversedY = axisSettingsY.isReversed();
 		DecimalFormat formatX = axisSettingsX.getDecimalFormat();
@@ -974,7 +1003,6 @@ public class SVGExportHandler extends AbstractSeriesExportHandler implements ISe
 						} else {
 							y = ((start - height) + (height - ((upper - yTicks[count]) / (upper - lower) * height)));
 						}
-						System.out.println(y);
 						for(String string : split) {
 							if(Pattern.matches(match1, string)) {
 								string = string.replace("%y-coordinate%", String.valueOf(y));
@@ -994,32 +1022,40 @@ public class SVGExportHandler extends AbstractSeriesExportHandler implements ISe
 				} else if(Pattern.matches(regex_legend, line)) {
 					double start1 = 100.5815;
 					double start2 = 102.06668;
-					String color[] = {"#FF0000", "#000000", "#0000FF", "#008000", "#808080", "#800080", "#FFFF00", "#A52A2A", "#FFC0CB", "#FFA500"};
 					StringBuilder out = new StringBuilder("");
-					for(int count = 0; count < series.length; count++) {
-						String col = color[count % 10];
-						double y1 = start1 + 6 * count;
-						double y2 = start2 + 6 * count;
-						String des = series[count].getDescription();
-						String split[] = legend.toString().split("\\n");
-						String match1 = ".*%y1-coordinate%.*";
-						String match2 = ".*%y2-coordinate%.*";
-						String match3 = ".*%COLOR%.*";
-						String match4 = ".*%SERIES A%.*";
-						for(String string : split) {
-							if(Pattern.matches(match1, string)) {
-								string = string.replace("%y1-coordinate%", String.valueOf(y1));
-							} else if(Pattern.matches(match2, string)) {
-								string = string.replace("%y2-coordinate%", String.valueOf(y2));
-							} else if(Pattern.matches(match3, string)) {
-								string = string.replace("%COLOR%", col);
-							} else if(Pattern.matches(match4, string)) {
-								string = string.replace("%SERIES A%", des);
+					int count = 0;
+					for(ISeries<?> serie : series) {
+						if(serie.isVisible()) {
+							ILineSeries<?> lineSerie = (ILineSeries<?>)serie;
+							Color color = lineSerie.getSymbolColor();
+							String col = getColor(color);
+							/*
+							 * 6 taken just to keep appropriate distance between the Series names in the legend.
+							 */
+							double y1 = start1 + 6 * count;
+							double y2 = start2 + 6 * count;
+							String des = serie.getDescription();
+							String split[] = legend.toString().split("\\n");
+							String match1 = ".*%y1-coordinate%.*";
+							String match2 = ".*%y2-coordinate%.*";
+							String match3 = ".*%COLOR%.*";
+							String match4 = ".*%SERIES A%.*";
+							for(String string : split) {
+								if(Pattern.matches(match1, string)) {
+									string = string.replace("%y1-coordinate%", String.valueOf(y1));
+								} else if(Pattern.matches(match2, string)) {
+									string = string.replace("%y2-coordinate%", String.valueOf(y2));
+								} else if(Pattern.matches(match3, string)) {
+									string = string.replace("%COLOR%", col);
+								} else if(Pattern.matches(match4, string)) {
+									string = string.replace("%SERIES A%", des);
+								}
+								out.append(string);
+								out.append("\n");
 							}
-							out.append(string);
 							out.append("\n");
+							count++;
 						}
-						out.append("\n");
 					}
 					line = line.replaceAll(regex_legend, out.toString());
 				} else if(Pattern.matches(axis_label, line)) {
@@ -1096,15 +1132,8 @@ public class SVGExportHandler extends AbstractSeriesExportHandler implements ISe
 					IAxisSet axisSet = baseChart.getAxisSet();
 					int index = 0;
 					for(ISeries<?> dataSeries : series) {
-						if(dataSeries != null) {
-							StringBuilder string = null;
-							if(exportVisibleOnly) {
-								if(dataSeries.isVisible()) {
-									string = printScatterData(dataSeries, widthPlotArea, heightPlotArea, axisSettings, index++, printWriter, axisSet, isReversedX, isReversedY);
-								}
-							} else {
-								string = printScatterData(dataSeries, widthPlotArea, heightPlotArea, axisSettings, index++, printWriter, axisSet, isReversedX, isReversedY);
-							}
+						if(dataSeries != null && dataSeries.isVisible()) {
+							StringBuilder string = printScatterData(dataSeries, widthPlotArea, heightPlotArea, axisSettings, index++, printWriter, axisSet, isReversedX, isReversedY);
 							out.append(string);
 						}
 					}
@@ -1121,7 +1150,9 @@ public class SVGExportHandler extends AbstractSeriesExportHandler implements ISe
 
 		StringBuilder out = new StringBuilder("");
 		StringBuilder data = new StringBuilder("<circle\n" + "         style=\"opacity:1;fill:%COLOR%;fill-opacity:1;stroke:none;stroke-width:0.96499991;stroke-linecap:square;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1\"\n" + "         id=\"rect901\"\n" + "	 cx=\"%x-coordinate%\"\n" + "	 cy=\"%y-coordinate%\"\n" + "	 r=\"1\" />");
-		String color[] = {"#FF0000", "#000000", "#0000FF", "#008000", "#808080", "#800080", "#FFFF00", "#A52A2A", "#FFC0CB", "#FFA500"};
+		ILineSeries<?> lineSerie = (ILineSeries<?>)dataSeries;
+		Color lineColor = lineSerie.getSymbolColor();
+		String color = getColor(lineColor);
 		int indexAxisX = axisSettings.getIndexAxisX();
 		int indexAxisY = axisSettings.getIndexAxisY();
 		IAxisScaleConverter axisScaleConverterX = axisSettings.getAxisScaleConverterX();
@@ -1145,7 +1176,7 @@ public class SVGExportHandler extends AbstractSeriesExportHandler implements ISe
 				double y = Double.parseDouble(printValueScatterPlot(AXIS_Y, index, printWriter, ySeries[i], indexAxisY, axisSet, BaseChart.ID_PRIMARY_Y_AXIS, axisScaleConverterY, isReversedX, isReversedY));
 				for(String string : split) {
 					if(Pattern.matches(match1, string)) {
-						string = string.replace("%COLOR%", color[index % 10]);
+						string = string.replace("%COLOR%", color);
 					} else if(Pattern.matches(match2, string)) {
 						string = string.replace("%x-coordinate%", String.valueOf(x));
 					} else if(Pattern.matches(match3, string)) {

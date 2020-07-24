@@ -102,7 +102,6 @@ public abstract class AbstractSeparatedValueHandler extends AbstractSeriesExport
 						/*
 						 * Axis settings.
 						 */
-						boolean exportVisibleOnly = exportSettingsDialog.isExportVisibleOnly();
 						AxisSettings axisSettings = new AxisSettings();
 						axisSettings.setIndexAxisX(indexAxisX);
 						axisSettings.setIndexAxisY(indexAxisY);
@@ -110,21 +109,14 @@ public abstract class AbstractSeparatedValueHandler extends AbstractSeriesExport
 						axisSettings.setAxisScaleConverterX(axisScaleConverterX);
 						axisSettings.setAxisSettingsY(axisSettingsY);
 						axisSettings.setAxisScaleConverterY(axisScaleConverterY);
-						axisSettings.setExportVisibleOnly(exportVisibleOnly);
 						/*
 						 * Data
 						 */
 						int widthPlotArea = baseChart.getPlotArea().getSize().x;
 						ISeries<?>[] series = baseChart.getSeriesSet().getSeries();
 						for(ISeries<?> dataSeries : series) {
-							if(dataSeries != null) {
-								if(exportVisibleOnly) {
-									if(dataSeries.isVisible()) {
-										exportSeries(dataSeries, widthPlotArea, axisSettings, printWriter);
-									}
-								} else {
-									exportSeries(dataSeries, widthPlotArea, axisSettings, printWriter);
-								}
+							if(dataSeries != null && dataSeries.isVisible()) {
+								exportSeries(dataSeries, widthPlotArea, axisSettings, printWriter);
 							}
 						}
 						//
@@ -136,6 +128,7 @@ public abstract class AbstractSeparatedValueHandler extends AbstractSeriesExport
 					} finally {
 						if(printWriter != null) {
 							printWriter.close();
+							exportSettingsDialog.reset(baseChart);
 						}
 					}
 				}

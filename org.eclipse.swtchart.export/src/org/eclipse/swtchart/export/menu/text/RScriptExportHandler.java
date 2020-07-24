@@ -113,7 +113,6 @@ public class RScriptExportHandler extends AbstractSeriesExportHandler implements
 						axisSettings.setAxisScaleConverterX(axisScaleConverterX);
 						axisSettings.setAxisSettingsY(axisSettingsY);
 						axisSettings.setAxisScaleConverterY(axisScaleConverterY);
-						axisSettings.setExportVisibleOnly(exportSettingsDialog.isExportVisibleOnly());
 						//
 						if(scrollableChart instanceof LineChart) {
 							printLinePlot(fileName, printWriter, scrollableChart, axisSettings);
@@ -133,6 +132,7 @@ public class RScriptExportHandler extends AbstractSeriesExportHandler implements
 					} finally {
 						if(printWriter != null) {
 							printWriter.close();
+							exportSettingsDialog.reset(baseChart);
 						}
 					}
 				}
@@ -144,7 +144,6 @@ public class RScriptExportHandler extends AbstractSeriesExportHandler implements
 
 		IAxisSettings axisSettingsX = axisSettings.getAxisSettingsX();
 		IAxisSettings axisSettingsY = axisSettings.getAxisSettingsY();
-		boolean exportVisibleOnly = axisSettings.isExportVisibleOnly();
 		//
 		BaseChart baseChart = scrollableChart.getBaseChart();
 		ISeries<?>[] series = baseChart.getSeriesSet().getSeries();
@@ -155,7 +154,7 @@ public class RScriptExportHandler extends AbstractSeriesExportHandler implements
 		/*
 		 * Header
 		 */
-		int seriesSize = getSeriesSize(series, exportVisibleOnly);
+		int seriesSize = getSeriesSize(series);
 		printWriter.println("# Header"); //$NON-NLS-1$
 		printWriter.println("xValueList<-vector(\"list\", " + seriesSize + ")"); //$NON-NLS-1$ //$NON-NLS-2$
 		printWriter.println("yValueList<-vector(\"list\", " + seriesSize + ")"); //$NON-NLS-1$ //$NON-NLS-2$
@@ -167,14 +166,8 @@ public class RScriptExportHandler extends AbstractSeriesExportHandler implements
 		int widthPlotArea = baseChart.getPlotArea().getSize().x;
 		int index = 1;
 		for(ISeries<?> dataSeries : series) {
-			if(dataSeries != null) {
-				if(exportVisibleOnly) {
-					if(dataSeries.isVisible()) {
-						printLineData(dataSeries, widthPlotArea, axisSettings, index++, printWriter);
-					}
-				} else {
-					printLineData(dataSeries, widthPlotArea, axisSettings, index++, printWriter);
-				}
+			if(dataSeries != null && dataSeries.isVisible()) {
+				printLineData(dataSeries, widthPlotArea, axisSettings, index++, printWriter);
 			}
 		}
 		printWriter.println(""); //$NON-NLS-1$
@@ -211,7 +204,7 @@ public class RScriptExportHandler extends AbstractSeriesExportHandler implements
 		k = 0;
 		size = series.length;
 		for(ISeries<?> dataSeries : series) {
-			if(dataSeries != null) {
+			if(dataSeries != null && dataSeries.isVisible()) {
 				printWriter.print("			'Series " + dataSeries.getDescription() + "'"); //$NON-NLS-1$ //$NON-NLS-2$
 				if(k < size - 1) {
 					printWriter.print(","); //$NON-NLS-1$
@@ -225,7 +218,7 @@ public class RScriptExportHandler extends AbstractSeriesExportHandler implements
 		k = 0;
 		size = series.length;
 		for(ISeries<?> dataSeries : series) {
-			if(dataSeries != null) {
+			if(dataSeries != null && dataSeries.isVisible()) {
 				printWriter.print("			colorList[(" + (k + 1) + "+8)%%9+1]"); //$NON-NLS-1$ //$NON-NLS-2$
 				if(k < size - 1) {
 					printWriter.print(","); //$NON-NLS-1$
@@ -286,7 +279,6 @@ public class RScriptExportHandler extends AbstractSeriesExportHandler implements
 
 		IAxisSettings axisSettingsX = axisSettings.getAxisSettingsX();
 		IAxisSettings axisSettingsY = axisSettings.getAxisSettingsY();
-		boolean exportVisibleOnly = axisSettings.isExportVisibleOnly();
 		//
 		BaseChart baseChart = scrollableChart.getBaseChart();
 		ISeries<?>[] series = baseChart.getSeriesSet().getSeries();
@@ -306,14 +298,8 @@ public class RScriptExportHandler extends AbstractSeriesExportHandler implements
 		printWriter.println("# Data"); //$NON-NLS-1$
 		int widthPlotArea = baseChart.getPlotArea().getSize().x;
 		for(ISeries<?> dataSeries : series) {
-			if(dataSeries != null) {
-				if(exportVisibleOnly) {
-					if(dataSeries.isVisible()) {
-						printBarData(dataSeries, widthPlotArea, axisSettings, printWriter);
-					}
-				} else {
-					printBarData(dataSeries, widthPlotArea, axisSettings, printWriter);
-				}
+			if(dataSeries != null && dataSeries.isVisible()) {
+				printBarData(dataSeries, widthPlotArea, axisSettings, printWriter);
 			}
 		}
 		printWriter.println(""); //$NON-NLS-1$
@@ -374,7 +360,6 @@ public class RScriptExportHandler extends AbstractSeriesExportHandler implements
 
 		IAxisSettings axisSettingsX = axisSettings.getAxisSettingsX();
 		IAxisSettings axisSettingsY = axisSettings.getAxisSettingsY();
-		boolean exportVisibleOnly = axisSettings.isExportVisibleOnly();
 		//
 		BaseChart baseChart = scrollableChart.getBaseChart();
 		ISeries<?>[] series = baseChart.getSeriesSet().getSeries();
@@ -396,14 +381,8 @@ public class RScriptExportHandler extends AbstractSeriesExportHandler implements
 		printWriter.println("# Data"); //$NON-NLS-1$
 		int widthPlotArea = baseChart.getPlotArea().getSize().x;
 		for(ISeries<?> dataSeries : series) {
-			if(dataSeries != null) {
-				if(exportVisibleOnly) {
-					if(dataSeries.isVisible()) {
-						printScatterData(dataSeries, widthPlotArea, axisSettings, printWriter);
-					}
-				} else {
-					printScatterData(dataSeries, widthPlotArea, axisSettings, printWriter);
-				}
+			if(dataSeries != null && dataSeries.isVisible()) {
+				printScatterData(dataSeries, widthPlotArea, axisSettings, printWriter);
 			}
 		}
 		printWriter.println(""); //$NON-NLS-1$
@@ -467,7 +446,6 @@ public class RScriptExportHandler extends AbstractSeriesExportHandler implements
 
 		IAxisSettings axisSettingsX = axisSettings.getAxisSettingsX();
 		IAxisSettings axisSettingsY = axisSettings.getAxisSettingsY();
-		boolean exportVisibleOnly = axisSettings.isExportVisibleOnly();
 		//
 		BaseChart baseChart = scrollableChart.getBaseChart();
 		ISeries<?>[] series = baseChart.getSeriesSet().getSeries();
@@ -478,7 +456,7 @@ public class RScriptExportHandler extends AbstractSeriesExportHandler implements
 		/*
 		 * Header
 		 */
-		int seriesSize = getSeriesSize(series, exportVisibleOnly);
+		int seriesSize = getSeriesSize(series);
 		printWriter.println("# Header"); //$NON-NLS-1$
 		printWriter.println("xValueList<-vector(\"list\", " + seriesSize + ")"); //$NON-NLS-1$ //$NON-NLS-2$
 		printWriter.println("yValueList<-vector(\"list\", " + seriesSize + ")"); //$NON-NLS-1$ //$NON-NLS-2$
@@ -490,14 +468,8 @@ public class RScriptExportHandler extends AbstractSeriesExportHandler implements
 		int widthPlotArea = baseChart.getPlotArea().getSize().x;
 		int index = 1;
 		for(ISeries<?> dataSeries : series) {
-			if(dataSeries != null) {
-				if(exportVisibleOnly) {
-					if(dataSeries.isVisible()) {
-						printLineData(dataSeries, widthPlotArea, axisSettings, index++, printWriter);
-					}
-				} else {
-					printLineData(dataSeries, widthPlotArea, axisSettings, index++, printWriter);
-				}
+			if(dataSeries != null && dataSeries.isVisible()) {
+				printLineData(dataSeries, widthPlotArea, axisSettings, index++, printWriter);
 			}
 		}
 		printWriter.println(""); //$NON-NLS-1$
@@ -534,7 +506,7 @@ public class RScriptExportHandler extends AbstractSeriesExportHandler implements
 		k = 0;
 		size = series.length;
 		for(ISeries<?> dataSeries : series) {
-			if(dataSeries != null) {
+			if(dataSeries != null && dataSeries.isVisible()) {
 				printWriter.print("			'" + dataSeries.getDescription() + "'"); //$NON-NLS-1$ //$NON-NLS-2$
 				if(k < size - 1) {
 					printWriter.print(","); //$NON-NLS-1$
@@ -548,7 +520,7 @@ public class RScriptExportHandler extends AbstractSeriesExportHandler implements
 		k = 0;
 		size = series.length;
 		for(ISeries<?> dataSeries : series) {
-			if(dataSeries != null) {
+			if(dataSeries != null && dataSeries.isVisible()) {
 				printWriter.print("			colorList[(" + (k + 1) + "+8)%%9+1]"); //$NON-NLS-1$ //$NON-NLS-2$
 				if(k < size - 1) {
 					printWriter.print(","); //$NON-NLS-1$
@@ -571,16 +543,12 @@ public class RScriptExportHandler extends AbstractSeriesExportHandler implements
 		printWriter.println(""); //$NON-NLS-1$
 	}
 
-	private int getSeriesSize(ISeries<?>[] series, boolean isExportVisibleOnly) {
+	private int getSeriesSize(ISeries<?>[] series) {
 
 		int counter = 0;
 		for(ISeries<?> dataSeries : series) {
 			if(dataSeries != null) {
-				if(isExportVisibleOnly) {
-					if(dataSeries.isVisible()) {
-						counter++;
-					}
-				} else {
+				if(dataSeries.isVisible()) {
 					counter++;
 				}
 			}
