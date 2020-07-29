@@ -25,7 +25,6 @@ import org.eclipse.swtchart.extensions.core.IExtendedChart;
 import org.eclipse.swtchart.extensions.marker.AbstractPositionPaintListener;
 import org.eclipse.swtchart.extensions.marker.IPositionPaintListener;
 import org.eclipse.swtchart.internal.series.CircularSeries;
-import org.eclipse.swtchart.internal.series.Pie;
 import org.eclipse.swtchart.model.Node;
 
 public class LegendMarker extends AbstractPositionPaintListener implements IPositionPaintListener {
@@ -76,21 +75,7 @@ public class LegendMarker extends AbstractPositionPaintListener implements IPosi
 
 	private void drawNodes(double primaryValueX, double primaryValueY, CircularSeries series) {
 
-		double radius = Math.sqrt(primaryValueX * primaryValueX + primaryValueY * primaryValueY);
-		int level = ((int)radius) + 1 - (series instanceof Pie ? 0 : 1);
-		Node node = null;
-		double angleOfInspection = Math.atan2(primaryValueY, primaryValueX);
-		if(angleOfInspection < 0.0)
-			angleOfInspection += 2 * Math.PI;
-		if(level < series.getModel().getNodes().length)
-			for(Node noda : series.getModel().getNodes()[level]) {
-				double lowerBound = (noda.getAngleBounds().x * Math.PI) / (double)180.0;
-				double upperBound = ((noda.getAngleBounds().x + noda.getAngleBounds().y) * Math.PI) / (double)180.0;
-				if((lowerBound <= angleOfInspection) && (upperBound >= angleOfInspection)) {
-					node = noda;
-					break;
-				}
-			}
+		Node node = series.getPieSliceFromPosition(primaryValueX, primaryValueY);
 		String id = "---", val = "---", percentage = "---";
 		if(node != null) {
 			id = node.getId();

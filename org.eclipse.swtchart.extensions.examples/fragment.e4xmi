@@ -8,7 +8,6 @@
             <children xsi:type="basic:Part" xmi:id="_e5PlkFKeEee9KdU-PVJmHw" elementId="org.eclipse.swtchart.extensions.examples.part.lineseries2" contributionURI="bundleclass://org.eclipse.swtchart.extensions.examples/org.eclipse.swtchart.extensions.examples.parts.LineSeries_2_Part" label="Line Series 2" iconURI="platform:/plugin/org.eclipse.swtchart.extensions.examples/icons/swtchart.gif"/>
             <children xsi:type="basic:Part" xmi:id="_RY_QkFvpEeefC5_PD_lHmw" elementId="org.eclipse.swtchart.extensions.examples.part.lineseries5" contributionURI="bundleclass://org.eclipse.swtchart.extensions.examples/org.eclipse.swtchart.extensions.examples.parts.LineSeries_5_Part" label="Line Series 5" iconURI="platform:/plugin/org.eclipse.swtchart.extensions.examples/icons/swtchart.gif"/>
             <children xsi:type="basic:Part" xmi:id="_TUFgYGViEee3gaHlavhwaA" elementId="org.eclipse.swtchart.extensions.examples.part.lineseries6" contributionURI="bundleclass://org.eclipse.swtchart.extensions.examples/org.eclipse.swtchart.extensions.examples.parts.LineSeries_6_Part" label="Line Series 6" iconURI="platform:/plugin/org.eclipse.swtchart.extensions.examples/icons/swtchart.gif"/>
-            <children xsi:type="basic:Part" xmi:id="_GI2wIMG9EeqpR6SLV6NH5A" elementId="org.eclipse.swtchart.extensions.examples.part.simple" contributionURI="bundleclass://org.eclipse.swtchart.extensions.examples/org.eclipse.swtchart.extensions.examples.parts.SimplePieChart" label="Pie Chart" iconURI="platform:/plugin/org.eclipse.swtchart.extensions.examples/icons/swtchart.gif"/>
           </children>
           <children xsi:type="basic:PartStack" xmi:id="_2Z6CoLzoEeq8Z5UVJV3IcA" elementId="org.eclipse.swtchart.extensions.examples.partstack.18">
             <children xsi:type="basic:Part" xmi:id="_9lgGoLzoEeq8Z5UVJV3IcA" elementId="org.eclipse.swtchart.extensions.examples.part.lineseries1" contributionURI="bundleclass://org.eclipse.swtchart.extensions.examples/org.eclipse.swtchart.extensions.examples.parts.LineSeries_1_Part" label="Line Series 1" iconURI="platform:/plugin/org.eclipse.swtchart.extensions.examples/icons/swtchart.gif"/>
@@ -121,6 +120,18 @@
       <children xsi:type="basic:PartSashContainer" xmi:id="_qk9jYJeKEee0UIXngt5SPA" elementId="org.eclipse.swtchart.extensions.examples.partsashcontainer.14">
         <children xsi:type="basic:PartStack" xmi:id="_w7rN0JeKEee0UIXngt5SPA" elementId="org.eclipse.swtchart.extensions.examples.partstack.17">
           <children xsi:type="basic:Part" xmi:id="_CqarAJeMEee0UIXngt5SPA" elementId="org.eclipse.swtchart.extensions.examples.part.lineseriesselection" contributionURI="bundleclass://org.eclipse.swtchart.extensions.examples/org.eclipse.swtchart.extensions.examples.parts.LineSeries_Selection_Part" label="LineSeries Selection" iconURI="platform:/plugin/org.eclipse.swtchart.extensions.examples/icons/swtchart.gif"/>
+        </children>
+      </children>
+    </elements>
+    <elements xsi:type="advanced:Perspective" xmi:id="_XfAK4NDXEeqhDPrxlDyw8w" elementId="org.eclipse.swtchart.extensions.examples.perspective.demo-swtchartextensionscircularcharts" label="Demo-SWTChart Extensions (Circular Charts)">
+      <children xsi:type="basic:PartSashContainer" xmi:id="_oSxqENDXEeqhDPrxlDyw8w" elementId="org.eclipse.swtchart.extensions.examples.partsashcontainer.15">
+        <children xsi:type="basic:PartSashContainer" xmi:id="_rk9zkNDXEeqhDPrxlDyw8w" elementId="org.eclipse.swtchart.extensions.examples.partsashcontainer.16" horizontal="true">
+          <children xsi:type="basic:PartStack" xmi:id="_sSAfwNDXEeqhDPrxlDyw8w" elementId="org.eclipse.swtchart.extensions.examples.partstack.19">
+            <children xsi:type="basic:Part" xmi:id="_tOA1ANDXEeqhDPrxlDyw8w" elementId="org.eclipse.swtchart.extensions.examples.part.simplepiechart" contributionURI="bundleclass://org.eclipse.swtchart.extensions.examples/org.eclipse.swtchart.extensions.examples.parts.SimplePieChart" label="Simple Pie Chart"/>
+          </children>
+          <children xsi:type="basic:PartStack" xmi:id="_J4ChwNDeEeqhDPrxlDyw8w" elementId="org.eclipse.swtchart.extensions.examples.partstack.20">
+            <children xsi:type="basic:Part" xmi:id="_DO_RgNDbEeqhDPrxlDyw8w" elementId="org.eclipse.swtchart.extensions.examples.part.highlightedpiechart" contributionURI="bundleclass://org.eclipse.swtchart.extensions.examples/org.eclipse.swtchart.extensions.examples.parts.HighlightedPieChart_Part" label="HighLighted Pie Chart"/>
+          </children>
         </children>
       </children>
     </elements>

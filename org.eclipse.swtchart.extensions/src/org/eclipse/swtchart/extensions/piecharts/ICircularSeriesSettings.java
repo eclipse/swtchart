@@ -36,4 +36,12 @@ public interface ICircularSeriesSettings {
 	public void setDescription(String id);
 
 	public String getDescription();
+
+	public void setRedrawOnClick(boolean redraw);
+
+	public boolean isRedrawOnClick();
+
+	public void setHighlightLineWidth(int width);
+
+	public int getHighlightLineWidth();
 }
