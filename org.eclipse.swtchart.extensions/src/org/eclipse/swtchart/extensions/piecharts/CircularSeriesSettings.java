@@ -23,14 +23,18 @@ public class CircularSeriesSettings extends AbstractSeriesSettings implements IC
 
 	private Color borderColor;
 	private int borderWidth;
+	private int highlightLineWidth;
 	private int borderStyle;
 	private SeriesType type;
+	private boolean redrawOnClick;
 
 	public CircularSeriesSettings() {
 
 		borderColor = Display.getDefault().getSystemColor(SWT.COLOR_BLACK);
 		borderWidth = 1;
+		highlightLineWidth = 2;
 		borderStyle = SWT.LINE_SOLID;
+		redrawOnClick = true;
 		type = SeriesType.PIE;
 	}
 
@@ -86,5 +90,29 @@ public class CircularSeriesSettings extends AbstractSeriesSettings implements IC
 	public SeriesType getSeriesType() {
 
 		return type;
+	}
+
+	@Override
+	public void setRedrawOnClick(boolean redraw) {
+
+		this.redrawOnClick = redraw;
+	}
+
+	@Override
+	public boolean isRedrawOnClick() {
+
+		return redrawOnClick;
+	}
+
+	@Override
+	public void setHighlightLineWidth(int width) {
+
+		this.highlightLineWidth = width;
+	}
+
+	@Override
+	public int getHighlightLineWidth() {
+
+		return highlightLineWidth;
 	}
 }

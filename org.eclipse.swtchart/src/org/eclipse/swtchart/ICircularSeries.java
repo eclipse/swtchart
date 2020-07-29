@@ -154,4 +154,46 @@ public interface ICircularSeries extends ISeries {
 	 * @return the number of levels the data model has.
 	 */
 	public int getMaxTreeDepth();
+
+	/**
+	 * Call to this function happens when the node where an
+	 * event fired does not have to redraw the entire chart.
+	 */
+	public void setHighlightedNode(Node highlightedNode);
+
+	/** gets the node to highlight */
+	public Node getHighlightedNode();
+
+	/**
+	 * sets the border color for the node to be highlighted.
+	 * 
+	 * @param color
+	 */
+	public void setHighlightColor(Color color);
+
+	/**
+	 * 
+	 * @param primaryValueX
+	 * @param primaryValueY
+	 * @return
+	 */
+	public Node getPieSliceFromPosition(double primaryValueX, double primaryValueY);
+
+	/**
+	 * 
+	 * @param id
+	 * @return the percent that the pie slice is compared to the rootPointer
+	 */
+	public double getSlicePercent(String id);
+
+	/**
+	 * x and y are in pixels
+	 * 
+	 * @param x
+	 * @param y
+	 * @return
+	 */
+	public Node getPieSliceFromPosition(int x, int y);
+
+	void setHighlightLineWidth(int width);
 }

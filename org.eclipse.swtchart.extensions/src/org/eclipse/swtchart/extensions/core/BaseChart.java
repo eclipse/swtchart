@@ -45,6 +45,7 @@ import org.eclipse.swtchart.Range;
 import org.eclipse.swtchart.extensions.barcharts.IBarSeriesSettings;
 import org.eclipse.swtchart.extensions.events.IEventProcessor;
 import org.eclipse.swtchart.extensions.events.IHandledEventProcessor;
+import org.eclipse.swtchart.extensions.events.MouseDownEvent;
 import org.eclipse.swtchart.extensions.exceptions.SeriesException;
 import org.eclipse.swtchart.extensions.linecharts.ILineSeriesSettings;
 import org.eclipse.swtchart.extensions.piecharts.ICircularSeriesSettings;
@@ -736,6 +737,8 @@ public class BaseChart extends AbstractExtendedChart implements IChartDataCoordi
 		pieSeries.setBorderWidth(pieSeriesSettings.getBorderWidth());
 		pieSeries.setBorderStyle(pieSeriesSettings.getBorderStyle());
 		this.getTitle().setText(pieSeriesSettings.getDescription());
+		pieSeries.setHighlightLineWidth(pieSeriesSettings.getHighlightLineWidth());
+		((MouseDownEvent)registeredEvents.get(EVENT_MOUSE_DOWN).get(1).get(SWT.NONE).get(0)).setRedrawOnClick(pieSeriesSettings.isRedrawOnClick());
 		// add one for doughnut chart.
 		/*
 		 * MORE TO COME!!! STAY TUNED:)
