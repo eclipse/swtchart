@@ -1,5 +1,3 @@
-package org.eclipse.swtchart.extensions.examples.parts;
-
 /*******************************************************************************
  * Copyright (c) 2020 SWTChart project.
  *
@@ -12,6 +10,8 @@ package org.eclipse.swtchart.extensions.examples.parts;
  * Contributors:
  * Himanshu Balasamanta Orignal API and implementation
  *******************************************************************************/
+package org.eclipse.swtchart.extensions.examples.parts;
+
 import javax.inject.Inject;
 
 import org.eclipse.swt.SWT;
