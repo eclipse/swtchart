@@ -413,9 +413,12 @@ public class AxisTickLabels implements PaintListener {
 				String currentLabel = tickLabels.get(i);
 				try {
 					double value = parse(currentLabel);
-					if(value != tickLabelValues.get(i)) {
-						isMajorTick = false;
-					}
+					/*
+					 * Check if the value is close to the tick label, then it is a major tick
+					 */
+					double diff = Math.abs((value - tickLabelValues.get(i)) / value);
+					double maximumDelta = 0.01;
+					isMajorTick = (diff <= maximumDelta);
 				} catch(ParseException e) {
 					// label is not decimal value but string
 				}
