@@ -21,8 +21,13 @@ import org.eclipse.swtchart.extensions.core.IChartSettings;
 import org.eclipse.swtchart.extensions.core.IPrimaryAxisSettings;
 import org.eclipse.swtchart.extensions.core.ScrollableChart;
 import org.eclipse.swtchart.extensions.exceptions.SeriesException;
+import org.eclipse.swtchart.model.Node;
 
 public class PieChart extends ScrollableChart {
+
+	private Node rootNode;
+	private Node rootPointer;
+	private ICircularSeriesData data;
 
 	public PieChart() {
 
@@ -39,14 +44,18 @@ public class PieChart extends ScrollableChart {
 		/*
 		 * Suspend the update when adding new data to improve the performance.
 		 */
+		this.data = model;
 		if(model != null && model.getRootNode() != null) {
 			BaseChart baseChart = getBaseChart();
+			this.rootNode = model.getRootNode();
+			this.rootPointer = rootNode;
 			baseChart.suspendUpdate(true);
 			/*
 			 * Get the series data and apply the settings.
 			 */
 			try {
 				ICircularSeriesSettings pieSeriesSettings = (ICircularSeriesSettings)model.getSettings();
+				//
 				IChartSettings chartSettings = getChartSettings();
 				//
 				chartSettings.setHorizontalSliderVisible(false);

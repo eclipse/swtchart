@@ -126,4 +126,24 @@ public class Doughnut extends CircularSeries {
 		maxTreeDepth = rootNode.getMaxSubTreeDepth() - 1;
 		return new Range(-maxTreeDepth - 1, maxTreeDepth + 1);
 	}
+
+	public Node getPieSliceFromPosition(double primaryValueX, double primaryValueY) {
+
+		double radius = Math.sqrt(primaryValueX * primaryValueX + primaryValueY * primaryValueY);
+		int level = ((int)radius);
+		Node node = null;
+		double angleOfInspection = Math.atan2(primaryValueY, primaryValueX);
+		if(angleOfInspection < 0.0)
+			angleOfInspection += 2 * Math.PI;
+		if(level < getModel().getNodes().length)
+			for(Node noda : getModel().getNodes()[level]) {
+				double lowerBound = (noda.getAngleBounds().x * Math.PI) / (double)180.0;
+				double upperBound = ((noda.getAngleBounds().x + noda.getAngleBounds().y) * Math.PI) / (double)180.0;
+				if((lowerBound <= angleOfInspection) && (upperBound >= angleOfInspection)) {
+					node = noda;
+					break;
+				}
+			}
+		return node;
+	}
 }

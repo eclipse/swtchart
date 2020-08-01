@@ -37,7 +37,10 @@ public abstract class CircularSeries extends Series implements ICircularSeries {
 	protected int maxTreeDepth;
 	protected Color borderColor;
 	protected int borderWidth;
+	protected int highlightLineWidth;
 	protected int borderStyle;
+	protected Node highlightedNode;
+	protected Color highlightColor;
 
 	@SuppressWarnings("unchecked")
 	public CircularSeries(Chart chart, String id) {
@@ -51,6 +54,7 @@ public abstract class CircularSeries extends Series implements ICircularSeries {
 		compressor = model.getCompressor();
 		borderColor = Display.getDefault().getSystemColor(SWT.COLOR_BLACK);
 		borderWidth = 1;
+		highlightLineWidth = 3;
 		borderStyle = SWT.LINE_SOLID;
 	}
 
@@ -88,6 +92,12 @@ public abstract class CircularSeries extends Series implements ICircularSeries {
 	public void setBorderStyle(int borderStyle) {
 
 		this.borderStyle = borderStyle;
+	}
+
+	@Override
+	public void setHighlightLineWidth(int width) {
+
+		highlightLineWidth = width;
 	}
 
 	@Override
@@ -207,6 +217,36 @@ public abstract class CircularSeries extends Series implements ICircularSeries {
 	}
 
 	@Override
+	public Node getHighlightedNode() {
+
+		return highlightedNode;
+	}
+
+	@Override
+	public void setHighlightedNode(Node highlightedNode) {
+
+		// can't draw the highlighted node if it does't have rootNode as ancestor
+		if(highlightedNode == null) {
+			this.highlightedNode = null;
+			return;
+		}
+		Node ptr = highlightedNode;
+		while(ptr != getRootPointer() && ptr != getRootNode())
+			ptr = ptr.getParent();
+		if(ptr != getRootPointer())
+			return;
+		if(highlightColor == null)
+			highlightColor = Display.getDefault().getSystemColor(SWT.COLOR_BLACK);
+		this.highlightedNode = highlightedNode;
+	}
+
+	@Override
+	public void setHighlightColor(Color color) {
+
+		this.highlightColor = color;
+	}
+
+	@Override
 	protected void draw(GC gc, int width, int height, Axis xAxis, Axis yAxis) {
 
 		/*
@@ -225,6 +265,58 @@ public abstract class CircularSeries extends Series implements ICircularSeries {
 		 * A DFS function which draws the node after drawing it's children.
 		 */
 		drawNode(getRootPointer(), gc, xAxis, yAxis);
+		/*
+		 * highlight just the required node.
+		 */
+		if(highlightedNode != null && highlightColor != null) {
+			//
+			gc.setForeground(highlightColor);
+			gc.setLineWidth(highlightLineWidth);
+			// sets the level of the highlighted node.
+			int level = highlightedNode.getLevel() - getRootPointer().getLevel() + (this instanceof Pie ? 0 : 1);
+			// the top-left most coordinates of the square where the highlighted node is drawn.
+			int xStart = xAxis.getPixelCoordinate(-level);
+			int yStart = yAxis.getPixelCoordinate(level);
+			int xWidth = xAxis.getPixelCoordinate(level) - xStart;
+			int yWidth = yAxis.getPixelCoordinate(-level) - yStart;
+			//
+			int angleStart = highlightedNode.getAngleBounds().x,
+					angleWidth = highlightedNode.getAngleBounds().y;
+			// drawing the inner and outer arcs of the highlighted node.
+			gc.drawArc(xStart, yStart, xWidth, yWidth, angleStart, angleWidth);
+			if(highlightedNode == getRootPointer())
+				return;
+			// the top-left most coordinates of the square where the parent is drawn.
+			int xParentStart = xAxis.getPixelCoordinate(-level + 1);
+			int yParentStart = yAxis.getPixelCoordinate(level - 1);
+			int xParentWidth = xAxis.getPixelCoordinate(level - 1) - xParentStart;
+			int yParentWidth = yAxis.getPixelCoordinate(-level + 1) - yParentStart;
+			gc.drawArc(xParentStart, yParentStart, xParentWidth, yParentWidth, angleStart, angleWidth);
+			// the coordinates where the inner arc begins
+			double xParentStartCoordinate = (level - 1) * Math.cos(Math.toRadians(angleStart));
+			double yParentStartCoordinate = (level - 1) * Math.sin(Math.toRadians(angleStart));
+			int xParentStartPixelCoordinate = xAxis.getPixelCoordinate(xParentStartCoordinate);
+			int yParentStartPixelCoordinate = yAxis.getPixelCoordinate(yParentStartCoordinate);
+			// the coordinates where the outer arc begins
+			double xStartCoordinate = level * Math.cos(Math.toRadians(angleStart));
+			double yStartCoordinate = level * Math.sin(Math.toRadians(angleStart));
+			int xStartPixelCoordinate = xAxis.getPixelCoordinate(xStartCoordinate);
+			int yStartPixelCoordinate = yAxis.getPixelCoordinate(yStartCoordinate);
+			// drawing line from inner arc to outer arc on the start boundary
+			gc.drawLine(xParentStartPixelCoordinate, yParentStartPixelCoordinate, xStartPixelCoordinate, yStartPixelCoordinate);
+			// the coordinates where the outer arc ends
+			double xEndCoordinate = level * Math.cos(Math.toRadians(angleStart + angleWidth));
+			double yEndCoordinate = level * Math.sin(Math.toRadians(angleStart + angleWidth));
+			int xEndPixelCoordinate = xAxis.getPixelCoordinate(xEndCoordinate);
+			int yEndPixelCoordinate = yAxis.getPixelCoordinate(yEndCoordinate);
+			// the coordinates where the inner arc ends
+			double xParentEndCoordinate = (level - 1) * Math.cos(Math.toRadians(angleStart + angleWidth));
+			double yParentEndCoordinate = (level - 1) * Math.sin(Math.toRadians(angleStart + angleWidth));
+			int xParentEndPixelCoordinate = xAxis.getPixelCoordinate(xParentEndCoordinate);
+			int yParentEndPixelCoordinate = yAxis.getPixelCoordinate(yParentEndCoordinate);
+			// drawing line from inner end to outer end of the end boundary
+			gc.drawLine(xParentEndPixelCoordinate, yParentEndPixelCoordinate, xEndPixelCoordinate, yEndPixelCoordinate);
+		}
 	}
 
 	protected abstract void setBothAxisRange(int width, int height, Axis xAxis, Axis yAxis);
@@ -259,6 +351,21 @@ public abstract class CircularSeries extends Series implements ICircularSeries {
 		return model;
 	}
 
+	public void setRootPointer(Node rootPointer) {
+
+		if(highlightedNode != null) {
+			if(highlightedNode == getRootPointer())
+				highlightedNode = null;
+			Node ptr = highlightedNode;
+			while(ptr != getRootPointer() && ptr != getRootNode())
+				ptr = ptr.getParent();
+			if(ptr != getRootPointer())
+				highlightedNode = null;
+		}
+		this.rootPointer = rootPointer;
+		model.setRootPointer(rootPointer);
+	}
+
 	@Override
 	public void setDataModel(IdNodeDataModel data) {
 
@@ -266,5 +373,21 @@ public abstract class CircularSeries extends Series implements ICircularSeries {
 		this.rootNode = model.getRootNode();
 		this.rootPointer = model.getRootPointer();
 		maxTreeDepth = rootPointer.getMaxSubTreeDepth() - 1;
+	}
+
+	@Override
+	public double getSlicePercent(String id) {
+
+		Node node = getNodeById(id);
+		double percent = (node.getValue() * 100) / getRootPointer().getValue();
+		return percent;
+	}
+
+	@Override
+	public Node getPieSliceFromPosition(int x, int y) {
+
+		double primaryX = chart.getAxisSet().getXAxis(0).getDataCoordinate(x);
+		double primaryY = chart.getAxisSet().getXAxis(0).getDataCoordinate(y);
+		return getPieSliceFromPosition(primaryX, primaryY);
 	}
 }

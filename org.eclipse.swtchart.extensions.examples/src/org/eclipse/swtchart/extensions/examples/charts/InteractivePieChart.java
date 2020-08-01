@@ -27,6 +27,7 @@ public class InteractivePieChart {
 		shell.setSize(700, 600);
 		shell.setLayout(new FillLayout());
 		//
+		// new HighlightedPieChart_Part(shell);
 		new SimplePieChart(shell);
 		shell.open();
 		//
