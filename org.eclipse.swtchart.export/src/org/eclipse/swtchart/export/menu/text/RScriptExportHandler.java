@@ -558,7 +558,7 @@ public class RScriptExportHandler extends AbstractSeriesExportHandler implements
 		//
 		if(seriesSize > 1) {
 			printWriter.println("for(i in 2:" + seriesSize + "){"); //$NON-NLS-1$ //$NON-NLS-2$
-			printWriter.println("	lines(xValueList[[i]], yValueList[[i]], type='l', col=colorList[i])"); //$NON-NLS-1$
+			printWriter.println("	lines(xValueList[[i]], yValueList[[i]], type='s', col=colorList[i])"); //$NON-NLS-1$
 			printWriter.println("}"); //$NON-NLS-1$
 			printWriter.println(""); //$NON-NLS-1$
 		}
