@@ -16,13 +16,16 @@ package org.eclipse.swtchart.export.menu.text;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.window.Window;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.widgets.FileDialog;
 import org.eclipse.swt.widgets.Shell;
+import org.eclipse.swtchart.ILineSeries;
 import org.eclipse.swtchart.ISeries;
 import org.eclipse.swtchart.export.core.AbstractSeriesExportHandler;
 import org.eclipse.swtchart.export.core.AxisSettings;
@@ -140,6 +143,36 @@ public class RScriptExportHandler extends AbstractSeriesExportHandler implements
 		}
 	}
 
+	private String getColor(Color color) {
+
+		StringBuilder hex_color = new StringBuilder("#");
+		double r = (double)color.getRed();
+		double g = (double)color.getGreen();
+		double b = (double)color.getBlue();
+		double[] rgb = new double[]{r, g, b};
+		for(double x : rgb) {
+			double hex = 16.0d;
+			double div = x / hex;
+			int count = (int)div;
+			double rem = div - count;
+			rem = (int)(rem * hex);
+			char first, second;
+			if(count >= 10) {
+				first = (char)('a' + (count - 10));
+			} else {
+				first = (char)('0' + count);
+			}
+			if(rem >= 10) {
+				second = (char)('a' + (rem - 10));
+			} else {
+				second = (char)('0' + rem);
+			}
+			hex_color.append(first);
+			hex_color.append(second);
+		}
+		return hex_color.toString();
+	}
+
 	private void printLinePlot(String fileName, PrintWriter printWriter, ScrollableChart scrollableChart, AxisSettings axisSettings) {
 
 		IAxisSettings axisSettingsX = axisSettings.getAxisSettingsX();
@@ -165,8 +198,12 @@ public class RScriptExportHandler extends AbstractSeriesExportHandler implements
 		printWriter.println("# Data"); //$NON-NLS-1$
 		int widthPlotArea = baseChart.getPlotArea().getSize().x;
 		int index = 1;
+		ArrayList<String> color = new ArrayList<String>();
 		for(ISeries<?> dataSeries : series) {
 			if(dataSeries != null && dataSeries.isVisible()) {
+				ILineSeries<?> lineSeries = (ILineSeries<?>)dataSeries;
+				Color col = lineSeries.getLineColor();
+				color.add(getColor(col));
 				printLineData(dataSeries, widthPlotArea, axisSettings, index++, printWriter);
 			}
 		}
@@ -175,7 +212,20 @@ public class RScriptExportHandler extends AbstractSeriesExportHandler implements
 		 * Footer
 		 */
 		printWriter.println("#  Footer"); //$NON-NLS-1$
-		printWriter.println("colorList<-c(\"black\", \"red\", \"blue\", \"green\", \"grey\", \"purple\", \"brown\", \"pink\", \"yellow\", \"orange\")"); //$NON-NLS-1$
+		StringBuilder list = new StringBuilder("colorList<-c(");
+		int length = color.size();
+		int color_count = 0;
+		for(String col : color) {
+			list.append("\"");
+			list.append(col);
+			list.append("\"");
+			if(color_count != length - 1) {
+				list.append(",");
+				color_count++;
+			}
+		}
+		list.append(")");
+		printWriter.println(list); // $NON-NLS-1$
 		//
 		printWriter.println(""); //$NON-NLS-1$
 		printWriter.println("plot("); //$NON-NLS-1$
@@ -191,18 +241,17 @@ public class RScriptExportHandler extends AbstractSeriesExportHandler implements
 		//
 		if(seriesSize > 1) {
 			printWriter.println("for(i in 2:" + seriesSize + "){"); //$NON-NLS-1$ //$NON-NLS-2$
-			printWriter.println("	lines(xValueList[[i]], yValueList[[i]], type='l', col=colorList[(i+8)%%9+1])"); //$NON-NLS-1$
+			printWriter.println("	lines(xValueList[[i]], yValueList[[i]], type='l', col=colorList[i])"); //$NON-NLS-1$
 			printWriter.println("}"); //$NON-NLS-1$
 			printWriter.println(""); //$NON-NLS-1$
 		}
 		//
-		int size;
 		//
+		int size = seriesSize;
 		int k;
 		printWriter.println("legend('topleft',"); //$NON-NLS-1$
 		printWriter.println("		c("); //$NON-NLS-1$
 		k = 0;
-		size = series.length;
 		for(ISeries<?> dataSeries : series) {
 			if(dataSeries != null && dataSeries.isVisible()) {
 				printWriter.print("			'Series " + dataSeries.getDescription() + "'"); //$NON-NLS-1$ //$NON-NLS-2$
@@ -216,10 +265,9 @@ public class RScriptExportHandler extends AbstractSeriesExportHandler implements
 		printWriter.println("		),"); //$NON-NLS-1$
 		printWriter.println("		col=c("); //$NON-NLS-1$
 		k = 0;
-		size = series.length;
 		for(ISeries<?> dataSeries : series) {
 			if(dataSeries != null && dataSeries.isVisible()) {
-				printWriter.print("			colorList[(" + (k + 1) + "+8)%%9+1]"); //$NON-NLS-1$ //$NON-NLS-2$
+				printWriter.print("			colorList[" + (k + 1) + "]"); //$NON-NLS-1$ //$NON-NLS-2$
 				if(k < size - 1) {
 					printWriter.print(","); //$NON-NLS-1$
 				}
@@ -467,8 +515,12 @@ public class RScriptExportHandler extends AbstractSeriesExportHandler implements
 		printWriter.println("# Data"); //$NON-NLS-1$
 		int widthPlotArea = baseChart.getPlotArea().getSize().x;
 		int index = 1;
+		ArrayList<String> color = new ArrayList<String>();
 		for(ISeries<?> dataSeries : series) {
 			if(dataSeries != null && dataSeries.isVisible()) {
+				ILineSeries<?> lineSeries = (ILineSeries<?>)dataSeries;
+				Color col = lineSeries.getLineColor();
+				color.add(getColor(col));
 				printLineData(dataSeries, widthPlotArea, axisSettings, index++, printWriter);
 			}
 		}
@@ -477,7 +529,20 @@ public class RScriptExportHandler extends AbstractSeriesExportHandler implements
 		 * Footer
 		 */
 		printWriter.println("#  Footer"); //$NON-NLS-1$
-		printWriter.println("colorList<-c(\"black\", \"red\", \"blue\", \"green\", \"grey\", \"purple\", \"brown\", \"pink\", \"yellow\", \"orange\")"); //$NON-NLS-1$
+		StringBuilder list = new StringBuilder("colorList<-c(");
+		int length = color.size();
+		int color_count = 0;
+		for(String col : color) {
+			list.append("\"");
+			list.append(col);
+			list.append("\"");
+			if(color_count != length - 1) {
+				list.append(",");
+				color_count++;
+			}
+		}
+		list.append(")");
+		printWriter.println(list); // $NON-NLS-1$
 		//
 		printWriter.println(""); //$NON-NLS-1$
 		printWriter.println("plot("); //$NON-NLS-1$
@@ -493,21 +558,20 @@ public class RScriptExportHandler extends AbstractSeriesExportHandler implements
 		//
 		if(seriesSize > 1) {
 			printWriter.println("for(i in 2:" + seriesSize + "){"); //$NON-NLS-1$ //$NON-NLS-2$
-			printWriter.println("	lines(xValueList[[i]], yValueList[[i]], type='s', col=colorList[(i+8)%%9+1])"); //$NON-NLS-1$
+			printWriter.println("	lines(xValueList[[i]], yValueList[[i]], type='s', col=colorList[i])"); //$NON-NLS-1$
 			printWriter.println("}"); //$NON-NLS-1$
 			printWriter.println(""); //$NON-NLS-1$
 		}
 		//
-		int size;
 		//
+		int size = seriesSize;
 		int k;
 		printWriter.println("legend('topleft',"); //$NON-NLS-1$
 		printWriter.println("		c("); //$NON-NLS-1$
 		k = 0;
-		size = series.length;
 		for(ISeries<?> dataSeries : series) {
 			if(dataSeries != null && dataSeries.isVisible()) {
-				printWriter.print("			'" + dataSeries.getDescription() + "'"); //$NON-NLS-1$ //$NON-NLS-2$
+				printWriter.print("			'Series " + dataSeries.getDescription() + "'"); //$NON-NLS-1$ //$NON-NLS-2$
 				if(k < size - 1) {
 					printWriter.print(","); //$NON-NLS-1$
 				}
@@ -518,10 +582,9 @@ public class RScriptExportHandler extends AbstractSeriesExportHandler implements
 		printWriter.println("		),"); //$NON-NLS-1$
 		printWriter.println("		col=c("); //$NON-NLS-1$
 		k = 0;
-		size = series.length;
 		for(ISeries<?> dataSeries : series) {
 			if(dataSeries != null && dataSeries.isVisible()) {
-				printWriter.print("			colorList[(" + (k + 1) + "+8)%%9+1]"); //$NON-NLS-1$ //$NON-NLS-2$
+				printWriter.print("			colorList[" + (k + 1) + "]"); //$NON-NLS-1$ //$NON-NLS-2$
 				if(k < size - 1) {
 					printWriter.print(","); //$NON-NLS-1$
 				}
