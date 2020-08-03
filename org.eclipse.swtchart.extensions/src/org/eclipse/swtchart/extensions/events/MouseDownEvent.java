@@ -61,7 +61,7 @@ public class MouseDownEvent extends AbstractHandledEventProcessor implements IHa
 		 * To recognise the node where the click event occurred, and redraw.
 		 */
 		if(baseChart.isCircularChart()) {
-			for(ISeries series : baseChart.getSeriesSet().getSeries()) {
+			for(ISeries<?> series : baseChart.getSeriesSet().getSeries()) {
 				if(series instanceof CircularSeries) {
 					double primaryValueX = baseChart.getSelectedPrimaryAxisValue(event.x, IExtendedChart.X_AXIS);
 					double primaryValueY = baseChart.getSelectedPrimaryAxisValue(event.y, IExtendedChart.Y_AXIS);
