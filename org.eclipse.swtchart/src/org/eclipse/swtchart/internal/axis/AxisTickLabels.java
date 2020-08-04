@@ -87,6 +87,7 @@ public class AxisTickLabels implements PaintListener {
 	 *            the axis
 	 */
 	protected AxisTickLabels(Chart chart, Axis axis) {
+
 		this.chart = chart;
 		this.axis = axis;
 		tickLabelValues = new ArrayList<Double>();
@@ -319,10 +320,15 @@ public class AxisTickLabels implements PaintListener {
 				// check if the same tick label is repeated
 				String currentLabel = tickLabels.get(i);
 				try {
+					/*
+					 * Check if the value is close to the tick label, then it is a major tick
+					 * Patch by MatthewKhouzam
+					 * https://github.com/eclipse/swtchart/pull/215/commits/b8214bd422205386e5470af2498dbd8227f87d8c
+					 */
 					double value = parse(currentLabel);
-					if(value != tickLabelValues.get(i)) {
-						isMajorTick = false;
-					}
+					double diff = Math.abs((value - tickLabelValues.get(i)) / value);
+					double maximumDelta = 0.01;
+					isMajorTick = (diff <= maximumDelta);
 				} catch(ParseException e) {
 					// label is not decimal value but string
 				}
