@@ -67,7 +67,7 @@ public class SingleLevelPieChartExample {
 		// set titles
 		chart.getTitle().setText("Single Level Pie Chart");
 		// May replace the CircularSeries Class with Pie... Makes no difference
-		ICircularSeries circularSeries = (ICircularSeries)chart.getSeriesSet().createSeries(SeriesType.PIE, "pie series");
+		ICircularSeries<?> circularSeries = (ICircularSeries<?>)chart.getSeriesSet().createSeries(SeriesType.PIE, "pie series");
 		// sets the series.
 		circularSeries.setSeries(labels, values);
 		// change color of India to DARK_RED

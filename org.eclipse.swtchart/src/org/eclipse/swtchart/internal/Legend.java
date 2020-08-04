@@ -274,8 +274,8 @@ public class Legend extends Composite implements ILegend, PaintListener {
 					continue;
 				}
 				if(series instanceof ICircularSeries) {
-					if(((ICircularSeries)series).getLabels() != null) {
-						String[] labels = ((ICircularSeries)series).getLabels();
+					if(((ICircularSeries<?>)series).getLabels() != null) {
+						String[] labels = ((ICircularSeries<?>)series).getLabels();
 						for(int i = 0; i != labels.length; i++) {
 							int textWidth = Util.getExtentInGC(getFont(), labels[i]).x;
 							int cellWidth = textWidth + SYMBOL_WIDTH + MARGIN * 3;
@@ -315,8 +315,8 @@ public class Legend extends Composite implements ILegend, PaintListener {
 					continue;
 				}
 				if(series instanceof ICircularSeries) {
-					if(((ICircularSeries)series).getLabels() != null) {
-						String[] labels = ((ICircularSeries)series).getLabels();
+					if(((ICircularSeries<?>)series).getLabels() != null) {
+						String[] labels = ((ICircularSeries<?>)series).getLabels();
 						for(int i = 0; i != labels.length; i++) {
 							int textWidth = Util.getExtentInGC(getFont(), labels[i]).x;
 							int cellWidth = textWidth + SYMBOL_WIDTH + MARGIN * 3;
@@ -434,7 +434,7 @@ public class Legend extends Composite implements ILegend, PaintListener {
 			}
 			//
 			if(seriesArray[i] instanceof ICircularSeries) {
-				ICircularSeries pieSeries = (ICircularSeries)seriesArray[i];
+				ICircularSeries<?> pieSeries = (ICircularSeries<?>)seriesArray[i];
 				String[] labels = pieSeries.getLabels();
 				Color[] color = pieSeries.getColors();
 				for(int j = 0; j != labels.length; j++) {

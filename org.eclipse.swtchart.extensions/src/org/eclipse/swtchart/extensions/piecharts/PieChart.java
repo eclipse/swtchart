@@ -70,7 +70,7 @@ public class PieChart extends ScrollableChart {
 				chartSettings.setColorLegendMarker(Display.getDefault().getSystemColor(SWT.COLOR_BLACK));
 				//
 				applySettings(chartSettings);
-				ICircularSeries pieSeries = (ICircularSeries)createCircularSeries(model, pieSeriesSettings);
+				ICircularSeries<?> pieSeries = (ICircularSeries<?>)createCircularSeries(model, pieSeriesSettings);
 				//
 				baseChart.applyCircularSeriesSettings(pieSeries, pieSeriesSettings);
 			} catch(SeriesException e) {

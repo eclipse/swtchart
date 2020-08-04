@@ -22,7 +22,7 @@ import org.eclipse.swtchart.model.Node;
 /**
  * Contains methods to be implemented that are common to both PieSeries and Doughnut Series
  */
-public interface ICircularSeries extends ISeries {
+public interface ICircularSeries<T> extends ISeries<T> {
 
 	/**
 	 * gets the label series

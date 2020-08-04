@@ -679,7 +679,7 @@ public class BaseChart extends AbstractExtendedChart implements IChartDataCoordi
 				applyBarSeriesSettings(barSeries, barSeriesSettings);
 			}
 		} else if(dataSeries instanceof ICircularSeries) {
-			ICircularSeries pieSeries = (ICircularSeries)dataSeries;
+			ICircularSeries<?> pieSeries = (ICircularSeries<?>)dataSeries;
 			if(seriesSettings instanceof ICircularSeriesSettings) {
 				/*
 				 * Pie Series
@@ -731,7 +731,7 @@ public class BaseChart extends AbstractExtendedChart implements IChartDataCoordi
 		barSeries.enableStack(barSeriesSettings.isEnableStack());
 	}
 
-	public void applyCircularSeriesSettings(ICircularSeries pieSeries, ICircularSeriesSettings pieSeriesSettings) {
+	public void applyCircularSeriesSettings(ICircularSeries<?> pieSeries, ICircularSeriesSettings pieSeriesSettings) {
 
 		pieSeries.setBorderColor(pieSeriesSettings.getBorderColor());
 		pieSeries.setBorderWidth(pieSeriesSettings.getBorderWidth());

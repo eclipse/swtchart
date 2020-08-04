@@ -65,7 +65,7 @@ public class MouseDownEvent extends AbstractHandledEventProcessor implements IHa
 				if(series instanceof CircularSeries) {
 					double primaryValueX = baseChart.getSelectedPrimaryAxisValue(event.x, IExtendedChart.X_AXIS);
 					double primaryValueY = baseChart.getSelectedPrimaryAxisValue(event.y, IExtendedChart.Y_AXIS);
-					Node node = ((ICircularSeries)series).getPieSliceFromPosition(primaryValueX, primaryValueY);
+					Node node = ((ICircularSeries<?>)series).getPieSliceFromPosition(primaryValueX, primaryValueY);
 					if(!redrawOnClick) {
 						((CircularSeries)series).setHighlightedNode(node);
 						break;
