@@ -25,6 +25,7 @@ import org.eclipse.swtchart.model.Node;
 public class MouseDownEvent extends AbstractHandledEventProcessor implements IHandledEventProcessor {
 
 	private boolean redrawOnClick = true;
+	private boolean fillEntireSpace = false;
 
 	@Override
 	public int getEvent() {
@@ -46,12 +47,12 @@ public class MouseDownEvent extends AbstractHandledEventProcessor implements IHa
 
 	public void setRedrawOnClick(boolean redraw) {
 
-		this.redrawOnClick = redraw;
+		redrawOnClick = redraw;
 	}
 
-	public boolean isRedrawOnClick() {
+	public void setFillEntireSpace(boolean fillEntireSpace) {
 
-		return redrawOnClick;
+		this.fillEntireSpace = fillEntireSpace;
 	}
 
 	@Override
@@ -73,11 +74,17 @@ public class MouseDownEvent extends AbstractHandledEventProcessor implements IHa
 					if(node != null) {
 						// redraw from parent node, if clicked on the center of the Doughnut Chart.
 						if(((CircularSeries)series).getRootPointer() == node) {
-							((CircularSeries)series).setRootPointer(node.getParent());
+							if(!fillEntireSpace)
+								((CircularSeries)series).getModel().setRootPointer(node.getParent());
+							else
+								((CircularSeries)series).setRootPointer(node.getParent());
 						}
 						// redraw form the node where it is clicked on.
 						else {
-							((CircularSeries)series).setRootPointer(node);
+							if(!fillEntireSpace)
+								((CircularSeries)series).getModel().setRootPointer(node);
+							else
+								((CircularSeries)series).setRootPointer(node);
 						}
 					}
 					/*

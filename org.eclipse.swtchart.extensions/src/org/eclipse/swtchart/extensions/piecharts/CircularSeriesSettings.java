@@ -27,6 +27,7 @@ public class CircularSeriesSettings extends AbstractSeriesSettings implements IC
 	private int borderStyle;
 	private SeriesType type;
 	private boolean redrawOnClick;
+	private boolean fillEntireSpace;
 
 	public CircularSeriesSettings() {
 
@@ -35,6 +36,7 @@ public class CircularSeriesSettings extends AbstractSeriesSettings implements IC
 		highlightLineWidth = 2;
 		borderStyle = SWT.LINE_SOLID;
 		redrawOnClick = true;
+		fillEntireSpace = false;
 		type = SeriesType.PIE;
 	}
 
@@ -114,5 +116,17 @@ public class CircularSeriesSettings extends AbstractSeriesSettings implements IC
 	public int getHighlightLineWidth() {
 
 		return highlightLineWidth;
+	}
+
+	@Override
+	public void setFillEntireSpace(boolean fillEntireSpace) {
+
+		this.fillEntireSpace = fillEntireSpace;
+	}
+
+	@Override
+	public boolean isEntireSpaceFilled() {
+
+		return fillEntireSpace;
 	}
 }

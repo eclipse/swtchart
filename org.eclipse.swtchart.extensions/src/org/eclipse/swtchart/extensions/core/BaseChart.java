@@ -739,6 +739,7 @@ public class BaseChart extends AbstractExtendedChart implements IChartDataCoordi
 		this.getTitle().setText(pieSeriesSettings.getDescription());
 		pieSeries.setHighlightLineWidth(pieSeriesSettings.getHighlightLineWidth());
 		((MouseDownEvent)registeredEvents.get(EVENT_MOUSE_DOWN).get(1).get(SWT.NONE).get(0)).setRedrawOnClick(pieSeriesSettings.isRedrawOnClick());
+		((MouseDownEvent)registeredEvents.get(EVENT_MOUSE_DOWN).get(1).get(SWT.NONE).get(0)).setFillEntireSpace(pieSeriesSettings.isEntireSpaceFilled());
 		// add one for doughnut chart.
 		/*
 		 * MORE TO COME!!! STAY TUNED:)
