@@ -20,6 +20,9 @@ import org.eclipse.swtchart.extensions.core.BaseChart;
 import org.eclipse.swtchart.extensions.core.IChartSettings;
 import org.eclipse.swtchart.extensions.core.IPrimaryAxisSettings;
 import org.eclipse.swtchart.extensions.core.ScrollableChart;
+import org.eclipse.swtchart.extensions.events.CircularMouseDownEvent;
+import org.eclipse.swtchart.extensions.events.IHandledEventProcessor;
+import org.eclipse.swtchart.extensions.events.MouseDownEvent;
 import org.eclipse.swtchart.extensions.exceptions.SeriesException;
 import org.eclipse.swtchart.model.Node;
 
@@ -76,6 +79,19 @@ public class PieChart extends ScrollableChart {
 				chartSettings.setShowLegendMarker(true);
 				chartSettings.setColorLegendMarker(Display.getDefault().getSystemColor(SWT.COLOR_BLACK));
 				//
+				IHandledEventProcessor handledEventProcessor = null;
+				//
+				for(IHandledEventProcessor processor : chartSettings.getHandledEventProcessors()) {
+					if(processor instanceof MouseDownEvent) {
+						handledEventProcessor = processor;
+						break;
+					}
+				}
+				if(handledEventProcessor != null)
+					chartSettings.removeHandledEventProcessor(handledEventProcessor);
+				//
+				IHandledEventProcessor circularHandledEventProcessor = new CircularMouseDownEvent();
+				chartSettings.addHandledEventProcessor(circularHandledEventProcessor);
 				applySettings(chartSettings);
 				ICircularSeries pieSeries = (ICircularSeries)createCircularSeries(model, pieSeriesSettings);
 				//
