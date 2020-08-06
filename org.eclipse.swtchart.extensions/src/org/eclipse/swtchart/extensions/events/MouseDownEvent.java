@@ -41,43 +41,6 @@ public class MouseDownEvent extends AbstractHandledEventProcessor implements IHa
 	public void handleEvent(BaseChart baseChart, Event event) {
 
 		/*
-<<<<<<< HEAD
-=======
-		 * To recognise the node where the click event occurred, and redraw.
-		 */
-		if(baseChart.isCircularChart()) {
-			for(ISeries<?> series : baseChart.getSeriesSet().getSeries()) {
-				if(series instanceof CircularSeries) {
-					double primaryValueX = baseChart.getSelectedPrimaryAxisValue(event.x, IExtendedChart.X_AXIS);
-					double primaryValueY = baseChart.getSelectedPrimaryAxisValue(event.y, IExtendedChart.Y_AXIS);
-					Node node = ((ICircularSeries<?>)series).getPieSliceFromPosition(primaryValueX, primaryValueY);
-					if(!redrawOnClick) {
-						((CircularSeries)series).setHighlightedNode(node);
-						break;
-					}
-					if(node != null) {
-						// redraw from parent node, if clicked on the center of the Doughnut Chart.
-						if(((CircularSeries)series).getRootPointer() == node) {
-							((CircularSeries)series).setRootPointer(node.getParent());
-						}
-						// redraw form the node where it is clicked on.
-						else {
-							((CircularSeries)series).setRootPointer(node);
-						}
-					}
-					/*
-					 * redraw from rootNode if clicked elsewhere.
-					 * (The only way to redraw a pieChart from an ancestor node.)
-					 * Works for Doughnut chart as well.
-					 */
-					else {
-						((CircularSeries)series).setRootPointer(((CircularSeries)series).getRootNode());
-					}
-				}
-			}
-		}
-		/*
->>>>>>> upstream/develop
 		 * Activate the selection if the user made a single click.
 		 */
 		if(isSingleClick(event)) {
