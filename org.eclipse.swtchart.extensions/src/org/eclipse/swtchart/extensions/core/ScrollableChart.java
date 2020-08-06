@@ -250,9 +250,9 @@ public class ScrollableChart extends Composite implements IScrollableChart, IEve
 		return series;
 	}
 
-	public ICircularSeries createCircularSeries(ICircularSeriesData circularData, ICircularSeriesSettings circularSeriesSettings) {
+	public ICircularSeries<?> createCircularSeries(ICircularSeriesData circularData, ICircularSeriesSettings circularSeriesSettings) {
 
-		ICircularSeries circularSeries = baseChart.createCircularSeries(circularData, circularSeriesSettings);
+		ICircularSeries<?> circularSeries = baseChart.createCircularSeries(circularData, circularSeriesSettings);
 		resetSlider();
 		return circularSeries;
 	}

@@ -24,13 +24,8 @@ import org.eclipse.swtchart.extensions.events.CircularMouseDownEvent;
 import org.eclipse.swtchart.extensions.events.IHandledEventProcessor;
 import org.eclipse.swtchart.extensions.events.MouseDownEvent;
 import org.eclipse.swtchart.extensions.exceptions.SeriesException;
-import org.eclipse.swtchart.model.Node;
 
 public class PieChart extends ScrollableChart {
-
-	private Node rootNode;
-	private Node rootPointer;
-	private ICircularSeriesData data;
 
 	public PieChart() {
 
@@ -47,11 +42,9 @@ public class PieChart extends ScrollableChart {
 		/*
 		 * Suspend the update when adding new data to improve the performance.
 		 */
-		this.data = model;
 		if(model != null && model.getRootNode() != null) {
+			//
 			BaseChart baseChart = getBaseChart();
-			this.rootNode = model.getRootNode();
-			this.rootPointer = rootNode;
 			baseChart.suspendUpdate(true);
 			/*
 			 * Get the series data and apply the settings.
@@ -93,7 +86,7 @@ public class PieChart extends ScrollableChart {
 				IHandledEventProcessor circularHandledEventProcessor = new CircularMouseDownEvent();
 				chartSettings.addHandledEventProcessor(circularHandledEventProcessor);
 				applySettings(chartSettings);
-				ICircularSeries pieSeries = (ICircularSeries)createCircularSeries(model, pieSeriesSettings);
+				ICircularSeries<?> pieSeries = (ICircularSeries<?>)createCircularSeries(model, pieSeriesSettings);
 				//
 				baseChart.applyCircularSeriesSettings(pieSeries, pieSeriesSettings);
 			} catch(SeriesException e) {

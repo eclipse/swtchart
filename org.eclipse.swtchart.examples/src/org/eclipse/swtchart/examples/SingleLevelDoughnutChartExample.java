@@ -67,7 +67,7 @@ public class SingleLevelDoughnutChartExample {
 		// set titles
 		chart.getTitle().setText("Doughnut Chart");
 		// May replace the CircularSeries Class with Pie... Makes no difference
-		ICircularSeries circularSeries = (ICircularSeries)chart.getSeriesSet().createSeries(SeriesType.DOUGHNUT, "pie series");
+		ICircularSeries<?> circularSeries = (ICircularSeries<?>)chart.getSeriesSet().createSeries(SeriesType.DOUGHNUT, "pie series");
 		// sets the series.
 		circularSeries.setSeries(labels, values);
 		// change color of India to DARK_RED

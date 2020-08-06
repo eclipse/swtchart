@@ -381,7 +381,6 @@ public class Node {
 		}
 	}
 
-	@SuppressWarnings("unchecked")
 	public void update() {
 
 		data.update();
