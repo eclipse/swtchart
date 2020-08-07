@@ -41,6 +41,10 @@ public interface ICircularSeriesSettings {
 
 	public boolean isRedrawOnClick();
 
+	public void setFillEntireSpace(boolean fillEntireSpace);
+
+	public boolean isEntireSpaceFilled();
+
 	public void setHighlightLineWidth(int width);
 
 	public int getHighlightLineWidth();
