@@ -207,6 +207,28 @@ public class ChartSettings implements IChartSettings {
 	}
 
 	@Override
+	public IChartMenuEntry getChartMenuEntryByClass(Class<?> clazz) {
+
+		for(IChartMenuEntry menuEntry : menuEntries) {
+			if(menuEntry.getClass().equals(clazz)) {
+				return menuEntry;
+			}
+		}
+		return null;
+	}
+
+	@Override
+	public IHandledEventProcessor getHandledEventProcessorByClass(Class<?> clazz) {
+
+		for(IHandledEventProcessor handledEventProcessor : handledEventProcessors) {
+			if(handledEventProcessor.getClass().equals(clazz)) {
+				return handledEventProcessor;
+			}
+		}
+		return null;
+	}
+
+	@Override
 	public boolean isBufferSelection() {
 
 		return bufferSelection;

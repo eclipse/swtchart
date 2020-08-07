@@ -317,7 +317,7 @@ public abstract class AbstractExtendedChart extends AbstractHandledChart impleme
 	/*
 	 * Implement them soon. The method is to return the Series.
 	 */
-	public ICircularSeries createCircularSeries(ICircularSeriesData circularSeriesData, ICircularSeriesSettings circularSeriesSettings) {
+	public ICircularSeries<?> createCircularSeries(ICircularSeriesData circularSeriesData, ICircularSeriesSettings circularSeriesSettings) {
 
 		isCircularSeries = true;
 		IdNodeDataModel model = circularSeriesData.getDataModel();
@@ -327,10 +327,10 @@ public abstract class AbstractExtendedChart extends AbstractHandledChart impleme
 		 */
 		ISeriesSet seriesSet = getSeriesSet();
 		ISeries<?> series = seriesSet.createSeries(seriesType, "Circular Series");
-		((ICircularSeries)series).setDataModel(model);
+		((ICircularSeries<?>)series).setDataModel(model);
 		double depth = model.getRootPointer().getMaxSubTreeDepth() - 1;
 		updateCoordinates(-depth, depth, -depth, depth);
-		return (ICircularSeries)series;
+		return (ICircularSeries<?>)series;
 	}
 
 	@Override

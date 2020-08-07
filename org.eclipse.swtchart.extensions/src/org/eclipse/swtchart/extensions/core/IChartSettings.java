@@ -22,6 +22,22 @@ import org.eclipse.swtchart.extensions.menu.IChartMenuEntry;
 
 public interface IChartSettings {
 
+	/**
+	 * This method returns null if the class instance is not available.
+	 * 
+	 * @param clazz
+	 * @return {@link IChartMenuEntry>
+	 */
+	IChartMenuEntry getChartMenuEntryByClass(Class<?> clazz);
+
+	/**
+	 * This method returns null if the class instance is not available.
+	 * 
+	 * @param clazz
+	 * @return {@link IHandledEventProcessor}
+	 */
+	IHandledEventProcessor getHandledEventProcessorByClass(Class<?> clazz);
+
 	void setEnableTooltips(boolean enable);
 
 	boolean isEnableTooltips();

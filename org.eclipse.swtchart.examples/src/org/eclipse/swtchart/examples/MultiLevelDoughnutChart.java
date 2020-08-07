@@ -74,7 +74,7 @@ public class MultiLevelDoughnutChart {
 		// set titles
 		chart.getTitle().setText("Multi Level Doughnut Chart");
 		// create doughnut series
-		ICircularSeries multiLevelDoughnut = (ICircularSeries)chart.getSeriesSet().createSeries(SeriesType.DOUGHNUT, "countries");
+		ICircularSeries<?> multiLevelDoughnut = (ICircularSeries<?>)chart.getSeriesSet().createSeries(SeriesType.DOUGHNUT, "countries");
 		// sets the series.
 		multiLevelDoughnut.setSeries(continentLabels, continentValues);
 		// adding Asian countries. These go in as second level

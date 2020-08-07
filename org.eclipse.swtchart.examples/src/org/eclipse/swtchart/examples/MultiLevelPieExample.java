@@ -75,7 +75,7 @@ public class MultiLevelPieExample {
 		chart.getTitle().setText("Multi Level Pie Chart");
 		// create pie series
 		// Doughnut multiLevelPie = (Doughnut)chart.getSeriesSet().createSeries(SeriesType.DOUGHNUT, "countries");
-		ICircularSeries multiLevelPie = (ICircularSeries)chart.getSeriesSet().createSeries(SeriesType.PIE, "countries");
+		ICircularSeries<?> multiLevelPie = (ICircularSeries<?>)chart.getSeriesSet().createSeries(SeriesType.PIE, "countries");
 		// sets the series.
 		multiLevelPie.setSeries(continentLabels, continentValues);
 		// adding Asian countries. These go in as second level
