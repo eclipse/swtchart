@@ -58,11 +58,11 @@ public class CircularMouseDownEvent extends AbstractHandledEventProcessor implem
 	@Override
 	public void handleEvent(BaseChart baseChart, Event event) {
 
-		for(ISeries series : baseChart.getSeriesSet().getSeries()) {
+		for(ISeries<?> series : baseChart.getSeriesSet().getSeries()) {
 			if(series instanceof CircularSeries) {
 				double primaryValueX = baseChart.getSelectedPrimaryAxisValue(event.x, IExtendedChart.X_AXIS);
 				double primaryValueY = baseChart.getSelectedPrimaryAxisValue(event.y, IExtendedChart.Y_AXIS);
-				Node node = ((ICircularSeries)series).getPieSliceFromPosition(primaryValueX, primaryValueY);
+				Node node = ((ICircularSeries<?>)series).getPieSliceFromPosition(primaryValueX, primaryValueY);
 				if(!redrawOnClick) {
 					((CircularSeries)series).setHighlightedNode(node);
 					break;
