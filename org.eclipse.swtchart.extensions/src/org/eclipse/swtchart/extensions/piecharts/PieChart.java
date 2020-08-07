@@ -80,8 +80,9 @@ public class PieChart extends ScrollableChart {
 						break;
 					}
 				}
-				if(handledEventProcessor != null)
+				if(handledEventProcessor != null) {
 					chartSettings.removeHandledEventProcessor(handledEventProcessor);
+				}
 				//
 				IHandledEventProcessor circularHandledEventProcessor = new CircularMouseDownEvent();
 				chartSettings.addHandledEventProcessor(circularHandledEventProcessor);

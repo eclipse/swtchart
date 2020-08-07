@@ -738,12 +738,12 @@ public class BaseChart extends AbstractExtendedChart implements IChartDataCoordi
 		pieSeries.setBorderStyle(pieSeriesSettings.getBorderStyle());
 		this.getTitle().setText(pieSeriesSettings.getDescription());
 		pieSeries.setHighlightLineWidth(pieSeriesSettings.getHighlightLineWidth());
-		((CircularMouseDownEvent)registeredEvents.get(EVENT_MOUSE_DOWN).get(1).get(SWT.NONE).get(0)).setRedrawOnClick(pieSeriesSettings.isRedrawOnClick());
-		((CircularMouseDownEvent)registeredEvents.get(EVENT_MOUSE_DOWN).get(1).get(SWT.NONE).get(0)).setFillEntireSpace(pieSeriesSettings.isEntireSpaceFilled());
-		// add one for doughnut chart.
-		/*
-		 * MORE TO COME!!! STAY TUNED:)
-		 */
+		IHandledEventProcessor processor = (IHandledEventProcessor)registeredEvents.get(EVENT_MOUSE_DOWN).get(1).get(SWT.NONE).get(0);
+		if(processor instanceof CircularMouseDownEvent) {
+			CircularMouseDownEvent mouseDownEvent = ((CircularMouseDownEvent)registeredEvents.get(EVENT_MOUSE_DOWN).get(1).get(SWT.NONE).get(0));
+			mouseDownEvent.setRedrawOnClick(pieSeriesSettings.isRedrawOnClick());
+			mouseDownEvent.setFillEntireSpace(pieSeriesSettings.isEntireSpaceFilled());
+		}
 	}
 
 	public List<double[]> getDataShiftHistory(String selectedSeriesId) {
