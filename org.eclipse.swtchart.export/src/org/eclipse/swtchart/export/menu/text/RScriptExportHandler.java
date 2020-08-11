@@ -17,6 +17,8 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.window.Window;
@@ -26,6 +28,7 @@ import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.widgets.FileDialog;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swtchart.ILineSeries;
+import org.eclipse.swtchart.ILineSeries.PlotSymbolType;
 import org.eclipse.swtchart.ISeries;
 import org.eclipse.swtchart.export.core.AbstractSeriesExportHandler;
 import org.eclipse.swtchart.export.core.AxisSettings;
@@ -50,6 +53,7 @@ public class RScriptExportHandler extends AbstractSeriesExportHandler implements
 	//
 	private static final String AXIS_X = "x"; //$NON-NLS-1$
 	private static final String AXIS_Y = "y"; //$NON-NLS-1$
+	private static Map<PlotSymbolType, Integer> PLOT_SYMBOLS;
 
 	@Override
 	public String getName() {
@@ -116,6 +120,15 @@ public class RScriptExportHandler extends AbstractSeriesExportHandler implements
 						axisSettings.setAxisScaleConverterX(axisScaleConverterX);
 						axisSettings.setAxisSettingsY(axisSettingsY);
 						axisSettings.setAxisScaleConverterY(axisScaleConverterY);
+						PLOT_SYMBOLS = new HashMap<PlotSymbolType, Integer>();
+						PLOT_SYMBOLS.put(PlotSymbolType.CIRCLE, 1);
+						PLOT_SYMBOLS.put(PlotSymbolType.CROSS, 4);
+						PLOT_SYMBOLS.put(PlotSymbolType.DIAMOND, 5);
+						PLOT_SYMBOLS.put(PlotSymbolType.INVERTED_TRIANGLE, 6);
+						PLOT_SYMBOLS.put(PlotSymbolType.PLUS, 3);
+						PLOT_SYMBOLS.put(PlotSymbolType.SQUARE, 0);
+						PLOT_SYMBOLS.put(PlotSymbolType.TRIANGLE, 2);
+						PLOT_SYMBOLS.put(PlotSymbolType.NONE, 20);
 						//
 						if(scrollableChart instanceof LineChart) {
 							printLinePlot(fileName, printWriter, scrollableChart, axisSettings);
@@ -199,11 +212,14 @@ public class RScriptExportHandler extends AbstractSeriesExportHandler implements
 		int widthPlotArea = baseChart.getPlotArea().getSize().x;
 		int index = 1;
 		ArrayList<String> color = new ArrayList<String>();
+		ArrayList<Integer> plotSymbols = new ArrayList<Integer>();
 		for(ISeries<?> dataSeries : series) {
 			if(dataSeries != null && dataSeries.isVisible()) {
 				ILineSeries<?> lineSeries = (ILineSeries<?>)dataSeries;
 				Color col = lineSeries.getLineColor();
 				color.add(getColor(col));
+				PlotSymbolType series_symbol = lineSeries.getSymbolType();
+				plotSymbols.add(PLOT_SYMBOLS.get(series_symbol));
 				printLineData(dataSeries, widthPlotArea, axisSettings, index++, printWriter);
 			}
 		}
@@ -213,13 +229,13 @@ public class RScriptExportHandler extends AbstractSeriesExportHandler implements
 		 */
 		printWriter.println("#  Footer"); //$NON-NLS-1$
 		StringBuilder list = new StringBuilder("colorList<-c(");
-		int length = color.size();
+		int length1 = color.size();
 		int color_count = 0;
 		for(String col : color) {
 			list.append("\"");
 			list.append(col);
 			list.append("\"");
-			if(color_count != length - 1) {
+			if(color_count != length1 - 1) {
 				list.append(",");
 				color_count++;
 			}
@@ -227,13 +243,27 @@ public class RScriptExportHandler extends AbstractSeriesExportHandler implements
 		list.append(")");
 		printWriter.println(list); // $NON-NLS-1$
 		//
+		StringBuilder plotSymbol_List = new StringBuilder("symbolList<-c(");
+		int length2 = plotSymbols.size();
+		int symbol_count = 0;
+		for(int symbol : plotSymbols) {
+			plotSymbol_List.append(symbol);
+			if(symbol_count != length2 - 1) {
+				plotSymbol_List.append(",");
+				symbol_count++;
+			}
+		}
+		plotSymbol_List.append(")");
+		printWriter.println(plotSymbol_List);
+		//
 		printWriter.println(""); //$NON-NLS-1$
 		printWriter.println("plot("); //$NON-NLS-1$
 		printWriter.println("	xValueList[[1]], yValueList[[1]],"); //$NON-NLS-1$
 		printWriter.println("	xlim=c(range(xValueList)[1], range(xValueList)[2]),"); //$NON-NLS-1$
 		printWriter.println("	ylim=c(range(yValueList)[1], range(yValueList)[2]),"); //$NON-NLS-1$
-		printWriter.println("	type='l',"); //$NON-NLS-1$
+		printWriter.println("	type='b',"); //$NON-NLS-1$
 		printWriter.println("	col=colorList[1],"); //$NON-NLS-1$
+		printWriter.println("	pch=symbolList[1],"); //$NON-NLS-1$ //$NON-NLS-2$
 		printWriter.println("	ylab='" + axisSettingsY.getLabel() + "',"); //$NON-NLS-1$ //$NON-NLS-2$
 		printWriter.println("	xlab='" + axisSettingsX.getLabel() + "'"); //$NON-NLS-1$ //$NON-NLS-2$
 		printWriter.println(")"); //$NON-NLS-1$
@@ -241,7 +271,7 @@ public class RScriptExportHandler extends AbstractSeriesExportHandler implements
 		//
 		if(seriesSize > 1) {
 			printWriter.println("for(i in 2:" + seriesSize + "){"); //$NON-NLS-1$ //$NON-NLS-2$
-			printWriter.println("	lines(xValueList[[i]], yValueList[[i]], type='l', col=colorList[i])"); //$NON-NLS-1$
+			printWriter.println("	lines(xValueList[[i]], yValueList[[i]], type='b', col=colorList[i], pch=symbolList[i])"); //$NON-NLS-1$
 			printWriter.println("}"); //$NON-NLS-1$
 			printWriter.println(""); //$NON-NLS-1$
 		}
@@ -418,19 +448,27 @@ public class RScriptExportHandler extends AbstractSeriesExportHandler implements
 		/*
 		 * Header
 		 */
+		int seriesSize = getSeriesSize(series);
 		printWriter.println("# Header"); //$NON-NLS-1$
-		printWriter.println("scatter_labels <- NULL"); //$NON-NLS-1$
-		printWriter.println("x_values <- NULL"); //$NON-NLS-1$
-		printWriter.println("y_values <- NULL"); //$NON-NLS-1$
+		printWriter.println("xValueList<-vector(\"list\", " + seriesSize + ")"); //$NON-NLS-1$ //$NON-NLS-2$
+		printWriter.println("yValueList<-vector(\"list\", " + seriesSize + ")"); //$NON-NLS-1$ //$NON-NLS-2$
 		printWriter.println(""); //$NON-NLS-1$
 		/*
 		 * Data
 		 */
 		printWriter.println("# Data"); //$NON-NLS-1$
 		int widthPlotArea = baseChart.getPlotArea().getSize().x;
+		int index = 1;
+		ArrayList<String> color = new ArrayList<String>();
+		ArrayList<Integer> plotSymbols = new ArrayList<Integer>();
 		for(ISeries<?> dataSeries : series) {
 			if(dataSeries != null && dataSeries.isVisible()) {
-				printScatterData(dataSeries, widthPlotArea, axisSettings, printWriter);
+				ILineSeries<?> lineSeries = (ILineSeries<?>)dataSeries;
+				Color col = lineSeries.getSymbolColor();
+				color.add(getColor(col));
+				PlotSymbolType series_symbol = lineSeries.getSymbolType();
+				plotSymbols.add(PLOT_SYMBOLS.get(series_symbol));
+				printLineData(dataSeries, widthPlotArea, axisSettings, index++, printWriter);
 			}
 		}
 		printWriter.println(""); //$NON-NLS-1$
@@ -438,56 +476,57 @@ public class RScriptExportHandler extends AbstractSeriesExportHandler implements
 		 * Footer
 		 */
 		printWriter.println("#  Footer"); //$NON-NLS-1$
-		printWriter.println("plot_data<-cbind(x_values, y_values)"); //$NON-NLS-1$
-		printWriter.println("plot(plot_data, xlab=\"" + axisSettingsX.getLabel() + "\", ylab=\"" + axisSettingsY.getLabel() + "\")"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-		printWriter.println("text(plot_data[,1], plot_data[,2], scatter_labels, pos=3)"); //$NON-NLS-1$
+		StringBuilder list = new StringBuilder("colorList<-c(");
+		int length = color.size();
+		int color_count = 0;
+		for(String col : color) {
+			list.append("\"");
+			list.append(col);
+			list.append("\"");
+			if(color_count != length - 1) {
+				list.append(",");
+				color_count++;
+			}
+		}
+		list.append(")");
+		printWriter.println(list); // $NON-NLS-1$
+		//
+		StringBuilder plotSymbol_List = new StringBuilder("symbolList<-c(");
+		int length2 = plotSymbols.size();
+		int symbol_count = 0;
+		for(int symbol : plotSymbols) {
+			plotSymbol_List.append(symbol);
+			if(symbol_count != length2 - 1) {
+				plotSymbol_List.append(",");
+				symbol_count++;
+			}
+		}
+		plotSymbol_List.append(")");
+		printWriter.println(plotSymbol_List);
+		//
+		printWriter.println(""); //$NON-NLS-1$
+		printWriter.println("plot("); //$NON-NLS-1$
+		printWriter.println("	xValueList[[1]], yValueList[[1]],"); //$NON-NLS-1$
+		printWriter.println("	xlim=c(range(xValueList)[1], range(xValueList)[2]),"); //$NON-NLS-1$
+		printWriter.println("	ylim=c(range(yValueList)[1], range(yValueList)[2]),"); //$NON-NLS-1$
+		printWriter.println("	type='p',"); //$NON-NLS-1$
+		printWriter.println("	col=colorList[1],"); //$NON-NLS-1$
+		printWriter.println("	pch=symbolList[1],"); //$NON-NLS-1$ //$NON-NLS-2$
+		printWriter.println("	ylab='" + axisSettingsY.getLabel() + "',"); //$NON-NLS-1$ //$NON-NLS-2$
+		printWriter.println("	xlab='" + axisSettingsX.getLabel() + "'"); //$NON-NLS-1$ //$NON-NLS-2$
+		printWriter.println(")"); //$NON-NLS-1$
+		printWriter.println(""); //$NON-NLS-1$
+		//
+		if(seriesSize > 1) {
+			printWriter.println("for(i in 2:" + seriesSize + "){"); //$NON-NLS-1$ //$NON-NLS-2$
+			printWriter.println("	points(xValueList[[i]], yValueList[[i]], type='p', col=colorList[i], pch=symbolList[i])"); //$NON-NLS-1$
+			printWriter.println("}"); //$NON-NLS-1$
+			printWriter.println(""); //$NON-NLS-1$
+		}
+		//
+		//
 		printWriter.println("abline(h=0)"); //$NON-NLS-1$
 		printWriter.println("abline(v=0)"); //$NON-NLS-1$
-	}
-
-	private void printScatterData(ISeries<?> dataSeries, int widthPlotArea, AxisSettings axisSettings, PrintWriter printWriter) {
-
-		int indexAxisX = axisSettings.getIndexAxisX();
-		int indexAxisY = axisSettings.getIndexAxisY();
-		IAxisScaleConverter axisScaleConverterX = axisSettings.getAxisScaleConverterX();
-		IAxisScaleConverter axisScaleConverterY = axisSettings.getAxisScaleConverterY();
-		/*
-		 * Series
-		 */
-		double[] xSeries = dataSeries.getXSeries();
-		double[] ySeries = dataSeries.getYSeries();
-		int size = dataSeries.getXSeries().length;
-		//
-		for(int i = 0; i < size; i++) {
-			/*
-			 * Only export if the data point is visible.
-			 */
-			Point point = dataSeries.getPixelCoordinates(i);
-			if(point.x >= 0 && point.x <= widthPlotArea) {
-				printWriter.println("scatter_labels<-c(scatter_labels,'" + getIdentifier(dataSeries) + "')"); //$NON-NLS-1$ //$NON-NLS-2$
-				printValueScatterPlot(AXIS_X, printWriter, xSeries[i], indexAxisX, BaseChart.ID_PRIMARY_X_AXIS, axisScaleConverterX);
-				printValueScatterPlot(AXIS_Y, printWriter, ySeries[i], indexAxisY, BaseChart.ID_PRIMARY_Y_AXIS, axisScaleConverterY);
-			}
-		}
-	}
-
-	private void printValueScatterPlot(String axis, PrintWriter printWriter, double value, int indexAxis, int indexPrimaryAxis, IAxisScaleConverter axisScaleConverter) {
-
-		if(indexAxis == indexPrimaryAxis || axisScaleConverter == null) {
-			if(axis.equals(AXIS_X)) {
-				printWriter.println("x_values<-c(x_values," + value + ")"); //$NON-NLS-1$ //$NON-NLS-2$
-			} else if(axis.equals(AXIS_Y)) {
-				printWriter.println("y_values<-c(y_values," + value + ")"); //$NON-NLS-1$ //$NON-NLS-2$
-			}
-		} else {
-			if(axisScaleConverter != null) {
-				if(axis.equals(AXIS_X)) {
-					printWriter.println("x_values<-c(x_values," + axisScaleConverter.convertToSecondaryUnit(value) + ")"); //$NON-NLS-1$ //$NON-NLS-2$
-				} else if(axis.equals(AXIS_Y)) {
-					printWriter.println("y_values<-c(y_values," + axisScaleConverter.convertToSecondaryUnit(value) + ")"); //$NON-NLS-1$ //$NON-NLS-2$
-				}
-			}
-		}
 	}
 
 	private void printStepPlot(String fileName, PrintWriter printWriter, ScrollableChart scrollableChart, AxisSettings axisSettings) {
@@ -573,7 +612,7 @@ public class RScriptExportHandler extends AbstractSeriesExportHandler implements
 			if(dataSeries != null && dataSeries.isVisible()) {
 				printWriter.print("			'Series " + dataSeries.getDescription() + "'"); //$NON-NLS-1$ //$NON-NLS-2$
 				if(k < size - 1) {
-					printWriter.print(","); //$NON-NLS-1$
+					printWriter.print(","); //$NON-NLS-1$ d
 				}
 				printWriter.println();
 				k++;
