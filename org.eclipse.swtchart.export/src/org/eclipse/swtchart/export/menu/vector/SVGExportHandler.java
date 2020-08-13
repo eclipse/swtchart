@@ -903,9 +903,9 @@ public class SVGExportHandler extends AbstractSeriesExportHandler implements ISe
 					value = (value < xLower) ? xLower : value;
 					double x1;
 					if(!isReversedX) {
-						x1 = 23.5 + ((axisScaleConverter.convertToSecondaryUnit(value) - xLower) / (xUpper - xLower) * x);
+						x1 = 23.5 + ((value - xLower) / (xUpper - xLower) * x);
 					} else {
-						x1 = ((23.5 + x) + ((axisScaleConverter.convertToSecondaryUnit(value) - xLower) / (xUpper - xLower) * x));
+						x1 = ((23.5 + x) + ((value - xLower) / (xUpper - xLower) * x));
 					}
 					ret = String.valueOf(x1);// $NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
 				} else if(axis.equals(AXIS_Y)) {
@@ -917,9 +917,9 @@ public class SVGExportHandler extends AbstractSeriesExportHandler implements ISe
 					value = (value < yLower) ? yLower : value;
 					double y1;
 					if(!isReversedY) {
-						y1 = 80.5 + ((yUpper - axisScaleConverter.convertToSecondaryUnit(value)) / (yUpper - yLower) * y);
+						y1 = 263.5 - (y - ((yUpper - value) / (yUpper - yLower) * y));
 					} else {
-						y1 = ((263.5 - y) - ((yUpper - axisScaleConverter.convertToSecondaryUnit(value)) / (yUpper - yLower) * y));
+						y1 = ((263.5 - y) - ((yUpper - value) / (yUpper - yLower) * y));
 					}
 					ret = String.valueOf(y1);// $NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
 				}
