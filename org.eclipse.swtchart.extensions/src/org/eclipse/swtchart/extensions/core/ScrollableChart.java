@@ -68,6 +68,7 @@ import org.eclipse.swtchart.ISeries;
 import org.eclipse.swtchart.ISeriesSet;
 import org.eclipse.swtchart.ITitle;
 import org.eclipse.swtchart.Range;
+import org.eclipse.swtchart.extensions.barcharts.BarChart;
 import org.eclipse.swtchart.extensions.events.IHandledEventProcessor;
 import org.eclipse.swtchart.extensions.exceptions.SeriesException;
 import org.eclipse.swtchart.extensions.internal.marker.AxisZeroMarker;
@@ -75,9 +76,13 @@ import org.eclipse.swtchart.extensions.internal.marker.LegendMarker;
 import org.eclipse.swtchart.extensions.internal.marker.PlotCenterMarker;
 import org.eclipse.swtchart.extensions.internal.marker.PositionMarker;
 import org.eclipse.swtchart.extensions.internal.marker.SeriesLabelMarker;
+import org.eclipse.swtchart.extensions.linecharts.LineChart;
+import org.eclipse.swtchart.extensions.linecharts.StepChart;
 import org.eclipse.swtchart.extensions.menu.IChartMenuEntry;
 import org.eclipse.swtchart.extensions.piecharts.ICircularSeriesData;
 import org.eclipse.swtchart.extensions.piecharts.ICircularSeriesSettings;
+import org.eclipse.swtchart.extensions.piecharts.PieChart;
+import org.eclipse.swtchart.extensions.scattercharts.ScatterChart;
 
 public class ScrollableChart extends Composite implements IScrollableChart, IEventHandler, IExtendedChart {
 
@@ -132,6 +137,8 @@ public class ScrollableChart extends Composite implements IScrollableChart, IEve
 	private static final int[] DEFAULT_WEIGHTS = new int[]{MAX_WEIGHT, MIN_WEIGHT};
 	//
 	private int[] currentWeights = new int[]{700, 300};
+	//
+	private ChartType chartType = ChartType.NONE;
 
 	/**
 	 * This constructor is used, when clazz.newInstance() is needed.
@@ -139,12 +146,20 @@ public class ScrollableChart extends Composite implements IScrollableChart, IEve
 	public ScrollableChart() {
 
 		this(getSeparateShell(), SWT.NONE);
+		setChartType();
 	}
 
 	public ScrollableChart(Composite parent, int style) {
 
 		super(parent, style);
+		setChartType();
 		initialize();
+	}
+
+	@Override
+	public ChartType getChartType() {
+
+		return chartType;
 	}
 
 	@Override
@@ -568,6 +583,39 @@ public class ScrollableChart extends Composite implements IScrollableChart, IEve
 			}
 		}
 		return isLargeDataSet;
+	}
+
+	/**
+	 * Set the chart type manually. This is a hint for the export option if it
+	 * can't be determined automatically.
+	 * 
+	 * @param chartType
+	 */
+	protected void setChartType(ChartType chartType) {
+
+		this.chartType = chartType;
+	}
+
+	/*
+	 * Automatically determines the basic chart types.
+	 */
+	private void setChartType() {
+
+		if(this instanceof LineChart) {
+			setChartType(ChartType.LINE);
+		} else if(this instanceof ScatterChart) {
+			setChartType(ChartType.SCATTER);
+		} else if(this instanceof StepChart) {
+			setChartType(ChartType.STEP);
+		} else if(this instanceof BarChart) {
+			setChartType(ChartType.BAR);
+		} else if(this instanceof PieChart) {
+			setChartType(ChartType.PIE);
+		} else {
+			setChartType(ChartType.NONE);
+		}
+		//
+		System.out.println(chartType);
 	}
 
 	/**

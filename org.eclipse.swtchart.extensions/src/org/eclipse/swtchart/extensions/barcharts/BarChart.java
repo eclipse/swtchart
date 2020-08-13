@@ -27,10 +27,12 @@ public class BarChart extends ScrollableChart {
 	private static final int LENGTH_HINT_DATA_POINTS = 5000;
 
 	public BarChart() {
+
 		super();
 	}
 
 	public BarChart(Composite parent, int style) {
+
 		super(parent, style);
 	}
 

@@ -36,6 +36,7 @@ import org.eclipse.swtchart.export.core.ExportSettingsDialog;
 import org.eclipse.swtchart.export.core.ISeriesExportConverter;
 import org.eclipse.swtchart.extensions.barcharts.BarChart;
 import org.eclipse.swtchart.extensions.core.BaseChart;
+import org.eclipse.swtchart.extensions.core.ChartType;
 import org.eclipse.swtchart.extensions.core.IAxisScaleConverter;
 import org.eclipse.swtchart.extensions.core.IAxisSettings;
 import org.eclipse.swtchart.extensions.core.ISecondaryAxisSettings;
@@ -129,7 +130,10 @@ public class RScriptExportHandler extends AbstractSeriesExportHandler implements
 						PLOT_SYMBOLS.put(PlotSymbolType.SQUARE, 0);
 						PLOT_SYMBOLS.put(PlotSymbolType.TRIANGLE, 2);
 						PLOT_SYMBOLS.put(PlotSymbolType.NONE, 20);
-						//
+						/*
+						 * First check via instance of. If that fails, perform the enhanced
+						 * check via the chart type.
+						 */
 						if(scrollableChart instanceof LineChart) {
 							printLinePlot(fileName, printWriter, scrollableChart, axisSettings);
 						} else if(scrollableChart instanceof BarChart) {
@@ -138,6 +142,28 @@ public class RScriptExportHandler extends AbstractSeriesExportHandler implements
 							printScatterPlot(fileName, printWriter, scrollableChart, axisSettings);
 						} else if(scrollableChart instanceof StepChart) {
 							printStepPlot(fileName, printWriter, scrollableChart, axisSettings);
+						} else {
+							/*
+							 * The chart extends ScrollableChart directly.
+							 */
+							ChartType chartType = scrollableChart.getChartType();
+							switch(chartType) {
+								case LINE:
+									printLinePlot(fileName, printWriter, scrollableChart, axisSettings);
+									break;
+								case BAR:
+									printBarPlot(fileName, printWriter, scrollableChart, axisSettings);
+									break;
+								case SCATTER:
+									printScatterPlot(fileName, printWriter, scrollableChart, axisSettings);
+									break;
+								case STEP:
+									printStepPlot(fileName, printWriter, scrollableChart, axisSettings);
+									break;
+								default:
+									System.out.println("The chart type export is not supported: " + chartType);
+									break;
+							}
 						}
 						//
 						printWriter.flush();
