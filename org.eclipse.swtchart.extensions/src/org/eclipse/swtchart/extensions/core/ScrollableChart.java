@@ -137,7 +137,12 @@ public class ScrollableChart extends Composite implements IScrollableChart, IEve
 	private static final int[] DEFAULT_WEIGHTS = new int[]{MAX_WEIGHT, MIN_WEIGHT};
 	//
 	private int[] currentWeights = new int[]{700, 300};
-	//
+	/*
+	 * The chart type is automatically set in most cases, see setChartType();
+	 * It's a hint for export handlers, especially where a differentiation between
+	 * line, bar, scatter ... chart is needed. The value can be also set programmatically,
+	 * in case a chart directly extends from ScrollableChart instead of from LineChart, ... .
+	 */
 	private ChartType chartType = ChartType.NONE;
 
 	/**
