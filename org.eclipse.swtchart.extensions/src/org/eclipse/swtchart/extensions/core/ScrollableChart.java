@@ -242,6 +242,18 @@ public class ScrollableChart extends Composite implements IScrollableChart, IEve
 		linkedScrollableCharts.remove(scrollableChart);
 	}
 
+	/**
+	 * This method returns the list of linked scrollable charts.
+	 * The list is set to unmodifiable. Use addLinkedScrollableChart and
+	 * removeLinkedScrollableChart to modify the list.
+	 * 
+	 * @return {List<ScrollableChart>}
+	 */
+	public List<ScrollableChart> getLinkedScrollableCharts() {
+
+		return Collections.unmodifiableList(linkedScrollableCharts);
+	}
+
 	@Override
 	public void applySettings(IChartSettings chartSettings) {
 
