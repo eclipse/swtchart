@@ -96,7 +96,8 @@ public class Pie extends CircularSeries {
 	protected void setBothAxisRange(int width, int height, Axis xAxis, Axis yAxis) {
 
 		maxTreeDepth = rootPointer.getMaxSubTreeDepth() - 1;
-		int rangeMax = maxTreeDepth;
+		// keeps the chart boundaries from overflowing the borders.
+		double rangeMax = maxTreeDepth * 1.05;
 		xAxis.setRange(new Range(-rangeMax, rangeMax));
 		yAxis.setRange(new Range(-rangeMax, rangeMax));
 		if(width > height) {

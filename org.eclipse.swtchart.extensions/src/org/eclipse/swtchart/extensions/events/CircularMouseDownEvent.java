@@ -19,13 +19,22 @@ import org.eclipse.swtchart.ISeries;
 import org.eclipse.swtchart.extensions.core.BaseChart;
 import org.eclipse.swtchart.extensions.core.IExtendedChart;
 import org.eclipse.swtchart.extensions.core.IMouseSupport;
+import org.eclipse.swtchart.extensions.core.ScrollableChart;
 import org.eclipse.swtchart.internal.series.CircularSeries;
 import org.eclipse.swtchart.model.Node;
 
 public class CircularMouseDownEvent extends AbstractHandledEventProcessor implements IHandledEventProcessor {
 
-	private boolean redrawOnClick = true;
-	private boolean fillEntireSpace = false;
+	private ScrollableChart scrollableChart;
+	private boolean redrawOnClick;
+	private boolean fillEntireSpace;
+
+	public CircularMouseDownEvent(ScrollableChart scrollableChart) {
+
+		redrawOnClick = true;
+		fillEntireSpace = false;
+		this.scrollableChart = scrollableChart;
+	}
 
 	@Override
 	public int getEvent() {
@@ -65,6 +74,19 @@ public class CircularMouseDownEvent extends AbstractHandledEventProcessor implem
 				Node node = ((ICircularSeries<?>)series).getPieSliceFromPosition(primaryValueX, primaryValueY);
 				if(!redrawOnClick) {
 					((CircularSeries)series).setHighlightedNode(node);
+					if(!scrollableChart.getLinkedScrollableCharts().isEmpty()) {
+						String nodeId = null;
+						if(node != null)
+							nodeId = node.getId();
+						for(ScrollableChart linkedChart : scrollableChart.getLinkedScrollableCharts()) {
+							for(ISeries<?> linkedSeries : (ISeries<?>[])linkedChart.getBaseChart().getSeriesSet().getSeries()) {
+								if(linkedSeries instanceof CircularSeries) {
+									Node correspondingNode = ((CircularSeries)linkedSeries).getNodeById(nodeId);
+									((CircularSeries)linkedSeries).setHighlightedNode(correspondingNode);
+								}
+							}
+						}
+					}
 					break;
 				}
 				if(node != null) {

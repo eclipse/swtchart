@@ -31,9 +31,9 @@ public interface ICircularSeriesData {
 
 	public List<Node> getSeries();
 
-	public String getId();
+	public String getTitle();
 
-	public void setId(String id);
+	public void setTitle(String id);
 
 	public ICircularSeriesSettings getSettings();
 
