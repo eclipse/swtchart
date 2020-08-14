@@ -75,7 +75,9 @@ public class CircularMouseDownEvent extends AbstractHandledEventProcessor implem
 				if(!redrawOnClick) {
 					((CircularSeries)series).setHighlightedNode(node);
 					if(!scrollableChart.getLinkedScrollableCharts().isEmpty()) {
-						String nodeId = node.getId();
+						String nodeId = null;
+						if(node != null)
+							nodeId = node.getId();
 						for(ScrollableChart linkedChart : scrollableChart.getLinkedScrollableCharts()) {
 							for(ISeries<?> linkedSeries : (ISeries<?>[])linkedChart.getBaseChart().getSeriesSet().getSeries()) {
 								if(linkedSeries instanceof CircularSeries) {
