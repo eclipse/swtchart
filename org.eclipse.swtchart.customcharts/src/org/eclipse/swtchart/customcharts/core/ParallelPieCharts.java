@@ -29,12 +29,13 @@ import org.eclipse.swtchart.internal.series.SeriesSet;
 
 public class ParallelPieCharts {
 
-	Composite composite;
-	List<PieChart> linkedPieCharts;
-	int noOfCharts, noOfSlices;
-	String[] legendLabels;
-	String[] pieTitles;
-	CircularSeriesData[] dataArray;
+	private Composite composite;
+	private List<PieChart> linkedPieCharts;
+	private int noOfCharts;
+	private int noOfSlices;
+	private String[] legendLabels;
+	private String[] pieTitles;
+	private CircularSeriesData[] dataArray;
 
 	public ParallelPieCharts(Composite parent) {
 		composite = parent;
@@ -98,17 +99,10 @@ public class ParallelPieCharts {
 		}
 	}
 
-	private void setCircularSettings(CircularSeriesData circularSeriesData) {
-
-		ICircularSeriesSettings settings = circularSeriesData.getSettings();
-		settings.setBorderColor(Display.getDefault().getSystemColor(SWT.COLOR_WHITE));
-		settings.setRedrawOnClick(false);
-	}
-
 	/**
 	 * settings for this
 	 */
-	public void setSettings(int index) {
+	private void setSettings(int index) {
 		// is legend common
 		PieChart pieChart = linkedPieCharts.get(index);
 		pieChart.setLayoutData(new GridData(GridData.FILL_BOTH));
@@ -125,5 +119,12 @@ public class ParallelPieCharts {
 		chartSettings.setLegendExtendedVisible(false);
 		chartSettings.setShowLegendMarker(false);
 		pieChart.applySettings(chartSettings);
+	}
+
+	private void setCircularSettings(CircularSeriesData circularSeriesData) {
+
+		ICircularSeriesSettings settings = circularSeriesData.getSettings();
+		settings.setBorderColor(Display.getDefault().getSystemColor(SWT.COLOR_WHITE));
+		settings.setRedrawOnClick(false);
 	}
 }
