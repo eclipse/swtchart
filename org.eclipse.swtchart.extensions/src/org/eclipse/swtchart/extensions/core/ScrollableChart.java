@@ -632,7 +632,7 @@ public class ScrollableChart extends Composite implements IScrollableChart, IEve
 			setChartType(ChartType.NONE);
 		}
 		//
-		System.out.println(chartType);
+		System.out.println("The following ChartType has been set using the auto-detection: " + chartType);
 	}
 
 	/**
