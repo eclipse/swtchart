@@ -35,10 +35,11 @@ public class MultiplePieChart {
 		shell.setLayout(new FillLayout());
 		//
 		// just change SeriesType to SeriesType.DOUGHNUT
-		ParallelPieCharts charts = new ParallelPieCharts(shell, SeriesType.PIE);
+		ParallelPieCharts charts = new ParallelPieCharts(shell, SeriesType.PIE, true);
 		charts.addPieChartSeries(labels, val);
 		charts.addChild("legend", child, childVal);
 		charts.setChartTitles(titles);
+		charts.setRedrawOnClick(true);
 		shell.open();
 		//
 		while(!shell.isDisposed()) {
