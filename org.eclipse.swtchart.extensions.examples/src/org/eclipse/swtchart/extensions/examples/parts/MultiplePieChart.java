@@ -15,6 +15,7 @@ package org.eclipse.swtchart.extensions.examples.parts;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
+import org.eclipse.swtchart.ISeries.SeriesType;
 import org.eclipse.swtchart.customcharts.core.ParallelPieCharts;
 
 public class MultiplePieChart {
@@ -22,6 +23,8 @@ public class MultiplePieChart {
 	static private String[] labels = {"this", "legend", "needs", "improvement"};
 	static private String[] titles = {"so", "many", "pie", "charts"};
 	static private double[][] val = {{1.0, 2.0, 3.0, 5}, {4.0, 5.0, 6.0, 3}, {7, 8, 9, 7}, {1, 5, 3, 2}};
+	static private String child = "child";
+	static private double[] childVal = {1.2, 0.9, 0.4, 0.6};
 
 	public static void main(String[] args) {
 
@@ -31,8 +34,10 @@ public class MultiplePieChart {
 		shell.setSize(700, 600);
 		shell.setLayout(new FillLayout());
 		//
-		ParallelPieCharts charts = new ParallelPieCharts(shell);
+		// just change SeriesType to SeriesType.DOUGHNUT
+		ParallelPieCharts charts = new ParallelPieCharts(shell, SeriesType.PIE);
 		charts.addPieChartSeries(labels, val);
+		charts.addChild("legend", child, childVal);
 		charts.setChartTitles(titles);
 		shell.open();
 		//
