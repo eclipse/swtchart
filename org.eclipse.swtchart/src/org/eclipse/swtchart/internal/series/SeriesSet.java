@@ -250,45 +250,50 @@ public class SeriesSet implements ISeriesSet {
 		if(!chart.isCompressEnabled()) {
 			return;
 		}
-		CompressConfig config = new CompressConfig();
-		final int PRECISION = 2;
-		Point p = chart.getPlotArea().getSize();
-		int width = p.x * PRECISION;
-		int height = p.y * PRECISION;
-		config.setSizeInPixel(width, height);
-		for(ISeries<?> series : getSeries()) {
-			int xAxisId = series.getXAxisId();
-			int yAxisId = series.getYAxisId();
-			IAxis xAxis = chart.getAxisSet().getXAxis(xAxisId);
-			IAxis yAxis = chart.getAxisSet().getYAxis(yAxisId);
-			if(xAxis == null || yAxis == null) {
-				continue;
+		//
+		try {
+			CompressConfig config = new CompressConfig();
+			final int PRECISION = 2;
+			Point p = chart.getPlotArea().getSize();
+			int width = p.x * PRECISION;
+			int height = p.y * PRECISION;
+			config.setSizeInPixel(width, height);
+			for(ISeries<?> series : getSeries()) {
+				int xAxisId = series.getXAxisId();
+				int yAxisId = series.getYAxisId();
+				IAxis xAxis = chart.getAxisSet().getXAxis(xAxisId);
+				IAxis yAxis = chart.getAxisSet().getYAxis(yAxisId);
+				if(xAxis == null || yAxis == null) {
+					continue;
+				}
+				Range xRange = xAxis.getRange();
+				Range yRange = yAxis.getRange();
+				if(xRange == null || yRange == null) {
+					continue;
+				}
+				double xMin = xRange.lower;
+				double xMax = xRange.upper;
+				double yMin = yRange.lower;
+				double yMax = yRange.upper;
+				config.setXLogScale(xAxis.isLogScaleEnabled());
+				config.setYLogScale(yAxis.isLogScaleEnabled());
+				double lower = xMin - (xMax - xMin) * 0.015;
+				double upper = xMax + (xMax - xMin) * 0.015;
+				if(xAxis.isLogScaleEnabled()) {
+					lower = ((Series<?>)series).getXRange().lower;
+				}
+				config.setXRange(lower, upper);
+				lower = yMin - (yMax - yMin) * 0.015;
+				upper = yMax + (yMax - yMin) * 0.015;
+				if(yAxis.isLogScaleEnabled()) {
+					lower = ((Series<?>)series).getYRange().lower;
+				}
+				config.setYRange(lower, upper);
+				ICompress compressor = ((Series<?>)series).getCompressor();
+				compressor.compress(config);
 			}
-			Range xRange = xAxis.getRange();
-			Range yRange = yAxis.getRange();
-			if(xRange == null || yRange == null) {
-				continue;
-			}
-			double xMin = xRange.lower;
-			double xMax = xRange.upper;
-			double yMin = yRange.lower;
-			double yMax = yRange.upper;
-			config.setXLogScale(xAxis.isLogScaleEnabled());
-			config.setYLogScale(yAxis.isLogScaleEnabled());
-			double lower = xMin - (xMax - xMin) * 0.015;
-			double upper = xMax + (xMax - xMin) * 0.015;
-			if(xAxis.isLogScaleEnabled()) {
-				lower = ((Series<?>)series).getXRange().lower;
-			}
-			config.setXRange(lower, upper);
-			lower = yMin - (yMax - yMin) * 0.015;
-			upper = yMax + (yMax - yMin) * 0.015;
-			if(yAxis.isLogScaleEnabled()) {
-				lower = ((Series<?>)series).getYRange().lower;
-			}
-			config.setYRange(lower, upper);
-			ICompress compressor = ((Series<?>)series).getCompressor();
-			compressor.compress(config);
+		} catch(Exception e) {
+			System.out.println(e);
 		}
 	}
 
