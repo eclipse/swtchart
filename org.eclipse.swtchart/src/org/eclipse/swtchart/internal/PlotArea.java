@@ -183,16 +183,13 @@ public class PlotArea extends Composite implements PaintListener, IPlotArea {
 				((Series<?>)series).draw(gc, p.x, p.y);
 			}
 		}
+		//
 		for(ISeries<?> series : chart.getSeriesSet().getSeries()) {
 			if(series instanceof ILineSeries) {
 				((Series<?>)series).draw(gc, p.x, p.y);
 			}
 		}
-		for(ISeries<?> series : chart.getSeriesSet().getSeries()) {
-			if(series instanceof ICircularSeries) {
-				((Series<?>)series).draw(gc, p.x, p.y);
-			}
-		}
+		//
 		for(ISeries<?> series : chart.getSeriesSet().getSeries()) {
 			if(series instanceof ICircularSeries) {
 				((Series<?>)series).draw(gc, p.x, p.y);
