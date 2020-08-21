@@ -84,7 +84,7 @@ public class PieChart extends ScrollableChart {
 					chartSettings.removeHandledEventProcessor(handledEventProcessor);
 				}
 				//
-				IHandledEventProcessor circularHandledEventProcessor = new CircularMouseDownEvent();
+				IHandledEventProcessor circularHandledEventProcessor = new CircularMouseDownEvent(this);
 				chartSettings.addHandledEventProcessor(circularHandledEventProcessor);
 				applySettings(chartSettings);
 				ICircularSeries<?> pieSeries = (ICircularSeries<?>)createCircularSeries(model, pieSeriesSettings);

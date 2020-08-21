@@ -40,10 +40,10 @@ public class CircularSeriesData implements ICircularSeriesData {
 		/*
 		 * Set the default description.
 		 */
-		this.pieSeriesSettings.setDescription(pieSeriesData.getId());
+		this.pieSeriesSettings.setDescription(pieSeriesData.getTitle());
 	}
 
-	public String getId() {
+	public String getTitle() {
 
 		return model.getId();
 	}
@@ -97,7 +97,7 @@ public class CircularSeriesData implements ICircularSeriesData {
 	}
 
 	@Override
-	public void setId(String id) {
+	public void setTitle(String id) {
 
 		model.setId(id);
 	}

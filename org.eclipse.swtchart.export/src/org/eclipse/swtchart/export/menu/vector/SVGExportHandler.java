@@ -45,6 +45,7 @@ import org.eclipse.swtchart.export.core.ExportSettingsDialog;
 import org.eclipse.swtchart.export.core.ISeriesExportConverter;
 import org.eclipse.swtchart.extensions.barcharts.BarChart;
 import org.eclipse.swtchart.extensions.core.BaseChart;
+import org.eclipse.swtchart.extensions.core.ChartType;
 import org.eclipse.swtchart.extensions.core.IAxisScaleConverter;
 import org.eclipse.swtchart.extensions.core.IAxisSettings;
 import org.eclipse.swtchart.extensions.core.ISecondaryAxisSettings;
@@ -130,13 +131,36 @@ public class SVGExportHandler extends AbstractSeriesExportHandler implements ISe
 											axisSettings.setAxisScaleConverterX(axisScaleConverterX);
 											axisSettings.setAxisSettingsY(axisSettingsY);
 											axisSettings.setAxisScaleConverterY(axisScaleConverterY);
-											//
+											/*
+											 * First check via instance of. If that fails, perform the enhanced
+											 * check via the chart type.
+											 */
 											if(scrollableChart instanceof LineChart) {
 												printLinePlot(fileName, printWriter, scrollableChart, axisSettings);
 											} else if(scrollableChart instanceof BarChart) {
 												printBarPlot(fileName, printWriter, scrollableChart, axisSettings);
 											} else if(scrollableChart instanceof ScatterChart) {
 												printScatterPlot(fileName, printWriter, scrollableChart, axisSettings);
+											} else {
+												/*
+												 * The chart extends ScrollableChart directly.
+												 */
+												ChartType chartType = scrollableChart.getChartType();
+												switch(chartType) {
+													case STEP:
+													case LINE:
+														printLinePlot(fileName, printWriter, scrollableChart, axisSettings);
+														break;
+													case BAR:
+														printBarPlot(fileName, printWriter, scrollableChart, axisSettings);
+														break;
+													case SCATTER:
+														printScatterPlot(fileName, printWriter, scrollableChart, axisSettings);
+														break;
+													default:
+														System.out.println("The chart type export is not supported: " + chartType);
+														break;
+												}
 											}
 											//
 											MessageDialog.openInformation(shell, TITLE, MESSAGE_OK);

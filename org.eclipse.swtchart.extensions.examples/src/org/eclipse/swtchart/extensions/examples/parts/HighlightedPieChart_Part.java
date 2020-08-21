@@ -54,7 +54,7 @@ public class HighlightedPieChart_Part extends HighlightedStaticPie {
 		 */
 		ICircularSeriesData multiLevelDoughnut = new CircularSeriesData();
 		//
-		multiLevelDoughnut.setId("World");
+		multiLevelDoughnut.setTitle("World");
 		multiLevelDoughnut.setNodeClass("Landmass Name");
 		multiLevelDoughnut.setValueClass("Area in sq miles");
 		//

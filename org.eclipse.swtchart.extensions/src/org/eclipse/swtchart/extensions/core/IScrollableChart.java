@@ -18,6 +18,15 @@ import org.eclipse.swtchart.extensions.exceptions.SeriesException;
 
 public interface IScrollableChart {
 
+	/**
+	 * Usually, instanceof should be used to check if the chart is of type LineChart, BarChart, ... .
+	 * A scrollable chart could be also used directly to display line series , bar series. Hence, the
+	 * chart type gives a hint when it is needed e.g. for export purposes.
+	 * 
+	 * @return {ChartType}
+	 */
+	ChartType getChartType();
+
 	IChartSettings getChartSettings();
 
 	void applySettings(IChartSettings chartSettings);
