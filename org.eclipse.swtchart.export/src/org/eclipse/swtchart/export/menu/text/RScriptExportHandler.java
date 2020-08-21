@@ -30,6 +30,7 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swtchart.ILineSeries;
 import org.eclipse.swtchart.ILineSeries.PlotSymbolType;
 import org.eclipse.swtchart.ISeries;
+import org.eclipse.swtchart.LineStyle;
 import org.eclipse.swtchart.export.core.AbstractSeriesExportHandler;
 import org.eclipse.swtchart.export.core.AxisSettings;
 import org.eclipse.swtchart.export.core.ExportSettingsDialog;
@@ -55,6 +56,7 @@ public class RScriptExportHandler extends AbstractSeriesExportHandler implements
 	private static final String AXIS_X = "x"; //$NON-NLS-1$
 	private static final String AXIS_Y = "y"; //$NON-NLS-1$
 	private static Map<PlotSymbolType, Integer> PLOT_SYMBOLS;
+	private static Map<LineStyle, Integer> LINE_STYLES;
 
 	@Override
 	public String getName() {
@@ -130,6 +132,15 @@ public class RScriptExportHandler extends AbstractSeriesExportHandler implements
 						PLOT_SYMBOLS.put(PlotSymbolType.SQUARE, 0);
 						PLOT_SYMBOLS.put(PlotSymbolType.TRIANGLE, 2);
 						PLOT_SYMBOLS.put(PlotSymbolType.NONE, 20);
+						//
+						LINE_STYLES = new HashMap<LineStyle, Integer>();
+						LINE_STYLES.put(LineStyle.NONE, 0);
+						LINE_STYLES.put(LineStyle.DASH, 2);
+						LINE_STYLES.put(LineStyle.DASHDOT, 4);
+						LINE_STYLES.put(LineStyle.DASHDOTDOT, 6);
+						LINE_STYLES.put(LineStyle.DOT, 3);
+						LINE_STYLES.put(LineStyle.SOLID, 1);
+						//
 						/*
 						 * First check via instance of. If that fails, perform the enhanced
 						 * check via the chart type.
@@ -239,13 +250,22 @@ public class RScriptExportHandler extends AbstractSeriesExportHandler implements
 		int index = 1;
 		ArrayList<String> color = new ArrayList<String>();
 		ArrayList<Integer> plotSymbols = new ArrayList<Integer>();
+		ArrayList<Integer> lineStyles = new ArrayList<Integer>();
+		ArrayList<Character> lineTypes = new ArrayList<Character>();
 		for(ISeries<?> dataSeries : series) {
 			if(dataSeries != null && dataSeries.isVisible()) {
 				ILineSeries<?> lineSeries = (ILineSeries<?>)dataSeries;
 				Color col = lineSeries.getLineColor();
 				color.add(getColor(col));
 				PlotSymbolType series_symbol = lineSeries.getSymbolType();
+				LineStyle style = lineSeries.getLineStyle();
 				plotSymbols.add(PLOT_SYMBOLS.get(series_symbol));
+				if(series_symbol == PlotSymbolType.NONE) {
+					lineTypes.add('l');
+				} else {
+					lineTypes.add('b');
+				}
+				lineStyles.add(LINE_STYLES.get(style));
 				printLineData(dataSeries, widthPlotArea, axisSettings, index++, printWriter);
 			}
 		}
@@ -282,22 +302,51 @@ public class RScriptExportHandler extends AbstractSeriesExportHandler implements
 		plotSymbol_List.append(")");
 		printWriter.println(plotSymbol_List);
 		//
+		StringBuilder lineStyle_List = new StringBuilder("styleList<-c(");
+		int length3 = lineStyles.size();
+		int style_count = 0;
+		for(int style : lineStyles) {
+			lineStyle_List.append(style);
+			if(style_count != length3 - 1) {
+				lineStyle_List.append(",");
+				style_count++;
+			}
+		}
+		lineStyle_List.append(")");
+		printWriter.println(lineStyle_List);
+		//
+		StringBuilder lineType_List = new StringBuilder("typeList<-c(");
+		int length4 = lineTypes.size();
+		int type_count = 0;
+		for(char type : lineTypes) {
+			lineType_List.append("\"");
+			lineType_List.append(type);
+			lineType_List.append("\"");
+			if(type_count != length4 - 1) {
+				lineType_List.append(",");
+				type_count++;
+			}
+		}
+		lineType_List.append(")");
+		printWriter.println(lineType_List);
+		//
 		printWriter.println(""); //$NON-NLS-1$
 		printWriter.println("plot("); //$NON-NLS-1$
 		printWriter.println("	xValueList[[1]], yValueList[[1]],"); //$NON-NLS-1$
 		printWriter.println("	xlim=c(range(xValueList)[1], range(xValueList)[2]),"); //$NON-NLS-1$
 		printWriter.println("	ylim=c(range(yValueList)[1], range(yValueList)[2]),"); //$NON-NLS-1$
-		printWriter.println("	type='b',"); //$NON-NLS-1$
+		printWriter.println("	type=typeList[1],"); //$NON-NLS-1$
 		printWriter.println("	col=colorList[1],"); //$NON-NLS-1$
 		printWriter.println("	pch=symbolList[1],"); //$NON-NLS-1$ //$NON-NLS-2$
+		printWriter.println("	lty= styleList[1],"); //$NON-NLS-1$ //$NON-NLS-2$
 		printWriter.println("	ylab='" + axisSettingsY.getLabel() + "',"); //$NON-NLS-1$ //$NON-NLS-2$
 		printWriter.println("	xlab='" + axisSettingsX.getLabel() + "'"); //$NON-NLS-1$ //$NON-NLS-2$
 		printWriter.println(")"); //$NON-NLS-1$
 		printWriter.println(""); //$NON-NLS-1$
 		//
 		if(seriesSize > 1) {
-			printWriter.println("for(i in 2:" + seriesSize + "){"); //$NON-NLS-1$ //$NON-NLS-2$
-			printWriter.println("	lines(xValueList[[i]], yValueList[[i]], type='b', col=colorList[i], pch=symbolList[i])"); //$NON-NLS-1$
+			printWriter.println("for(i in 2:" + seriesSize + "){"); //$NON-NLS-1$ style//$NON-NLS-2$
+			printWriter.println("	lines(xValueList[[i]], yValueList[[i]], type=typeList[i],lty=styleList[i], col=colorList[i], pch=symbolList[i])"); //$NON-NLS-1$
 			printWriter.println("}"); //$NON-NLS-1$
 			printWriter.println(""); //$NON-NLS-1$
 		}
