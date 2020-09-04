@@ -51,55 +51,65 @@ import org.eclipse.swtchart.extensions.menu.toggle.ToggleSeriesLegendHandler;
 
 public class ChartSettings implements IChartSettings {
 
-	private boolean bufferSelection;
+	/*
+	 * As it turned out, that buffered rendering under macOS fails somehow,
+	 * the bufferSelection option is deactivated by default. Charts shall
+	 * enable buffering via an option, so that it can be tested in several
+	 * environments, e.g. macOS, GTK3, ... .
+	 */
+	private boolean bufferSelection = false;
 	//
-	private boolean enableRangeSelector;
-	private boolean showRangeSelectorInitially;
+	private boolean enableRangeSelector = false;
+	private boolean showRangeSelectorInitially = true;
 	private Color colorHintRangeSelector;
-	private int rangeSelectorDefaultAxisX;
-	private int rangeSelectorDefaultAxisY;
+	private int rangeSelectorDefaultAxisX = 0;
+	private int rangeSelectorDefaultAxisY = 0;
 	//
-	private boolean verticalSliderVisible;
-	private boolean horizontalSliderVisible;
-	//
-	private String title;
-	private boolean titleVisible;
+	private boolean verticalSliderVisible = false;
+	private boolean horizontalSliderVisible = true;
+	/*
+	 * If the title is empty, it won't be displayed.
+	 * To display a space on top of the chart, a default
+	 * title is set and WHITE is used to hide it.
+	 */
+	private String title = Messages.getString(Messages.CHART_TITLE);
+	private boolean titleVisible = true;
 	private Color titleColor;
 	private Font titleFont;
 	//
-	private int legendPosition;
-	private boolean legendVisible;
-	private boolean legendExtendedVisible;
+	private int legendPosition = SWT.RIGHT;
+	private boolean legendVisible = false;
+	private boolean legendExtendedVisible = false;
 	//
-	private IPrimaryAxisSettings primaryAxisSettingsX;
-	private IPrimaryAxisSettings primaryAxisSettingsY;
-	private List<ISecondaryAxisSettings> secondaryAxisSettingsListX;
-	private List<ISecondaryAxisSettings> secondaryAxisSettingsListY;
+	private IPrimaryAxisSettings primaryAxisSettingsX = new PrimaryAxisSettings(BaseChart.DEFAULT_TITLE_X_AXIS);
+	private IPrimaryAxisSettings primaryAxisSettingsY = new PrimaryAxisSettings(BaseChart.DEFAULT_TITLE_Y_AXIS);
+	private List<ISecondaryAxisSettings> secondaryAxisSettingsListX = new ArrayList<ISecondaryAxisSettings>();
+	private List<ISecondaryAxisSettings> secondaryAxisSettingsListY = new ArrayList<ISecondaryAxisSettings>();
 	//
-	private int orientation;
+	private int orientation = SWT.HORIZONTAL;
 	private Color background;
 	private Color backgroundChart;
 	private Color backgroundPlotArea;
-	private boolean enableCompress;
-	private RangeRestriction rangeRestriction;
+	private boolean enableCompress = true;
+	private RangeRestriction rangeRestriction = new RangeRestriction();
 	//
-	private boolean showPositionMarker;
+	private boolean showPositionMarker = false;
 	private Color colorPositionMarker;
-	private boolean showPlotCenterMarker;
+	private boolean showPlotCenterMarker = false;
 	private Color colorPlotCenterMarker;
-	private boolean showLegendMarker;
+	private boolean showLegendMarker = false;
 	private Color colorLegendMarker;
-	private boolean showAxisZeroMarker;
+	private boolean showAxisZeroMarker = false;
 	private Color colorAxisZeroMarker;
-	private boolean showSeriesLabelMarker;
+	private boolean showSeriesLabelMarker = false;
 	private Color colorSeriesLabelMarker;
 	//
-	private boolean createMenu;
+	private boolean createMenu = true;
 	private Set<IChartMenuEntry> menuEntries;
 	private Set<IHandledEventProcessor> handledEventProcessors;
 	//
-	private boolean supportDataShift;
-	private boolean enableTooltips;
+	private boolean supportDataShift = false;
+	private boolean enableTooltips = false; // It was set to true before, but this leads to some conflicts when performing selection operations.
 	/*
 	 * The default font is only used if no font is set.
 	 */
@@ -107,67 +117,28 @@ public class ChartSettings implements IChartSettings {
 
 	public ChartSettings() {
 
-		//
 		Display display = Display.getDefault();
-		/*
-		 * As it turned out, that buffered rendering under macOS fails somehow,
-		 * the bufferSelection option is deactivated by default. Charts shall
-		 * enable buffering via an option, so that it can be tested in several
-		 * environments, e.g. macOS, GTK3, ... .
-		 */
-		bufferSelection = false;
 		//
-		enableRangeSelector = false;
-		showRangeSelectorInitially = true;
 		colorHintRangeSelector = display.getSystemColor(SWT.COLOR_RED);
-		rangeSelectorDefaultAxisX = 0;
-		rangeSelectorDefaultAxisY = 0;
 		//
-		verticalSliderVisible = false; // https://bugs.eclipse.org/bugs/show_bug.cgi?id=511257
-		horizontalSliderVisible = true;
-		/*
-		 * If the title is empty, it won't be displayed.
-		 * To display a space on top of the chart, a default
-		 * title is set and WHITE is used to hide it.
-		 */
-		title = Messages.getString(Messages.CHART_TITLE);
-		titleVisible = true;
 		titleColor = display.getSystemColor(SWT.COLOR_WHITE);
 		titleFont = defaultFont;
 		//
-		legendPosition = SWT.RIGHT;
-		legendVisible = false;
-		legendExtendedVisible = false;
-		//
-		primaryAxisSettingsX = new PrimaryAxisSettings(BaseChart.DEFAULT_TITLE_X_AXIS);
-		primaryAxisSettingsY = new PrimaryAxisSettings(BaseChart.DEFAULT_TITLE_Y_AXIS);
-		secondaryAxisSettingsListX = new ArrayList<ISecondaryAxisSettings>();
-		secondaryAxisSettingsListY = new ArrayList<ISecondaryAxisSettings>();
-		//
-		orientation = SWT.HORIZONTAL;
 		background = display.getSystemColor(SWT.COLOR_WHITE);
 		backgroundChart = display.getSystemColor(SWT.COLOR_WHITE);
 		backgroundPlotArea = display.getSystemColor(SWT.COLOR_WHITE);
-		enableCompress = true;
-		rangeRestriction = new RangeRestriction();
 		rangeRestriction.setZeroX(true);
 		rangeRestriction.setZeroY(true);
 		rangeRestriction.setRestrictFrame(true);
 		//
-		showPositionMarker = false;
 		colorPositionMarker = display.getSystemColor(SWT.COLOR_DARK_GRAY);
-		showPlotCenterMarker = false;
 		colorPlotCenterMarker = display.getSystemColor(SWT.COLOR_DARK_GRAY);
-		showLegendMarker = false;
 		colorLegendMarker = display.getSystemColor(SWT.COLOR_DARK_GRAY);
-		showAxisZeroMarker = false;
 		colorAxisZeroMarker = display.getSystemColor(SWT.COLOR_DARK_GRAY);
-		showSeriesLabelMarker = false;
 		colorSeriesLabelMarker = display.getSystemColor(SWT.COLOR_DARK_GRAY);
 		/*
 		 * Default menu entries.
 		 */
-		createMenu = false;
 		menuEntries = new HashSet<IChartMenuEntry>();
 		menuEntries.add(new ResetChartHandler());
 		menuEntries.add(new ResetSelectedSeriesHandler());
@@ -201,9 +172,6 @@ public class ChartSettings implements IChartSettings {
 		handledEventProcessors.add(new MouseMoveCursorEvent());
 		handledEventProcessors.add(new MouseUpEvent());
 		handledEventProcessors.add(new UndoRedoEvent());
-		//
-		supportDataShift = false;
-		enableTooltips = true;
 	}
 
 	@Override
