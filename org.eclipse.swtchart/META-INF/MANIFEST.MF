@@ -3,10 +3,8 @@ Bundle-ManifestVersion: 2
 Bundle-Name: SWTChart
 Bundle-SymbolicName: org.eclipse.swtchart
 Bundle-Version: 0.7.0.qualifier
-Bundle-Activator: org.eclipse.swtchart.Activator
 Bundle-Vendor: Eclipse SWTChart
-Require-Bundle: org.eclipse.ui,
- org.eclipse.core.runtime
+Require-Bundle: org.eclipse.swt
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Bundle-ActivationPolicy: lazy
 Export-Package: org.eclipse.swtchart,
