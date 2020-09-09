@@ -22,11 +22,11 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swtchart.ISeries.SeriesType;
 import org.eclipse.swtchart.extensions.core.ChartSettings;
-import org.eclipse.swtchart.extensions.core.CircularLegend;
 import org.eclipse.swtchart.extensions.piecharts.CircularSeriesData;
 import org.eclipse.swtchart.extensions.piecharts.ICircularSeriesSettings;
 import org.eclipse.swtchart.extensions.piecharts.PieChart;
 import org.eclipse.swtchart.model.Node;
+import org.eclipse.swtchart.support.CircularLegend;
 
 public class ParallelPieCharts {
 
@@ -38,10 +38,11 @@ public class ParallelPieCharts {
 	private int noOfCharts;
 	private int noOfSlices;
 	private String[] legendLabels;
-	private String[] pieTitles;
+	// private String[] pieTitles; // It's not used yet.
 	private CircularSeriesData[] dataArray;
 
 	public ParallelPieCharts(Composite parent, SeriesType type, boolean redraw) {
+
 		composite = parent;
 		redrawOnClick = redraw;
 		seriesType = type;
@@ -56,9 +57,11 @@ public class ParallelPieCharts {
 	 * For the first one, 'a' will be 1 and 'b' will be 4. For the second chart 'a'
 	 * will be 2 and 'b' will be 5. For the third 'a' will be 3 and 'b' will be 6.
 	 * 
-	 * @param labels The titles of each series. (These are not the same as titles
-	 *               given to pies.)
-	 * @param val    New values.
+	 * @param labels
+	 *            The titles of each series. (These are not the same as titles
+	 *            given to pies.)
+	 * @param val
+	 *            New values.
 	 */
 	public void addPieChartSeries(String labels[], double val[][]) {
 
@@ -68,11 +71,11 @@ public class ParallelPieCharts {
 		double[] values = new double[noOfSlices];
 		dataArray = new CircularSeriesData[noOfCharts];
 		// create the charts independently
-		for (int i = 0; i != noOfCharts; i++) {
+		for(int i = 0; i != noOfCharts; i++) {
 			dataArray[i] = new CircularSeriesData();
 			dataArray[i].getSettings().setSeriesType(seriesType);
 			values = new double[noOfSlices];
-			for (int j = 0; j != noOfSlices; j++) {
+			for(int j = 0; j != noOfSlices; j++) {
 				values[j] = val[j][i];
 			}
 			dataArray[i].setSeries(legendLabels, values);
@@ -83,9 +86,9 @@ public class ParallelPieCharts {
 			setSettings(i);
 		}
 		// add them to linked scrollable charts
-		for (int i = 0; i != noOfCharts; i++) {
-			for (int j = 0; j != noOfCharts; j++) {
-				if (i == j)
+		for(int i = 0; i != noOfCharts; i++) {
+			for(int j = 0; j != noOfCharts; j++) {
+				if(i == j)
 					continue;
 				linkedPieCharts.get(i).addLinkedScrollableChart(linkedPieCharts.get(j));
 			}
@@ -94,20 +97,23 @@ public class ParallelPieCharts {
 
 	/**
 	 * 
-	 * @param parentId the id to which we want to introduce the child to in each
-	 *                 chart.
-	 * @param childId  the child we wish to introduce
-	 * @param vals     values of the child in each chart.
+	 * @param parentId
+	 *            the id to which we want to introduce the child to in each
+	 *            chart.
+	 * @param childId
+	 *            the child we wish to introduce
+	 * @param vals
+	 *            values of the child in each chart.
 	 * 
-	 *                 Throws error if vals.length is not equal to number of charts.
+	 *            Throws error if vals.length is not equal to number of charts.
 	 */
 	public void addChild(String parentId, String childId, double[] vals) {
 
-		if (vals.length != noOfCharts) {
+		if(vals.length != noOfCharts) {
 			// throw error
 			return;
 		}
-		for (int i = 0; i != noOfCharts; i++) {
+		for(int i = 0; i != noOfCharts; i++) {
 			Node parent = dataArray[i].getNodeById(parentId);
 			parent.addChild(childId, vals[i]);
 			setSettings(i);
@@ -116,19 +122,23 @@ public class ParallelPieCharts {
 
 	/**
 	 * 
-	 * @param parentId   the id of node to which we want to add the children in each
-	 *                   chart.
-	 * @param childrenId the id of the children we wish to add.
-	 * @param vals       each array in it should represent the values of the
-	 *                   corresponding child node (present at the same index) in
-	 *                   each of the charts.
+	 * @param parentId
+	 *            the id of node to which we want to add the children in each
+	 *            chart.
+	 * @param childrenId
+	 *            the id of the children we wish to add.
+	 * @param vals
+	 *            each array in it should represent the values of the
+	 *            corresponding child node (present at the same index) in
+	 *            each of the charts.
 	 */
 	public void addChildren(String parentId, String[] childrenId, double[][] vals) {
-		if (vals.length != noOfCharts || vals[0].length != childrenId.length) {
+
+		if(vals.length != noOfCharts || vals[0].length != childrenId.length) {
 			// throw error
 			return;
 		}
-		for (int i = 0; i != childrenId.length; i++) {
+		for(int i = 0; i != childrenId.length; i++) {
 			addChild(parentId, childrenId[i], vals[i]);
 			setSettings(i);
 		}
@@ -136,20 +146,21 @@ public class ParallelPieCharts {
 
 	public void setChartTitles(String[] titles) {
 
-		this.pieTitles = titles;
+		// this.pieTitles = titles; // It's not used yet.
 		int length = Math.min(noOfCharts, titles.length);
-		for (int i = 0; i != length; i++) {
+		for(int i = 0; i != length; i++) {
 			linkedPieCharts.get(i).getChartSettings().setTitle(titles[i]);
 			PieChart pieChart = linkedPieCharts.get(i);
-			ChartSettings chartSettings = (ChartSettings) pieChart.getChartSettings();
+			ChartSettings chartSettings = (ChartSettings)pieChart.getChartSettings();
 			chartSettings.setTitleColor(Display.getDefault().getSystemColor(SWT.COLOR_BLACK));
 			pieChart.applySettings(chartSettings);
 		}
 	}
 
 	public void setRedrawOnClick(boolean redrawOnClick) {
+
 		this.redrawOnClick = redrawOnClick;
-		for (int i = 0; i != noOfCharts; i++) {
+		for(int i = 0; i != noOfCharts; i++) {
 			setSettings(i);
 		}
 	}
@@ -158,18 +169,19 @@ public class ParallelPieCharts {
 	 * settings for this
 	 */
 	private void setSettings(int index) {
+
 		// is legend common
 		PieChart pieChart = linkedPieCharts.get(index);
 		pieChart.setLayoutData(new GridData(GridData.FILL_BOTH));
-		if (index == noOfCharts - 1) {
-			if (legend == null) {
+		if(index == noOfCharts - 1) {
+			if(legend == null) {
 				legend = new CircularLegend(composite, SWT.NONE);
 			}
 			legend.setChart(pieChart.getBaseChart());
 			legend.updateLayoutData();
 			legend.setVisible(true);
 		}
-		ChartSettings chartSettings = (ChartSettings) pieChart.getChartSettings();
+		ChartSettings chartSettings = (ChartSettings)pieChart.getChartSettings();
 		chartSettings.setLegendVisible(false);
 		chartSettings.setTitleColor(Display.getDefault().getSystemColor(SWT.COLOR_BLACK));
 		chartSettings.setLegendExtendedVisible(false);
@@ -180,7 +192,7 @@ public class ParallelPieCharts {
 	private void setCircularSettings(CircularSeriesData circularSeriesData) {
 
 		ICircularSeriesSettings settings = circularSeriesData.getSettings();
-		if (redrawOnClick) {
+		if(redrawOnClick) {
 			settings.setRedrawOnClick(true);
 			settings.setBorderColor(Display.getDefault().getSystemColor(SWT.COLOR_BLACK));
 		} else {

@@ -13,4 +13,5 @@ Export-Package: org.eclipse.swtchart,
  org.eclipse.swtchart.internal.axis;x-friends:="org.eclipse.swtchart.export",
  org.eclipse.swtchart.internal.compress,
  org.eclipse.swtchart.internal.series,
- org.eclipse.swtchart.model
+ org.eclipse.swtchart.model,
+ org.eclipse.swtchart.support

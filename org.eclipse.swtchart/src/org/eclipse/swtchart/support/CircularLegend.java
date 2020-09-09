@@ -10,7 +10,7 @@
  * Contributors:
  * Himanshu Balasamanta: Orignal API and implementation
  *******************************************************************************/
-package org.eclipse.swtchart.extensions.core;
+package org.eclipse.swtchart.support;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -57,7 +57,7 @@ public class CircularLegend extends Composite implements ILegend, PaintListener 
 	/** the width of area to draw symbol */
 	private static final int SYMBOL_WIDTH = 20;
 	/** the line width */
-	private static final int LINE_WIDTH = 2;
+	// private static final int LINE_WIDTH = 2; // it's not used yet.
 	/** the default foreground */
 	private static final Color DEFAULT_FOREGROUND = Display.getDefault().getSystemColor(SWT.COLOR_BLACK);
 	/** the default background */
