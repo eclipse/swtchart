@@ -3,17 +3,17 @@ Automatic-Module-Name: org.eclipse.swtchart.extensions.examples
 Bundle-ManifestVersion: 2
 Bundle-Name: SWTChat Extension Examples
 Bundle-SymbolicName: org.eclipse.swtchart.extensions.examples;singleton:=true
-Bundle-Version: 0.13.0.qualifier
+Bundle-Version: 0.14.0.qualifier
 Bundle-Activator: org.eclipse.swtchart.extensions.examples.Activator
 Bundle-Vendor: Eclipse
 Require-Bundle: org.eclipse.ui,
  org.eclipse.core.runtime,
- org.eclipse.swtchart;bundle-version="0.13.0",
- org.eclipse.swtchart.extensions;bundle-version="0.13.0",
+ org.eclipse.swtchart;bundle-version="0.14.0",
+ org.eclipse.swtchart.extensions;bundle-version="0.14.0",
  org.eclipse.e4.ui.di;bundle-version="1.1.100",
  org.eclipse.e4.ui.model.workbench;bundle-version="1.2.0.v20160229-1459",
  javax.inject,
- org.eclipse.swtchart.customcharts;bundle-version="0.13.0"
+ org.eclipse.swtchart.customcharts;bundle-version="0.14.0"
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Import-Package: javax.annotation;version="1.2.0"
 Bundle-ActivationPolicy: lazy

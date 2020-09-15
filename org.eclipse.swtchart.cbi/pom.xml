@@ -17,7 +17,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>org.eclipse.swtchart</groupId>
   <artifactId>org.eclipse.swtchart.build</artifactId>
-  <version>0.13.0</version>
+  <version>0.14.0</version>
   <packaging>pom</packaging>
   <!--
 	DESCRIPTION
@@ -129,7 +129,7 @@
            <artifact>
              <groupId>org.eclipse.swtchart</groupId>
 	     <artifactId>org.eclipse.swtchart.targetplatform</artifactId>
-	     <version>0.13.0</version>
+	     <version>0.14.0</version>
             </artifact>
           </target>
           <environments>

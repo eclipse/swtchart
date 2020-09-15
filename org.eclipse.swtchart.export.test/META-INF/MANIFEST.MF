@@ -3,9 +3,9 @@ Automatic-Module-Name: org.eclipse.swtchart.export.test
 Bundle-ManifestVersion: 2
 Bundle-Name: Test
 Bundle-SymbolicName: org.eclipse.swtchart.export.test
-Bundle-Version: 0.13.0.qualifier
-Fragment-Host: org.eclipse.swtchart.export;bundle-version="0.13.0"
+Bundle-Version: 0.14.0.qualifier
+Fragment-Host: org.eclipse.swtchart.export;bundle-version="0.14.0"
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Bundle-Vendor: Eclipse SWTChart
 Require-Bundle: org.junit;bundle-version="4.12.0",
- org.eclipse.swtchart.customcharts;bundle-version="0.13.0"
+ org.eclipse.swtchart.customcharts;bundle-version="0.14.0"

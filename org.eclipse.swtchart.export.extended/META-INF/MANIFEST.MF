@@ -3,13 +3,13 @@ Automatic-Module-Name: org.eclipse.swtchart.export.extended
 Bundle-ManifestVersion: 2
 Bundle-Name: SWTChart Export Options (Extended)
 Bundle-SymbolicName: org.eclipse.swtchart.export.extended;singleton:=true
-Bundle-Version: 0.13.0.qualifier
+Bundle-Version: 0.14.0.qualifier
 Bundle-Activator: org.eclipse.swtchart.export.extended.Activator
 Require-Bundle: org.eclipse.ui,
  org.eclipse.core.runtime,
- org.eclipse.swtchart;bundle-version="0.13.0",
- org.eclipse.swtchart.extensions;bundle-version="0.13.0",
-  org.eclipse.swtchart.export;bundle-version="0.13.0",
+ org.eclipse.swtchart;bundle-version="0.14.0",
+ org.eclipse.swtchart.extensions;bundle-version="0.14.0",
+  org.eclipse.swtchart.export;bundle-version="0.14.0",
  org.apache.batik.dom;bundle-version="1.9.1",
  org.apache.batik.svggen;bundle-version="1.9.1",
  org.apache.batik.ext.awt;bundle-version="1.9.1"
