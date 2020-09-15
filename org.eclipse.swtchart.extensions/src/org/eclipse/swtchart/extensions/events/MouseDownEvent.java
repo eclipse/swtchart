@@ -16,6 +16,7 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swtchart.extensions.core.BaseChart;
 import org.eclipse.swtchart.extensions.core.IMouseSupport;
+import org.eclipse.swtchart.extensions.core.UserSelection;
 
 public class MouseDownEvent extends AbstractHandledEventProcessor implements IHandledEventProcessor {
 
@@ -43,11 +44,14 @@ public class MouseDownEvent extends AbstractHandledEventProcessor implements IHa
 		/*
 		 * Activate the selection if the user made a single click.
 		 */
+		baseChart.setClickStartTime(System.currentTimeMillis());
+		UserSelection userSelection = baseChart.getUserSelection();
 		if(isSingleClick(event)) {
-			baseChart.getUserSelection().setStartCoordinate(event.x, event.y);
-			baseChart.setClickStartTime(System.currentTimeMillis());
+			userSelection.setStartCoordinate(event.x, event.y);
+			userSelection.setSingleClick(true);
 		} else {
-			baseChart.getUserSelection().reset();
+			userSelection.reset();
+			userSelection.setSingleClick(false);
 		}
 	}
 }

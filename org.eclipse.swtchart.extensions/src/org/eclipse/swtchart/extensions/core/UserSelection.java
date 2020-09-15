@@ -14,19 +14,21 @@ package org.eclipse.swtchart.extensions.core;
 
 public class UserSelection {
 
+	private static final int NO_SELECTION = 0;
+	//
+	private int startX = NO_SELECTION;
+	private int startY = NO_SELECTION;
+	private int stopX = NO_SELECTION;
+	private int stopY = NO_SELECTION;
+	private boolean singleClick = true;
+	/*
+	 * Active is only handled internally.
+	 */
 	private boolean active = false;
-	private int startX = 0;
-	private int startY = 0;
-	private int stopX = 0;
-	private int stopY = 0;
 
 	public UserSelection() {
+
 		reset();
-	}
-
-	public boolean isActive() {
-
-		return active;
 	}
 
 	public int getStartX() {
@@ -69,6 +71,21 @@ public class UserSelection {
 		this.stopY = stopY;
 	}
 
+	public void setSingleClick(boolean singleClick) {
+
+		this.singleClick = singleClick;
+	}
+
+	/**
+	 * Returns if the current user selection is activated.
+	 * 
+	 * @return boolean
+	 */
+	public boolean isActive() {
+
+		return active && singleClick;
+	}
+
 	/**
 	 * Sets the start coordinate, but don't activates the selection.
 	 * An activation could lead to unwanted drawings of the rectangle.
@@ -79,6 +96,7 @@ public class UserSelection {
 	public void setStartCoordinate(int startX, int startY) {
 
 		active = false;
+		//
 		this.startX = startX;
 		this.startY = startY;
 	}
@@ -92,6 +110,7 @@ public class UserSelection {
 	public void setStopCoordinate(int stopX, int stopY) {
 
 		active = true;
+		//
 		this.stopX = stopX;
 		this.stopY = stopY;
 	}
@@ -99,9 +118,10 @@ public class UserSelection {
 	public void reset() {
 
 		active = false;
-		startX = 0;
-		stopX = 0;
-		startY = 0;
-		stopY = 0;
+		//
+		startX = NO_SELECTION;
+		stopX = NO_SELECTION;
+		startY = NO_SELECTION;
+		stopY = NO_SELECTION;
 	}
 }
