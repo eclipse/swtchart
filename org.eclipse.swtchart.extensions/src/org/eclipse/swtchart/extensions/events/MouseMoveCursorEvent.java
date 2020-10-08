@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2017, 2019 Lablicate GmbH.
+ * Copyright (c) 2017, 2020 Lablicate GmbH.
  *
  * This program and the accompanying materials are made
  * available under the terms of the Eclipse Public License 2.0
@@ -15,10 +15,12 @@ package org.eclipse.swtchart.extensions.events;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Cursor;
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.ToolTip;
 import org.eclipse.swtchart.extensions.core.BaseChart;
 import org.eclipse.swtchart.extensions.core.IMouseSupport;
+import org.eclipse.swtchart.extensions.core.ISeriesSettings;
 
 public class MouseMoveCursorEvent extends AbstractHandledEventProcessor implements IHandledEventProcessor {
 
@@ -40,13 +42,14 @@ public class MouseMoveCursorEvent extends AbstractHandledEventProcessor implemen
 	@Override
 	public void handleEvent(BaseChart baseChart, Event event) {
 
+		Display display = baseChart.getDisplay();
 		if(baseChart.getChartSettings().isEnableTooltips()) {
 			if(defaultCursor == null) {
-				defaultCursor = baseChart.getDisplay().getSystemCursor(SWT.CURSOR_ARROW);
+				defaultCursor = display.getSystemCursor(SWT.CURSOR_ARROW);
 			}
 			//
 			if(tooltip == null) {
-				tooltip = new ToolTip(baseChart.getShell(), SWT.NONE);
+				tooltip = new ToolTip(display.getActiveShell(), SWT.NONE);
 			}
 			//
 			String selectedSeriesId = baseChart.getSelectedseriesId(event);
@@ -54,8 +57,9 @@ public class MouseMoveCursorEvent extends AbstractHandledEventProcessor implemen
 				baseChart.setCursor(defaultCursor);
 				tooltip.setVisible(false);
 			} else {
-				baseChart.setCursor(baseChart.getDisplay().getSystemCursor(SWT.CURSOR_HAND));
-				tooltip.setMessage(selectedSeriesId);
+				ISeriesSettings seriesSettings = baseChart.getSeriesSettings(selectedSeriesId);
+				baseChart.setCursor(display.getSystemCursor(SWT.CURSOR_HAND));
+				tooltip.setMessage(seriesSettings.getDescription());
 				tooltip.setVisible(true);
 				tooltip.setAutoHide(false);
 			}
