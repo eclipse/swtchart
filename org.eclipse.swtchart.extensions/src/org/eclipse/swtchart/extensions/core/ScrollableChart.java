@@ -466,36 +466,45 @@ public class ScrollableChart extends Composite implements IScrollableChart, IEve
 		baseChart.paintControl(e);
 	}
 
-	public void toggleRangeSelectorVisibility() {
+	public boolean toggleRangeSelectorVisibility() {
 
-		showRangeSelector(!rangeSelector.isVisible());
+		boolean visible = !rangeSelector.isVisible();
+		showRangeSelector(visible);
+		return visible;
 	}
 
-	public void togglePositionMarkerVisibility() {
+	public boolean togglePositionMarkerVisibility() {
 
-		positionMarker.setDraw(!positionMarker.isDraw());
+		boolean draw = !plotCenterMarker.isDraw();
+		positionMarker.setDraw(draw);
 		redrawPlotArea();
+		return draw;
 	}
 
-	public void toggleCenterMarkerVisibility() {
+	public boolean toggleCenterMarkerVisibility() {
 
-		plotCenterMarker.setDraw(!plotCenterMarker.isDraw());
+		boolean draw = !plotCenterMarker.isDraw();
+		plotCenterMarker.setDraw(draw);
 		super.redraw();
+		return draw;
 	}
 
-	public void togglePositionLegendVisibility() {
+	public boolean togglePositionLegendVisibility() {
 
-		legendMarker.setDraw(!legendMarker.isDraw());
+		boolean draw = !legendMarker.isDraw();
+		legendMarker.setDraw(draw);
 		super.redraw();
+		return draw;
 	}
 
-	public void toggleSeriesLegendVisibility() {
+	public boolean toggleSeriesLegendVisibility() {
 
 		boolean visible = !isLegendExtendedVisible();
 		getChartSettings().setLegendExtendedVisible(visible);
 		setLegendExtendedVisible(visible);
 		baseChart.redraw();
 		redraw();
+		return visible;
 	}
 
 	public void toggleAxisZeroVisibility() {
