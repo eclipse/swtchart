@@ -22,15 +22,18 @@ import org.eclipse.swtchart.extensions.piecharts.PieChart;
 public class HighlightedStaticPie extends PieChart {
 
 	public HighlightedStaticPie(Composite parent) {
+
 		super(parent, SWT.NONE);
 	}
 
-	public HighlightedStaticPie(Composite parent, int none) {
-		super(parent, none);
+	public HighlightedStaticPie(Composite parent, int style) {
+
+		super(parent, style);
 	}
 
 	public void addSeriesData(ICircularSeriesData model) {
-		ICircularSeriesSettings pieSeriesSettings = (ICircularSeriesSettings) model.getSettings();
+
+		ICircularSeriesSettings pieSeriesSettings = (ICircularSeriesSettings)model.getSettings();
 		pieSeriesSettings.setRedrawOnClick(false);
 		pieSeriesSettings.setBorderColor(Display.getDefault().getSystemColor(SWT.COLOR_WHITE));
 		pieSeriesSettings.setHighlightLineWidth(3);

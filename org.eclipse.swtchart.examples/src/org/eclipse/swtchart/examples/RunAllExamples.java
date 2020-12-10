@@ -33,7 +33,7 @@ import org.eclipse.swtchart.examples.advanced.BarBoundsExample;
 import org.eclipse.swtchart.examples.advanced.CustomPaintListenerExample;
 import org.eclipse.swtchart.examples.advanced.DataToPixelConversionExample;
 import org.eclipse.swtchart.examples.advanced.LegendBoundsExample;
-import org.eclipse.swtchart.examples.advanced.PxielToDataConversionExample;
+import org.eclipse.swtchart.examples.advanced.PixelToDataConversionExample;
 import org.eclipse.swtchart.examples.advanced.SymbolBoundsExample;
 
 /**
@@ -125,7 +125,7 @@ public class RunAllExamples {
 	private static Vector<Chart> createAdvancedCharts(Composite parent) {
 
 		basicCharts = new Vector<Chart>();
-		basicCharts.add(PxielToDataConversionExample.createChart(parent));
+		basicCharts.add(PixelToDataConversionExample.createChart(parent));
 		basicCharts.add(DataToPixelConversionExample.createChart(parent));
 		basicCharts.add(SymbolBoundsExample.createChart(parent));
 		basicCharts.add(BarBoundsExample.createChart(parent));

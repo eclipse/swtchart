@@ -25,7 +25,7 @@ import org.eclipse.swtchart.ISeries.SeriesType;
 /**
  * An example to convert pixel coordinate into data coordinate.
  */
-public class PxielToDataConversionExample {
+public class PixelToDataConversionExample {
 
 	private static final double[] ySeries = {0.0, 0.38, 0.71, 0.92, 1.0, 0.92, 0.71, 0.38, 0.0, -0.38, -0.71, -0.92, -1.0, -0.92, -0.71, -0.38};
 
