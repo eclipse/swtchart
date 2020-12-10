@@ -39,7 +39,7 @@ public class PixelToDataConversionExample {
 
 		Display display = new Display();
 		Shell shell = new Shell(display);
-		shell.setText("Pxiel To Data Conversion");
+		shell.setText("Pixel To Data Conversion");
 		shell.setSize(500, 400);
 		shell.setLayout(new FillLayout());
 		createChart(shell);
