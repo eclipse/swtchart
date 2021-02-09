@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2017, 2020 Lablicate GmbH.
+ * Copyright (c) 2017, 2021 Lablicate GmbH.
  *
  * This program and the accompanying materials are made
  * available under the terms of the Eclipse Public License 2.0
@@ -450,6 +450,22 @@ public class BaseChart extends AbstractExtendedChart implements IChartDataCoordi
 	public Set<String> getSelectedSeriesIds() {
 
 		return Collections.unmodifiableSet(selectedSeriesIds);
+	}
+
+	/**
+	 * Returns a set of all series ids.
+	 * 
+	 * @return Set<String>
+	 */
+	public Set<String> getSeriesIds() {
+
+		Set<String> seriesIds = new HashSet<>();
+		ISeries<?>[] series = getSeriesSet().getSeries();
+		for(ISeries<?> serie : series) {
+			seriesIds.add(serie.getId());
+		}
+		//
+		return seriesIds;
 	}
 
 	public boolean isSeriesContained(String seriesId) {
