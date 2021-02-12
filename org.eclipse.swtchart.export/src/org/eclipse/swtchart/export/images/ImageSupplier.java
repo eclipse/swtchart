@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2017, 2019 Lablicate GmbH.
+ * Copyright (c) 2017, 2021 Lablicate GmbH.
  *
  * This program and the accompanying materials are made
  * available under the terms of the Eclipse Public License 2.0
@@ -19,6 +19,7 @@ import org.eclipse.swt.graphics.ImageDataProvider;
 import org.eclipse.swt.graphics.ImageLoader;
 import org.eclipse.swt.graphics.PaletteData;
 import org.eclipse.swt.graphics.Point;
+import org.eclipse.swtchart.Chart;
 import org.eclipse.swtchart.extensions.core.BaseChart;
 
 public class ImageSupplier {
@@ -69,12 +70,24 @@ public class ImageSupplier {
 	 */
 	public ImageData getImageData(BaseChart baseChart) {
 
+		return getImageData((Chart)baseChart);
+	}
+
+	/**
+	 * Return image data representation of provided chart
+	 * 
+	 * @param baseChart
+	 *            the chart from which is create image data representation
+	 * @return image data representation
+	 */
+	public ImageData getImageData(Chart chart) {
+
 		// Force to redraw chart immediately to be sure that any
 		// previous Shell dialog won't be a part of the copied image
-		baseChart.redraw();
-		baseChart.update();
+		chart.redraw();
+		chart.update();
 		// Chart size
-		Point baseChartSize = baseChart.getSize();
+		Point baseChartSize = chart.getSize();
 		// Create the image provider
 		ChartImageDataProvider chartImageDataProvider = new ChartImageDataProvider(baseChartSize.x, baseChartSize.y);
 		// Surround main stuff with try/finally to prevent memory leakage
@@ -82,15 +95,17 @@ public class ImageSupplier {
 		GC gc = null;
 		try {
 			// Copy chart into the image
-			image = new Image(baseChart.getDisplay(), chartImageDataProvider);
-			gc = new GC(baseChart);
+			image = new Image(chart.getDisplay(), chartImageDataProvider);
+			gc = new GC(chart);
 			gc.copyArea(image, 0, 0);
 			// Retrieve image data
 			ImageData imageData = image.getImageData();
 			return imageData;
 		} finally {
-			if(gc != null && !gc.isDisposed()) gc.dispose();
-			if(image != null && !image.isDisposed()) image.dispose();
+			if(gc != null && !gc.isDisposed())
+				gc.dispose();
+			if(image != null && !image.isDisposed())
+				image.dispose();
 		}
 	}
 }
