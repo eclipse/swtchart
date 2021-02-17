@@ -78,11 +78,15 @@ public class MultiLevelPieExample {
 		ICircularSeries<?> multiLevelPie = (ICircularSeries<?>)chart.getSeriesSet().createSeries(SeriesType.PIE, "countries");
 		// sets the series.
 		multiLevelPie.setSeries(continentLabels, continentValues);
+		/*
+		 * Adding countries according to there continents. These go as second level.
+		 * 
+		 */
 		// adding Asian countries. These go in as second level
 		multiLevelPie.getNodeById("Asia").addChildren(AsianCountriesLabels, AsianCountriesValues);
-		//
+		// adding African countries 
 		multiLevelPie.getNodeById("Africa").addChildren(AfricanCountriesLabels, AfricanCountriesValues);
-		//
+		// adding North American countries.
 		multiLevelPie.getNodeById("North America").addChildren(NorthAmericanCountriesLabels, NorthAmericanCountriesValues);
 		/*
 		 * Adding Indian states. These go as third level.
