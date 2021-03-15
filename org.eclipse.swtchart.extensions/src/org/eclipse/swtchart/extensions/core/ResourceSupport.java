@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2020 Lablicate GmbH.
+ * Copyright (c) 2020, 2021 Lablicate GmbH.
  *
  * This program and the accompanying materials are made
  * available under the terms of the Eclipse Public License 2.0
@@ -51,6 +51,7 @@ public class ResourceSupport {
 	public static final String ARROW_RIGHT = "arrowRight.gif"; // $NON-NLS-1$
 	public static final String ARROW_UP = "arrowUp.gif"; // $NON-NLS-1$
 	public static final String ARROW_DOWN = "arrowDown.gif"; // $NON-NLS-1$
+	public static final String ICON_SERIES_MARKER = "seriesMarker.gif"; // $NON-NLS-1$
 	//
 	private static final Map<RGB, Color> colorMap = new HashMap<>();
 	private static final ResourceManager resourceManager = new LocalResourceManager(JFaceResources.getResources());
@@ -58,6 +59,7 @@ public class ResourceSupport {
 	private static ImageRegistry imageRegistry = null;
 
 	private ResourceSupport() {
+
 	}
 
 	/**
@@ -158,6 +160,7 @@ public class ResourceSupport {
 		imageSet.add(ARROW_RIGHT);
 		imageSet.add(ARROW_UP);
 		imageSet.add(ARROW_DOWN);
+		imageSet.add(ICON_SERIES_MARKER);
 		//
 		for(String image : imageSet) {
 			imageRegistry.put(image, createImageDescriptor(image));

@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2020 Lablicate GmbH.
+ * Copyright (c) 2020, 2021 Lablicate GmbH.
  *
  * This program and the accompanying materials are made
  * available under the terms of the Eclipse Public License 2.0
@@ -53,14 +53,13 @@ public class SeriesListUI extends TableViewer {
 	private IContentProvider contentProvider = ArrayContentProvider.getInstance();
 	private SeriesComparator comparator = new SeriesComparator();
 	private SeriesFilter filter = new SeriesFilter();
-	//
 	private List<TableViewerColumn> columns = new ArrayList<>();
-	//
 	private ScrollableChart scrollableChart;
 	//
 	private IPreferenceStore preferenceStore = ResourceSupport.getPreferenceStore();
 
 	public SeriesListUI(Composite parent, int style) {
+
 		super(parent, style);
 		createControl();
 	}
@@ -200,9 +199,6 @@ public class SeriesListUI extends TableViewer {
 				case SeriesLabelProvider.COLOR:
 					setColorColumnProvider(tableViewerColumn);
 					break;
-				case SeriesLabelProvider.ID:
-					setIdColumnProvider(tableViewerColumn);
-					break;
 			}
 			/*
 			 * Edit Support
@@ -224,27 +220,6 @@ public class SeriesListUI extends TableViewer {
 					cell.setBackground(color);
 					cell.setText(""); // No text
 					super.update(cell);
-				}
-			}
-		});
-	}
-
-	private void setIdColumnProvider(TableViewerColumn tableViewerColumn) {
-
-		tableViewerColumn.setLabelProvider(new StyledCellLabelProvider() {
-
-			@Override
-			public void update(ViewerCell cell) {
-
-				if(cell != null) {
-					Object object = cell.getItem().getData();
-					if(object instanceof ISeries<?>) {
-						ISeries<?> series = (ISeries<?>)object;
-						String text = series.getId();
-						cell.setForeground(ResourceSupport.getColor(125, 125, 125));
-						cell.setText(text);
-						super.update(cell);
-					}
 				}
 			}
 		});

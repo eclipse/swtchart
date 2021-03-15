@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2020 Lablicate GmbH.
+ * Copyright (c) 2020, 2021 Lablicate GmbH.
  *
  * This program and the accompanying materials are made
  * available under the terms of the Eclipse Public License 2.0
@@ -23,28 +23,29 @@ import org.eclipse.swtchart.extensions.core.ResourceSupport;
 
 public class SeriesLabelProvider extends ColumnLabelProvider implements ITableLabelProvider {
 
+	public static final String ID = "ID";
 	public static final String VISIBLE = "Visible";
 	public static final String VISIBLE_IN_LEGEND = "Visible In Legend";
 	public static final String COLOR = "Color";
 	public static final String DESCRIPTION = "Description";
-	public static final String ID = "ID";
 	//
-	public static final int INDEX_VISIBLE = 0;
-	public static final int INDEX_VISIBLE_IN_LEGEND = 1;
+	public static final int INDEX_ID = 0;
+	public static final int INDEX_VISIBLE = 1;
+	public static final int INDEX_VISIBLE_IN_LEGEND = 2;
 	//
 	public static final String[] TITLES = { //
+			ID, //
 			VISIBLE, //
 			VISIBLE_IN_LEGEND, //
 			COLOR, //
-			DESCRIPTION, //
-			ID //
+			DESCRIPTION //
 	};
 	//
 	public static final int[] BOUNDS = { //
+			24, //
 			30, //
 			30, //
 			30, //
-			200, //
 			200 //
 	};
 
@@ -87,6 +88,19 @@ public class SeriesLabelProvider extends ColumnLabelProvider implements ITableLa
 		return color;
 	}
 
+	public static void setColor(Object element, Color color) {
+
+		if(color != null) {
+			if(element instanceof IBarSeries) {
+				IBarSeries<?> barSeries = (IBarSeries<?>)element;
+				barSeries.setBarColor(color);
+			} else if(element instanceof ILineSeries) {
+				ILineSeries<?> lineSeries = (ILineSeries<?>)element;
+				lineSeries.setLineColor(color);
+			}
+		}
+	}
+
 	public static String getDescription(Object element) {
 
 		String description = "";
@@ -104,10 +118,13 @@ public class SeriesLabelProvider extends ColumnLabelProvider implements ITableLa
 			/*
 			 * CheckBoxes
 			 */
+			Image seriesMarker = ResourceSupport.getImage(ResourceSupport.ICON_SERIES_MARKER);
 			Image checked = ResourceSupport.getImage(ResourceSupport.ICON_CHECKED);
 			Image unchecked = ResourceSupport.getImage(ResourceSupport.ICON_UNCHECKED);
 			//
-			if(columnIndex == INDEX_VISIBLE) {
+			if(columnIndex == INDEX_ID) {
+				return seriesMarker;
+			} else if(columnIndex == INDEX_VISIBLE) {
 				return isVisible(element) ? checked : unchecked;
 			} else if(columnIndex == INDEX_VISIBLE_IN_LEGEND) {
 				return isVisibleInLegend(element) ? checked : unchecked;
@@ -124,19 +141,19 @@ public class SeriesLabelProvider extends ColumnLabelProvider implements ITableLa
 			ISeries<?> series = (ISeries<?>)element;
 			switch(columnIndex) {
 				case 0:
-					text = ""; // Visible
+					text = series.getId();
 					break;
 				case 1:
-					text = ""; // VisibleInLegend
+					text = ""; // Visible
 					break;
 				case 2:
-					text = ""; // Color
+					text = ""; // VisibleInLegend
 					break;
 				case 3:
-					text = series.getDescription();
+					text = ""; // Color
 					break;
 				case 4:
-					text = series.getId();
+					text = series.getDescription();
 					break;
 				default:
 					text = "";

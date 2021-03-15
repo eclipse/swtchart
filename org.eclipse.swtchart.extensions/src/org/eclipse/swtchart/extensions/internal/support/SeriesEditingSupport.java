@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2020 Lablicate GmbH.
+ * Copyright (c) 2020, 2021 Lablicate GmbH.
  *
  * This program and the accompanying materials are made
  * available under the terms of the Eclipse Public License 2.0
@@ -20,8 +20,6 @@ import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.TextCellEditor;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.RGB;
-import org.eclipse.swtchart.IBarSeries;
-import org.eclipse.swtchart.ILineSeries;
 import org.eclipse.swtchart.ISeries;
 import org.eclipse.swtchart.extensions.core.ResourceSupport;
 
@@ -31,6 +29,7 @@ public class SeriesEditingSupport extends EditingSupport {
 	private String title = "";
 
 	public SeriesEditingSupport(TableViewer tableViewer, String title) {
+
 		super(tableViewer);
 		this.tableViewer = tableViewer;
 		this.title = title;
@@ -132,14 +131,7 @@ public class SeriesEditingSupport extends EditingSupport {
 						 */
 						RGB rgb = (RGB)object;
 						Color color = ResourceSupport.getColor(rgb);
-						//
-						if(series instanceof IBarSeries) {
-							IBarSeries<?> barSeries = (IBarSeries<?>)element;
-							barSeries.setBarColor(color);
-						} else if(series instanceof ILineSeries) {
-							ILineSeries<?> lineSeries = (ILineSeries<?>)element;
-							lineSeries.setLineColor(color);
-						}
+						SeriesLabelProvider.setColor(series, color);
 					}
 					break;
 				case SeriesLabelProvider.DESCRIPTION:

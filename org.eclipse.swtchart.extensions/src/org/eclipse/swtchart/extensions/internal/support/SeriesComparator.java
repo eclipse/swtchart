@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2020 Lablicate GmbH.
+ * Copyright (c) 2020, 2021 Lablicate GmbH.
  *
  * This program and the accompanying materials are made
  * available under the terms of the Eclipse Public License 2.0
@@ -52,19 +52,19 @@ public class SeriesComparator extends ViewerComparator {
 			//
 			switch(propertyIndex) {
 				case 0:
-					sortOrder = Boolean.compare(series1.isVisible(), series2.isVisible());
+					sortOrder = series1.getId().compareTo(series2.getId());
 					break;
 				case 1:
-					sortOrder = Boolean.compare(series1.isVisibleInLegend(), series2.isVisibleInLegend());
+					sortOrder = Boolean.compare(series1.isVisible(), series2.isVisible());
 					break;
 				case 2:
-					sortOrder = (color1 != null && color2 != null) ? color1.toString().compareTo(color2.toString()) : 0;
+					sortOrder = Boolean.compare(series1.isVisibleInLegend(), series2.isVisibleInLegend());
 					break;
 				case 3:
-					sortOrder = series1.getDescription().compareTo(series2.getDescription());
+					sortOrder = (color1 != null && color2 != null) ? color1.toString().compareTo(color2.toString()) : 0;
 					break;
 				case 4:
-					sortOrder = series1.getId().compareTo(series2.getId());
+					sortOrder = series1.getDescription().compareTo(series2.getDescription());
 					break;
 				default:
 					sortOrder = 0;

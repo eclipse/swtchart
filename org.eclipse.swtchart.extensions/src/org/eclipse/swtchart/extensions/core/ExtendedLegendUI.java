@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2020 Lablicate GmbH.
+ * Copyright (c) 2020, 2021 Lablicate GmbH.
  *
  * This program and the accompanying materials are made
  * available under the terms of the Eclipse Public License 2.0
@@ -13,10 +13,15 @@
 package org.eclipse.swtchart.extensions.core;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import org.eclipse.core.databinding.validation.IValidator;
 import org.eclipse.core.runtime.IStatus;
+import org.eclipse.jface.action.Action;
+import org.eclipse.jface.action.IMenuListener;
+import org.eclipse.jface.action.IMenuManager;
+import org.eclipse.jface.action.MenuManager;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.fieldassist.ControlDecoration;
 import org.eclipse.jface.fieldassist.FieldDecorationRegistry;
@@ -30,23 +35,31 @@ import org.eclipse.swt.events.KeyAdapter;
 import org.eclipse.swt.events.KeyEvent;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.graphics.Color;
+import org.eclipse.swt.graphics.RGB;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
+import org.eclipse.swt.widgets.ColorDialog;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Event;
+import org.eclipse.swt.widgets.Menu;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.swtchart.ISeries;
 import org.eclipse.swtchart.extensions.internal.marker.EmbeddedLegend;
 import org.eclipse.swtchart.extensions.internal.support.PositionValidator;
+import org.eclipse.swtchart.extensions.internal.support.SeriesLabelProvider;
 import org.eclipse.swtchart.extensions.internal.support.SeriesMapper;
 import org.eclipse.swtchart.extensions.preferences.PreferenceConstants;
 import org.eclipse.swtchart.extensions.preferences.PreferencePage;
+import org.eclipse.swtchart.internal.series.Series;
 
 public class ExtendedLegendUI extends Composite {
 
+	private static final String MENU_TEXT = "Series PopUp Menu";
+	//
 	private ScrollableChart scrollableChart;
 	//
 	private Text textX;
@@ -61,6 +74,7 @@ public class ExtendedLegendUI extends Composite {
 	private IPreferenceStore preferenceStore = ResourceSupport.getPreferenceStore();
 
 	public ExtendedLegendUI(Composite parent, int style) {
+
 		super(parent, style);
 		createControl();
 	}
@@ -359,8 +373,80 @@ public class ExtendedLegendUI extends Composite {
 		seriesListUI.setTableSortable(preferenceStore.getBoolean(PreferenceConstants.P_SORT_LEGEND_TABLE));
 		Table table = seriesListUI.getTable();
 		table.setLayoutData(new GridData(GridData.FILL_BOTH));
+		/*
+		 * Pop-Up Menu
+		 */
+		String menuId = getClass().getCanonicalName();
+		MenuManager menuManager = new MenuManager(MENU_TEXT, menuId);
+		menuManager.setRemoveAllWhenShown(true);
+		addMenuSetColor(menuManager);
+		Menu menu = menuManager.createContextMenu(table);
+		table.setMenu(menu);
 		//
 		return seriesListUI;
+	}
+
+	private void addMenuSetColor(MenuManager menuManager) {
+
+		menuManager.addMenuListener(new IMenuListener() {
+
+			@Override
+			public void menuAboutToShow(IMenuManager menuManager) {
+
+				menuManager.add(new Action() {
+
+					@Override
+					public String getText() {
+
+						return "Set Color";
+					}
+
+					@Override
+					public String getToolTipText() {
+
+						return "Adjust the color of the selected series.";
+					}
+
+					@Override
+					public void run() {
+
+						Table table = seriesListUI.getTable();
+						List<ISeries<?>> selectedSeries = getSelectedSeries();
+						//
+						if(selectedSeries.size() > 0) {
+							Color colorActive = SeriesLabelProvider.getColor(selectedSeries.get(0));
+							RGB rgbActive = (colorActive == null) ? new RGB(255, 0, 0) : colorActive.getRGB();
+							ColorDialog colorDialog = new ColorDialog(table.getShell());
+							colorDialog.setText("Set Series Color");
+							colorDialog.setRGB(rgbActive);
+							RGB rgbNew = colorDialog.open();
+							if(rgbNew != null) {
+								Color colorNew = ResourceSupport.getColor(rgbNew);
+								for(ISeries<?> series : selectedSeries) {
+									SeriesLabelProvider.setColor(series, colorNew);
+								}
+								seriesListUI.refresh();
+							}
+						}
+					}
+				});
+			}
+		});
+	}
+
+	@SuppressWarnings("unchecked")
+	private List<ISeries<?>> getSelectedSeries() {
+
+		List<ISeries<?>> selectedSeries = new ArrayList<>();
+		Iterator<Object> iterator = seriesListUI.getStructuredSelection().iterator();
+		while(iterator.hasNext()) {
+			Object object = iterator.next();
+			if(object instanceof Series<?>) {
+				selectedSeries.add((ISeries<?>)object);
+			}
+		}
+		//
+		return selectedSeries;
 	}
 
 	private void createEmbeddedLegend() {
