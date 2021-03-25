@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2020 Lablicate GmbH.
+ * Copyright (c) 2020, 2021 Lablicate GmbH.
  *
  * This program and the accompanying materials are made
  * available under the terms of the Eclipse Public License 2.0
@@ -24,12 +24,14 @@ import org.eclipse.ui.IWorkbenchPreferencePage;
 public class PreferencePage extends FieldEditorPreferencePage implements IWorkbenchPreferencePage {
 
 	public PreferencePage() {
+
 		super(GRID);
 		IPreferenceStore preferenceStore = ResourceSupport.getPreferenceStore();
 		if(preferenceStore != null) {
 			setPreferenceStore(preferenceStore);
 		}
-		setTitle("SWTChart Extensions");
+		//
+		setTitle("SWTChart");
 		setDescription("");
 	}
 

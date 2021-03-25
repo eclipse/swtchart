@@ -7,7 +7,7 @@
       <page
             class="org.eclipse.swtchart.extensions.preferences.PreferencePage"
             id="org.eclipse.swtchart.extensions.preferences.preferencePage"
-            name="SWTChart Extensions">
+            name="SWTChart">
       </page>
    </extension>       
 </plugin>
