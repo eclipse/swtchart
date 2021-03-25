@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2017, 2020 Lablicate GmbH.
+ * Copyright (c) 2017, 2021 Lablicate GmbH.
  *
  * This program and the accompanying materials are made
  * available under the terms of the Eclipse Public License 2.0
@@ -33,12 +33,14 @@ import org.eclipse.core.runtime.RegistryFactory;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.SashForm;
 import org.eclipse.swt.custom.StyleRange;
+import org.eclipse.swt.events.MenuEvent;
+import org.eclipse.swt.events.MenuListener;
 import org.eclipse.swt.events.MouseAdapter;
 import org.eclipse.swt.events.MouseEvent;
 import org.eclipse.swt.events.PaintEvent;
 import org.eclipse.swt.events.PaintListener;
+import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
-import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Font;
 import org.eclipse.swt.graphics.Point;
@@ -144,6 +146,10 @@ public class ScrollableChart extends Composite implements IScrollableChart, IEve
 	 * in case a chart directly extends from ScrollableChart instead of from LineChart, ... .
 	 */
 	private ChartType chartType = ChartType.NONE;
+	/*
+	 * Menu listener for receiving open/close updates.
+	 */
+	private MenuListener menuListener = null;
 
 	/**
 	 * This constructor is used, when clazz.newInstance() is needed.
@@ -174,6 +180,18 @@ public class ScrollableChart extends Composite implements IScrollableChart, IEve
 		sashForm.setBackground(color);
 		chartSection.setBackground(color);
 		compositeChart.setBackground(color);
+	}
+
+	/**
+	 * Register a menu listener. The chart menu is created dynamically, hence
+	 * this listener is used to receive updated even if the menu of this chart
+	 * has been replaced, dependent on the chart settings.
+	 * 
+	 * @param menuListener
+	 */
+	public void setMenuListener(MenuListener menuListener) {
+
+		this.menuListener = menuListener;
 	}
 
 	private class RangeHintPaintListener implements PaintListener {
@@ -1542,12 +1560,31 @@ public class ScrollableChart extends Composite implements IScrollableChart, IEve
 		if(area instanceof Control) {
 			Control plotArea = (Control)area;
 			Menu menu = new Menu(plotArea);
-			Menu m = plotArea.getMenu();
-			if(m != null) {
-				m.dispose();
+			Menu currentMenu = plotArea.getMenu();
+			if(currentMenu != null) {
+				currentMenu.dispose();
 			}
 			plotArea.setMenu(menu);
 			createMenuItems(menu);
+			//
+			menu.addMenuListener(new MenuListener() {
+
+				@Override
+				public void menuShown(MenuEvent menuEvent) {
+
+					if(menuListener != null) {
+						menuListener.menuShown(menuEvent);
+					}
+				}
+
+				@Override
+				public void menuHidden(MenuEvent menuEvent) {
+
+					if(menuListener != null) {
+						menuListener.menuHidden(menuEvent);
+					}
+				}
+			});
 		}
 	}
 
@@ -1608,17 +1645,12 @@ public class ScrollableChart extends Composite implements IScrollableChart, IEve
 			menuItem = new MenuItem(subMenu, SWT.PUSH);
 			menuItem.setText(name.getKey());
 			IChartMenuEntry menuEntry = name.getValue();
-			menuItem.addSelectionListener(new SelectionListener() {
+			menuItem.addSelectionListener(new SelectionAdapter() {
 
 				@Override
 				public void widgetSelected(SelectionEvent e) {
 
 					menuEntry.execute(getShell(), ScrollableChart.this);
-				}
-
-				@Override
-				public void widgetDefaultSelected(SelectionEvent e) {
-
 				}
 			});
 			String toolTipText = menuEntry.getToolTipText();
