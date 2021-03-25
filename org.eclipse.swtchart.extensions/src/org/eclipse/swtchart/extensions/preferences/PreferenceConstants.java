@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2020 Lablicate GmbH.
+ * Copyright (c) 2020, 2021 Lablicate GmbH.
  *
  * This program and the accompanying materials are made
  * available under the terms of the Eclipse Public License 2.0
@@ -16,6 +16,16 @@ public class PreferenceConstants {
 
 	public static final int MIN_MOVE_LEGEND = 1;
 	public static final int MAX_MOVE_LEGEND = 100;
+	/*
+	 * The buffered selection creates a screenshot and sets it in the background
+	 * while doing the data selection. This prevents to redraw the series while
+	 * doing the selection event. Known limitations:
+	 * ---
+	 * macOS - https://github.com/eclipse/swtchart/issues/150
+	 * GTK3 - https://github.com/eclipse/swtchart/issues/166
+	 */
+	public static final String P_BUFFER_SELECTION = "bufferSelection";
+	public static final boolean DEF_BUFFER_SELECTION = false;
 	//
 	public static final String P_MOVE_LEGEND_X = "moveLegendX";
 	public static final int DEF_MOVE_LEGEND_X = 10;

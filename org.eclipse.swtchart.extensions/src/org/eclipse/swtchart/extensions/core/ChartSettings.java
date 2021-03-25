@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2017, 2020 Lablicate GmbH.
+ * Copyright (c) 2017, 2021 Lablicate GmbH.
  *
  * This program and the accompanying materials are made
  * available under the terms of the Eclipse Public License 2.0
@@ -19,6 +19,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Font;
@@ -48,6 +49,7 @@ import org.eclipse.swtchart.extensions.menu.toggle.TogglePositionMarkerHandler;
 import org.eclipse.swtchart.extensions.menu.toggle.ToggleRangeSelectorHandler;
 import org.eclipse.swtchart.extensions.menu.toggle.ToggleSeriesLabelMarkerHandler;
 import org.eclipse.swtchart.extensions.menu.toggle.ToggleSeriesLegendHandler;
+import org.eclipse.swtchart.extensions.preferences.PreferenceConstants;
 
 public class ChartSettings implements IChartSettings {
 
@@ -118,6 +120,11 @@ public class ChartSettings implements IChartSettings {
 	public ChartSettings() {
 
 		Display display = Display.getDefault();
+		//
+		IPreferenceStore preferenceStore = ResourceSupport.getPreferenceStore();
+		if(preferenceStore != null) {
+			setBufferSelection(preferenceStore.getBoolean(PreferenceConstants.P_BUFFER_SELECTION));
+		}
 		//
 		colorHintRangeSelector = display.getSystemColor(SWT.COLOR_RED);
 		//
@@ -206,9 +213,9 @@ public class ChartSettings implements IChartSettings {
 	public void setBufferSelection(boolean bufferSelection) {
 
 		/*
-		 * macOS
-		 * Bug #150
-		 * https://github.com/eclipse/swtchart/issues/150
+		 * Limitations
+		 * macOS - https://github.com/eclipse/swtchart/issues/150
+		 * GTK3 - https://github.com/eclipse/swtchart/issues/166
 		 */
 		if(isMacOS()) {
 			System.out.println("Can't set buffer selection on macOS true, see: https://github.com/eclipse/swtchart/issues/150");

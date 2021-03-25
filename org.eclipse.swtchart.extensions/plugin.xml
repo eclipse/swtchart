@@ -9,5 +9,11 @@
             id="org.eclipse.swtchart.extensions.preferences.preferencePage"
             name="SWTChart">
       </page>
-   </extension>       
+   </extension>
+   <extension
+         point="org.eclipse.core.runtime.preferences">
+      <initializer
+            class="org.eclipse.swtchart.extensions.preferences.PreferenceInitializer">
+      </initializer>
+   </extension>          
 </plugin>
