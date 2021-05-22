@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2020 Lablicate GmbH.
+ * Copyright (c) 2020, 2021 Lablicate GmbH.
  *
  * This program and the accompanying materials are made
  * available under the terms of the Eclipse Public License 2.0
@@ -31,6 +31,7 @@ public class SeriesMapper {
 	private BaseChart baseChart;
 
 	public SeriesMapper(BaseChart baseChart) {
+
 		this.baseChart = baseChart;
 	}
 
@@ -42,6 +43,11 @@ public class SeriesMapper {
 	public static void remove(String key) {
 
 		MAPPINGS.remove(key);
+	}
+
+	public static void put(String key, ISeriesSettings seriesSettings) {
+
+		MAPPINGS.put(key, seriesSettings);
 	}
 
 	public static Set<Map.Entry<String, ISeriesSettings>> getMappings() {

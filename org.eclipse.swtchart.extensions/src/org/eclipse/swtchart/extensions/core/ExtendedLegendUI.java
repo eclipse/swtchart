@@ -18,6 +18,7 @@ import java.util.List;
 import org.eclipse.core.databinding.validation.IValidator;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.jface.action.MenuManager;
+import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.fieldassist.ControlDecoration;
 import org.eclipse.jface.fieldassist.FieldDecorationRegistry;
@@ -36,6 +37,7 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Menu;
 import org.eclipse.swt.widgets.Table;
@@ -67,6 +69,7 @@ public class ExtendedLegendUI extends Composite {
 	private boolean capturePosition = false;
 	//
 	private List<Control> controls = new ArrayList<>();
+	private Object input;
 	//
 	private IPreferenceStore preferenceStore = ResourceSupport.getPreferenceStore();
 
@@ -88,6 +91,7 @@ public class ExtendedLegendUI extends Composite {
 		/*
 		 * First adjust the settings.
 		 */
+		this.input = input;
 		if(input instanceof ISeries<?>[] && scrollableChart != null) {
 			ISeries<?>[] seriesArray = (ISeries<?>[])input;
 			BaseChart baseChart = scrollableChart.getBaseChart();
@@ -97,7 +101,7 @@ public class ExtendedLegendUI extends Composite {
 		/*
 		 * Then fill the series list.
 		 */
-		seriesListUI.setInput(input);
+		updateSeriesList();
 	}
 
 	private void createControl() {
@@ -322,8 +326,19 @@ public class ExtendedLegendUI extends Composite {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 
-				MappingsDialog mappingsDialog = new MappingsDialog(e.display.getActiveShell());
-				mappingsDialog.open();
+				MappingsDialog mappingsDialog = new MappingsDialog(e.display.getActiveShell(), scrollableChart);
+				int returnCode = mappingsDialog.open();
+				if(returnCode == IDialogConstants.OK_ID) {
+					updateSeriesList();
+					Display.getDefault().asyncExec(new Runnable() {
+
+						@Override
+						public void run() {
+
+							scrollableChart.adjustRange(true);
+						}
+					});
+				}
 			}
 		});
 		//
@@ -458,6 +473,11 @@ public class ExtendedLegendUI extends Composite {
 				control.setEnabled(enabled);
 			}
 		}
+	}
+
+	private void updateSeriesList() {
+
+		seriesListUI.setInput(input);
 	}
 
 	private boolean validate(IValidator validator, ControlDecoration controlDecoration, Text text) {

@@ -55,14 +55,56 @@ public class ResourceSupport {
 	public static final String ARROW_UP = "arrowUp.gif"; // $NON-NLS-1$
 	public static final String ARROW_DOWN = "arrowDown.gif"; // $NON-NLS-1$
 	public static final String ICON_SERIES_MARKER = "seriesMarker.gif"; // $NON-NLS-1$
+	public static final String ICON_IMPORT = "import.gif"; // $NON-NLS-1$
+	public static final String ICON_EXPORT = "export.gif"; // $NON-NLS-1$
 	//
 	private static final Map<RGB, Color> colorMap = new HashMap<>();
+	private static final String RGB_DELIMITER = ",";
+	//
 	private static final ResourceManager resourceManager = new LocalResourceManager(JFaceResources.getResources());
 	private static IPreferenceStore preferenceStore = null;
 	private static ImageRegistry imageRegistry = null;
 
 	private ResourceSupport() {
 
+	}
+
+	public static Color getColorDefault() {
+
+		return Display.getDefault().getSystemColor(SWT.COLOR_RED);
+	}
+
+	public static Color getColor(String color) {
+
+		if(color != null && !color.isEmpty()) {
+			String[] values = color.split(RGB_DELIMITER);
+			if(values.length == 3) {
+				int red = Integer.parseInt(values[0]);
+				int green = Integer.parseInt(values[1]);
+				int blue = Integer.parseInt(values[2]);
+				//
+				return getColor(new RGB(red, green, blue));
+			}
+		}
+		//
+		return getColorDefault();
+	}
+
+	public static String getColor(Color color) {
+
+		if(color == null) {
+			color = getColorDefault();
+		}
+		//
+		StringBuilder builder = new StringBuilder();
+		//
+		builder.append(color.getRed());
+		builder.append(RGB_DELIMITER);
+		builder.append(color.getGreen());
+		builder.append(RGB_DELIMITER);
+		builder.append(color.getBlue());
+		//
+		return builder.toString();
 	}
 
 	/**
@@ -175,6 +217,8 @@ public class ResourceSupport {
 		imageSet.add(ARROW_UP);
 		imageSet.add(ARROW_DOWN);
 		imageSet.add(ICON_SERIES_MARKER);
+		imageSet.add(ICON_IMPORT);
+		imageSet.add(ICON_EXPORT);
 		//
 		for(String image : imageSet) {
 			imageRegistry.put(image, createImageDescriptor(image));
