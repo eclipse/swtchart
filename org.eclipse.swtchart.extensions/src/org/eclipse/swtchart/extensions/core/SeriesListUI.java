@@ -16,7 +16,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.jface.preference.IPreferenceStore;
-import org.eclipse.jface.viewers.ArrayContentProvider;
 import org.eclipse.jface.viewers.IContentProvider;
 import org.eclipse.jface.viewers.ILabelProvider;
 import org.eclipse.jface.viewers.StyledCellLabelProvider;
@@ -34,12 +33,11 @@ import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
-import org.eclipse.swtchart.ISeries;
 import org.eclipse.swtchart.extensions.internal.support.SeriesComparator;
+import org.eclipse.swtchart.extensions.internal.support.SeriesContentProvider;
 import org.eclipse.swtchart.extensions.internal.support.SeriesEditingSupport;
 import org.eclipse.swtchart.extensions.internal.support.SeriesFilter;
 import org.eclipse.swtchart.extensions.internal.support.SeriesLabelProvider;
-import org.eclipse.swtchart.extensions.internal.support.SeriesMapper;
 import org.eclipse.swtchart.extensions.preferences.PreferenceConstants;
 
 public class SeriesListUI extends TableViewer {
@@ -50,13 +48,13 @@ public class SeriesListUI extends TableViewer {
 	private static final String COLUMN_DELIMITER = " ";
 	//
 	private ILabelProvider labelProvider = new SeriesLabelProvider();
-	private IContentProvider contentProvider = ArrayContentProvider.getInstance();
+	private IContentProvider contentProvider = new SeriesContentProvider();
 	private SeriesComparator comparator = new SeriesComparator();
 	private SeriesFilter filter = new SeriesFilter();
 	private List<TableViewerColumn> columns = new ArrayList<>();
-	private ScrollableChart scrollableChart;
 	//
 	private IPreferenceStore preferenceStore = ResourceSupport.getPreferenceStore();
+	private ScrollableChart scrollableChart = null;
 
 	public SeriesListUI(Composite parent, int style) {
 
@@ -89,21 +87,9 @@ public class SeriesListUI extends TableViewer {
 		this.scrollableChart = scrollableChart;
 	}
 
-	@Override
-	public void refresh() {
+	public ScrollableChart getScrollableChart() {
 
-		Object input = getInput();
-		if(input instanceof ISeries<?>[] && scrollableChart != null) {
-			ISeries<?>[] seriesArray = (ISeries<?>[])input;
-			SeriesMapper seriesMapper = new SeriesMapper(scrollableChart.getBaseChart());
-			seriesMapper.mapSettings(seriesArray);
-		}
-		//
-		if(scrollableChart != null) {
-			scrollableChart.redraw();
-		}
-		//
-		super.refresh();
+		return scrollableChart;
 	}
 
 	private void createControl() {

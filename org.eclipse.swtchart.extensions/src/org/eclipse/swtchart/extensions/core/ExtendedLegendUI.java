@@ -14,6 +14,7 @@ package org.eclipse.swtchart.extensions.core;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicReference;
 
 import org.eclipse.core.databinding.validation.IValidator;
 import org.eclipse.core.runtime.IStatus;
@@ -37,15 +38,14 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
-import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Menu;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.Text;
-import org.eclipse.swtchart.ISeries;
+import org.eclipse.swtchart.ISeriesSet;
 import org.eclipse.swtchart.extensions.internal.marker.EmbeddedLegend;
+import org.eclipse.swtchart.extensions.internal.support.MappingsSupport;
 import org.eclipse.swtchart.extensions.internal.support.PositionValidator;
-import org.eclipse.swtchart.extensions.internal.support.SeriesMapper;
 import org.eclipse.swtchart.extensions.menu.legend.HideInLegendAction;
 import org.eclipse.swtchart.extensions.menu.legend.HideSeriesAction;
 import org.eclipse.swtchart.extensions.menu.legend.SetColorAction;
@@ -63,13 +63,13 @@ public class ExtendedLegendUI extends Composite {
 	//
 	private Text textX;
 	private Text textY;
-	private SeriesListUI seriesListUI;
+	private AtomicReference<SeriesListUI> tableViewer = new AtomicReference<>();
 	//
 	private EmbeddedLegend embeddedLegend;
 	private boolean capturePosition = false;
 	//
 	private List<Control> controls = new ArrayList<>();
-	private Object input;
+	private ISeriesSet seriesSet;
 	//
 	private IPreferenceStore preferenceStore = ResourceSupport.getPreferenceStore();
 
@@ -82,25 +82,14 @@ public class ExtendedLegendUI extends Composite {
 	public void setScrollableChart(ScrollableChart scrollableChart) {
 
 		this.scrollableChart = scrollableChart;
-		seriesListUI.setScrollableChart(scrollableChart);
+		tableViewer.get().setScrollableChart(scrollableChart);
 		createEmbeddedLegend();
 	}
 
-	public void setInput(Object input) {
+	public void setInput(ISeriesSet seriesSet) {
 
-		/*
-		 * First adjust the settings.
-		 */
-		this.input = input;
-		if(input instanceof ISeries<?>[] && scrollableChart != null) {
-			ISeries<?>[] seriesArray = (ISeries<?>[])input;
-			BaseChart baseChart = scrollableChart.getBaseChart();
-			SeriesMapper seriesMapper = new SeriesMapper(baseChart);
-			seriesMapper.adjustSettings(seriesArray);
-		}
-		/*
-		 * Then fill the series list.
-		 */
+		this.seriesSet = seriesSet;
+		MappingsSupport.adjustSettings(scrollableChart);
 		updateSeriesList();
 	}
 
@@ -109,7 +98,7 @@ public class ExtendedLegendUI extends Composite {
 		setLayout(new GridLayout(1, true));
 		//
 		createToolbarMain(this);
-		seriesListUI = createListSection(this);
+		createListSection(this);
 		//
 		updateControls();
 		applySettings();
@@ -305,6 +294,7 @@ public class ExtendedLegendUI extends Composite {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 
+				SeriesListUI seriesListUI = tableViewer.get();
 				boolean enable = button.getSelection();
 				seriesListUI.setTableSortable(enable);
 				preferenceStore.setValue(PreferenceConstants.P_SORT_LEGEND_TABLE, enable);
@@ -319,7 +309,7 @@ public class ExtendedLegendUI extends Composite {
 
 		Button button = new Button(parent, SWT.PUSH);
 		button.setText("");
-		button.setToolTipText("Displays the mappings.");
+		button.setToolTipText("Display the mappings.");
 		button.setImage(ResourceSupport.getImage(ResourceSupport.ICON_MAPPINGS));
 		button.addSelectionListener(new SelectionAdapter() {
 
@@ -330,14 +320,6 @@ public class ExtendedLegendUI extends Composite {
 				int returnCode = mappingsDialog.open();
 				if(returnCode == IDialogConstants.OK_ID) {
 					updateSeriesList();
-					Display.getDefault().asyncExec(new Runnable() {
-
-						@Override
-						public void run() {
-
-							scrollableChart.adjustRange(true);
-						}
-					});
 				}
 			}
 		});
@@ -379,7 +361,7 @@ public class ExtendedLegendUI extends Composite {
 		updateLegendPosition(true);
 	}
 
-	private SeriesListUI createListSection(Composite parent) {
+	private void createListSection(Composite parent) {
 
 		SeriesListUI seriesListUI = new SeriesListUI(parent, SWT.MULTI | SWT.H_SCROLL | SWT.V_SCROLL | SWT.FULL_SELECTION | SWT.BORDER);
 		seriesListUI.setTableSortable(preferenceStore.getBoolean(PreferenceConstants.P_SORT_LEGEND_TABLE));
@@ -400,7 +382,7 @@ public class ExtendedLegendUI extends Composite {
 		Menu menu = menuManager.createContextMenu(table);
 		table.setMenu(menu);
 		//
-		return seriesListUI;
+		tableViewer.set(seriesListUI);
 	}
 
 	private void createEmbeddedLegend() {
@@ -477,7 +459,7 @@ public class ExtendedLegendUI extends Composite {
 
 	private void updateSeriesList() {
 
-		seriesListUI.setInput(input);
+		tableViewer.get().setInput(seriesSet);
 	}
 
 	private boolean validate(IValidator validator, ControlDecoration controlDecoration, Text text) {

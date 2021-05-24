@@ -10,12 +10,20 @@
  * Contributors:
  * Philip Wenig - initial API and implementation
  *******************************************************************************/
-package org.eclipse.swtchart.extensions.core;
+package org.eclipse.swtchart.extensions.internal.support;
 
-public enum MappingsType {
-	NONE, //
-	BAR, //
-	LINE, //
-	SCATTER, //
-	CIRCULAR; // TODO
+import org.eclipse.jface.viewers.IStructuredContentProvider;
+import org.eclipse.swtchart.ISeriesSet;
+
+public class SeriesContentProvider implements IStructuredContentProvider {
+
+	@Override
+	public Object[] getElements(Object input) {
+
+		if(input instanceof ISeriesSet) {
+			return ((ISeriesSet)input).getSeries();
+		} else {
+			return null;
+		}
+	}
 }

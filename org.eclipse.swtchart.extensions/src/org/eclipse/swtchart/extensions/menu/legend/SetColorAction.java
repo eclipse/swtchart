@@ -21,8 +21,8 @@ import org.eclipse.swt.graphics.RGB;
 import org.eclipse.swt.widgets.ColorDialog;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swtchart.ISeries;
-import org.eclipse.swtchart.extensions.core.ResourceSupport;
 import org.eclipse.swtchart.extensions.core.SeriesListUI;
+import org.eclipse.swtchart.extensions.internal.support.MappingsSupport;
 import org.eclipse.swtchart.extensions.internal.support.SeriesLabelProvider;
 
 public class SetColorAction extends AbstractMenuListener {
@@ -64,11 +64,10 @@ public class SetColorAction extends AbstractMenuListener {
 					colorDialog.setRGB(rgbActive);
 					RGB rgbNew = colorDialog.open();
 					if(rgbNew != null) {
-						Color colorNew = ResourceSupport.getColor(rgbNew);
 						for(ISeries<?> series : selectedSeries) {
-							SeriesLabelProvider.setColor(series, colorNew);
+							MappingsSupport.mapSettings(series, SeriesLabelProvider.COLOR, rgbNew, getScrollableChart());
 						}
-						seriesListUI.refresh();
+						refresh();
 					}
 				}
 			}

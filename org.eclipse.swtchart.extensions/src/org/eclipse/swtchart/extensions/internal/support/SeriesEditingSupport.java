@@ -16,22 +16,21 @@ import org.eclipse.jface.viewers.CellEditor;
 import org.eclipse.jface.viewers.CheckboxCellEditor;
 import org.eclipse.jface.viewers.ColorCellEditor;
 import org.eclipse.jface.viewers.EditingSupport;
-import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.TextCellEditor;
 import org.eclipse.swt.graphics.Color;
-import org.eclipse.swt.graphics.RGB;
 import org.eclipse.swtchart.ISeries;
-import org.eclipse.swtchart.extensions.core.ResourceSupport;
+import org.eclipse.swtchart.extensions.core.ScrollableChart;
+import org.eclipse.swtchart.extensions.core.SeriesListUI;
 
 public class SeriesEditingSupport extends EditingSupport {
 
-	private TableViewer tableViewer;
+	private SeriesListUI seriesListUI;
 	private String title = "";
 
-	public SeriesEditingSupport(TableViewer tableViewer, String title) {
+	public SeriesEditingSupport(SeriesListUI seriesListUI, String title) {
 
-		super(tableViewer);
-		this.tableViewer = tableViewer;
+		super(seriesListUI);
+		this.seriesListUI = seriesListUI;
 		this.title = title;
 	}
 
@@ -69,16 +68,16 @@ public class SeriesEditingSupport extends EditingSupport {
 		CellEditor cellEditor;
 		switch(title) {
 			case SeriesLabelProvider.VISIBLE:
-				cellEditor = new CheckboxCellEditor(tableViewer.getTable());
+				cellEditor = new CheckboxCellEditor(seriesListUI.getTable());
 				break;
 			case SeriesLabelProvider.VISIBLE_IN_LEGEND:
-				cellEditor = new CheckboxCellEditor(tableViewer.getTable());
+				cellEditor = new CheckboxCellEditor(seriesListUI.getTable());
 				break;
 			case SeriesLabelProvider.COLOR:
-				cellEditor = new ColorCellEditor(tableViewer.getTable());
+				cellEditor = new ColorCellEditor(seriesListUI.getTable());
 				break;
 			case SeriesLabelProvider.DESCRIPTION:
-				cellEditor = new TextCellEditor(tableViewer.getTable());
+				cellEditor = new TextCellEditor(seriesListUI.getTable());
 				break;
 			default:
 				cellEditor = null;
@@ -117,32 +116,19 @@ public class SeriesEditingSupport extends EditingSupport {
 
 		if(element instanceof ISeries) {
 			ISeries<?> series = (ISeries<?>)element;
-			switch(title) {
-				case SeriesLabelProvider.VISIBLE:
-					series.setVisible(Boolean.parseBoolean(object.toString()));
-					break;
-				case SeriesLabelProvider.VISIBLE_IN_LEGEND:
-					series.setVisibleInLegend(Boolean.parseBoolean(object.toString()));
-					break;
-				case SeriesLabelProvider.COLOR:
-					if(object instanceof RGB) {
-						/*
-						 * Create the color
-						 */
-						RGB rgb = (RGB)object;
-						Color color = ResourceSupport.getColor(rgb);
-						SeriesLabelProvider.setColor(series, color);
-					}
-					break;
-				case SeriesLabelProvider.DESCRIPTION:
-					series.setDescription(object.toString().trim());
-					break;
-				default:
-					// No action
-					break;
-			}
-			//
-			getViewer().refresh();
+			MappingsSupport.mapSettings(series, title, object, getScrollableChart());
+			refresh();
 		}
+	}
+
+	private ScrollableChart getScrollableChart() {
+
+		return seriesListUI.getScrollableChart();
+	}
+
+	private void refresh() {
+
+		MappingsSupport.adjustSettings(getScrollableChart());
+		seriesListUI.refresh();
 	}
 }

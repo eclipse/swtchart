@@ -18,6 +18,8 @@ import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.swtchart.ISeries;
 import org.eclipse.swtchart.extensions.core.SeriesListUI;
+import org.eclipse.swtchart.extensions.internal.support.MappingsSupport;
+import org.eclipse.swtchart.extensions.internal.support.SeriesLabelProvider;
 
 public class ShowSeriesAction extends AbstractMenuListener {
 
@@ -46,12 +48,11 @@ public class ShowSeriesAction extends AbstractMenuListener {
 			@Override
 			public void run() {
 
-				SeriesListUI seriesListUI = getSeriesListUI();
 				List<ISeries<?>> selectedSeries = getSelectedSeries();
 				for(ISeries<?> series : selectedSeries) {
-					series.setVisible(true);
+					MappingsSupport.mapSettings(series, SeriesLabelProvider.VISIBLE, true, getScrollableChart());
 				}
-				seriesListUI.refresh();
+				refresh();
 			}
 		});
 	}

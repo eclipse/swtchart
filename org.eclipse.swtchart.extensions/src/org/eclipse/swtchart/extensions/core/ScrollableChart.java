@@ -997,7 +997,7 @@ public class ScrollableChart extends Composite implements IScrollableChart, IEve
 	private void updateLegend() {
 
 		ISeriesSet seriesSet = baseChart.getSeriesSet();
-		extendedLegendUI.setInput(seriesSet.getSeries());
+		extendedLegendUI.setInput(seriesSet);
 	}
 
 	private void setSliderSelection(boolean calculateIncrement) {

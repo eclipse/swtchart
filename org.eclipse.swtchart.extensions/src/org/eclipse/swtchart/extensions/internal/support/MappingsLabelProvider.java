@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2020 Lablicate GmbH.
+ * Copyright (c) 2020, 2021 Lablicate GmbH.
  *
  * This program and the accompanying materials are made
  * available under the terms of the Eclipse Public License 2.0
@@ -18,6 +18,7 @@ import org.eclipse.jface.viewers.ColumnLabelProvider;
 import org.eclipse.jface.viewers.ITableLabelProvider;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swtchart.extensions.core.ISeriesSettings;
+import org.eclipse.swtchart.extensions.core.ResourceSupport;
 
 public class MappingsLabelProvider extends ColumnLabelProvider implements ITableLabelProvider {
 
@@ -30,13 +31,16 @@ public class MappingsLabelProvider extends ColumnLabelProvider implements ITable
 	};
 	//
 	public static final int[] BOUNDS = { //
-			200, //
+			24, //
 			200 //
 	};
 
 	@Override
 	public Image getColumnImage(Object element, int columnIndex) {
 
+		if(columnIndex == 0) {
+			return ResourceSupport.getImage(ResourceSupport.ICON_SERIES_MARKER);
+		}
 		return null;
 	}
 

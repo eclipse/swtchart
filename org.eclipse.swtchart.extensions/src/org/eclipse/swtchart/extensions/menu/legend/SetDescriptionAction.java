@@ -22,6 +22,8 @@ import org.eclipse.jface.dialogs.InputDialog;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swtchart.ISeries;
 import org.eclipse.swtchart.extensions.core.SeriesListUI;
+import org.eclipse.swtchart.extensions.internal.support.MappingsSupport;
+import org.eclipse.swtchart.extensions.internal.support.SeriesLabelProvider;
 
 public class SetDescriptionAction extends AbstractMenuListener {
 
@@ -75,11 +77,11 @@ public class SetDescriptionAction extends AbstractMenuListener {
 					});
 					//
 					if(IDialogConstants.OK_ID == dialog.open()) {
-						String description = dialog.getValue();
+						Object object = dialog.getValue();
 						for(ISeries<?> series : selectedSeries) {
-							series.setDescription(description);
+							MappingsSupport.mapSettings(series, SeriesLabelProvider.DESCRIPTION, object, getScrollableChart());
 						}
-						seriesListUI.refresh();
+						refresh();
 					}
 				}
 			}

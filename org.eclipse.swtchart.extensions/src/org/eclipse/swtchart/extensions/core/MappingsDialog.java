@@ -30,6 +30,8 @@ import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.FileDialog;
 import org.eclipse.swt.widgets.MessageBox;
 import org.eclipse.swt.widgets.Shell;
+import org.eclipse.swtchart.extensions.internal.support.MappingsIO;
+import org.eclipse.swtchart.extensions.internal.support.MappingsSupport;
 import org.eclipse.swtchart.extensions.internal.support.SeriesMapper;
 import org.eclipse.swtchart.extensions.preferences.PreferenceConstants;
 
@@ -100,17 +102,17 @@ public class MappingsDialog extends Dialog {
 		composite.setLayoutData(gridData);
 		composite.setLayout(new GridLayout(4, false));
 		//
-		createButtonDelete(composite);
-		createButtonDeleteAll(composite);
+		createButtonReset(composite);
+		createButtonResetAll(composite);
 		createButtonImport(composite);
 		createButtonExport(composite);
 	}
 
-	private Button createButtonDelete(Composite parent) {
+	private Button createButtonReset(Composite parent) {
 
 		Button button = new Button(parent, SWT.PUSH);
 		button.setText("");
-		button.setToolTipText("Delete the selected mappings.");
+		button.setToolTipText("Reset the selected mappings.");
 		button.setImage(ResourceSupport.getImage(ResourceSupport.ICON_DELETE));
 		button.addSelectionListener(new SelectionAdapter() {
 
@@ -120,7 +122,7 @@ public class MappingsDialog extends Dialog {
 
 				MessageBox messageBox = new MessageBox(e.display.getActiveShell(), SWT.ICON_QUESTION | SWT.YES | SWT.NO);
 				messageBox.setText(DESCRIPTION);
-				messageBox.setMessage("Would you like to delete the selected mappings?");
+				messageBox.setMessage("Would you like to reset the selected mappings?");
 				int decision = messageBox.open();
 				if(SWT.YES == decision) {
 					Iterator iterator = mappingsListUI.getStructuredSelection().iterator();
@@ -128,7 +130,7 @@ public class MappingsDialog extends Dialog {
 						Object object = iterator.next();
 						if(object instanceof Map.Entry) {
 							Map.Entry<String, ISeriesSettings> entry = (Map.Entry<String, ISeriesSettings>)object;
-							SeriesMapper.remove(entry.getKey());
+							SeriesMapper.reset(entry.getKey());
 						}
 					}
 					updateInput();
@@ -139,11 +141,11 @@ public class MappingsDialog extends Dialog {
 		return button;
 	}
 
-	private Button createButtonDeleteAll(Composite parent) {
+	private Button createButtonResetAll(Composite parent) {
 
 		Button button = new Button(parent, SWT.PUSH);
 		button.setText("");
-		button.setToolTipText("Delete all mappings.");
+		button.setToolTipText("Reset all mappings.");
 		button.setImage(ResourceSupport.getImage(ResourceSupport.ICON_DELETE_ALL));
 		button.addSelectionListener(new SelectionAdapter() {
 
@@ -152,10 +154,10 @@ public class MappingsDialog extends Dialog {
 
 				MessageBox messageBox = new MessageBox(e.display.getActiveShell(), SWT.ICON_QUESTION | SWT.YES | SWT.NO);
 				messageBox.setText(DESCRIPTION);
-				messageBox.setMessage("Would you like to delete all mappings?");
+				messageBox.setMessage("Would you like to reset all mappings?");
 				int decision = messageBox.open();
 				if(SWT.YES == decision) {
-					SeriesMapper.clear();
+					SeriesMapper.reset();
 					updateInput();
 				}
 			}
@@ -187,25 +189,13 @@ public class MappingsDialog extends Dialog {
 					Map<String, ISeriesSettings> mappings = MappingsIO.importSettings(file);
 					for(Map.Entry<String, ISeriesSettings> mapping : mappings.entrySet()) {
 						/*
-						 * Map
+						 * Map the settings
 						 */
 						String id = mapping.getKey();
-						ISeriesSettings seriesSettings = null;
-						/*
-						 * Adjust the series
-						 */
-						if(scrollableChart != null) {
-							BaseChart baseChart = scrollableChart.getBaseChart();
-							seriesSettings = baseChart.getSeriesSettings(id);
-							if(seriesSettings != null) {
-								MappingsIO.transferSettings(mapping.getValue(), seriesSettings);
-								MappingsIO.transferSettings(mapping.getValue().getSeriesSettingsHighlight(), seriesSettings.getSeriesSettingsHighlight());
-							}
-						}
-						//
-						SeriesMapper.put(id, seriesSettings == null ? mapping.getValue() : seriesSettings);
+						ISeriesSettings seriesSettings = mapping.getValue();
+						ISeriesSettings seriesSettingsDefault = SeriesMapper.getSeriesSettingsDefault(id, scrollableChart);
+						SeriesMapper.mapSetting(id, seriesSettings, seriesSettingsDefault);
 					}
-					//
 					updateInput();
 				}
 			}
@@ -246,6 +236,7 @@ public class MappingsDialog extends Dialog {
 
 	private void updateInput() {
 
+		MappingsSupport.adjustSettings(scrollableChart);
 		mappingsListUI.setInput(SeriesMapper.getMappings());
 	}
 }

@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2017, 2020 Lablicate GmbH.
+ * Copyright (c) 2017, 2021 Lablicate GmbH.
  *
  * This program and the accompanying materials are made
  * available under the terms of the Eclipse Public License 2.0
@@ -15,6 +15,7 @@ package org.eclipse.swtchart.export.core;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.atomic.AtomicReference;
 
 import org.eclipse.jface.dialogs.IMessageProvider;
 import org.eclipse.jface.dialogs.TitleAreaDialog;
@@ -40,7 +41,7 @@ public class ExportSettingsDialog extends TitleAreaDialog {
 
 	private BaseChart baseChart;
 	private Map<String, ISeriesSettings> cache;
-	private SeriesListUI seriesListUI;
+	private AtomicReference<SeriesListUI> tableViewer = new AtomicReference<>();
 	private IPreferenceStore preferenceStore = ResourceSupport.getPreferenceStore();
 	//
 	private Combo comboScaleX;
@@ -90,13 +91,15 @@ public class ExportSettingsDialog extends TitleAreaDialog {
 
 	private void createSeriesList(Composite container) {
 
-		seriesListUI = new SeriesListUI(container, SWT.MULTI | SWT.H_SCROLL | SWT.V_SCROLL | SWT.FULL_SELECTION | SWT.BORDER);
+		SeriesListUI seriesListUI = new SeriesListUI(container, SWT.MULTI | SWT.H_SCROLL | SWT.V_SCROLL | SWT.FULL_SELECTION | SWT.BORDER);
 		seriesListUI.setTableSortable(preferenceStore.getBoolean(PreferenceConstants.P_SORT_LEGEND_TABLE));
 		Table table = seriesListUI.getTable();
 		GridData gridData = new GridData(GridData.FILL_BOTH);
 		gridData.horizontalSpan = 2;
 		table.setLayoutData(gridData);
-		seriesListUI.setInput(baseChart.getSeriesSet().getSeries());
+		seriesListUI.setInput(baseChart.getSeriesSet());
+		//
+		tableViewer.set(seriesListUI);
 	}
 
 	private void createSelectionAxisX(Composite container) {
