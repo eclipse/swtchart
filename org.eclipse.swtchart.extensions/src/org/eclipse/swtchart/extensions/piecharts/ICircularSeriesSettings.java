@@ -1,51 +1,49 @@
 /*******************************************************************************
- * Copyright (c) 2020 SWTChart project.
+ * Copyright (c) 2020, 2021 SWTChart project.
  *
  * This program and the accompanying materials are made
- * available under the terms of the Eclipse Public License 2.0
+ * available under the terms of the Eclipse License 2.0
  * which is available at https://www.eclipse.org/legal/epl-2.0/
  *
  * SPDX-License-Identifier: EPL-2.0
  * 
  * Contributors:
- * Himanshu Balasamanta Orignal API and implementation
+ * Himanshu Balasamanta - original API and implementation
+ * Philip Wenig - extends series settings
  *******************************************************************************/
 package org.eclipse.swtchart.extensions.piecharts;
 
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swtchart.ISeries.SeriesType;
+import org.eclipse.swtchart.extensions.core.ISeriesSettings;
 
-public interface ICircularSeriesSettings {
+public interface ICircularSeriesSettings extends ISeriesSettings {
 
-	public void setBorderColor(Color color);
+	void setBorderColor(Color color);
 
-	public void setBorderWidth(int width);
+	void setBorderWidth(int width);
 
-	public void setBorderStyle(int borderStyle);
+	void setBorderStyle(int borderStyle);
 
-	public Color getBorderColor();
+	Color getBorderColor();
 
-	public int getBorderWidth();
+	int getBorderWidth();
 
-	public int getBorderStyle();
+	int getBorderStyle();
 
-	public void setSeriesType(SeriesType type);
+	void setSeriesType(SeriesType type);
 
-	public SeriesType getSeriesType();
+	SeriesType getSeriesType();
 
-	public void setDescription(String id);
+	void setRedrawOnClick(boolean redraw);
 
-	public String getDescription();
+	boolean isRedrawOnClick();
 
-	public void setRedrawOnClick(boolean redraw);
+	void setFillEntireSpace(boolean fillEntireSpace);
 
-	public boolean isRedrawOnClick();
+	boolean isEntireSpaceFilled();
 
-	public void setFillEntireSpace(boolean fillEntireSpace);
+	void setHighlightLineWidth(int width);
 
-	public boolean isEntireSpaceFilled();
-
-	public void setHighlightLineWidth(int width);
-
-	public int getHighlightLineWidth();
+	int getHighlightLineWidth();
 }

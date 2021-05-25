@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2020 SWTChart project.
+ * Copyright (c) 2020, 2021 SWTChart project.
  *
  * This program and the accompanying materials are made
  * available under the terms of the Eclipse Public License 2.0
@@ -8,7 +8,8 @@
  * SPDX-License-Identifier: EPL-2.0
  * 
  * Contributors:
- * Himanshu Balasamanta Orignal API and implementation
+ * Himanshu Balasamanta - original API and implementation
+ * Philip Wenig - extends series settings
  *******************************************************************************/
 package org.eclipse.swtchart.extensions.piecharts;
 
@@ -21,30 +22,14 @@ import org.eclipse.swtchart.extensions.core.ISeriesSettings;
 
 public class CircularSeriesSettings extends AbstractSeriesSettings implements ICircularSeriesSettings {
 
-	private Color borderColor;
-	private int borderWidth;
-	private int highlightLineWidth;
-	private int borderStyle;
-	private SeriesType type;
-	private boolean redrawOnClick;
-	private boolean fillEntireSpace;
-
-	public CircularSeriesSettings() {
-
-		borderColor = Display.getDefault().getSystemColor(SWT.COLOR_BLACK);
-		borderWidth = 1;
-		highlightLineWidth = 2;
-		borderStyle = SWT.LINE_SOLID;
-		redrawOnClick = true;
-		fillEntireSpace = false;
-		type = SeriesType.PIE;
-	}
-
-	@Override
-	public ISeriesSettings getSeriesSettingsHighlight() {
-
-		return null;
-	}
+	private Color borderColor = Display.getDefault().getSystemColor(SWT.COLOR_BLACK);
+	private int borderWidth = 1;
+	private int highlightLineWidth = 2;
+	private int borderStyle = SWT.LINE_SOLID;
+	private SeriesType seriesType = SeriesType.PIE;
+	private boolean redrawOnClick = true;
+	private boolean fillEntireSpace = false;
+	private ICircularSeriesSettings seriesSettingsHighlight = null;
 
 	@Override
 	public Color getBorderColor() {
@@ -85,13 +70,13 @@ public class CircularSeriesSettings extends AbstractSeriesSettings implements IC
 	@Override
 	public void setSeriesType(SeriesType type) {
 
-		this.type = type;
+		this.seriesType = type;
 	}
 
 	@Override
 	public SeriesType getSeriesType() {
 
-		return type;
+		return seriesType;
 	}
 
 	@Override
@@ -128,5 +113,55 @@ public class CircularSeriesSettings extends AbstractSeriesSettings implements IC
 	public boolean isEntireSpaceFilled() {
 
 		return fillEntireSpace;
+	}
+
+	@Override
+	public ISeriesSettings getSeriesSettingsHighlight() {
+
+		if(seriesSettingsHighlight == null) {
+			try {
+				seriesSettingsHighlight = (ICircularSeriesSettings)this.clone();
+			} catch(CloneNotSupportedException e) {
+				seriesSettingsHighlight = new CircularSeriesSettings();
+			}
+		}
+		return seriesSettingsHighlight;
+	}
+
+	@Override
+	public ISeriesSettings makeDeepCopy() {
+
+		ICircularSeriesSettings circularSeriesSettings = new CircularSeriesSettings();
+		transfer(circularSeriesSettings);
+		return circularSeriesSettings;
+	}
+
+	@Override
+	public boolean transfer(ISeriesSettings seriesSettingsSink) {
+
+		boolean success = false;
+		if(seriesSettingsSink instanceof ICircularSeriesSettings) {
+			ICircularSeriesSettings source = this;
+			ICircularSeriesSettings sink = (ICircularSeriesSettings)seriesSettingsSink;
+			sink.setDescription(source.getDescription());
+			sink.setBorderColor(source.getBorderColor());
+			sink.setBorderWidth(source.getBorderWidth());
+			sink.setHighlightLineWidth(source.getHighlightLineWidth());
+			sink.setBorderStyle(source.getBorderStyle());
+			sink.setSeriesType(source.getSeriesType());
+			sink.setRedrawOnClick(source.isRedrawOnClick());
+			sink.setFillEntireSpace(source.isEntireSpaceFilled());
+			success = true;
+		}
+		//
+		return success;
+	}
+
+	@Override
+	protected Object clone() throws CloneNotSupportedException {
+
+		ICircularSeriesSettings circularSeriesSettings = new CircularSeriesSettings();
+		transfer(circularSeriesSettings);
+		return circularSeriesSettings;
 	}
 }

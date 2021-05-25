@@ -100,10 +100,11 @@ public class MappingsDialog extends Dialog {
 		GridData gridData = new GridData(GridData.FILL_HORIZONTAL);
 		gridData.horizontalAlignment = SWT.END;
 		composite.setLayoutData(gridData);
-		composite.setLayout(new GridLayout(4, false));
+		composite.setLayout(new GridLayout(5, false));
 		//
 		createButtonReset(composite);
 		createButtonResetAll(composite);
+		createButtonDeleteAll(composite);
 		createButtonImport(composite);
 		createButtonExport(composite);
 	}
@@ -113,7 +114,7 @@ public class MappingsDialog extends Dialog {
 		Button button = new Button(parent, SWT.PUSH);
 		button.setText("");
 		button.setToolTipText("Reset the selected mappings.");
-		button.setImage(ResourceSupport.getImage(ResourceSupport.ICON_DELETE));
+		button.setImage(ResourceSupport.getImage(ResourceSupport.ICON_RESET_SELECTED));
 		button.addSelectionListener(new SelectionAdapter() {
 
 			@SuppressWarnings({"rawtypes", "unchecked"})
@@ -146,7 +147,7 @@ public class MappingsDialog extends Dialog {
 		Button button = new Button(parent, SWT.PUSH);
 		button.setText("");
 		button.setToolTipText("Reset all mappings.");
-		button.setImage(ResourceSupport.getImage(ResourceSupport.ICON_DELETE_ALL));
+		button.setImage(ResourceSupport.getImage(ResourceSupport.ICON_RESET_ALL));
 		button.addSelectionListener(new SelectionAdapter() {
 
 			@Override
@@ -158,6 +159,31 @@ public class MappingsDialog extends Dialog {
 				int decision = messageBox.open();
 				if(SWT.YES == decision) {
 					SeriesMapper.reset();
+					updateInput();
+				}
+			}
+		});
+		//
+		return button;
+	}
+
+	private Button createButtonDeleteAll(Composite parent) {
+
+		Button button = new Button(parent, SWT.PUSH);
+		button.setText("");
+		button.setToolTipText("Delete all mappings.");
+		button.setImage(ResourceSupport.getImage(ResourceSupport.ICON_DELETE_ALL));
+		button.addSelectionListener(new SelectionAdapter() {
+
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+
+				MessageBox messageBox = new MessageBox(e.display.getActiveShell(), SWT.ICON_QUESTION | SWT.YES | SWT.NO);
+				messageBox.setText(DESCRIPTION);
+				messageBox.setMessage("Would you like to delete all mappings?");
+				int decision = messageBox.open();
+				if(SWT.YES == decision) {
+					SeriesMapper.clearAll();
 					updateInput();
 				}
 			}

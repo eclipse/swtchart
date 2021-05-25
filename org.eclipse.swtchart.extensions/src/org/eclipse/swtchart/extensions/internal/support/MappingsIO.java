@@ -23,6 +23,7 @@ import java.util.Set;
 import org.eclipse.swtchart.extensions.core.ISeriesSettings;
 import org.eclipse.swtchart.extensions.core.MappingsType;
 import org.eclipse.swtchart.extensions.core.ResourceSupport;
+import org.eclipse.swtchart.extensions.linecharts.ILineSeriesSettings;
 
 public class MappingsIO {
 
@@ -36,11 +37,11 @@ public class MappingsIO {
 			String line = null;
 			while((line = bufferedReader.readLine()) != null) {
 				/*
-				 * 10 items =>
+				 * 12 items =>
 				 * mapping, key, ...
 				 */
 				String[] values = line.split(DELIMITER);
-				if(values.length == 10) {
+				if(values.length == 12) {
 					ISeriesSettings seriesSettings = MappingsSupport.createSeriesSettings(values[0]);
 					if(seriesSettings != null) {
 						String key = values[1];
@@ -49,12 +50,14 @@ public class MappingsIO {
 						seriesSettings.setVisible(Boolean.parseBoolean(values[3]));
 						seriesSettings.setVisibleInLegend(Boolean.parseBoolean(values[4]));
 						MappingsSupport.setColor(seriesSettings, ResourceSupport.getColor(values[5]));
+						MappingsSupport.setEnableArea(seriesSettings, Boolean.parseBoolean(values[6]));
 						//
 						ISeriesSettings seriesSettingsHighlight = seriesSettings.getSeriesSettingsHighlight();
-						seriesSettingsHighlight.setDescription(values[6]);
-						seriesSettingsHighlight.setVisible(Boolean.parseBoolean(values[7]));
-						seriesSettingsHighlight.setVisibleInLegend(Boolean.parseBoolean(values[8]));
-						MappingsSupport.setColor(seriesSettingsHighlight, ResourceSupport.getColor(values[9]));
+						seriesSettingsHighlight.setDescription(values[7]);
+						seriesSettingsHighlight.setVisible(Boolean.parseBoolean(values[8]));
+						seriesSettingsHighlight.setVisibleInLegend(Boolean.parseBoolean(values[9]));
+						MappingsSupport.setColor(seriesSettingsHighlight, ResourceSupport.getColor(values[10]));
+						MappingsSupport.setEnableArea(seriesSettingsHighlight, Boolean.parseBoolean(values[11]));
 						//
 						mappings.put(key, seriesSettings);
 					}
@@ -106,5 +109,17 @@ public class MappingsIO {
 		printWriter.print(seriesSetting.isVisibleInLegend());
 		printWriter.print(DELIMITER);
 		printWriter.print(ResourceSupport.getColor(MappingsSupport.getColor(seriesSetting)));
+		printWriter.print(DELIMITER);
+		printWriter.print(isEnableArea(seriesSetting));
+	}
+
+	private static boolean isEnableArea(ISeriesSettings seriesSetting) {
+
+		if(seriesSetting instanceof ILineSeriesSettings) {
+			ILineSeriesSettings lineSeriesSettings = (ILineSeriesSettings)seriesSetting;
+			return lineSeriesSettings.isEnableArea();
+		} else {
+			return false;
+		}
 	}
 }

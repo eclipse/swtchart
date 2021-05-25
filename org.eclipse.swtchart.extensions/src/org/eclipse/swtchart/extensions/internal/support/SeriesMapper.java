@@ -36,6 +36,15 @@ public class SeriesMapper {
 	}
 
 	/**
+	 * Clears all defaults and mappings.
+	 */
+	public static void clearAll() {
+
+		DEFAULTS.clear();
+		MAPPINGS.clear();
+	}
+
+	/**
 	 * Clears all mappings.
 	 */
 	public static void clear() {

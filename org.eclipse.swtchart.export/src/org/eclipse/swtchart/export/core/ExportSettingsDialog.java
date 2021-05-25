@@ -40,7 +40,7 @@ import org.eclipse.swtchart.extensions.preferences.PreferenceConstants;
 public class ExportSettingsDialog extends TitleAreaDialog {
 
 	private BaseChart baseChart;
-	private Map<String, ISeriesSettings> cache;
+	private Map<String, ISeriesSettings> cache = new HashMap<String, ISeriesSettings>();
 	private AtomicReference<SeriesListUI> tableViewer = new AtomicReference<>();
 	private IPreferenceStore preferenceStore = ResourceSupport.getPreferenceStore();
 	//
@@ -54,13 +54,16 @@ public class ExportSettingsDialog extends TitleAreaDialog {
 
 		super(parent);
 		this.baseChart = baseChart;
+		/*
+		 * Cache the settings an make a deep copy
+		 * as the user may modify the settings interactively.
+		 */
 		ISeries<?>[] seriesArray = baseChart.getSeriesSet().getSeries();
-		cache = new HashMap<String, ISeriesSettings>();
 		for(ISeries<?> series : seriesArray) {
 			String id = series.getId();
-			ISeriesSettings seriesSetting = baseChart.getSeriesSettings(id);
-			if(seriesSetting != null) {
-				cache.put(id, seriesSetting);
+			ISeriesSettings seriesSettings = baseChart.getSeriesSettings(id);
+			if(seriesSettings != null) {
+				cache.put(id, seriesSettings.makeDeepCopy());
 			}
 		}
 	}

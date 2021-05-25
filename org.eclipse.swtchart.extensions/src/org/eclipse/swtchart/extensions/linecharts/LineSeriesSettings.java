@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2017, 2019 Lablicate GmbH.
+ * Copyright (c) 2017, 2021 Lablicate GmbH.
  *
  * This program and the accompanying materials are made
  * available under the terms of the Eclipse Public License 2.0
@@ -128,22 +128,44 @@ public class LineSeriesSettings extends AbstractPointSeriesSettings implements I
 	}
 
 	@Override
+	public ISeriesSettings makeDeepCopy() {
+
+		ILineSeriesSettings lineSeriesSettings = new LineSeriesSettings();
+		transfer(lineSeriesSettings);
+		return lineSeriesSettings;
+	}
+
+	@Override
+	public boolean transfer(ISeriesSettings seriesSettingsSink) {
+
+		boolean success = false;
+		if(seriesSettingsSink instanceof ILineSeriesSettings) {
+			ILineSeriesSettings source = this;
+			ILineSeriesSettings sink = (ILineSeriesSettings)seriesSettingsSink;
+			sink.setDescription(source.getDescription());
+			sink.setVisible(source.isVisible());
+			sink.setVisibleInLegend(source.isVisibleInLegend());
+			sink.setAntialias(source.getAntialias());
+			sink.setEnableArea(source.isEnableArea());
+			sink.setSymbolType(source.getSymbolType());
+			sink.setSymbolSize(source.getSymbolSize());
+			sink.setSymbolColor(source.getSymbolColor());
+			sink.setLineColor(source.getLineColor());
+			sink.setLineWidth(source.getLineWidth());
+			sink.setEnableStack(source.isEnableStack());
+			sink.setEnableStep(source.isEnableStep());
+			sink.setLineStyle(source.getLineStyle());
+			success = true;
+		}
+		//
+		return success;
+	}
+
+	@Override
 	protected Object clone() throws CloneNotSupportedException {
 
 		ILineSeriesSettings lineSeriesSettings = new LineSeriesSettings();
-		lineSeriesSettings.setDescription(this.getDescription());
-		lineSeriesSettings.setVisible(this.isVisible());
-		lineSeriesSettings.setVisibleInLegend(this.isVisibleInLegend());
-		lineSeriesSettings.setAntialias(this.getAntialias());
-		lineSeriesSettings.setEnableArea(this.isEnableArea());
-		lineSeriesSettings.setSymbolType(this.getSymbolType());
-		lineSeriesSettings.setSymbolSize(this.getSymbolSize());
-		lineSeriesSettings.setSymbolColor(this.getSymbolColor());
-		lineSeriesSettings.setLineColor(this.getLineColor());
-		lineSeriesSettings.setLineWidth(this.getLineWidth());
-		lineSeriesSettings.setEnableStack(this.isEnableStack());
-		lineSeriesSettings.setEnableStep(this.isEnableStep());
-		lineSeriesSettings.setLineStyle(this.getLineStyle());
+		transfer(lineSeriesSettings);
 		return lineSeriesSettings;
 	}
 }

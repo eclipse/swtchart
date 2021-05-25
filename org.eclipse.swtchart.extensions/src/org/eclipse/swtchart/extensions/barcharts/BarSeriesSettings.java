@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2017, 2019 Lablicate GmbH.
+ * Copyright (c) 2017, 2021 Lablicate GmbH.
  *
  * This program and the accompanying materials are made
  * available under the terms of the Eclipse Public License 2.0
@@ -115,18 +115,39 @@ public class BarSeriesSettings extends AbstractSeriesSettings implements IBarSer
 	}
 
 	@Override
-	protected Object clone() throws CloneNotSupportedException {
+	public ISeriesSettings makeDeepCopy() {
 
 		IBarSeriesSettings barSeriesSettings = new BarSeriesSettings();
-		barSeriesSettings.setDescription(this.getDescription());
-		barSeriesSettings.setVisible(this.isVisible());
-		barSeriesSettings.setVisibleInLegend(this.isVisibleInLegend());
-		barSeriesSettings.setBarColor(this.getBarColor());
-		barSeriesSettings.setBarPadding(this.getBarPadding());
-		barSeriesSettings.setBarWidth(this.getBarWidth());
-		barSeriesSettings.setBarOverlay(this.isBarOverlay());
-		barSeriesSettings.setEnableStack(this.isEnableStack());
+		transfer(barSeriesSettings);
 		return barSeriesSettings;
 	}
 
+	@Override
+	public boolean transfer(ISeriesSettings seriesSettingsSink) {
+
+		boolean success = false;
+		if(seriesSettingsSink instanceof IBarSeriesSettings) {
+			IBarSeriesSettings source = this;
+			IBarSeriesSettings sink = (IBarSeriesSettings)seriesSettingsSink;
+			sink.setDescription(source.getDescription());
+			sink.setVisible(source.isVisible());
+			sink.setVisibleInLegend(source.isVisibleInLegend());
+			sink.setBarColor(source.getBarColor());
+			sink.setBarPadding(source.getBarPadding());
+			sink.setBarWidth(source.getBarWidth());
+			sink.setBarOverlay(source.isBarOverlay());
+			sink.setEnableStack(source.isEnableStack());
+			success = true;
+		}
+		//
+		return success;
+	}
+
+	@Override
+	protected Object clone() throws CloneNotSupportedException {
+
+		IBarSeriesSettings barSeriesSettings = new BarSeriesSettings();
+		transfer(barSeriesSettings);
+		return barSeriesSettings;
+	}
 }

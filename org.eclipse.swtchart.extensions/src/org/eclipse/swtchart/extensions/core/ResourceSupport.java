@@ -57,6 +57,8 @@ public class ResourceSupport {
 	public static final String ICON_SERIES_MARKER = "seriesMarker.gif"; // $NON-NLS-1$
 	public static final String ICON_IMPORT = "import.gif"; // $NON-NLS-1$
 	public static final String ICON_EXPORT = "export.gif"; // $NON-NLS-1$
+	public static final String ICON_RESET_SELECTED = "resetSelected.gif"; // $NON-NLS-1$
+	public static final String ICON_RESET_ALL = "resetAll.gif"; // $NON-NLS-1$
 	//
 	private static final Map<RGB, Color> colorMap = new HashMap<>();
 	private static final String RGB_DELIMITER = ",";
@@ -219,6 +221,8 @@ public class ResourceSupport {
 		imageSet.add(ICON_SERIES_MARKER);
 		imageSet.add(ICON_IMPORT);
 		imageSet.add(ICON_EXPORT);
+		imageSet.add(ICON_RESET_SELECTED);
+		imageSet.add(ICON_RESET_ALL);
 		//
 		for(String image : imageSet) {
 			imageRegistry.put(image, createImageDescriptor(image));

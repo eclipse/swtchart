@@ -25,6 +25,8 @@ import org.eclipse.swtchart.extensions.core.ResourceSupport;
 import org.eclipse.swtchart.extensions.core.ScrollableChart;
 import org.eclipse.swtchart.extensions.linecharts.ILineSeriesSettings;
 import org.eclipse.swtchart.extensions.linecharts.LineSeriesSettings;
+import org.eclipse.swtchart.extensions.piecharts.CircularSeriesSettings;
+import org.eclipse.swtchart.extensions.piecharts.ICircularSeriesSettings;
 import org.eclipse.swtchart.extensions.scattercharts.IScatterSeriesSettings;
 import org.eclipse.swtchart.extensions.scattercharts.ScatterSeriesSettings;
 
@@ -71,7 +73,7 @@ public class MappingsSupport {
 	}
 
 	/**
-	 * Map the series settings.
+	 * Set and map the series settings.
 	 * 
 	 * @param series
 	 * @param property
@@ -83,19 +85,24 @@ public class MappingsSupport {
 		String id = series.getId();
 		ISeriesSettings seriesSettingsDefault = SeriesMapper.getSeriesSettingsDefault(id, scrollableChart);
 		ISeriesSettings seriesSettings = getMappedSettings(id, seriesSettingsDefault);
+		/*
+		 * This method is used as a central part to modify the series / settings.
+		 * If no chart instance is set, the chart series shall be modifiable anyways.
+		 */
+		boolean mapSetting = scrollableChart != null;
 		//
 		switch(property) {
 			case SeriesLabelProvider.VISIBLE:
 				boolean visible = Boolean.parseBoolean(object.toString());
 				series.setVisible(visible);
-				if(seriesSettings != null) {
+				if(mapSetting) {
 					seriesSettings.setVisible(visible);
 				}
 				break;
 			case SeriesLabelProvider.VISIBLE_IN_LEGEND:
 				boolean visibleInLegend = Boolean.parseBoolean(object.toString());
 				series.setVisibleInLegend(visibleInLegend);
-				if(seriesSettings != null) {
+				if(mapSetting) {
 					seriesSettings.setVisibleInLegend(visibleInLegend);
 				}
 				break;
@@ -104,7 +111,7 @@ public class MappingsSupport {
 					RGB rgb = (RGB)object;
 					Color color = ResourceSupport.getColor(rgb);
 					SeriesLabelProvider.setColor(series, color);
-					if(seriesSettings != null) {
+					if(mapSetting) {
 						setColor(seriesSettings, color);
 					}
 				}
@@ -112,7 +119,7 @@ public class MappingsSupport {
 			case SeriesLabelProvider.DESCRIPTION:
 				String description = object.toString().trim();
 				series.setDescription(description);
-				if(seriesSettings != null) {
+				if(mapSetting) {
 					seriesSettings.setDescription(description);
 				}
 				break;
@@ -122,7 +129,7 @@ public class MappingsSupport {
 		/*
 		 * Map the changed settings
 		 */
-		if(seriesSettings != null) {
+		if(mapSetting) {
 			SeriesMapper.mapSetting(id, seriesSettings, seriesSettingsDefault);
 		}
 	}
@@ -170,10 +177,11 @@ public class MappingsSupport {
 	 */
 	public static ISeriesSettings copySeriesSettings(ISeriesSettings seriesSettings) {
 
-		MappingsType mappingType = getMappingsType(seriesSettings);
-		ISeriesSettings seriesSettingsCopied = createSeriesSettings(mappingType);
-		transfer(seriesSettings, seriesSettingsCopied);
-		return seriesSettingsCopied;
+		if(seriesSettings != null) {
+			return seriesSettings.makeDeepCopy();
+		} else {
+			return null;
+		}
 	}
 
 	/**
@@ -208,6 +216,9 @@ public class MappingsSupport {
 				case SCATTER:
 					seriesSettings = new ScatterSeriesSettings();
 					break;
+				case CIRCULAR:
+					seriesSettings = new CircularSeriesSettings();
+					break;
 				default:
 					seriesSettings = null;
 					break;
@@ -233,8 +244,10 @@ public class MappingsSupport {
 		} else if(seriesSettings instanceof ILineSeriesSettings) {
 			ILineSeriesSettings lineSeriesSettings = (ILineSeriesSettings)seriesSettings;
 			return lineSeriesSettings.getLineColor();
+		} else if(seriesSettings instanceof ICircularSeriesSettings) {
+			ICircularSeriesSettings circularSeriesSettings = (ICircularSeriesSettings)seriesSettings;
+			return circularSeriesSettings.getBorderColor();
 		} else {
-			// TODO - circular settings
 			return ResourceSupport.getColorDefault();
 		}
 	}
@@ -255,23 +268,31 @@ public class MappingsSupport {
 				ILineSeriesSettings lineSeriesSettings = (ILineSeriesSettings)seriesSettings;
 				lineSeriesSettings.setLineColor(color);
 			} else {
-				// TODO - circular settings
+				ICircularSeriesSettings circularSeriesSettings = (ICircularSeriesSettings)seriesSettings;
+				circularSeriesSettings.setBorderColor(color);
 			}
+		}
+	}
+
+	/**
+	 * Enables to show the area.
+	 * 
+	 * @param seriesSettings
+	 * @param enableArea
+	 */
+	public static void setEnableArea(ISeriesSettings seriesSettings, boolean enableArea) {
+
+		if(seriesSettings instanceof ILineSeriesSettings) {
+			ILineSeriesSettings lineSeriesSettings = (ILineSeriesSettings)seriesSettings;
+			lineSeriesSettings.setEnableArea(enableArea);
 		}
 	}
 
 	private static boolean transfer(ISeriesSettings seriesSettingsSource, ISeriesSettings seriesSettingsSink) {
 
-		/*
-		 * TODO - transfer all settings from Bar, Line, Scatter and Circular settings.
-		 */
 		boolean success = false;
 		if(seriesSettingsSource != null && seriesSettingsSink != null) {
-			seriesSettingsSink.setDescription(seriesSettingsSource.getDescription());
-			seriesSettingsSink.setVisible(seriesSettingsSource.isVisible());
-			seriesSettingsSink.setVisibleInLegend(seriesSettingsSource.isVisible());
-			setColor(seriesSettingsSink, getColor(seriesSettingsSource));
-			success = true;
+			success = seriesSettingsSource.transfer(seriesSettingsSink);
 		}
 		//
 		return success;
