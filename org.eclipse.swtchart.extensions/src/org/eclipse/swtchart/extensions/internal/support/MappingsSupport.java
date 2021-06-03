@@ -66,7 +66,9 @@ public class MappingsSupport {
 				@Override
 				public void run() {
 
-					baseChart.redraw();
+					if(!baseChart.isDisposed()) {
+						baseChart.redraw();
+					}
 				}
 			});
 		}
