@@ -64,6 +64,7 @@ public class ExtendedLegendUI extends Composite {
 	//
 	private Text textX;
 	private Text textY;
+	private Button buttonSort;
 	private AtomicReference<SeriesListUI> tableViewer = new AtomicReference<>();
 	//
 	private EmbeddedLegend embeddedLegend;
@@ -119,7 +120,7 @@ public class ExtendedLegendUI extends Composite {
 		add(textY = createTextPositionY(composite));
 		add(createButtonSetPosition(composite));
 		createButtonToggleLegend(composite);
-		createButtonToggleSort(composite);
+		buttonSort = createButtonToggleSort(composite);
 		createButtonMappings(composite);
 		createButtonSettings(composite);
 	}
@@ -297,10 +298,8 @@ public class ExtendedLegendUI extends Composite {
 
 				boolean sorted = preferenceStore.getBoolean(PreferenceConstants.P_SORT_LEGEND_TABLE);
 				preferenceStore.setValue(PreferenceConstants.P_SORT_LEGEND_TABLE, !sorted);
-				button.setImage(getSortedIcon(sorted));
-				SeriesListUI seriesListUI = tableViewer.get();
-				seriesListUI.setTableSortable(sorted);
-				seriesListUI.getTable().redraw();
+				updateButtonSortImage();
+				updateSeriesTableSortStatus();
 			}
 		});
 		//
@@ -309,7 +308,7 @@ public class ExtendedLegendUI extends Composite {
 
 	private Image getSortedIcon(boolean sorted) {
 
-		return sorted ? ResourceSupport.getImage(ResourceSupport.ICON_SORT_DISABLED) : ResourceSupport.getImage(ResourceSupport.ICON_SORT);
+		return sorted ? ResourceSupport.getImage(ResourceSupport.ICON_SORT_ENABLED) : ResourceSupport.getImage(ResourceSupport.ICON_SORT_DISABLED);
 	}
 
 	private Button createButtonMappings(Composite parent) {
@@ -365,6 +364,8 @@ public class ExtendedLegendUI extends Composite {
 
 	private void applySettings() {
 
+		updateButtonSortImage();
+		updateSeriesTableSortStatus();
 		updateLegendPosition(true);
 	}
 
@@ -456,12 +457,25 @@ public class ExtendedLegendUI extends Composite {
 
 	private void updateControls() {
 
+		updateButtonSortImage();
 		if(embeddedLegend != null) {
 			boolean enabled = embeddedLegend.isDraw();
 			for(Control control : controls) {
 				control.setEnabled(enabled);
 			}
 		}
+	}
+
+	private void updateButtonSortImage() {
+
+		buttonSort.setImage(getSortedIcon(preferenceStore.getBoolean(PreferenceConstants.P_SORT_LEGEND_TABLE)));
+	}
+
+	private void updateSeriesTableSortStatus() {
+
+		SeriesListUI seriesListUI = tableViewer.get();
+		seriesListUI.setTableSortable(preferenceStore.getBoolean(PreferenceConstants.P_SORT_LEGEND_TABLE));
+		seriesListUI.getTable().redraw();
 	}
 
 	private void updateSeriesList() {
