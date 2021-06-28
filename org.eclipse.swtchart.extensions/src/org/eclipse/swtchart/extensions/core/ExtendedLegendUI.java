@@ -33,6 +33,7 @@ import org.eclipse.swt.events.KeyAdapter;
 import org.eclipse.swt.events.KeyEvent;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
@@ -285,24 +286,30 @@ public class ExtendedLegendUI extends Composite {
 
 	private Button createButtonToggleSort(Composite parent) {
 
-		Button button = new Button(parent, SWT.CHECK);
+		Button button = new Button(parent, SWT.PUSH);
 		button.setText("");
 		button.setToolTipText("Sort the table.");
-		button.setSelection(preferenceStore.getBoolean(PreferenceConstants.P_SORT_LEGEND_TABLE));
+		button.setImage(getSortedIcon(preferenceStore.getBoolean(PreferenceConstants.P_SORT_LEGEND_TABLE)));
 		button.addSelectionListener(new SelectionAdapter() {
 
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 
+				boolean sorted = preferenceStore.getBoolean(PreferenceConstants.P_SORT_LEGEND_TABLE);
+				preferenceStore.setValue(PreferenceConstants.P_SORT_LEGEND_TABLE, !sorted);
+				button.setImage(getSortedIcon(sorted));
 				SeriesListUI seriesListUI = tableViewer.get();
-				boolean enable = button.getSelection();
-				seriesListUI.setTableSortable(enable);
-				preferenceStore.setValue(PreferenceConstants.P_SORT_LEGEND_TABLE, enable);
+				seriesListUI.setTableSortable(sorted);
 				seriesListUI.getTable().redraw();
 			}
 		});
 		//
 		return button;
+	}
+
+	private Image getSortedIcon(boolean sorted) {
+
+		return sorted ? ResourceSupport.getImage(ResourceSupport.ICON_SORT_DISABLED) : ResourceSupport.getImage(ResourceSupport.ICON_SORT);
 	}
 
 	private Button createButtonMappings(Composite parent) {
