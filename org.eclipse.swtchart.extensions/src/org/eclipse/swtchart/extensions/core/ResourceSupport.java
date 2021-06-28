@@ -45,6 +45,8 @@ public class ResourceSupport {
 	public static final String ICON_CHECKED = "checked.gif"; // $NON-NLS-1$
 	public static final String ICON_UNCHECKED = "unchecked.gif"; // $NON-NLS-1$
 	public static final String ICON_LEGEND = "legend.gif"; // $NON-NLS-1$
+	public static final String ICON_SORT = "sort.gif"; // $NON-NLS-1$
+	public static final String ICON_SORT_DISABLED = "sort_disabled.gif"; // $NON-NLS-1$
 	public static final String ICON_POSITION = "position.gif"; // $NON-NLS-1$
 	public static final String ICON_SETTINGS = "preferences.gif"; // $NON-NLS-1$
 	public static final String ICON_MAPPINGS = "mappings.gif"; // $NON-NLS-1$
@@ -209,6 +211,8 @@ public class ResourceSupport {
 		imageSet.add(ICON_CHECKED);
 		imageSet.add(ICON_UNCHECKED);
 		imageSet.add(ICON_LEGEND);
+		imageSet.add(ICON_SORT);
+		imageSet.add(ICON_SORT_DISABLED);
 		imageSet.add(ICON_POSITION);
 		imageSet.add(ICON_SETTINGS);
 		imageSet.add(ICON_MAPPINGS);
