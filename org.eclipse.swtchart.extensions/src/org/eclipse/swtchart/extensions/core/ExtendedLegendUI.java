@@ -43,10 +43,12 @@ import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Menu;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.Text;
+import org.eclipse.swtchart.ISeries;
 import org.eclipse.swtchart.ISeriesSet;
 import org.eclipse.swtchart.extensions.internal.marker.EmbeddedLegend;
 import org.eclipse.swtchart.extensions.internal.support.MappingsSupport;
 import org.eclipse.swtchart.extensions.internal.support.PositionValidator;
+import org.eclipse.swtchart.extensions.internal.support.SeriesLabelProvider;
 import org.eclipse.swtchart.extensions.menu.legend.HideInLegendAction;
 import org.eclipse.swtchart.extensions.menu.legend.HideSeriesAction;
 import org.eclipse.swtchart.extensions.menu.legend.SetColorAction;
@@ -110,8 +112,9 @@ public class ExtendedLegendUI extends Composite {
 
 		Composite composite = new Composite(parent, SWT.NONE);
 		composite.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
-		composite.setLayout(new GridLayout(11, false));
+		composite.setLayout(new GridLayout(12, false));
 		//
+		createButtonToggleVisibility(composite);
 		add(createButtonMove(composite, ResourceSupport.ARROW_LEFT, "Move Legend Left"));
 		add(createButtonMove(composite, ResourceSupport.ARROW_UP, "Move Legend Up"));
 		add(createButtonMove(composite, ResourceSupport.ARROW_DOWN, "Move Legend Down"));
@@ -128,6 +131,31 @@ public class ExtendedLegendUI extends Composite {
 	private void add(Control control) {
 
 		controls.add(control);
+	}
+
+	private Button createButtonToggleVisibility(Composite parent) {
+
+		Button button = new Button(parent, SWT.CHECK);
+		button.setText("");
+		button.setToolTipText("Toggle visibility.");
+		button.setSelection(true);
+		button.addSelectionListener(new SelectionAdapter() {
+
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+
+				for(ISeries<?> series : seriesSet.getSeries()) {
+					MappingsSupport.mapSettings(series, SeriesLabelProvider.VISIBLE, button.getSelection(), scrollableChart);
+					MappingsSupport.mapSettings(series, SeriesLabelProvider.VISIBLE_IN_LEGEND, button.getSelection(), scrollableChart);
+				}
+				scrollableChart.redraw();
+				MappingsSupport.adjustSettings(scrollableChart);
+				SeriesListUI seriesListUI = tableViewer.get();
+				seriesListUI.refresh();
+			}
+		});
+		//
+		return button;
 	}
 
 	private Button createButtonMove(Composite parent, String icon, String tooltip) {
@@ -184,7 +212,7 @@ public class ExtendedLegendUI extends Composite {
 		text.setToolTipText("Legend Position X");
 		GridData gridData = new GridData(GridData.FILL_HORIZONTAL);
 		gridData.grabExcessHorizontalSpace = true;
-		gridData.minimumWidth = 80;
+		gridData.minimumWidth = 60;
 		text.setLayoutData(gridData);
 		//
 		PositionValidator validator = new PositionValidator();
@@ -214,7 +242,7 @@ public class ExtendedLegendUI extends Composite {
 		text.setToolTipText("Legend Position Y");
 		GridData gridData = new GridData(GridData.FILL_HORIZONTAL);
 		gridData.grabExcessHorizontalSpace = true;
-		gridData.minimumWidth = 80;
+		gridData.minimumWidth = 60;
 		text.setLayoutData(gridData);
 		//
 		PositionValidator validator = new PositionValidator();
