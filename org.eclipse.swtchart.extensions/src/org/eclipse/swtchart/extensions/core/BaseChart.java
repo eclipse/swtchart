@@ -1150,7 +1150,7 @@ public class BaseChart extends AbstractExtendedChart implements IChartDataCoordi
 		 */
 		exitloop:
 		for(ISeries<?> dataSeries : series) {
-			if(dataSeries != null) {
+			if(dataSeries != null && dataSeries.isVisible()) {
 				int size = dataSeries.getXSeries().length;
 				for(int i = 0; i < size; i++) {
 					Point point = dataSeries.getPixelCoordinates(i);
