@@ -35,7 +35,7 @@ public class MouseMoveShiftEventX extends MouseMoveShiftEvent {
 	@Override
 	public int getStateMask() {
 
-		return SWT.CTRL;
+		return SWT.MOD1;
 	}
 
 	@Override

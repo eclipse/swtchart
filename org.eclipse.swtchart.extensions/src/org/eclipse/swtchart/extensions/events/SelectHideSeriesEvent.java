@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2017, 2019 Lablicate GmbH.
+ * Copyright (c) 2017, 2021 Lablicate GmbH.
  *
  * This program and the accompanying materials are made
  * available under the terms of the Eclipse Public License 2.0
@@ -20,7 +20,7 @@ import org.eclipse.swtchart.extensions.core.IMouseSupport;
 
 public class SelectHideSeriesEvent extends AbstractHandledEventProcessor implements IHandledEventProcessor {
 
-	private int hideMask = SWT.ALT;
+	private int hideMask = SWT.MOD3;
 
 	@Override
 	public int getEvent() {
@@ -37,7 +37,7 @@ public class SelectHideSeriesEvent extends AbstractHandledEventProcessor impleme
 	@Override
 	public int getStateMask() {
 
-		return SWT.CTRL;
+		return SWT.MOD1;
 	}
 
 	@Override

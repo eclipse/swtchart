@@ -126,7 +126,7 @@ public class LineChartX extends LineSeries_1_Part {
 	private boolean isControlKeyPressed(Event event) {
 
 		System.out.println("Event (Chart): " + event);
-		return (event.stateMask & SWT.CTRL) == SWT.CTRL;
+		return (event.stateMask & SWT.MOD1) == SWT.MOD1;
 	}
 
 	private void setCursor(int cursorId) {

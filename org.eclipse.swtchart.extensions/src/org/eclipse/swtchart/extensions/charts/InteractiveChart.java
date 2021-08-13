@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2008, 2019 SWTChart project.
+ * Copyright (c) 2008, 2021 SWTChart project.
  *
  * This program and the accompanying materials are made
  * available under the terms of the Eclipse Public License 2.0
@@ -73,6 +73,7 @@ public class InteractiveChart extends Chart implements PaintListener {
 	 *            the style
 	 */
 	public InteractiveChart(Composite parent, int style) {
+
 		super(parent, style);
 		init();
 	}
@@ -211,12 +212,15 @@ public class InteractiveChart extends Chart implements PaintListener {
 		super.dispose();
 		resources.dispose();
 	}
-	
+
 	/**
 	 * Sets the name to be proposed as default when running "Save As".
-	 * @param saveAsFilename The file name to be proposed in the file dialog.
+	 * 
+	 * @param saveAsFilename
+	 *            The file name to be proposed in the file dialog.
 	 */
 	public void setProposedSaveAsFilename(String saveAsFilename) {
+
 		this.saveAsFilename = saveAsFilename;
 	}
 
@@ -309,7 +313,7 @@ public class InteractiveChart extends Chart implements PaintListener {
 	private void handleKeyDownEvent(Event event) {
 
 		if(event.keyCode == SWT.ARROW_DOWN) {
-			if(event.stateMask == SWT.CTRL) {
+			if(event.stateMask == SWT.MOD1) {
 				getAxisSet().zoomOut();
 			} else {
 				for(IAxis axis : getAxes(SWT.VERTICAL)) {
@@ -318,7 +322,7 @@ public class InteractiveChart extends Chart implements PaintListener {
 			}
 			redraw();
 		} else if(event.keyCode == SWT.ARROW_UP) {
-			if(event.stateMask == SWT.CTRL) {
+			if(event.stateMask == SWT.MOD1) {
 				getAxisSet().zoomIn();
 			} else {
 				for(IAxis axis : getAxes(SWT.VERTICAL)) {

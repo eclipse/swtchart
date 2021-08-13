@@ -66,7 +66,7 @@ public class BaseChart extends AbstractExtendedChart implements IChartDataCoordi
 	 * e.g.:
 	 * Integer: EVENT_MOUSE_DOUBLE_CLICK (Event)
 	 * Integer: BUTTON_NONE (Button)
-	 * Integer: SWT.CTRL (StateMask)
+	 * Integer: SWT.MOD1 (StateMask)
 	 */
 	private Map<Integer, Map<Integer, Map<Integer, List<IEventProcessor>>>> registeredEvents;
 	/*
@@ -211,7 +211,7 @@ public class BaseChart extends AbstractExtendedChart implements IChartDataCoordi
 		}
 		/*
 		 * Example
-		 * StateMask: SWT.CTRL
+		 * StateMask: SWT.MOD1
 		 */
 		int stateMask = handledEventProcessor.getStateMask();
 		List<IEventProcessor> handledEventProcessors = buttonEventProcessors.get(stateMask);
