@@ -78,6 +78,7 @@ import org.eclipse.swtchart.extensions.internal.marker.LegendMarker;
 import org.eclipse.swtchart.extensions.internal.marker.PlotCenterMarker;
 import org.eclipse.swtchart.extensions.internal.marker.PositionMarker;
 import org.eclipse.swtchart.extensions.internal.marker.SeriesLabelMarker;
+import org.eclipse.swtchart.extensions.internal.support.SeriesMapper;
 import org.eclipse.swtchart.extensions.linecharts.LineChart;
 import org.eclipse.swtchart.extensions.linecharts.StepChart;
 import org.eclipse.swtchart.extensions.menu.IChartMenuEntry;
@@ -324,6 +325,7 @@ public class ScrollableChart extends Composite implements IScrollableChart, IEve
 		for(ISeries<?> series : baseChart.getSeriesSet().getSeries()) {
 			baseChart.deleteSeries(series.getId());
 		}
+		SeriesMapper.clearAll();
 		if(!wasSuspend) {
 			baseChart.suspendUpdate(false);
 		}
