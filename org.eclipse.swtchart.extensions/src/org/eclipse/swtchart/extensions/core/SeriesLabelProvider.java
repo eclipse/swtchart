@@ -10,7 +10,7 @@
  * Contributors:
  * Philip Wenig - initial API and implementation
  *******************************************************************************/
-package org.eclipse.swtchart.extensions.internal.support;
+package org.eclipse.swtchart.extensions.core;
 
 import org.eclipse.jface.viewers.ColumnLabelProvider;
 import org.eclipse.jface.viewers.ITableLabelProvider;
@@ -19,7 +19,6 @@ import org.eclipse.swt.graphics.Image;
 import org.eclipse.swtchart.IBarSeries;
 import org.eclipse.swtchart.ILineSeries;
 import org.eclipse.swtchart.ISeries;
-import org.eclipse.swtchart.extensions.core.ResourceSupport;
 
 public class SeriesLabelProvider extends ColumnLabelProvider implements ITableLabelProvider {
 

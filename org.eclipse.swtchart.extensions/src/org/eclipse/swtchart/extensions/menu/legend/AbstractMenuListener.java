@@ -18,9 +18,9 @@ import java.util.List;
 
 import org.eclipse.jface.action.IMenuListener;
 import org.eclipse.swtchart.ISeries;
+import org.eclipse.swtchart.extensions.core.MappingsSupport;
 import org.eclipse.swtchart.extensions.core.ScrollableChart;
 import org.eclipse.swtchart.extensions.core.SeriesListUI;
-import org.eclipse.swtchart.extensions.internal.support.MappingsSupport;
 import org.eclipse.swtchart.internal.series.Series;
 
 public abstract class AbstractMenuListener implements IMenuListener {

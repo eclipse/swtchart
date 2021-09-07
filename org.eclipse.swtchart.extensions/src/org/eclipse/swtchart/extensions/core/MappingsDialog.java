@@ -31,8 +31,6 @@ import org.eclipse.swt.widgets.FileDialog;
 import org.eclipse.swt.widgets.MessageBox;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swtchart.extensions.internal.support.MappingsIO;
-import org.eclipse.swtchart.extensions.internal.support.MappingsSupport;
-import org.eclipse.swtchart.extensions.internal.support.SeriesMapper;
 import org.eclipse.swtchart.extensions.preferences.PreferenceConstants;
 
 public class MappingsDialog extends Dialog {

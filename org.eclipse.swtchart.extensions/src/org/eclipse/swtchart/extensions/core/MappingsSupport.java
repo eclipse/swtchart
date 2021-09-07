@@ -10,7 +10,7 @@
  * Contributors:
  * Philip Wenig - initial API and implementation
  *******************************************************************************/
-package org.eclipse.swtchart.extensions.internal.support;
+package org.eclipse.swtchart.extensions.core;
 
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.RGB;
@@ -18,11 +18,6 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.swtchart.ISeries;
 import org.eclipse.swtchart.extensions.barcharts.BarSeriesSettings;
 import org.eclipse.swtchart.extensions.barcharts.IBarSeriesSettings;
-import org.eclipse.swtchart.extensions.core.BaseChart;
-import org.eclipse.swtchart.extensions.core.ISeriesSettings;
-import org.eclipse.swtchart.extensions.core.MappingsType;
-import org.eclipse.swtchart.extensions.core.ResourceSupport;
-import org.eclipse.swtchart.extensions.core.ScrollableChart;
 import org.eclipse.swtchart.extensions.linecharts.ILineSeriesSettings;
 import org.eclipse.swtchart.extensions.linecharts.LineSeriesSettings;
 import org.eclipse.swtchart.extensions.piecharts.CircularSeriesSettings;

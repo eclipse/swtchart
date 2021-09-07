@@ -17,6 +17,7 @@ import org.eclipse.jface.viewers.ViewerComparator;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swtchart.ISeries;
+import org.eclipse.swtchart.extensions.core.SeriesLabelProvider;
 
 public class SeriesComparator extends ViewerComparator {
 

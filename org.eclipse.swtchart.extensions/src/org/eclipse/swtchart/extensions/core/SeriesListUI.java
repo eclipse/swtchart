@@ -37,7 +37,6 @@ import org.eclipse.swtchart.extensions.internal.support.SeriesComparator;
 import org.eclipse.swtchart.extensions.internal.support.SeriesContentProvider;
 import org.eclipse.swtchart.extensions.internal.support.SeriesEditingSupport;
 import org.eclipse.swtchart.extensions.internal.support.SeriesFilter;
-import org.eclipse.swtchart.extensions.internal.support.SeriesLabelProvider;
 import org.eclipse.swtchart.extensions.preferences.PreferenceConstants;
 
 public class SeriesListUI extends TableViewer {
