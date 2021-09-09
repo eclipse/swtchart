@@ -133,27 +133,46 @@ public class ExtendedLegendUI extends Composite {
 
 	private Button createButtonToggleVisibility(Composite parent) {
 
-		Button button = new Button(parent, SWT.CHECK);
+		Button button = new Button(parent, SWT.PUSH);
 		button.setText("");
 		button.setToolTipText("Toggle visibility.");
-		button.setSelection(true);
+		button.setImage(getVisibilityIcon(true));
 		button.addSelectionListener(new SelectionAdapter() {
 
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 
+				boolean visible = anyVisible(seriesSet);
 				for(ISeries<?> series : seriesSet.getSeries()) {
-					MappingsSupport.mapSettings(series, SeriesLabelProvider.VISIBLE, button.getSelection(), scrollableChart);
-					MappingsSupport.mapSettings(series, SeriesLabelProvider.VISIBLE_IN_LEGEND, button.getSelection(), scrollableChart);
+					series.setVisible(!visible);
+					MappingsSupport.mapSettings(series, SeriesLabelProvider.VISIBLE, !visible, scrollableChart);
+					series.setVisibleInLegend(visible);
+					MappingsSupport.mapSettings(series, SeriesLabelProvider.VISIBLE_IN_LEGEND, !visible, scrollableChart);
 				}
 				scrollableChart.redraw();
 				MappingsSupport.adjustSettings(scrollableChart);
+				button.setImage(getVisibilityIcon(!visible));
 				SeriesListUI seriesListUI = tableViewer.get();
 				seriesListUI.refresh();
 			}
 		});
 		//
 		return button;
+	}
+
+	private boolean anyVisible(ISeriesSet seriesSet) {
+
+		for(ISeries<?> series : seriesSet.getSeries()) {
+			if(series.isVisible() || series.isVisibleInLegend()) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	private Image getVisibilityIcon(boolean visible) {
+
+		return visible ? ResourceSupport.getImage(ResourceSupport.ICON_UNCHECK_ALL) : ResourceSupport.getImage(ResourceSupport.ICON_CHECK_ALL);
 	}
 
 	private Button createButtonMove(Composite parent, String icon, String tooltip) {
