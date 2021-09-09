@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2020 Lablicate GmbH.
+ * Copyright (c) 2020, 2021 Lablicate GmbH.
  *
  * This program and the accompanying materials are made
  * available under the terms of the Eclipse Public License 2.0
@@ -18,7 +18,7 @@ import org.eclipse.swt.graphics.GC;
 import org.eclipse.swtchart.ISeries;
 import org.eclipse.swtchart.ISeriesSet;
 import org.eclipse.swtchart.extensions.core.BaseChart;
-import org.eclipse.swtchart.extensions.internal.support.SeriesLabelProvider;
+import org.eclipse.swtchart.extensions.core.SeriesLabelProvider;
 import org.eclipse.swtchart.extensions.marker.AbstractBaseChartPaintListener;
 import org.eclipse.swtchart.extensions.marker.IBaseChartPaintListener;
 
@@ -28,6 +28,7 @@ public class EmbeddedLegend extends AbstractBaseChartPaintListener implements IB
 	private int y = 0;
 
 	public EmbeddedLegend(BaseChart baseChart) {
+
 		super(baseChart);
 	}
 

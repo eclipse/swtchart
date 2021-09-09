@@ -21,9 +21,9 @@ import org.eclipse.jface.dialogs.IInputValidator;
 import org.eclipse.jface.dialogs.InputDialog;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swtchart.ISeries;
+import org.eclipse.swtchart.extensions.core.MappingsSupport;
+import org.eclipse.swtchart.extensions.core.SeriesLabelProvider;
 import org.eclipse.swtchart.extensions.core.SeriesListUI;
-import org.eclipse.swtchart.extensions.internal.support.MappingsSupport;
-import org.eclipse.swtchart.extensions.internal.support.SeriesLabelProvider;
 
 public class SetDescriptionAction extends AbstractMenuListener {
 

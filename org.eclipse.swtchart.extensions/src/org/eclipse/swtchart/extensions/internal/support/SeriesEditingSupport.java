@@ -19,7 +19,9 @@ import org.eclipse.jface.viewers.EditingSupport;
 import org.eclipse.jface.viewers.TextCellEditor;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swtchart.ISeries;
+import org.eclipse.swtchart.extensions.core.MappingsSupport;
 import org.eclipse.swtchart.extensions.core.ScrollableChart;
+import org.eclipse.swtchart.extensions.core.SeriesLabelProvider;
 import org.eclipse.swtchart.extensions.core.SeriesListUI;
 
 public class SeriesEditingSupport extends EditingSupport {
