@@ -105,18 +105,18 @@ public class Doughnut extends CircularSeries {
 		if(width > height) {
 			if(xAxis.isHorizontalAxis()) {
 				double ratio = 2 * rangeMax * width / (double)height;
-				xAxis.setRange(new Range(-rangeMax, ratio - rangeMax));
+				xAxis.setRange(new Range(-ratio/2, ratio/2));
 			} else {
 				double ratio = 2 * rangeMax * width / (double)height;
-				yAxis.setRange(new Range(-rangeMax, ratio - rangeMax));
+				yAxis.setRange(new Range(ratio/2, ratio/2));
 			}
 		} else {
 			if(xAxis.isHorizontalAxis()) {
 				double ratio = 2 * rangeMax * height / (double)width;
-				yAxis.setRange(new Range(rangeMax - ratio, rangeMax));
+				yAxis.setRange(new Range(-ratio/2, ratio/2));
 			} else {
 				double ratio = 2 * rangeMax * height / (double)width;
-				xAxis.setRange(new Range(rangeMax - ratio, rangeMax));
+				xAxis.setRange(new Range(-ratio/2, ratio/2));
 			}
 		}
 	}
