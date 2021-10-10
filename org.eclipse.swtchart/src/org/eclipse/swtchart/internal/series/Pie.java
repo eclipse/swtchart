@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2020 SWTChart project.
+ * Copyright (c) 2020, 2021 SWTChart project.
  *
  * This program and the accompanying materials are made
  * available under the terms of the Eclipse Public License 2.0
@@ -103,18 +103,18 @@ public class Pie extends CircularSeries {
 		if(width > height) {
 			if(xAxis.isHorizontalAxis()) {
 				double ratio = 2 * rangeMax * width / (double)height;
-				xAxis.setRange(new Range(-rangeMax, ratio - rangeMax));
+				xAxis.setRange(new Range(-ratio/2, ratio/2));
 			} else {
 				double ratio = 2 * rangeMax * width / (double)height;
-				yAxis.setRange(new Range(-rangeMax, ratio - rangeMax));
+				yAxis.setRange(new Range(ratio/2, ratio/2));
 			}
 		} else {
 			if(xAxis.isHorizontalAxis()) {
 				double ratio = 2 * rangeMax * height / (double)width;
-				yAxis.setRange(new Range(rangeMax - ratio, rangeMax));
+				yAxis.setRange(new Range(-ratio/2, ratio/2));
 			} else {
 				double ratio = 2 * rangeMax * height / (double)width;
-				xAxis.setRange(new Range(rangeMax - ratio, rangeMax));
+				xAxis.setRange(new Range(-ratio/2, ratio/2));
 			}
 		}
 	}
