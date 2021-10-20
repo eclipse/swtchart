@@ -234,7 +234,7 @@ public class SeriesListUI extends TableViewer {
 			try {
 				columns[i] = Integer.parseInt(values[i]);
 			} catch(NumberFormatException e) {
-				// logger.warn(e);
+				e.printStackTrace();
 			}
 		}
 		//

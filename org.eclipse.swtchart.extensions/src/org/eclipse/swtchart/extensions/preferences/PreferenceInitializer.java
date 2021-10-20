@@ -32,6 +32,9 @@ public class PreferenceInitializer extends AbstractPreferenceInitializer {
 			preferenceStore.setDefault(PreferenceConstants.P_LEGEND_COLUMN_ORDER, PreferenceConstants.DEF_LEGEND_COLUMN_ORDER);
 			preferenceStore.setDefault(PreferenceConstants.P_PATH_MAPPINGS_IMPORT, PreferenceConstants.DEF_PATH_MAPPINGS_IMPORT);
 			preferenceStore.setDefault(PreferenceConstants.P_PATH_MAPPINGS_EXPORT, PreferenceConstants.DEF_PATH_MAPPINGS_EXPORT);
+			preferenceStore.setDefault(PreferenceConstants.P_BITMAP_EXPORT_CUSTOM_SIZE, PreferenceConstants.DEF_BITMAP_EXPORT_CUSTOM_SIZE);
+			preferenceStore.setDefault(PreferenceConstants.P_BITMAP_EXPORT_WIDTH, PreferenceConstants.DEF_BITMAP_EXPORT_WIDTH);
+			preferenceStore.setDefault(PreferenceConstants.P_BITMAP_EXPORT_HEIGHT, PreferenceConstants.DEF_BITMAP_EXPORT_HEIGHT);
 		}
 	}
 }

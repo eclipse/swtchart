@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2017, 2019 Lablicate GmbH.
+ * Copyright (c) 2017, 2021 Lablicate GmbH.
  *
  * This program and the accompanying materials are made
  * available under the terms of the Eclipse Public License 2.0
@@ -12,45 +12,17 @@
  *******************************************************************************/
 package org.eclipse.swtchart.export.menu.bitmap;
 
-import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.graphics.ImageData;
-import org.eclipse.swt.widgets.FileDialog;
-import org.eclipse.swt.widgets.Shell;
-import org.eclipse.swtchart.export.core.AbstractSeriesExportHandler;
-import org.eclipse.swtchart.export.core.ISeriesExportConverter;
-import org.eclipse.swtchart.export.images.ImageSupplier;
-import org.eclipse.swtchart.extensions.core.ScrollableChart;
 
-public class PNGExportHandler extends AbstractSeriesExportHandler implements ISeriesExportConverter {
+public class PNGExportHandler extends AbstractBitmapExportHandler {
 
 	private static final String FILE_EXTENSION = "*.png"; //$NON-NLS-1$
 	public static final String NAME = Messages.getString("IMAGE") + FILE_EXTENSION + ")"; //$NON-NLS-1$ //$NON-NLS-2$
 	private static final String TITLE = Messages.getString("SAVE_AS_IMAGE"); //$NON-NLS-1$
+	private static final String[] FILTER_EXTENSIONS = new String[]{"*.png"}; //$NON-NLS-1$ //$NON-NLS-2$
 
-	@Override
-	public String getName() {
+	public PNGExportHandler() {
 
-		return NAME;
-	}
-
-	@Override
-	public void execute(Shell shell, ScrollableChart scrollableChart) {
-
-		FileDialog fileDialog = new FileDialog(shell, SWT.SAVE);
-		fileDialog.setOverwrite(true);
-		fileDialog.setText(NAME);
-		fileDialog.setFilterExtensions(new String[]{"*.png"}); //$NON-NLS-1$
-		//
-		String fileName = fileDialog.open();
-		if(fileName != null) {
-			/*
-			 * Select the format.
-			 */
-			ImageSupplier imageSupplier = new ImageSupplier();
-			ImageData imageData = imageSupplier.getImageData(scrollableChart.getBaseChart());
-			imageSupplier.saveImage(imageData, fileName, SWT.IMAGE_PNG);
-			MessageDialog.openInformation(shell, TITLE, MESSAGE_OK);
-		}
+		super(NAME, TITLE, FILTER_EXTENSIONS, SWT.IMAGE_PNG);
 	}
 }

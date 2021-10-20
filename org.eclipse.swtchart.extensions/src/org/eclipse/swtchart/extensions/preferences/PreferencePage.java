@@ -39,6 +39,9 @@ public class PreferencePage extends FieldEditorPreferencePage implements IWorkbe
 		addField(new IntegerFieldEditor(PreferenceConstants.P_LEGEND_POSITION_Y, "Legend Position [Y]", getFieldEditorParent()));
 		addField(new BooleanFieldEditor(PreferenceConstants.P_SORT_LEGEND_TABLE, "Sort Legend Table", getFieldEditorParent()));
 		addField(new StringFieldEditor(PreferenceConstants.P_LEGEND_COLUMN_ORDER, "Sort Order Columns Legend", getFieldEditorParent()));
+		addField(new BooleanFieldEditor(PreferenceConstants.P_BITMAP_EXPORT_CUSTOM_SIZE, "Bitmap Export Custom Size", getFieldEditorParent()));
+		addField(new IntegerFieldEditor(PreferenceConstants.P_BITMAP_EXPORT_WIDTH, "Bitmap Export Width", getFieldEditorParent()));
+		addField(new IntegerFieldEditor(PreferenceConstants.P_BITMAP_EXPORT_HEIGHT, "Bitmap Export Height", getFieldEditorParent()));
 	}
 
 	public void init(IWorkbench workbench) {

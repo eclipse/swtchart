@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2017, 2020 Lablicate GmbH.
+ * Copyright (c) 2017, 2021 Lablicate GmbH.
  *
  * This program and the accompanying materials are made
  * available under the terms of the Eclipse Public License 2.0
@@ -33,8 +33,8 @@ import org.eclipse.swtchart.ISeries;
 import org.eclipse.swtchart.LineStyle;
 import org.eclipse.swtchart.export.core.AbstractSeriesExportHandler;
 import org.eclipse.swtchart.export.core.AxisSettings;
-import org.eclipse.swtchart.export.core.ExportSettingsDialog;
 import org.eclipse.swtchart.export.core.ISeriesExportConverter;
+import org.eclipse.swtchart.export.core.VectorExportSettingsDialog;
 import org.eclipse.swtchart.extensions.barcharts.BarChart;
 import org.eclipse.swtchart.extensions.core.BaseChart;
 import org.eclipse.swtchart.extensions.core.ChartType;
@@ -81,7 +81,7 @@ public class RScriptExportHandler extends AbstractSeriesExportHandler implements
 			/*
 			 * Select the X and Y axis to export.
 			 */
-			ExportSettingsDialog exportSettingsDialog = new ExportSettingsDialog(shell, baseChart);
+			VectorExportSettingsDialog exportSettingsDialog = new VectorExportSettingsDialog(shell, baseChart);
 			exportSettingsDialog.create();
 			if(exportSettingsDialog.open() == Window.OK) {
 				//

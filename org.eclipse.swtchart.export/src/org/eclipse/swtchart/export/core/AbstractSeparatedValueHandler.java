@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2017, 2020 Lablicate GmbH.
+ * Copyright (c) 2017, 2021 Lablicate GmbH.
  *
  * This program and the accompanying materials are made
  * available under the terms of the Eclipse Public License 2.0
@@ -61,7 +61,7 @@ public abstract class AbstractSeparatedValueHandler extends AbstractSeriesExport
 			/*
 			 * Select the X and Y axis to export.
 			 */
-			ExportSettingsDialog exportSettingsDialog = new ExportSettingsDialog(shell, baseChart);
+			VectorExportSettingsDialog exportSettingsDialog = new VectorExportSettingsDialog(shell, baseChart);
 			exportSettingsDialog.create();
 			if(exportSettingsDialog.open() == Window.OK) {
 				//

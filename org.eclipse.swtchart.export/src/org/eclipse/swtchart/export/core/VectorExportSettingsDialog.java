@@ -37,7 +37,7 @@ import org.eclipse.swtchart.extensions.core.ResourceSupport;
 import org.eclipse.swtchart.extensions.core.SeriesListUI;
 import org.eclipse.swtchart.extensions.preferences.PreferenceConstants;
 
-public class ExportSettingsDialog extends TitleAreaDialog {
+public class VectorExportSettingsDialog extends TitleAreaDialog {
 
 	private BaseChart baseChart;
 	private Map<String, ISeriesSettings> cache = new HashMap<String, ISeriesSettings>();
@@ -50,7 +50,7 @@ public class ExportSettingsDialog extends TitleAreaDialog {
 	private int indexAxisX;
 	private int indexAxisY;
 
-	public ExportSettingsDialog(Shell parent, BaseChart baseChart) {
+	public VectorExportSettingsDialog(Shell parent, BaseChart baseChart) {
 
 		super(parent);
 		this.baseChart = baseChart;

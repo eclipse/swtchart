@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2019, 2020 Lablicate GmbH.
+ * Copyright (c) 2019, 2021 Lablicate GmbH.
  *
  * This program and the accompanying materials are made
  * available under the terms of the Eclipse Public License 2.0
@@ -28,8 +28,8 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.FileDialog;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swtchart.export.core.AbstractSeriesExportHandler;
-import org.eclipse.swtchart.export.core.ExportSettingsDialog;
 import org.eclipse.swtchart.export.core.ISeriesExportConverter;
+import org.eclipse.swtchart.export.core.VectorExportSettingsDialog;
 import org.eclipse.swtchart.export.extended.svg.SVGFactory;
 import org.eclipse.swtchart.extensions.core.BaseChart;
 import org.eclipse.swtchart.extensions.core.ScrollableChart;
@@ -58,7 +58,7 @@ public class SVGExportHandler extends AbstractSeriesExportHandler implements ISe
 		if(fileName != null) {
 			try {
 				BaseChart baseChart = scrollableChart.getBaseChart();
-				ExportSettingsDialog exportSettingsDialog = new ExportSettingsDialog(fileDialog.getParent(), baseChart);
+				VectorExportSettingsDialog exportSettingsDialog = new VectorExportSettingsDialog(fileDialog.getParent(), baseChart);
 				exportSettingsDialog.create();
 				if(exportSettingsDialog.open() == Window.OK) {
 					int indexAxisX = exportSettingsDialog.getIndexAxisSelectionX();

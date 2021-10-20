@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2019, 2020 Lablicate GmbH.
+ * Copyright (c) 2019, 2021 Lablicate GmbH.
  *
  * This program and the accompanying materials are made
  * available under the terms of the Eclipse Public License 2.0
@@ -41,8 +41,8 @@ import org.eclipse.swtchart.ISeries;
 import org.eclipse.swtchart.LineStyle;
 import org.eclipse.swtchart.export.core.AbstractSeriesExportHandler;
 import org.eclipse.swtchart.export.core.AxisSettings;
-import org.eclipse.swtchart.export.core.ExportSettingsDialog;
 import org.eclipse.swtchart.export.core.ISeriesExportConverter;
+import org.eclipse.swtchart.export.core.VectorExportSettingsDialog;
 import org.eclipse.swtchart.extensions.barcharts.BarChart;
 import org.eclipse.swtchart.extensions.core.BaseChart;
 import org.eclipse.swtchart.extensions.core.ChartType;
@@ -61,8 +61,6 @@ public class SVGExportHandler extends AbstractSeriesExportHandler implements ISe
 	//
 	private static final String AXIS_X = "x"; //$NON-NLS-1$
 	private static final String AXIS_Y = "y"; //$NON-NLS-1$
-	//
-	// private static final Map<>
 
 	@Override
 	public String getName() {
@@ -82,7 +80,7 @@ public class SVGExportHandler extends AbstractSeriesExportHandler implements ISe
 		if(fileName != null) {
 			try {
 				BaseChart baseChart = scrollableChart.getBaseChart();
-				ExportSettingsDialog exportSettingsDialog = new ExportSettingsDialog(fileDialog.getParent(), baseChart);
+				VectorExportSettingsDialog exportSettingsDialog = new VectorExportSettingsDialog(fileDialog.getParent(), baseChart);
 				exportSettingsDialog.create();
 				if(exportSettingsDialog.open() == Window.OK) {
 					int indexAxisX = exportSettingsDialog.getIndexAxisSelectionX();
