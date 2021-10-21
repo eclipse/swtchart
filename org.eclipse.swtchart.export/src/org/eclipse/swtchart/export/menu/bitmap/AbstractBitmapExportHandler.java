@@ -95,14 +95,16 @@ public abstract class AbstractBitmapExportHandler extends AbstractSeriesExportHa
 		/*
 		 * Size Image / Save
 		 */
-		Shell shellImage = new Shell(Display.getDefault());
+		Shell imageShell = new Shell(Display.getDefault());
 		try {
-			if(shellImage != null) {
-				shellImage.setSize(width, height);
-				shellImage.setLocation(0, 0);
-				shellImage.open();
+			if(imageShell != null) {
+				Rectangle imageBounds = imageShell.computeTrim(0, 0, width, height);
+				imageShell.setSize(imageBounds.width, imageBounds.height);
+				imageShell.setLocation(0, 0);
+				imageShell.setBackground(Display.getDefault().getSystemColor(SWT.COLOR_WHITE));
+				imageShell.open();
 				//
-				baseChart.setParent(shellImage);
+				baseChart.setParent(imageShell);
 				baseChart.setBounds(0, 0, width, height);
 				baseChart.updateLayout();
 				//
@@ -120,8 +122,8 @@ public abstract class AbstractBitmapExportHandler extends AbstractSeriesExportHa
 			baseChart.setParent(parent);
 			baseChart.setBounds(bounds);
 			baseChart.updateLayout();
-			if(shellImage != null) {
-				shellImage.close();
+			if(imageShell != null) {
+				imageShell.close();
 			}
 		}
 	}
