@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2017, 2020 Lablicate GmbH.
+ * Copyright (c) 2017, 2021 Lablicate GmbH.
  *
  * This program and the accompanying materials are made
  * available under the terms of the Eclipse Public License 2.0
@@ -40,6 +40,7 @@ public class RangeSelector extends Composite {
 	private Combo comboScaleY;
 
 	public RangeSelector(Composite parent, int style, ScrollableChart scrollableChart) {
+
 		super(parent, style);
 		this.scrollableChart = scrollableChart;
 		createControl();
@@ -239,7 +240,7 @@ public class RangeSelector extends Composite {
 				fireUpdateRangeSelection();
 			}
 		} catch(ParseException e) {
-			System.out.println(e);
+			e.printStackTrace();
 		}
 	}
 
