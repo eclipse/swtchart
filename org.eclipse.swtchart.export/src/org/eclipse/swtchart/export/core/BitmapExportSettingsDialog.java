@@ -37,8 +37,8 @@ public class BitmapExportSettingsDialog extends TitleAreaDialog {
 	private Rectangle boundsMax;
 	//
 	private boolean customSize = false;
-	private int customWidth = 100;
-	private int customHeight = 100;
+	private int customWidth = 0;
+	private int customHeight = 0;
 	//
 	private Text textWidth;
 	private Text textHeight;

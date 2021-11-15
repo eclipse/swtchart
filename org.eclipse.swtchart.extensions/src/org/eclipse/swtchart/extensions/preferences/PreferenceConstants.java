@@ -51,7 +51,7 @@ public class PreferenceConstants {
 	public static final String P_BITMAP_EXPORT_CUSTOM_SIZE = "bitmapExportCustomSize";
 	public static final boolean DEF_BITMAP_EXPORT_CUSTOM_SIZE = false;
 	public static final String P_BITMAP_EXPORT_WIDTH = "bitmapExportWidth";
-	public static final int DEF_BITMAP_EXPORT_WIDTH = 200;
+	public static final int DEF_BITMAP_EXPORT_WIDTH = 512;
 	public static final String P_BITMAP_EXPORT_HEIGHT = "bitmapExportHeight";
-	public static final int DEF_BITMAP_EXPORT_HEIGHT = 200;
+	public static final int DEF_BITMAP_EXPORT_HEIGHT = 512;
 }
