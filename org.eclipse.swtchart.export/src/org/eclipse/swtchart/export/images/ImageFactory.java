@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2017, 2019 Lablicate GmbH.
+ * Copyright (c) 2017, 2021 Lablicate GmbH.
  *
  * This program and the accompanying materials are made
  * available under the terms of the Eclipse Public License 2.0
@@ -20,6 +20,7 @@ public class ImageFactory<T extends ScrollableChart> {
 
 	private T t;
 	private ImageSupplier imageSupplier;
+	private Display display;
 
 	/**
 	 * The width and height of the current display is allowed.
@@ -32,11 +33,12 @@ public class ImageFactory<T extends ScrollableChart> {
 	 * @throws InstantiationException
 	 */
 	public ImageFactory(Class<T> clazz, int width, int height) throws InstantiationException, IllegalAccessException {
+
 		//
 		t = clazz.newInstance();
 		imageSupplier = new ImageSupplier();
 		//
-		Display display = ((ScrollableChart)t).getBaseChart().getDisplay();
+		display = ((ScrollableChart)t).getBaseChart().getDisplay();
 		if(display != null) {
 			width = (width > display.getBounds().width) ? display.getBounds().width : width;
 			height = (height > display.getBounds().height) ? display.getBounds().height : height;
@@ -55,18 +57,6 @@ public class ImageFactory<T extends ScrollableChart> {
 	}
 
 	/**
-	 * Returns the image data of the chart.
-	 * Don't forget to call closeShell() if the shell is not needed anymore.
-	 * 
-	 * @return ImageData.
-	 */
-	public ImageData getImageData() {
-
-		t.getShell().open();
-		return imageSupplier.getImageData(t.getBaseChart());
-	}
-
-	/**
 	 * Path to the file and the format.
 	 * Don't forget to call closeShell() if the shell is not needed anymore.
 	 * e.g.: SWT.IMAGE_PNG
@@ -76,7 +66,14 @@ public class ImageFactory<T extends ScrollableChart> {
 	 */
 	public void saveImage(String fileName, int format) {
 
-		ImageData imageData = getImageData();
-		imageSupplier.saveImage(imageData, fileName, format);
+		t.getShell().open();
+		while(!t.getShell().isDisposed()) {
+			if(!display.readAndDispatch()) {
+				display.sleep();
+				ImageData imageData = imageSupplier.getImageData(t.getBaseChart());
+				imageSupplier.saveImage(imageData, fileName, format);
+				return;
+			}
+		}
 	}
 }
