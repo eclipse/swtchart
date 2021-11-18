@@ -13,14 +13,15 @@
  *******************************************************************************/
 package org.eclipse.swtchart.export.menu.bitmap;
 
-import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.window.Window;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.ImageData;
 import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
+import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.FileDialog;
+import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swtchart.export.core.AbstractSeriesExportHandler;
 import org.eclipse.swtchart.export.core.BitmapExportSettingsDialog;
@@ -73,7 +74,7 @@ public abstract class AbstractBitmapExportHandler extends AbstractSeriesExportHa
 				if(bitmapSettingsDialog.isCustomSize()) {
 					int width = bitmapSettingsDialog.getCustomWidth();
 					int height = bitmapSettingsDialog.getCustomHeight();
-					exportCustomSize(shell, baseChart, fileName, width, height);
+					exportCustomSize(baseChart, fileName, width, height);
 				} else {
 					exportNormal(baseChart, fileName);
 				}
@@ -88,41 +89,39 @@ public abstract class AbstractBitmapExportHandler extends AbstractSeriesExportHa
 		imageSupplier.saveImage(imageData, fileName, format);
 	}
 
-	private void exportCustomSize(Shell shell, BaseChart baseChart, String fileName, int width, int height) {
+	private void exportCustomSize(BaseChart baseChart, String fileName, int width, int height) {
 
 		Composite parent = baseChart.getParent();
 		Rectangle bounds = baseChart.getBounds();
 		/*
 		 * Size Image / Save
 		 */
-		Shell imageShell = new Shell(Display.getDefault());
-		try {
-			if(imageShell != null) {
-				Rectangle imageBounds = imageShell.computeTrim(0, 0, width, height);
-				imageShell.setSize(imageBounds.width, imageBounds.height);
-				imageShell.setLocation(0, 0);
-				imageShell.setBackground(Display.getDefault().getSystemColor(SWT.COLOR_WHITE));
-				imageShell.open();
-				//
+		Display display = Display.getDefault();
+		Shell imageShell = new Shell(display);
+		Rectangle imageBounds = imageShell.computeTrim(0, 0, width, height);
+		imageShell.setSize(imageBounds.width, imageBounds.height);
+		imageShell.setLocation(0, 0);
+		imageShell.setBackground(Display.getDefault().getSystemColor(SWT.COLOR_WHITE));
+		imageShell.addListener(SWT.Paint, new Listener() {
+
+			@Override
+			public void handleEvent(Event event) {
+
 				baseChart.setParent(imageShell);
 				baseChart.setBounds(0, 0, width, height);
 				baseChart.updateLayout();
-				//
+			}
+		});
+		imageShell.open();
+		while(!imageShell.isDisposed()) {
+			if(!display.readAndDispatch()) {
+				display.sleep();
 				ImageSupplier imageSupplier = new ImageSupplier();
 				ImageData imageData = imageSupplier.getImageData(baseChart);
 				imageSupplier.saveImage(imageData, fileName, format);
-			}
-		} catch(Exception e) {
-			e.printStackTrace();
-			MessageDialog.openWarning(shell, title, "Something gone wrong to export the bitmap.");
-		} finally {
-			/*
-			 * Reset
-			 */
-			baseChart.setParent(parent);
-			baseChart.setBounds(bounds);
-			baseChart.updateLayout();
-			if(imageShell != null) {
+				baseChart.setParent(parent);
+				baseChart.setBounds(bounds);
+				baseChart.updateLayout();
 				imageShell.close();
 			}
 		}
