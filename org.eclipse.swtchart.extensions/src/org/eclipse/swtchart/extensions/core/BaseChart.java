@@ -367,20 +367,30 @@ public class BaseChart extends AbstractExtendedChart implements IChartDataCoordi
 
 	public double getSelectedPrimaryAxisValue(int position, String orientation) {
 
-		double primaryValue = 0.0d;
+		double primaryValue;
 		double start;
 		double stop;
 		int length;
 		//
 		if(orientation.equals(IExtendedChart.X_AXIS)) {
 			IAxis axis = getAxisSet().getXAxis(BaseChart.ID_PRIMARY_X_AXIS);
-			start = axis.getRange().lower;
-			stop = axis.getRange().upper;
+			if(axis.isReversed()) {
+				start = axis.getRange().upper;
+				stop = axis.getRange().lower;
+			} else {
+				start = axis.getRange().lower;
+				stop = axis.getRange().upper;
+			}
 			length = getPlotArea().getSize().x;
 		} else {
 			IAxis axis = getAxisSet().getYAxis(BaseChart.ID_PRIMARY_Y_AXIS);
-			start = axis.getRange().lower;
-			stop = axis.getRange().upper;
+			if(axis.isReversed()) {
+				start = axis.getRange().upper;
+				stop = axis.getRange().lower;
+			} else {
+				start = axis.getRange().lower;
+				stop = axis.getRange().upper;
+			}
 			length = getPlotArea().getSize().y;
 		}
 		//
