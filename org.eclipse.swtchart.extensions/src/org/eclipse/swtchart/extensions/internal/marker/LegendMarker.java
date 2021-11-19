@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2017, 2020 Lablicate GmbH.
+ * Copyright (c) 2017, 2021 Lablicate GmbH.
  *
  * This program and the accompanying materials are made
  * available under the terms of the Eclipse Public License 2.0
@@ -58,14 +58,14 @@ public class LegendMarker extends AbstractPositionPaintListener implements IPosi
 			double primaryValueY = baseChart.getSelectedPrimaryAxisValue(getY(), IExtendedChart.Y_AXIS);
 			// this is for circular charts
 			boolean isCircularChart = false;
-			for(ISeries<?> series : getBaseChart().getSeriesSet().getSeries()) {
+			for(ISeries<?> series : baseChart.getSeriesSet().getSeries()) {
 				if(series instanceof ICircularSeries) {
 					isCircularChart = true;
 					drawNodes(primaryValueX, primaryValueY, (CircularSeries)series);
 				}
 			}
 			// for Cartesian charts
-			if(isCircularChart == false) {
+			if(!isCircularChart) {
 				drawXAxes(primaryValueX);
 				drawYAxes(primaryValueY);
 			}
@@ -88,8 +88,9 @@ public class LegendMarker extends AbstractPositionPaintListener implements IPosi
 		String valueClass = getBaseChart().getAxisSet().getYAxis(0).getTitle().getText();
 		stringBuilder.append(nodeClass + " : " + id + "\n");
 		stringBuilder.append(valueClass + " : " + val + "\n");
-		if(node != null)
+		if(node != null) {
 			stringBuilder.append("Percent of " + node.getDataModel().getRootPointer().getId() + " : " + percentage + "%\n");
+		}
 	}
 
 	private void drawXAxes(double primaryValueX) {
