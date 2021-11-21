@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2020 SWTChart project.
+ * Copyright (c) 2020, 2021 SWTChart project.
  *
  * This program and the accompanying materials are made
  * available under the terms of the Eclipse Public License 2.0
@@ -24,6 +24,7 @@ import org.eclipse.swtchart.IAxisSet;
 import org.eclipse.swtchart.IAxisTick;
 import org.eclipse.swtchart.ITitle;
 import org.eclipse.swtchart.extensions.core.IChartSettings;
+import org.eclipse.swtchart.extensions.core.ISecondaryAxisSettings;
 import org.eclipse.swtchart.extensions.core.ScrollableChart;
 import org.eclipse.swtchart.extensions.examples.parts.LineSeries_1_Part;
 import org.eclipse.swtchart.extensions.menu.IChartMenuEntry;
@@ -47,6 +48,20 @@ public class DemoChart {
 		IChartSettings chartSettings = scrollableChart.getChartSettings();
 		chartSettings.setLegendExtendedVisible(true);
 		chartSettings.setBufferSelection(true);
+		addClipboardMenuEntry(chartSettings);
+		addToggleAxisLinesMenuEntry(chartSettings);
+		scrollableChart.applySettings(chartSettings);
+		//
+		while(!shell.isDisposed()) {
+			if(!display.readAndDispatch()) {
+				display.sleep();
+			}
+		}
+		display.dispose();
+	}
+
+	private static void addClipboardMenuEntry(IChartSettings chartSettings) {
+
 		chartSettings.addMenuEntry(new IChartMenuEntry() {
 
 			@Override
@@ -97,13 +112,46 @@ public class DemoChart {
 				return builder.toString();
 			}
 		});
-		scrollableChart.applySettings(chartSettings);
-		//
-		while(!shell.isDisposed()) {
-			if(!display.readAndDispatch()) {
-				display.sleep();
+	}
+
+	private static void addToggleAxisLinesMenuEntry(IChartSettings chartSettings) {
+
+		chartSettings.addMenuEntry(new IChartMenuEntry() {
+
+			@Override
+			public String getName() {
+
+				return "Toggle Axis Lines";
 			}
-		}
-		display.dispose();
+
+			@Override
+			public String getCategory() {
+
+				return "Tools";
+			}
+
+			@Override
+			public void execute(Shell shell, ScrollableChart scrollableChart) {
+
+				IChartSettings chartSettings = scrollableChart.getChartSettings();
+				/*
+				 * Primary Axes
+				 */
+				chartSettings.getPrimaryAxisSettingsX().setDrawAxisLine(!chartSettings.getPrimaryAxisSettingsX().isDrawAxisLine());
+				chartSettings.getPrimaryAxisSettingsY().setDrawAxisLine(!chartSettings.getPrimaryAxisSettingsY().isDrawAxisLine());
+				/*
+				 * Secondary Axes
+				 */
+				for(ISecondaryAxisSettings secondaryAxisSettings : chartSettings.getSecondaryAxisSettingsListX()) {
+					secondaryAxisSettings.setDrawAxisLine(!secondaryAxisSettings.isDrawAxisLine());
+				}
+				//
+				for(ISecondaryAxisSettings secondaryAxisSettings : chartSettings.getSecondaryAxisSettingsListY()) {
+					secondaryAxisSettings.setDrawAxisLine(!secondaryAxisSettings.isDrawAxisLine());
+				}
+				//
+				scrollableChart.applySettings(chartSettings);
+			}
+		});
 	}
 }

@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2017, 2019 Lablicate GmbH.
+ * Copyright (c) 2017, 2021 Lablicate GmbH.
  *
  * This program and the accompanying materials are made
  * available under the terms of the Eclipse Public License 2.0
@@ -87,15 +87,19 @@ public interface IAxisSettings {
 
 	void setReversed(boolean reversed);
 
+	boolean isDrawAxisLine();
+
+	void setDrawAxisLine(boolean drawAxisLine);
+
 	int getExtraSpaceTitle();
 
 	void setExtraSpaceTitle(int extraSpaceTitle);
-	
+
 	/**
 	 * @return
 	 * 		true, if the axis is supposed to tick only at integer data points.
 	 */
 	boolean isIntegerDataPointAxis();
-	
+
 	void setIntegerDataPointAxis(boolean isIntegerDataPointAxis);
 }

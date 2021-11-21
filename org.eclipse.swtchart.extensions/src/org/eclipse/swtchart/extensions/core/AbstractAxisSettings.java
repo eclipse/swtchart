@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2017, 2020 Lablicate GmbH.
+ * Copyright (c) 2017, 2021 Lablicate GmbH.
  *
  * This program and the accompanying materials are made
  * available under the terms of the Eclipse Public License 2.0
@@ -37,6 +37,7 @@ public abstract class AbstractAxisSettings implements IAxisSettings {
 	private LineStyle gridLineStyle;
 	private boolean enableLogScale;
 	private boolean reversed;
+	private boolean drawAxisLine;
 	private int extraSpaceTitle;
 	private boolean integerDataPointAxis;
 	/*
@@ -67,6 +68,7 @@ public abstract class AbstractAxisSettings implements IAxisSettings {
 		gridLineStyle = LineStyle.DOT;
 		enableLogScale = false;
 		reversed = false;
+		drawAxisLine = true;
 		extraSpaceTitle = 25;
 		integerDataPointAxis = false;
 	}
@@ -254,6 +256,18 @@ public abstract class AbstractAxisSettings implements IAxisSettings {
 	public void setReversed(boolean reversed) {
 
 		this.reversed = reversed;
+	}
+
+	@Override
+	public boolean isDrawAxisLine() {
+
+		return drawAxisLine;
+	}
+
+	@Override
+	public void setDrawAxisLine(boolean drawAxisLine) {
+
+		this.drawAxisLine = drawAxisLine;
 	}
 
 	@Override

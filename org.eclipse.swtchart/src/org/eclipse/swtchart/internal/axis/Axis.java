@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2008, 2020 SWTChart project.
+ * Copyright (c) 2008, 2021 SWTChart project.
  *
  * This program and the accompanying materials are made
  * available under the terms of the Eclipse Public License 2.0
@@ -11,6 +11,7 @@
  * yoshitaka - initial API and implementation
  * Christoph Läubrich - use getSize instead of bounds since we are not interested in the location anyways, add support for datamodel
  * Frank Buloup - Internationalization
+ * Philip Wenig - option to skip drawing the axis line
  *******************************************************************************/
 package org.eclipse.swtchart.internal.axis;
 
@@ -87,6 +88,9 @@ public class Axis implements IAxis {
 	private int width;
 	/** the plot area height */
 	private int height;
+	/** draw the horizontal|vertical axis line */
+	private boolean drawAxisLine;
+	//
 	/** the list of dispose listeners */
 	private List<IDisposeListener> listeners;
 
@@ -101,6 +105,7 @@ public class Axis implements IAxis {
 	 *            the chart
 	 */
 	public Axis(int id, Direction direction, Chart chart) {
+
 		this.id = id;
 		this.direction = direction;
 		this.chart = chart;
@@ -116,6 +121,7 @@ public class Axis implements IAxis {
 		categoryAxisEnabled = false;
 		reversed = false;
 		integerDataPointAxis = false;
+		drawAxisLine = true;
 	}
 
 	@Override
@@ -713,6 +719,18 @@ public class Axis implements IAxis {
 
 		int orientation = chart.getOrientation();
 		return (direction == Direction.X && orientation == SWT.HORIZONTAL) || (direction == Direction.Y && orientation == SWT.VERTICAL);
+	}
+
+	@Override
+	public boolean isDrawAxisLine() {
+
+		return drawAxisLine;
+	}
+
+	@Override
+	public void setDrawAxisLine(boolean drawAxisLine) {
+
+		this.drawAxisLine = drawAxisLine;
 	}
 
 	/**

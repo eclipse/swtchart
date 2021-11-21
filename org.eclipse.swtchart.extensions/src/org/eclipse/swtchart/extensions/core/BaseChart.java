@@ -149,6 +149,7 @@ public class BaseChart extends AbstractExtendedChart implements IChartDataCoordi
 		xAxisPrimary.enableLogScale(false);
 		xAxisPrimary.enableCategory(false);
 		xAxisPrimary.setReversed(false);
+		xAxisPrimary.setDrawAxisLine(true);
 		xAxisPrimary.setCategorySeries(new String[]{});
 		xAxisPrimary.setIntegerDataPointAxis(false);
 		//
@@ -161,6 +162,7 @@ public class BaseChart extends AbstractExtendedChart implements IChartDataCoordi
 		yAxisPrimary.enableLogScale(false);
 		yAxisPrimary.enableCategory(false);
 		yAxisPrimary.setReversed(false);
+		yAxisPrimary.setDrawAxisLine(true);
 		yAxisPrimary.setIntegerDataPointAxis(false);
 		//
 		handledSelectionEvents = new Stack<double[]>();

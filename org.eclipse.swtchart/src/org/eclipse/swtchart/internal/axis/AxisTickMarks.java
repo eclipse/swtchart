@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2008, 2020 SWTChart project.
+ * Copyright (c) 2008, 2021 SWTChart project.
  *
  * This program and the accompanying materials are made
  * available under the terms of the Eclipse Public License 2.0
@@ -10,6 +10,7 @@
  * Contributors:
  * yoshitaka - initial API and implementation
  * Christoph Läubrich - take line width into account when calculate clippings
+ * Philip Wenig - option to skip drawing the axis line
  *******************************************************************************/
 package org.eclipse.swtchart.internal.axis;
 
@@ -59,6 +60,7 @@ public class AxisTickMarks implements PaintListener {
 	 *            the axis
 	 */
 	public AxisTickMarks(Chart chart, Axis axis) {
+
 		this.chart = chart;
 		this.axis = axis;
 		foreground = Display.getDefault().getSystemColor(DEFAULT_FOREGROUND);
@@ -233,11 +235,15 @@ public class AxisTickMarks implements PaintListener {
 				gc.drawLine(bounds.x + x, bounds.y + y, bounds.x + x, bounds.y + y + TICK_LENGTH);
 			}
 		}
-		// draw axis line
-		if(position == Position.Primary) {
-			gc.drawLine(bounds.x, bounds.y, bounds.x + bounds.width - 1, bounds.y);
-		} else {
-			gc.drawLine(bounds.x, bounds.y + bounds.height - 1, bounds.x + bounds.width - 1, bounds.y + bounds.height - 1);
+		/*
+		 * Draw axis line (X)
+		 */
+		if(axis.isDrawAxisLine()) {
+			if(position == Position.Primary) {
+				gc.drawLine(bounds.x, bounds.y, bounds.x + bounds.width - 1, bounds.y);
+			} else {
+				gc.drawLine(bounds.x, bounds.y + bounds.height - 1, bounds.x + bounds.width - 1, bounds.y + bounds.height - 1);
+			}
 		}
 	}
 
@@ -287,11 +293,15 @@ public class AxisTickMarks implements PaintListener {
 				gc.drawLine(bounds.x + x, bounds.y + y, bounds.x + x + TICK_LENGTH, bounds.y + y);
 			}
 		}
-		// draw axis line
-		if(position == Position.Primary) {
-			gc.drawLine(bounds.x + bounds.width - 1, bounds.y, bounds.x + bounds.width - 1, bounds.y + bounds.height - 1);
-		} else {
-			gc.drawLine(bounds.x, bounds.y, bounds.x, bounds.y + bounds.height - 1);
+		/*
+		 * Draw axis line (Y)
+		 */
+		if(axis.isDrawAxisLine()) {
+			if(position == Position.Primary) {
+				gc.drawLine(bounds.x + bounds.width - 1, bounds.y, bounds.x + bounds.width - 1, bounds.y + bounds.height - 1);
+			} else {
+				gc.drawLine(bounds.x, bounds.y, bounds.x, bounds.y + bounds.height - 1);
+			}
 		}
 	}
 }

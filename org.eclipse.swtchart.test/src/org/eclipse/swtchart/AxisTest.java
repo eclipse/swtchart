@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2008, 2020 SWTChart project.
+ * Copyright (c) 2008, 2021 SWTChart project.
  *
  * This program and the accompanying materials are made
  * available under the terms of the Eclipse Public License 2.0
@@ -1108,6 +1108,20 @@ public class AxisTest extends ChartTestCase {
 		assertDecreasingInPixel(ySeries1, yAxis);
 		xAxis.setReversed(true);
 		yAxis.setReversed(true);
+		showChart();
+		assertDecreasing(((AxisTick)xAxis.getTick()).getAxisTickLabels().getTickLabelPositions());
+		assertDecreasing(((AxisTick)yAxis.getTick()).getAxisTickLabels().getTickLabelPositions());
+		assertDecreasingInPixel(xSeries3, xAxis);
+		assertIncreasingInPixel(ySeries1, yAxis);
+		xAxis.setDrawAxisLine(true);
+		yAxis.setDrawAxisLine(true);
+		showChart();
+		assertDecreasing(((AxisTick)xAxis.getTick()).getAxisTickLabels().getTickLabelPositions());
+		assertDecreasing(((AxisTick)yAxis.getTick()).getAxisTickLabels().getTickLabelPositions());
+		assertDecreasingInPixel(xSeries3, xAxis);
+		assertIncreasingInPixel(ySeries1, yAxis);
+		xAxis.setDrawAxisLine(false);
+		yAxis.setDrawAxisLine(false);
 		showChart();
 		assertDecreasing(((AxisTick)xAxis.getTick()).getAxisTickLabels().getTickLabelPositions());
 		assertDecreasing(((AxisTick)yAxis.getTick()).getAxisTickLabels().getTickLabelPositions());

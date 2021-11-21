@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2008, 2019 SWTChart project.
+ * Copyright (c) 2008, 2021 SWTChart project.
  *
  * This program and the accompanying materials are made
  * available under the terms of the Eclipse Public License 2.0
@@ -9,6 +9,7 @@
  * 
  * Contributors:
  * yoshitaka - initial API and implementation
+ * Philip Wenig - option to skip drawing the axis line
  *******************************************************************************/
 package org.eclipse.swtchart;
 
@@ -19,10 +20,10 @@ public interface IAxis {
 
 	/** An axis direction */
 	public enum Direction {
-		/** the constant to represent X axis */
-		X,
-		/** the constant to represent Y axis */
-		Y
+	/** the constant to represent X axis */
+	X,
+	/** the constant to represent Y axis */
+	Y
 	}
 
 	/** An axis position */
@@ -242,8 +243,12 @@ public interface IAxis {
 	 *            the dispose listener
 	 */
 	void addDisposeListener(IDisposeListener listener);
-	
+
 	void setIntegerDataPointAxis(boolean integerDataPointAxis);
-	
+
 	boolean isIntegerDataPointAxis();
+
+	boolean isDrawAxisLine();
+
+	void setDrawAxisLine(boolean drawAxisLine);
 }
