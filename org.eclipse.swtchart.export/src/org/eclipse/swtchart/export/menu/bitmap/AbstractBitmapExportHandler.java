@@ -33,6 +33,7 @@ import org.eclipse.swtchart.extensions.core.ScrollableChart;
 public abstract class AbstractBitmapExportHandler extends AbstractSeriesExportHandler implements ISeriesExportConverter {
 
 	private String name;
+	@SuppressWarnings("unused")
 	private String title;
 	private String[] filterExtensions;
 	private int format;
