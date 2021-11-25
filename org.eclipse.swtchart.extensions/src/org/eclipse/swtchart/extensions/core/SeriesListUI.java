@@ -215,8 +215,10 @@ public class SeriesListUI extends TableViewer {
 		if(preferenceStore != null) {
 			try {
 				String columnOrder = preferenceStore.getString(PreferenceConstants.P_LEGEND_COLUMN_ORDER);
-				int[] columns = convertColumnOrder(columnOrder);
-				table.setColumnOrder(columns);
+				if(!columnOrder.isEmpty()) {
+					int[] columns = convertColumnOrder(columnOrder);
+					table.setColumnOrder(columns);
+				}
 			} catch(SWTException | IllegalArgumentException e) {
 				/*
 				 * On exception, default order will be used.
