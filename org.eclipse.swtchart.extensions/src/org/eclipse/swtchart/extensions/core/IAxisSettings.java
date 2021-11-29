@@ -91,6 +91,10 @@ public interface IAxisSettings {
 
 	void setDrawAxisLine(boolean drawAxisLine);
 
+	boolean isDrawPositionMarker();
+
+	void setDrawPositionMarker(boolean drawPositionMarker);
+
 	int getExtraSpaceTitle();
 
 	void setExtraSpaceTitle(int extraSpaceTitle);

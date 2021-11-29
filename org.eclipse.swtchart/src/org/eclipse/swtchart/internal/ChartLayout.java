@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2008, 2019 SWTChart project.
+ * Copyright (c) 2008, 2021 SWTChart project.
  *
  * This program and the accompanying materials are made
  * available under the terms of the Eclipse Public License 2.0
@@ -9,6 +9,7 @@
  * 
  * Contributors:
  * yoshitaka - initial API and implementation
+ * Philip Wenig - x/y axis position marker
  *******************************************************************************/
 package org.eclipse.swtchart.internal;
 
@@ -26,6 +27,8 @@ import org.eclipse.swtchart.IAxis;
 import org.eclipse.swtchart.IAxis.Position;
 import org.eclipse.swtchart.IAxisSet;
 import org.eclipse.swtchart.internal.axis.Axis;
+import org.eclipse.swtchart.internal.axis.AxisPositionMarker;
+import org.eclipse.swtchart.internal.axis.AxisTick;
 import org.eclipse.swtchart.internal.axis.AxisTickLabels;
 import org.eclipse.swtchart.internal.axis.AxisTickMarks;
 import org.eclipse.swtchart.internal.axis.AxisTitle;
@@ -86,6 +89,7 @@ public class ChartLayout extends Layout {
 	 * Constructor.
 	 */
 	public ChartLayout() {
+
 		initWidgetSizeVariables();
 		axisLayoutDataMap = new HashMap<Axis, AxisLayoutData>();
 	}
@@ -463,6 +467,7 @@ public class ChartLayout extends Layout {
 		y -= height;
 		bottomAxisOffset += height;
 		layoutData.axisTickMarks.setBounds(x, y, plotAreaWidth, height);
+		layoutData.axisPositionMarker.setBounds(x, y, plotAreaWidth, height);
 	}
 
 	/**
@@ -491,6 +496,7 @@ public class ChartLayout extends Layout {
 		height = layoutData.tickMarksLayoutdata.heightHint;
 		topAxisOffset += height;
 		layoutData.axisTickMarks.setBounds(x, y, plotAreaWidth, height);
+		layoutData.axisPositionMarker.setBounds(x, y, plotAreaWidth, height);
 	}
 
 	/**
@@ -520,6 +526,7 @@ public class ChartLayout extends Layout {
 		width = layoutData.tickMarksLayoutdata.widthHint;
 		leftAxisOffset += width;
 		layoutData.axisTickMarks.setBounds(x, y, width, plotAreaHeight);
+		layoutData.axisPositionMarker.setBounds(x, y, width, plotAreaHeight);
 	}
 
 	/**
@@ -549,6 +556,7 @@ public class ChartLayout extends Layout {
 		x -= width;
 		rightAxisOffset += width;
 		layoutData.axisTickMarks.setBounds(x, y, width, plotAreaHeight);
+		layoutData.axisPositionMarker.setBounds(x, y, width, plotAreaHeight);
 	}
 
 	/**
@@ -560,6 +568,8 @@ public class ChartLayout extends Layout {
 		public AxisTickMarks axisTickMarks;
 		/** the axis tick labels */
 		public AxisTickLabels axisTickLabels;
+		/** the axis position marker */
+		public AxisPositionMarker axisPositionMarker;
 		/** the axis title */
 		public AxisTitle axisTitle;
 		/** the axis title layout data */
@@ -576,8 +586,11 @@ public class ChartLayout extends Layout {
 		 *            the axis
 		 */
 		public AxisLayoutData(Axis axis) {
-			axisTickMarks = axis.getTick().getAxisTickMarks();
-			axisTickLabels = axis.getTick().getAxisTickLabels();
+
+			AxisTick axisTick = axis.getTick();
+			axisTickMarks = axisTick.getAxisTickMarks();
+			axisTickLabels = axisTick.getAxisTickLabels();
+			axisPositionMarker = axisTick.getAxisPositionMarker();
 			axisTitle = (AxisTitle)axis.getTitle();
 			titleLayoutdata = (ChartLayoutData)axisTitle.getLayoutData();
 			tickLabelsLayoutdata = axisTickLabels.getLayoutData();

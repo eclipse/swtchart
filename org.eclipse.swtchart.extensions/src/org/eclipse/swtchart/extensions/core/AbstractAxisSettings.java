@@ -38,6 +38,7 @@ public abstract class AbstractAxisSettings implements IAxisSettings {
 	private boolean enableLogScale;
 	private boolean reversed;
 	private boolean drawAxisLine;
+	private boolean drawPositionMarker;
 	private int extraSpaceTitle;
 	private boolean integerDataPointAxis;
 	/*
@@ -69,6 +70,7 @@ public abstract class AbstractAxisSettings implements IAxisSettings {
 		enableLogScale = false;
 		reversed = false;
 		drawAxisLine = true;
+		drawPositionMarker = false;
 		extraSpaceTitle = 25;
 		integerDataPointAxis = false;
 	}
@@ -268,6 +270,18 @@ public abstract class AbstractAxisSettings implements IAxisSettings {
 	public void setDrawAxisLine(boolean drawAxisLine) {
 
 		this.drawAxisLine = drawAxisLine;
+	}
+
+	@Override
+	public boolean isDrawPositionMarker() {
+
+		return drawPositionMarker;
+	}
+
+	@Override
+	public void setDrawPositionMarker(boolean drawPositionMarker) {
+
+		this.drawPositionMarker = drawPositionMarker;
 	}
 
 	@Override

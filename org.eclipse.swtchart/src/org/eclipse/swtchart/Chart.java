@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2008, 2020 SWTChart project.
+ * Copyright (c) 2008, 2021 SWTChart project.
  *
  * This program and the accompanying materials are made
  * available under the terms of the Eclipse Public License 2.0
@@ -10,6 +10,7 @@
  * Contributors:
  * yoshitaka - initial API and implementation
  * Christoph Läubrich - refactor for usage with a generic plot area, add method to print vectors to GC
+ * Philip Wenig - x/y axis position marker
  *******************************************************************************/
 package org.eclipse.swtchart;
 
@@ -17,6 +18,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.MouseEvent;
+import org.eclipse.swt.events.MouseMoveListener;
 import org.eclipse.swt.events.PaintEvent;
 import org.eclipse.swt.events.PaintListener;
 import org.eclipse.swt.graphics.Color;
@@ -62,6 +65,7 @@ public class Chart extends Composite implements Listener {
 	private boolean updateSuspended;
 	/** the set of plots */
 	protected SeriesSet seriesSet;
+	//
 	private final List<PaintListener> paintListener = new ArrayList<>();
 
 	/**
@@ -73,8 +77,23 @@ public class Chart extends Composite implements Listener {
 	 *            the style of widget to construct
 	 */
 	public Chart(Composite parent, int style) {
+
 		this(parent, style, null);
 		new PlotArea(this, SWT.NONE);
+		/*
+		 * Mouse Move Position Marker
+		 */
+		plotArea.addMouseMoveListener(new MouseMoveListener() {
+
+			@Override
+			public void mouseMove(MouseEvent e) {
+
+				for(IAxis axis : axisSet.getAxes()) {
+					axis.updatePositionMarker(e);
+				}
+				redraw();
+			}
+		});
 	}
 
 	/**
@@ -90,6 +109,7 @@ public class Chart extends Composite implements Listener {
 	 *            simply provide <code>null</code> here
 	 */
 	public Chart(Composite parent, int style, Void justNull) {
+
 		super(parent, style | SWT.DOUBLE_BUFFERED);
 		orientation = SWT.HORIZONTAL;
 		compressEnabled = true;

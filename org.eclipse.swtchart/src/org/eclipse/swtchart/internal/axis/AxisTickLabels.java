@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2008, 2020 SWTChart project.
+ * Copyright (c) 2008, 2021 SWTChart project.
  *
  * This program and the accompanying materials are made
  * available under the terms of the Eclipse Public License 2.0
@@ -11,6 +11,7 @@
  * yoshitaka - initial API and implementation
  * Christoph Läubrich - use getSize since we only want width/height, add support for datamodel
  * Frank Buloup - Internationalization
+ * Philip Wenig - x/y axis position marker
  *******************************************************************************/
 package org.eclipse.swtchart.internal.axis;
 
@@ -708,6 +709,7 @@ public class AxisTickLabels implements PaintListener {
 		if(!axis.getTick().isVisible()) {
 			return;
 		}
+		//
 		Color oldBackground = e.gc.getBackground();
 		e.gc.setBackground(chart.getBackground());
 		Color oldForeground = e.gc.getForeground();

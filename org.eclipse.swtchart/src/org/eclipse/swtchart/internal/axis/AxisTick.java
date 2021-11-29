@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2008, 2019 SWTChart project.
+ * Copyright (c) 2008, 2021 SWTChart project.
  *
  * This program and the accompanying materials are made
  * available under the terms of the Eclipse Public License 2.0
@@ -10,6 +10,7 @@
  * Contributors:
  * yoshitaka - initial API and implementation
  * Frank Buloup - Internationalization
+ * Philip Wenig - x/y axis position marker
  *******************************************************************************/
 package org.eclipse.swtchart.internal.axis;
 
@@ -37,6 +38,8 @@ public class AxisTick implements IAxisTick {
 	private AxisTickLabels axisTickLabels;
 	/** the axis tick marks */
 	private AxisTickMarks axisTickMarks;
+	/** marks the current position */
+	private AxisPositionMarker axisPositionMarker;
 	/** true if tick is visible */
 	private boolean isVisible;
 	/** the tick mark step hint */
@@ -55,10 +58,12 @@ public class AxisTick implements IAxisTick {
 	 *            the axis
 	 */
 	protected AxisTick(Chart chart, Axis axis) {
+
 		this.chart = chart;
 		this.axis = axis;
 		axisTickLabels = new AxisTickLabels(chart, axis);
 		axisTickMarks = new AxisTickMarks(chart, axis);
+		axisPositionMarker = new AxisPositionMarker(chart, axis);
 		isVisible = true;
 		tickLabelAngle = 0;
 		tickMarkStepHint = DEFAULT_TICK_MARK_STEP_HINT;
@@ -82,6 +87,11 @@ public class AxisTick implements IAxisTick {
 	public AxisTickLabels getAxisTickLabels() {
 
 		return axisTickLabels;
+	}
+
+	public AxisPositionMarker getAxisPositionMarker() {
+
+		return axisPositionMarker;
 	}
 
 	@Override
@@ -192,7 +202,7 @@ public class AxisTick implements IAxisTick {
 		} else if(position == Position.Secondary && !axis.isHorizontalAxis()) {
 			return new Rectangle(r1.x, r1.y, r1.width + r2.width, r1.height);
 		} else {
-			throw new IllegalStateException(Messages.getString(Messages.UNKNOWN_AXIS_POSITION)); 
+			throw new IllegalStateException(Messages.getString(Messages.UNKNOWN_AXIS_POSITION));
 		}
 	}
 

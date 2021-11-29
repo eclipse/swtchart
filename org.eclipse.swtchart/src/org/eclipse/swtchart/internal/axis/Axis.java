@@ -19,6 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.MouseEvent;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swtchart.Chart;
 import org.eclipse.swtchart.IAxis;
@@ -733,6 +734,18 @@ public class Axis implements IAxis {
 		this.drawAxisLine = drawAxisLine;
 	}
 
+	@Override
+	public boolean isDrawPositionMarker() {
+
+		return tick.getAxisPositionMarker().isDraw();
+	}
+
+	@Override
+	public void setDrawPositionMarker(boolean drawPositionMarker) {
+
+		tick.getAxisPositionMarker().setDraw(drawPositionMarker);
+	}
+
 	/**
 	 * Disposes the resources.
 	 */
@@ -780,5 +793,11 @@ public class Axis implements IAxis {
 				tick.updateTick(height);
 			}
 		}
+	}
+
+	@Override
+	public void updatePositionMarker(MouseEvent e) {
+
+		tick.getAxisPositionMarker().update(e.x, e.y);
 	}
 }

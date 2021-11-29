@@ -13,6 +13,8 @@
  *******************************************************************************/
 package org.eclipse.swtchart;
 
+import org.eclipse.swt.events.MouseEvent;
+
 /**
  * An axis which is composed of title and tick. Grid is associated with axis.
  */
@@ -251,4 +253,10 @@ public interface IAxis {
 	boolean isDrawAxisLine();
 
 	void setDrawAxisLine(boolean drawAxisLine);
+
+	boolean isDrawPositionMarker();
+
+	void setDrawPositionMarker(boolean drawPositionMarker);
+
+	void updatePositionMarker(MouseEvent e);
 }
