@@ -34,6 +34,7 @@ public class AxisPositionMarker implements PaintListener {
 	private static final int OFFSET_TEXT_X = 4;
 	private static final int OFFSET_TEXT_Y = 2;
 	private static final int OFFSET_SPACE_Y = 5;
+	private static final int OFFSET_LINE_Y = 2;
 	private static final int ARC_WIDTH = 5;
 	private static final int ARC_HEIGHT = 3;
 	//
@@ -175,9 +176,9 @@ public class AxisPositionMarker implements PaintListener {
 
 		int offsetY = textExtend.y / 2;
 		int positionX = bounds.x - textExtend.x + OFFSET_RECTANGLE_X;
-		int positionY = bounds.y + y - offsetY + OFFSET_RECTANGLE_X;
+		int positionY = bounds.y + y - offsetY - OFFSET_LINE_Y;
 		//
-		drawTrianglePrimaryY(gc, offsetY);
+		drawTrianglePrimaryY(gc);
 		fillRoundRectangle(gc, positionX - OFFSET_TEXT_Y, positionY, textExtend.x - OFFSET_TEXT_X, textExtend.y);
 		drawText(gc, positionX, positionY + OFFSET_TEXT_Y, textValue);
 	}
@@ -186,9 +187,9 @@ public class AxisPositionMarker implements PaintListener {
 
 		int offsetY = textExtend.y / 2;
 		int positionX = bounds.x + OFFSET_RECTANGLE_X;
-		int positionY = bounds.y + y - offsetY + OFFSET_RECTANGLE_X;
+		int positionY = bounds.y + y - offsetY - OFFSET_LINE_Y;
 		//
-		drawTriangleSecondaryY(gc, offsetY);
+		drawTriangleSecondaryY(gc);
 		fillRoundRectangle(gc, positionX, positionY, textExtend.x + OFFSET_TEXT_X, textExtend.y);
 		drawText(gc, positionX + OFFSET_TEXT_X + TRIANGLE_DELTA, positionY + OFFSET_TEXT_Y, textValue);
 	}
@@ -196,7 +197,7 @@ public class AxisPositionMarker implements PaintListener {
 	private void drawTrianglePrimaryX(GC gc) {
 
 		int positionX = bounds.x + x;
-		int positionY = bounds.y + 1;
+		int positionY = bounds.y;
 		int x1 = positionX;
 		int y1 = positionY;
 		int x2 = positionX + OFFSET_RECTANGLE_X - TRIANGLE_DELTA;
@@ -221,10 +222,10 @@ public class AxisPositionMarker implements PaintListener {
 		drawTriangle(gc, x1, y1, x2, y2, x3, y3);
 	}
 
-	private void drawTrianglePrimaryY(GC gc, int offsetY) {
+	private void drawTrianglePrimaryY(GC gc) {
 
 		int positionX = bounds.x;
-		int positionY = bounds.y + y + offsetY;
+		int positionY = bounds.y + y - OFFSET_LINE_Y;
 		int x1 = positionX;
 		int y1 = positionY - OFFSET_RECTANGLE_X + TRIANGLE_DELTA;
 		int x2 = positionX;
@@ -235,10 +236,10 @@ public class AxisPositionMarker implements PaintListener {
 		drawTriangle(gc, x1, y1, x2, y2, x3, y3);
 	}
 
-	private void drawTriangleSecondaryY(GC gc, int offsetY) {
+	private void drawTriangleSecondaryY(GC gc) {
 
-		int positionX = bounds.x + 1;
-		int positionY = bounds.y + y + offsetY;
+		int positionX = bounds.x;
+		int positionY = bounds.y + y - OFFSET_LINE_Y;
 		int x1 = positionX + OFFSET_RECTANGLE_X;
 		int y1 = positionY - OFFSET_RECTANGLE_X + TRIANGLE_DELTA;
 		int x2 = positionX + OFFSET_RECTANGLE_X;
