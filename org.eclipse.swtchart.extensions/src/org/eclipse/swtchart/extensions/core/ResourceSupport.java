@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2020, 2021 Lablicate GmbH.
+ * Copyright (c) 2020, 2022 Lablicate GmbH.
  *
  * This program and the accompanying materials are made
  * available under the terms of the Eclipse Public License 2.0
@@ -19,7 +19,6 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
-import org.eclipse.core.runtime.preferences.InstanceScope;
 import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.jface.preference.PreferenceStore;
 import org.eclipse.jface.resource.ImageDescriptor;
@@ -33,9 +32,7 @@ import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.RGB;
 import org.eclipse.swt.widgets.Display;
-import org.eclipse.swtchart.extensions.Activator;
 import org.eclipse.swtchart.extensions.preferences.PreferenceInitializer;
-import org.eclipse.ui.preferences.ScopedPreferenceStore;
 
 public class ResourceSupport {
 
@@ -151,22 +148,14 @@ public class ResourceSupport {
 	public static IPreferenceStore getPreferenceStore() {
 
 		if(preferenceStore == null) {
-			try {
-				/*
-				 * OSGi context
-				 * The store is initialized via the plugin.xml.
-				 */
-				preferenceStore = new ScopedPreferenceStore(InstanceScope.INSTANCE, Activator.getDefault().getBundle().getSymbolicName());
-			} catch(Exception e) {
-				/*
-				 * Non-OSGi context
-				 * Initialize the context additionally.
-				 */
-				String filename = System.getProperty("user.home") + File.separator + ".eclipseswtchartsettings";
-				preferenceStore = new PreferenceStore(filename);
-				PreferenceInitializer preferenceInitializer = new PreferenceInitializer();
-				preferenceInitializer.initializeDefaultPreferences();
-			}
+			/*
+			 * SWTChart may be used also in a non Eclipse context.
+			 * Hence, a simple file preference store instead of a ScopedPreferenceStore is used.
+			 */
+			String filename = System.getProperty("user.home") + File.separator + ".eclipseswtchartsettings";
+			preferenceStore = new PreferenceStore(filename);
+			PreferenceInitializer preferenceInitializer = new PreferenceInitializer();
+			preferenceInitializer.initializeDefaultPreferences();
 		}
 		return preferenceStore;
 	}

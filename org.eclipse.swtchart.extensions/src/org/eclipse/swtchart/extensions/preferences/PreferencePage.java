@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2020, 2021 Lablicate GmbH.
+ * Copyright (c) 2020, 2022 Lablicate GmbH.
  *
  * This program and the accompanying materials are made
  * available under the terms of the Eclipse Public License 2.0
@@ -17,14 +17,17 @@ import org.eclipse.jface.preference.FieldEditorPreferencePage;
 import org.eclipse.jface.preference.IntegerFieldEditor;
 import org.eclipse.jface.preference.StringFieldEditor;
 import org.eclipse.swtchart.extensions.core.ResourceSupport;
-import org.eclipse.ui.IWorkbench;
-import org.eclipse.ui.IWorkbenchPreferencePage;
 
-public class PreferencePage extends FieldEditorPreferencePage implements IWorkbenchPreferencePage {
+public class PreferencePage extends FieldEditorPreferencePage {
 
 	public PreferencePage() {
 
-		super(GRID);
+		this(GRID);
+	}
+
+	public PreferencePage(int style) {
+
+		super(style);
 		setPreferenceStore(ResourceSupport.getPreferenceStore());
 		setTitle("SWTChart");
 		setDescription("");
@@ -42,11 +45,5 @@ public class PreferencePage extends FieldEditorPreferencePage implements IWorkbe
 		addField(new BooleanFieldEditor(PreferenceConstants.P_BITMAP_EXPORT_CUSTOM_SIZE, "Bitmap Export Custom Size", getFieldEditorParent()));
 		addField(new IntegerFieldEditor(PreferenceConstants.P_BITMAP_EXPORT_WIDTH, "Bitmap Export Width", getFieldEditorParent()));
 		addField(new IntegerFieldEditor(PreferenceConstants.P_BITMAP_EXPORT_HEIGHT, "Bitmap Export Height", getFieldEditorParent()));
-	}
-
-	public void init(IWorkbench workbench) {
-
-		PreferenceInitializer preferenceInitializer = new PreferenceInitializer();
-		preferenceInitializer.initializeDefaultPreferences();
 	}
 }
