@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension
+         point="org.eclipse.ui.preferencePages">
+      <page
+            class="org.eclipse.swtchart.extensions.eclipse.preferences.PreferencePageEclipse"
+            id="org.eclipse.swtchart.extensions.eclipse.preferences.preferencePage"
+            name="SWTChart">
+      </page>
+   </extension>       
+</plugin>
