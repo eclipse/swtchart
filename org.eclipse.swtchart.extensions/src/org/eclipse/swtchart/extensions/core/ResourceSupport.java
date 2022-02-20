@@ -13,6 +13,7 @@
 package org.eclipse.swtchart.extensions.core;
 
 import java.io.File;
+import java.io.IOException;
 import java.net.URL;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -156,6 +157,14 @@ public class ResourceSupport {
 			preferenceStore = new PreferenceStore(filename);
 			PreferenceInitializer preferenceInitializer = new PreferenceInitializer();
 			preferenceInitializer.initializeDefaultPreferences();
+			/*
+			 * Load existing values.
+			 */
+			try {
+				((PreferenceStore)preferenceStore).load();
+			} catch(IOException e) {
+				System.out.println(e);
+			}
 		}
 		return preferenceStore;
 	}
