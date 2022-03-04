@@ -1,0 +1,32 @@
+###############################################################################
+# Copyright (c) 2022 SWTChart project
+#
+# This program and the accompanying materials are made available under the
+# terms of the Eclipse Public License 2.0 which is available at
+# https://www.eclipse.org/legal/epl-2.0/.
+#
+# SPDX-License-Identifier: EPL-2.0
+#
+# Contributors:
+#     Matthias Mailänder - initial API and implementation
+###############################################################################
+
+name: Continuous Integration
+on:
+  pull_request:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout SWTChart
+      uses: actions/checkout@v2
+    - name: Set up JDK 8
+      uses: actions/setup-java@v2
+      with:
+        distribution: 'temurin'
+        java-version: '8'
+        cache: 'maven'
+    - name: Build with Maven
+      run: mvn -f org.eclipse.swtchart.cbi/pom.xml clean install --batch-mode --no-transfer-progress
