@@ -84,11 +84,11 @@
   </prerequisites>
   <!--
 	PROPERTIES
-  --> 
+  -->
   <properties>
     <!-- VERSIONS -->
-    <tycho.version>1.6.0</tycho.version>
-    <tycho-extras.version>1.6.0</tycho-extras.version>
+    <tycho.version>2.3.0</tycho.version>
+    <tycho-extras.version>2.3.0</tycho-extras.version>
     <pmd.version>2.7.1</pmd.version>
     <checkstyle.version>2.9.1</checkstyle.version>
     <!-- IDS -->
@@ -173,10 +173,10 @@
           <encoding>${project.build.sourceEncoding}</encoding>
           <extraClasspathElements>
             <extraClasspathElement>
-              <groupId>com.oracle</groupId>
-              <artifactId>javafx</artifactId>
-              <version>8.0.0-SNAPSHOT</version>
-              <systemPath>${java.home}/lib/jfxswt.jar</systemPath>
+              <groupId>org.openjfx</groupId>
+              <artifactId>javafx-swt</artifactId>
+              <version>11.0.2</version>
+              <systemPath>${java.home}/lib/javafx-swt.jar</systemPath>
               <scope>system</scope>
             </extraClasspathElement>
           </extraClasspathElements>
@@ -229,9 +229,9 @@
       </profile>
     </profiles>
     <pluginRepositories>
-		<pluginRepository>
-			<id>eclipse</id>
-			<url>https://repo.eclipse.org/content/repositories/cbi/</url>
-		</pluginRepository>
+      <pluginRepository>
+        <id>eclipse</id>
+        <url>https://repo.eclipse.org/content/repositories/cbi/</url>
+      </pluginRepository>
     </pluginRepositories>
 </project>

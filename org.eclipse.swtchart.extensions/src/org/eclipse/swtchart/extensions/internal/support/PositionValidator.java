@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2020 Lablicate GmbH.
+ * Copyright (c) 2020, 2022 Lablicate GmbH.
  *
  * This program and the accompanying materials are made
  * available under the terms of the Eclipse Public License 2.0
@@ -22,7 +22,6 @@ public class PositionValidator implements IValidator {
 	//
 	private int position = 0;
 
-	@Override
 	public IStatus validate(Object value) {
 
 		this.position = 0;

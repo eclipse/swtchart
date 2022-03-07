@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2019, 2020 SWTChart project.
+ * Copyright (c) 2019, 2022 SWTChart project.
  *
  * This program and the accompanying materials are made
  * available under the terms of the Eclipse Public License 2.0
@@ -14,7 +14,7 @@ package org.eclipse.swtchart.export.extended.svg;
 
 import java.io.Writer;
 
-import org.apache.batik.dom.GenericDOMImplementation;
+import org.apache.batik.anim.dom.SVGDOMImplementation;
 import org.apache.batik.svggen.SVGGraphics2D;
 import org.eclipse.swtchart.Chart;
 import org.eclipse.swtchart.export.extended.awt.ChartToGraphics2D;
@@ -27,7 +27,7 @@ public class SVGFactory {
 
 	public SVGFactory() {
 
-		DOMImplementation domImpl = GenericDOMImplementation.getDOMImplementation();
+		DOMImplementation domImpl = SVGDOMImplementation.getDOMImplementation();
 		String svgNS = "http://www.w3.org/2000/svg"; //$NON-NLS-1$
 		Document document = domImpl.createDocument(svgNS, "svg", null); //$NON-NLS-1$
 		this.svgGraphics2D = new SVGGraphics2D(document);

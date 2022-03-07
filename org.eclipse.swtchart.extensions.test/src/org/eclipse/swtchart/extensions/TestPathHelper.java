@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2017, 2019 Lablicate GmbH.
+ * Copyright (c) 2017, 2022 Lablicate GmbH.
  *
  * This program and the accompanying materials are made
  * available under the terms of the Eclipse Public License 2.0
@@ -9,8 +9,6 @@
  * Dr. Philip Wenig - initial API and implementation
  *******************************************************************************/
 package org.eclipse.swtchart.extensions;
-
-import org.eclipse.swtchart.extensions.PathResolver;
 
 /**
  * THIS CLASS IS NOT SUITED FOR PRODUCTIVE USE!<br/>
