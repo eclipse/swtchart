@@ -171,15 +171,6 @@
         <version>${tycho.version}</version>
         <configuration>
           <encoding>${project.build.sourceEncoding}</encoding>
-          <extraClasspathElements>
-            <extraClasspathElement>
-              <groupId>org.openjfx</groupId>
-              <artifactId>javafx-swt</artifactId>
-              <version>11.0.2</version>
-              <systemPath>${java.home}/lib/javafx-swt.jar</systemPath>
-              <scope>system</scope>
-            </extraClasspathElement>
-          </extraClasspathElements>
         </configuration>
       </plugin>
       <plugin>
