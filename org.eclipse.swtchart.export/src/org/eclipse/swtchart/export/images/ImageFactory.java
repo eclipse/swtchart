@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2017, 2021 Lablicate GmbH.
+ * Copyright (c) 2017, 2022 Lablicate GmbH.
  *
  * This program and the accompanying materials are made
  * available under the terms of the Eclipse Public License 2.0
@@ -35,14 +35,18 @@ public class ImageFactory<T extends ScrollableChart> {
 	public ImageFactory(Class<T> clazz, int width, int height) throws InstantiationException, IllegalAccessException {
 
 		//
-		t = clazz.newInstance();
-		imageSupplier = new ImageSupplier();
-		//
-		display = ((ScrollableChart)t).getBaseChart().getDisplay();
-		if(display != null) {
-			width = (width > display.getBounds().width) ? display.getBounds().width : width;
-			height = (height > display.getBounds().height) ? display.getBounds().height : height;
-			t.getShell().setSize(width, height);
+		try {
+			t = clazz.getDeclaredConstructor().newInstance();
+			imageSupplier = new ImageSupplier();
+			//
+			display = ((ScrollableChart)t).getBaseChart().getDisplay();
+			if(display != null) {
+				width = (width > display.getBounds().width) ? display.getBounds().width : width;
+				height = (height > display.getBounds().height) ? display.getBounds().height : height;
+				t.getShell().setSize(width, height);
+			}
+		} catch(Exception e) {
+			throw new InstantiationException();
 		}
 	}
 

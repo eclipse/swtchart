@@ -14,7 +14,7 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.e4.ui.model.workbench;bundle-version="1.2.0.v20160229-1459",
  javax.inject,
  org.eclipse.swtchart.customcharts;bundle-version="0.14.0"
-Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Bundle-RequiredExecutionEnvironment: JavaSE-11
 Import-Package: javax.annotation;version="1.2.0"
 Bundle-ActivationPolicy: lazy
 Export-Package: org.eclipse.swtchart.extensions.examples.support

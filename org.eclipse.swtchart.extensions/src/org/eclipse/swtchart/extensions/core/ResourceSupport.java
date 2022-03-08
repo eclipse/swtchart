@@ -193,7 +193,6 @@ public class ResourceSupport {
 				color.dispose();
 			}
 		}
-		super.finalize();
 	}
 
 	private static ImageRegistry initializeImageRegistry() {
