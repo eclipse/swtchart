@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<?pde version="3.8"?><target name="Eclipse SWTChart (Basic - without Batik)" sequenceNumber="3">
+<locations>
+<location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="true" type="InstallableUnit">
+<unit id="org.eclipse.sdk.ide" version="4.14.0.I20191210-0610"/>
+<repository location="http://download.eclipse.org/eclipse/updates/4.14/R-4.14-201912100610/"/>
+</location>
+</locations>
+</target>
