@@ -5,7 +5,7 @@
 	<artifactId>org.eclipse.swtchart.targetplatform</artifactId>
 	<version>0.14.0</version>
 	<name>Target Project</name>
-	<description>This contains the target definition used to build swtchart enterprise</description>
+	<description>This contains the target definition used to build Eclipse SWTChart</description>
 	<packaging>eclipse-target-definition</packaging>
 	<parent>
 		<groupId>org.eclipse.swtchart</groupId>
