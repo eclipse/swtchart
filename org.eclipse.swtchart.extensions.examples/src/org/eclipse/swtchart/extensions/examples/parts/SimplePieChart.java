@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2020 SWTChart project.
+ * Copyright (c) 2020, 2022 SWTChart project.
  *
  * This program and the accompanying materials are made
  * available under the terms of the Eclipse Public License 2.0
@@ -8,7 +8,7 @@
  * SPDX-License-Identifier: EPL-2.0
  * 
  * Contributors:
- * Himanshu Balasamanta Orignal API and implementation
+ * Himanshu Balasamanta - initial API and implementation
  *******************************************************************************/
 package org.eclipse.swtchart.extensions.examples.parts;
 

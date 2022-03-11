@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2020 SWTChart project.
+ * Copyright (c) 2020, 2022 SWTChart project.
  *
  * This program and the accompanying materials are made
  * available under the terms of the Eclipse Public License 2.0
@@ -17,7 +17,7 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swtchart.extensions.examples.parts.SimplePieChart;
 
-public class InteractivePieChart {
+public class SimplePieChartExample {
 
 	public static void main(String args[]) {
 
@@ -27,10 +27,8 @@ public class InteractivePieChart {
 		shell.setSize(700, 600);
 		shell.setLayout(new FillLayout());
 		//
-		// new HighlightedPieChart_Part(shell);
 		new SimplePieChart(shell);
 		shell.open();
-		//
 		//
 		while(!shell.isDisposed()) {
 			if(!display.readAndDispatch()) {

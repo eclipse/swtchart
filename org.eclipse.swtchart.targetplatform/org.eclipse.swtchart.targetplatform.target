@@ -10,7 +10,7 @@
 <unit id="org.apache.batik.svggen" version="0.0.0"/>
 <unit id="org.apache.batik.ext.awt" version="0.0.0"/>
 <unit id="org.apache.batik.dom" version="0.0.0"/>
-<repository location="https://download.eclipse.org/tools/orbit/downloads/drops/R20191126223242/repository"/>
+<repository location="https://download.eclipse.org/tools/orbit/downloads/drops/R20211213173813/repository"/>
 </location>
 </locations>
 </target>
