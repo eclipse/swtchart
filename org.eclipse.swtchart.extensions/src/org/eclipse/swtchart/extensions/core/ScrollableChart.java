@@ -337,6 +337,13 @@ public class ScrollableChart extends Composite implements IScrollableChart, IEve
 	}
 
 	@Override
+	public void dispose() {
+
+		super.dispose();
+		baseChart.dispose();
+	}
+
+	@Override
 	public void appendSeries(ISeriesData seriesData) {
 
 		baseChart.appendSeries(seriesData);
