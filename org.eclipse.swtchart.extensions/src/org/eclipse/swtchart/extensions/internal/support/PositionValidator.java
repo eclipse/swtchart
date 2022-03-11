@@ -16,25 +16,23 @@ import org.eclipse.core.databinding.validation.IValidator;
 import org.eclipse.core.databinding.validation.ValidationStatus;
 import org.eclipse.core.runtime.IStatus;
 
-public class PositionValidator implements IValidator {
+public class PositionValidator implements IValidator<String> {
 
 	private static final String ERROR = "Please enter a position as integer, e.g.: 100.";
 	//
 	private int position = 0;
 
-	public IStatus validate(Object value) {
+	public IStatus validate(String value) {
 
 		this.position = 0;
 		boolean parseError = true;
 		//
 		if(value != null) {
-			if(value instanceof String) {
-				try {
-					position = Integer.parseInt(((String)value).trim());
-					parseError = false;
-				} catch(NumberFormatException e) {
-					// Don't catch it here.
-				}
+			try {
+				position = Integer.parseInt(((String)value).trim());
+				parseError = false;
+			} catch(NumberFormatException e) {
+				// Don't catch it here.
 			}
 		}
 		//

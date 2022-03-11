@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2020, 2021 Lablicate GmbH.
+ * Copyright (c) 2020, 2022 Lablicate GmbH.
  *
  * This program and the accompanying materials are made
  * available under the terms of the Eclipse Public License 2.0
@@ -528,7 +528,7 @@ public class ExtendedLegendUI extends Composite {
 		tableViewer.get().setInput(seriesSet);
 	}
 
-	private boolean validate(IValidator validator, ControlDecoration controlDecoration, Text text) {
+	private boolean validate(IValidator<String> validator, ControlDecoration controlDecoration, Text text) {
 
 		IStatus status = validator.validate(text.getText().trim());
 		if(status.isOK()) {

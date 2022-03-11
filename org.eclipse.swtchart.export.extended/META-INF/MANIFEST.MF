@@ -3,7 +3,7 @@ Automatic-Module-Name: org.eclipse.swtchart.export.extended
 Bundle-ManifestVersion: 2
 Bundle-Name: SWTChart Export Options (Extended)
 Bundle-SymbolicName: org.eclipse.swtchart.export.extended;singleton:=true
-Bundle-Version: 0.14.0.qualifier
+Bundle-Version: 1.4.0.qualifier
 Bundle-Activator: org.eclipse.swtchart.export.extended.Activator
 Require-Bundle: org.eclipse.ui,
  org.eclipse.core.runtime,
