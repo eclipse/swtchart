@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2017, 2021 Lablicate GmbH.
+ * Copyright (c) 2017, 2022 Lablicate GmbH.
  *
  * This program and the accompanying materials are made
  * available under the terms of the Eclipse Public License 2.0
@@ -95,8 +95,8 @@ public class ScrollableChart extends Composite implements IScrollableChart, IEve
 	private static final String EXTENSION_POINT_MENU_ITEMS = "org.eclipse.swtchart.extensions.menuitems"; //$NON-NLS-1$
 	private static final String EXTENSION_POINT_MENU_ENTRY = "MenuEntry"; //$NON-NLS-1$
 	//
-	private Map<String, Set<IChartMenuEntry>> categoryMenuEntriesMap = new HashMap<String, Set<IChartMenuEntry>>();
-	private Map<String, IChartMenuEntry> menuEntryMap = new HashMap<String, IChartMenuEntry>();
+	private Map<String, Set<IChartMenuEntry>> categoryMenuEntriesMap = new HashMap<>();
+	private Map<String, IChartMenuEntry> menuEntryMap = new HashMap<>();
 	//
 	private Slider sliderVertical;
 	private Slider sliderHorizontal;
@@ -234,6 +234,7 @@ public class ScrollableChart extends Composite implements IScrollableChart, IEve
 								Thread.sleep(MILLISECONDS_SHOW_RANGE_INFO_HINT);
 							} catch(InterruptedException e) {
 								System.out.println(e);
+								Thread.currentThread().interrupt();
 							}
 							showRangeSelectorHint = false;
 							baseChart.redraw();
@@ -334,6 +335,13 @@ public class ScrollableChart extends Composite implements IScrollableChart, IEve
 
 		baseChart.deleteSeries(id);
 		redraw();
+	}
+
+	@Override
+	public void dispose() {
+
+		super.dispose();
+		baseChart.dispose();
 	}
 
 	@Override
@@ -1077,14 +1085,14 @@ public class ScrollableChart extends Composite implements IScrollableChart, IEve
 				/*
 				 * Set the range info and update linked charts.
 				 */
-				displayRangeInfo(xAxis, yAxis);
+				displayRangeInfo();
 			}
 		}
 	}
 
 	private boolean isOrientationHorizontal() {
 
-		return (baseChart.getOrientation() == SWT.HORIZONTAL) ? true : false;
+		return (baseChart.getOrientation() == SWT.HORIZONTAL);
 	}
 
 	private int calculateIncrement(double selection, double length) {
@@ -1321,7 +1329,7 @@ public class ScrollableChart extends Composite implements IScrollableChart, IEve
 		updateLinkedCharts();
 	}
 
-	private void displayRangeInfo(IAxis xAxis, IAxis yAxis) {
+	private void displayRangeInfo() {
 
 		rangeSelector.adjustRanges(true);
 	}
@@ -1393,7 +1401,7 @@ public class ScrollableChart extends Composite implements IScrollableChart, IEve
 							}
 						}
 						//
-						displayRangeInfo(xAxis, yAxis);
+						displayRangeInfo();
 						fireUpdateCustomRangeSelectionHandlers(event);
 						baseChart.redraw();
 					}
@@ -1520,7 +1528,7 @@ public class ScrollableChart extends Composite implements IScrollableChart, IEve
 							}
 						}
 						//
-						displayRangeInfo(xAxis, yAxis);
+						displayRangeInfo();
 						fireUpdateCustomRangeSelectionHandlers(event);
 						baseChart.redraw();
 					}
@@ -1599,7 +1607,7 @@ public class ScrollableChart extends Composite implements IScrollableChart, IEve
 			 * Create set if not existent.
 			 */
 			if(menuEntries == null) {
-				menuEntries = new HashSet<IChartMenuEntry>();
+				menuEntries = new HashSet<>();
 				categoryMenuEntriesMap.put(category, menuEntries);
 			}
 			/*
@@ -1612,7 +1620,7 @@ public class ScrollableChart extends Composite implements IScrollableChart, IEve
 
 	private void createMenuItems(Menu menu) {
 
-		List<String> categories = new ArrayList<String>(categoryMenuEntriesMap.keySet());
+		List<String> categories = new ArrayList<>(categoryMenuEntriesMap.keySet());
 		Collections.sort(categories);
 		Iterator<String> iterator = categories.iterator();
 		while(iterator.hasNext()) {
