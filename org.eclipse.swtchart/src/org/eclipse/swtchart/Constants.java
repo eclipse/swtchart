@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2008, 2019 SWTChart project.
+ * Copyright (c) 2008, 2022 SWTChart project.
  *
  * This program and the accompanying materials are made
  * available under the terms of the Eclipse Public License 2.0
@@ -20,27 +20,27 @@ import org.eclipse.swt.graphics.RGB;
 public class Constants {
 
 	/** the large font size */
-	final static public int LARGE_FONT_SIZE = 13;
+	public static final int LARGE_FONT_SIZE = 13;
 	/** the medium font size */
-	final static public int MEDIUM_FONT_SIZE = 11;
+	public static final int MEDIUM_FONT_SIZE = 11;
 	/** the small font size */
-	final static public int SMALL_FONT_SIZE = 9;
+	public static final int SMALL_FONT_SIZE = 9;
 	/** the color for light blue */
 	@Deprecated
-	final static public RGB LIGHT_BLUE = new RGB(153, 186, 243);
+	public static final RGB LIGHT_BLUE = new RGB(153, 186, 243);
 	/** the color for blue */
 	@Deprecated
-	final static public RGB BLUE = new RGB(0, 0, 255);
+	public static final RGB BLUE = new RGB(0, 0, 255);
 	/** the color for white */
 	@Deprecated
-	final static public RGB WHITE = new RGB(255, 255, 255);
+	public static final RGB WHITE = new RGB(255, 255, 255);
 	/** the color for gray */
 	@Deprecated
-	final static public RGB GRAY = new RGB(200, 200, 200);
+	public static final RGB GRAY = new RGB(200, 200, 200);
 	/** the color for dark gray */
 	@Deprecated
-	final static public RGB DARK_GRAY = new RGB(150, 150, 150);
+	public static final RGB DARK_GRAY = new RGB(150, 150, 150);
 	/** the color for black */
 	@Deprecated
-	final static public RGB BLACK = new RGB(0, 0, 0);
+	public static final RGB BLACK = new RGB(0, 0, 0);
 }
