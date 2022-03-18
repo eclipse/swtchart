@@ -2,7 +2,7 @@
 <?pde version="3.8"?><target name="Eclipse SWTChart (Basic - without Batik)" sequenceNumber="3">
 <locations>
 <location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="true" type="InstallableUnit">
-<unit id="org.eclipse.sdk.ide" version="4.23.0.v20220308-0310"/>
+<unit id="org.eclipse.sdk.ide" version="4.23.0.I20220308-0310"/>
 <repository location="https://download.eclipse.org/eclipse/updates/4.23/R-4.23-202203080310/"/>
 </location>
 </locations>
