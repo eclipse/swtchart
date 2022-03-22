@@ -36,6 +36,7 @@ public class LabelMarker extends AbstractBaseChartPaintListener implements IBase
 	private int orientation;
 
 	public LabelMarker(BaseChart baseChart) {
+
 		super(baseChart);
 	}
 
@@ -66,7 +67,6 @@ public class LabelMarker extends AbstractBaseChartPaintListener implements IBase
 		labels.clear();
 	}
 
-	@SuppressWarnings("deprecation")
 	@Override
 	public void paintControl(PaintEvent e) {
 
