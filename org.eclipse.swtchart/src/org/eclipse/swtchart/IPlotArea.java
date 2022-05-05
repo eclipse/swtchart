@@ -31,7 +31,7 @@ public interface IPlotArea {
 	 * 
 	 * @return the chart this plot area belongs to
 	 */
-	public Chart getChart();
+	Chart getChart();
 
 	/**
 	 * Adds the custom paint listener.
@@ -39,7 +39,7 @@ public interface IPlotArea {
 	 * @param listener
 	 *            the custom paint listener
 	 */
-	public void addCustomPaintListener(ICustomPaintListener listener);
+	void addCustomPaintListener(ICustomPaintListener listener);
 
 	/**
 	 * Removes the custom paint listener
@@ -47,27 +47,27 @@ public interface IPlotArea {
 	 * @param listener
 	 *            the custom paint listener
 	 */
-	public void removeCustomPaintListener(ICustomPaintListener listener);
+	void removeCustomPaintListener(ICustomPaintListener listener);
 
 	/**
 	 * 
 	 * @return the current Background color
 	 */
-	public Color getBackground();
+	Color getBackground();
 
 	/**
 	 * set the color of the plot area
 	 * 
 	 * @param color
 	 */
-	public void setBackground(Color color);
+	void setBackground(Color color);
 
 	/**
 	 * Returns if the buffer is currently active.
 	 * 
 	 * @return boolean
 	 */
-	public boolean isBuffered();
+	boolean isBuffered();
 
 	/**
 	 * Set the buffer status. Normally, the background image is set
@@ -78,14 +78,25 @@ public interface IPlotArea {
 	 * 
 	 * @param buffered
 	 */
-	public void setBuffered(boolean buffered);
+	void setBuffered(boolean buffered);
+
+	/**
+	 * When buffering the chart to speed up performance, an image of
+	 * the chart is created on the fly and set as the background.
+	 * Images must be disposed, but the image can't be disposed when
+	 * setting the background image, as it would lead to a blank chart.
+	 * Hence,the image is temporarily stored in the plotArea.getControl()
+	 * data section. When releasing the user selection, the image shall
+	 * be disposed.
+	 */
+	String KEY_BUFFERED_BACKGROUND_IMAGE = "BUFFERED_BACKGROUND_IMAGE";
 
 	/**
 	 * Draws the image centered in the plot area.
 	 * 
 	 * @param image
 	 */
-	public void setBackgroundImage(Image image);
+	void setBackgroundImage(Image image);
 
 	/**
 	 * Returns the image data of the plot area.
@@ -103,32 +114,32 @@ public interface IPlotArea {
 	 * 
 	 * @return the current size of this area
 	 */
-	public Point getSize();
+	Point getSize();
 
 	/**
 	 * 
 	 * @return the control that represents thsi plot area
 	 */
-	public Control getControl();
+	Control getControl();
 
 	/**
 	 * Returns the rectangle.
 	 * 
 	 * @return {@link Rectangle}
 	 */
-	public Rectangle getBounds();
+	Rectangle getBounds();
 
 	/**
 	 * Set the text that should be shown as a tooltip
 	 * 
 	 * @param tootlTipText
 	 */
-	public void setToolTipText(String tootlTipText);
+	void setToolTipText(String tootlTipText);
 
 	/**
 	 * Register a listener that is notified about mous moves
 	 * 
 	 * @param mouseMoveListener
 	 */
-	public void addMouseMoveListener(MouseMoveListener mouseMoveListener);
+	void addMouseMoveListener(MouseMoveListener mouseMoveListener);
 }

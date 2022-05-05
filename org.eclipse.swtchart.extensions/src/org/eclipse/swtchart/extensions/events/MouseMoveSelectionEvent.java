@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2017, 2020 Lablicate GmbH.
+ * Copyright (c) 2017, 2022 Lablicate GmbH.
  *
  * This program and the accompanying materials are made
  * available under the terms of the Eclipse Public License 2.0
@@ -53,7 +53,12 @@ public class MouseMoveSelectionEvent extends AbstractHandledEventProcessor imple
 					serie.setVisibleBuffered(serie.isVisible());
 					baseChart.hideSeries(serie.getId());
 				}
+				/*
+				 * The image will be disposed when releasing the selection
+				 * and setting the background image to null.
+				 */
 				plotArea.setBackgroundImage(image);
+				plotArea.getControl().setData(IPlotArea.KEY_BUFFERED_BACKGROUND_IMAGE, image);
 				plotArea.setBuffered(true);
 				baseChart.suspendUpdate(false);
 				baseChart.redraw();

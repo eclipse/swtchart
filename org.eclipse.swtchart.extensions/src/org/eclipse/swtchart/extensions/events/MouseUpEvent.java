@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2017, 2020 Lablicate GmbH.
+ * Copyright (c) 2017, 2022 Lablicate GmbH.
  *
  * This program and the accompanying materials are made
  * available under the terms of the Eclipse Public License 2.0
@@ -13,6 +13,7 @@
 package org.eclipse.swtchart.extensions.events;
 
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swtchart.IPlotArea;
 import org.eclipse.swtchart.ISeries;
@@ -48,8 +49,17 @@ public class MouseUpEvent extends AbstractHandledEventProcessor implements IHand
 		 */
 		IPlotArea plotArea = baseChart.getPlotArea();
 		if(plotArea.isBuffered()) {
+			/*
+			 * Dispose the background image.
+			 */
 			baseChart.suspendUpdate(true);
 			plotArea.setBackgroundImage(null);
+			Object object = plotArea.getControl().getData(IPlotArea.KEY_BUFFERED_BACKGROUND_IMAGE);
+			if(object instanceof Image) {
+				Image image = (Image)object;
+				plotArea.getControl().setData(IPlotArea.KEY_BUFFERED_BACKGROUND_IMAGE, null);
+				image.dispose();
+			}
 			plotArea.setBuffered(false);
 			ISeriesSet set = baseChart.getSeriesSet();
 			ISeries<?>[] series = set.getSeries();
