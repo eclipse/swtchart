@@ -273,6 +273,58 @@ public class AxisTest extends ChartTestCase {
 	}
 
 	/**
+	 * Test for arbitrary base logarithmic scale
+	 */
+	@Test
+	public void testArbitraryLogScale() throws Exception {
+
+		ISeries<?> lineSeries = chart.getSeriesSet().createSeries(SeriesType.LINE, "line series");
+		// enable log scale without series
+		showChart();
+		xAxis.setLogScaleBase(2d);
+		xAxis.setRange(new Range(-1, 10));
+		xAxis.enableLogScale(true);
+		assertTrue(xAxis.isLogScaleEnabled());
+		assertEquals(0.1, xAxis.getRange().lower, 0.1);
+		showChart();
+		yAxis.setLogScaleBase(2d);
+		yAxis.setRange(new Range(-1, 10));
+		yAxis.enableLogScale(true);
+		assertTrue(yAxis.isLogScaleEnabled());
+		assertEquals(0.1, yAxis.getRange().lower, 0.1);
+		showChart();
+		// enable log scale for the axis whose range is negative
+		lineSeries = chart.getSeriesSet().createSeries(SeriesType.LINE, "line series");
+		lineSeries.setXSeries(xSeries1);
+		lineSeries.setYSeries(ySeries1);
+		chart.getAxisSet().adjustRange();
+		xAxis.enableLogScale(false);
+		yAxis.enableLogScale(false);
+		showChart();
+		xAxis.setRange(new Range(-1, 10));
+		xAxis.enableLogScale(true);
+		assertTrue(xAxis.isLogScaleEnabled());
+		assertEquals(1d, xAxis.getRange().lower, 0.1);
+		showChart();
+		yAxis.setRange(new Range(-1, 10));
+		yAxis.enableLogScale(true);
+		assertTrue(yAxis.isLogScaleEnabled());
+		assertEquals(0.1, yAxis.getRange().lower, 0.1);
+		showChart();
+		// enable log scale for category axis
+		xAxis.enableLogScale(false);
+		xAxis.setCategorySeries(categorySeries);
+		xAxis.enableCategory(true);
+		xAxis.setRange(new Range(0, 4));
+		showChart();
+		xAxis.enableLogScale(true);
+		xAxis.setRange(new Range(0, 10));
+		assertFalse(xAxis.isCategoryEnabled());
+		assertTrue(xAxis.isLogScaleEnabled());
+		showChart();
+	}
+
+	/**
 	 * Test for adjusting range.
 	 */
 	@Test

@@ -22,10 +22,10 @@ public interface IAxis {
 
 	/** An axis direction */
 	public enum Direction {
-	/** the constant to represent X axis */
-	X,
-	/** the constant to represent Y axis */
-	Y
+		/** the constant to represent X axis */
+		X,
+		/** the constant to represent Y axis */
+		Y
 	}
 
 	/** An axis position */
@@ -116,6 +116,14 @@ public interface IAxis {
 	 * @return true if log scale is enabled
 	 */
 	boolean isLogScaleEnabled();
+
+	/**
+	 * Sets the log scale base. It is set by default to 10.
+	 * 
+	 * @param base
+	 *            the new base
+	 */
+	void setLogScaleBase(double base);
 
 	/**
 	 * Gets the grid. The gird interval is identical with the position of axis
