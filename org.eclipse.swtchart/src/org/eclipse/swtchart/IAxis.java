@@ -124,6 +124,13 @@ public interface IAxis {
 	 *            the new base
 	 */
 	void setLogScaleBase(double base);
+	
+	/**
+	 * Returns the current base for the logarithmic scale
+	 *
+	 * @return Current base for the logarithmic scale
+	 */
+	public double getLogScaleBase();
 
 	/**
 	 * Gets the grid. The gird interval is identical with the position of axis

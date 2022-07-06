@@ -291,11 +291,7 @@ public class Axis implements IAxis {
 		((SeriesSet)chart.getSeriesSet()).compressAllSeries();
 	}
 
-	/**
-	 * Returns the current base for the logarithmic scale
-	 *
-	 * @return Current base for the logaritmic scale
-	 */
+	@Override
 	public double getLogScaleBase() {
 
 		return logScaleBase;
