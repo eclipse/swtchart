@@ -322,6 +322,21 @@ public class AxisTest extends ChartTestCase {
 		assertFalse(xAxis.isCategoryEnabled());
 		assertTrue(xAxis.isLogScaleEnabled());
 		showChart();
+		// change of scale
+		lineSeries = chart.getSeriesSet().createSeries(SeriesType.LINE, "line series");
+		lineSeries.setXSeries(xSeries1);
+		lineSeries.setYSeries(ySeries1);
+		chart.getAxisSet().adjustRange();
+		yAxis.setLogScaleBase(10d);
+		yAxis.enableLogScale(true);
+		xAxis.enableLogScale(false);
+		assertTrue(yAxis.isLogScaleEnabled());
+		assertEquals(10d, yAxis.getLogScaleBase(), 0.1d);
+		showChart();
+		yAxis.setLogScaleBase(2d);
+		assertEquals(2d, yAxis.getLogScaleBase(), 0.1d);
+		showChart();
+		yAxis.setLogScaleBase(10d);
 	}
 
 	/**
