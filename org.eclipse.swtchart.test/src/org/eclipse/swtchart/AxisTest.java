@@ -336,6 +336,27 @@ public class AxisTest extends ChartTestCase {
 		yAxis.setLogScaleBase(2d);
 		assertEquals(2d, yAxis.getLogScaleBase(), 0.1d);
 		showChart();
+		// Test invalid logarithm base
+		try {
+			yAxis.setLogScaleBase(-1d);
+			fail();
+		} catch(IllegalStateException e) {
+		}
+		try {
+			yAxis.setLogScaleBase(0d);
+			fail();
+		} catch(IllegalStateException e) {
+		}
+		try {
+			yAxis.setLogScaleBase(Double.POSITIVE_INFINITY);
+			fail();
+		} catch(IllegalStateException e) {
+		}
+		try {
+			yAxis.setLogScaleBase(1d);
+			fail();
+		} catch(IllegalStateException e) {
+		}
 		yAxis.setLogScaleBase(10d);
 	}
 

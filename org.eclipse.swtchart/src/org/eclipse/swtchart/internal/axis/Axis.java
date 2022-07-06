@@ -283,7 +283,7 @@ public class Axis implements IAxis {
 	@Override
 	public void setLogScaleBase(double base) {
 
-		if(base <= 0) {
+		if(base <= 0 || base == 1d || !Double.isFinite(base)) {
 			throw new IllegalStateException(Messages.getString(Messages.LOGARITHM_BASE_IS_INVALID));
 		}
 		logScaleBase = base;

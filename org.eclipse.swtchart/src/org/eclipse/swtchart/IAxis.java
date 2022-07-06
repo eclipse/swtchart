@@ -124,7 +124,7 @@ public interface IAxis {
 	 *            the new base
 	 */
 	void setLogScaleBase(double base);
-	
+
 	/**
 	 * Returns the current base for the logarithmic scale
 	 *
