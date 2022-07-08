@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2008, 2021 SWTChart project.
+ * Copyright (c) 2008, 2022 SWTChart project.
  *
  * This program and the accompanying materials are made
  * available under the terms of the Eclipse Public License 2.0
@@ -12,6 +12,7 @@
  * Christoph Läubrich - use getSize instead of bounds since we are not interested in the location anyways, add support for datamodel
  * Frank Buloup - Internationalization
  * Philip Wenig - option to skip drawing the axis line
+ * Sebastien Darche - Implement arbitrary base log scale
  *******************************************************************************/
 package org.eclipse.swtchart.internal.axis;
 

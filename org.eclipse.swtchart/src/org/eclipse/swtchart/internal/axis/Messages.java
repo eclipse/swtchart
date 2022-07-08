@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2020 SWT Chart Project
+ * Copyright (c) 2020, 2022 SWT Chart Project
  *
  * This program and the accompanying materials are made
  * available under the terms of the Eclipse Public License 2.0
@@ -9,6 +9,7 @@
  * 
  * Contributors:
  * Frank Buloup - initial API and implementation
+ * Sebastien Darche - Implement arbitrary base log scale
  *******************************************************************************/
 package org.eclipse.swtchart.internal.axis;
 
