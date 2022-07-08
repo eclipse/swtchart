@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2008, 2021 SWTChart project.
+ * Copyright (c) 2008, 2022 SWTChart project.
  *
  * This program and the accompanying materials are made
  * available under the terms of the Eclipse Public License 2.0
@@ -10,6 +10,7 @@
  * Contributors:
  * yoshitaka - initial API and implementation
  * Philip Wenig - option to skip drawing the axis line
+ * Sebastien Darche - Implement arbitrary base log scale
  *******************************************************************************/
 package org.eclipse.swtchart;
 
@@ -22,10 +23,10 @@ public interface IAxis {
 
 	/** An axis direction */
 	public enum Direction {
-	/** the constant to represent X axis */
-	X,
-	/** the constant to represent Y axis */
-	Y
+		/** the constant to represent X axis */
+		X,
+		/** the constant to represent Y axis */
+		Y
 	}
 
 	/** An axis position */
@@ -116,6 +117,21 @@ public interface IAxis {
 	 * @return true if log scale is enabled
 	 */
 	boolean isLogScaleEnabled();
+
+	/**
+	 * Sets the log scale base. It is set by default to 10.
+	 * 
+	 * @param base
+	 *            the new base
+	 */
+	void setLogScaleBase(double base);
+
+	/**
+	 * Returns the current base for the logarithmic scale
+	 *
+	 * @return Current base for the logarithmic scale
+	 */
+	public double getLogScaleBase();
 
 	/**
 	 * Gets the grid. The gird interval is identical with the position of axis

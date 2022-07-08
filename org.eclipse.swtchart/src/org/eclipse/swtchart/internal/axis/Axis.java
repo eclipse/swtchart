@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2008, 2021 SWTChart project.
+ * Copyright (c) 2008, 2022 SWTChart project.
  *
  * This program and the accompanying materials are made
  * available under the terms of the Eclipse Public License 2.0
@@ -12,6 +12,7 @@
  * Christoph Läubrich - use getSize instead of bounds since we are not interested in the location anyways, add support for datamodel
  * Frank Buloup - Internationalization
  * Philip Wenig - option to skip drawing the axis line
+ * Sebastien Darche - Implement arbitrary base log scale
  *******************************************************************************/
 package org.eclipse.swtchart.internal.axis;
 
@@ -73,6 +74,8 @@ public class Axis implements IAxis {
 	private Chart chart;
 	/** the state if the axis scale is log scale */
 	private boolean logScaleEnabled;
+	/** The logarithmic scale base **/
+	private double logScaleBase = 10d;
 	/** the state indicating if axis type is category */
 	private boolean categoryAxisEnabled;
 	/** the state indicating if axis is reversed */
@@ -198,7 +201,7 @@ public class Axis implements IAxis {
 			if(logScaleEnabled && range.lower <= 0) {
 				range.lower = min;
 			}
-			if(Math.abs(range.lower / (range.upper - range.lower)) > Math.pow(10, MAX_RESOLUTION)) {
+			if(Math.abs(range.lower / (range.upper - range.lower)) > Math.pow(logScaleBase, MAX_RESOLUTION)) {
 				return;
 			}
 			min = range.lower;
@@ -276,6 +279,23 @@ public class Axis implements IAxis {
 		logScaleEnabled = enabled;
 		chart.updateLayout();
 		((SeriesSet)chart.getSeriesSet()).compressAllSeries();
+	}
+
+	@Override
+	public void setLogScaleBase(double base) {
+
+		if(base <= 0 || base == 1d || !Double.isFinite(base)) {
+			throw new IllegalStateException(Messages.getString(Messages.LOGARITHM_BASE_IS_INVALID));
+		}
+		logScaleBase = base;
+		chart.updateLayout();
+		((SeriesSet)chart.getSeriesSet()).compressAllSeries();
+	}
+
+	@Override
+	public double getLogScaleBase() {
+
+		return logScaleBase;
 	}
 
 	/**
@@ -392,11 +412,11 @@ public class Axis implements IAxis {
 				}
 			}
 		} else if(isLogScaleEnabled()) {
-			double digitMin = Math.log10(min);
-			double digitMax = Math.log10(max);
-			double digitCoordinate = Math.log10(coordinate);
-			lower = Math.pow(10, digitMin + 2 * SCROLL_RATIO * (digitCoordinate - digitMin));
-			upper = Math.pow(10, digitMax + 2 * SCROLL_RATIO * (digitCoordinate - digitMax));
+			double digitMin = logBase(min);
+			double digitMax = logBase(max);
+			double digitCoordinate = logBase(coordinate);
+			lower = Math.pow(logScaleBase, digitMin + 2 * SCROLL_RATIO * (digitCoordinate - digitMin));
+			upper = Math.pow(logScaleBase, digitMax + 2 * SCROLL_RATIO * (digitCoordinate - digitMax));
 		} else {
 			lower = min + 2 * ZOOM_RATIO * (coordinate - min);
 			upper = max + 2 * ZOOM_RATIO * (coordinate - max);
@@ -425,9 +445,9 @@ public class Axis implements IAxis {
 				upper = max + 1;
 			}
 		} else if(isLogScaleEnabled()) {
-			double digitMin = Math.log10(min);
-			double digitMax = Math.log10(max);
-			double digitCoordinate = Math.log10(coordinate);
+			double digitMin = logBase(min);
+			double digitMax = logBase(max);
+			double digitCoordinate = logBase(coordinate);
 			lower = Math.pow(10, (digitMin - ZOOM_RATIO * digitCoordinate) / (1 - ZOOM_RATIO));
 			upper = Math.pow(10, (digitMax - ZOOM_RATIO * digitCoordinate) / (1 - ZOOM_RATIO));
 		} else {
@@ -448,8 +468,8 @@ public class Axis implements IAxis {
 				upper = max + 1;
 			}
 		} else if(isLogScaleEnabled()) {
-			double digitMax = Math.log10(upper);
-			double digitMin = Math.log10(lower);
+			double digitMax = logBase(upper);
+			double digitMin = logBase(lower);
 			upper = Math.pow(10, digitMax + (digitMax - digitMin) * SCROLL_RATIO);
 			lower = Math.pow(10, digitMin + (digitMax - digitMin) * SCROLL_RATIO);
 		} else {
@@ -470,8 +490,8 @@ public class Axis implements IAxis {
 				upper = max - 1;
 			}
 		} else if(isLogScaleEnabled()) {
-			double digitMax = Math.log10(upper);
-			double digitMin = Math.log10(lower);
+			double digitMax = logBase(upper);
+			double digitMin = logBase(lower);
 			upper = Math.pow(10, digitMax - (digitMax - digitMin) * SCROLL_RATIO);
 			lower = Math.pow(10, digitMin - (digitMax - digitMin) * SCROLL_RATIO);
 		} else {
@@ -591,7 +611,7 @@ public class Axis implements IAxis {
 		if(isReversed()) {
 			if(isHorizontalAxis) {
 				if(logScaleEnabled) {
-					pixelCoordinate = (int)((Math.log10(upper) - Math.log10(dataCoordinate)) / (Math.log10(upper) - Math.log10(lower)) * width);
+					pixelCoordinate = (int)((logBase(upper) - logBase(dataCoordinate)) / (logBase(upper) - logBase(lower)) * width);
 				} else if(categoryAxisEnabled) {
 					pixelCoordinate = (int)((upper - dataCoordinate + 0.5) / (upper + 1 - lower) * width);
 				} else {
@@ -599,7 +619,7 @@ public class Axis implements IAxis {
 				}
 			} else {
 				if(logScaleEnabled) {
-					pixelCoordinate = (int)((Math.log10(dataCoordinate) - Math.log10(lower)) / (Math.log10(upper) - Math.log10(lower)) * height);
+					pixelCoordinate = (int)((logBase(dataCoordinate) - logBase(lower)) / (logBase(upper) - logBase(lower)) * height);
 				} else if(categoryAxisEnabled) {
 					pixelCoordinate = (int)((dataCoordinate + 0.5 - lower) / (upper + 1 - lower) * height);
 				} else {
@@ -609,7 +629,7 @@ public class Axis implements IAxis {
 		} else {
 			if(isHorizontalAxis) {
 				if(logScaleEnabled) {
-					pixelCoordinate = (int)((Math.log10(dataCoordinate) - Math.log10(lower)) / (Math.log10(upper) - Math.log10(lower)) * width);
+					pixelCoordinate = (int)((logBase(dataCoordinate) - logBase(lower)) / (logBase(upper) - logBase(lower)) * width);
 				} else if(categoryAxisEnabled) {
 					pixelCoordinate = (int)((dataCoordinate + 0.5 - lower) / (upper + 1 - lower) * width);
 				} else {
@@ -617,7 +637,7 @@ public class Axis implements IAxis {
 				}
 			} else {
 				if(logScaleEnabled) {
-					pixelCoordinate = (int)((Math.log10(upper) - Math.log10(dataCoordinate)) / (Math.log10(upper) - Math.log10(lower)) * height);
+					pixelCoordinate = (int)((logBase(upper) - logBase(dataCoordinate)) / (logBase(upper) - logBase(lower)) * height);
 				} else if(categoryAxisEnabled) {
 					pixelCoordinate = (int)((upper - dataCoordinate + 0.5) / (upper + 1 - lower) * height);
 				} else {
@@ -632,6 +652,19 @@ public class Axis implements IAxis {
 	public double getDataCoordinate(int pixelCoordinate) {
 
 		return getDataCoordinate(pixelCoordinate, min, max);
+	}
+
+	/**
+	 * Computes the logarithm of x in the current base
+	 *
+	 * @param x
+	 *            Input
+	 * @return Logarithm of x in the current base
+	 *
+	 */
+	public double logBase(double x) {
+
+		return Math.log(x) / Math.log(logScaleBase);
 	}
 
 	/**
@@ -652,7 +685,7 @@ public class Axis implements IAxis {
 		if(isReversed()) {
 			if(isHorizontalAxis) {
 				if(logScaleEnabled) {
-					dataCoordinate = Math.pow(10, Math.log10(upper) - pixelCoordinate / (double)width * (Math.log10(upper) - Math.log10(lower)) + Math.log10(lower));
+					dataCoordinate = Math.pow(logScaleBase, logBase(upper) - pixelCoordinate / (double)width * (logBase(upper) - logBase(lower)) + logBase(lower));
 				} else if(categoryAxisEnabled) {
 					dataCoordinate = Math.floor(upper + 1 - pixelCoordinate / (double)width * (upper + 1 - lower) + lower);
 				} else {
@@ -660,7 +693,7 @@ public class Axis implements IAxis {
 				}
 			} else {
 				if(logScaleEnabled) {
-					dataCoordinate = Math.pow(10, pixelCoordinate / (double)height * (Math.log10(upper) - Math.log10(lower)));
+					dataCoordinate = Math.pow(logScaleBase, pixelCoordinate / (double)height * (logBase(upper) - logBase(lower)));
 				} else if(categoryAxisEnabled) {
 					dataCoordinate = Math.floor(pixelCoordinate / (double)height * (upper + 1 - lower));
 				} else {
@@ -670,7 +703,7 @@ public class Axis implements IAxis {
 		} else {
 			if(isHorizontalAxis) {
 				if(logScaleEnabled) {
-					dataCoordinate = Math.pow(10, pixelCoordinate / (double)width * (Math.log10(upper) - Math.log10(lower)) + Math.log10(lower));
+					dataCoordinate = Math.pow(logScaleBase, pixelCoordinate / (double)width * (logBase(upper) - logBase(lower)) + logBase(lower));
 				} else if(categoryAxisEnabled) {
 					dataCoordinate = Math.floor(pixelCoordinate / (double)width * (upper + 1 - lower) + lower);
 				} else {
@@ -678,7 +711,7 @@ public class Axis implements IAxis {
 				}
 			} else {
 				if(logScaleEnabled) {
-					dataCoordinate = Math.pow(10, Math.log10(upper) - pixelCoordinate / (double)height * (Math.log10(upper) - Math.log10(lower)));
+					dataCoordinate = Math.pow(logScaleBase, logBase(upper) - pixelCoordinate / (double)height * (logBase(upper) - logBase(lower)));
 				} else if(categoryAxisEnabled) {
 					dataCoordinate = Math.floor(upper + 1 - pixelCoordinate / (double)height * (upper + 1 - lower));
 				} else {

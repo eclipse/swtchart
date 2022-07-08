@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2008, 2021 SWTChart project.
+ * Copyright (c) 2008, 2022 SWTChart project.
  *
  * This program and the accompanying materials are made
  * available under the terms of the Eclipse Public License 2.0
@@ -12,6 +12,7 @@
  * Christoph Läubrich - use getSize since we only want width/height, add support for datamodel
  * Frank Buloup - Internationalization
  * Philip Wenig - x/y axis position marker
+ * Sebastien Darche - Implement arbitrary base log scale
  *******************************************************************************/
 package org.eclipse.swtchart.internal.axis;
 
@@ -208,10 +209,12 @@ public class AxisTickLabels implements PaintListener {
 
 		double min = axis.getRange().lower;
 		double max = axis.getRange().upper;
-		int digitMin = (int)Math.ceil(Math.log10(min));
-		int digitMax = (int)Math.ceil(Math.log10(max));
+
+		double base = axis.getLogScaleBase();
+		int digitMin = (int)Math.ceil(axis.logBase(min));
+		int digitMax = (int)Math.ceil(axis.logBase(max));
 		final BigDecimal MIN = BigDecimal.valueOf(min);
-		BigDecimal tickStep = pow(10, digitMin - 1);
+		BigDecimal tickStep = pow(base, digitMin - 1);
 		BigDecimal firstPosition;
 		if(MIN.remainder(tickStep).doubleValue() <= 0) {
 			firstPosition = MIN.subtract(MIN.remainder(tickStep));
@@ -219,20 +222,20 @@ public class AxisTickLabels implements PaintListener {
 			firstPosition = MIN.subtract(MIN.remainder(tickStep)).add(tickStep);
 		}
 		for(int i = digitMin; i <= digitMax; i++) {
-			for(BigDecimal j = firstPosition; j.doubleValue() <= pow(10, i).doubleValue(); j = j.add(tickStep)) {
+			for(BigDecimal j = firstPosition; j.doubleValue() <= pow(base, i).doubleValue(); j = j.add(tickStep)) {
 				if(j.doubleValue() > max) {
 					break;
 				}
 				tickLabels.add(format(j.doubleValue()));
 				tickLabelValues.add(j.doubleValue());
-				int tickLabelPosition = (int)((Math.log10(j.doubleValue()) - Math.log10(min)) / (Math.log10(max) - Math.log10(min)) * length);
+				int tickLabelPosition = (int)((axis.logBase(j.doubleValue()) - axis.logBase(min)) / (axis.logBase(max) - axis.logBase(min)) * length);
 				if(axis.isReversed()) {
 					tickLabelPosition = correctPositionInReversedAxis(tickLabelPosition);
 				}
 				tickLabelPositions.add(tickLabelPosition);
 			}
-			tickStep = tickStep.multiply(pow(10, 1));
-			firstPosition = tickStep.add(pow(10, i));
+			tickStep = tickStep.multiply(pow(base, 1));
+			firstPosition = tickStep.add(pow(base, i));
 		}
 	}
 

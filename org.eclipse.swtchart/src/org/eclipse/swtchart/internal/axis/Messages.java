@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2020 SWT Chart Project
+ * Copyright (c) 2020, 2022 SWT Chart Project
  *
  * This program and the accompanying materials are made
  * available under the terms of the Eclipse Public License 2.0
@@ -9,8 +9,8 @@
  * 
  * Contributors:
  * Frank Buloup - initial API and implementation
+ * Sebastien Darche - Implement arbitrary base log scale
  *******************************************************************************/
-
 package org.eclipse.swtchart.internal.axis;
 
 import java.util.MissingResourceException;
@@ -20,7 +20,6 @@ public class Messages {
 
 	private static final String BUNDLE_NAME = "org.eclipse.swtchart.internal.axis.messages"; //$NON-NLS-1$
 	private static final ResourceBundle RESOURCE_BUNDLE = ResourceBundle.getBundle(BUNDLE_NAME);
-	
 	public static final String AXIS_ID_DONT_EXIST = "AXIS_ID_DONT_EXIST";
 	public static final String GIVEN_RANGE_INVALID = "GIVEN_RANGE_INVALID";
 	public static final String ILLEGAL_RANGE = "ILLEGAL_RANGE";
@@ -31,6 +30,7 @@ public class Messages {
 	public static final String X_AXIS = "X_AXIS";
 	public static final String Y_AXIS = "Y_AXIS";
 	public static final String Y_AXIS_CANNOT_BE_CATEGORY = "Y_AXIS_CANNOT_BE_CATEGORY";
+	public static final String LOGARITHM_BASE_IS_INVALID = "LOGARITHM_BASE_IS_INVALID";
 
 	private Messages() {
 
