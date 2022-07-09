@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2017, 2019 Lablicate GmbH.
+ * Copyright (c) 2017, 2022 Lablicate GmbH.
  *
  * This program and the accompanying materials are made
  * available under the terms of the Eclipse Public License 2.0
@@ -17,11 +17,13 @@ public class SecondaryAxisSettings extends AbstractAxisSettings implements ISeco
 	private IAxisScaleConverter axisScaleConverter;
 
 	public SecondaryAxisSettings(String title, IAxisScaleConverter axisScaleConverter) {
+
 		super(title);
 		this.axisScaleConverter = axisScaleConverter;
 	}
 
 	public SecondaryAxisSettings(String title, String description, IAxisScaleConverter axisScaleConverter) {
+
 		super(title, description);
 		this.axisScaleConverter = axisScaleConverter;
 	}

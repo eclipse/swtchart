@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2017, 2021 Lablicate GmbH.
+ * Copyright (c) 2017, 2022 Lablicate GmbH.
  *
  * This program and the accompanying materials are made
  * available under the terms of the Eclipse Public License 2.0
@@ -83,6 +83,10 @@ public interface IAxisSettings {
 
 	void setEnableLogScale(boolean enableLogScale);
 
+	void setLogScaleBase(double base);
+
+	double getLogScaleBase();
+
 	boolean isReversed();
 
 	void setReversed(boolean reversed);
@@ -101,7 +105,7 @@ public interface IAxisSettings {
 
 	/**
 	 * @return
-	 * 		true, if the axis is supposed to tick only at integer data points.
+	 *         true, if the axis is supposed to tick only at integer data points.
 	 */
 	boolean isIntegerDataPointAxis();
 

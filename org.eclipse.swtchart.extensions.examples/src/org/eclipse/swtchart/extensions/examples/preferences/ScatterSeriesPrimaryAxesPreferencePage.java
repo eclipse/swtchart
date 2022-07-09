@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2017, 2019 Lablicate GmbH.
+ * Copyright (c) 2017, 2022 Lablicate GmbH.
  *
  * This program and the accompanying materials are made
  * available under the terms of the Eclipse Public License 2.0
@@ -26,9 +26,11 @@ import org.eclipse.ui.IWorkbenchPreferencePage;
 public class ScatterSeriesPrimaryAxesPreferencePage extends FieldEditorPreferencePage implements IWorkbenchPreferencePage {
 
 	public ScatterSeriesPrimaryAxesPreferencePage() {
+
 		super(GRID);
 		setPreferenceStore(Activator.getDefault().getPreferenceStore());
-		setDescription("Set the primary axis settings.");
+		setTitle("Primary axis settings");
+		setDescription("");
 	}
 
 	@Override
@@ -47,6 +49,7 @@ public class ScatterSeriesPrimaryAxesPreferencePage extends FieldEditorPreferenc
 		addField(new BooleanFieldEditor(ScatterSeriesPreferenceConstants.P_PRIMARY_X_AXIS_VISIBLE, "Primary X-Axis Visible", getFieldEditorParent()));
 		addField(new ComboFieldEditor(ScatterSeriesPreferenceConstants.P_PRIMARY_X_AXIS_GRID_LINE_STYLE, "Primary X-Axis Grid Line Style:", PreferenceSupport.LINE_STYLES, getFieldEditorParent()));
 		addField(new BooleanFieldEditor(ScatterSeriesPreferenceConstants.P_PRIMARY_X_AXIS_ENABLE_LOG_SCALE, "Primary X-Axis Enable Log Scale", getFieldEditorParent()));
+		addField(new DoubleFieldEditor(ScatterSeriesPreferenceConstants.P_PRIMARY_X_AXIS_LOG_SCALE_BASE, "Primary X-Axis Log Scale Base", getFieldEditorParent()));
 		addField(new IntegerFieldEditor(ScatterSeriesPreferenceConstants.P_PRIMARY_X_AXIS_EXTRA_SPACE_TITLE, "Primary X-Axis Extra Space Title:", getFieldEditorParent()));
 		//
 		addField(new SpacerFieldEditor(getFieldEditorParent()));
@@ -62,6 +65,7 @@ public class ScatterSeriesPrimaryAxesPreferencePage extends FieldEditorPreferenc
 		addField(new BooleanFieldEditor(ScatterSeriesPreferenceConstants.P_PRIMARY_Y_AXIS_VISIBLE, "Primary Y-Axis Visible", getFieldEditorParent()));
 		addField(new ComboFieldEditor(ScatterSeriesPreferenceConstants.P_PRIMARY_Y_AXIS_GRID_LINE_STYLE, "Primary Y-Axis Grid Line Style:", PreferenceSupport.LINE_STYLES, getFieldEditorParent()));
 		addField(new BooleanFieldEditor(ScatterSeriesPreferenceConstants.P_PRIMARY_Y_AXIS_ENABLE_LOG_SCALE, "Primary Y-Axis Enable Log Scale", getFieldEditorParent()));
+		addField(new DoubleFieldEditor(ScatterSeriesPreferenceConstants.P_PRIMARY_Y_AXIS_LOG_SCALE_BASE, "Primary Y-Axis Log Scale Base", getFieldEditorParent()));
 		addField(new IntegerFieldEditor(ScatterSeriesPreferenceConstants.P_PRIMARY_Y_AXIS_EXTRA_SPACE_TITLE, "Primary Y-Axis Extra Space Title:", getFieldEditorParent()));
 	}
 

@@ -1265,6 +1265,7 @@ public class ScrollableChart extends Composite implements IScrollableChart, IEve
 			title.setStyleRanges(new StyleRange[]{styleRange});
 			//
 			axis.enableLogScale(axisSettings.isEnableLogScale());
+			axis.setLogScaleBase(axisSettings.getLogScaleBase());
 			axis.setReversed(axisSettings.isReversed());
 			axis.setDrawAxisLine(axisSettings.isDrawAxisLine());
 			axis.setDrawPositionMarker(axisSettings.isDrawPositionMarker());
@@ -1273,11 +1274,10 @@ public class ScrollableChart extends Composite implements IScrollableChart, IEve
 			 * Apply primary axis specific settings.
 			 */
 			if(axisSettings instanceof IPrimaryAxisSettings) {
-				IPrimaryAxisSettings primaryAxisSettings = (IPrimaryAxisSettings)axisSettings;
-				axis.enableLogScale(primaryAxisSettings.isEnableLogScale());
 				/*
 				 * Category is only valid for the X-Axis.
 				 */
+				IPrimaryAxisSettings primaryAxisSettings = (IPrimaryAxisSettings)axisSettings;
 				if(axis.getDirection() == Direction.X) {
 					axis.enableCategory(primaryAxisSettings.isEnableCategory());
 					axis.setCategorySeries(primaryAxisSettings.getCategorySeries());

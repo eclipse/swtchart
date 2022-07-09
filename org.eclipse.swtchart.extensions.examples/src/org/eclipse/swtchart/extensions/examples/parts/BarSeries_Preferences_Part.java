@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2017, 2020 Lablicate GmbH.
+ * Copyright (c) 2017, 2022 Lablicate GmbH.
  *
  * This program and the accompanying materials are made
  * available under the terms of the Eclipse Public License 2.0
@@ -68,6 +68,7 @@ public class BarSeries_Preferences_Part extends Composite {
 
 	@Inject
 	public BarSeries_Preferences_Part(Composite parent) {
+
 		super(parent, SWT.NONE);
 		colors = new HashMap<>();
 		try {
@@ -227,6 +228,7 @@ public class BarSeries_Preferences_Part extends Composite {
 		primaryAxisSettingsX.setVisible(preferenceStore.getBoolean(BarSeriesPreferenceConstants.P_PRIMARY_X_AXIS_VISIBLE));
 		primaryAxisSettingsX.setGridLineStyle(LineStyle.valueOf(preferenceStore.getString(BarSeriesPreferenceConstants.P_PRIMARY_X_AXIS_GRID_LINE_STYLE)));
 		primaryAxisSettingsX.setEnableLogScale(preferenceStore.getBoolean(BarSeriesPreferenceConstants.P_PRIMARY_X_AXIS_ENABLE_LOG_SCALE));
+		primaryAxisSettingsX.setLogScaleBase(preferenceStore.getDouble(BarSeriesPreferenceConstants.P_PRIMARY_X_AXIS_LOG_SCALE_BASE));
 		primaryAxisSettingsX.setExtraSpaceTitle(preferenceStore.getInt(BarSeriesPreferenceConstants.P_PRIMARY_X_AXIS_EXTRA_SPACE_TITLE));
 		/*
 		 * Primary Y-Axis
@@ -240,6 +242,7 @@ public class BarSeries_Preferences_Part extends Composite {
 		primaryAxisSettingsY.setVisible(preferenceStore.getBoolean(BarSeriesPreferenceConstants.P_PRIMARY_Y_AXIS_VISIBLE));
 		primaryAxisSettingsY.setGridLineStyle(LineStyle.valueOf(preferenceStore.getString(BarSeriesPreferenceConstants.P_PRIMARY_Y_AXIS_GRID_LINE_STYLE)));
 		primaryAxisSettingsY.setEnableLogScale(preferenceStore.getBoolean(BarSeriesPreferenceConstants.P_PRIMARY_Y_AXIS_ENABLE_LOG_SCALE));
+		primaryAxisSettingsY.setLogScaleBase(preferenceStore.getDouble(BarSeriesPreferenceConstants.P_PRIMARY_Y_AXIS_LOG_SCALE_BASE));
 		primaryAxisSettingsY.setExtraSpaceTitle(preferenceStore.getInt(BarSeriesPreferenceConstants.P_PRIMARY_Y_AXIS_EXTRA_SPACE_TITLE));
 		/*
 		 * Secondary Y-Axes
@@ -253,6 +256,7 @@ public class BarSeries_Preferences_Part extends Composite {
 		secondaryAxisSettingsY.setVisible(preferenceStore.getBoolean(BarSeriesPreferenceConstants.P_SECONDARY_Y_AXIS_VISIBLE));
 		secondaryAxisSettingsY.setGridLineStyle(LineStyle.valueOf(preferenceStore.getString(BarSeriesPreferenceConstants.P_SECONDARY_Y_AXIS_GRID_LINE_STYLE)));
 		secondaryAxisSettingsY.setEnableLogScale(preferenceStore.getBoolean(BarSeriesPreferenceConstants.P_SECONDARY_Y_AXIS_ENABLE_LOG_SCALE));
+		secondaryAxisSettingsY.setLogScaleBase(preferenceStore.getDouble(BarSeriesPreferenceConstants.P_SECONDARY_Y_AXIS_LOG_SCALE_BASE));
 		secondaryAxisSettingsY.setExtraSpaceTitle(preferenceStore.getInt(BarSeriesPreferenceConstants.P_SECONDARY_Y_AXIS_EXTRA_SPACE_TITLE));
 		chartSettings.getSecondaryAxisSettingsListY().add(secondaryAxisSettingsY);
 		//

@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2017, 2019 Lablicate GmbH.
+ * Copyright (c) 2017, 2022 Lablicate GmbH.
  *
  * This program and the accompanying materials are made
  * available under the terms of the Eclipse Public License 2.0
@@ -74,6 +74,7 @@ public class ScatterSeriesPreferenceInitializer extends AbstractPreferenceInitia
 		preferenceStore.setDefault(ScatterSeriesPreferenceConstants.P_PRIMARY_X_AXIS_VISIBLE, ScatterSeriesPreferenceConstants.DEF_PRIMARY_X_AXIS_VISIBLE);
 		preferenceStore.setDefault(ScatterSeriesPreferenceConstants.P_PRIMARY_X_AXIS_GRID_LINE_STYLE, ScatterSeriesPreferenceConstants.DEF_PRIMARY_X_AXIS_GRID_LINE_STYLE);
 		preferenceStore.setDefault(ScatterSeriesPreferenceConstants.P_PRIMARY_X_AXIS_ENABLE_LOG_SCALE, ScatterSeriesPreferenceConstants.DEF_PRIMARY_X_AXIS_ENABLE_LOG_SCALE);
+		preferenceStore.setDefault(ScatterSeriesPreferenceConstants.P_PRIMARY_X_AXIS_LOG_SCALE_BASE, ScatterSeriesPreferenceConstants.DEF_PRIMARY_X_AXIS_LOG_SCALE_BASE);
 		preferenceStore.setDefault(ScatterSeriesPreferenceConstants.P_PRIMARY_X_AXIS_EXTRA_SPACE_TITLE, ScatterSeriesPreferenceConstants.DEF_PRIMARY_X_AXIS_EXTRA_SPACE_TITLE);
 		preferenceStore.setDefault(ScatterSeriesPreferenceConstants.P_PRIMARY_Y_AXIS_TITLE, ScatterSeriesPreferenceConstants.DEF_PRIMARY_Y_AXIS_TITLE);
 		preferenceStore.setDefault(ScatterSeriesPreferenceConstants.P_PRIMARY_Y_AXIS_DESCRIPTION, ScatterSeriesPreferenceConstants.DEF_PRIMARY_Y_AXIS_DESCRIPTION);
@@ -84,6 +85,7 @@ public class ScatterSeriesPreferenceInitializer extends AbstractPreferenceInitia
 		preferenceStore.setDefault(ScatterSeriesPreferenceConstants.P_PRIMARY_Y_AXIS_VISIBLE, ScatterSeriesPreferenceConstants.DEF_PRIMARY_Y_AXIS_VISIBLE);
 		preferenceStore.setDefault(ScatterSeriesPreferenceConstants.P_PRIMARY_Y_AXIS_GRID_LINE_STYLE, ScatterSeriesPreferenceConstants.DEF_PRIMARY_Y_AXIS_GRID_LINE_STYLE);
 		preferenceStore.setDefault(ScatterSeriesPreferenceConstants.P_PRIMARY_Y_AXIS_ENABLE_LOG_SCALE, ScatterSeriesPreferenceConstants.DEF_PRIMARY_Y_AXIS_ENABLE_LOG_SCALE);
+		preferenceStore.setDefault(ScatterSeriesPreferenceConstants.P_PRIMARY_Y_AXIS_LOG_SCALE_BASE, ScatterSeriesPreferenceConstants.DEF_PRIMARY_Y_AXIS_LOG_SCALE_BASE);
 		preferenceStore.setDefault(ScatterSeriesPreferenceConstants.P_PRIMARY_Y_AXIS_EXTRA_SPACE_TITLE, ScatterSeriesPreferenceConstants.DEF_PRIMARY_Y_AXIS_EXTRA_SPACE_TITLE);
 		preferenceStore.setDefault(ScatterSeriesPreferenceConstants.P_SYMBOL_SIZE_SERIES, ScatterSeriesPreferenceConstants.DEF_SYMBOL_SIZE_SERIES);
 		//

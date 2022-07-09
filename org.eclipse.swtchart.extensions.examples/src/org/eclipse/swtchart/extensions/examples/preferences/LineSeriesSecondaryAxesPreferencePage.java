@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2017, 2019 Lablicate GmbH.
+ * Copyright (c) 2017, 2022 Lablicate GmbH.
  *
  * This program and the accompanying materials are made
  * available under the terms of the Eclipse Public License 2.0
@@ -26,9 +26,11 @@ import org.eclipse.ui.IWorkbenchPreferencePage;
 public class LineSeriesSecondaryAxesPreferencePage extends FieldEditorPreferencePage implements IWorkbenchPreferencePage {
 
 	public LineSeriesSecondaryAxesPreferencePage() {
+
 		super(GRID);
 		setPreferenceStore(Activator.getDefault().getPreferenceStore());
-		setDescription("Set the secondary axis settings.");
+		setTitle("Secondary axis settings");
+		setDescription("");
 	}
 
 	@Override
@@ -47,6 +49,7 @@ public class LineSeriesSecondaryAxesPreferencePage extends FieldEditorPreference
 		addField(new BooleanFieldEditor(LineSeriesPreferenceConstants.P_SECONDARY_X_AXIS_VISIBLE, "Secondary X-Axis Visible", getFieldEditorParent()));
 		addField(new ComboFieldEditor(LineSeriesPreferenceConstants.P_SECONDARY_X_AXIS_GRID_LINE_STYLE, "Secondary X-Axis Grid Line Style:", PreferenceSupport.LINE_STYLES, getFieldEditorParent()));
 		addField(new BooleanFieldEditor(LineSeriesPreferenceConstants.P_SECONDARY_X_AXIS_ENABLE_LOG_SCALE, "Secondary X-Axis Enable Log Scale", getFieldEditorParent()));
+		addField(new DoubleFieldEditor(LineSeriesPreferenceConstants.P_SECONDARY_X_AXIS_LOG_SCALE_BASE, "Secondary X-Axis Log Scale Base", getFieldEditorParent()));
 		addField(new IntegerFieldEditor(LineSeriesPreferenceConstants.P_SECONDARY_X_AXIS_EXTRA_SPACE_TITLE, "Secondary X-Axis Extra Space Title:", getFieldEditorParent()));
 		//
 		addField(new SpacerFieldEditor(getFieldEditorParent()));
@@ -62,6 +65,7 @@ public class LineSeriesSecondaryAxesPreferencePage extends FieldEditorPreference
 		addField(new BooleanFieldEditor(LineSeriesPreferenceConstants.P_SECONDARY_Y_AXIS_VISIBLE, "Secondary Y-Axis Visible", getFieldEditorParent()));
 		addField(new ComboFieldEditor(LineSeriesPreferenceConstants.P_SECONDARY_Y_AXIS_GRID_LINE_STYLE, "Secondary Y-Axis Grid Line Style:", PreferenceSupport.LINE_STYLES, getFieldEditorParent()));
 		addField(new BooleanFieldEditor(LineSeriesPreferenceConstants.P_SECONDARY_Y_AXIS_ENABLE_LOG_SCALE, "Secondary Y-Axis Enable Log Scale", getFieldEditorParent()));
+		addField(new DoubleFieldEditor(LineSeriesPreferenceConstants.P_SECONDARY_Y_AXIS_LOG_SCALE_BASE, "Secondary Y-Axis Log Scale Base", getFieldEditorParent()));
 		addField(new IntegerFieldEditor(LineSeriesPreferenceConstants.P_SECONDARY_Y_AXIS_EXTRA_SPACE_TITLE, "Secondary Y-Axis Extra Space Title:", getFieldEditorParent()));
 	}
 

@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2017, 2019 Lablicate GmbH.
+ * Copyright (c) 2017, 2022 Lablicate GmbH.
  *
  * This program and the accompanying materials are made
  * available under the terms of the Eclipse Public License 2.0
@@ -74,6 +74,7 @@ public class BarSeriesPreferenceInitializer extends AbstractPreferenceInitialize
 		preferenceStore.setDefault(BarSeriesPreferenceConstants.P_PRIMARY_X_AXIS_VISIBLE, BarSeriesPreferenceConstants.DEF_PRIMARY_X_AXIS_VISIBLE);
 		preferenceStore.setDefault(BarSeriesPreferenceConstants.P_PRIMARY_X_AXIS_GRID_LINE_STYLE, BarSeriesPreferenceConstants.DEF_PRIMARY_X_AXIS_GRID_LINE_STYLE);
 		preferenceStore.setDefault(BarSeriesPreferenceConstants.P_PRIMARY_X_AXIS_ENABLE_LOG_SCALE, BarSeriesPreferenceConstants.DEF_PRIMARY_X_AXIS_ENABLE_LOG_SCALE);
+		preferenceStore.setDefault(BarSeriesPreferenceConstants.P_PRIMARY_X_AXIS_LOG_SCALE_BASE, BarSeriesPreferenceConstants.DEF_PRIMARY_X_AXIS_LOG_SCALE_BASE);
 		preferenceStore.setDefault(BarSeriesPreferenceConstants.P_PRIMARY_X_AXIS_EXTRA_SPACE_TITLE, BarSeriesPreferenceConstants.DEF_PRIMARY_X_AXIS_EXTRA_SPACE_TITLE);
 		preferenceStore.setDefault(BarSeriesPreferenceConstants.P_PRIMARY_Y_AXIS_TITLE, BarSeriesPreferenceConstants.DEF_PRIMARY_Y_AXIS_TITLE);
 		preferenceStore.setDefault(BarSeriesPreferenceConstants.P_PRIMARY_Y_AXIS_DESCRIPTION, BarSeriesPreferenceConstants.DEF_PRIMARY_Y_AXIS_DESCRIPTION);
@@ -84,6 +85,7 @@ public class BarSeriesPreferenceInitializer extends AbstractPreferenceInitialize
 		preferenceStore.setDefault(BarSeriesPreferenceConstants.P_PRIMARY_Y_AXIS_VISIBLE, BarSeriesPreferenceConstants.DEF_PRIMARY_Y_AXIS_VISIBLE);
 		preferenceStore.setDefault(BarSeriesPreferenceConstants.P_PRIMARY_Y_AXIS_GRID_LINE_STYLE, BarSeriesPreferenceConstants.DEF_PRIMARY_Y_AXIS_GRID_LINE_STYLE);
 		preferenceStore.setDefault(BarSeriesPreferenceConstants.P_PRIMARY_Y_AXIS_ENABLE_LOG_SCALE, BarSeriesPreferenceConstants.DEF_PRIMARY_Y_AXIS_ENABLE_LOG_SCALE);
+		preferenceStore.setDefault(BarSeriesPreferenceConstants.P_PRIMARY_Y_AXIS_LOG_SCALE_BASE, BarSeriesPreferenceConstants.DEF_PRIMARY_Y_AXIS_LOG_SCALE_BASE);
 		preferenceStore.setDefault(BarSeriesPreferenceConstants.P_PRIMARY_Y_AXIS_EXTRA_SPACE_TITLE, BarSeriesPreferenceConstants.DEF_PRIMARY_Y_AXIS_EXTRA_SPACE_TITLE);
 		preferenceStore.setDefault(BarSeriesPreferenceConstants.P_SECONDARY_Y_AXIS_TITLE, BarSeriesPreferenceConstants.DEF_SECONDARY_Y_AXIS_TITLE);
 		preferenceStore.setDefault(BarSeriesPreferenceConstants.P_SECONDARY_Y_AXIS_DESCRIPTION, BarSeriesPreferenceConstants.DEF_SECONDARY_Y_AXIS_DESCRIPTION);
@@ -94,6 +96,7 @@ public class BarSeriesPreferenceInitializer extends AbstractPreferenceInitialize
 		preferenceStore.setDefault(BarSeriesPreferenceConstants.P_SECONDARY_Y_AXIS_VISIBLE, BarSeriesPreferenceConstants.DEF_SECONDARY_Y_AXIS_VISIBLE);
 		preferenceStore.setDefault(BarSeriesPreferenceConstants.P_SECONDARY_Y_AXIS_GRID_LINE_STYLE, BarSeriesPreferenceConstants.DEF_SECONDARY_Y_AXIS_GRID_LINE_STYLE);
 		preferenceStore.setDefault(BarSeriesPreferenceConstants.P_SECONDARY_Y_AXIS_ENABLE_LOG_SCALE, BarSeriesPreferenceConstants.DEF_SECONDARY_Y_AXIS_ENABLE_LOG_SCALE);
+		preferenceStore.setDefault(BarSeriesPreferenceConstants.P_SECONDARY_Y_AXIS_LOG_SCALE_BASE, BarSeriesPreferenceConstants.DEF_SECONDARY_Y_AXIS_LOG_SCALE_BASE);
 		preferenceStore.setDefault(BarSeriesPreferenceConstants.P_SECONDARY_Y_AXIS_EXTRA_SPACE_TITLE, BarSeriesPreferenceConstants.DEF_SECONDARY_Y_AXIS_EXTRA_SPACE_TITLE);
 		preferenceStore.setDefault(BarSeriesPreferenceConstants.P_DESCRIPTION_SERIES_1, BarSeriesPreferenceConstants.DEF_DESCRIPTION_SERIES_1);
 		preferenceStore.setDefault(BarSeriesPreferenceConstants.P_VISIBLE_SERIES_1, BarSeriesPreferenceConstants.DEF_VISIBLE_SERIES_1);

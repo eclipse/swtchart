@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2017, 2019 Lablicate GmbH.
+ * Copyright (c) 2017, 2022 Lablicate GmbH.
  *
  * This program and the accompanying materials are made
  * available under the terms of the Eclipse Public License 2.0
@@ -130,6 +130,8 @@ public class BarSeriesPreferenceConstants {
 	public static final String DEF_PRIMARY_X_AXIS_GRID_LINE_STYLE = LineStyle.DOT.toString();
 	public static final String P_PRIMARY_X_AXIS_ENABLE_LOG_SCALE = "primaryXAxisEnableLogScale" + POSTFIX;
 	public static final boolean DEF_PRIMARY_X_AXIS_ENABLE_LOG_SCALE = false;
+	public static final String P_PRIMARY_X_AXIS_LOG_SCALE_BASE = "primaryXAxisLogScaleBase" + POSTFIX;
+	public static final double DEF_PRIMARY_X_AXIS_LOG_SCALE_BASE = 10.0d;
 	public static final String P_PRIMARY_X_AXIS_EXTRA_SPACE_TITLE = "primaryXAxisExtraSpaceTitle" + POSTFIX;
 	public static final int DEF_PRIMARY_X_AXIS_EXTRA_SPACE_TITLE = 25;
 	//
@@ -151,6 +153,8 @@ public class BarSeriesPreferenceConstants {
 	public static final String DEF_PRIMARY_Y_AXIS_GRID_LINE_STYLE = LineStyle.DOT.toString();
 	public static final String P_PRIMARY_Y_AXIS_ENABLE_LOG_SCALE = "primaryYAxisEnableLogScale" + POSTFIX;
 	public static final boolean DEF_PRIMARY_Y_AXIS_ENABLE_LOG_SCALE = false;
+	public static final String P_PRIMARY_Y_AXIS_LOG_SCALE_BASE = "primaryYAxisLogScaleBase" + POSTFIX;
+	public static final double DEF_PRIMARY_Y_AXIS_LOG_SCALE_BASE = 10.0d;
 	public static final String P_PRIMARY_Y_AXIS_EXTRA_SPACE_TITLE = "primaryYAxisExtraSpaceTitle" + POSTFIX;
 	public static final int DEF_PRIMARY_Y_AXIS_EXTRA_SPACE_TITLE = 25;
 	//
@@ -172,6 +176,8 @@ public class BarSeriesPreferenceConstants {
 	public static final String DEF_SECONDARY_Y_AXIS_GRID_LINE_STYLE = LineStyle.DOT.toString();
 	public static final String P_SECONDARY_Y_AXIS_ENABLE_LOG_SCALE = "secondaryYAxisEnableLogScale" + POSTFIX;
 	public static final boolean DEF_SECONDARY_Y_AXIS_ENABLE_LOG_SCALE = false;
+	public static final String P_SECONDARY_Y_AXIS_LOG_SCALE_BASE = "secondaryYAxisLogScaleBase" + POSTFIX;
+	public static final double DEF_SECONDARY_Y_AXIS_LOG_SCALE_BASE = 10.0d;
 	public static final String P_SECONDARY_Y_AXIS_EXTRA_SPACE_TITLE = "secondaryYAxisExtraSpaceTitle" + POSTFIX;
 	public static final int DEF_SECONDARY_Y_AXIS_EXTRA_SPACE_TITLE = 25;
 	//

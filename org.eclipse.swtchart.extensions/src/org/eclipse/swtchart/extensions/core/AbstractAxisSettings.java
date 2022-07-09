@@ -36,6 +36,7 @@ public abstract class AbstractAxisSettings implements IAxisSettings {
 	private Color gridColor;
 	private LineStyle gridLineStyle;
 	private boolean enableLogScale;
+	private double logScaleBase;
 	private boolean reversed;
 	private boolean drawAxisLine;
 	private boolean drawPositionMarker;
@@ -68,6 +69,7 @@ public abstract class AbstractAxisSettings implements IAxisSettings {
 		gridColor = Display.getDefault().getSystemColor(SWT.COLOR_GRAY);
 		gridLineStyle = LineStyle.DOT;
 		enableLogScale = false;
+		logScaleBase = 10.0d;
 		reversed = false;
 		drawAxisLine = true;
 		drawPositionMarker = false;
@@ -246,6 +248,18 @@ public abstract class AbstractAxisSettings implements IAxisSettings {
 	public void setEnableLogScale(boolean enableLogScale) {
 
 		this.enableLogScale = enableLogScale;
+	}
+
+	@Override
+	public void setLogScaleBase(double base) {
+
+		logScaleBase = base;
+	}
+
+	@Override
+	public double getLogScaleBase() {
+
+		return logScaleBase;
 	}
 
 	@Override
