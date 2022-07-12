@@ -17,7 +17,7 @@ pipeline {
 			steps {
 				wrap([$class: 'Xvnc', takeScreenshot: false, useXauthority: true]) {
 					sh '''
-						mvn -f org.eclipse.swtchart.cbi/pom.xml -Peclipse-sign clean install
+						mvn -f org.eclipse.swtchart.cbi/pom.xml clean install
 					'''
 				}
 			}
@@ -26,7 +26,8 @@ pipeline {
 			steps {
 				sshagent ( ['projects-storage.eclipse.org-bot-ssh']) {
 					sh '''
-						ssh genie.swtchart@projects-storage.eclipse.org mkdir -p /home/data/httpd/download.eclipse.org/swtchart/integration/${BRANCH_NAME}/repository
+						ssh genie.swtchart@projects-storage.eclipse.org rm -rf /home/data/httpd/download.eclipse.org/swtchart/integration/${BRANCH_NAME}
+						ssh genie.swtchart@projects-storage.eclipse.org mkdir -p /home/data/httpd/download.eclipse.org/swtchart/integration/${BRANCH_NAME}/repository						
 						scp -r org.eclipse.swtchart.updatesite/target/repository/* genie.swtchart@projects-storage.eclipse.org:/home/data/httpd/download.eclipse.org/swtchart/integration/${BRANCH_NAME}/repository
 					'''
 				}
