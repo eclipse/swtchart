@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2021 Lablicate GmbH.
+ * Copyright (c) 2021, 2022 Lablicate GmbH.
  *
  * This program and the accompanying materials are made
  * available under the terms of the Eclipse Public License 2.0
@@ -16,12 +16,14 @@ import java.text.DecimalFormat;
 import java.text.ParseException;
 
 import org.eclipse.jface.window.Window;
+import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swtchart.Range;
 import org.eclipse.swtchart.extensions.core.BaseChart;
 import org.eclipse.swtchart.extensions.core.IAxisScaleConverter;
 import org.eclipse.swtchart.extensions.core.IExtendedChart;
+import org.eclipse.swtchart.extensions.core.ResourceSupport;
 import org.eclipse.swtchart.extensions.core.ScrollableChart;
 import org.eclipse.swtchart.extensions.dialogs.ChartRangeDialog;
 import org.eclipse.swtchart.extensions.dialogs.ChartRangeValues;
@@ -38,6 +40,12 @@ public class SetRangeChartHandler extends AbstractChartMenuEntry implements ICha
 	public String getName() {
 
 		return "Set Chart Range";
+	}
+
+	@Override
+	public Image getIcon() {
+
+		return ResourceSupport.getImage(ResourceSupport.ICON_SET_RANGE);
 	}
 
 	@Override

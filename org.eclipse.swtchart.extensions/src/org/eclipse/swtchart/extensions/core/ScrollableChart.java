@@ -1654,6 +1654,7 @@ public class ScrollableChart extends Composite implements IScrollableChart, IEve
 		for(Entry<String, IChartMenuEntry> name : getSortedNames(menuEntries).entrySet()) {
 			menuItem = new MenuItem(subMenu, SWT.PUSH);
 			menuItem.setText(name.getKey());
+			menuItem.setImage(name.getValue().getIcon());
 			IChartMenuEntry menuEntry = name.getValue();
 			menuItem.addSelectionListener(new SelectionAdapter() {
 
