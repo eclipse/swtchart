@@ -87,7 +87,7 @@
   -->
   <properties>
     <!-- VERSIONS -->
-    <tycho.version>2.7.3</tycho.version>
+    <tycho.version>2.7.4</tycho.version>
     <pmd.version>2.7.1</pmd.version>
     <checkstyle.version>2.9.1</checkstyle.version>
     <!-- IDS -->
