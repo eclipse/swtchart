@@ -203,7 +203,7 @@ public class ResourceSupport {
 			imageRegistry = new ImageRegistry();
 		}
 		//
-		Set<String> imageSet = new HashSet<String>();
+		Set<String> imageSet = new HashSet<>();
 		imageSet.add(ICON_SET_RANGE);
 		imageSet.add(ICON_HIDE);
 		imageSet.add(ICON_RESET);

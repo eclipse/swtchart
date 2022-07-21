@@ -147,7 +147,7 @@ public class ChartSettings implements IChartSettings {
 		/*
 		 * Default menu entries.
 		 */
-		menuEntries = new HashSet<IChartMenuEntry>();
+		menuEntries = new HashSet<>();
 		menuEntries.add(new ResetChartHandler());
 		menuEntries.add(new SetRangeChartHandler());
 		menuEntries.add(new ResetSelectedSeriesHandler());
@@ -170,7 +170,7 @@ public class ChartSettings implements IChartSettings {
 		/*
 		 * Events processors ... Mouse Move, Key Up ...
 		 */
-		handledEventProcessors = new HashSet<IHandledEventProcessor>();
+		handledEventProcessors = new HashSet<>();
 		handledEventProcessors.add(new SelectHideSeriesEvent());
 		handledEventProcessors.add(new ResetSeriesEvent());
 		handledEventProcessors.add(new SelectDataPointEvent());
