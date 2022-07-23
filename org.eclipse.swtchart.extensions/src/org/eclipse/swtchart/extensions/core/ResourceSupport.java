@@ -61,6 +61,10 @@ public class ResourceSupport {
 	public static final String ICON_EXPORT = "export.gif"; // $NON-NLS-1$
 	public static final String ICON_RESET_SELECTED = "resetSelected.gif"; // $NON-NLS-1$
 	public static final String ICON_RESET_ALL = "resetAll.gif"; // $NON-NLS-1$
+	public static final String ICON_RESET_SELECTION = "reset-selection.gif"; // $NON-NLS-1$
+	public static final String ICON_REDO = "redo.gif"; // $NON-NLS-1$
+	public static final String ICON_UNDO = "undo.gif"; // $NON-NLS-1$
+	public static final String ICON_COPY_CLIPBOARD = "copy-clipboard.png"; // $NON-NLS-1$
 	//
 	private static final Map<RGB, Color> colorMap = new HashMap<>();
 	private static final String RGB_DELIMITER = ",";
@@ -203,7 +207,7 @@ public class ResourceSupport {
 			imageRegistry = new ImageRegistry();
 		}
 		//
-		Set<String> imageSet = new HashSet<String>();
+		Set<String> imageSet = new HashSet<>();
 		imageSet.add(ICON_SET_RANGE);
 		imageSet.add(ICON_HIDE);
 		imageSet.add(ICON_RESET);
@@ -228,6 +232,10 @@ public class ResourceSupport {
 		imageSet.add(ICON_EXPORT);
 		imageSet.add(ICON_RESET_SELECTED);
 		imageSet.add(ICON_RESET_ALL);
+		imageSet.add(ICON_RESET_SELECTION);
+		imageSet.add(ICON_REDO);
+		imageSet.add(ICON_UNDO);
+		imageSet.add(ICON_COPY_CLIPBOARD);
 		//
 		for(String image : imageSet) {
 			imageRegistry.put(image, createImageDescriptor(image));

@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2020, 2021 SWTChart project.
+ * Copyright (c) 2020, 2022 SWTChart project.
  *
  * This program and the accompanying materials are made
  * available under the terms of the Eclipse Public License 2.0
@@ -16,6 +16,7 @@ package org.eclipse.swtchart.extensions.examples.charts;
 import org.eclipse.swt.dnd.Clipboard;
 import org.eclipse.swt.dnd.TextTransfer;
 import org.eclipse.swt.dnd.Transfer;
+import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
@@ -25,6 +26,7 @@ import org.eclipse.swtchart.IAxisTick;
 import org.eclipse.swtchart.ITitle;
 import org.eclipse.swtchart.extensions.core.IChartSettings;
 import org.eclipse.swtchart.extensions.core.ISecondaryAxisSettings;
+import org.eclipse.swtchart.extensions.core.ResourceSupport;
 import org.eclipse.swtchart.extensions.core.ScrollableChart;
 import org.eclipse.swtchart.extensions.examples.parts.LineSeries_1_Part;
 import org.eclipse.swtchart.extensions.menu.IChartMenuEntry;
@@ -74,6 +76,12 @@ public class DemoChart {
 			public String getCategory() {
 
 				return "Tools";
+			}
+
+			@Override
+			public Image getIcon() {
+
+				return ResourceSupport.getImage(ResourceSupport.ICON_COPY_CLIPBOARD);
 			}
 
 			@Override
@@ -128,6 +136,16 @@ public class DemoChart {
 			public String getCategory() {
 
 				return "Tools";
+			}
+
+			@Override
+			public Image getIcon() {
+
+				if(chartSettings.getPrimaryAxisSettingsX().isDrawAxisLine()) {
+					return ResourceSupport.getImage(ResourceSupport.ICON_CHECKED);
+				} else {
+					return ResourceSupport.getImage(ResourceSupport.ICON_UNCHECKED);
+				}
 			}
 
 			@Override
