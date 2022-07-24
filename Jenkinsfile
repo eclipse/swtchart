@@ -26,8 +26,8 @@ pipeline {
 			steps {
 				sshagent ( ['projects-storage.eclipse.org-bot-ssh']) {
 					sh '''
-						ssh genie.swtchart@projects-storage.eclipse.org mkdir -p /home/data/httpd/download.eclipse.org/swtchart/integration/${BRANCH_NAME}/site
-						scp -r org.eclipse.swtchart.updatesite/target/site/* genie.swtchart@projects-storage.eclipse.org:/home/data/httpd/download.eclipse.org/swtchart/integration/${BRANCH_NAME}/site
+						# ssh genie.swtchart@projects-storage.eclipse.org mkdir -p /home/data/httpd/download.eclipse.org/swtchart/integration/${BRANCH_NAME}/site
+						# scp -r org.eclipse.swtchart.updatesite/target/site/* genie.swtchart@projects-storage.eclipse.org:/home/data/httpd/download.eclipse.org/swtchart/integration/${BRANCH_NAME}/site
 					'''
 				}
 			}
