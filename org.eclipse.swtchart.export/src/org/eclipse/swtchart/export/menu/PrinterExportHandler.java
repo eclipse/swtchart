@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2017, 2019 Lablicate GmbH.
+ * Copyright (c) 2017, 2022 Lablicate GmbH.
  *
  * This program and the accompanying materials are made
  * available under the terms of the Eclipse Public License 2.0
@@ -25,16 +25,23 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swtchart.export.core.AbstractSeriesExportHandler;
 import org.eclipse.swtchart.export.core.ISeriesExportConverter;
 import org.eclipse.swtchart.export.images.ImageSupplier;
+import org.eclipse.swtchart.extensions.core.ResourceSupport;
 import org.eclipse.swtchart.extensions.core.ScrollableChart;
 
 public class PrinterExportHandler extends AbstractSeriesExportHandler implements ISeriesExportConverter {
 
-	private static final String TITLE = Messages.getString(Messages.SAVE_SELECTION); 
+	private static final String TITLE = Messages.getString(Messages.SAVE_SELECTION);
 
 	@Override
 	public String getName() {
 
 		return Messages.getString(Messages.PRINT);
+	}
+
+	@Override
+	public Image getIcon() {
+
+		return ResourceSupport.getImage(ResourceSupport.ICON_PRINT);
 	}
 
 	@Override
@@ -47,7 +54,7 @@ public class PrinterExportHandler extends AbstractSeriesExportHandler implements
 		PrinterData printerData = dialog.open();
 		if(printerData != null) {
 			Printer printer = new Printer(printerData);
-			if(printer.startJob(Messages.getString(Messages.PRINTER_EXPORT))) { 
+			if(printer.startJob(Messages.getString(Messages.PRINTER_EXPORT))) {
 				/*
 				 * Create a page
 				 */

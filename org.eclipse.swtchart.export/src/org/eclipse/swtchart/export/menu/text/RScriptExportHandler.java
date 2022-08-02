@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2017, 2021 Lablicate GmbH.
+ * Copyright (c) 2017, 2022 Lablicate GmbH.
  *
  * This program and the accompanying materials are made
  * available under the terms of the Eclipse Public License 2.0
@@ -24,6 +24,7 @@ import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.window.Window;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Color;
+import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.widgets.FileDialog;
 import org.eclipse.swt.widgets.Shell;
@@ -41,6 +42,7 @@ import org.eclipse.swtchart.extensions.core.ChartType;
 import org.eclipse.swtchart.extensions.core.IAxisScaleConverter;
 import org.eclipse.swtchart.extensions.core.IAxisSettings;
 import org.eclipse.swtchart.extensions.core.ISecondaryAxisSettings;
+import org.eclipse.swtchart.extensions.core.ResourceSupport;
 import org.eclipse.swtchart.extensions.core.ScrollableChart;
 import org.eclipse.swtchart.extensions.linecharts.LineChart;
 import org.eclipse.swtchart.extensions.linecharts.StepChart;
@@ -62,6 +64,12 @@ public class RScriptExportHandler extends AbstractSeriesExportHandler implements
 	public String getName() {
 
 		return NAME;
+	}
+
+	@Override
+	public Image getIcon() {
+
+		return ResourceSupport.getImage(ResourceSupport.ICON_R);
 	}
 
 	@Override
@@ -196,9 +204,9 @@ public class RScriptExportHandler extends AbstractSeriesExportHandler implements
 	private String getColor(Color color) {
 
 		StringBuilder hex_color = new StringBuilder("#");
-		double r = (double)color.getRed();
-		double g = (double)color.getGreen();
-		double b = (double)color.getBlue();
+		double r = color.getRed();
+		double g = color.getGreen();
+		double b = color.getBlue();
 		double[] rgb = new double[]{r, g, b};
 		for(double x : rgb) {
 			double hex = 16.0d;

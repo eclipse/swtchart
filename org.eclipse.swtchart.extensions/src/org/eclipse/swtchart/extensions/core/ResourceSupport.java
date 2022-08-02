@@ -65,6 +65,12 @@ public class ResourceSupport {
 	public static final String ICON_REDO = "redo.gif"; // $NON-NLS-1$
 	public static final String ICON_UNDO = "undo.gif"; // $NON-NLS-1$
 	public static final String ICON_COPY_CLIPBOARD = "copy-clipboard.png"; // $NON-NLS-1$
+	public static final String ICON_CSV = "csv.gif"; // $NON-NLS-1$
+	public static final String ICON_FIGURE = "figure.gif"; // $NON-NLS-1$
+	public static final String ICON_BITMAP = "bitmap.gif"; // $NON-NLS-1$
+	public static final String ICON_PRINT = "print.gif"; // $NON-NLS-1$
+	public static final String ICON_TEX = "tex.gif"; // $NON-NLS-1$
+	public static final String ICON_R = "r.gif"; // $NON-NLS-1$
 	//
 	private static final Map<RGB, Color> colorMap = new HashMap<>();
 	private static final String RGB_DELIMITER = ",";
@@ -236,6 +242,12 @@ public class ResourceSupport {
 		imageSet.add(ICON_REDO);
 		imageSet.add(ICON_UNDO);
 		imageSet.add(ICON_COPY_CLIPBOARD);
+		imageSet.add(ICON_CSV);
+		imageSet.add(ICON_FIGURE);
+		imageSet.add(ICON_BITMAP);
+		imageSet.add(ICON_PRINT);
+		imageSet.add(ICON_TEX);
+		imageSet.add(ICON_R);
 		//
 		for(String image : imageSet) {
 			imageRegistry.put(image, createImageDescriptor(image));
