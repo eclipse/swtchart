@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2017, 2021 Lablicate GmbH.
+ * Copyright (c) 2017, 2022 Lablicate GmbH.
  *
  * This program and the accompanying materials are made
  * available under the terms of the Eclipse Public License 2.0
@@ -15,6 +15,7 @@ package org.eclipse.swtchart.export.menu.bitmap;
 
 import org.eclipse.jface.window.Window;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.ImageData;
 import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.widgets.Composite;
@@ -28,6 +29,7 @@ import org.eclipse.swtchart.export.core.BitmapExportSettingsDialog;
 import org.eclipse.swtchart.export.core.ISeriesExportConverter;
 import org.eclipse.swtchart.export.images.ImageSupplier;
 import org.eclipse.swtchart.extensions.core.BaseChart;
+import org.eclipse.swtchart.extensions.core.ResourceSupport;
 import org.eclipse.swtchart.extensions.core.ScrollableChart;
 
 public abstract class AbstractBitmapExportHandler extends AbstractSeriesExportHandler implements ISeriesExportConverter {
@@ -50,6 +52,12 @@ public abstract class AbstractBitmapExportHandler extends AbstractSeriesExportHa
 	public String getName() {
 
 		return name;
+	}
+
+	@Override
+	public Image getIcon() {
+
+		return ResourceSupport.getImage(ResourceSupport.ICON_BITMAP);
 	}
 
 	@Override

@@ -1,5 +1,5 @@
 /*******************************************************************************
- * * Copyright (c) 2017, 2020 Lablicate GmbH.
+ * * Copyright (c) 2017, 2022 Lablicate GmbH.
  *
  * This program and the accompanying materials are made
  * available under the terms of the Eclipse Public License 2.0
@@ -13,8 +13,10 @@
  *******************************************************************************/
 package org.eclipse.swtchart.export.menu.text;
 
+import org.eclipse.swt.graphics.Image;
 import org.eclipse.swtchart.export.core.AbstractSeparatedValueHandler;
 import org.eclipse.swtchart.export.core.ISeriesExportConverter;
+import org.eclipse.swtchart.extensions.core.ResourceSupport;
 
 public class CSVExportHandler extends AbstractSeparatedValueHandler implements ISeriesExportConverter {
 
@@ -28,6 +30,12 @@ public class CSVExportHandler extends AbstractSeparatedValueHandler implements I
 	public String getName() {
 
 		return NAME;
+	}
+
+	@Override
+	public Image getIcon() {
+
+		return ResourceSupport.getImage(ResourceSupport.ICON_CSV);
 	}
 
 	public CSVExportHandler() {
