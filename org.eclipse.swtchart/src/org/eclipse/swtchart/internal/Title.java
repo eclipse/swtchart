@@ -356,9 +356,10 @@ public class Title implements ITitle, PaintListener {
 		boolean useStyleRanges = styleRanges != null;
 		int textWidth = getBounds().height;
 		int textHeight = getBounds().width;
-		// widen for italic font
-		int margin = textHeight / 10;
-		textWidth += margin;
+		if(getFont().getFontData()[0].getStyle() == SWT.ITALIC) {
+			int margin = textHeight / 10;
+			textWidth += margin;
+		}
 		/*
 		 * create image to draw text. If drawing text on rotated graphics
 		 * context instead of drawing rotated image, the text shape becomes a
