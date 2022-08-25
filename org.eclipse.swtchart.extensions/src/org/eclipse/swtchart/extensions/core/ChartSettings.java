@@ -717,6 +717,9 @@ public class ChartSettings implements IChartSettings {
 		if(!defaultFont.isDisposed()) {
 			defaultFont.dispose();
 		}
+		if(!titleFont.isDisposed()) {
+			titleFont.dispose();
+		}
 	}
 
 	private boolean isMacOS() {
