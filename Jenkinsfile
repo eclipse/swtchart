@@ -17,7 +17,7 @@ pipeline {
 			steps {
 				wrap([$class: 'Xvnc', takeScreenshot: false, useXauthority: true]) {
 					sh '''
-						mvn -f org.eclipse.swtchart.cbi/pom.xml -Peclipse-sign clean install
+						mvn -f org.eclipse.swtchart.cbi/pom.xml -T 1C -Peclipse-sign clean install
 					'''
 				}
 			}
