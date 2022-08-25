@@ -1,23 +1,23 @@
 pipeline {
-    agent {
-      kubernetes {
-        label 'centos-7'
-      }
-    }
-    triggers {
+	agent {
+		kubernetes {
+			label 'centos-7'
+		}
+	}
+	triggers {
 	cron('@midnight')
 	pollSCM('H/5 * * * *')
-    }
-    tools {
-        maven 'apache-maven-latest'
-        jdk 'adoptopenjdk-hotspot-jdk11-latest'
-    }
+	}
+	tools {
+		maven 'apache-maven-latest'
+		jdk 'adoptopenjdk-hotspot-jdk11-latest'
+	}
 	stages {
 		stage('Build') {
 			steps {
 				wrap([$class: 'Xvnc', takeScreenshot: false, useXauthority: true]) {
 					sh '''
-						mvn -f org.eclipse.swtchart.cbi/pom.xml -Peclipse-sign clean install
+						mvn -f org.eclipse.swtchart.cbi/pom.xml -T 1C -Peclipse-sign clean install
 					'''
 				}
 			}

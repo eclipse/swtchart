@@ -31,4 +31,4 @@ jobs:
     - name: Build with Maven
       uses: GabrielBB/xvfb-action@v1
       with:
-        run: mvn -f org.eclipse.swtchart.cbi/pom.xml clean install --batch-mode --no-transfer-progress
+        run: mvn -f org.eclipse.swtchart.cbi/pom.xml -T 1C verify --batch-mode --no-transfer-progress
