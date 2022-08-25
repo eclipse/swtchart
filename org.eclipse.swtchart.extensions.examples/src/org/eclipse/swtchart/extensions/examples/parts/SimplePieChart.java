@@ -39,7 +39,6 @@ public class SimplePieChart extends PieChart {
 	public SimplePieChart(Composite parent) {
 
 		super(parent, SWT.NONE);
-		setBackground(getDisplay().getSystemColor(SWT.COLOR_WHITE));
 		try {
 			initialize();
 		} catch(Exception e) {

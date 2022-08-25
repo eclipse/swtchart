@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2017, 2020 Lablicate GmbH.
+ * Copyright (c) 2017, 2022 Lablicate GmbH.
  *
  * This program and the accompanying materials are made
  * available under the terms of the Eclipse Public License 2.0
@@ -21,6 +21,7 @@ public abstract class AbstractBaseChartPaintListener implements IBaseChartPaintL
 
 	private BaseChart baseChart;
 	private Color foregroundColor;
+	private Color backgroundColor;
 	private boolean draw = true;
 
 	public AbstractBaseChartPaintListener(BaseChart baseChart) {
@@ -49,9 +50,23 @@ public abstract class AbstractBaseChartPaintListener implements IBaseChartPaintL
 	protected Color getForegroundColor() {
 
 		if(foregroundColor == null) {
-			return getBaseChart().getDisplay().getSystemColor(SWT.COLOR_BLACK);
+			return getBaseChart().getDisplay().getSystemColor(SWT.COLOR_LIST_FOREGROUND);
 		}
 		return foregroundColor;
+	}
+
+	@Override
+	public void setBackgroundColor(Color backgroundColor) {
+
+		this.backgroundColor = backgroundColor;
+	}
+
+	protected Color getBackgroundColor() {
+
+		if(backgroundColor == null) {
+			return getBaseChart().getDisplay().getSystemColor(SWT.COLOR_LIST_BACKGROUND);
+		}
+		return backgroundColor;
 	}
 
 	@Override
