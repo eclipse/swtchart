@@ -121,7 +121,7 @@ public class ScrollableChart extends Composite implements IScrollableChart, IEve
 	 * This list contains all scrollable charts
 	 * that are linked with the current editor.
 	 */
-	private List<ScrollableChart> linkedScrollableCharts = new ArrayList<ScrollableChart>();
+	private List<ScrollableChart> linkedScrollableCharts = new ArrayList<>();
 	//
 	private PositionMarker positionMarker;
 	private PlotCenterMarker plotCenterMarker;
@@ -573,8 +573,8 @@ public class ScrollableChart extends Composite implements IScrollableChart, IEve
 			 * Capture the compressed data.
 			 * The final size is not known yet.
 			 */
-			List<Double> xSeriesCompressed = new ArrayList<Double>();
-			List<Double> ySeriesCompressed = new ArrayList<Double>();
+			List<Double> xSeriesCompressed = new ArrayList<>();
+			List<Double> ySeriesCompressed = new ArrayList<>();
 			/*
 			 * First x,y value.
 			 */

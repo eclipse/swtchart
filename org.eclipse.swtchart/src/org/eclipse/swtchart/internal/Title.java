@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2008, 2019 SWTChart project.
+ * Copyright (c) 2008, 2022 SWTChart project.
  *
  * This program and the accompanying materials are made
  * available under the terms of the Eclipse Public License 2.0
@@ -69,6 +69,7 @@ public class Title implements ITitle, PaintListener {
 	 *            the parent composite
 	 */
 	public Title(Chart parent) {
+
 		this.chart = parent;
 		text = DEFAULT_TEXT;
 		isVisible = true;
@@ -122,7 +123,7 @@ public class Title implements ITitle, PaintListener {
 		if(font == null) {
 			this.font = defaultFont;
 		} else if(font.isDisposed()) {
-			throw new IllegalArgumentException(Messages.getString(Messages.DISPOSED_FONT_GIVEN)); 
+			throw new IllegalArgumentException(Messages.getString(Messages.DISPOSED_FONT_GIVEN));
 		} else {
 			this.font = font;
 		}
@@ -155,7 +156,7 @@ public class Title implements ITitle, PaintListener {
 		if(color == null) {
 			foreground = Display.getDefault().getSystemColor(DEFAULT_FOREGROUND);
 		} else if(color.isDisposed()) {
-			throw new IllegalArgumentException(Messages.getString(Messages.DISPOSED_COLOR_GIVEN)); 
+			throw new IllegalArgumentException(Messages.getString(Messages.DISPOSED_COLOR_GIVEN));
 		} else {
 			foreground = color;
 		}

@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2017, 2021 Lablicate GmbH.
+ * Copyright (c) 2017, 2022 Lablicate GmbH.
  *
  * This program and the accompanying materials are made
  * available under the terms of the Eclipse Public License 2.0
@@ -129,11 +129,11 @@ public class BaseChart extends AbstractExtendedChart implements IChartDataCoordi
 		 * Rectangle range selection.
 		 */
 		userSelection = new UserSelection();
-		customRangeSelectionHandlers = new ArrayList<ICustomSelectionHandler>();
-		customPointSelectionHandlers = new ArrayList<ICustomSelectionHandler>();
-		seriesModificationListeners = new ArrayList<ISeriesModificationListener>();
-		seriesStatusListeners = new ArrayList<ISeriesStatusListener>();
-		selectedSeriesIds = new HashSet<String>();
+		customRangeSelectionHandlers = new ArrayList<>();
+		customPointSelectionHandlers = new ArrayList<>();
+		seriesModificationListeners = new ArrayList<>();
+		seriesStatusListeners = new ArrayList<>();
+		selectedSeriesIds = new HashSet<>();
 		initializeEventProcessors();
 		/*
 		 * Create the default x and y axis.
@@ -165,27 +165,27 @@ public class BaseChart extends AbstractExtendedChart implements IChartDataCoordi
 		yAxisPrimary.setDrawAxisLine(true);
 		yAxisPrimary.setIntegerDataPointAxis(false);
 		//
-		handledSelectionEvents = new Stack<double[]>();
+		handledSelectionEvents = new Stack<>();
 		redoSelection = null;
 		//
-		dataShiftHistory = new HashMap<String, List<double[]>>();
+		dataShiftHistory = new HashMap<>();
 	}
 
 	private void initializeEventProcessors() {
 
-		registeredEvents = new HashMap<Integer, Map<Integer, Map<Integer, List<IEventProcessor>>>>();
+		registeredEvents = new HashMap<>();
 		initializeEvents();
 	}
 
 	private void initializeEvents() {
 
-		registeredEvents.put(EVENT_MOUSE_DOUBLE_CLICK, new HashMap<Integer, Map<Integer, List<IEventProcessor>>>());
-		registeredEvents.put(EVENT_MOUSE_WHEEL, new HashMap<Integer, Map<Integer, List<IEventProcessor>>>());
-		registeredEvents.put(EVENT_MOUSE_DOWN, new HashMap<Integer, Map<Integer, List<IEventProcessor>>>());
-		registeredEvents.put(EVENT_MOUSE_MOVE, new HashMap<Integer, Map<Integer, List<IEventProcessor>>>());
-		registeredEvents.put(EVENT_MOUSE_UP, new HashMap<Integer, Map<Integer, List<IEventProcessor>>>());
-		registeredEvents.put(EVENT_KEY_DOWN, new HashMap<Integer, Map<Integer, List<IEventProcessor>>>());
-		registeredEvents.put(EVENT_KEY_UP, new HashMap<Integer, Map<Integer, List<IEventProcessor>>>());
+		registeredEvents.put(EVENT_MOUSE_DOUBLE_CLICK, new HashMap<>());
+		registeredEvents.put(EVENT_MOUSE_WHEEL, new HashMap<>());
+		registeredEvents.put(EVENT_MOUSE_DOWN, new HashMap<>());
+		registeredEvents.put(EVENT_MOUSE_MOVE, new HashMap<>());
+		registeredEvents.put(EVENT_MOUSE_UP, new HashMap<>());
+		registeredEvents.put(EVENT_KEY_DOWN, new HashMap<>());
+		registeredEvents.put(EVENT_KEY_UP, new HashMap<>());
 	}
 
 	public void clearEventProcessors() {
@@ -208,7 +208,7 @@ public class BaseChart extends AbstractExtendedChart implements IChartDataCoordi
 		int button = handledEventProcessor.getButton();
 		Map<Integer, List<IEventProcessor>> buttonEventProcessors = eventProcessors.get(button);
 		if(buttonEventProcessors == null) {
-			buttonEventProcessors = new HashMap<Integer, List<IEventProcessor>>();
+			buttonEventProcessors = new HashMap<>();
 			eventProcessors.put(button, buttonEventProcessors);
 		}
 		/*
@@ -218,7 +218,7 @@ public class BaseChart extends AbstractExtendedChart implements IChartDataCoordi
 		int stateMask = handledEventProcessor.getStateMask();
 		List<IEventProcessor> handledEventProcessors = buttonEventProcessors.get(stateMask);
 		if(handledEventProcessors == null) {
-			handledEventProcessors = new ArrayList<IEventProcessor>();
+			handledEventProcessors = new ArrayList<>();
 		}
 		handledEventProcessors.add(handledEventProcessor);
 		buttonEventProcessors.put(stateMask, handledEventProcessors);

@@ -71,7 +71,7 @@ public class ChromatogramChart extends LineChart {
 		primaryAxisSettingsX.setGridLineStyle(LineStyle.NONE);
 		//
 		IPrimaryAxisSettings primaryAxisSettingsY = chartSettings.getPrimaryAxisSettingsY();
-		primaryAxisSettingsY.setTitle(Messages.getString(Messages.INTENSITY)); 
+		primaryAxisSettingsY.setTitle(Messages.getString(Messages.INTENSITY));
 		primaryAxisSettingsY.setDecimalFormat(new DecimalFormat(("0.0#E0"), new DecimalFormatSymbols(Locale.ENGLISH))); //$NON-NLS-1$
 		primaryAxisSettingsY.setColor(getDisplay().getSystemColor(SWT.COLOR_LIST_FOREGROUND));
 		primaryAxisSettingsY.setGridLineStyle(LineStyle.NONE);
@@ -79,7 +79,7 @@ public class ChromatogramChart extends LineChart {
 
 	private void addSecondaryAxisSet(IChartSettings chartSettings) {
 
-		ISecondaryAxisSettings secondaryAxisSettingsX = new SecondaryAxisSettings(Messages.getString(Messages.MINUTES), new MillisecondsToMinuteConverter()); 
+		ISecondaryAxisSettings secondaryAxisSettingsX = new SecondaryAxisSettings(Messages.getString(Messages.MINUTES), new MillisecondsToMinuteConverter());
 		secondaryAxisSettingsX.setPosition(Position.Primary);
 		secondaryAxisSettingsX.setDecimalFormat(new DecimalFormat(("0.00"), new DecimalFormatSymbols(Locale.ENGLISH))); //$NON-NLS-1$
 		secondaryAxisSettingsX.setColor(getDisplay().getSystemColor(SWT.COLOR_LIST_FOREGROUND));

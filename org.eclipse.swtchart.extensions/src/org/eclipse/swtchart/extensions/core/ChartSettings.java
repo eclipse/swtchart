@@ -86,8 +86,8 @@ public class ChartSettings implements IChartSettings {
 	//
 	private IPrimaryAxisSettings primaryAxisSettingsX = new PrimaryAxisSettings(BaseChart.DEFAULT_TITLE_X_AXIS);
 	private IPrimaryAxisSettings primaryAxisSettingsY = new PrimaryAxisSettings(BaseChart.DEFAULT_TITLE_Y_AXIS);
-	private List<ISecondaryAxisSettings> secondaryAxisSettingsListX = new ArrayList<ISecondaryAxisSettings>();
-	private List<ISecondaryAxisSettings> secondaryAxisSettingsListY = new ArrayList<ISecondaryAxisSettings>();
+	private List<ISecondaryAxisSettings> secondaryAxisSettingsListX = new ArrayList<>();
+	private List<ISecondaryAxisSettings> secondaryAxisSettingsListY = new ArrayList<>();
 	//
 	private int orientation = SWT.HORIZONTAL;
 	private Color background;

@@ -48,7 +48,7 @@ public class PieChart extends ScrollableChart {
 			 * Get the series data and apply the settings.
 			 */
 			try {
-				ICircularSeriesSettings pieSeriesSettings = (ICircularSeriesSettings)model.getSettings();
+				ICircularSeriesSettings pieSeriesSettings = model.getSettings();
 				//
 				IChartSettings chartSettings = getChartSettings();
 				//
@@ -84,7 +84,7 @@ public class PieChart extends ScrollableChart {
 				IHandledEventProcessor circularHandledEventProcessor = new CircularMouseDownEvent(this);
 				chartSettings.addHandledEventProcessor(circularHandledEventProcessor);
 				applySettings(chartSettings);
-				ICircularSeries<?> pieSeries = (ICircularSeries<?>)createCircularSeries(model, pieSeriesSettings);
+				ICircularSeries<?> pieSeries = createCircularSeries(model, pieSeriesSettings);
 				//
 				baseChart.applyCircularSeriesSettings(pieSeries, pieSeriesSettings);
 			} catch(SeriesException e) {

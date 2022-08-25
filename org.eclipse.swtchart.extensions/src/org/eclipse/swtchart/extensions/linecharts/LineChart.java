@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2017, 2020 Lablicate GmbH.
+ * Copyright (c) 2017, 2022 Lablicate GmbH.
  *
  * This program and the accompanying materials are made
  * available under the terms of the Eclipse Public License 2.0
@@ -55,10 +55,12 @@ public class LineChart extends ScrollableChart {
 	public static final int NO_COMPRESSION = Integer.MAX_VALUE;
 
 	public LineChart() {
+
 		super();
 	}
 
 	public LineChart(Composite parent, int style) {
+
 		super(parent, style);
 	}
 
@@ -84,7 +86,7 @@ public class LineChart extends ScrollableChart {
 		/*
 		 * Suspend the update when adding new data to improve the performance.
 		 */
-		if(lineSeriesDataList != null && lineSeriesDataList.size() > 0) {
+		if(lineSeriesDataList != null && !lineSeriesDataList.isEmpty()) {
 			BaseChart baseChart = getBaseChart();
 			baseChart.suspendUpdate(true);
 			for(ILineSeriesData lineSeriesData : lineSeriesDataList) {

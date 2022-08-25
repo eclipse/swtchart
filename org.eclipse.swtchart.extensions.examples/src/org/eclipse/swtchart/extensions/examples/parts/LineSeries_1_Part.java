@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2017, 2020 Lablicate GmbH.
+ * Copyright (c) 2017, 2022 Lablicate GmbH.
  *
  * This program and the accompanying materials are made
  * available under the terms of the Eclipse Public License 2.0
@@ -59,7 +59,7 @@ public class LineSeries_1_Part extends ChromatogramChart {
 		/*
 		 * Create series.
 		 */
-		List<ILineSeriesData> lineSeriesDataList = new ArrayList<ILineSeriesData>();
+		List<ILineSeriesData> lineSeriesDataList = new ArrayList<>();
 		//
 		ISeriesData seriesData;
 		ILineSeriesData lineSeriesData;
@@ -229,7 +229,7 @@ public class LineSeries_1_Part extends ChromatogramChart {
 		 */
 		IPlotArea plotArea = getBaseChart().getPlotArea();
 		LabelMarker labelMarker = new LabelMarker(getBaseChart());
-		List<String> labels = new ArrayList<String>();
+		List<String> labels = new ArrayList<>();
 		labels.add("2-Methoxy-4-vinylphenol");
 		labels.add("Ethanone, 1-(2-hydroxy-5-methylphenyl)-");
 		labels.add("4-Hydroxy-2-methylacetophenone");
