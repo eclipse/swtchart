@@ -1,17 +1,17 @@
 pipeline {
-    agent {
-      kubernetes {
-        label 'centos-7'
-      }
-    }
-    triggers {
+	agent {
+		kubernetes {
+			label 'centos-7'
+		}
+	}
+	triggers {
 	cron('@midnight')
 	pollSCM('H/5 * * * *')
-    }
-    tools {
-        maven 'apache-maven-latest'
-        jdk 'adoptopenjdk-hotspot-jdk11-latest'
-    }
+	}
+	tools {
+		maven 'apache-maven-latest'
+		jdk 'adoptopenjdk-hotspot-jdk11-latest'
+	}
 	stages {
 		stage('Build') {
 			steps {
