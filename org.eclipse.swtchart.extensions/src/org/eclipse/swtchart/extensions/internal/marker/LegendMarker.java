@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2017, 2021 Lablicate GmbH.
+ * Copyright (c) 2017, 2022 Lablicate GmbH.
  *
  * This program and the accompanying materials are made
  * available under the terms of the Eclipse Public License 2.0
@@ -52,6 +52,7 @@ public class LegendMarker extends AbstractPositionPaintListener implements IPosi
 		if(isDraw()) {
 			stringBuilder.delete(0, stringBuilder.length());
 			e.gc.setForeground(getForegroundColor());
+			e.gc.setBackground(getBackgroundColor());
 			//
 			BaseChart baseChart = getBaseChart();
 			double primaryValueX = baseChart.getSelectedPrimaryAxisValue(getX(), IExtendedChart.X_AXIS);

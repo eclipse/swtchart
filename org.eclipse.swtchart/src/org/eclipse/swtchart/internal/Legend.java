@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2008, 2020 SWTChart project.
+ * Copyright (c) 2008, 2022 SWTChart project.
  *
  * This program and the accompanying materials are made
  * available under the terms of the Eclipse Public License 2.0
@@ -57,9 +57,9 @@ public class Legend extends Composite implements ILegend, PaintListener {
 	/** the line width */
 	private static final int LINE_WIDTH = 2;
 	/** the default foreground */
-	private static final Color DEFAULT_FOREGROUND = Display.getDefault().getSystemColor(SWT.COLOR_BLACK);
+	private static final Color DEFAULT_FOREGROUND = Display.getDefault().getSystemColor(SWT.COLOR_LIST_FOREGROUND);
 	/** the default background */
-	private static final Color DEFAULT_BACKGROUND = Display.getDefault().getSystemColor(SWT.COLOR_WHITE);
+	private static final Color DEFAULT_BACKGROUND = Display.getDefault().getSystemColor(SWT.COLOR_LIST_BACKGROUND);
 	/** the default font */
 	private Font defaultFont;
 	/** the default font size */

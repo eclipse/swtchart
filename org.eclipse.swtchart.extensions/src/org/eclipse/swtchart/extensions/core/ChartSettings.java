@@ -86,8 +86,8 @@ public class ChartSettings implements IChartSettings {
 	//
 	private IPrimaryAxisSettings primaryAxisSettingsX = new PrimaryAxisSettings(BaseChart.DEFAULT_TITLE_X_AXIS);
 	private IPrimaryAxisSettings primaryAxisSettingsY = new PrimaryAxisSettings(BaseChart.DEFAULT_TITLE_Y_AXIS);
-	private List<ISecondaryAxisSettings> secondaryAxisSettingsListX = new ArrayList<ISecondaryAxisSettings>();
-	private List<ISecondaryAxisSettings> secondaryAxisSettingsListY = new ArrayList<ISecondaryAxisSettings>();
+	private List<ISecondaryAxisSettings> secondaryAxisSettingsListX = new ArrayList<>();
+	private List<ISecondaryAxisSettings> secondaryAxisSettingsListY = new ArrayList<>();
 	//
 	private int orientation = SWT.HORIZONTAL;
 	private Color background;
@@ -129,21 +129,29 @@ public class ChartSettings implements IChartSettings {
 		//
 		colorHintRangeSelector = display.getSystemColor(SWT.COLOR_RED);
 		//
-		titleColor = display.getSystemColor(SWT.COLOR_WHITE);
+		titleColor = display.getSystemColor(SWT.COLOR_TITLE_FOREGROUND);
 		titleFont = defaultFont;
 		//
-		background = display.getSystemColor(SWT.COLOR_WHITE);
-		backgroundChart = display.getSystemColor(SWT.COLOR_WHITE);
-		backgroundPlotArea = display.getSystemColor(SWT.COLOR_WHITE);
+		background = display.getSystemColor(SWT.COLOR_LIST_BACKGROUND);
+		backgroundChart = display.getSystemColor(SWT.COLOR_LIST_BACKGROUND);
+		backgroundPlotArea = display.getSystemColor(SWT.COLOR_LIST_BACKGROUND);
 		rangeRestriction.setZeroX(true);
 		rangeRestriction.setZeroY(true);
 		rangeRestriction.setRestrictFrame(true);
 		//
-		colorPositionMarker = display.getSystemColor(SWT.COLOR_DARK_GRAY);
-		colorPlotCenterMarker = display.getSystemColor(SWT.COLOR_DARK_GRAY);
-		colorLegendMarker = display.getSystemColor(SWT.COLOR_DARK_GRAY);
-		colorAxisZeroMarker = display.getSystemColor(SWT.COLOR_DARK_GRAY);
-		colorSeriesLabelMarker = display.getSystemColor(SWT.COLOR_DARK_GRAY);
+		if(Display.isSystemDarkTheme()) {
+			colorPositionMarker = display.getSystemColor(SWT.COLOR_GRAY);
+			colorPlotCenterMarker = display.getSystemColor(SWT.COLOR_GRAY);
+			colorLegendMarker = display.getSystemColor(SWT.COLOR_GRAY);
+			colorAxisZeroMarker = display.getSystemColor(SWT.COLOR_GRAY);
+			colorSeriesLabelMarker = display.getSystemColor(SWT.COLOR_GRAY);
+		} else {
+			colorPositionMarker = display.getSystemColor(SWT.COLOR_DARK_GRAY);
+			colorPlotCenterMarker = display.getSystemColor(SWT.COLOR_DARK_GRAY);
+			colorLegendMarker = display.getSystemColor(SWT.COLOR_DARK_GRAY);
+			colorAxisZeroMarker = display.getSystemColor(SWT.COLOR_DARK_GRAY);
+			colorSeriesLabelMarker = display.getSystemColor(SWT.COLOR_DARK_GRAY);
+		}
 		/*
 		 * Default menu entries.
 		 */
@@ -716,6 +724,9 @@ public class ChartSettings implements IChartSettings {
 
 		if(!defaultFont.isDisposed()) {
 			defaultFont.dispose();
+		}
+		if(!titleFont.isDisposed()) {
+			titleFont.dispose();
 		}
 	}
 

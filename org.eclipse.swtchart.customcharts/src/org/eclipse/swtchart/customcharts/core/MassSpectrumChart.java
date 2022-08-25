@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2017, 2020 Lablicate GmbH.
+ * Copyright (c) 2017, 2022 Lablicate GmbH.
  *
  * This program and the accompanying materials are made
  * available under the terms of the Eclipse Public License 2.0
@@ -85,8 +85,6 @@ public class MassSpectrumChart extends BarChart {
 
 		if(customLabels != null) {
 			this.customLabels = customLabels;
-		} else {
-			customLabels = new HashMap<Double, String>();
 		}
 	}
 
@@ -95,7 +93,7 @@ public class MassSpectrumChart extends BarChart {
 		numberOfHighestIntensitiesToLabel = 5;
 		barSeriesIonComparator = new BarSeriesIonComparator();
 		labelOption = LabelOption.EXACT;
-		customLabels = new HashMap<Double, String>();
+		customLabels = new HashMap<>();
 		//
 		IChartSettings chartSettings = getChartSettings();
 		chartSettings.setOrientation(SWT.HORIZONTAL);
@@ -123,12 +121,10 @@ public class MassSpectrumChart extends BarChart {
 		IPrimaryAxisSettings primaryAxisSettingsX = chartSettings.getPrimaryAxisSettingsX();
 		primaryAxisSettingsX.setTitle("m/z"); //$NON-NLS-1$
 		primaryAxisSettingsX.setDecimalFormat(new DecimalFormat(("0.0##"), new DecimalFormatSymbols(Locale.ENGLISH))); //$NON-NLS-1$
-		primaryAxisSettingsX.setColor(getDisplay().getSystemColor(SWT.COLOR_BLACK));
 		//
 		IPrimaryAxisSettings primaryAxisSettingsY = chartSettings.getPrimaryAxisSettingsY();
 		primaryAxisSettingsY.setTitle(Messages.getString(Messages.INTENSITY));
 		primaryAxisSettingsY.setDecimalFormat(new DecimalFormat(("0.0#E0"), new DecimalFormatSymbols(Locale.ENGLISH))); //$NON-NLS-1$
-		primaryAxisSettingsY.setColor(getDisplay().getSystemColor(SWT.COLOR_BLACK));
 	}
 
 	private void addSecondaryAxisSet(IChartSettings chartSettings) {
@@ -136,7 +132,6 @@ public class MassSpectrumChart extends BarChart {
 		ISecondaryAxisSettings secondaryAxisSettingsY = new SecondaryAxisSettings(Messages.getString(Messages.RELATIVE_INTENSITY), new PercentageConverter(SWT.VERTICAL, true));
 		secondaryAxisSettingsY.setPosition(Position.Secondary);
 		secondaryAxisSettingsY.setDecimalFormat(new DecimalFormat(("0.00"), new DecimalFormatSymbols(Locale.ENGLISH))); //$NON-NLS-1$
-		secondaryAxisSettingsY.setColor(getDisplay().getSystemColor(SWT.COLOR_BLACK));
 		chartSettings.getSecondaryAxisSettingsListY().add(secondaryAxisSettingsY);
 	}
 
@@ -190,7 +185,7 @@ public class MassSpectrumChart extends BarChart {
 
 		Point point = barSeriesIon.getPoint();
 		String label = getLabel(barSeriesIon.getMz());
-		boolean negative = (barSeriesIon.getIntensity() < 0) ? true : false;
+		boolean negative = (barSeriesIon.getIntensity() < 0);
 		Point labelSize = e.gc.textExtent(label);
 		int x = (int)(point.x + 0.5d - labelSize.x / 2.0d);
 		int y = point.y;
@@ -225,7 +220,7 @@ public class MassSpectrumChart extends BarChart {
 
 	private List<BarSeriesIon> getBarSeriesIonList() {
 
-		List<BarSeriesIon> barSeriesIons = new ArrayList<BarSeriesIon>();
+		List<BarSeriesIon> barSeriesIons = new ArrayList<>();
 		//
 		int widthPlotArea = getBaseChart().getPlotArea().getSize().x;
 		ISeries<?>[] series = getBaseChart().getSeriesSet().getSeries();

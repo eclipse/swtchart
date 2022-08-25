@@ -248,7 +248,6 @@ public class ComplexPieChart extends PieChart {
 	public ComplexPieChart(Composite parent) {
 
 		super(parent, SWT.NONE);
-		setBackground(getDisplay().getSystemColor(SWT.COLOR_WHITE));
 		try {
 			initialize();
 		} catch(Exception e) {

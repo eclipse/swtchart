@@ -30,7 +30,7 @@ import org.eclipse.swtchart.extensions.core.BaseChart;
 
 public class LabelMarker extends AbstractBaseChartPaintListener implements IBaseChartPaintListener {
 
-	private Map<Integer, String> labels = new HashMap<Integer, String>();
+	private Map<Integer, String> labels = new HashMap<>();
 	private int indexSeries = -1;
 	private ISeries<?> serie;
 	private int orientation;
@@ -42,7 +42,7 @@ public class LabelMarker extends AbstractBaseChartPaintListener implements IBase
 
 	public void setLabels(List<String> labels, int indexSeries, int orientation) {
 
-		Map<Integer, String> labelsMap = new HashMap<Integer, String>();
+		Map<Integer, String> labelsMap = new HashMap<>();
 		int index = 0;
 		for(String label : labels) {
 			labelsMap.put(index++, label);
@@ -59,7 +59,7 @@ public class LabelMarker extends AbstractBaseChartPaintListener implements IBase
 	public void setLabels(Map<Integer, String> labels, int orientation) {
 
 		this.orientation = orientation;
-		this.labels = (labels != null) ? labels : new HashMap<Integer, String>();
+		this.labels = (labels != null) ? labels : new HashMap<>();
 	}
 
 	public void clear() {

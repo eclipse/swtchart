@@ -62,11 +62,19 @@ public abstract class AbstractAxisSettings implements IAxisSettings {
 		this.description = description;
 		titleVisible = true;
 		decimalFormat = new DecimalFormat();
-		color = Display.getDefault().getSystemColor(SWT.COLOR_BLACK);
+		if(Display.isSystemDarkTheme()) {
+			color = Display.getDefault().getSystemColor(SWT.COLOR_WHITE);
+		} else {
+			color = Display.getDefault().getSystemColor(SWT.COLOR_BLACK);
+		}
 		titleFont = defaultFont;
 		visible = true;
 		position = Position.Primary;
-		gridColor = Display.getDefault().getSystemColor(SWT.COLOR_GRAY);
+		if(Display.isSystemDarkTheme()) {
+			gridColor = Display.getDefault().getSystemColor(SWT.COLOR_DARK_GRAY);
+		} else {
+			gridColor = Display.getDefault().getSystemColor(SWT.COLOR_GRAY);
+		}
 		gridLineStyle = LineStyle.DOT;
 		enableLogScale = false;
 		logScaleBase = 10.0d;

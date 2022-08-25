@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2020 SWTChart project.
+ * Copyright (c) 2020, 2022 SWTChart project.
  *
  * This program and the accompanying materials are made
  * available under the terms of the Eclipse Public License 2.0
@@ -12,9 +12,7 @@
  *******************************************************************************/
 package org.eclipse.swtchart.extensions.piecharts;
 
-import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Display;
 import org.eclipse.swtchart.ICircularSeries;
 import org.eclipse.swtchart.extensions.core.BaseChart;
 import org.eclipse.swtchart.extensions.core.IChartSettings;
@@ -50,7 +48,7 @@ public class PieChart extends ScrollableChart {
 			 * Get the series data and apply the settings.
 			 */
 			try {
-				ICircularSeriesSettings pieSeriesSettings = (ICircularSeriesSettings)model.getSettings();
+				ICircularSeriesSettings pieSeriesSettings = model.getSettings();
 				//
 				IChartSettings chartSettings = getChartSettings();
 				//
@@ -70,7 +68,6 @@ public class PieChart extends ScrollableChart {
 				primaryAxisSettingsY.setVisible(false);
 				//
 				chartSettings.setShowLegendMarker(true);
-				chartSettings.setColorLegendMarker(Display.getDefault().getSystemColor(SWT.COLOR_BLACK));
 				//
 				IHandledEventProcessor handledEventProcessor = null;
 				//
@@ -87,7 +84,7 @@ public class PieChart extends ScrollableChart {
 				IHandledEventProcessor circularHandledEventProcessor = new CircularMouseDownEvent(this);
 				chartSettings.addHandledEventProcessor(circularHandledEventProcessor);
 				applySettings(chartSettings);
-				ICircularSeries<?> pieSeries = (ICircularSeries<?>)createCircularSeries(model, pieSeriesSettings);
+				ICircularSeries<?> pieSeries = createCircularSeries(model, pieSeriesSettings);
 				//
 				baseChart.applyCircularSeriesSettings(pieSeries, pieSeriesSettings);
 			} catch(SeriesException e) {
