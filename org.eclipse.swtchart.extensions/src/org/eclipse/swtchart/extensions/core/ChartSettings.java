@@ -102,6 +102,7 @@ public class ChartSettings implements IChartSettings {
 	private Color colorPlotCenterMarker;
 	private boolean showLegendMarker = false;
 	private Color colorLegendMarker;
+	boolean useSeriesLabelDescription = false; // Id is used by default.
 	private boolean showAxisZeroMarker = false;
 	private Color colorAxisZeroMarker;
 	private boolean showSeriesLabelMarker = false;
@@ -621,6 +622,18 @@ public class ChartSettings implements IChartSettings {
 	public void setColorSeriesLabelMarker(Color colorSeriesLabelMarker) {
 
 		this.colorSeriesLabelMarker = colorSeriesLabelMarker;
+	}
+
+	@Override
+	public boolean isUseSeriesLabelDescription() {
+
+		return useSeriesLabelDescription;
+	}
+
+	@Override
+	public void setUseSeriesLabelDescription(boolean useSeriesLabelDescription) {
+
+		this.useSeriesLabelDescription = useSeriesLabelDescription;
 	}
 
 	@Override

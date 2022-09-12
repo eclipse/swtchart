@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2017, 2020 Lablicate GmbH.
+ * Copyright (c) 2017, 2022 Lablicate GmbH.
  *
  * This program and the accompanying materials are made
  * available under the terms of the Eclipse Public License 2.0
@@ -24,8 +24,16 @@ import org.eclipse.swtchart.extensions.marker.IBaseChartPaintListener;
 
 public class SeriesLabelMarker extends AbstractBaseChartPaintListener implements IBaseChartPaintListener {
 
+	private boolean useDescription = false;
+
 	public SeriesLabelMarker(BaseChart baseChart) {
+
 		super(baseChart);
+	}
+
+	public void setUseDescription(boolean useDescription) {
+
+		this.useDescription = useDescription;
 	}
 
 	@Override
@@ -36,8 +44,9 @@ public class SeriesLabelMarker extends AbstractBaseChartPaintListener implements
 			ISeriesSet seriesSet = baseChart.getSeriesSet();
 			ISeries<?>[] series = seriesSet.getSeries();
 			for(ISeries<?> serie : series) {
-				String label = serie.getId();
-				ISeriesSettings seriesSettings = baseChart.getSeriesSettings(label);
+				String id = serie.getId();
+				String label = useDescription ? serie.getDescription() : id;
+				ISeriesSettings seriesSettings = baseChart.getSeriesSettings(id);
 				if(seriesSettings.isVisible()) {
 					/*
 					 * Only draw is series is visible.

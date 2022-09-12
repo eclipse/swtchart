@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2017, 2020 Lablicate GmbH.
+ * Copyright (c) 2017, 2022 Lablicate GmbH.
  *
  * This program and the accompanying materials are made
  * available under the terms of the Eclipse Public License 2.0
@@ -178,6 +178,10 @@ public interface IChartSettings {
 	boolean isShowSeriesLabelMarker();
 
 	void setShowSeriesLabelMarker(boolean showSeriesLabelMarker);
+
+	boolean isUseSeriesLabelDescription();
+
+	void setUseSeriesLabelDescription(boolean useSeriesLabelDescription);
 
 	Color getColorSeriesLabelMarker();
 

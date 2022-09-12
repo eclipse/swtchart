@@ -869,6 +869,7 @@ public class ScrollableChart extends Composite implements IScrollableChart, IEve
 		//
 		seriesLabelMarker = new SeriesLabelMarker(baseChart);
 		seriesLabelMarker.setForegroundColor(chartSettings.getColorSeriesLabelMarker());
+		seriesLabelMarker.setUseDescription(chartSettings.isUseSeriesLabelDescription());
 		plotArea.addCustomPaintListener(seriesLabelMarker);
 		//
 		if(chartSettings.isShowSeriesLabelMarker()) {
