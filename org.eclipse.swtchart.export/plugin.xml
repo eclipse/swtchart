@@ -14,7 +14,10 @@
       </MenuItemSupplier>
       <MenuItemSupplier
             MenuEntry="org.eclipse.swtchart.export.menu.bitmap.PNGExportHandler">
-      </MenuItemSupplier>      
+      </MenuItemSupplier>
+      <MenuItemSupplier
+            MenuEntry="org.eclipse.swtchart.export.menu.bitmap.ClipboardExportHandler">
+      </MenuItemSupplier>            
       <MenuItemSupplier
             MenuEntry="org.eclipse.swtchart.export.menu.text.CSVExportHandler">
       </MenuItemSupplier>      

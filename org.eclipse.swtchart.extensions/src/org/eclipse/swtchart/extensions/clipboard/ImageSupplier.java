@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2017, 2021 Lablicate GmbH.
+ * Copyright (c) 2017, 2022 Lablicate GmbH.
  *
  * This program and the accompanying materials are made
  * available under the terms of the Eclipse Public License 2.0
@@ -10,7 +10,7 @@
  * Contributors:
  * Dr. Philip Wenig - initial API and implementation
  *******************************************************************************/
-package org.eclipse.swtchart.export.images;
+package org.eclipse.swtchart.extensions.clipboard;
 
 import org.eclipse.swt.graphics.GC;
 import org.eclipse.swt.graphics.Image;
@@ -24,7 +24,9 @@ import org.eclipse.swtchart.extensions.core.BaseChart;
 
 public class ImageSupplier {
 
-	// Image data provider used locally to represent chart image
+	/*
+	 * Image data provider used locally to represent chart image
+	 */
 	private class ChartImageDataProvider implements ImageDataProvider {
 
 		private ImageData imageData;
@@ -38,8 +40,9 @@ public class ImageSupplier {
 		@Override
 		public ImageData getImageData(int zoom) {
 
-			if(zoom != 100)
+			if(zoom != 100) {
 				return null;
+			}
 			return imageData;
 		}
 	}
@@ -82,23 +85,35 @@ public class ImageSupplier {
 	 */
 	public ImageData getImageData(Chart chart) {
 
-		// Force to redraw chart immediately to be sure that any
-		// previous Shell dialog won't be a part of the copied image
+		/*
+		 * Force to redraw chart immediately to be sure that any
+		 * previous Shell dialog won't be a part of the copied image
+		 */
 		chart.redraw();
 		chart.update();
-		// Chart size
+		/*
+		 * Chart size
+		 */
 		Point baseChartSize = chart.getSize();
-		// Create the image provider
+		/*
+		 * Create the image provider
+		 */
 		ChartImageDataProvider chartImageDataProvider = new ChartImageDataProvider(baseChartSize.x, baseChartSize.y);
-		// Surround main stuff with try/finally to prevent memory leakage
+		/*
+		 * Surround main stuff with try/finally to prevent memory leakage
+		 */
 		Image image = null;
 		GC gc = null;
 		try {
-			// Copy chart into the image
+			/*
+			 * Copy chart into the image
+			 */
 			image = new Image(chart.getDisplay(), chartImageDataProvider);
 			gc = new GC(chart);
 			gc.copyArea(image, 0, 0);
-			// Retrieve image data
+			/*
+			 * Retrieve image data
+			 */
 			ImageData imageData = image.getImageData();
 			return imageData;
 		} finally {

@@ -14,6 +14,7 @@ package org.eclipse.swtchart.export.images;
 
 import org.eclipse.swt.graphics.ImageData;
 import org.eclipse.swt.widgets.Display;
+import org.eclipse.swtchart.extensions.clipboard.ImageSupplier;
 import org.eclipse.swtchart.extensions.core.ScrollableChart;
 
 public class ImageFactory<T extends ScrollableChart> {

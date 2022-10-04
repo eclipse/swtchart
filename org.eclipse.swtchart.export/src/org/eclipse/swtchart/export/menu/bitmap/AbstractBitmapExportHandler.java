@@ -27,7 +27,7 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swtchart.export.core.AbstractSeriesExportHandler;
 import org.eclipse.swtchart.export.core.BitmapExportSettingsDialog;
 import org.eclipse.swtchart.export.core.ISeriesExportConverter;
-import org.eclipse.swtchart.export.images.ImageSupplier;
+import org.eclipse.swtchart.extensions.clipboard.ImageSupplier;
 import org.eclipse.swtchart.extensions.core.BaseChart;
 import org.eclipse.swtchart.extensions.core.ResourceSupport;
 import org.eclipse.swtchart.extensions.core.ScrollableChart;
@@ -121,6 +121,7 @@ public abstract class AbstractBitmapExportHandler extends AbstractSeriesExportHa
 				baseChart.updateLayout();
 			}
 		});
+		//
 		imageShell.open();
 		while(!imageShell.isDisposed()) {
 			if(!display.readAndDispatch()) {

@@ -24,7 +24,7 @@ import org.eclipse.swt.printing.PrinterData;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swtchart.export.core.AbstractSeriesExportHandler;
 import org.eclipse.swtchart.export.core.ISeriesExportConverter;
-import org.eclipse.swtchart.export.images.ImageSupplier;
+import org.eclipse.swtchart.extensions.clipboard.ImageSupplier;
 import org.eclipse.swtchart.extensions.core.ResourceSupport;
 import org.eclipse.swtchart.extensions.core.ScrollableChart;
 

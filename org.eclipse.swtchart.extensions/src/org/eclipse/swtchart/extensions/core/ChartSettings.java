@@ -25,6 +25,7 @@ import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Font;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swtchart.Constants;
+import org.eclipse.swtchart.extensions.events.CopyToClipboardEvent;
 import org.eclipse.swtchart.extensions.events.IHandledEventProcessor;
 import org.eclipse.swtchart.extensions.events.MouseDownEvent;
 import org.eclipse.swtchart.extensions.events.MouseMoveCursorEvent;
@@ -190,6 +191,7 @@ public class ChartSettings implements IChartSettings {
 		handledEventProcessors.add(new MouseMoveCursorEvent());
 		handledEventProcessors.add(new MouseUpEvent());
 		handledEventProcessors.add(new UndoRedoEvent());
+		handledEventProcessors.add(new CopyToClipboardEvent());
 	}
 
 	@Override
