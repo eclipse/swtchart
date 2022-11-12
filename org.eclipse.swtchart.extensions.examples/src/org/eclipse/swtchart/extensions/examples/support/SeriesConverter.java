@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2017, 2019 Lablicate GmbH.
+ * Copyright (c) 2017, 2022 Lablicate GmbH.
  *
  * This program and the accompanying materials are made
  * available under the terms of the Eclipse Public License 2.0
@@ -17,6 +17,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import org.eclipse.swtchart.extensions.core.ISeriesData;
 import org.eclipse.swtchart.extensions.core.SeriesData;
@@ -64,6 +65,8 @@ public class SeriesConverter {
 	public static final String SCATTER_SERIES_2_7 = "ScatterSeries2_7";
 	public static final String SCATTER_SERIES_2_8 = "ScatterSeries2_8";
 	public static final String SCATTER_SERIES_2_9 = "ScatterSeries2_9";
+	//
+	public static final String BOXPLOT_SERIES_1 = "BoxPlotSeries1";
 	//
 	public static final String MEASUREMENT_SERIES_1_READINGS = "Measurement1_Readings";
 	public static final String MEASUREMENT_SERIES_1_REGRESSION = "Measurement1_Regression";
@@ -172,6 +175,38 @@ public class SeriesConverter {
 				}
 			}
 		}
+		return scatterSeriesList;
+	}
+
+	public static List<ISeriesData> getSeriesBoxPlot(String fileName) {
+
+		List<ISeriesData> scatterSeriesList = new ArrayList<ISeriesData>();
+		try (BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(SeriesConverter.class.getResourceAsStream(fileName)))) {
+			String line;
+			while((line = bufferedReader.readLine()) != null) {
+				String[] values = line.split("\t");
+				if(values.length == 2) {
+					Random random = new Random();
+					int trace = Integer.parseInt(values[0].trim());
+					String id = "Trace " + Integer.toString(trace);
+					double x = trace;
+					String[] yValues = values[1].trim().split(",");
+					int size = yValues.length;
+					double[] xSeries = new double[size];
+					double[] ySeries = new double[size];
+					for(int i = 0; i < size; i++) {
+						int sign = random.nextDouble() > 0.5d ? 1 : -1;
+						double offset = (random.nextDouble() / 10.0d);
+						xSeries[i] = x + offset * sign;
+						ySeries[i] = Double.parseDouble(yValues[i].trim());
+					}
+					ISeriesData seriesData = new SeriesData(xSeries, ySeries, id);
+					scatterSeriesList.add(seriesData);
+				}
+			}
+		} catch(Exception e) {
+		}
+		//
 		return scatterSeriesList;
 	}
 
