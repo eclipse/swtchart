@@ -40,7 +40,7 @@ public class DemoBoxPlotChart {
 		Display display = new Display();
 		Shell shell = new Shell(display);
 		shell.setText("Box Plot Chart");
-		shell.setSize(300, 300);
+		shell.setSize(1024, 768);
 		shell.setLayout(new FillLayout());
 		//
 		BoxPlotChart boxPlotChart = new BoxPlotChart(shell, SWT.NONE);
@@ -60,8 +60,10 @@ public class DemoBoxPlotChart {
 		rangeRestriction.setExtendMinY(0.05d);
 		rangeRestriction.setExtendMaxY(0.05d);
 		IPrimaryAxisSettings primaryAxisSettingsX = chartSettings.getPrimaryAxisSettingsX();
-		primaryAxisSettingsX.setVisible(false);
+//		primaryAxisSettingsX.setVisible(false);
 		primaryAxisSettingsX.setGridLineStyle(LineStyle.NONE);
+		primaryAxisSettingsX.setEnableCategory(true);
+		primaryAxisSettingsX.setCategorySeries(new String[]{"Trace 1", "Trace 2"});;
 		boxPlotChart.applySettings(chartSettings);
 		/*
 		 * Data
