@@ -594,17 +594,7 @@ public class Axis implements IAxis {
 		return getPixelCoordinate(dataCoordinate, min, max);
 	}
 
-	/**
-	 * Gets the pixel coordinate corresponding to the given data coordinate.
-	 * 
-	 * @param dataCoordinate
-	 *            the data coordinate
-	 * @param lower
-	 *            the min value of range
-	 * @param upper
-	 *            the max value of range
-	 * @return the pixel coordinate on plot area
-	 */
+	@Override
 	public int getPixelCoordinate(double dataCoordinate, double lower, double upper) {
 
 		int pixelCoordinate;

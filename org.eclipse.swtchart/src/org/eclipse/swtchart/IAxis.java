@@ -228,6 +228,19 @@ public interface IAxis {
 	int getPixelCoordinate(double dataCoordinate);
 
 	/**
+	 * Gets the pixel coordinate corresponding to the given data coordinate.
+	 * 
+	 * @param dataCoordinate
+	 *            the data coordinate
+	 * @param lower
+	 *            the min value of range
+	 * @param upper
+	 *            the max value of range
+	 * @return the pixel coordinate on plot area
+	 */
+	int getPixelCoordinate(double dataCoordinate, double lower, double upper);
+
+	/**
 	 * Gets the data coordinate corresponding to the given pixel coordinate on
 	 * plot area.
 	 * 
