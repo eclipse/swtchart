@@ -62,7 +62,7 @@ public class DemoBoxPlotChart {
 		rangeRestriction.setExtendMinY(0.05d);
 		rangeRestriction.setExtendMaxY(0.05d);
 		IPrimaryAxisSettings primaryAxisSettingsX = chartSettings.getPrimaryAxisSettingsX();
-		primaryAxisSettingsX.setVisible(true);
+//		primaryAxisSettingsX.setVisible(true);
 		primaryAxisSettingsX.setGridLineStyle(LineStyle.NONE);
 //		primaryAxisSettingsX.setEnableCategory(true);
 //		primaryAxisSettingsX.setCategorySeries(new String[]{"Trace 1", "Trace 2"});;

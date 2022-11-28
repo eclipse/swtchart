@@ -12,29 +12,18 @@
  *******************************************************************************/
 package org.eclipse.swtchart.extensions.marker;
 
-import java.lang.reflect.Array;
 import java.math.BigDecimal;
 import java.util.Arrays;
-import java.util.Iterator;
 
-import org.eclipse.jface.viewers.DecoratingStyledCellLabelProvider;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.events.PaintEvent;import org.eclipse.swt.graphics.Color;
+import org.eclipse.swt.events.PaintEvent;
 import org.eclipse.swt.graphics.GC;
 import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.widgets.Display;
-import org.eclipse.swtchart.IErrorBar;
 import org.eclipse.swtchart.ISeries;
 import org.eclipse.swtchart.ISeriesSet;
 import org.eclipse.swtchart.extensions.core.BaseChart;
-import org.eclipse.swtchart.extensions.core.IChartSettings;
-import org.eclipse.swtchart.internal.axis.Axis;
-import org.eclipse.swt.graphics.GC;
-import org.eclipse.swtchart.IErrorBar;
-import org.eclipse.swtchart.IErrorBar.ErrorBarType;
-import org.eclipse.swtchart.ISeries;
-import org.eclipse.swtchart.ISeriesSet;
-import org.eclipse.swtchart.extensions.core.BaseChart;
+import org.eclipse.swtchart.IAxis;
 
 public class BoxPlotMarker extends AbstractBaseChartPaintListener implements IBaseChartPaintListener {
 
@@ -49,8 +38,8 @@ public class BoxPlotMarker extends AbstractBaseChartPaintListener implements IBa
 		BaseChart baseChart = getBaseChart();
 		ISeriesSet seriesSet = baseChart.getSeriesSet();
 		GC gc = e.gc;
-		Axis xAxis = (Axis)baseChart.getAxisSet().getXAxis(BaseChart.ID_PRIMARY_X_AXIS);
-		Axis yAxis = (Axis)baseChart.getAxisSet().getYAxis(BaseChart.ID_PRIMARY_Y_AXIS);
+		IAxis xAxis = baseChart.getAxisSet().getXAxis(BaseChart.ID_PRIMARY_X_AXIS);
+		IAxis yAxis = baseChart.getAxisSet().getYAxis(BaseChart.ID_PRIMARY_Y_AXIS);
 		double xLower = xAxis.getRange().lower;
 		double xUpper = xAxis.getRange().upper;
 		double yLower = yAxis.getRange().lower;
@@ -107,13 +96,15 @@ public class BoxPlotMarker extends AbstractBaseChartPaintListener implements IBa
 			gc.drawLine(xMin + (xMax - xMin) / 2, yMin, xMin + (xMax - xMin) / 2, q3Y);
 			gc.drawLine(xMin + (xMax - xMin) / 2, yMax, xMin + (xMax - xMin) / 2, q1Y);
 			gc.drawLine(xMin , q2Y, xMax, q2Y);
-			System.out.println(" xMin="+xMin+" y=" + xMax + " xMin="+xMin+" y=" + xMax );
 		}
 
 	}
 	
 	
-	public int getIndex(int rate, int size) {
+	public int getIndex(double rate, int size) {
+		/**
+		 * I will change the BigDecimal to double when the Box plot can be drawn :)
+		 */
 		BigDecimal valueBigDecimal = new BigDecimal(rate).divide(new BigDecimal(100)).multiply(new BigDecimal(size + 1));
 		int index = valueBigDecimal.setScale(0, BigDecimal.ROUND_DOWN).intValue();
 		return index;
