@@ -76,9 +76,9 @@ public class BoxPlotMarker extends AbstractBaseChartPaintListener implements IBa
 				}		
 			}
 			Arrays.sort(yData);
-			double q1= getValue(25, yData);
-			double q2= getValue(50, yData);
-			double q3= getValue(75, yData);
+			double q1= getValue(0.25, yData);
+			double q2= getValue(0.50, yData);
+			double q3= getValue(0.75, yData);
 			int q1Y = yAxis.getPixelCoordinate(q1, yLower, yUpper);
 			int q2Y = yAxis.getPixelCoordinate(q2, yLower, yUpper);
 			int q3Y = yAxis.getPixelCoordinate(q3, yLower, yUpper);
@@ -103,14 +103,13 @@ public class BoxPlotMarker extends AbstractBaseChartPaintListener implements IBa
 	
 	public int getIndex(double rate, int size) {
 		/**
-		 * I will change the BigDecimal to double when the Box plot can be drawn :)
+		 * This index is just an approximation and I will modify it.
 		 */
-		BigDecimal valueBigDecimal = new BigDecimal(rate).divide(new BigDecimal(100)).multiply(new BigDecimal(size + 1));
-		int index = valueBigDecimal.setScale(0, BigDecimal.ROUND_DOWN).intValue();
+		int index = (int)(rate * (size +1));
 		return index;
 	}
 	
-	public double getValue(int rate, double[] data) {
+	public double getValue(double rate, double[] data) {
 		int size = data.length;
 		int index = getIndex(rate, size);
 		return data[index - 1];
