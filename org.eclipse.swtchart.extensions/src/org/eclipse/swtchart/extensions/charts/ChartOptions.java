@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2019, 2020 Lablicate GmbH.
+ * Copyright (c) 2019, 2022 Lablicate GmbH.
  *
  * This program and the accompanying materials are made
  * available under the terms of the Eclipse Public License 2.0
@@ -21,13 +21,13 @@ import org.eclipse.swtchart.extensions.linecharts.LineChart;
 
 public class ChartOptions {
 
-	public static String[][] FONT_STYLES = new String[][]{ //
+	public static final String[][] FONT_STYLES = new String[][]{ //
 			{Messages.getString(Messages.NORMAL), Integer.toString(SWT.NORMAL)}, //
 			{Messages.getString(Messages.BOLD), Integer.toString(SWT.BOLD)}, //
 			{Messages.getString(Messages.ITALIC), Integer.toString(SWT.ITALIC)} //
 	};
 	//
-	public static String[][] COMPRESSION_TYPES = new String[][]{ //
+	public static final String[][] COMPRESSION_TYPES = new String[][]{ //
 			{LineChart.COMPRESSION_EXTREME, LineChart.COMPRESSION_EXTREME}, //
 			{LineChart.COMPRESSION_HIGH, LineChart.COMPRESSION_HIGH}, //
 			{LineChart.COMPRESSION_MEDIUM, LineChart.COMPRESSION_MEDIUM}, //
@@ -35,7 +35,7 @@ public class ChartOptions {
 			{LineChart.COMPRESSION_NONE, LineChart.COMPRESSION_NONE} //
 	};
 	//
-	public static String[][] SYMBOL_TYPES = new String[][]{ //
+	public static final String[][] SYMBOL_TYPES = new String[][]{ //
 			{Messages.getString(Messages.NONE), PlotSymbolType.NONE.toString()}, //
 			{Messages.getString(Messages.CIRCLE), PlotSymbolType.CIRCLE.toString()}, //
 			{Messages.getString(Messages.CROSS), PlotSymbolType.CROSS.toString()}, //
@@ -47,12 +47,12 @@ public class ChartOptions {
 			{Messages.getString(Messages.EMOJI), PlotSymbolType.EMOJI.toString()} //
 	};
 	//
-	public static String[][] POSITIONS = new String[][]{ //
+	public static final String[][] POSITIONS = new String[][]{ //
 			{Messages.getString(Messages.PRIMARY), Position.Primary.toString()}, //
 			{Messages.getString(Messages.SECONDARY), Position.Secondary.toString()} //
 	};
 	//
-	public static String[][] LINE_STYLES = new String[][]{ //
+	public static final String[][] LINE_STYLES = new String[][]{ //
 			{Messages.getString(Messages.NONE), LineStyle.NONE.toString()}, //
 			{"-", LineStyle.DASH.toString()}, //
 			{"-.", LineStyle.DASHDOT.toString()}, //
