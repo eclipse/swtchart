@@ -19,6 +19,7 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swtchart.Chart;
 import org.eclipse.swtchart.ICircularSeries;
+import org.eclipse.swtchart.ICircularSeriesLabel;
 import org.eclipse.swtchart.ISeries.SeriesType;
 
 /**
@@ -77,6 +78,8 @@ public class MultiLevelDoughnutChart {
 		ICircularSeries<?> multiLevelDoughnut = (ICircularSeries<?>)chart.getSeriesSet().createSeries(SeriesType.DOUGHNUT, "countries");
 		// sets the series.
 		multiLevelDoughnut.setSeries(continentLabels, continentValues);
+		multiLevelDoughnut.getLabel().setVisible(true);
+		multiLevelDoughnut.getLabel().setPosition(ICircularSeriesLabel.Position.Inside);
 		// adding Asian countries. These go in as second level
 		multiLevelDoughnut.getNodeById("Asia").addChildren(AsianCountriesLabels, AsianCountriesValues);
 		//

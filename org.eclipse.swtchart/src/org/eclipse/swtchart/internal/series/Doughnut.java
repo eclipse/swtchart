@@ -37,6 +37,7 @@ public class Doughnut extends CircularSeries {
 	 * @param xAxis
 	 * @param yAxis
 	 */
+	@Override
 	protected void drawNode(Node node, GC gc, Axis xAxis, Axis yAxis) {
 
 		// children drawn first as parent overrides it's section of drawing
@@ -45,7 +46,7 @@ public class Doughnut extends CircularSeries {
 				drawNode(nodes, gc, xAxis, yAxis);
 			}
 		}
-		if(node.isVisible() == false)
+		if(!node.isVisible())
 			return;
 		int level = node.getLevel() - getRootPointer().getLevel() + 1;
 		/*
@@ -85,6 +86,7 @@ public class Doughnut extends CircularSeries {
 		//
 		if(node != getRootPointer())
 			gc.drawLine(xZero, yZero, xEndPixelCoordinate, yEndPixelCoordinate);
+		((CircularSeriesLabel)seriesLabel).draw(gc, node, level, xAxis, yAxis);
 	}
 
 	/**

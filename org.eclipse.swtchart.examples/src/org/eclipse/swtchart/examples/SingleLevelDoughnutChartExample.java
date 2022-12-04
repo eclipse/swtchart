@@ -20,6 +20,7 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swtchart.Chart;
 import org.eclipse.swtchart.ICircularSeries;
+import org.eclipse.swtchart.ICircularSeriesLabel;
 import org.eclipse.swtchart.ISeries.SeriesType;
 
 /**
@@ -73,6 +74,11 @@ public class SingleLevelDoughnutChartExample {
 		// change color of India to DARK_RED
 		Color color = Display.getDefault().getSystemColor(SWT.COLOR_DARK_RED);
 		circularSeries.setColor("India", color);
+
+		circularSeries.getLabel().setVisible(true);
+		circularSeries.getLabel().setPosition(ICircularSeriesLabel.Position.Inside);
+		circularSeries.getLabel().setForeground(Display.getDefault().getSystemColor(SWT.COLOR_DARK_RED));
+		circularSeries.getLabel().setLabelProvider(node -> String.format("%s (%.1f%%)", node.getId(), node.getValue() / node.getParent().getValue() * 100));
 		//
 		return chart;
 	}

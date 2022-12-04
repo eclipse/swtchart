@@ -24,6 +24,9 @@ import org.eclipse.swtchart.model.Node;
  */
 public interface ICircularSeries<T> extends ISeries<T> {
 
+	@Override
+	ICircularSeriesLabel getLabel();
+
 	/**
 	 * gets the label series
 	 * 
