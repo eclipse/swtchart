@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2020 SWTChart project.
+ * Copyright (c) 2020, 2022 SWTChart project.
  *
  * This program and the accompanying materials are made
  * available under the terms of the Eclipse Public License 2.0
@@ -387,7 +387,7 @@ public abstract class CircularSeries extends Series implements ICircularSeries {
 	public Node getPieSliceFromPosition(int x, int y) {
 
 		double primaryX = chart.getAxisSet().getXAxis(0).getDataCoordinate(x);
-		double primaryY = chart.getAxisSet().getXAxis(0).getDataCoordinate(y);
+		double primaryY = chart.getAxisSet().getYAxis(0).getDataCoordinate(y);
 		return getPieSliceFromPosition(primaryX, primaryY);
 	}
 }
