@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2020 SWTChart project.
+ * Copyright (c) 2020, 2022 SWTChart project.
  *
  * This program and the accompanying materials are made
  * available under the terms of the Eclipse Public License 2.0
@@ -41,7 +41,7 @@ public class Node {
 	private int level;
 	private String id;
 	/** the data model that the node is part of */
-	private IdNodeDataModel data;
+	private IdNodeDataModel model;
 	private List<Node> children;
 	/** the angle extremities between which the Pie "slice" is drawn. */
 	private Point angleBounds;
@@ -52,6 +52,8 @@ public class Node {
 	private Node parent;
 	/** the depth of the tree starting from this node. The tree includes node also */
 	private int maxSubTreeDepth;
+	/** application defined data associated with the slice */
+	private Object data;
 
 	/**
 	 * This will be used only for rootNode, and maybe for rootPointerNode
@@ -60,13 +62,13 @@ public class Node {
 	 * @param id
 	 * @param val
 	 */
-	Node(String id, double val, IdNodeDataModel data) {
+	Node(String id, double val, IdNodeDataModel dataModel) {
 
 		this.id = id;
 		this.val = val;
-		this.data = data;
+		this.model = dataModel;
 		this.level = 0;
-		children = new ArrayList<Node>();
+		children = new ArrayList<>();
 		this.isVisible = true;
 	}
 
@@ -84,13 +86,13 @@ public class Node {
 
 		this.id = id;
 		this.val = val;
-		children = new ArrayList<Node>();
+		children = new ArrayList<>();
 		this.isVisible = parent.isVisible;
 		this.parent = parent;
 		this.level = parent.level + 1;
-		this.data = parent.data;
+		this.model = parent.model;
 		setColor(Display.getDefault().getSystemColor(SWT.COLOR_RED));
-		data.getTree().put(id, this);
+		model.getTree().put(id, this);
 		this.getParent().getChildren().add(this);
 	}
 
@@ -176,7 +178,7 @@ public class Node {
 
 	public IdNodeDataModel getDataModel() {
 
-		return data;
+		return model;
 	}
 
 	public void setValue(double value) {
@@ -202,7 +204,7 @@ public class Node {
 
 	public void setDataModel(IdNodeDataModel model) {
 
-		this.data = model;
+		this.model = model;
 	}
 
 	/**
@@ -283,7 +285,7 @@ public class Node {
 			return null;
 		}
 		children.remove(node);
-		data.getTree().remove(child);
+		model.getTree().remove(child);
 		update();
 		return node;
 	}
@@ -373,7 +375,7 @@ public class Node {
 				}
 			}
 			node.setAngleBounds(new Point(start, angleCovered));
-			data.getNodes()[node.getLevel() - data.getRootPointer().getLevel()].add(node);
+			model.getNodes()[node.getLevel() - model.getRootPointer().getLevel()].add(node);
 			// the DFS call to children after this node data is set.
 			node.updateAngularBounds();
 			// updating for the next child node.
@@ -383,6 +385,31 @@ public class Node {
 
 	public void update() {
 
-		data.update();
+		model.update();
+	}
+
+	/**
+	 * Returns the application defined data associated with the slice.
+	 * 
+	 * @return the node data
+	 *
+	 * @see #setData(Object)
+	 */
+	public Object getData() {
+
+		return data;
+	}
+
+	/**
+	 * Sets the application defined data associated with the slice.
+	 *
+	 * @param data
+	 *            the node data
+	 *
+	 * @see #getData()
+	 */
+	public void setData(Object data) {
+
+		this.data = data;
 	}
 }
