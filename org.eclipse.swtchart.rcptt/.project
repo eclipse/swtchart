@@ -5,10 +5,7 @@
 	<projects>
 	</projects>
 	<buildSpec>
-		<buildCommand>
-			<name>org.eclipse.rcptt.core.builder.q7Builder</name>
-			<arguments>
-			</arguments>
-		</buildCommand>
 	</buildSpec>
+	<natures>
+	</natures>
 </projectDescription>
