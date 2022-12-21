@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2008, 2019 SWTChart project.
+ * Copyright (c) 2008, 2022 SWTChart project.
  *
  * This program and the accompanying materials are made
  * available under the terms of the Eclipse Public License 2.0
@@ -9,6 +9,7 @@
  * 
  * Contributors:
  * yoshitaka - initial API and implementation
+ * Philip Wenig - fixed NPE
  *******************************************************************************/
 package org.eclipse.swtchart.internal.compress;
 
@@ -89,6 +90,10 @@ public abstract class Compress implements ICompress {
 	@Override
 	public double[] getCompressedXSeries() {
 
+		if(compressedXSeries == null) {
+			return new double[0];
+		}
+		//
 		double[] copiedSeries = new double[compressedXSeries.length];
 		System.arraycopy(compressedXSeries, 0, copiedSeries, 0, compressedXSeries.length);
 		return copiedSeries;
@@ -97,6 +102,10 @@ public abstract class Compress implements ICompress {
 	@Override
 	public double[] getCompressedYSeries() {
 
+		if(compressedYSeries == null) {
+			return new double[0];
+		}
+		//
 		double[] copiedSeries = new double[compressedYSeries.length];
 		System.arraycopy(compressedYSeries, 0, copiedSeries, 0, compressedYSeries.length);
 		return copiedSeries;
@@ -105,6 +114,10 @@ public abstract class Compress implements ICompress {
 	@Override
 	public int[] getCompressedIndexes() {
 
+		if(compressedIndexes == null) {
+			return new int[0];
+		}
+		//
 		int[] copiedSeries = new int[compressedIndexes.length];
 		System.arraycopy(compressedIndexes, 0, copiedSeries, 0, compressedIndexes.length);
 		return copiedSeries;
