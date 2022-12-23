@@ -9,6 +9,7 @@
  * 
  * Contributors:
  * Philip Wenig - initial API and implementation
+ * yoshitaka - support for axis categories
  *******************************************************************************/
 package org.eclipse.swtchart.extensions.examples.charts;
 
@@ -60,10 +61,11 @@ public class DemoBoxPlotChart {
 		rangeRestriction.setExtendMinY(0.05d);
 		rangeRestriction.setExtendMaxY(0.05d);
 		IPrimaryAxisSettings primaryAxisSettingsX = chartSettings.getPrimaryAxisSettingsX();
-//		primaryAxisSettingsX.setVisible(true);
+		primaryAxisSettingsX.setVisible(true);
 		primaryAxisSettingsX.setGridLineStyle(LineStyle.NONE);
-//		primaryAxisSettingsX.setEnableCategory(true);
-//		primaryAxisSettingsX.setCategorySeries(new String[]{"Trace 1", "Trace 2"});;
+		primaryAxisSettingsX.setEnableCategory(true);
+		primaryAxisSettingsX.setCategorySeries(new String[]{"Trace 1", "Trace 2"});
+		;
 		boxPlotChart.applySettings(chartSettings);
 		/*
 		 * Data
