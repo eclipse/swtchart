@@ -21,6 +21,7 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.swtchart.Chart;
 import org.eclipse.swtchart.IAxis;
 import org.eclipse.swtchart.ICircularSeries;
+import org.eclipse.swtchart.ICircularSeriesLabel;
 import org.eclipse.swtchart.internal.axis.Axis;
 import org.eclipse.swtchart.internal.compress.Compress;
 import org.eclipse.swtchart.internal.compress.CompressCircularSeries;
@@ -47,6 +48,7 @@ public abstract class CircularSeries extends Series implements ICircularSeries {
 
 		super(chart, id);
 		this.chart = chart;
+		this.seriesLabel = new CircularSeriesLabel();
 		initialise();
 		model = new IdNodeDataModel(id);
 		rootNode = model.getRootNode();
@@ -56,6 +58,12 @@ public abstract class CircularSeries extends Series implements ICircularSeries {
 		borderWidth = 1;
 		highlightLineWidth = 3;
 		borderStyle = SWT.LINE_SOLID;
+	}
+
+	@Override
+	public ICircularSeriesLabel getLabel() {
+
+		return (ICircularSeriesLabel)super.getLabel();
 	}
 
 	@Override
@@ -106,6 +114,7 @@ public abstract class CircularSeries extends Series implements ICircularSeries {
 		return (Compress)compressor;
 	}
 
+	@Override
 	public Node getRootNode() {
 
 		return rootNode;
