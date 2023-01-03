@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2020 SWTChart project.
+ * Copyright (c) 2020, 2023 SWTChart project.
  *
  * This program and the accompanying materials are made
  * available under the terms of the Eclipse Public License 2.0
@@ -9,11 +9,11 @@
  * 
  * Contributors:
  * Himanshu Balasamanta - initial API and implementation
+ * Philip Wenig - series settings mapping
  *******************************************************************************/
 package org.eclipse.swtchart.examples;
 
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
@@ -62,17 +62,11 @@ public class SingleLevelPieChartExample {
 	 */
 	static public Chart createChart(Composite parent) {
 
-		// create a chart
 		Chart chart = new Chart(parent, SWT.NONE);
-		// set titles
 		chart.getTitle().setText("Single Level Pie Chart");
-		// May replace the CircularSeries Class with Pie... Makes no difference
 		ICircularSeries<?> circularSeries = (ICircularSeries<?>)chart.getSeriesSet().createSeries(SeriesType.PIE, "pie series");
-		// sets the series.
 		circularSeries.setSeries(labels, values);
-		// change color of India to DARK_RED
-		Color color = Display.getDefault().getSystemColor(SWT.COLOR_DARK_RED);
-		circularSeries.setColor("India", color);
+		circularSeries.setColor("India", Display.getDefault().getSystemColor(SWT.COLOR_DARK_RED));
 		//
 		return chart;
 	}

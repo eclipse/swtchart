@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2021 Lablicate GmbH.
+ * Copyright (c) 2021, 2023 Lablicate GmbH.
  *
  * This program and the accompanying materials are made
  * available under the terms of the Eclipse Public License 2.0
@@ -17,15 +17,21 @@ import java.util.List;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.swtchart.ISeries;
-import org.eclipse.swtchart.extensions.core.MappingsSupport;
-import org.eclipse.swtchart.extensions.core.SeriesLabelProvider;
+import org.eclipse.swtchart.extensions.core.BaseChart;
+import org.eclipse.swtchart.extensions.core.ISeriesSettings;
+import org.eclipse.swtchart.extensions.core.ScrollableChart;
 import org.eclipse.swtchart.extensions.core.SeriesListUI;
 
-public class ShowSeriesAction extends AbstractMenuListener {
+public class SeriesVisibilityAction extends AbstractMenuListener {
 
-	public ShowSeriesAction(SeriesListUI seriesListUI) {
+	private boolean setVisible;
+	private boolean inLegend;
+
+	public SeriesVisibilityAction(SeriesListUI seriesListUI, boolean setVisible, boolean inLegend) {
 
 		super(seriesListUI);
+		this.setVisible = setVisible;
+		this.inLegend = inLegend;
 	}
 
 	@Override
@@ -36,22 +42,32 @@ public class ShowSeriesAction extends AbstractMenuListener {
 			@Override
 			public String getText() {
 
-				return "Show Series";
+				return (setVisible ? "Show" : "Hide") + " Series" + (inLegend ? " in Legend" : "");
 			}
 
 			@Override
 			public String getToolTipText() {
 
-				return "Show the selected series.";
+				return (setVisible ? "Show" : "Hide") + " the selected series " + (inLegend ? " in legend" : "") + ".";
 			}
 
 			@Override
 			public void run() {
 
+				ScrollableChart scrollableChart = getScrollableChart();
+				BaseChart baseChart = scrollableChart.getBaseChart();
+				//
 				List<ISeries<?>> selectedSeries = getSelectedSeries();
 				for(ISeries<?> series : selectedSeries) {
-					MappingsSupport.mapSettings(series, SeriesLabelProvider.VISIBLE, true, getScrollableChart());
+					ISeriesSettings seriesSettings = baseChart.getSeriesSettings(series.getId());
+					if(inLegend) {
+						seriesSettings.setVisibleInLegend(setVisible);
+					} else {
+						seriesSettings.setVisible(setVisible);
+					}
+					baseChart.applySeriesSettings(series, seriesSettings, true);
 				}
+				//
 				refresh();
 			}
 		});

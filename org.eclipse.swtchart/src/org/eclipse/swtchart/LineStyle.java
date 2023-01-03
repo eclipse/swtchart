@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2008, 2019 SWTChart project.
+ * Copyright (c) 2008, 2023 SWTChart project.
  *
  * This program and the accompanying materials are made
  * available under the terms of the Eclipse Public License 2.0
@@ -10,36 +10,44 @@
  * Contributors:
  * yoshitaka - initial API and implementation
  * Frank Buloup - Internationalization
+ * Philip Wenig - line style handling
  *******************************************************************************/
 package org.eclipse.swtchart;
 
-/**
- * A line style.
- */
-public enum LineStyle {
+import org.eclipse.swt.SWT;
+
+public enum LineStyle implements IEnumLabel {
+
 	/** none */
-	NONE("None"), //$NON-NLS-1$
+	NONE("None", SWT.NONE), //$NON-NLS-1$
 	/** solid */
-	SOLID("Solid"), //$NON-NLS-1$
+	SOLID("Solid", SWT.LINE_SOLID), //$NON-NLS-1$
 	/** dash */
-	DASH("Dash"), //$NON-NLS-1$
+	DASH("Dash", SWT.LINE_DASH), //$NON-NLS-1$
 	/** dot */
-	DOT("Dot"), //$NON-NLS-1$
+	DOT("Dot", SWT.LINE_DOT), //$NON-NLS-1$
 	/** dash dot */
-	DASHDOT("Dash Dot"), //$NON-NLS-1$
+	DASHDOT("Dash Dot", SWT.LINE_DASHDOT), //$NON-NLS-1$
 	/** dash dot dot */
-	DASHDOTDOT("Dash Dot Dot"); //$NON-NLS-1$
+	DASHDOTDOT("Dash Dot Dot", SWT.LINE_DASHDOTDOT); //$NON-NLS-1$
 
-	/** the label for line style */
-	public final String label;
+	private String label;
+	private int value;
 
-	/**
-	 * Constructor.
-	 * 
-	 * @param label
-	 *            the label for line style
-	 */
-	private LineStyle(String label) {
+	private LineStyle(String label, int value) {
+
 		this.label = label;
+		this.value = value;
+	}
+
+	@Override
+	public String label() {
+
+		return label;
+	}
+
+	public int value() {
+
+		return value;
 	}
 }

@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2008, 2020 SWTChart project.
+ * Copyright (c) 2008, 2023 SWTChart project.
  *
  * This program and the accompanying materials are made
  * available under the terms of the Eclipse Public License 2.0
@@ -11,6 +11,7 @@
  * yoshitaka - initial API and implementation
  * Christoph Läubrich - add support for datamodel
  * Frank Buloup - Internationalization
+ * Philip Wenig - refactoring type model
  *******************************************************************************/
 package org.eclipse.swtchart;
 
@@ -27,7 +28,7 @@ public interface ISeries<DataType> {
 	/**
 	 * A Series type.
 	 */
-	public enum SeriesType {
+	public enum SeriesType implements IEnumLabel {
 
 		/** the line */
 		LINE("Line"), //$NON-NLS-1$
@@ -38,18 +39,17 @@ public interface ISeries<DataType> {
 		/** the doughnut */
 		DOUGHNUT("Doughnut"); // $NON-NLS-1$
 
-		/** the label for series type */
-		public final String label;
+		private String label;
 
-		/**
-		 * Constructor.
-		 * 
-		 * @param label
-		 *            the label for series type
-		 */
 		private SeriesType(String label) {
 
 			this.label = label;
+		}
+
+		@Override
+		public String label() {
+
+			return label;
 		}
 	}
 

@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2021 Lablicate GmbH.
+ * Copyright (c) 2023 Lablicate GmbH.
  *
  * This program and the accompanying materials are made
  * available under the terms of the Eclipse Public License 2.0
@@ -17,15 +17,19 @@ import java.util.List;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.swtchart.ISeries;
-import org.eclipse.swtchart.extensions.core.MappingsSupport;
-import org.eclipse.swtchart.extensions.core.SeriesLabelProvider;
+import org.eclipse.swtchart.extensions.core.BaseChart;
+import org.eclipse.swtchart.extensions.core.ScrollableChart;
 import org.eclipse.swtchart.extensions.core.SeriesListUI;
+import org.eclipse.swtchart.extensions.core.SeriesMapper;
 
-public class ShowInLegendAction extends AbstractMenuListener {
+public class MapSettingsAction extends AbstractMenuListener {
 
-	public ShowInLegendAction(SeriesListUI seriesListUI) {
+	private boolean addMapping = true;
+
+	public MapSettingsAction(SeriesListUI seriesListUI, boolean addMapping) {
 
 		super(seriesListUI);
+		this.addMapping = addMapping;
 	}
 
 	@Override
@@ -36,22 +40,29 @@ public class ShowInLegendAction extends AbstractMenuListener {
 			@Override
 			public String getText() {
 
-				return "Show In Legend";
+				return (addMapping ? "Add" : "Remove") + " series mapping";
 			}
 
 			@Override
 			public String getToolTipText() {
 
-				return "Show the selected series in the embedded chart legend.";
+				return "Add/Remove the series settings mapping of the selected entries.";
 			}
 
 			@Override
 			public void run() {
 
+				ScrollableChart scrollableChart = getScrollableChart();
+				BaseChart baseChart = scrollableChart.getBaseChart();
 				List<ISeries<?>> selectedSeries = getSelectedSeries();
 				for(ISeries<?> series : selectedSeries) {
-					MappingsSupport.mapSettings(series, SeriesLabelProvider.VISIBLE_IN_LEGEND, true, getScrollableChart());
+					if(addMapping) {
+						SeriesMapper.map(series, baseChart);
+					} else {
+						SeriesMapper.unmap(series, baseChart);
+					}
 				}
+				//
 				refresh();
 			}
 		});

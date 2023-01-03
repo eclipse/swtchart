@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2020, 2021 Lablicate GmbH.
+ * Copyright (c) 2020, 2023 Lablicate GmbH.
  *
  * This program and the accompanying materials are made
  * available under the terms of the Eclipse Public License 2.0
@@ -30,6 +30,7 @@ public class PreferenceInitializer extends AbstractPreferenceInitializer {
 			preferenceStore.setDefault(PreferenceConstants.P_LEGEND_POSITION_Y, PreferenceConstants.DEF_LEGEND_POSITION_Y);
 			preferenceStore.setDefault(PreferenceConstants.P_SORT_LEGEND_TABLE, PreferenceConstants.DEF_SORT_LEGEND_TABLE);
 			preferenceStore.setDefault(PreferenceConstants.P_LEGEND_COLUMN_ORDER, PreferenceConstants.DEF_LEGEND_COLUMN_ORDER);
+			preferenceStore.setDefault(PreferenceConstants.P_SERIES_MAPPINGS, PreferenceConstants.DEF_SERIES_MAPPINGS);
 			preferenceStore.setDefault(PreferenceConstants.P_PATH_MAPPINGS_IMPORT, PreferenceConstants.DEF_PATH_MAPPINGS_IMPORT);
 			preferenceStore.setDefault(PreferenceConstants.P_PATH_MAPPINGS_EXPORT, PreferenceConstants.DEF_PATH_MAPPINGS_EXPORT);
 			preferenceStore.setDefault(PreferenceConstants.P_BITMAP_EXPORT_CUSTOM_SIZE, PreferenceConstants.DEF_BITMAP_EXPORT_CUSTOM_SIZE);

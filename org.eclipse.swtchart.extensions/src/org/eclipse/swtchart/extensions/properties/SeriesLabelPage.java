@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2008, 2020 SWTChart project.
+ * Copyright (c) 2008, 2023 SWTChart project.
  *
  * This program and the accompanying materials are made
  * available under the terms of the Eclipse Public License 2.0
@@ -10,6 +10,7 @@
  * Contributors:
  * yoshitaka - initial API and implementation
  * Frank Buloup - Internationalization
+ * Philip Wenig - series settings edit support
  *******************************************************************************/
 package org.eclipse.swtchart.extensions.properties;
 
@@ -36,6 +37,7 @@ import org.eclipse.swtchart.Constants;
 import org.eclipse.swtchart.IDisposeListener;
 import org.eclipse.swtchart.ISeries;
 import org.eclipse.swtchart.extensions.charts.InteractiveChart;
+import org.eclipse.swtchart.extensions.core.ResourceSupport;
 
 /**
  * The series label page on properties dialog.
@@ -76,6 +78,7 @@ public class SeriesLabelPage extends AbstractSelectorPage {
 	 *            the title
 	 */
 	public SeriesLabelPage(InteractiveChart chart, PropertiesResources resources, String title) {
+
 		super(chart, resources, title, Messages.getString(Messages.SERIES));
 		series = chart.getSeriesSet().getSeries();
 		visibleStates = new boolean[series.length];
@@ -180,7 +183,7 @@ public class SeriesLabelPage extends AbstractSelectorPage {
 
 		for(int i = 0; i < series.length; i++) {
 			series[i].getLabel().setVisible(visibleStates[i]);
-			Color color = new Color(Display.getDefault(), colors[i]);
+			Color color = ResourceSupport.getColor(colors[i]);
 			series[i].getLabel().setForeground(color);
 			final String colorKey = SERIES_LABEL_FOREGROUND + series[i].getId();
 			if(resources.getColor(colorKey) == null) {

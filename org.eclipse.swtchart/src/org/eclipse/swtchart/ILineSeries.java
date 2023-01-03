@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2008, 2019 SWTChart project.
+ * Copyright (c) 2008, 2023 SWTChart project.
  *
  * This program and the accompanying materials are made
  * available under the terms of the Eclipse Public License 2.0
@@ -11,6 +11,7 @@
  * yoshitaka - initial API and implementation
  * Christoph Läubrich - add support for datamodel
  * Frank Buloup - Internationalization
+ * Philip Wenig - series settings mappings
  *******************************************************************************/
 package org.eclipse.swtchart;
 
@@ -24,7 +25,8 @@ public interface ILineSeries<T> extends ISeries<T> {
 	/**
 	 * A plot symbol type.
 	 */
-	public enum PlotSymbolType {
+	public enum PlotSymbolType implements IEnumLabel {
+
 		/** none */
 		NONE("None"), //$NON-NLS-1$
 		/** circle */
@@ -45,7 +47,7 @@ public interface ILineSeries<T> extends ISeries<T> {
 		EMOJI("Emoji"); //$NON-NLS-1$
 
 		/** the label for plot symbol */
-		public final String label;
+		private String label;
 
 		/**
 		 * Constructor.
@@ -54,7 +56,14 @@ public interface ILineSeries<T> extends ISeries<T> {
 		 *            plot symbol label
 		 */
 		private PlotSymbolType(String label) {
+
 			this.label = label;
+		}
+
+		@Override
+		public String label() {
+
+			return label;
 		}
 	}
 
@@ -224,7 +233,7 @@ public interface ILineSeries<T> extends ISeries<T> {
 	 * <tt>SWT.DEFAULT<tt>.
 	 *
 	 * @return the anti-aliasing value which can be <tt>SWT.DEFAULT</tt>,
-	 *         <tt>SWT.ON</tt> or <tt>SWT.OFF</tt>.
+	 * <tt>SWT.ON</tt> or <tt>SWT.OFF</tt>.
 	 */
 	int getAntialias();
 

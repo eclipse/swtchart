@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2008, 2019 SWTChart project.
+ * Copyright (c) 2008, 2023 SWTChart project.
  *
  * This program and the accompanying materials are made
  * available under the terms of the Eclipse Public License 2.0
@@ -10,6 +10,7 @@
  * Contributors:
  * yoshitaka - initial API and implementation
  * Frank Buloup - Internationalization
+ * Philip Wenig - series settings mappings
  *******************************************************************************/
 package org.eclipse.swtchart.extensions.properties;
 
@@ -44,6 +45,7 @@ import org.eclipse.swtchart.IAxis.Position;
 import org.eclipse.swtchart.IDisposeListener;
 import org.eclipse.swtchart.Range;
 import org.eclipse.swtchart.extensions.charts.InteractiveChart;
+import org.eclipse.swtchart.extensions.core.ResourceSupport;
 
 /**
  * The axis page on properties dialog.
@@ -114,6 +116,7 @@ public class AxisPage extends AbstractSelectorPage {
 	 *            the title
 	 */
 	public AxisPage(InteractiveChart chart, PropertiesResources resources, Direction direction, String title) {
+
 		super(chart, resources, title, Messages.getString(Messages.AXES));
 		this.direction = direction;
 		if(direction == Direction.X) {
@@ -257,7 +260,7 @@ public class AxisPage extends AbstractSelectorPage {
 	 */
 	private void addTitleGroup(Composite parent) {
 
-		Group group = createGroupControl(parent, Messages.getString(Messages.TITLE), false); 
+		Group group = createGroupControl(parent, Messages.getString(Messages.TITLE), false);
 		showTitleButton = createCheckBoxControl(group, Messages.getString(Messages.SHOW_TITLE));
 		showTitleButton.addSelectionListener(new SelectionAdapter() {
 
@@ -339,7 +342,7 @@ public class AxisPage extends AbstractSelectorPage {
 				});
 			}
 			resources.put(fontKey, font);
-			Color color = new Color(Display.getDefault(), titleColors[i]);
+			Color color = ResourceSupport.getColor(titleColors[i]);
 			axes[i].getTitle().setForeground(color);
 			final String colorKey = AXIS_TITLE_FOREGROUND + axes[i].getDirection() + axes[i].getId();
 			if(resources.getColor(colorKey) == null) {
@@ -372,7 +375,7 @@ public class AxisPage extends AbstractSelectorPage {
 
 		titleVisibleStates[selectedIndex] = true;
 		if(direction == Direction.X) {
-			titleTexts[selectedIndex] = Messages.getString(Messages.X_AXIS); 
+			titleTexts[selectedIndex] = Messages.getString(Messages.X_AXIS);
 			categoryStates[selectedIndex] = false;
 		} else if(direction == Direction.Y) {
 			titleTexts[selectedIndex] = Messages.getString(Messages.Y_AXIS);

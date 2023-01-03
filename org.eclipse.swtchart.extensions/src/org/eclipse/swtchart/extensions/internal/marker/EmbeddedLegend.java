@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2020, 2021 Lablicate GmbH.
+ * Copyright (c) 2020, 2023 Lablicate GmbH.
  *
  * This program and the accompanying materials are made
  * available under the terms of the Eclipse Public License 2.0
@@ -18,6 +18,7 @@ import org.eclipse.swt.graphics.GC;
 import org.eclipse.swtchart.ISeries;
 import org.eclipse.swtchart.ISeriesSet;
 import org.eclipse.swtchart.extensions.core.BaseChart;
+import org.eclipse.swtchart.extensions.core.ISeriesSettings;
 import org.eclipse.swtchart.extensions.core.SeriesLabelProvider;
 import org.eclipse.swtchart.extensions.marker.AbstractBaseChartPaintListener;
 import org.eclipse.swtchart.extensions.marker.IBaseChartPaintListener;
@@ -71,8 +72,9 @@ public class EmbeddedLegend extends AbstractBaseChartPaintListener implements IB
 			for(ISeries<?> series : seriesSet.getSeries()) {
 				if(series.isVisible()) {
 					if(series.isVisibleInLegend()) {
-						String description = series.getDescription();
-						Color color = SeriesLabelProvider.getColor(series);
+						ISeriesSettings seriesSettings = baseChart.getSeriesSettings(series.getId());
+						String description = seriesSettings.getDescription();
+						Color color = SeriesLabelProvider.getColor(seriesSettings);
 						if(color != null) {
 							gc.setForeground(color);
 							gc.drawText(description, x0, y0);

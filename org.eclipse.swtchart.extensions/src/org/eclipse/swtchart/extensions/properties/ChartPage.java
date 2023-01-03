@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2008, 2020 SWTChart project.
+ * Copyright (c) 2008, 2023 SWTChart project.
  *
  * This program and the accompanying materials are made
  * available under the terms of the Eclipse Public License 2.0
@@ -10,6 +10,7 @@
  * Contributors:
  * yoshitaka - initial API and implementation
  * Frank Buloup - Internationalization
+ * Philip Wenig - series settings mappings
  *******************************************************************************/
 package org.eclipse.swtchart.extensions.properties;
 
@@ -33,6 +34,7 @@ import org.eclipse.swt.widgets.Text;
 import org.eclipse.swtchart.Constants;
 import org.eclipse.swtchart.ITitle;
 import org.eclipse.swtchart.extensions.charts.InteractiveChart;
+import org.eclipse.swtchart.extensions.core.ResourceSupport;
 
 /**
  * The chart property page on properties dialog.
@@ -79,6 +81,7 @@ public class ChartPage extends AbstractPage {
 	 *            the title
 	 */
 	public ChartPage(InteractiveChart chart, PropertiesResources resources, String title) {
+
 		super(chart, resources, title);
 	}
 
@@ -174,10 +177,10 @@ public class ChartPage extends AbstractPage {
 	@Override
 	public void apply() {
 
-		Color color = new Color(Display.getDefault(), backgroundInPlotAreaButton.getColorValue());
+		Color color = ResourceSupport.getColor(backgroundInPlotAreaButton.getColorValue());
 		chart.getPlotArea().setBackground(color);
 		resources.put(PLOT_AREA_BACKGROUND, color);
-		color = new Color(Display.getDefault(), backgroundButton.getColorValue());
+		color = ResourceSupport.getColor(backgroundButton.getColorValue());
 		chart.setBackground(color);
 		resources.put(CHART_BACKGROUND, color);
 		chart.setOrientation(orientationButton.getSelection() ? SWT.VERTICAL : SWT.HORIZONTAL);
@@ -189,7 +192,7 @@ public class ChartPage extends AbstractPage {
 		Font font = new Font(Display.getDefault(), fontData);
 		title.setFont(font);
 		resources.put(TITLE_FONT, font);
-		color = new Color(Display.getDefault(), titleColorButton.getColorValue());
+		color = ResourceSupport.getColor(titleColorButton.getColorValue());
 		title.setForeground(color);
 		resources.put(TITLE_FOREGROUND, color);
 	}

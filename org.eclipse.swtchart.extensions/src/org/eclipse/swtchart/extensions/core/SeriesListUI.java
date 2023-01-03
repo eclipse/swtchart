@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2020, 2021 Lablicate GmbH.
+ * Copyright (c) 2020, 2023 Lablicate GmbH.
  *
  * This program and the accompanying materials are made
  * available under the terms of the Eclipse Public License 2.0
@@ -17,7 +17,6 @@ import java.util.List;
 
 import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.jface.viewers.IContentProvider;
-import org.eclipse.jface.viewers.ILabelProvider;
 import org.eclipse.jface.viewers.StyledCellLabelProvider;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.TableViewerColumn;
@@ -33,6 +32,7 @@ import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
+import org.eclipse.swtchart.ISeries;
 import org.eclipse.swtchart.extensions.internal.support.SeriesComparator;
 import org.eclipse.swtchart.extensions.internal.support.SeriesContentProvider;
 import org.eclipse.swtchart.extensions.internal.support.SeriesEditingSupport;
@@ -46,7 +46,7 @@ public class SeriesListUI extends TableViewer {
 	//
 	private static final String COLUMN_DELIMITER = " ";
 	//
-	private ILabelProvider labelProvider = new SeriesLabelProvider();
+	private SeriesLabelProvider labelProvider = new SeriesLabelProvider();
 	private IContentProvider contentProvider = new SeriesContentProvider();
 	private SeriesComparator comparator = new SeriesComparator();
 	private SeriesFilter filter = new SeriesFilter();
@@ -59,6 +59,11 @@ public class SeriesListUI extends TableViewer {
 
 		super(parent, style);
 		createControl();
+	}
+
+	public void clear() {
+
+		super.setInput(null);
 	}
 
 	public boolean isTableSortable() {
@@ -84,6 +89,7 @@ public class SeriesListUI extends TableViewer {
 	public void setScrollableChart(ScrollableChart scrollableChart) {
 
 		this.scrollableChart = scrollableChart;
+		labelProvider.setScrollableChart(scrollableChart);
 	}
 
 	public ScrollableChart getScrollableChart() {
@@ -167,6 +173,7 @@ public class SeriesListUI extends TableViewer {
 				String columnOrder = getColumnOrder(getTable());
 				if(preferenceStore != null) {
 					preferenceStore.setValue(PreferenceConstants.P_LEGEND_COLUMN_ORDER, columnOrder);
+					ResourceSupport.savePreferenceStore();
 				}
 			}
 		});
@@ -201,10 +208,15 @@ public class SeriesListUI extends TableViewer {
 
 				if(cell != null) {
 					Object object = cell.getElement();
-					Color color = SeriesLabelProvider.getColor(object);
-					cell.setBackground(color);
-					cell.setText(""); // No text
-					super.update(cell);
+					if(object instanceof ISeries<?>) {
+						ISeries<?> series = (ISeries<?>)object;
+						BaseChart baseChart = scrollableChart.getBaseChart();
+						ISeriesSettings seriesSettings = baseChart.getSeriesSettings(series.getId());
+						Color color = SeriesLabelProvider.getColor(seriesSettings);
+						cell.setBackground(color);
+						cell.setText(""); // No text
+						super.update(cell);
+					}
 				}
 			}
 		});

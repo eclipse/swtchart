@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2021 Lablicate GmbH.
+ * Copyright (c) 2021, 2023 Lablicate GmbH.
  *
  * This program and the accompanying materials are made
  * available under the terms of the Eclipse Public License 2.0
@@ -21,8 +21,9 @@ import org.eclipse.jface.dialogs.IInputValidator;
 import org.eclipse.jface.dialogs.InputDialog;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swtchart.ISeries;
-import org.eclipse.swtchart.extensions.core.MappingsSupport;
-import org.eclipse.swtchart.extensions.core.SeriesLabelProvider;
+import org.eclipse.swtchart.extensions.core.BaseChart;
+import org.eclipse.swtchart.extensions.core.ISeriesSettings;
+import org.eclipse.swtchart.extensions.core.ScrollableChart;
 import org.eclipse.swtchart.extensions.core.SeriesListUI;
 
 public class SetDescriptionAction extends AbstractMenuListener {
@@ -52,6 +53,8 @@ public class SetDescriptionAction extends AbstractMenuListener {
 			@Override
 			public void run() {
 
+				ScrollableChart scrollableChart = getScrollableChart();
+				BaseChart baseChart = scrollableChart.getBaseChart();
 				SeriesListUI seriesListUI = getSeriesListUI();
 				Table table = seriesListUI.getTable();
 				List<ISeries<?>> selectedSeries = getSelectedSeries();
@@ -77,9 +80,11 @@ public class SetDescriptionAction extends AbstractMenuListener {
 					});
 					//
 					if(IDialogConstants.OK_ID == dialog.open()) {
-						Object object = dialog.getValue();
+						String description = dialog.getValue();
 						for(ISeries<?> series : selectedSeries) {
-							MappingsSupport.mapSettings(series, SeriesLabelProvider.DESCRIPTION, object, getScrollableChart());
+							ISeriesSettings seriesSettings = baseChart.getSeriesSettings(series.getId());
+							seriesSettings.setDescription(description);
+							baseChart.applySeriesSettings(series, seriesSettings, true);
 						}
 						refresh();
 					}

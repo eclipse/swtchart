@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2020 SWTChart project.
+ * Copyright (c) 2020, 2023 SWTChart project.
  *
  * This program and the accompanying materials are made
  * available under the terms of the Eclipse Public License 2.0
@@ -9,6 +9,7 @@
  * 
  * Contributors:
  * Himanshu Balasamanta - initial API and implementation
+ * Philip Wenig - improvement series data model
  *******************************************************************************/
 package org.eclipse.swtchart.model;
 
@@ -28,7 +29,7 @@ import org.eclipse.swtchart.internal.compress.CompressCircularSeries;
  * A rootNode is initialized that shall not be visible, but will be the ancestor
  * of all nodes of the pie chart.
  */
-public class IdNodeDataModel {
+public class NodeDataModel {
 
 	private String Id;
 	/** this node is the parent of all nodes, shall not be kept visible */
@@ -39,30 +40,30 @@ public class IdNodeDataModel {
 	private HashMap<String, Node> tree;
 	/** stores nodes in order of the levels they are in. */
 	private List<Node> nodesAtLevels[];
-	private CompressCircularSeries compress;
+	private CompressCircularSeries compressCircularSeries;
 
-	public IdNodeDataModel() {
+	public NodeDataModel() {
 
 		this("Circular Chart");
 	}
 
-	public IdNodeDataModel(String Id) {
+	public NodeDataModel(String id) {
 
-		this.Id = Id;
-		this.rootNode = new Node(Id, -1, this);
+		this.Id = id;
+		this.rootNode = new Node(id, -1, this);
 		tree = new HashMap<String, Node>();
 		initialiseRootNode();
 		rootPointer = rootNode;
-		compress = new CompressCircularSeries(this);
+		compressCircularSeries = new CompressCircularSeries(this);
 	}
 
 	private void initialiseRootNode() {
 
 		rootNode.changeParent(rootNode);
-		rootNode.setVisibility(true);
+		rootNode.setVisible(true);
 		rootNode.setAngleBounds(new Point(0, 360));
 		rootNode.setDataModel(this);
-		rootNode.setColor(Display.getDefault().getSystemColor(SWT.COLOR_WHITE));
+		rootNode.setSliceColor(Display.getDefault().getSystemColor(SWT.COLOR_WHITE));
 		tree.put(Id, rootNode);
 	}
 
@@ -103,7 +104,7 @@ public class IdNodeDataModel {
 	public void setRootPointer(Node pointer) {
 
 		this.rootPointer = pointer;
-		rootPointer.setColor(Display.getDefault().getSystemColor(SWT.COLOR_WHITE));
+		rootPointer.setSliceColor(Display.getDefault().getSystemColor(SWT.COLOR_WHITE));
 		rootPointer.setAngleBounds(new Point(0, 360));
 		update();
 	}
@@ -144,13 +145,13 @@ public class IdNodeDataModel {
 		node[0].add(rootPointer);
 		getRootPointer().updateAngularBounds();
 		//
-		getRootPointer().setVisibility(true);
+		getRootPointer().setVisible(true);
 		//
-		compress.update();
+		compressCircularSeries.update();
 	}
 
 	public CompressCircularSeries getCompressor() {
 
-		return compress;
+		return compressCircularSeries;
 	}
 }

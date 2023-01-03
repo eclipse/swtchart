@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2020, 2021 Lablicate GmbH.
+ * Copyright (c) 2020, 2023 Lablicate GmbH.
  *
  * This program and the accompanying materials are made
  * available under the terms of the Eclipse Public License 2.0
@@ -12,37 +12,31 @@
  *******************************************************************************/
 package org.eclipse.swtchart.extensions.core;
 
-import java.util.Collections;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
+import org.eclipse.swtchart.ISeries;
+import org.eclipse.swtchart.ISeriesSet;
+
+/*
+ * Only static methods are used.
+ */
 public class SeriesMapper {
 
-	/*
-	 * The mappings contains the changes series settings.
-	 * The defaults contains the initial series settings.
-	 */
-	private static final Map<String, ISeriesSettings> DEFAULTS = new HashMap<>();
+	private static final String KEY_DELIMITER = "_";
 	private static final Map<String, ISeriesSettings> MAPPINGS = new HashMap<>();
 
-	// Only static methods are used.
 	private SeriesMapper() {
 
 	}
 
-	/**
-	 * Clears all defaults and mappings.
-	 */
-	public static void clearAll() {
+	public static String getKey(MappingsType mappingsType, String id) {
 
-		DEFAULTS.clear();
-		MAPPINGS.clear();
+		return mappingsType.name() + KEY_DELIMITER + id;
 	}
 
-	/**
-	 * Clears all mappings.
-	 */
 	public static void clear() {
 
 		MAPPINGS.clear();
@@ -59,156 +53,135 @@ public class SeriesMapper {
 	}
 
 	/**
-	 * Put the instance to the default map.
+	 * Removes the mapping identified by the id.
 	 * 
-	 * @param key
-	 * @param seriesSettings
+	 * @param mappingsType
+	 * @param id
 	 */
-	public static void putDefault(String key, ISeriesSettings seriesSettings) {
+	public static void remove(MappingsType mappingsType, String id) {
 
-		if(key != null && seriesSettings != null) {
-			DEFAULTS.put(key, seriesSettings);
-		}
+		remove(getKey(mappingsType, id));
 	}
 
 	/**
 	 * Put the instance to the settings map.
 	 * 
-	 * @param key
+	 * @param mappingsType
+	 * @param id
 	 * @param seriesSettings
 	 */
+	public static void put(MappingsType mappingsType, String id, ISeriesSettings seriesSettings) {
+
+		if(id != null) {
+			if(isValidMappingsType(mappingsType)) {
+				put(getKey(mappingsType, id), seriesSettings);
+			}
+		}
+	}
+
 	public static void put(String key, ISeriesSettings seriesSettings) {
 
-		if(key != null && seriesSettings != null) {
+		if(seriesSettings != null) {
 			MAPPINGS.put(key, seriesSettings);
 		}
 	}
 
 	/**
-	 * Resets the given id.
+	 * Returns the mapped series setting or null if none is available.
 	 * 
-	 * @param id
-	 */
-	public static void reset(String id) {
-
-		remove(id);
-		ISeriesSettings seriesSettingsDefault = getSeriesSettingsDefault(id);
-		if(seriesSettingsDefault != null) {
-			put(id, MappingsSupport.copySeriesSettings(seriesSettingsDefault));
-		}
-	}
-
-	/**
-	 * Clears the settings and replaces existing settings by their defaults.
-	 */
-	public static void reset() {
-
-		clear();
-		/*
-		 * Transfer the default settings.
-		 */
-		for(Map.Entry<String, ISeriesSettings> mapping : DEFAULTS.entrySet()) {
-			ISeriesSettings seriesSettingsSource = mapping.getValue();
-			put(mapping.getKey(), MappingsSupport.copySeriesSettings(seriesSettingsSource));
-		}
-	}
-
-	/**
-	 * Returns an unmodifiable set of the mappings.
-	 * 
-	 * @return {@link Set}
-	 */
-	public static Set<Map.Entry<String, ISeriesSettings>> getMappings() {
-
-		return Collections.unmodifiableSet(MAPPINGS.entrySet());
-	}
-
-	/**
-	 * Contains the default setting.
-	 * 
-	 * @param id
-	 * @return boolean
-	 */
-	public static boolean containsDefaultSeriesSetting(String id) {
-
-		return DEFAULTS.containsKey(id);
-	}
-
-	/**
-	 * Returns the default series setting.
-	 * 
-	 * @param id
+	 * @param series
+	 * @param baseChart
 	 * @return {@link ISeriesSettings}
 	 */
-	public static ISeriesSettings getSeriesSettingsDefault(String id) {
+	public static ISeriesSettings get(ISeries<?> series, BaseChart baseChart) {
 
-		return DEFAULTS.get(id);
-	}
-
-	/**
-	 * Contains the mapped setting.
-	 * 
-	 * @param id
-	 * @return boolean
-	 */
-	public static boolean containsMappedSeriesSetting(String id) {
-
-		return MAPPINGS.containsKey(id);
-	}
-
-	/**
-	 * Returns the mapped series setting.
-	 * 
-	 * @param id
-	 * @return {@link ISeriesSettings}
-	 */
-	public static ISeriesSettings getSeriesSettingsMapped(String id) {
-
-		return MAPPINGS.get(id);
+		String id = series.getId();
+		ISeriesSettings seriesSettings = baseChart.getSeriesSettings(id);
+		ISeriesSettings seriesSettingsMapped = null;
+		//
+		MappingsType mappingsType = MappingsSupport.getMappingsType(seriesSettings);
+		if(isValidMappingsType(mappingsType)) {
+			String key = getKey(mappingsType, id);
+			seriesSettingsMapped = MAPPINGS.get(key);
+		}
+		//
+		return seriesSettingsMapped;
 	}
 
 	/**
 	 * Maps the settings.
 	 * If the default setting is null, it will be not mapped.
 	 * 
-	 * @param id
-	 * @param seriesSettings
-	 * @param seriesSettingsDefault
+	 * @param series
+	 * @param baseChart
 	 */
-	public static void mapSetting(String id, ISeriesSettings seriesSettings, ISeriesSettings seriesSettingsDefault) {
+	public static void map(ISeries<?> series, BaseChart baseChart) {
 
-		if(seriesSettings != null) {
-			put(id, seriesSettings);
-			if(!containsDefaultSeriesSetting(id) && seriesSettingsDefault != null) {
-				putDefault(id, seriesSettingsDefault);
-			}
+		String id = series.getId();
+		ISeriesSettings seriesSettings = baseChart.getSeriesSettings(id);
+		ISeriesSettings seriesSettingsCopy = MappingsSupport.copySettings(seriesSettings);
+		//
+		if(seriesSettingsCopy != null) {
+			MappingsType mappingsType = MappingsSupport.getMappingsType(seriesSettings);
+			put(mappingsType, id, seriesSettingsCopy);
 		}
 	}
 
-	/**
-	 * If the default is not available yet, a copy will be created.
-	 * Null might be returned.
-	 * 
-	 * @param id
-	 * @param scrollableChart
-	 * @return {@link ISeriesSettings}
-	 */
-	public static ISeriesSettings getSeriesSettingsDefault(String id, ScrollableChart scrollableChart) {
+	public static void unmap(ISeries<?> series, BaseChart baseChart) {
 
-		ISeriesSettings seriesSettingsDefault = null;
-		//
-		if(SeriesMapper.containsDefaultSeriesSetting(id)) {
-			seriesSettingsDefault = getSeriesSettingsDefault(id);
-		} else {
-			if(scrollableChart != null) {
-				BaseChart baseChart = scrollableChart.getBaseChart();
-				ISeriesSettings seriesSettings = baseChart.getSeriesSettings(id);
-				if(seriesSettings != null) {
-					seriesSettingsDefault = MappingsSupport.copySeriesSettings(seriesSettings);
+		String id = series.getId();
+		ISeriesSettings seriesSettings = baseChart.getSeriesSettings(id);
+		MappingsType mappingsType = MappingsSupport.getMappingsType(seriesSettings);
+		remove(mappingsType, id);
+		baseChart.resetSeriesSettings(series);
+	}
+
+	/**
+	 * Returns the mapped series settings.
+	 * 
+	 * @return List
+	 */
+	public static List<MappedSeriesSettings> getMappings() {
+
+		List<MappedSeriesSettings> mappings = new ArrayList<>();
+		for(Map.Entry<String, ISeriesSettings> entry : MAPPINGS.entrySet()) {
+			String key = entry.getKey();
+			int index = key.indexOf(KEY_DELIMITER);
+			if(index > 0) {
+				String value = key.substring(0, index);
+				MappingsType mappingsType = MappingsSupport.getMappingsType(value);
+				if(!MappingsType.NONE.equals(mappingsType)) {
+					String id = key.substring(index + 1, key.length());
+					ISeriesSettings seriesSettings = entry.getValue();
+					mappings.add(new MappedSeriesSettings(mappingsType, id, seriesSettings));
 				}
 			}
 		}
 		//
-		return seriesSettingsDefault;
+		return mappings;
+	}
+
+	/**
+	 * Updates the base chart by mapped series.
+	 * 
+	 * @param baseChart
+	 */
+	public static void update(BaseChart baseChart) {
+
+		ISeriesSet seriesSet = baseChart.getSeriesSet();
+		for(ISeries<?> series : seriesSet.getSeries()) {
+			String id = series.getId();
+			ISeriesSettings seriesSettings = baseChart.getSeriesSettings(id);
+			MappingsType mappingsType = MappingsSupport.getMappingsType(seriesSettings);
+			String key = getKey(mappingsType, id);
+			if(MAPPINGS.containsKey(key)) {
+				baseChart.applySeriesSettings(series, seriesSettings);
+			}
+		}
+	}
+
+	private static boolean isValidMappingsType(MappingsType mappingsType) {
+
+		return !MappingsType.NONE.equals(mappingsType);
 	}
 }

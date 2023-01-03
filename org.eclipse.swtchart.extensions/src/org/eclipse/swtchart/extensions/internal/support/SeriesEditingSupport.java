@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2020, 2021 Lablicate GmbH.
+ * Copyright (c) 2020, 2023 Lablicate GmbH.
  *
  * This program and the accompanying materials are made
  * available under the terms of the Eclipse Public License 2.0
@@ -18,11 +18,15 @@ import org.eclipse.jface.viewers.ColorCellEditor;
 import org.eclipse.jface.viewers.EditingSupport;
 import org.eclipse.jface.viewers.TextCellEditor;
 import org.eclipse.swt.graphics.Color;
+import org.eclipse.swt.graphics.RGB;
 import org.eclipse.swtchart.ISeries;
-import org.eclipse.swtchart.extensions.core.MappingsSupport;
+import org.eclipse.swtchart.extensions.core.BaseChart;
+import org.eclipse.swtchart.extensions.core.ISeriesSettings;
+import org.eclipse.swtchart.extensions.core.ResourceSupport;
 import org.eclipse.swtchart.extensions.core.ScrollableChart;
 import org.eclipse.swtchart.extensions.core.SeriesLabelProvider;
 import org.eclipse.swtchart.extensions.core.SeriesListUI;
+import org.eclipse.swtchart.extensions.core.SeriesMapper;
 
 public class SeriesEditingSupport extends EditingSupport {
 
@@ -53,6 +57,9 @@ public class SeriesEditingSupport extends EditingSupport {
 			case SeriesLabelProvider.DESCRIPTION:
 				canEdit = true;
 				break;
+			case SeriesLabelProvider.MAPPING_STATUS:
+				canEdit = true;
+				break;
 			default:
 				canEdit = false;
 				break;
@@ -63,10 +70,6 @@ public class SeriesEditingSupport extends EditingSupport {
 	@Override
 	protected CellEditor getCellEditor(Object element) {
 
-		/*
-		 * Probably, create a generic ISeriesSettings Cell Editor, which let's the
-		 * user modify all fields except the id.
-		 */
 		CellEditor cellEditor;
 		switch(title) {
 			case SeriesLabelProvider.VISIBLE:
@@ -81,6 +84,9 @@ public class SeriesEditingSupport extends EditingSupport {
 			case SeriesLabelProvider.DESCRIPTION:
 				cellEditor = new TextCellEditor(seriesListUI.getTable());
 				break;
+			case SeriesLabelProvider.MAPPING_STATUS:
+				cellEditor = new CheckboxCellEditor(seriesListUI.getTable());
+				break;
 			default:
 				cellEditor = null;
 				break;
@@ -91,24 +97,41 @@ public class SeriesEditingSupport extends EditingSupport {
 	@Override
 	protected Object getValue(Object element) {
 
-		Object object;
-		switch(title) {
-			case SeriesLabelProvider.VISIBLE:
-				object = SeriesLabelProvider.isVisible(element);
-				break;
-			case SeriesLabelProvider.VISIBLE_IN_LEGEND:
-				object = SeriesLabelProvider.isVisibleInLegend(element);
-				break;
-			case SeriesLabelProvider.COLOR:
-				Color color = SeriesLabelProvider.getColor(element);
-				object = color != null ? color.getRGB() : null;
-				break;
-			case SeriesLabelProvider.DESCRIPTION:
-				object = SeriesLabelProvider.getDescription(element);
-				break;
-			default:
-				object = null;
-				break;
+		Object object = null;
+		if(element instanceof ISeries) {
+			/*
+			 * Series Settings
+			 */
+			ISeries<?> series = (ISeries<?>)element;
+			BaseChart baseChart = seriesListUI.getScrollableChart().getBaseChart();
+			ISeriesSettings seriesSettings = baseChart.getSeriesSettings(series.getId());
+			//
+			switch(title) {
+				case SeriesLabelProvider.VISIBLE:
+					object = seriesSettings.isVisible();
+					break;
+				case SeriesLabelProvider.VISIBLE_IN_LEGEND:
+					object = seriesSettings.isVisibleInLegend();
+					break;
+				case SeriesLabelProvider.COLOR:
+					Color color = SeriesLabelProvider.getColor(seriesSettings);
+					object = color != null ? color.getRGB() : null;
+					break;
+				case SeriesLabelProvider.DESCRIPTION:
+					object = seriesSettings.getDescription();
+					break;
+				case SeriesLabelProvider.MAPPING_STATUS:
+					ScrollableChart scrollableChart = getScrollableChart();
+					if(scrollableChart != null) {
+						object = (SeriesMapper.get(series, scrollableChart.getBaseChart()) != null);
+					} else {
+						object = false;
+					}
+					break;
+				default:
+					object = null;
+					break;
+			}
 		}
 		return object;
 	}
@@ -117,8 +140,42 @@ public class SeriesEditingSupport extends EditingSupport {
 	protected void setValue(Object element, Object object) {
 
 		if(element instanceof ISeries) {
+			/*
+			 * Series Settings
+			 */
 			ISeries<?> series = (ISeries<?>)element;
-			MappingsSupport.mapSettings(series, title, object, getScrollableChart());
+			ScrollableChart scrollableChart = getScrollableChart();
+			BaseChart baseChart = scrollableChart.getBaseChart();
+			ISeriesSettings seriesSettings = baseChart.getSeriesSettings(series.getId());
+			//
+			switch(title) {
+				case SeriesLabelProvider.VISIBLE:
+					seriesSettings.setVisible(Boolean.valueOf(object.toString()));
+					break;
+				case SeriesLabelProvider.VISIBLE_IN_LEGEND:
+					seriesSettings.setVisibleInLegend(Boolean.valueOf(object.toString()));
+					break;
+				case SeriesLabelProvider.COLOR:
+					if(object instanceof RGB) {
+						RGB rgbNew = (RGB)object;
+						Color color = ResourceSupport.getColor(rgbNew);
+						SeriesLabelProvider.setColor(seriesSettings, color);
+					}
+					break;
+				case SeriesLabelProvider.DESCRIPTION:
+					seriesSettings.setDescription(object.toString());
+					break;
+				case SeriesLabelProvider.MAPPING_STATUS:
+					boolean map = Boolean.valueOf(object.toString());
+					if(map) {
+						SeriesMapper.map(series, baseChart);
+					} else {
+						SeriesMapper.unmap(series, baseChart);
+					}
+					break;
+			}
+			//
+			baseChart.applySeriesSettings(series, seriesSettings, true);
 			refresh();
 		}
 	}
@@ -130,7 +187,7 @@ public class SeriesEditingSupport extends EditingSupport {
 
 	private void refresh() {
 
-		MappingsSupport.adjustSettings(getScrollableChart());
+		getScrollableChart().redraw();
 		seriesListUI.refresh();
 	}
 }

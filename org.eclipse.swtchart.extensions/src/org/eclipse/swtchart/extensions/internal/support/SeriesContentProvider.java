@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2021 Lablicate GmbH.
+ * Copyright (c) 2021, 2023 Lablicate GmbH.
  *
  * This program and the accompanying materials are made
  * available under the terms of the Eclipse Public License 2.0
@@ -12,6 +12,8 @@
  *******************************************************************************/
 package org.eclipse.swtchart.extensions.internal.support;
 
+import java.util.List;
+
 import org.eclipse.jface.viewers.IStructuredContentProvider;
 import org.eclipse.swtchart.ISeriesSet;
 
@@ -22,6 +24,8 @@ public class SeriesContentProvider implements IStructuredContentProvider {
 
 		if(input instanceof ISeriesSet) {
 			return ((ISeriesSet)input).getSeries();
+		} else if(input instanceof List<?>) {
+			return ((List<?>)input).toArray();
 		} else {
 			return null;
 		}

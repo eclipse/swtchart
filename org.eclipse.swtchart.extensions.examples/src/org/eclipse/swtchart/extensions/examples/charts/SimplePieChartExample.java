@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2020, 2022 SWTChart project.
+ * Copyright (c) 2020, 2023 SWTChart project.
  *
  * This program and the accompanying materials are made
  * available under the terms of the Eclipse Public License 2.0
@@ -9,6 +9,7 @@
  * 
  * Contributors:
  * Himanshu Balasamanta - initial API and implementation
+ * Philip Wenig - improvement series data model
  *******************************************************************************/
 package org.eclipse.swtchart.extensions.examples.charts;
 
@@ -27,7 +28,9 @@ public class SimplePieChartExample {
 		shell.setSize(700, 600);
 		shell.setLayout(new FillLayout());
 		//
-		new SimplePieChart(shell);
+		boolean doughnut = true;
+		boolean highlightSeries = false;
+		new SimplePieChart(shell, doughnut, highlightSeries);
 		shell.open();
 		//
 		while(!shell.isDisposed()) {

@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2020, 2021 SWTChart project.
+ * Copyright (c) 2020, 2023 SWTChart project.
  *
  * This program and the accompanying materials are made
  * available under the terms of the Eclipse License 2.0
@@ -15,21 +15,22 @@ package org.eclipse.swtchart.extensions.piecharts;
 
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swtchart.ISeries.SeriesType;
+import org.eclipse.swtchart.LineStyle;
 import org.eclipse.swtchart.extensions.core.ISeriesSettings;
 
 public interface ICircularSeriesSettings extends ISeriesSettings {
 
-	void setBorderColor(Color color);
+	Color getSliceColor();
 
-	void setBorderWidth(int width);
-
-	void setBorderStyle(int borderStyle);
-
-	Color getBorderColor();
+	void setSliceColor(Color sliceColor);
 
 	int getBorderWidth();
 
-	int getBorderStyle();
+	void setBorderWidth(int borderWidth);
+
+	LineStyle getBorderStyle();
+
+	void setBorderStyle(LineStyle borderStyle);
 
 	void setSeriesType(SeriesType type);
 
@@ -42,8 +43,4 @@ public interface ICircularSeriesSettings extends ISeriesSettings {
 	void setFillEntireSpace(boolean fillEntireSpace);
 
 	boolean isEntireSpaceFilled();
-
-	void setHighlightLineWidth(int width);
-
-	int getHighlightLineWidth();
 }

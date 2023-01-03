@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2020, 2021 SWTChart project.
+ * Copyright (c) 2020, 2023 SWTChart project.
  *
  * This program and the accompanying materials are made
  * available under the terms of the Eclipse Public License 2.0
@@ -17,24 +17,30 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swtchart.ISeries.SeriesType;
+import org.eclipse.swtchart.LineStyle;
 import org.eclipse.swtchart.extensions.core.AbstractSeriesSettings;
 import org.eclipse.swtchart.extensions.core.ISeriesSettings;
 
 public class CircularSeriesSettings extends AbstractSeriesSettings implements ICircularSeriesSettings {
 
-	private Color borderColor = Display.getDefault().getSystemColor(SWT.COLOR_BLACK);
+	private Color sliceColor = Display.getDefault().getSystemColor(SWT.COLOR_BLACK);
 	private int borderWidth = 1;
-	private int highlightLineWidth = 2;
-	private int borderStyle = SWT.LINE_SOLID;
+	private LineStyle borderStyle = LineStyle.SOLID;
 	private SeriesType seriesType = SeriesType.PIE;
 	private boolean redrawOnClick = true;
 	private boolean fillEntireSpace = false;
 	private ICircularSeriesSettings seriesSettingsHighlight = null;
 
 	@Override
-	public Color getBorderColor() {
+	public Color getSliceColor() {
 
-		return borderColor;
+		return sliceColor;
+	}
+
+	@Override
+	public void setSliceColor(Color color) {
+
+		this.sliceColor = color;
 	}
 
 	@Override
@@ -44,25 +50,19 @@ public class CircularSeriesSettings extends AbstractSeriesSettings implements IC
 	}
 
 	@Override
-	public int getBorderStyle() {
-
-		return borderStyle;
-	}
-
-	@Override
-	public void setBorderColor(Color color) {
-
-		this.borderColor = color;
-	}
-
-	@Override
 	public void setBorderWidth(int borderWidth) {
 
 		this.borderWidth = borderWidth;
 	}
 
 	@Override
-	public void setBorderStyle(int borderStyle) {
+	public LineStyle getBorderStyle() {
+
+		return borderStyle;
+	}
+
+	@Override
+	public void setBorderStyle(LineStyle borderStyle) {
 
 		this.borderStyle = borderStyle;
 	}
@@ -92,18 +92,6 @@ public class CircularSeriesSettings extends AbstractSeriesSettings implements IC
 	}
 
 	@Override
-	public void setHighlightLineWidth(int width) {
-
-		this.highlightLineWidth = width;
-	}
-
-	@Override
-	public int getHighlightLineWidth() {
-
-		return highlightLineWidth;
-	}
-
-	@Override
 	public void setFillEntireSpace(boolean fillEntireSpace) {
 
 		this.fillEntireSpace = fillEntireSpace;
@@ -121,6 +109,7 @@ public class CircularSeriesSettings extends AbstractSeriesSettings implements IC
 		if(seriesSettingsHighlight == null) {
 			try {
 				seriesSettingsHighlight = (ICircularSeriesSettings)this.clone();
+				seriesSettingsHighlight.setHighlight(true);
 			} catch(CloneNotSupportedException e) {
 				seriesSettingsHighlight = new CircularSeriesSettings();
 			}
@@ -144,13 +133,13 @@ public class CircularSeriesSettings extends AbstractSeriesSettings implements IC
 			ICircularSeriesSettings source = this;
 			ICircularSeriesSettings sink = (ICircularSeriesSettings)seriesSettingsSink;
 			sink.setDescription(source.getDescription());
-			sink.setBorderColor(source.getBorderColor());
+			sink.setSliceColor(source.getSliceColor());
 			sink.setBorderWidth(source.getBorderWidth());
-			sink.setHighlightLineWidth(source.getHighlightLineWidth());
 			sink.setBorderStyle(source.getBorderStyle());
 			sink.setSeriesType(source.getSeriesType());
 			sink.setRedrawOnClick(source.isRedrawOnClick());
 			sink.setFillEntireSpace(source.isEntireSpaceFilled());
+			sink.setHighlight(source.isHighlight());
 			success = true;
 		}
 		//

@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2017, 2020 Lablicate GmbH.
+ * Copyright (c) 2017, 2023 Lablicate GmbH.
  *
  * This program and the accompanying materials are made
  * available under the terms of the Eclipse Public License 2.0
@@ -65,7 +65,7 @@ public class BarChart extends ScrollableChart {
 					IBarSeriesSettings barSeriesSettings = barSeriesData.getSettings();
 					barSeriesSettings.getSeriesSettingsHighlight(); // Initialize
 					IBarSeries<?> barSeries = (IBarSeries<?>)createSeries(optimizedSeriesData, barSeriesSettings);
-					baseChart.applyBarSeriesSettings(barSeries, barSeriesSettings);
+					baseChart.applySeriesSettings(barSeries, barSeriesSettings);
 					/*
 					 * Automatically use stretched if it is a large data set.
 					 */

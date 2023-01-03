@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2017, 2022 Lablicate GmbH.
+ * Copyright (c) 2017, 2023 Lablicate GmbH.
  *
  * This program and the accompanying materials are made
  * available under the terms of the Eclipse Public License 2.0
@@ -301,9 +301,9 @@ public class ScrollableChart extends Composite implements IScrollableChart, IEve
 		return series;
 	}
 
-	public ICircularSeries<?> createCircularSeries(ICircularSeriesData circularData, ICircularSeriesSettings circularSeriesSettings) {
+	public ICircularSeries<?> createCircularSeries(ICircularSeriesData seriesData, ICircularSeriesSettings seriesSettings) {
 
-		ICircularSeries<?> circularSeries = baseChart.createCircularSeries(circularData, circularSeriesSettings);
+		ICircularSeries<?> circularSeries = (ICircularSeries<?>)baseChart.createSeries(seriesData, seriesSettings);
 		resetSlider();
 		return circularSeries;
 	}

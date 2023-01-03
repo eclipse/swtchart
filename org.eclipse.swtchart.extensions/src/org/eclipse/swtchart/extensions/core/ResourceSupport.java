@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2020, 2022 Lablicate GmbH.
+ * Copyright (c) 2020, 2023 Lablicate GmbH.
  *
  * This program and the accompanying materials are made
  * available under the terms of the Eclipse Public License 2.0
@@ -50,8 +50,8 @@ public class ResourceSupport {
 	public static final String ICON_POSITION = "position.gif"; // $NON-NLS-1$
 	public static final String ICON_SETTINGS = "preferences.gif"; // $NON-NLS-1$
 	public static final String ICON_MAPPINGS = "mappings.gif"; // $NON-NLS-1$
-	public static final String ICON_DELETE = "delete.gif"; // $NON-NLS-1$
-	public static final String ICON_DELETE_ALL = "deleteAll.gif"; // $NON-NLS-1$
+	public static final String ICON_DELETE = "delete.png"; // $NON-NLS-1$
+	public static final String ICON_DELETE_ALL = "deleteAll.png"; // $NON-NLS-1$
 	public static final String ARROW_LEFT = "arrowLeft.gif"; // $NON-NLS-1$
 	public static final String ARROW_RIGHT = "arrowRight.gif"; // $NON-NLS-1$
 	public static final String ARROW_UP = "arrowUp.gif"; // $NON-NLS-1$
@@ -71,6 +71,8 @@ public class ResourceSupport {
 	public static final String ICON_PRINT = "print.gif"; // $NON-NLS-1$
 	public static final String ICON_TEX = "tex.gif"; // $NON-NLS-1$
 	public static final String ICON_R = "r.gif"; // $NON-NLS-1$
+	public static final String ICON_TRANSFER = "transfer.png"; // $NON-NLS-1$
+	public static final String ICON_SAVE = "save.gif"; // $NON-NLS-1$
 	//
 	private static final Map<RGB, Color> colorMap = new HashMap<>();
 	private static final String RGB_DELIMITER = ",";
@@ -179,6 +181,18 @@ public class ResourceSupport {
 		return preferenceStore;
 	}
 
+	public static void savePreferenceStore() {
+
+		IPreferenceStore preferenceStore = getPreferenceStore();
+		if(preferenceStore instanceof PreferenceStore) {
+			try {
+				((PreferenceStore)preferenceStore).save();
+			} catch(IOException e) {
+				e.printStackTrace();
+			}
+		}
+	}
+
 	/**
 	 * Returns the given image. There is no need to
 	 * dispose this image. It's handled by the
@@ -248,6 +262,8 @@ public class ResourceSupport {
 		imageSet.add(ICON_PRINT);
 		imageSet.add(ICON_TEX);
 		imageSet.add(ICON_R);
+		imageSet.add(ICON_TRANSFER);
+		imageSet.add(ICON_SAVE);
 		//
 		for(String image : imageSet) {
 			imageRegistry.put(image, createImageDescriptor(image));

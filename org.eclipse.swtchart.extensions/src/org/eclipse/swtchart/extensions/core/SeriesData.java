@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2017, 2019 Lablicate GmbH.
+ * Copyright (c) 2017, 2023 Lablicate GmbH.
  *
  * This program and the accompanying materials are made
  * available under the terms of the Eclipse Public License 2.0
@@ -27,6 +27,7 @@ public class SeriesData implements ISeriesData {
 	 * @param id
 	 */
 	public SeriesData(double[] ySeries, String id) {
+
 		this(ySeries, 1, id);
 	}
 
@@ -39,6 +40,7 @@ public class SeriesData implements ISeriesData {
 	 * @param id
 	 */
 	public SeriesData(double[] ySeries, int xStart, String id) {
+
 		assert (ySeries != null);
 		assert (id != null);
 		//
@@ -59,6 +61,7 @@ public class SeriesData implements ISeriesData {
 	 * @param id
 	 */
 	public SeriesData(double[] xSeries, double[] ySeries, String id) {
+
 		assert (xSeries != null);
 		assert (ySeries != null);
 		assert (id != null);

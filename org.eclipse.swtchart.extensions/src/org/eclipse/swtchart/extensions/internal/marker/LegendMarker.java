@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2017, 2022 Lablicate GmbH.
+ * Copyright (c) 2017, 2023 Lablicate GmbH.
  *
  * This program and the accompanying materials are made
  * available under the terms of the Eclipse Public License 2.0
@@ -76,19 +76,24 @@ public class LegendMarker extends AbstractPositionPaintListener implements IPosi
 
 	private void drawNodes(double primaryValueX, double primaryValueY, CircularSeries series) {
 
+		String id = "---";
+		String value = "---";
+		String percentage = "---";
+		//
 		Node node = series.getPieSliceFromPosition(primaryValueX, primaryValueY);
-		String id = "---", val = "---", percentage = "---";
 		if(node != null) {
-			id = node.getId();
+			id = node.getDescription().isEmpty() ? node.getId() : node.getDescription();
 			double percent = ((node.getValue() * 100.0) / (node.getDataModel().getRootPointer().getValue()));
-			DecimalFormat dec = new DecimalFormat();
-			val = dec.format(node.getValue());
-			percentage = dec.format(percent);
+			DecimalFormat decimalFormat = new DecimalFormat();
+			value = decimalFormat.format(node.getValue());
+			percentage = decimalFormat.format(percent);
 		}
+		//
 		String nodeClass = getBaseChart().getAxisSet().getXAxis(0).getTitle().getText();
 		String valueClass = getBaseChart().getAxisSet().getYAxis(0).getTitle().getText();
 		stringBuilder.append(nodeClass + " : " + id + "\n");
-		stringBuilder.append(valueClass + " : " + val + "\n");
+		stringBuilder.append(valueClass + " : " + value + "\n");
+		//
 		if(node != null) {
 			stringBuilder.append("Percent of " + node.getDataModel().getRootPointer().getId() + " : " + percentage + "%\n");
 		}

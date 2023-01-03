@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2020, 2022 Lablicate GmbH.
+ * Copyright (c) 2020, 2023 Lablicate GmbH.
  *
  * This program and the accompanying materials are made
  * available under the terms of the Eclipse Public License 2.0
@@ -16,21 +16,17 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicReference;
 
-import org.eclipse.core.databinding.validation.IValidator;
-import org.eclipse.core.runtime.IStatus;
 import org.eclipse.jface.action.MenuManager;
 import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.jface.dialogs.MessageDialog;
-import org.eclipse.jface.fieldassist.ControlDecoration;
-import org.eclipse.jface.fieldassist.FieldDecorationRegistry;
 import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.jface.preference.PreferenceDialog;
 import org.eclipse.jface.preference.PreferenceManager;
 import org.eclipse.jface.preference.PreferenceNode;
 import org.eclipse.jface.window.Window;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.events.KeyAdapter;
-import org.eclipse.swt.events.KeyEvent;
+import org.eclipse.swt.events.MouseAdapter;
+import org.eclipse.swt.events.MouseEvent;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.graphics.Image;
@@ -38,39 +34,40 @@ import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Control;
-import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Menu;
+import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Table;
-import org.eclipse.swt.widgets.Text;
+import org.eclipse.swtchart.ICircularSeries;
 import org.eclipse.swtchart.ISeries;
 import org.eclipse.swtchart.ISeriesSet;
-import org.eclipse.swtchart.extensions.internal.marker.EmbeddedLegend;
-import org.eclipse.swtchart.extensions.internal.support.PositionValidator;
-import org.eclipse.swtchart.extensions.menu.legend.HideInLegendAction;
-import org.eclipse.swtchart.extensions.menu.legend.HideSeriesAction;
+import org.eclipse.swtchart.extensions.barcharts.IBarSeriesSettings;
+import org.eclipse.swtchart.extensions.dialogs.AbstractSeriesSettingsDialog;
+import org.eclipse.swtchart.extensions.dialogs.BarSeriesSettingsDialog;
+import org.eclipse.swtchart.extensions.dialogs.CircularSeriesSettingsDialog;
+import org.eclipse.swtchart.extensions.dialogs.LineSeriesSettingsDialog;
+import org.eclipse.swtchart.extensions.dialogs.ScatterSeriesSettingsDialog;
+import org.eclipse.swtchart.extensions.linecharts.ILineSeriesSettings;
+import org.eclipse.swtchart.extensions.menu.legend.MapSettingsAction;
+import org.eclipse.swtchart.extensions.menu.legend.SeriesVisibilityAction;
 import org.eclipse.swtchart.extensions.menu.legend.SetColorAction;
 import org.eclipse.swtchart.extensions.menu.legend.SetDescriptionAction;
-import org.eclipse.swtchart.extensions.menu.legend.ShowInLegendAction;
-import org.eclipse.swtchart.extensions.menu.legend.ShowSeriesAction;
+import org.eclipse.swtchart.extensions.piecharts.CircularSeriesLegend;
+import org.eclipse.swtchart.extensions.piecharts.ICircularSeriesSettings;
 import org.eclipse.swtchart.extensions.preferences.PreferenceConstants;
 import org.eclipse.swtchart.extensions.preferences.PreferencePage;
+import org.eclipse.swtchart.extensions.scattercharts.IScatterSeriesSettings;
+import org.eclipse.swtchart.model.Node;
+import org.eclipse.swtchart.model.NodeDataModel;
 
 public class ExtendedLegendUI extends Composite {
 
 	private static final String MENU_TEXT = "Series PopUp Menu";
 	//
+	private AtomicReference<Button> sortControl = new AtomicReference<>();
+	private AtomicReference<InChartLegendUI> toolbarInChartLegend = new AtomicReference<>();
+	private AtomicReference<SeriesListUI> listControl = new AtomicReference<>();
+	//
 	private ScrollableChart scrollableChart;
-	//
-	private Text textX;
-	private Text textY;
-	private Button buttonSort;
-	private AtomicReference<SeriesListUI> tableViewer = new AtomicReference<>();
-	//
-	private EmbeddedLegend embeddedLegend;
-	private boolean capturePosition = false;
-	//
-	private List<Control> controls = new ArrayList<>();
 	private ISeriesSet seriesSet;
 	//
 	private IPreferenceStore preferenceStore = ResourceSupport.getPreferenceStore();
@@ -84,14 +81,13 @@ public class ExtendedLegendUI extends Composite {
 	public void setScrollableChart(ScrollableChart scrollableChart) {
 
 		this.scrollableChart = scrollableChart;
-		tableViewer.get().setScrollableChart(scrollableChart);
-		createEmbeddedLegend();
+		toolbarInChartLegend.get().setScrollableChart(scrollableChart);
+		listControl.get().setScrollableChart(scrollableChart);
 	}
 
 	public void setInput(ISeriesSet seriesSet) {
 
 		this.seriesSet = seriesSet;
-		MappingsSupport.adjustSettings(scrollableChart);
 		updateSeriesList();
 	}
 
@@ -100,8 +96,15 @@ public class ExtendedLegendUI extends Composite {
 		setLayout(new GridLayout(1, true));
 		//
 		createToolbarMain(this);
+		createToolbarInChartLegend(this);
 		createListSection(this);
 		//
+		initialize();
+	}
+
+	private void initialize() {
+
+		setCompositeVisibility(toolbarInChartLegend.get(), false);
 		updateControls();
 		applySettings();
 	}
@@ -109,26 +112,25 @@ public class ExtendedLegendUI extends Composite {
 	private void createToolbarMain(Composite parent) {
 
 		Composite composite = new Composite(parent, SWT.NONE);
-		composite.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
-		composite.setLayout(new GridLayout(12, false));
+		GridData gridData = new GridData(GridData.FILL_HORIZONTAL);
+		gridData.horizontalAlignment = SWT.END;
+		composite.setLayoutData(gridData);
+		composite.setLayout(new GridLayout(6, false));
 		//
 		createButtonToggleVisibility(composite);
-		add(createButtonMove(composite, ResourceSupport.ARROW_LEFT, "Move Legend Left"));
-		add(createButtonMove(composite, ResourceSupport.ARROW_UP, "Move Legend Up"));
-		add(createButtonMove(composite, ResourceSupport.ARROW_DOWN, "Move Legend Down"));
-		add(createButtonMove(composite, ResourceSupport.ARROW_RIGHT, "Move Legend Right"));
-		add(textX = createTextPositionX(composite));
-		add(textY = createTextPositionY(composite));
-		add(createButtonSetPosition(composite));
 		createButtonToggleLegend(composite);
-		buttonSort = createButtonToggleSort(composite);
-		createButtonMappings(composite);
+		createButtonToggleSort(composite);
+		createButtonTransferMappings(composite);
+		createButtonShowMappings(composite);
 		createButtonSettings(composite);
 	}
 
-	private void add(Control control) {
+	private void createToolbarInChartLegend(Composite parent) {
 
-		controls.add(control);
+		InChartLegendUI inChartLegendUI = new InChartLegendUI(parent, SWT.NONE);
+		inChartLegendUI.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+		//
+		toolbarInChartLegend.set(inChartLegendUI);
 	}
 
 	private Button createButtonToggleVisibility(Composite parent) {
@@ -142,18 +144,19 @@ public class ExtendedLegendUI extends Composite {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 
+				BaseChart baseChart = scrollableChart.getBaseChart();
 				boolean visible = anyVisible(seriesSet);
 				for(ISeries<?> series : seriesSet.getSeries()) {
-					series.setVisible(!visible);
-					MappingsSupport.mapSettings(series, SeriesLabelProvider.VISIBLE, !visible, scrollableChart);
-					series.setVisibleInLegend(visible);
-					MappingsSupport.mapSettings(series, SeriesLabelProvider.VISIBLE_IN_LEGEND, !visible, scrollableChart);
+					ISeriesSettings seriesSettings = baseChart.getSeriesSettings(series.getId());
+					boolean selection = !visible;
+					seriesSettings.setVisible(selection);
+					seriesSettings.setVisibleInLegend(selection);
+					applySettings(baseChart, series, seriesSettings, false);
 				}
+				//
 				scrollableChart.redraw();
-				MappingsSupport.adjustSettings(scrollableChart);
 				button.setImage(getVisibilityIcon(!visible));
-				SeriesListUI seriesListUI = tableViewer.get();
-				seriesListUI.refresh();
+				listControl.get().refresh();
 			}
 		});
 		//
@@ -175,131 +178,6 @@ public class ExtendedLegendUI extends Composite {
 		return visible ? ResourceSupport.getImage(ResourceSupport.ICON_UNCHECK_ALL) : ResourceSupport.getImage(ResourceSupport.ICON_CHECK_ALL);
 	}
 
-	private Button createButtonMove(Composite parent, String icon, String tooltip) {
-
-		Button button = new Button(parent, SWT.PUSH);
-		button.setText("");
-		button.setToolTipText(tooltip);
-		button.setImage(ResourceSupport.getImage(icon));
-		button.addSelectionListener(new SelectionAdapter() {
-
-			@Override
-			public void widgetSelected(SelectionEvent e) {
-
-				if(embeddedLegend != null) {
-					/*
-					 * Current position
-					 */
-					int moveX = preferenceStore != null ? preferenceStore.getInt(PreferenceConstants.P_MOVE_LEGEND_X) : PreferenceConstants.DEF_MOVE_LEGEND_X;
-					int moveY = preferenceStore != null ? preferenceStore.getInt(PreferenceConstants.P_MOVE_LEGEND_Y) : PreferenceConstants.DEF_MOVE_LEGEND_Y;
-					int x = embeddedLegend.getX();
-					int y = embeddedLegend.getY();
-					/*
-					 * Modify the position
-					 */
-					switch(icon) {
-						case ResourceSupport.ARROW_LEFT:
-							x -= moveX;
-							break;
-						case ResourceSupport.ARROW_UP:
-							y -= moveY;
-							break;
-						case ResourceSupport.ARROW_DOWN:
-							y += moveY;
-							break;
-						case ResourceSupport.ARROW_RIGHT:
-							x += moveX;
-							break;
-					}
-					/*
-					 * Update the position
-					 */
-					updateLegendPosition(x, y, true);
-				}
-			}
-		});
-		//
-		return button;
-	}
-
-	private Text createTextPositionX(Composite parent) {
-
-		Text text = new Text(parent, SWT.BORDER);
-		text.setText("");
-		text.setToolTipText("Legend Position X");
-		GridData gridData = new GridData(GridData.FILL_HORIZONTAL);
-		gridData.grabExcessHorizontalSpace = true;
-		gridData.minimumWidth = 60;
-		text.setLayoutData(gridData);
-		//
-		PositionValidator validator = new PositionValidator();
-		ControlDecoration controlDecoration = new ControlDecoration(text, SWT.LEFT | SWT.TOP);
-		//
-		text.addKeyListener(new KeyAdapter() {
-
-			@Override
-			public void keyReleased(KeyEvent e) {
-
-				if(validate(validator, controlDecoration, text)) {
-					if(preferenceStore != null) {
-						preferenceStore.setValue(PreferenceConstants.P_LEGEND_POSITION_X, validator.getPosition());
-						updateLegendPosition(true);
-					}
-				}
-			}
-		});
-		//
-		return text;
-	}
-
-	private Text createTextPositionY(Composite parent) {
-
-		Text text = new Text(parent, SWT.BORDER);
-		text.setText("");
-		text.setToolTipText("Legend Position Y");
-		GridData gridData = new GridData(GridData.FILL_HORIZONTAL);
-		gridData.grabExcessHorizontalSpace = true;
-		gridData.minimumWidth = 60;
-		text.setLayoutData(gridData);
-		//
-		PositionValidator validator = new PositionValidator();
-		ControlDecoration controlDecoration = new ControlDecoration(text, SWT.LEFT | SWT.TOP);
-		//
-		text.addKeyListener(new KeyAdapter() {
-
-			@Override
-			public void keyReleased(KeyEvent e) {
-
-				if(validate(validator, controlDecoration, text)) {
-					if(preferenceStore != null) {
-						preferenceStore.setValue(PreferenceConstants.P_LEGEND_POSITION_Y, validator.getPosition());
-						updateLegendPosition(true);
-					}
-				}
-			}
-		});
-		//
-		return text;
-	}
-
-	private Button createButtonSetPosition(Composite parent) {
-
-		Button button = new Button(parent, SWT.PUSH);
-		button.setText("");
-		button.setToolTipText("Set the position of the legend.");
-		button.setImage(ResourceSupport.getImage(ResourceSupport.ICON_POSITION));
-		button.addSelectionListener(new SelectionAdapter() {
-
-			@Override
-			public void widgetSelected(SelectionEvent e) {
-
-				capturePosition = MessageDialog.openConfirm(e.display.getActiveShell(), "Legend Position", "Set the position manually by using left mouse button double-click in the chart.");
-			}
-		});
-		//
-		return button;
-	}
-
 	private Button createButtonToggleLegend(Composite parent) {
 
 		Button button = new Button(parent, SWT.PUSH);
@@ -311,18 +189,13 @@ public class ExtendedLegendUI extends Composite {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 
-				if(embeddedLegend != null) {
-					/*
-					 * Show/Hide
-					 */
-					boolean draw = embeddedLegend.isDraw();
-					embeddedLegend.setDraw(!draw);
-					//
-					if(scrollableChart != null) {
-						scrollableChart.redraw();
-					}
-					//
-					updateControls();
+				if(isCircularSeries()) {
+					IChartSettings chartSettings = scrollableChart.getChartSettings();
+					chartSettings.setLegendVisible(!chartSettings.isLegendVisible());
+					scrollableChart.applySettings(chartSettings);
+				} else {
+					InChartLegendUI inChartLegendUI = toolbarInChartLegend.get();
+					setCompositeVisibility(inChartLegendUI, inChartLegendUI.toggleLegend());
 				}
 			}
 		});
@@ -330,7 +203,7 @@ public class ExtendedLegendUI extends Composite {
 		return button;
 	}
 
-	private Button createButtonToggleSort(Composite parent) {
+	private void createButtonToggleSort(Composite parent) {
 
 		Button button = new Button(parent, SWT.PUSH);
 		button.setText("");
@@ -343,12 +216,13 @@ public class ExtendedLegendUI extends Composite {
 
 				boolean sorted = preferenceStore.getBoolean(PreferenceConstants.P_SORT_LEGEND_TABLE);
 				preferenceStore.setValue(PreferenceConstants.P_SORT_LEGEND_TABLE, !sorted);
+				ResourceSupport.savePreferenceStore();
 				updateButtonSortImage();
 				updateSeriesTableSortStatus();
 			}
 		});
 		//
-		return button;
+		sortControl.set(button);
 	}
 
 	private Image getSortedIcon(boolean sorted) {
@@ -356,7 +230,32 @@ public class ExtendedLegendUI extends Composite {
 		return sorted ? ResourceSupport.getImage(ResourceSupport.ICON_SORT_ENABLED) : ResourceSupport.getImage(ResourceSupport.ICON_SORT_DISABLED);
 	}
 
-	private Button createButtonMappings(Composite parent) {
+	private Button createButtonTransferMappings(Composite parent) {
+
+		Button button = new Button(parent, SWT.PUSH);
+		button.setText("");
+		button.setToolTipText("Transfer the mappings of the selected series.");
+		button.setImage(ResourceSupport.getImage(ResourceSupport.ICON_TRANSFER));
+		button.addSelectionListener(new SelectionAdapter() {
+
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+
+				if(MessageDialog.openQuestion(e.display.getActiveShell(), "Mappings", "Would you like to map all listed series?")) {
+					if(seriesSet != null) {
+						BaseChart baseChart = scrollableChart.getBaseChart();
+						for(ISeries<?> series : seriesSet.getSeries()) {
+							SeriesMapper.map(series, baseChart);
+						}
+					}
+				}
+			}
+		});
+		//
+		return button;
+	}
+
+	private Button createButtonShowMappings(Composite parent) {
 
 		Button button = new Button(parent, SWT.PUSH);
 		button.setText("");
@@ -367,9 +266,10 @@ public class ExtendedLegendUI extends Composite {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 
-				MappingsDialog mappingsDialog = new MappingsDialog(e.display.getActiveShell(), scrollableChart);
+				MappingsDialog mappingsDialog = new MappingsDialog(e.display.getActiveShell());
 				int returnCode = mappingsDialog.open();
 				if(returnCode == IDialogConstants.OK_ID) {
+					SeriesMapper.update(scrollableChart.getBaseChart());
 					updateSeriesList();
 				}
 			}
@@ -411,7 +311,7 @@ public class ExtendedLegendUI extends Composite {
 
 		updateButtonSortImage();
 		updateSeriesTableSortStatus();
-		updateLegendPosition(true);
+		toolbarInChartLegend.get().update();
 	}
 
 	private void createListSection(Composite parent) {
@@ -426,119 +326,155 @@ public class ExtendedLegendUI extends Composite {
 		String menuId = getClass().getCanonicalName();
 		MenuManager menuManager = new MenuManager(MENU_TEXT, menuId);
 		menuManager.setRemoveAllWhenShown(true);
-		menuManager.addMenuListener(new HideSeriesAction(seriesListUI));
-		menuManager.addMenuListener(new ShowSeriesAction(seriesListUI));
-		menuManager.addMenuListener(new HideInLegendAction(seriesListUI));
-		menuManager.addMenuListener(new ShowInLegendAction(seriesListUI));
+		menuManager.addMenuListener(new SeriesVisibilityAction(seriesListUI, false, false));
+		menuManager.addMenuListener(new SeriesVisibilityAction(seriesListUI, true, false));
+		menuManager.addMenuListener(new SeriesVisibilityAction(seriesListUI, false, true));
+		menuManager.addMenuListener(new SeriesVisibilityAction(seriesListUI, true, true));
 		menuManager.addMenuListener(new SetColorAction(seriesListUI));
 		menuManager.addMenuListener(new SetDescriptionAction(seriesListUI));
+		menuManager.addMenuListener(new MapSettingsAction(seriesListUI, true));
+		menuManager.addMenuListener(new MapSettingsAction(seriesListUI, false));
 		Menu menu = menuManager.createContextMenu(table);
 		table.setMenu(menu);
 		//
-		tableViewer.set(seriesListUI);
-	}
+		table.addMouseListener(new MouseAdapter() {
 
-	private void createEmbeddedLegend() {
+			@Override
+			public void mouseDoubleClick(MouseEvent e) {
 
-		if(scrollableChart != null) {
-			BaseChart baseChart = scrollableChart.getBaseChart();
-			embeddedLegend = new EmbeddedLegend(baseChart);
-			embeddedLegend.setDraw(false);
-			updateLegendPosition(false);
-			baseChart.getPlotArea().addCustomPaintListener(embeddedLegend);
-			/*
-			 * Left mouse double-click to get the position to place the legend.
-			 */
-			baseChart.addCustomPointSelectionHandler(new ICustomSelectionHandler() {
-
-				@Override
-				public void handleUserSelection(Event event) {
-
-					if(embeddedLegend.isDraw()) {
-						if(capturePosition) {
-							updateLegendPosition(event.x, event.y, true);
-							updateControls();
-							capturePosition = false;
+				Object object = seriesListUI.getStructuredSelection().getFirstElement();
+				if(object instanceof ISeries<?>) {
+					/*
+					 * Series
+					 */
+					ISeries<?> series = (ISeries<?>)object;
+					BaseChart baseChart = scrollableChart.getBaseChart();
+					ISeriesSettings seriesSettings = baseChart.getSeriesSettings(series.getId());
+					Shell shell = e.display.getActiveShell();
+					AbstractSeriesSettingsDialog<?> settingsDialog = null;
+					/*
+					 * Dialog
+					 */
+					if(seriesSettings instanceof IBarSeriesSettings) {
+						IBarSeriesSettings settings = (IBarSeriesSettings)seriesSettings;
+						settingsDialog = new BarSeriesSettingsDialog(shell, settings);
+					} else if(seriesSettings instanceof ICircularSeriesSettings) {
+						ICircularSeriesSettings settings = (ICircularSeriesSettings)seriesSettings;
+						settingsDialog = new CircularSeriesSettingsDialog(shell, settings);
+					} else if(seriesSettings instanceof ILineSeriesSettings) {
+						ILineSeriesSettings settings = (ILineSeriesSettings)seriesSettings;
+						settingsDialog = new LineSeriesSettingsDialog(shell, settings);
+					} else if(seriesSettings instanceof IScatterSeriesSettings) {
+						IScatterSeriesSettings settings = (IScatterSeriesSettings)seriesSettings;
+						settingsDialog = new ScatterSeriesSettingsDialog(shell, settings);
+					}
+					/*
+					 * Apply
+					 */
+					if(settingsDialog != null) {
+						if(settingsDialog.open() == Window.OK) {
+							applySettings(baseChart, series, seriesSettings, true);
 						}
 					}
 				}
-			});
-		}
-		updateControls();
-	}
-
-	private void updateLegendPosition(boolean redraw) {
-
-		if(preferenceStore != null) {
-			updateLegendPosition(preferenceStore.getInt(PreferenceConstants.P_LEGEND_POSITION_X), preferenceStore.getInt(PreferenceConstants.P_LEGEND_POSITION_Y), redraw);
-		}
-	}
-
-	private void updateLegendPosition(int x, int y, boolean redraw) {
-
-		if(embeddedLegend != null) {
-			/*
-			 * Legend
-			 */
-			embeddedLegend.setX(x);
-			embeddedLegend.setY(y);
-			if(preferenceStore != null) {
-				preferenceStore.setValue(PreferenceConstants.P_LEGEND_POSITION_X, x);
-				preferenceStore.setValue(PreferenceConstants.P_LEGEND_POSITION_Y, y);
 			}
-			/*
-			 * Text
-			 */
-			textX.setText(Integer.toString(embeddedLegend.getX()));
-			textY.setText(Integer.toString(embeddedLegend.getY()));
-			/*
-			 * Update
-			 */
-			if(scrollableChart != null && redraw) {
-				scrollableChart.redraw();
-			}
-		}
+		});
+		//
+		listControl.set(seriesListUI);
 	}
 
 	private void updateControls() {
 
 		updateButtonSortImage();
-		if(embeddedLegend != null) {
-			boolean enabled = embeddedLegend.isDraw();
-			for(Control control : controls) {
-				control.setEnabled(enabled);
-			}
-		}
+		toolbarInChartLegend.get().update();
 	}
 
 	private void updateButtonSortImage() {
 
-		buttonSort.setImage(getSortedIcon(preferenceStore.getBoolean(PreferenceConstants.P_SORT_LEGEND_TABLE)));
+		sortControl.get().setImage(getSortedIcon(preferenceStore.getBoolean(PreferenceConstants.P_SORT_LEGEND_TABLE)));
 	}
 
 	private void updateSeriesTableSortStatus() {
 
-		SeriesListUI seriesListUI = tableViewer.get();
+		SeriesListUI seriesListUI = listControl.get();
 		seriesListUI.setTableSortable(preferenceStore.getBoolean(PreferenceConstants.P_SORT_LEGEND_TABLE));
 		seriesListUI.getTable().redraw();
 	}
 
-	private void updateSeriesList() {
+	private void applySettings(BaseChart baseChart, ISeries<?> series, ISeriesSettings seriesSettingsSource, boolean refresh) {
 
-		tableViewer.get().setInput(seriesSet);
+		baseChart.applySeriesSettings(series, seriesSettingsSource, true);
+		if(refresh) {
+			baseChart.redraw();
+			listControl.get().refresh();
+		}
 	}
 
-	private boolean validate(IValidator<String> validator, ControlDecoration controlDecoration, Text text) {
+	private void updateSeriesList() {
 
-		IStatus status = validator.validate(text.getText().trim());
-		if(status.isOK()) {
-			controlDecoration.hide();
-			return true;
+		if(seriesSet != null) {
+			ICircularSeries<?> circularSeries = getCircularSeries();
+			if(circularSeries != null) {
+				listControl.get().setInput(getCalculatedCircularSeries(circularSeries));
+			} else {
+				listControl.get().setInput(seriesSet);
+			}
 		} else {
-			controlDecoration.setImage(FieldDecorationRegistry.getDefault().getFieldDecoration(FieldDecorationRegistry.DEC_CONTENT_PROPOSAL).getImage());
-			controlDecoration.showHoverText(status.getMessage());
-			controlDecoration.show();
-			return false;
+			listControl.get().clear();
+		}
+	}
+
+	private List<ISeries<?>> getCalculatedCircularSeries(ICircularSeries<?> circularSeries) {
+
+		List<ISeries<?>> seriesList = new ArrayList<>();
+		String[] labels = circularSeries.getLabels();
+		if(labels != null) {
+			NodeDataModel nodeDataModel = circularSeries.getNodeDataModel();
+			if(nodeDataModel != null) {
+				for(String label : labels) {
+					Node node = nodeDataModel.getNodeById(label);
+					if(node != null) {
+						seriesList.add(new CircularSeriesLegend<>(node, nodeDataModel));
+					}
+				}
+			}
+		}
+		//
+		return seriesList;
+	}
+
+	private ICircularSeries<?> getCircularSeries() {
+
+		ICircularSeries<?> circularSeries = null;
+		if(seriesSet != null) {
+			if(seriesSet.getSeries().length > 0) {
+				ISeries<?> series = seriesSet.getSeries()[0];
+				if(series instanceof ICircularSeries<?>) {
+					circularSeries = (ICircularSeries<?>)series;
+				}
+			}
+		}
+		//
+		return circularSeries;
+	}
+
+	private boolean isCircularSeries() {
+
+		return getCircularSeries() != null;
+	}
+
+	private void setCompositeVisibility(Composite composite, boolean visible) {
+
+		if(composite != null) {
+			composite.setVisible(visible);
+			Object layoutData = composite.getLayoutData();
+			if(layoutData instanceof GridData) {
+				GridData gridData = (GridData)layoutData;
+				gridData.exclude = !visible;
+			}
+			Composite parent = composite.getParent();
+			parent.layout(true);
+			parent.redraw();
 		}
 	}
 }

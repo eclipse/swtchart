@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2020 SWTChart project.
+ * Copyright (c) 2020, 2023 SWTChart project.
  *
  * This program and the accompanying materials are made
  * available under the terms of the Eclipse Public License 2.0
@@ -9,6 +9,7 @@
  * 
  * Contributors:
  * Himanshu Balasamanta - initial API and implementation
+ * Philip Wenig - circular series extended legend
  *******************************************************************************/
 package org.eclipse.swtchart.examples.advanced;
 
@@ -69,33 +70,17 @@ public class HighlightMultiLevelPie {
 	 */
 	static public Chart createChart(Composite parent) {
 
-		// create a chart
 		Chart chart = new Chart(parent, SWT.NONE);
-		// set titles
 		chart.getTitle().setText("Multi Level Pie Chart");
-		// create pie series
-		// Doughnut multiLevelPie = (Doughnut)chart.getSeriesSet().createSeries(SeriesType.DOUGHNUT, "countries");
 		ICircularSeries<?> multiLevelPie = (ICircularSeries<?>)chart.getSeriesSet().createSeries(SeriesType.PIE, "countries");
-		// sets the series.
 		multiLevelPie.setSeries(continentLabels, continentValues);
-		// adding Asian countries. These go in as second level
 		multiLevelPie.getNodeById("Asia").addChildren(AsianCountriesLabels, AsianCountriesValues);
-		//
 		multiLevelPie.getNodeById("Africa").addChildren(AfricanCountriesLabels, AfricanCountriesValues);
-		//
 		multiLevelPie.getNodeById("North America").addChildren(NorthAmericanCountriesLabels, NorthAmericanCountriesValues);
-		/*
-		 * Adding Indian states. These go as third level.
-		 * Added to show that those too small for 1 degree, are also made visible
-		 */
 		multiLevelPie.getNodeById("India").addChildren(IndianStatesLabels, IndianStateValues);
-		// Another API
 		multiLevelPie.getNodeById("Europe").addChild("Germany", 137847);
-		// setting the border color
-		multiLevelPie.setBorderColor(Display.getDefault().getSystemColor(SWT.COLOR_WHITE));
-		// setting the Highlight Color
-		multiLevelPie.setHighlightColor(Display.getDefault().getSystemColor(SWT.COLOR_BLACK));
-		// highlighting the node
+		multiLevelPie.setSliceColor(Display.getDefault().getSystemColor(SWT.COLOR_WHITE));
+		multiLevelPie.setSliceColorHighlight(Display.getDefault().getSystemColor(SWT.COLOR_BLACK));
 		multiLevelPie.setHighlightedNode(multiLevelPie.getNodeById("Russia"));
 		//
 		return chart;

@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2020 Lablicate GmbH.
+ * Copyright (c) 2020, 2023 Lablicate GmbH.
  *
  * This program and the accompanying materials are made
  * available under the terms of the Eclipse Public License 2.0
@@ -44,6 +44,7 @@ public class MappingsListUI extends TableViewer {
 	private List<TableViewerColumn> columns = new ArrayList<>();
 
 	public MappingsListUI(Composite parent, int style) {
+
 		super(parent, style);
 		createControl();
 	}

@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2020 SWTChart project.
+ * Copyright (c) 2020, 2023 SWTChart project.
  *
  * This program and the accompanying materials are made
  * available under the terms of the Eclipse Public License 2.0
@@ -9,55 +9,28 @@
  *
  * Contributors:
  * Yash Bharatiya - initial API and implementation
+ * Philip Wenig - refactoring compression header
  *******************************************************************************/
 package org.eclipse.swtchart.extensions.linecharts;
 
 import java.util.List;
 
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Display;
 import org.eclipse.swtchart.ILineSeries;
 import org.eclipse.swtchart.extensions.core.BaseChart;
 import org.eclipse.swtchart.extensions.core.ISeriesData;
 import org.eclipse.swtchart.extensions.core.ScrollableChart;
 import org.eclipse.swtchart.extensions.exceptions.SeriesException;
 
-public class StepChart extends ScrollableChart {
-
-	private static final int DISPLAY_WIDTH = Display.getDefault().getClientArea().width;
-	/*
-	 * The compression type is partly used in a switch statement.
-	 * Using the message approach is not valid as a constant expression is required.
-	 * ---
-	 * switch(compressionType) {
-	 * case LineChart.COMPRESSION_AUTO:
-	 * ...
-	 * break;
-	 * case LineChart.COMPRESSION_NONE:
-	 * ...
-	 * ---
-	 * Probably, we should refactor this and introduce an enum with translated label.
-	 */
-	public static final String COMPRESSION_EXTREME = "Extreme"; // $NON-NLS-1$
-	public static final String COMPRESSION_HIGH = "High"; //$NON-NLS-1$
-	public static final String COMPRESSION_MEDIUM = "Medium"; //$NON-NLS-1$
-	public static final String COMPRESSION_LOW = "Low"; //$NON-NLS-1$
-	public static final String COMPRESSION_NONE = "None"; //$NON-NLS-1$
-	public static final String COMPRESSION_AUTO = "Auto"; //$NON-NLS-1$
-	/*
-	 * The compression number is dependent on the display width.
-	 */
-	public static final int EXTREME_COMPRESSION = DISPLAY_WIDTH;
-	public static final int HIGH_COMPRESSION = DISPLAY_WIDTH * 2;
-	public static final int MEDIUM_COMPRESSION = DISPLAY_WIDTH * 5;
-	public static final int LOW_COMPRESSION = DISPLAY_WIDTH * 10;
-	public static final int NO_COMPRESSION = Integer.MAX_VALUE;
+public class StepChart extends ScrollableChart implements ICompressionSupport {
 
 	public StepChart() {
+
 		super();
 	}
 
 	public StepChart(Composite parent, int style) {
+
 		super(parent, style);
 	}
 
@@ -97,7 +70,7 @@ public class StepChart extends ScrollableChart {
 					lineSeriesSettings.getSeriesSettingsHighlight(); // Initialize
 					lineSeriesSettings.setEnableStep(true);
 					ILineSeries<?> lineSeries = (ILineSeries<?>)createSeries(optimizedSeriesData, lineSeriesSettings);
-					baseChart.applyLineSeriesSettings(lineSeries, lineSeriesSettings);
+					baseChart.applySeriesSettings(lineSeries, lineSeriesSettings);
 				} catch(SeriesException e) {
 					//
 				}

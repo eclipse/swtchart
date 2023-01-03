@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2020, 2022 SWTChart project.
+ * Copyright (c) 2020, 2023 SWTChart project.
  *
  * This program and the accompanying materials are made
  * available under the terms of the Eclipse Public License 2.0
@@ -9,6 +9,7 @@
  * 
  * Contributors:
  * Himanshu Balasamanta - initial API and implementation
+ * Philip Wenig - series settings edit support
  *******************************************************************************/
 package org.eclipse.swtchart.extensions.examples.parts;
 
@@ -16,7 +17,10 @@ import javax.inject.Inject;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.swtchart.ISeries.SeriesType;
+import org.eclipse.swtchart.LineStyle;
+import org.eclipse.swtchart.extensions.core.ISeriesSettings;
 import org.eclipse.swtchart.extensions.piecharts.CircularSeriesData;
 import org.eclipse.swtchart.extensions.piecharts.ICircularSeriesData;
 import org.eclipse.swtchart.extensions.piecharts.ICircularSeriesSettings;
@@ -34,12 +38,17 @@ public class SimplePieChart extends PieChart {
 	private static final double[] NorthAmericanCountriesValues = {3900261, 3761363};
 	private static final String[] IndianStatesLabels = {"Maharashtra", "Rajasthan", "Uttar Pradesh", "Madhya Pradesh"};
 	private static final double[] IndianStateValues = {92320, 213900, 150580, 192718};
+	//
+	private boolean doughnut = true;
+	private boolean highlightSeries = false;
 
 	@Inject
-	public SimplePieChart(Composite parent) {
+	public SimplePieChart(Composite parent, boolean doughnut, boolean highlightSeries) {
 
 		super(parent, SWT.NONE);
 		try {
+			this.doughnut = doughnut;
+			this.highlightSeries = highlightSeries;
 			initialize();
 		} catch(Exception e) {
 			System.out.println(e);
@@ -51,37 +60,40 @@ public class SimplePieChart extends PieChart {
 		/*
 		 * Create series.
 		 */
-		ICircularSeriesData multiLevelDoughnut = new CircularSeriesData();
+		ICircularSeriesData circularSeriesData = new CircularSeriesData();
 		//
-		multiLevelDoughnut.setTitle("World");
-		multiLevelDoughnut.setNodeClass("Landmass Name");
-		multiLevelDoughnut.setValueClass("Area in sq miles");
+		circularSeriesData.setTitle("World");
+		circularSeriesData.setNodeClass("Landmass Name");
+		circularSeriesData.setValueClass("Area in square miles");
 		//
-		multiLevelDoughnut.setSeries(continentLabels, continentValues);
-		// adding Asian countries. These go in as second level
-		multiLevelDoughnut.getNodeById("Asia").addChildren(AsianCountriesLabels, AsianCountriesValues);
+		circularSeriesData.setSeries(continentLabels, continentValues);
+		circularSeriesData.getNodeById("Asia").addChildren(AsianCountriesLabels, AsianCountriesValues);
+		circularSeriesData.getNodeById("Africa").addChildren(AfricanCountriesLabels, AfricanCountriesValues);
+		circularSeriesData.getNodeById("North America").addChildren(NorthAmericanCountriesLabels, NorthAmericanCountriesValues);
+		circularSeriesData.getNodeById("India").addChildren(IndianStatesLabels, IndianStateValues);
+		circularSeriesData.getNodeById("Europe").addChild("Germany", 137847);
 		//
-		multiLevelDoughnut.getNodeById("Africa").addChildren(AfricanCountriesLabels, AfricanCountriesValues);
+		ICircularSeriesSettings settings = circularSeriesData.getSettings();
+		settings.setDescription("Landmass Distribution");
+		settings.setSliceColor(null);
+		settings.setBorderWidth(1);
+		settings.setBorderStyle(LineStyle.SOLID);
+		settings.setSeriesType(doughnut ? SeriesType.DOUGHNUT : SeriesType.PIE);
 		//
-		multiLevelDoughnut.getNodeById("North America").addChildren(NorthAmericanCountriesLabels, NorthAmericanCountriesValues);
-		/*
-		 * Adding Indian states. These go as third level.
-		 * Added to show that those too small for 1 degree, are also made visible
-		 */
-		multiLevelDoughnut.getNodeById("India").addChildren(IndianStatesLabels, IndianStateValues);
-		// Another API
-		multiLevelDoughnut.getNodeById("Europe").addChild("Germany", 137847);
-		//
-		//
-		ICircularSeriesSettings settings = multiLevelDoughnut.getSettings();
-		settings.setDescription("Landmass Distribultion");
-		settings.setBorderStyle(SWT.LINE_SOLID);
-		//
-		multiLevelDoughnut.getSettings().setSeriesType(SeriesType.DOUGHNUT);
+		if(highlightSeries) {
+			settings.setRedrawOnClick(false);
+			ISeriesSettings seriesSettingsHighlight = settings.getSeriesSettingsHighlight();
+			if(seriesSettingsHighlight instanceof ICircularSeriesSettings) {
+				ICircularSeriesSettings settingsHighlight = (ICircularSeriesSettings)seriesSettingsHighlight;
+				settingsHighlight.setSliceColor(Display.getDefault().getSystemColor(SWT.COLOR_RED));
+				settingsHighlight.setBorderWidth(5);
+				settingsHighlight.setBorderStyle(LineStyle.DOT);
+			}
+		}
 		/*
 		 * Set series.
 		 * ICircularSeriesData
 		 */
-		addSeriesData(multiLevelDoughnut);
+		addSeriesData(circularSeriesData);
 	}
 }

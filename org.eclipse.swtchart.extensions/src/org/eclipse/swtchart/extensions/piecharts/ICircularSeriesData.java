@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2020 SWTChart project.
+ * Copyright (c) 2020, 2023 SWTChart project.
  *
  * This program and the accompanying materials are made
  * available under the terms of the Eclipse Public License 2.0
@@ -8,20 +8,22 @@
  * SPDX-License-Identifier: EPL-2.0
  * 
  * Contributors:
- * Himanshu Balasamanta Orignal API and implementation
+ * Himanshu Balasamanta - initial API and implementation
+ * Philip Wenig - series data model
  *******************************************************************************/
 package org.eclipse.swtchart.extensions.piecharts;
 
 import java.util.List;
 
-import org.eclipse.swtchart.model.IdNodeDataModel;
+import org.eclipse.swtchart.extensions.core.ISeriesData;
+import org.eclipse.swtchart.model.NodeDataModel;
 import org.eclipse.swtchart.model.Node;
 
-public interface ICircularSeriesData {
+public interface ICircularSeriesData extends ISeriesData {
 
-	public IdNodeDataModel getDataModel();
+	public NodeDataModel getDataModel();
 
-	public void setDataModel(IdNodeDataModel data);
+	public void setDataModel(NodeDataModel data);
 
 	public Node getRootNode();
 

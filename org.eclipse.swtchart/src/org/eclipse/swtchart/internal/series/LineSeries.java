@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2008, 2019 SWTChart project.
+ * Copyright (c) 2008, 2023 SWTChart project.
  *
  * This program and the accompanying materials are made
  * available under the terms of the Eclipse Public License 2.0
@@ -11,6 +11,7 @@
  * yoshitaka - initial API and implementation
  * Christoph Läubrich - add support for datamodel
  * Frank Buloup = Internationalization
+ * Philip Wenig - series settings mappings
  *******************************************************************************/
 package org.eclipse.swtchart.internal.series;
 
@@ -27,7 +28,6 @@ import org.eclipse.swtchart.IAxis.Direction;
 import org.eclipse.swtchart.ILineSeries;
 import org.eclipse.swtchart.LineStyle;
 import org.eclipse.swtchart.Range;
-import org.eclipse.swtchart.internal.Util;
 import org.eclipse.swtchart.internal.axis.Axis;
 import org.eclipse.swtchart.internal.compress.CompressLineSeries;
 import org.eclipse.swtchart.internal.compress.CompressScatterSeries;
@@ -89,6 +89,7 @@ public class LineSeries<T> extends Series<T> implements ILineSeries<T> {
 	 *            the series id
 	 */
 	protected LineSeries(Chart chart, String id) {
+
 		super(chart, id);
 		compressor = new CompressLineSeries();
 	}
@@ -394,7 +395,7 @@ public class LineSeries<T> extends Series<T> implements ILineSeries<T> {
 				xseries[i] = indexes[i];
 			}
 		}
-		gc.setLineStyle(Util.getIndexDefinedInSWT(lineStyle));
+		gc.setLineStyle(lineStyle.value());
 		Color oldForeground = gc.getForeground();
 		gc.setForeground(getLineColor());
 		boolean isHorizontal = xAxis.isHorizontalAxis();

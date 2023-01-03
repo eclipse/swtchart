@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2020 Lablicate GmbH.
+ * Copyright (c) 2020, 2023 Lablicate GmbH.
  *
  * This program and the accompanying materials are made
  * available under the terms of the Eclipse Public License 2.0
@@ -12,12 +12,10 @@
  *******************************************************************************/
 package org.eclipse.swtchart.extensions.internal.support;
 
-import java.util.Map;
-
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.jface.viewers.ViewerComparator;
 import org.eclipse.swt.SWT;
-import org.eclipse.swtchart.extensions.core.ISeriesSettings;
+import org.eclipse.swtchart.extensions.core.MappedSeriesSettings;
 
 public class MappingsComparator extends ViewerComparator {
 
@@ -41,21 +39,23 @@ public class MappingsComparator extends ViewerComparator {
 		}
 	}
 
-	@SuppressWarnings("unchecked")
 	@Override
 	public int compare(Viewer viewer, Object e1, Object e2) {
 
 		int sortOrder = 0;
-		if(e1 instanceof Map.Entry && e2 instanceof Map.Entry) {
-			Map.Entry<String, ISeriesSettings> entry1 = (Map.Entry<String, ISeriesSettings>)e1;
-			Map.Entry<String, ISeriesSettings> entry2 = (Map.Entry<String, ISeriesSettings>)e2;
+		if(e1 instanceof MappedSeriesSettings && e2 instanceof MappedSeriesSettings) {
+			MappedSeriesSettings mappedSeriesSettings1 = (MappedSeriesSettings)e1;
+			MappedSeriesSettings mappedSeriesSettings2 = (MappedSeriesSettings)e2;
 			//
 			switch(propertyIndex) {
 				case 0:
-					sortOrder = entry1.getKey().compareTo(entry2.getKey());
+					sortOrder = mappedSeriesSettings1.getMappingsType().compareTo(mappedSeriesSettings2.getMappingsType());
 					break;
 				case 1:
-					sortOrder = entry1.getValue().getDescription().compareTo(entry2.getValue().getDescription());
+					sortOrder = mappedSeriesSettings1.getIdentifier().compareTo(mappedSeriesSettings2.getIdentifier());
+					break;
+				case 2:
+					sortOrder = mappedSeriesSettings1.getDescription().compareTo(mappedSeriesSettings2.getDescription());
 					break;
 				default:
 					sortOrder = 0;

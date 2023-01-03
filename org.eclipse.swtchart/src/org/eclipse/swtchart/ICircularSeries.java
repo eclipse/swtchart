@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2020 SWTChart project.
+ * Copyright (c) 2020, 2023 SWTChart project.
  *
  * This program and the accompanying materials are made
  * available under the terms of the Eclipse Public License 2.0
@@ -9,6 +9,7 @@
  * 
  * Contributors:
  * Himanshu Balasamanta - initial API and implementation
+ * Philip Wenig - improvement series data model
  *******************************************************************************/
 package org.eclipse.swtchart;
 
@@ -16,20 +17,44 @@ import java.util.List;
 
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swtchart.internal.compress.Compress;
-import org.eclipse.swtchart.model.IdNodeDataModel;
 import org.eclipse.swtchart.model.Node;
+import org.eclipse.swtchart.model.NodeDataModel;
 
 /**
  * Contains methods to be implemented that are common to both PieSeries and Doughnut Series
  */
 public interface ICircularSeries<T> extends ISeries<T> {
 
+	Color getSliceColor();
+
+	void setSliceColor(Color sliceColor);
+
+	int getBorderWidth();
+
+	void setBorderWidth(int width);
+
+	int getBorderStyle();
+
+	void setBorderStyle(int borderStyle);
+
+	Color getSliceColorHighlight();
+
+	void setSliceColorHighlight(Color sliceColor);
+
+	int getBorderWidthHighlight();
+
+	void setBorderWidthHighlight(int width);
+
+	int getBorderStyleHighlight();
+
+	void setBorderStyleHighlight(int borderStyle);
+
 	/**
 	 * gets the label series
 	 * 
 	 * @return labels that will be visible
 	 */
-	public String[] getLabels();
+	String[] getLabels();
 
 	/**
 	 * each element of this array is the color that the corresponding data
@@ -37,7 +62,7 @@ public interface ICircularSeries<T> extends ISeries<T> {
 	 * 
 	 * @return color[]
 	 */
-	public Color[] getColors();
+	Color[] getColors();
 
 	/**
 	 * sets the circular series.
@@ -45,7 +70,7 @@ public interface ICircularSeries<T> extends ISeries<T> {
 	 * @param labels
 	 * @param values
 	 */
-	public void setSeries(String[] labels, double[] values);
+	void setSeries(String[] labels, double[] values);
 
 	/**
 	 * allows user to change color of given label to required color.
@@ -54,7 +79,7 @@ public interface ICircularSeries<T> extends ISeries<T> {
 	 * @param label
 	 * @param color
 	 */
-	public void setColor(String label, Color color);
+	void setColor(String label, Color color);
 
 	/**
 	 * allows user to set multiple colors together. The colors are set corresponding to the
@@ -63,55 +88,16 @@ public interface ICircularSeries<T> extends ISeries<T> {
 	 * 
 	 * @param colors
 	 */
-	public void setColor(Color[] colors);
+	void setColor(Color[] colors);
 
-	public Compress getCompressor();
-
-	/**
-	 * sets the color of the border
-	 * 
-	 * @param color
-	 */
-	public void setBorderColor(Color color);
-
-	/**
-	 * sets the width of the border
-	 * 
-	 * @param width
-	 */
-	public void setBorderWidth(int width);
-
-	/**
-	 * sets the style of the border
-	 * 
-	 * @param borderStyle
-	 *            is the SWT line constant for border type.
-	 */
-	public void setBorderStyle(int borderStyle);
-
-	/**
-	 * 
-	 * @return the border color
-	 */
-	public Color getBorderColor();
-
-	/**
-	 * @return the border width
-	 */
-	public int getBorderWidth();
-
-	/**
-	 * 
-	 * @return the SWT line constant that indicates the style of the border.
-	 */
-	public int getBorderStyle();
+	Compress getCompressor();
 
 	/**
 	 * This method is not to be used by the user.
 	 * 
 	 * @return gets the rootNode of the Series.
 	 */
-	public Node getRootNode();
+	Node getRootNode();
 
 	/**
 	 * fetches a node with it's Id.
@@ -119,14 +105,14 @@ public interface ICircularSeries<T> extends ISeries<T> {
 	 * @param id
 	 * @return
 	 */
-	public Node getNodeById(String id);
+	Node getNodeById(String id);
 
 	/**
 	 * gets the MultiLevelPie Series as Series.
 	 * 
 	 * @return
 	 */
-	public List<Node> getSeries();
+	List<Node> getSeries();
 
 	/**
 	 * adds a node to the primary series.
@@ -134,42 +120,35 @@ public interface ICircularSeries<T> extends ISeries<T> {
 	 * @param id
 	 * @param val
 	 */
-	public void addNode(String id, double val);
+	void addNode(String id, double val);
 
 	/**
 	 *
 	 * @return data model used in the series.
 	 */
-	public IdNodeDataModel getModel();
+	NodeDataModel getNodeDataModel();
 
 	/**
 	 * sets the given data model, and updates the related data in the series
 	 * 
-	 * @param data
+	 * @param nodeDataModel
 	 */
-	public void setDataModel(IdNodeDataModel data);
+	void setNodeDataModel(NodeDataModel nodeDataModel);
 
 	/**
 	 * 
 	 * @return the number of levels the data model has.
 	 */
-	public int getMaxTreeDepth();
+	int getMaxTreeDepth();
 
 	/**
 	 * Call to this function happens when the node where an
 	 * event fired does not have to redraw the entire chart.
 	 */
-	public void setHighlightedNode(Node highlightedNode);
+	void setHighlightedNode(Node highlightedNode);
 
 	/** gets the node to highlight */
-	public Node getHighlightedNode();
-
-	/**
-	 * sets the border color for the node to be highlighted.
-	 * 
-	 * @param color
-	 */
-	public void setHighlightColor(Color color);
+	Node getHighlightedNode();
 
 	/**
 	 * 
@@ -177,14 +156,14 @@ public interface ICircularSeries<T> extends ISeries<T> {
 	 * @param primaryValueY
 	 * @return
 	 */
-	public Node getPieSliceFromPosition(double primaryValueX, double primaryValueY);
+	Node getPieSliceFromPosition(double primaryValueX, double primaryValueY);
 
 	/**
 	 * 
 	 * @param id
 	 * @return the percent that the pie slice is compared to the rootPointer
 	 */
-	public double getSlicePercent(String id);
+	double getSlicePercent(String id);
 
 	/**
 	 * x and y are in pixels
@@ -193,7 +172,5 @@ public interface ICircularSeries<T> extends ISeries<T> {
 	 * @param y
 	 * @return
 	 */
-	public Node getPieSliceFromPosition(int x, int y);
-
-	void setHighlightLineWidth(int width);
+	Node getPieSliceFromPosition(int x, int y);
 }

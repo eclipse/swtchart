@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2020, 2021 SWTChart project.
+ * Copyright (c) 2020, 2023 SWTChart project.
  *
  * This program and the accompanying materials are made
  * available under the terms of the Eclipse Public License 2.0
@@ -9,6 +9,7 @@
  * 
  * Contributors:
  * Himanshu Balasamanta - initial API and implementation
+ * Philip Wenig - improvement series data model
  *******************************************************************************/
 package org.eclipse.swtchart.internal.series;
 
@@ -18,10 +19,10 @@ import org.eclipse.swtchart.Range;
 import org.eclipse.swtchart.internal.axis.Axis;
 import org.eclipse.swtchart.model.Node;
 
-public class Pie extends CircularSeries {
+public class PieSeries extends CircularSeries {
 
 	@SuppressWarnings("unchecked")
-	protected Pie(Chart chart, String id) {
+	protected PieSeries(Chart chart, String id) {
 
 		super(chart, id);
 		type = SeriesType.PIE;
@@ -45,8 +46,11 @@ public class Pie extends CircularSeries {
 				drawNode(nodes, gc, xAxis, yAxis);
 			}
 		}
-		if(node.isVisible() == false)
+		//
+		if(node.isVisible() == false) {
 			return;
+		}
+		//
 		int level = node.getLevel() - getRootPointer().getLevel();
 		/*
 		 * the center of the chart is (0,0). The x and y axis are set such that
@@ -58,9 +62,9 @@ public class Pie extends CircularSeries {
 		int yWidth = yAxis.getPixelCoordinate(-level) - yStart;
 		int xZero = xAxis.getPixelCoordinate(0);
 		int yZero = yAxis.getPixelCoordinate(0);
-		int angleStart = node.getAngleBounds().x,
-				angleWidth = node.getAngleBounds().y;
-		gc.setBackground(node.getColor());
+		int angleStart = node.getAngleBounds().x;
+		int angleWidth = node.getAngleBounds().y;
+		gc.setBackground(node.getSliceColor());
 		// coloring the pie "slice"
 		gc.fillArc(xStart, yStart, xWidth, yWidth, angleStart, angleWidth);
 		// drawing the arc boundary
@@ -95,26 +99,26 @@ public class Pie extends CircularSeries {
 	 */
 	protected void setBothAxisRange(int width, int height, Axis xAxis, Axis yAxis) {
 
-		maxTreeDepth = rootPointer.getMaxSubTreeDepth() - 1;
+		setMaxTreeDepth(getRootPointer().getMaxSubTreeDepth() - 1);
 		// keeps the chart boundaries from overflowing the borders.
-		double rangeMax = maxTreeDepth * 1.05;
+		double rangeMax = getMaxTreeDepth() * 1.05;
 		xAxis.setRange(new Range(-rangeMax, rangeMax));
 		yAxis.setRange(new Range(-rangeMax, rangeMax));
 		if(width > height) {
 			if(xAxis.isHorizontalAxis()) {
 				double ratio = 2 * rangeMax * width / (double)height;
-				xAxis.setRange(new Range(-ratio/2, ratio/2));
+				xAxis.setRange(new Range(-ratio / 2, ratio / 2));
 			} else {
 				double ratio = 2 * rangeMax * width / (double)height;
-				yAxis.setRange(new Range(ratio/2, ratio/2));
+				yAxis.setRange(new Range(ratio / 2, ratio / 2));
 			}
 		} else {
 			if(xAxis.isHorizontalAxis()) {
 				double ratio = 2 * rangeMax * height / (double)width;
-				yAxis.setRange(new Range(-ratio/2, ratio/2));
+				yAxis.setRange(new Range(-ratio / 2, ratio / 2));
 			} else {
 				double ratio = 2 * rangeMax * height / (double)width;
-				xAxis.setRange(new Range(-ratio/2, ratio/2));
+				xAxis.setRange(new Range(-ratio / 2, ratio / 2));
 			}
 		}
 	}
@@ -122,8 +126,8 @@ public class Pie extends CircularSeries {
 	@Override
 	public Range getAdjustedRange(Axis axis, int length) {
 
-		maxTreeDepth = rootPointer.getMaxSubTreeDepth() - 1;
-		return new Range(-maxTreeDepth, maxTreeDepth);
+		setMaxTreeDepth(getRootPointer().getMaxSubTreeDepth() - 1);
+		return new Range(-getMaxTreeDepth(), getMaxTreeDepth());
 	}
 
 	public Node getPieSliceFromPosition(double primaryValueX, double primaryValueY) {
@@ -132,17 +136,21 @@ public class Pie extends CircularSeries {
 		int level = ((int)radius) + 1;
 		Node node = null;
 		double angleOfInspection = Math.atan2(primaryValueY, primaryValueX);
-		if(angleOfInspection < 0.0)
+		if(angleOfInspection < 0.0) {
 			angleOfInspection += 2 * Math.PI;
-		if(level < getModel().getNodes().length)
-			for(Node noda : getModel().getNodes()[level]) {
-				double lowerBound = (noda.getAngleBounds().x * Math.PI) / (double)180.0;
-				double upperBound = ((noda.getAngleBounds().x + noda.getAngleBounds().y) * Math.PI) / (double)180.0;
+		}
+		//
+		if(level < getNodeDataModel().getNodes().length) {
+			for(Node nodeX : getNodeDataModel().getNodes()[level]) {
+				double lowerBound = (nodeX.getAngleBounds().x * Math.PI) / (double)180.0;
+				double upperBound = ((nodeX.getAngleBounds().x + nodeX.getAngleBounds().y) * Math.PI) / (double)180.0;
 				if((lowerBound <= angleOfInspection) && (upperBound >= angleOfInspection)) {
-					node = noda;
+					node = nodeX;
 					break;
 				}
 			}
+		}
+		//
 		return node;
 	}
 }

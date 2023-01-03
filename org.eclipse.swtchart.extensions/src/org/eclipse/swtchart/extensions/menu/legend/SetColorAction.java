@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2021 Lablicate GmbH.
+ * Copyright (c) 2021, 2023 Lablicate GmbH.
  *
  * This program and the accompanying materials are made
  * available under the terms of the Eclipse Public License 2.0
@@ -21,7 +21,10 @@ import org.eclipse.swt.graphics.RGB;
 import org.eclipse.swt.widgets.ColorDialog;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swtchart.ISeries;
-import org.eclipse.swtchart.extensions.core.MappingsSupport;
+import org.eclipse.swtchart.extensions.core.BaseChart;
+import org.eclipse.swtchart.extensions.core.ISeriesSettings;
+import org.eclipse.swtchart.extensions.core.ResourceSupport;
+import org.eclipse.swtchart.extensions.core.ScrollableChart;
 import org.eclipse.swtchart.extensions.core.SeriesLabelProvider;
 import org.eclipse.swtchart.extensions.core.SeriesListUI;
 
@@ -52,20 +55,22 @@ public class SetColorAction extends AbstractMenuListener {
 			@Override
 			public void run() {
 
+				ScrollableChart scrollableChart = getScrollableChart();
+				BaseChart baseChart = scrollableChart.getBaseChart();
 				SeriesListUI seriesListUI = getSeriesListUI();
 				Table table = seriesListUI.getTable();
 				List<ISeries<?>> selectedSeries = getSelectedSeries();
 				//
 				if(selectedSeries.size() > 0) {
-					Color colorActive = SeriesLabelProvider.getColor(selectedSeries.get(0));
-					RGB rgbActive = (colorActive == null) ? new RGB(255, 0, 0) : colorActive.getRGB();
 					ColorDialog colorDialog = new ColorDialog(table.getShell());
 					colorDialog.setText("Set Series Color");
-					colorDialog.setRGB(rgbActive);
 					RGB rgbNew = colorDialog.open();
 					if(rgbNew != null) {
 						for(ISeries<?> series : selectedSeries) {
-							MappingsSupport.mapSettings(series, SeriesLabelProvider.COLOR, rgbNew, getScrollableChart());
+							ISeriesSettings seriesSettings = baseChart.getSeriesSettings(series.getId());
+							Color color = ResourceSupport.getColor(rgbNew);
+							SeriesLabelProvider.setColor(seriesSettings, color);
+							baseChart.applySeriesSettings(series, seriesSettings, true);
 						}
 						refresh();
 					}

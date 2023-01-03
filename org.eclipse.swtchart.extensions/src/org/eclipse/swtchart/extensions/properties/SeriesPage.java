@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2008, 2020 SWTChart project.
+ * Copyright (c) 2008, 2023 SWTChart project.
  *
  * This program and the accompanying materials are made
  * available under the terms of the Eclipse Public License 2.0
@@ -10,6 +10,7 @@
  * Contributors:
  * yoshitaka - initial API and implementation
  * Frank Buloup - Internationalization
+ * Philip Wenig - series settings edit support
  *******************************************************************************/
 package org.eclipse.swtchart.extensions.properties;
 
@@ -40,6 +41,7 @@ import org.eclipse.swtchart.ILineSeries.PlotSymbolType;
 import org.eclipse.swtchart.ISeries;
 import org.eclipse.swtchart.LineStyle;
 import org.eclipse.swtchart.extensions.charts.InteractiveChart;
+import org.eclipse.swtchart.extensions.core.ResourceSupport;
 
 /**
  * The series page on properties dialog.
@@ -122,6 +124,7 @@ public class SeriesPage extends AbstractSelectorPage {
 	 *            the title
 	 */
 	public SeriesPage(InteractiveChart chart, PropertiesResources resources, String title) {
+
 		super(chart, resources, title, Messages.getString(Messages.SERIES));
 		series = chart.getSeriesSet().getSeries();
 		xAxisIdItems = chart.getAxisSet().getXAxisIds();
@@ -183,11 +186,11 @@ public class SeriesPage extends AbstractSelectorPage {
 			yAxisIdCombo.setText("" + yAxisIds[selectedIndex]); //$NON-NLS-1$
 		}
 		if(series[selectedIndex] instanceof ILineSeries) {
-			lineStyleCombo.setText(lineStyles[selectedIndex].label);
+			lineStyleCombo.setText(lineStyles[selectedIndex].label());
 			lineStyleCombo.setEnabled(true);
 			lineColorButton.setColorValue(lineColors[selectedIndex]);
 			symbolColorButton.setColorValue(symbolColors[selectedIndex]);
-			symbolTypeCombo.setText(symbolTypes[selectedIndex].label);
+			symbolTypeCombo.setText(symbolTypes[selectedIndex].label());
 			symbolSizeSpinner.setSelection(symbolSizes[selectedIndex]);
 		} else if(series[selectedIndex] instanceof IBarSeries) {
 			barColorButton.setColorValue(barColors[selectedIndex]);
@@ -312,7 +315,7 @@ public class SeriesPage extends AbstractSelectorPage {
 		LineStyle[] styles = LineStyle.values();
 		String[] labels = new String[styles.length];
 		for(int i = 0; i < styles.length; i++) {
-			labels[i] = styles[i].label;
+			labels[i] = styles[i].label();
 		}
 		lineStyleCombo = createComboControl(lineSeriesGroup, labels);
 		lineStyleCombo.addSelectionListener(new SelectionAdapter() {
@@ -323,7 +326,7 @@ public class SeriesPage extends AbstractSelectorPage {
 				String value = lineStyleCombo.getText();
 				LineStyle selectedStyle = LineStyle.NONE;
 				for(LineStyle style : LineStyle.values()) {
-					if(style.label.equals(value)) {
+					if(style.label().equals(value)) {
 						selectedStyle = style;
 					}
 				}
@@ -344,7 +347,7 @@ public class SeriesPage extends AbstractSelectorPage {
 		PlotSymbolType[] types = PlotSymbolType.values();
 		labels = new String[types.length];
 		for(int i = 0; i < types.length; i++) {
-			labels[i] = types[i].label;
+			labels[i] = types[i].label();
 		}
 		symbolTypeCombo = createComboControl(lineSeriesGroup, labels);
 		symbolTypeCombo.addSelectionListener(new SelectionAdapter() {
@@ -355,7 +358,7 @@ public class SeriesPage extends AbstractSelectorPage {
 				String value = symbolTypeCombo.getText();
 				PlotSymbolType selectedType = PlotSymbolType.CIRCLE;
 				for(PlotSymbolType type : PlotSymbolType.values()) {
-					if(type.label.equals(value)) {
+					if(type.label().equals(value)) {
 						selectedType = type;
 					}
 				}
@@ -435,7 +438,7 @@ public class SeriesPage extends AbstractSelectorPage {
 		for(int i = 0; i < series.length; i++) {
 			series[i].setVisible(visibleStates[i]);
 			if(series[i] instanceof ILineSeries) {
-				Color lineColor = new Color(Display.getDefault(), lineColors[i]);
+				Color lineColor = ResourceSupport.getColor(lineColors[i]);
 				((ILineSeries<?>)series[i]).setLineColor(lineColor);
 				final String lineColorKey = SERIES_LINE_COLOR + series[i].getId();
 				if(resources.getColor(lineColorKey) == null) {
@@ -467,7 +470,7 @@ public class SeriesPage extends AbstractSelectorPage {
 				((ILineSeries<?>)series[i]).setSymbolType(symbolTypes[i]);
 				((ILineSeries<?>)series[i]).setSymbolSize(symbolSizes[i]);
 			} else if(series[i] instanceof IBarSeries) {
-				Color barColor = new Color(Display.getDefault(), barColors[i]);
+				Color barColor = ResourceSupport.getColor(barColors[i]);
 				((IBarSeries<?>)series[i]).setBarColor(barColor);
 				final String barColorKey = SERIES_BAR_COLOR + series[i].getId();
 				if(resources.getColor(barColorKey) == null) {

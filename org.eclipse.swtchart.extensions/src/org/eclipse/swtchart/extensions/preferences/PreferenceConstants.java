@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2020, 2021 Lablicate GmbH.
+ * Copyright (c) 2020, 2023 Lablicate GmbH.
  *
  * This program and the accompanying materials are made
  * available under the terms of the Eclipse Public License 2.0
@@ -43,6 +43,8 @@ public class PreferenceConstants {
 	public static final String P_LEGEND_COLUMN_ORDER = "legendColumnOrder";
 	public static final String DEF_LEGEND_COLUMN_ORDER = "";
 	//
+	public static final String P_SERIES_MAPPINGS = "seriesMappings";
+	public static final String DEF_SERIES_MAPPINGS = "";
 	public static final String P_PATH_MAPPINGS_IMPORT = "pathMappingsImport";
 	public static final String DEF_PATH_MAPPINGS_IMPORT = "";
 	public static final String P_PATH_MAPPINGS_EXPORT = "pathMappingsExport";

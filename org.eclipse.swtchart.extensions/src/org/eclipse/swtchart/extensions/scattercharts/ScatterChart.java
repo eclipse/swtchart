@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2017, 2020 Lablicate GmbH.
+ * Copyright (c) 2017, 2023 Lablicate GmbH.
  *
  * This program and the accompanying materials are made
  * available under the terms of the Eclipse Public License 2.0
@@ -24,10 +24,12 @@ import org.eclipse.swtchart.extensions.exceptions.SeriesException;
 public class ScatterChart extends ScrollableChart {
 
 	public ScatterChart() {
+
 		super();
 	}
 
 	public ScatterChart(Composite parent, int style) {
+
 		super(parent, style);
 	}
 
@@ -36,7 +38,7 @@ public class ScatterChart extends ScrollableChart {
 		/*
 		 * Suspend the update when adding new data to improve the performance.
 		 */
-		if(scatterSeriesDataList != null && scatterSeriesDataList.size() > 0) {
+		if(scatterSeriesDataList != null && !scatterSeriesDataList.isEmpty()) {
 			/*
 			 * Set the data.
 			 */
@@ -52,7 +54,7 @@ public class ScatterChart extends ScrollableChart {
 					IScatterSeriesSettings scatterSeriesSettings = scatterSeriesData.getSettings();
 					scatterSeriesSettings.getSeriesSettingsHighlight(); // Initialize
 					ILineSeries<?> scatterSeries = (ILineSeries<?>)createSeries(optimizedSeriesData, scatterSeriesSettings);
-					baseChart.applyScatterSeriesSettings(scatterSeries, scatterSeriesSettings);
+					baseChart.applySeriesSettings(scatterSeries, scatterSeriesSettings);
 				} catch(SeriesException e) {
 					//
 				}

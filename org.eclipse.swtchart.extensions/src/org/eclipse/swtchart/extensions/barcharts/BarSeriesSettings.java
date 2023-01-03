@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2017, 2021 Lablicate GmbH.
+ * Copyright (c) 2017, 2023 Lablicate GmbH.
  *
  * This program and the accompanying materials are made
  * available under the terms of the Eclipse Public License 2.0
@@ -107,6 +107,7 @@ public class BarSeriesSettings extends AbstractSeriesSettings implements IBarSer
 		if(seriesSettingsHighlight == null) {
 			try {
 				seriesSettingsHighlight = (IBarSeriesSettings)this.clone();
+				seriesSettingsHighlight.setHighlight(true);
 			} catch(CloneNotSupportedException e) {
 				seriesSettingsHighlight = new BarSeriesSettings();
 			}
@@ -137,6 +138,7 @@ public class BarSeriesSettings extends AbstractSeriesSettings implements IBarSer
 			sink.setBarWidth(source.getBarWidth());
 			sink.setBarOverlay(source.isBarOverlay());
 			sink.setEnableStack(source.isEnableStack());
+			sink.setHighlight(source.isHighlight());
 			success = true;
 		}
 		//

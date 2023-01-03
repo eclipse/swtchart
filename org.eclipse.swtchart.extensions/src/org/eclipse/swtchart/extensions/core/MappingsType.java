@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2021 Lablicate GmbH.
+ * Copyright (c) 2021, 2023 Lablicate GmbH.
  *
  * This program and the accompanying materials are made
  * available under the terms of the Eclipse Public License 2.0
@@ -12,10 +12,26 @@
  *******************************************************************************/
 package org.eclipse.swtchart.extensions.core;
 
-public enum MappingsType {
-	NONE, //
-	BAR, //
-	LINE, //
-	SCATTER, //
-	CIRCULAR; // TODO
+import org.eclipse.swtchart.IEnumLabel;
+
+public enum MappingsType implements IEnumLabel {
+
+	NONE("None"), //
+	BAR("Bar"), //
+	LINE("Line"), //
+	SCATTER("Scatter"), //
+	CIRCULAR("Circular"); //
+
+	private String label;
+
+	private MappingsType(String label) {
+
+		this.label = label;
+	}
+
+	@Override
+	public String label() {
+
+		return label;
+	}
 }

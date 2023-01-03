@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2020, 2022 SWTChart project.
+ * Copyright (c) 2020, 2023 SWTChart project.
  *
  * This program and the accompanying materials are made
  * available under the terms of the Eclipse Public License 2.0
@@ -9,6 +9,7 @@
  * 
  * Contributors:
  * Himanshu Balasamanta - initial API and implementation
+ * Philip Wenig - series settings mappings
  *******************************************************************************/
 package org.eclipse.swtchart.extensions.examples.parts;
 
@@ -17,6 +18,7 @@ import javax.inject.Inject;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swtchart.ISeries.SeriesType;
+import org.eclipse.swtchart.LineStyle;
 import org.eclipse.swtchart.extensions.piecharts.CircularSeriesData;
 import org.eclipse.swtchart.extensions.piecharts.ICircularSeriesData;
 import org.eclipse.swtchart.extensions.piecharts.ICircularSeriesSettings;
@@ -342,7 +344,7 @@ public class ComplexPieChart extends PieChart {
 		//
 		ICircularSeriesSettings settings = multiLevelDoughnut.getSettings();
 		settings.setDescription("DAX Taxonomie");
-		settings.setBorderStyle(SWT.LINE_SOLID);
+		settings.setBorderStyle(LineStyle.SOLID);
 		//
 		multiLevelDoughnut.getSettings().setSeriesType(SeriesType.DOUGHNUT);
 		/*

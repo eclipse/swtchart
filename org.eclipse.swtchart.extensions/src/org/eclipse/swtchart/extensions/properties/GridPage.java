@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2008, 2019 SWTChart project.
+ * Copyright (c) 2008, 2023 SWTChart project.
  *
  * This program and the accompanying materials are made
  * available under the terms of the Eclipse Public License 2.0
@@ -10,6 +10,7 @@
  * Contributors:
  * yoshitaka - initial API and implementation
  * Frank Buloup - Internationalization
+ * Philip Wenig - series settings mappings
  *******************************************************************************/
 package org.eclipse.swtchart.extensions.properties;
 
@@ -30,6 +31,7 @@ import org.eclipse.swtchart.IAxis;
 import org.eclipse.swtchart.IAxis.Direction;
 import org.eclipse.swtchart.LineStyle;
 import org.eclipse.swtchart.extensions.charts.InteractiveChart;
+import org.eclipse.swtchart.extensions.core.ResourceSupport;
 
 /**
  * The grid page on properties dialog.
@@ -62,6 +64,7 @@ public class GridPage extends AbstractSelectorPage {
 	 *            the title
 	 */
 	public GridPage(InteractiveChart chart, PropertiesResources resources, Direction direction, String title) {
+
 		super(chart, resources, title, Messages.getString(Messages.AXES));
 		if(direction == Direction.X) {
 			this.axes = chart.getAxisSet().getXAxes();
@@ -121,7 +124,7 @@ public class GridPage extends AbstractSelectorPage {
 		LineStyle[] values = LineStyle.values();
 		String[] labels = new String[values.length];
 		for(int i = 0; i < values.length; i++) {
-			labels[i] = values[i].label;
+			labels[i] = values[i].label();
 		}
 		styleCombo = createComboControl(group, labels);
 		styleCombo.addSelectionListener(new SelectionAdapter() {
@@ -132,7 +135,7 @@ public class GridPage extends AbstractSelectorPage {
 				String value = styleCombo.getText();
 				LineStyle selectedStyle = LineStyle.NONE;
 				for(LineStyle style : LineStyle.values()) {
-					if(style.label.equals(value)) {
+					if(style.label().equals(value)) {
 						selectedStyle = style;
 					}
 				}
@@ -156,7 +159,7 @@ public class GridPage extends AbstractSelectorPage {
 
 		for(int i = 0; i < axes.length; i++) {
 			axes[i].getGrid().setStyle(styles[i]);
-			Color color = new Color(Display.getDefault(), foregroundColors[i]);
+			Color color = ResourceSupport.getColor(foregroundColors[i]);
 			axes[i].getGrid().setForeground(color);
 			resources.put(GRID_FOREGROUND + axes[i].getDirection() + axes[i].getId(), color);
 		}

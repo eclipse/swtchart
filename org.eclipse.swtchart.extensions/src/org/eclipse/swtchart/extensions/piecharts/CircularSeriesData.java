@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2020 Lablicate GmbH.
+ * Copyright (c) 2020, 2023 Lablicate GmbH.
  *
  * This program and the accompanying materials are made
  * available under the terms of the Eclipse Public License 2.0
@@ -9,43 +9,46 @@
  * 
  * Contributors:
  * Himanshu Balasamanta - initial API and implementation
+ * Philip Wenig - improvement series data model
  *******************************************************************************/
 package org.eclipse.swtchart.extensions.piecharts;
 
 import java.util.List;
 
-import org.eclipse.swtchart.model.IdNodeDataModel;
+import org.eclipse.swtchart.extensions.core.SeriesData;
 import org.eclipse.swtchart.model.Node;
+import org.eclipse.swtchart.model.NodeDataModel;
 
-public class CircularSeriesData implements ICircularSeriesData {
+public class CircularSeriesData extends SeriesData implements ICircularSeriesData {
 
-	private IdNodeDataModel model;
+	public static final String ID = "Circular Series";
+	//
+	private NodeDataModel nodeDataModel;
 	private Node rootNode;
-	private ICircularSeriesSettings pieSeriesSettings;
+	private ICircularSeriesSettings seriesSettings;
 	private String nodeClass;
 	private String valueClass;
 
 	public CircularSeriesData() {
 
-		model = new IdNodeDataModel();
-		rootNode = model.getRootNode();
-		this.pieSeriesSettings = new CircularSeriesSettings();
+		super(new double[0], new double[0], ID);
+		nodeDataModel = new NodeDataModel();
+		rootNode = nodeDataModel.getRootNode();
+		this.seriesSettings = new CircularSeriesSettings();
 		nodeClass = "Node";
 		valueClass = "Value";
 	}
 
-	public CircularSeriesData(ICircularSeriesData pieSeriesData) {
+	public CircularSeriesData(ICircularSeriesData seriesData) {
 
-		this.pieSeriesSettings = new CircularSeriesSettings();
-		/*
-		 * Set the default description.
-		 */
-		this.pieSeriesSettings.setDescription(pieSeriesData.getTitle());
+		super(new double[0], new double[0], ID);
+		this.seriesSettings = new CircularSeriesSettings();
+		this.seriesSettings.setDescription(seriesData.getTitle());
 	}
 
 	public String getTitle() {
 
-		return model.getId();
+		return nodeDataModel.getId();
 	}
 
 	@Override
@@ -58,7 +61,7 @@ public class CircularSeriesData implements ICircularSeriesData {
 		for(int i = 0; i != length; i++) {
 			new Node(labels[i], values[i], rootNode);
 		}
-		model.update();
+		nodeDataModel.update();
 	}
 
 	@Override
@@ -68,14 +71,14 @@ public class CircularSeriesData implements ICircularSeriesData {
 	}
 
 	@Override
-	public IdNodeDataModel getDataModel() {
+	public NodeDataModel getDataModel() {
 
-		return model;
+		return nodeDataModel;
 	}
 
-	public void setDataModel(IdNodeDataModel data) {
+	public void setDataModel(NodeDataModel data) {
 
-		this.model = data;
+		this.nodeDataModel = data;
 	}
 
 	@Override
@@ -87,19 +90,19 @@ public class CircularSeriesData implements ICircularSeriesData {
 	@Override
 	public Node getNodeById(String id) {
 
-		return model.getNodeById(id);
+		return nodeDataModel.getNodeById(id);
 	}
 
 	@Override
 	public ICircularSeriesSettings getSettings() {
 
-		return pieSeriesSettings;
+		return seriesSettings;
 	}
 
 	@Override
 	public void setTitle(String id) {
 
-		model.setId(id);
+		nodeDataModel.setId(id);
 	}
 
 	@Override

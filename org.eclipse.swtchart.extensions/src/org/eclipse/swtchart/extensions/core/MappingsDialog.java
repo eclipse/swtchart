@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2020, 2021 Lablicate GmbH.
+ * Copyright (c) 2020, 2023 Lablicate GmbH.
  *
  * This program and the accompanying materials are made
  * available under the terms of the Eclipse Public License 2.0
@@ -15,10 +15,14 @@ package org.eclipse.swtchart.extensions.core;
 import java.io.File;
 import java.util.Iterator;
 import java.util.Map;
+import java.util.concurrent.atomic.AtomicReference;
 
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.preference.IPreferenceStore;
+import org.eclipse.jface.window.Window;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.MouseAdapter;
+import org.eclipse.swt.events.MouseEvent;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.graphics.Point;
@@ -30,34 +34,34 @@ import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.FileDialog;
 import org.eclipse.swt.widgets.MessageBox;
 import org.eclipse.swt.widgets.Shell;
+import org.eclipse.swt.widgets.Table;
+import org.eclipse.swtchart.extensions.barcharts.IBarSeriesSettings;
+import org.eclipse.swtchart.extensions.dialogs.AbstractSeriesSettingsDialog;
+import org.eclipse.swtchart.extensions.dialogs.BarSeriesSettingsDialog;
+import org.eclipse.swtchart.extensions.dialogs.CircularSeriesSettingsDialog;
+import org.eclipse.swtchart.extensions.dialogs.LineSeriesSettingsDialog;
+import org.eclipse.swtchart.extensions.dialogs.ScatterSeriesSettingsDialog;
 import org.eclipse.swtchart.extensions.internal.support.MappingsIO;
+import org.eclipse.swtchart.extensions.linecharts.ILineSeriesSettings;
+import org.eclipse.swtchart.extensions.piecharts.ICircularSeriesSettings;
 import org.eclipse.swtchart.extensions.preferences.PreferenceConstants;
+import org.eclipse.swtchart.extensions.scattercharts.IScatterSeriesSettings;
 
 public class MappingsDialog extends Dialog {
 
-	private static final String DESCRIPTION = "Mappings";
-	private static final String IMPORT = "Import " + DESCRIPTION;
-	private static final String EXPORT = "Export " + DESCRIPTION;
-	private static final String FILTER_EXTENSION = "*.txt";
-	private static final String FILTER_NAME = "SWTChart Mappings (*.txt)";
-	private static final String FILE_NAME = "SWTChartMappings.txt";
-	//
-	private MappingsListUI mappingsListUI;
-	private ScrollableChart scrollableChart;
-	//
+	private AtomicReference<MappingsListUI> listControl = new AtomicReference<>();
 	private IPreferenceStore preferenceStore = ResourceSupport.getPreferenceStore();
 
-	public MappingsDialog(Shell shell, ScrollableChart scrollableChart) {
+	public MappingsDialog(Shell shell) {
 
 		super(shell);
-		this.scrollableChart = scrollableChart;
 	}
 
 	@Override
 	protected void configureShell(Shell shell) {
 
 		super.configureShell(shell);
-		shell.setText(DESCRIPTION);
+		shell.setText(MappedSeriesSettings.DESCRIPTION);
 	}
 
 	@Override
@@ -78,18 +82,64 @@ public class MappingsDialog extends Dialog {
 		Composite composite = (Composite)super.createDialogArea(parent);
 		//
 		createToolbarMain(composite);
-		mappingsListUI = createMappingsList(composite);
+		createMappingsList(composite);
 		//
 		updateInput();
 		//
 		return composite;
 	}
 
-	private MappingsListUI createMappingsList(Composite parent) {
+	private void createMappingsList(Composite parent) {
 
 		MappingsListUI mappingsListUI = new MappingsListUI(parent, SWT.MULTI | SWT.H_SCROLL | SWT.V_SCROLL | SWT.FULL_SELECTION | SWT.BORDER);
-		mappingsListUI.getTable().setLayoutData(new GridData(GridData.FILL_BOTH));
-		return mappingsListUI;
+		Table table = mappingsListUI.getTable();
+		table.setLayoutData(new GridData(GridData.FILL_BOTH));
+		//
+		table.addMouseListener(new MouseAdapter() {
+
+			@Override
+			public void mouseDoubleClick(MouseEvent e) {
+
+				Object object = mappingsListUI.getStructuredSelection().getFirstElement();
+				if(object instanceof MappedSeriesSettings) {
+					/*
+					 * Series
+					 */
+					MappedSeriesSettings mappedSeriesSettings = (MappedSeriesSettings)object;
+					ISeriesSettings seriesSettings = mappedSeriesSettings.getSeriesSettings();
+					Shell shell = e.display.getActiveShell();
+					AbstractSeriesSettingsDialog<?> settingsDialog = null;
+					/*
+					 * Dialog
+					 */
+					if(seriesSettings instanceof IBarSeriesSettings) {
+						IBarSeriesSettings settings = (IBarSeriesSettings)seriesSettings;
+						settingsDialog = new BarSeriesSettingsDialog(shell, settings);
+					} else if(seriesSettings instanceof ICircularSeriesSettings) {
+						ICircularSeriesSettings settings = (ICircularSeriesSettings)seriesSettings;
+						settingsDialog = new CircularSeriesSettingsDialog(shell, settings);
+					} else if(seriesSettings instanceof ILineSeriesSettings) {
+						ILineSeriesSettings settings = (ILineSeriesSettings)seriesSettings;
+						settingsDialog = new LineSeriesSettingsDialog(shell, settings);
+					} else if(seriesSettings instanceof IScatterSeriesSettings) {
+						IScatterSeriesSettings settings = (IScatterSeriesSettings)seriesSettings;
+						settingsDialog = new ScatterSeriesSettingsDialog(shell, settings);
+					}
+					/*
+					 * Apply
+					 */
+					if(settingsDialog != null) {
+						if(settingsDialog.open() == Window.OK) {
+							/*
+							 * No further action is required here.
+							 */
+						}
+					}
+				}
+			}
+		});
+		//
+		listControl.set(mappingsListUI);
 	}
 
 	private void createToolbarMain(Composite parent) {
@@ -100,63 +150,37 @@ public class MappingsDialog extends Dialog {
 		composite.setLayoutData(gridData);
 		composite.setLayout(new GridLayout(5, false));
 		//
-		createButtonReset(composite);
-		createButtonResetAll(composite);
+		createButtonDelete(composite);
 		createButtonDeleteAll(composite);
 		createButtonImport(composite);
 		createButtonExport(composite);
+		createButtonSave(composite);
 	}
 
-	private Button createButtonReset(Composite parent) {
+	private Button createButtonDelete(Composite parent) {
 
 		Button button = new Button(parent, SWT.PUSH);
 		button.setText("");
-		button.setToolTipText("Reset the selected mappings.");
-		button.setImage(ResourceSupport.getImage(ResourceSupport.ICON_RESET_SELECTED));
+		button.setToolTipText("Delete the selected mappings.");
+		button.setImage(ResourceSupport.getImage(ResourceSupport.ICON_DELETE));
 		button.addSelectionListener(new SelectionAdapter() {
 
-			@SuppressWarnings({"rawtypes", "unchecked"})
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 
 				MessageBox messageBox = new MessageBox(e.display.getActiveShell(), SWT.ICON_QUESTION | SWT.YES | SWT.NO);
-				messageBox.setText(DESCRIPTION);
-				messageBox.setMessage("Would you like to reset the selected mappings?");
+				messageBox.setText(MappedSeriesSettings.DESCRIPTION);
+				messageBox.setMessage("Would you like to delete the selected mappings?");
 				int decision = messageBox.open();
 				if(SWT.YES == decision) {
-					Iterator iterator = mappingsListUI.getStructuredSelection().iterator();
+					Iterator<?> iterator = listControl.get().getStructuredSelection().iterator();
 					while(iterator.hasNext()) {
 						Object object = iterator.next();
-						if(object instanceof Map.Entry) {
-							Map.Entry<String, ISeriesSettings> entry = (Map.Entry<String, ISeriesSettings>)object;
-							SeriesMapper.reset(entry.getKey());
+						if(object instanceof MappedSeriesSettings) {
+							MappedSeriesSettings mappedSeriesSettings = (MappedSeriesSettings)object;
+							SeriesMapper.remove(mappedSeriesSettings.getMappingsType(), mappedSeriesSettings.getIdentifier());
 						}
 					}
-					updateInput();
-				}
-			}
-		});
-		//
-		return button;
-	}
-
-	private Button createButtonResetAll(Composite parent) {
-
-		Button button = new Button(parent, SWT.PUSH);
-		button.setText("");
-		button.setToolTipText("Reset all mappings.");
-		button.setImage(ResourceSupport.getImage(ResourceSupport.ICON_RESET_ALL));
-		button.addSelectionListener(new SelectionAdapter() {
-
-			@Override
-			public void widgetSelected(SelectionEvent e) {
-
-				MessageBox messageBox = new MessageBox(e.display.getActiveShell(), SWT.ICON_QUESTION | SWT.YES | SWT.NO);
-				messageBox.setText(DESCRIPTION);
-				messageBox.setMessage("Would you like to reset all mappings?");
-				int decision = messageBox.open();
-				if(SWT.YES == decision) {
-					SeriesMapper.reset();
 					updateInput();
 				}
 			}
@@ -177,11 +201,11 @@ public class MappingsDialog extends Dialog {
 			public void widgetSelected(SelectionEvent e) {
 
 				MessageBox messageBox = new MessageBox(e.display.getActiveShell(), SWT.ICON_QUESTION | SWT.YES | SWT.NO);
-				messageBox.setText(DESCRIPTION);
+				messageBox.setText(MappedSeriesSettings.DESCRIPTION);
 				messageBox.setMessage("Would you like to delete all mappings?");
 				int decision = messageBox.open();
 				if(SWT.YES == decision) {
-					SeriesMapper.clearAll();
+					SeriesMapper.clear();
 					updateInput();
 				}
 			}
@@ -194,7 +218,7 @@ public class MappingsDialog extends Dialog {
 
 		Button button = new Button(parent, SWT.PUSH);
 		button.setText("");
-		button.setToolTipText(IMPORT);
+		button.setToolTipText("Import");
 		button.setImage(ResourceSupport.getImage(ResourceSupport.ICON_IMPORT));
 		button.addSelectionListener(new SelectionAdapter() {
 
@@ -202,23 +226,19 @@ public class MappingsDialog extends Dialog {
 			public void widgetSelected(SelectionEvent e) {
 
 				FileDialog fileDialog = new FileDialog(e.display.getActiveShell(), SWT.READ_ONLY);
-				fileDialog.setText(IMPORT);
-				fileDialog.setFilterExtensions(new String[]{FILTER_EXTENSION});
-				fileDialog.setFilterNames(new String[]{FILTER_NAME});
+				fileDialog.setText(MappedSeriesSettings.DESCRIPTION);
+				fileDialog.setFilterExtensions(new String[]{MappedSeriesSettings.FILTER_EXTENSION});
+				fileDialog.setFilterNames(new String[]{MappedSeriesSettings.FILTER_NAME});
 				fileDialog.setFilterPath(preferenceStore.getString(PreferenceConstants.P_PATH_MAPPINGS_IMPORT));
 				String path = fileDialog.open();
 				if(path != null) {
-					preferenceStore.putValue(PreferenceConstants.P_PATH_MAPPINGS_IMPORT, fileDialog.getFilterPath());
+					preferenceStore.setValue(PreferenceConstants.P_PATH_MAPPINGS_IMPORT, fileDialog.getFilterPath());
+					ResourceSupport.savePreferenceStore();
 					File file = new File(path);
 					Map<String, ISeriesSettings> mappings = MappingsIO.importSettings(file);
 					for(Map.Entry<String, ISeriesSettings> mapping : mappings.entrySet()) {
-						/*
-						 * Map the settings
-						 */
-						String id = mapping.getKey();
 						ISeriesSettings seriesSettings = mapping.getValue();
-						ISeriesSettings seriesSettingsDefault = SeriesMapper.getSeriesSettingsDefault(id, scrollableChart);
-						SeriesMapper.mapSetting(id, seriesSettings, seriesSettingsDefault);
+						SeriesMapper.put(mapping.getKey(), seriesSettings);
 					}
 					updateInput();
 				}
@@ -232,7 +252,7 @@ public class MappingsDialog extends Dialog {
 
 		Button button = new Button(parent, SWT.PUSH);
 		button.setText("");
-		button.setToolTipText(EXPORT);
+		button.setToolTipText("Export");
 		button.setImage(ResourceSupport.getImage(ResourceSupport.ICON_EXPORT));
 		button.addSelectionListener(new SelectionAdapter() {
 
@@ -241,14 +261,15 @@ public class MappingsDialog extends Dialog {
 
 				FileDialog fileDialog = new FileDialog(e.display.getActiveShell(), SWT.SAVE);
 				fileDialog.setOverwrite(true);
-				fileDialog.setText(EXPORT);
-				fileDialog.setFilterExtensions(new String[]{FILTER_EXTENSION});
-				fileDialog.setFilterNames(new String[]{FILTER_NAME});
-				fileDialog.setFileName(FILE_NAME);
+				fileDialog.setText(MappedSeriesSettings.DESCRIPTION);
+				fileDialog.setFilterExtensions(new String[]{MappedSeriesSettings.FILTER_EXTENSION});
+				fileDialog.setFilterNames(new String[]{MappedSeriesSettings.FILTER_NAME});
+				fileDialog.setFileName(MappedSeriesSettings.FILE_NAME);
 				fileDialog.setFilterPath(preferenceStore.getString(PreferenceConstants.P_PATH_MAPPINGS_EXPORT));
 				String path = fileDialog.open();
 				if(path != null) {
-					preferenceStore.putValue(PreferenceConstants.P_PATH_MAPPINGS_EXPORT, fileDialog.getFilterPath());
+					preferenceStore.setValue(PreferenceConstants.P_PATH_MAPPINGS_EXPORT, fileDialog.getFilterPath());
+					ResourceSupport.savePreferenceStore();
 					File file = new File(path);
 					MappingsIO.exportSettings(file, SeriesMapper.getMappings());
 				}
@@ -258,9 +279,26 @@ public class MappingsDialog extends Dialog {
 		return button;
 	}
 
+	private Button createButtonSave(Composite parent) {
+
+		Button button = new Button(parent, SWT.PUSH);
+		button.setText("");
+		button.setToolTipText("Save the mappings.");
+		button.setImage(ResourceSupport.getImage(ResourceSupport.ICON_SAVE));
+		button.addSelectionListener(new SelectionAdapter() {
+
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+
+				MappingsIO.persistsSettings(SeriesMapper.getMappings());
+			}
+		});
+		//
+		return button;
+	}
+
 	private void updateInput() {
 
-		MappingsSupport.adjustSettings(scrollableChart);
-		mappingsListUI.setInput(SeriesMapper.getMappings());
+		listControl.get().setInput(SeriesMapper.getMappings());
 	}
 }

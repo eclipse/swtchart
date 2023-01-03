@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2008, 2019 SWTChart project.
+ * Copyright (c) 2008, 2023 SWTChart project.
  *
  * This program and the accompanying materials are made
  * available under the terms of the Eclipse Public License 2.0
@@ -10,6 +10,7 @@
  * Contributors:
  * yoshitaka - initial API and implementation
  * Frank Buloup - Internationalization
+ * Philip Wenig - series settings mappings
  *******************************************************************************/
 package org.eclipse.swtchart.extensions.properties;
 
@@ -26,12 +27,12 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
-import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Spinner;
 import org.eclipse.swtchart.Constants;
 import org.eclipse.swtchart.ILegend;
 import org.eclipse.swtchart.extensions.charts.InteractiveChart;
+import org.eclipse.swtchart.extensions.core.ResourceSupport;
 
 /**
  * The legend property page on properties dialog.
@@ -72,6 +73,7 @@ public class LegendPage extends AbstractPage {
 	 *            the title
 	 */
 	public LegendPage(InteractiveChart chart, PropertiesResources resources, String title) {
+
 		super(chart, resources, title);
 		legend = chart.getLegend();
 	}
@@ -152,10 +154,10 @@ public class LegendPage extends AbstractPage {
 	public void apply() {
 
 		legend.setVisible(showLegendButton.getSelection());
-		Color color = new Color(Display.getDefault(), backgroundButton.getColorValue());
+		Color color = ResourceSupport.getColor(backgroundButton.getColorValue());
 		legend.setBackground(color);
 		resources.put(LEGEND_GACKGROUND, color);
-		color = new Color(Display.getDefault(), foregroundButton.getColorValue());
+		color = ResourceSupport.getColor(foregroundButton.getColorValue());
 		legend.setForeground(color);
 		resources.put(LEGEND_FOREGROUND, color);
 		FontData fontData = legend.getFont().getFontData()[0];

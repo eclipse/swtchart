@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2020, 2021 Lablicate GmbH.
+ * Copyright (c) 2020, 2023 Lablicate GmbH.
  *
  * This program and the accompanying materials are made
  * available under the terms of the Eclipse Public License 2.0
@@ -12,26 +12,27 @@
  *******************************************************************************/
 package org.eclipse.swtchart.extensions.internal.support;
 
-import java.util.Map;
-
 import org.eclipse.jface.viewers.ColumnLabelProvider;
 import org.eclipse.jface.viewers.ITableLabelProvider;
 import org.eclipse.swt.graphics.Image;
-import org.eclipse.swtchart.extensions.core.ISeriesSettings;
+import org.eclipse.swtchart.extensions.core.MappedSeriesSettings;
 import org.eclipse.swtchart.extensions.core.ResourceSupport;
 
 public class MappingsLabelProvider extends ColumnLabelProvider implements ITableLabelProvider {
 
-	public static final String ID = "ID";
+	public static final String MAPPINGS_TYPE = "Mappings Type";
+	public static final String ID = "Identifier";
 	public static final String DESCRIPTION = "Description";
 	//
 	public static final String[] TITLES = { //
+			MAPPINGS_TYPE, //
 			ID, //
 			DESCRIPTION //
 	};
 	//
 	public static final int[] BOUNDS = { //
-			24, //
+			150, //
+			150, //
 			200 //
 	};
 
@@ -44,20 +45,22 @@ public class MappingsLabelProvider extends ColumnLabelProvider implements ITable
 		return null;
 	}
 
-	@SuppressWarnings("unchecked")
 	@Override
 	public String getColumnText(Object element, int columnIndex) {
 
 		String text = "";
-		if(element instanceof Map.Entry) {
-			Map.Entry<String, ISeriesSettings> entry = (Map.Entry<String, ISeriesSettings>)element;
+		if(element instanceof MappedSeriesSettings) {
+			MappedSeriesSettings mappedSeriesSettings = (MappedSeriesSettings)element;
 			//
 			switch(columnIndex) {
 				case 0:
-					text = entry.getKey();
+					text = mappedSeriesSettings.getMappingsType().label();
 					break;
 				case 1:
-					text = entry.getValue().getDescription();
+					text = mappedSeriesSettings.getIdentifier();
+					break;
+				case 2:
+					text = mappedSeriesSettings.getDescription();
 					break;
 				default:
 					text = "";

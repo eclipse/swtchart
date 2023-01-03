@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2008, 2020 SWTChart project.
+ * Copyright (c) 2008, 2023 SWTChart project.
  *
  * This program and the accompanying materials are made
  * available under the terms of the Eclipse Public License 2.0
@@ -11,6 +11,7 @@
  * yoshitaka - initial API and implementation
  * Christoph Läubrich - optimize disposal
  * Frank Buloup = Internationalization
+ * Philip Wenig - circular series extended legend
  *******************************************************************************/
 package org.eclipse.swtchart.internal.series;
 
@@ -82,9 +83,9 @@ public class SeriesSet implements ISeriesSet {
 		} else if(type == SeriesType.LINE) {
 			series = new LineSeries(chart, trimmedId);
 		} else if(type == SeriesType.PIE) {
-			series = new Pie(chart, trimmedId);
+			series = new PieSeries(chart, trimmedId);
 		} else if(type == SeriesType.DOUGHNUT) {
-			series = new Doughnut(chart, trimmedId);
+			series = new DoughnutSeries(chart, trimmedId);
 		} else {
 			SWT.error(SWT.ERROR_INVALID_ARGUMENT);
 			return null; // to suppress warning...

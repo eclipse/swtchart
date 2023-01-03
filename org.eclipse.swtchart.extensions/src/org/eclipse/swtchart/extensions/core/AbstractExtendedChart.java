@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2017, 2020 Lablicate GmbH.
+ * Copyright (c) 2017, 2023 Lablicate GmbH.
  *
  * This program and the accompanying materials are made
  * available under the terms of the Eclipse Public License 2.0
@@ -19,7 +19,10 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
+import org.eclipse.swt.SWT;
+import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.swtchart.IAxis;
 import org.eclipse.swtchart.IAxis.Direction;
 import org.eclipse.swtchart.IAxisSet;
@@ -31,9 +34,13 @@ import org.eclipse.swtchart.Range;
 import org.eclipse.swtchart.extensions.barcharts.IBarSeriesSettings;
 import org.eclipse.swtchart.extensions.core.RangeRestriction.ExtendType;
 import org.eclipse.swtchart.extensions.exceptions.SeriesException;
+import org.eclipse.swtchart.extensions.linecharts.ILineSeriesSettings;
+import org.eclipse.swtchart.extensions.piecharts.CircularSeriesData;
 import org.eclipse.swtchart.extensions.piecharts.ICircularSeriesData;
 import org.eclipse.swtchart.extensions.piecharts.ICircularSeriesSettings;
-import org.eclipse.swtchart.model.IdNodeDataModel;
+import org.eclipse.swtchart.extensions.scattercharts.IScatterSeriesSettings;
+import org.eclipse.swtchart.model.Node;
+import org.eclipse.swtchart.model.NodeDataModel;
 
 public abstract class AbstractExtendedChart extends AbstractHandledChart implements IChartDataCoordinates, IRangeSupport, IExtendedChart {
 
@@ -55,7 +62,12 @@ public abstract class AbstractExtendedChart extends AbstractHandledChart impleme
 	//
 	private Map<Integer, IAxisSettings> xAxisSettingsMap = new HashMap<Integer, IAxisSettings>();
 	private Map<Integer, IAxisSettings> yAxisSettingsMap = new HashMap<Integer, IAxisSettings>();
+	/*
+	 * The series settings map contains the settings that are currently used.
+	 * The reset map contains a copy of the initial series settings.
+	 */
 	private Map<String, ISeriesSettings> seriesSettingsMap = new HashMap<String, ISeriesSettings>();
+	private Map<String, ISeriesSettings> seriesSettingsMapReset = new HashMap<String, ISeriesSettings>();
 
 	public AbstractExtendedChart(Composite parent, int style) {
 
@@ -226,7 +238,6 @@ public abstract class AbstractExtendedChart extends AbstractHandledChart impleme
 						range.lower = (range.lower < minY) ? minY : range.lower;
 					}
 				}
-				//
 				extendRange(IExtendedChart.Y_AXIS, range, extendedMinY, extendedMaxY, rangeRestriction.getExtendMinY(), rangeRestriction.getExtendMaxY());
 			}
 			/*
@@ -234,6 +245,22 @@ public abstract class AbstractExtendedChart extends AbstractHandledChart impleme
 			 */
 			if(range.lower < range.upper) {
 				axis.setRange(range);
+			}
+		}
+	}
+
+	/**
+	 * Reset the currently used series settings by the stored initial settings if available.
+	 * 
+	 * @param id
+	 */
+	protected void resetSeriesSettings(String id) {
+
+		ISeriesSettings seriesSettingsSource = seriesSettingsMapReset.get(id);
+		if(seriesSettingsSource != null) {
+			ISeriesSettings seriesSettingsSink = seriesSettingsMap.get(id);
+			if(seriesSettingsSink != null) {
+				MappingsSupport.transferSettings(seriesSettingsSource, seriesSettingsSink);
 			}
 		}
 	}
@@ -293,44 +320,85 @@ public abstract class AbstractExtendedChart extends AbstractHandledChart impleme
 	public ISeries<?> createSeries(ISeriesData seriesData, ISeriesSettings seriesSettings) throws SeriesException {
 
 		SeriesType seriesType = getSeriesType(seriesSettings);
-		double[] xSeries = seriesData.getXSeries();
-		double[] ySeries = seriesData.getYSeries();
-		//
-		if(xSeries.length == ySeries.length) {
-			/*
-			 * Put the settings to the map.
-			 */
-			String id = seriesData.getId();
-			seriesSettingsMap.put(id, seriesSettings);
-			//
-			ISeriesSet seriesSet = getSeriesSet();
-			ISeries<?> series = seriesSet.createSeries(seriesType, id);
-			series.setXSeries(xSeries);
-			series.setYSeries(ySeries);
-			calculateCoordinates(series);
-			return series;
+		if(seriesType != null) {
+			if(SeriesType.PIE.equals(seriesType)) {
+				/*
+				 * Pie or Doughnut
+				 */
+				ICircularSeriesData circularSeriesData = (ICircularSeriesData)seriesData;
+				ICircularSeriesSettings circularSeriesSettings = (ICircularSeriesSettings)seriesSettings;
+				NodeDataModel nodeDataModel = circularSeriesData.getDataModel();
+				//
+				isCircularSeries = true;
+				seriesType = circularSeriesSettings.getSeriesType();
+				/*
+				 * Create the series.
+				 */
+				String id = CircularSeriesData.ID;
+				mapSeriesSettings(id, seriesSettings);
+				ISeries<?> series = seriesSet.createSeries(seriesType, id);
+				ICircularSeries<?> circularSeries = (ICircularSeries<?>)series;
+				circularSeries.setNodeDataModel(nodeDataModel);
+				double depth = nodeDataModel.getRootPointer().getMaxSubTreeDepth() - 1;
+				updateCoordinates(-depth, depth, -depth, depth);
+				/*
+				 * Create the series settings.
+				 */
+				String[] labels = circularSeries.getLabels();
+				Color[] colors = circularSeries.getColors();
+				if(labels != null) {
+					for(int i = 0; i < labels.length; i++) {
+						String label = labels[i];
+						Node node = circularSeries.getNodeById(label);
+						Color color = colors[i] != null ? colors[i] : Display.getDefault().getSystemColor(SWT.COLOR_RED);
+						ISeriesSettings seriesSettingsCopy = MappingsSupport.copySettings(circularSeriesSettings);
+						if(seriesSettingsCopy instanceof ICircularSeriesSettings) {
+							ICircularSeriesSettings circularSeriesSettingsCopy = (ICircularSeriesSettings)seriesSettingsCopy;
+							circularSeriesSettingsCopy.setVisible(node.isVisible());
+							circularSeriesSettingsCopy.setVisibleInLegend(node.isVisibleInLegend());
+							circularSeriesSettingsCopy.setDescription(node.getDescription());
+							circularSeriesSettingsCopy.setSliceColor(color);
+						}
+						mapSeriesSettings(labels[i], seriesSettingsCopy);
+					}
+				}
+				//
+				return circularSeries;
+			} else {
+				/*
+				 * Bar, Scatter or Line
+				 */
+				double[] xSeries = seriesData.getXSeries();
+				double[] ySeries = seriesData.getYSeries();
+				//
+				if(xSeries.length == ySeries.length) {
+					/*
+					 * Put the settings to the map.
+					 */
+					String id = seriesData.getId();
+					mapSeriesSettings(id, seriesSettings);
+					ISeriesSet seriesSet = getSeriesSet();
+					ISeries<?> series = seriesSet.createSeries(seriesType, id);
+					series.setXSeries(xSeries);
+					series.setYSeries(ySeries);
+					calculateCoordinates(series);
+					return series;
+				} else {
+					throw new SeriesException(Messages.getString(Messages.X_Y_SERIES_LENGTH_DIFFERS));
+				}
+			}
 		} else {
-			throw new SeriesException(Messages.getString(Messages.X_Y_SERIES_LENGTH_DIFFERS));
+			throw new SeriesException("The series type couldn't be determined.");
 		}
 	}
 
-	/*
-	 * Implement them soon. The method is to return the Series.
-	 */
-	public ICircularSeries<?> createCircularSeries(ICircularSeriesData circularSeriesData, ICircularSeriesSettings circularSeriesSettings) {
+	private void mapSeriesSettings(String id, ISeriesSettings seriesSettings) {
 
-		isCircularSeries = true;
-		IdNodeDataModel model = circularSeriesData.getDataModel();
-		SeriesType seriesType = circularSeriesSettings.getSeriesType();
-		/*
-		 * Do we have to add the seriesSettings into the settings Map?
-		 */
-		ISeriesSet seriesSet = getSeriesSet();
-		ISeries<?> series = seriesSet.createSeries(seriesType, "Circular Series");
-		((ICircularSeries<?>)series).setDataModel(model);
-		double depth = model.getRootPointer().getMaxSubTreeDepth() - 1;
-		updateCoordinates(-depth, depth, -depth, depth);
-		return (ICircularSeries<?>)series;
+		seriesSettingsMap.put(id, seriesSettings);
+		ISeriesSettings seriesSettingsCopy = MappingsSupport.copySettings(seriesSettings);
+		if(seriesSettingsCopy != null) {
+			seriesSettingsMapReset.put(id, seriesSettingsCopy);
+		}
 	}
 
 	@Override
@@ -341,6 +409,7 @@ public abstract class AbstractExtendedChart extends AbstractHandledChart impleme
 			resetCoordinates();
 			seriesSet.deleteSeries(id);
 			seriesSettingsMap.remove(id);
+			seriesSettingsMapReset.remove(id);
 			for(ISeries<?> series : seriesSet.getSeries()) {
 				calculateCoordinates(series);
 			}
@@ -376,11 +445,26 @@ public abstract class AbstractExtendedChart extends AbstractHandledChart impleme
 		}
 	}
 
+	/**
+	 * If no type could be matched, null is returned.
+	 * 
+	 * @param seriesSettings
+	 * @return {@link SeriesType}
+	 */
 	private SeriesType getSeriesType(ISeriesSettings seriesSettings) {
 
-		SeriesType seriesType = SeriesType.LINE; // Default
-		if(seriesSettings instanceof IBarSeriesSettings) {
+		SeriesType seriesType;
+		//
+		if(seriesSettings instanceof ILineSeriesSettings) {
+			seriesType = SeriesType.LINE;
+		} else if(seriesSettings instanceof IScatterSeriesSettings) {
+			seriesType = SeriesType.LINE;
+		} else if(seriesSettings instanceof IBarSeriesSettings) {
 			seriesType = SeriesType.BAR;
+		} else if(seriesSettings instanceof ICircularSeriesSettings) {
+			seriesType = SeriesType.PIE;
+		} else {
+			seriesType = null;
 		}
 		//
 		return seriesType;

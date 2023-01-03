@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2020, 2022 SWTChart project.
+ * Copyright (c) 2020, 2023 SWTChart project.
  *
  * This program and the accompanying materials are made
  * available under the terms of the Eclipse Public License 2.0
@@ -9,6 +9,7 @@
  * 
  * Contributors:
  * Himanshu Balasamanta - initial API and implementation
+ * Philip Wenig - improvement series data model
  *******************************************************************************/
 package org.eclipse.swtchart.model;
 
@@ -36,18 +37,20 @@ import org.eclipse.swt.widgets.Display;
  */
 public class Node {
 
-	private double val;
+	private double value;
 	/** stores at which level the pie slice is */
 	private int level;
 	private String id;
+	private String description = "";
 	/** the data model that the node is part of */
-	private IdNodeDataModel model;
+	private NodeDataModel model;
 	private List<Node> children;
 	/** the angle extremities between which the Pie "slice" is drawn. */
 	private Point angleBounds;
 	/** this color is just the color constant from SWT */
-	private Color color;
+	private Color sliceColor;
 	private boolean isVisible;
+	private boolean isVisibleInLegend;
 	/** parent of the given node */
 	private Node parent;
 	/** the depth of the tree starting from this node. The tree includes node also */
@@ -60,16 +63,17 @@ public class Node {
 	 * after some time.
 	 * 
 	 * @param id
-	 * @param val
+	 * @param value
 	 */
-	Node(String id, double val, IdNodeDataModel dataModel) {
+	public Node(String id, double value, NodeDataModel dataModel) {
 
 		this.id = id;
-		this.val = val;
+		this.value = value;
 		this.model = dataModel;
 		this.level = 0;
 		children = new ArrayList<>();
 		this.isVisible = true;
+		this.isVisibleInLegend = true;
 	}
 
 	/**
@@ -79,19 +83,20 @@ public class Node {
 	 * addChild()
 	 * 
 	 * @param id
-	 * @param val
+	 * @param value
 	 * @param parent
 	 */
-	public Node(String id, double val, Node parent) {
+	public Node(String id, double value, Node parent) {
 
 		this.id = id;
-		this.val = val;
+		this.value = value;
 		children = new ArrayList<>();
 		this.isVisible = parent.isVisible;
+		this.isVisibleInLegend = parent.isVisibleInLegend;
 		this.parent = parent;
 		this.level = parent.level + 1;
 		this.model = parent.model;
-		setColor(Display.getDefault().getSystemColor(SWT.COLOR_RED));
+		setSliceColor(Display.getDefault().getSystemColor(SWT.COLOR_RED));
 		model.getTree().put(id, this);
 		this.getParent().getChildren().add(this);
 	}
@@ -103,7 +108,7 @@ public class Node {
 	 */
 	public double getValue() {
 
-		return val;
+		return value;
 	}
 
 	/**
@@ -114,6 +119,16 @@ public class Node {
 	public String getId() {
 
 		return id;
+	}
+
+	public String getDescription() {
+
+		return description.isEmpty() ? id : description;
+	}
+
+	public void setDescription(String description) {
+
+		this.description = description;
 	}
 
 	/**
@@ -143,22 +158,34 @@ public class Node {
 		return parent;
 	}
 
-	/**
-	 * color with which node shall be drawn with
-	 * 
-	 * @return
-	 */
-	public Color getColor() {
+	public Color getSliceColor() {
 
-		return color;
+		return sliceColor;
 	}
 
-	/**
-	 * @return visibility of the node.
-	 */
+	public void setSliceColor(Color sliceColor) {
+
+		this.sliceColor = sliceColor;
+	}
+
 	public boolean isVisible() {
 
 		return isVisible;
+	}
+
+	public void setVisible(boolean isVisible) {
+
+		this.isVisible = isVisible;
+	}
+
+	public boolean isVisibleInLegend() {
+
+		return isVisibleInLegend;
+	}
+
+	public void setVisibleInLegend(boolean isVisibleInLegend) {
+
+		this.isVisibleInLegend = isVisibleInLegend;
 	}
 
 	/**
@@ -176,14 +203,14 @@ public class Node {
 		return maxSubTreeDepth;
 	}
 
-	public IdNodeDataModel getDataModel() {
+	public NodeDataModel getDataModel() {
 
 		return model;
 	}
 
 	public void setValue(double value) {
 
-		this.val = value;
+		this.value = value;
 		update();
 	}
 
@@ -202,19 +229,9 @@ public class Node {
 		this.parent = parent;
 	}
 
-	public void setDataModel(IdNodeDataModel model) {
+	public void setDataModel(NodeDataModel model) {
 
 		this.model = model;
-	}
-
-	/**
-	 * sets the color of the pie slice.
-	 * 
-	 * @param color
-	 */
-	public void setColor(Color color) {
-
-		this.color = color;
 	}
 
 	/**
@@ -248,7 +265,7 @@ public class Node {
 
 		for(Node node : nodes) {
 			String label = node.id;
-			double value = node.val;
+			double value = node.value;
 			new Node(label, value, this);
 		}
 		update();
@@ -291,29 +308,6 @@ public class Node {
 	}
 
 	/**
-	 * set or updates the visibility of a particular element. If the parent is not
-	 * visible, the children are set to be invisible too, but not vice -versa.
-	 * 
-	 * @param visibility
-	 */
-	public void setVisibility(boolean visibility) {
-
-		this.isVisible = visibility;
-		if(!parent.isVisible) {
-			this.isVisible = false;
-			if(visibility) {
-				// throw error.
-			}
-		}
-		Iterable<Node> nodes = children;
-		// DFS function call to children.
-		// update nodes visibility only for visible nodes
-		for(Node node : nodes) {
-			node.setVisibility(node.isVisible ? this.isVisible : false);
-		}
-	}
-
-	/**
 	 * The DFS function. It updates the value of the each element of the tree
 	 * and the maxTreeDepth. Updates starting at the leaves and then backwards.
 	 * Have to shift the updating maxSubTreeDepth just before drawing the chart.
@@ -324,7 +318,7 @@ public class Node {
 		// first go to leaves, then come towards the rootNode.
 		if(this.children.isEmpty()) {
 			maxSubTreeDepth = 1;
-			if(this.val <= 0) {
+			if(this.value <= 0) {
 				// throw error
 			}
 			return;
@@ -333,12 +327,12 @@ public class Node {
 		Iterable<Node> nodes = children;
 		for(Node node : nodes) {
 			node.updateValues();
-			total += node.val;
+			total += node.value;
 			maxSubTreeDepth = Math.max(maxSubTreeDepth, node.maxSubTreeDepth + 1);
 		}
 		// updating only if children cannot be drawn.
-		if(total > this.val) {
-			this.val = total;
+		if(total > this.value) {
+			this.value = total;
 		}
 	}
 
@@ -365,7 +359,7 @@ public class Node {
 				angleCovered = 1;
 				required -= 1.0;
 			} else {
-				diff = ((node.getValue() * angleBounds.y) / this.val) - angleCovered;
+				diff = ((node.getValue() * angleBounds.y) / this.value) - angleCovered;
 				required += diff;
 				// so that errors in double value calculations do not lead
 				// to less than 360 degree total angle.

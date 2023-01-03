@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2017, 2021 Lablicate GmbH.
+ * Copyright (c) 2017, 2023 Lablicate GmbH.
  *
  * This program and the accompanying materials are made
  * available under the terms of the Eclipse Public License 2.0
@@ -25,6 +25,7 @@ public class ScatterSeriesSettings extends AbstractPointSeriesSettings implement
 		if(seriesSettingsHighlight == null) {
 			try {
 				seriesSettingsHighlight = (IScatterSeriesSettings)this.clone();
+				seriesSettingsHighlight.setHighlight(true);
 			} catch(CloneNotSupportedException e) {
 				seriesSettingsHighlight = new ScatterSeriesSettings();
 			}
@@ -53,6 +54,7 @@ public class ScatterSeriesSettings extends AbstractPointSeriesSettings implement
 			sink.setSymbolType(source.getSymbolType());
 			sink.setSymbolSize(source.getSymbolSize());
 			sink.setSymbolColor(source.getSymbolColor());
+			sink.setHighlight(source.isHighlight());
 			success = true;
 		}
 		//

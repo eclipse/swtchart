@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2017, 2019 Lablicate GmbH.
+ * Copyright (c) 2017, 2023 Lablicate GmbH.
  *
  * This program and the accompanying materials are made
  * available under the terms of the Eclipse Public License 2.0
@@ -15,15 +15,15 @@ package org.eclipse.swtchart.extensions.core;
 
 public abstract class AbstractSeriesSettings implements ISeriesSettings {
 
-	private String description;
-	private boolean visible;
-	private boolean visibleInLegend;
-
-	public AbstractSeriesSettings() {
-		description = ""; //$NON-NLS-1$
-		visible = true;
-		visibleInLegend = true;
-	}
+	private String description = ""; //$NON-NLS-1$
+	private boolean visible = true;
+	private boolean visibleInLegend = true;
+	/*
+	 * Transient
+	 * This is marker to indicate if this
+	 * settings is a highlight series.
+	 */
+	private boolean highlight = false;
 
 	@Override
 	public String getDescription() {
@@ -59,5 +59,17 @@ public abstract class AbstractSeriesSettings implements ISeriesSettings {
 	public void setVisibleInLegend(boolean visibleInLegend) {
 
 		this.visibleInLegend = visibleInLegend;
+	}
+
+	@Override
+	public boolean isHighlight() {
+
+		return highlight;
+	}
+
+	@Override
+	public void setHighlight(boolean highlight) {
+
+		this.highlight = highlight;
 	}
 }

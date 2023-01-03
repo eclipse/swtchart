@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2017, 2021 Lablicate GmbH.
+ * Copyright (c) 2017, 2023 Lablicate GmbH.
  *
  * This program and the accompanying materials are made
  * available under the terms of the Eclipse Public License 2.0
@@ -33,6 +33,7 @@ import org.eclipse.swtchart.ISeries;
 import org.eclipse.swtchart.extensions.core.BaseChart;
 import org.eclipse.swtchart.extensions.core.IExtendedChart;
 import org.eclipse.swtchart.extensions.core.ISeriesSettings;
+import org.eclipse.swtchart.extensions.core.MappingsSupport;
 import org.eclipse.swtchart.extensions.core.ResourceSupport;
 import org.eclipse.swtchart.extensions.core.SeriesListUI;
 import org.eclipse.swtchart.extensions.preferences.PreferenceConstants;
@@ -40,7 +41,7 @@ import org.eclipse.swtchart.extensions.preferences.PreferenceConstants;
 public class VectorExportSettingsDialog extends TitleAreaDialog {
 
 	private BaseChart baseChart;
-	private Map<String, ISeriesSettings> cache = new HashMap<String, ISeriesSettings>();
+	private Map<String, ISeriesSettings> cachedSeriesSettings = new HashMap<String, ISeriesSettings>();
 	private AtomicReference<SeriesListUI> tableViewer = new AtomicReference<>();
 	private IPreferenceStore preferenceStore = ResourceSupport.getPreferenceStore();
 	//
@@ -63,7 +64,7 @@ public class VectorExportSettingsDialog extends TitleAreaDialog {
 			String id = series.getId();
 			ISeriesSettings seriesSettings = baseChart.getSeriesSettings(id);
 			if(seriesSettings != null) {
-				cache.put(id, seriesSettings.makeDeepCopy());
+				cachedSeriesSettings.put(id, MappingsSupport.copySettings(seriesSettings));
 			}
 		}
 	}
@@ -166,7 +167,7 @@ public class VectorExportSettingsDialog extends TitleAreaDialog {
 
 		ISeries<?>[] seriesArray = baseChart.getSeriesSet().getSeries();
 		for(ISeries<?> series : seriesArray) {
-			ISeriesSettings seriesSettings = cache.get(series.getId());
+			ISeriesSettings seriesSettings = cachedSeriesSettings.get(series.getId());
 			if(seriesSettings != null) {
 				baseChart.applySeriesSettings(series, seriesSettings);
 			}

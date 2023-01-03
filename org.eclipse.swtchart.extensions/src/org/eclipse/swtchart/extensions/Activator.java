@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2017, 2021 Lablicate GmbH.
+ * Copyright (c) 2017, 2023 Lablicate GmbH.
  *
  * This program and the accompanying materials are made
  * available under the terms of the Eclipse Public License 2.0
@@ -13,6 +13,8 @@
  *******************************************************************************/
 package org.eclipse.swtchart.extensions;
 
+import org.eclipse.swtchart.extensions.core.ResourceSupport;
+import org.eclipse.swtchart.extensions.internal.support.MappingsIO;
 import org.osgi.framework.Bundle;
 import org.osgi.framework.BundleActivator;
 import org.osgi.framework.BundleContext;
@@ -37,11 +39,13 @@ public class Activator implements BundleActivator {
 
 		plugin = this;
 		this.bundle = context.getBundle();
+		MappingsIO.restoreSettings();
 	}
 
 	@Override
 	public void stop(BundleContext context) throws Exception {
 
+		ResourceSupport.savePreferenceStore();
 		plugin = null;
 	}
 

@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2008, 2020 SWTChart project.
+ * Copyright (c) 2008, 2023 SWTChart project.
  *
  * This program and the accompanying materials are made
  * available under the terms of the Eclipse Public License 2.0
@@ -9,6 +9,7 @@
  * 
  * Contributors:
  * yoshitaka - initial API and implementation
+ * Philip Wenig - series settings mappings
  *******************************************************************************/
 package org.eclipse.swtchart.internal;
 
@@ -128,7 +129,7 @@ public class Grid implements IGrid {
 		Color oldForeground = gc.getForeground();
 		gc.setForeground(getForeground());
 		ArrayList<Integer> tickLabelPosition = axis.getTick().getAxisTickLabels().getTickLabelPositions();
-		gc.setLineStyle(Util.getIndexDefinedInSWT(lineStyle));
+		gc.setLineStyle(lineStyle.value());
 		if(axis.isValidCategoryAxis()) {
 			int step = 0;
 			if(tickLabelPosition.size() > 1) {

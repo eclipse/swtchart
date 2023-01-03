@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2020 SWTChart project.
+ * Copyright (c) 2020, 2023 SWTChart project.
  *
  * This program and the accompanying materials are made
  * available under the terms of the Eclipse Public License 2.0
@@ -8,7 +8,8 @@
  * SPDX-License-Identifier: EPL-2.0
  * 
  * Contributors:
- * Himanshu Balasamanta: Orignal API and implementation
+ * Himanshu Balasamanta - initial API and implementation
+ * Philip Wenig - circular series extended legend
  *******************************************************************************/
 package org.eclipse.swtchart.customcharts.core;
 
@@ -194,9 +195,9 @@ public class ParallelPieCharts {
 		ICircularSeriesSettings settings = circularSeriesData.getSettings();
 		if(redrawOnClick) {
 			settings.setRedrawOnClick(true);
-			settings.setBorderColor(Display.getDefault().getSystemColor(SWT.COLOR_BLACK));
+			settings.setSliceColor(Display.getDefault().getSystemColor(SWT.COLOR_BLACK));
 		} else {
-			settings.setBorderColor(Display.getDefault().getSystemColor(SWT.COLOR_WHITE));
+			settings.setSliceColor(Display.getDefault().getSystemColor(SWT.COLOR_WHITE));
 			settings.setRedrawOnClick(false);
 		}
 	}

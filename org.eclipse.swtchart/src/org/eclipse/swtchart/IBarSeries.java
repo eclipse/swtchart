@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2008, 2019 SWTChart project.
+ * Copyright (c) 2008, 2023 SWTChart project.
  *
  * This program and the accompanying materials are made
  * available under the terms of the Eclipse Public License 2.0
@@ -10,6 +10,7 @@
  * Contributors:
  * yoshitaka - initial API and implementation
  * Christoph Läubrich - add support for datamodel
+ * Philip Wenig - series settings mappings
  *******************************************************************************/
 package org.eclipse.swtchart;
 
@@ -24,11 +25,25 @@ public interface IBarSeries<T> extends ISeries<T> {
 	/**
 	 * Bar width style.
 	 */
-	public enum BarWidthStyle {
+	public enum BarWidthStyle implements IEnumLabel {
+
 		/** the style stretching the bar width depending on interval of bars. */
-		STRETCHED,
+		STRETCHED("Stretched"),
 		/** the style fixing the bar width regardless of interval of bars. */
-		FIXED;
+		FIXED("Fixed");
+
+		private String label;
+
+		private BarWidthStyle(String label) {
+
+			this.label = label;
+		}
+
+		@Override
+		public String label() {
+
+			return label;
+		}
 	}
 
 	/**

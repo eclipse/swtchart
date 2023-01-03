@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2008, 2022 SWTChart project.
+ * Copyright (c) 2008, 2023 SWTChart project.
  *
  * This program and the accompanying materials are made
  * available under the terms of the Eclipse Public License 2.0
@@ -10,6 +10,7 @@
  * Contributors:
  * yoshitaka - initial API and implementation
  * Frank Buloup - Internationalization
+ * Philip Wenig - series settings mappings
  *******************************************************************************/
 package org.eclipse.swtchart.internal;
 
@@ -38,6 +39,7 @@ import org.eclipse.swtchart.ILineSeries;
 import org.eclipse.swtchart.ISeries;
 import org.eclipse.swtchart.internal.series.LineSeries;
 import org.eclipse.swtchart.internal.series.Series;
+import org.eclipse.swtchart.model.Node;
 
 /**
  * A legend for chart.
@@ -270,14 +272,22 @@ public class Legend extends Composite implements ILegend, PaintListener {
 			int yPosition = MARGIN;
 			int maxCellWidth = 0;
 			for(ISeries<?> series : seriesArray) {
+				/*
+				 * Skip if not visible.
+				 */
 				if(!series.isVisibleInLegend()) {
 					continue;
 				}
+				//
 				if(series instanceof ICircularSeries) {
-					if(((ICircularSeries<?>)series).getLabels() != null) {
-						String[] labels = ((ICircularSeries<?>)series).getLabels();
-						for(int i = 0; i != labels.length; i++) {
-							int textWidth = Util.getExtentInGC(getFont(), labels[i]).x;
+					ICircularSeries<?> circularSeries = (ICircularSeries<?>)series;
+					String[] labels = circularSeries.getLabels();
+					if(labels != null) {
+						for(int i = 0; i < labels.length; i++) {
+							String id = labels[i];
+							Node node = circularSeries.getNodeById(id);
+							String label = node.getDescription().isEmpty() ? id : node.getDescription();
+							int textWidth = Util.getExtentInGC(getFont(), label).x;
 							int cellWidth = textWidth + SYMBOL_WIDTH + MARGIN * 3;
 							maxCellWidth = Math.max(maxCellWidth, cellWidth);
 							if(yPosition + cellHeight < r.height - titleHeight - MARGIN || yPosition == MARGIN) {
@@ -286,39 +296,47 @@ public class Legend extends Composite implements ILegend, PaintListener {
 								columns++;
 								yPosition = cellHeight + MARGIN * 2;
 							}
-							cellBounds.put(labels[i], new Rectangle(maxCellWidth * (columns - 1), yPosition - cellHeight - MARGIN, cellWidth, cellHeight));
+							cellBounds.put(label, new Rectangle(maxCellWidth * (columns - 1), yPosition - cellHeight - MARGIN, cellWidth, cellHeight));
 							height = Math.max(yPosition, height);
 						}
 						width = maxCellWidth * columns;
-						continue;
 					}
-				}
-				String label = getLegendLabel(series);
-				int textWidth = Util.getExtentInGC(getFont(), label).x;
-				int cellWidth = textWidth + SYMBOL_WIDTH + MARGIN * 3;
-				maxCellWidth = Math.max(maxCellWidth, cellWidth);
-				if(yPosition + cellHeight < r.height - titleHeight - MARGIN || yPosition == MARGIN) {
-					yPosition += cellHeight + MARGIN;
 				} else {
-					columns++;
-					yPosition = cellHeight + MARGIN * 2;
+					String label = getLegendLabel(series);
+					int textWidth = Util.getExtentInGC(getFont(), label).x;
+					int cellWidth = textWidth + SYMBOL_WIDTH + MARGIN * 3;
+					maxCellWidth = Math.max(maxCellWidth, cellWidth);
+					if(yPosition + cellHeight < r.height - titleHeight - MARGIN || yPosition == MARGIN) {
+						yPosition += cellHeight + MARGIN;
+					} else {
+						columns++;
+						yPosition = cellHeight + MARGIN * 2;
+					}
+					cellBounds.put(series.getId(), new Rectangle(maxCellWidth * (columns - 1), yPosition - cellHeight - MARGIN, cellWidth, cellHeight));
+					height = Math.max(yPosition, height);
 				}
-				cellBounds.put(series.getId(), new Rectangle(maxCellWidth * (columns - 1), yPosition - cellHeight - MARGIN, cellWidth, cellHeight));
-				height = Math.max(yPosition, height);
 			}
 			width = maxCellWidth * columns;
 		} else if(position == SWT.TOP || position == SWT.BOTTOM) {
 			int rows = 1;
 			int xPosition = 0;
 			for(ISeries<?> series : seriesArray) {
+				/*
+				 * Skip if not visible.
+				 */
 				if(!series.isVisibleInLegend()) {
 					continue;
 				}
+				//
 				if(series instanceof ICircularSeries) {
-					if(((ICircularSeries<?>)series).getLabels() != null) {
-						String[] labels = ((ICircularSeries<?>)series).getLabels();
-						for(int i = 0; i != labels.length; i++) {
-							int textWidth = Util.getExtentInGC(getFont(), labels[i]).x;
+					ICircularSeries<?> circularSeries = (ICircularSeries<?>)series;
+					String[] labels = circularSeries.getLabels();
+					if(labels != null) {
+						for(int i = 0; i < labels.length; i++) {
+							String id = labels[i];
+							Node node = circularSeries.getNodeById(id);
+							String label = node.getDescription().isEmpty() ? id : node.getDescription();
+							int textWidth = Util.getExtentInGC(getFont(), label).x;
 							int cellWidth = textWidth + SYMBOL_WIDTH + MARGIN * 3;
 							if(xPosition + cellWidth < r.width || xPosition == 0) {
 								xPosition += cellWidth;
@@ -326,24 +344,25 @@ public class Legend extends Composite implements ILegend, PaintListener {
 								rows++;
 								xPosition = cellWidth;
 							}
-							cellBounds.put(labels[i], new Rectangle(xPosition - cellWidth, (cellHeight + MARGIN) * (rows - 1) + MARGIN, cellWidth, cellHeight));
+							cellBounds.put(label, new Rectangle(xPosition - cellWidth, (cellHeight + MARGIN) * (rows - 1) + MARGIN, cellWidth, cellHeight));
 							width = Math.max(xPosition, width);
 						}
 						height = (cellHeight + MARGIN) * rows + MARGIN;
 						continue;
 					}
-				}
-				String label = getLegendLabel(series);
-				int textWidth = Util.getExtentInGC(getFont(), label).x;
-				int cellWidth = textWidth + SYMBOL_WIDTH + MARGIN * 3;
-				if(xPosition + cellWidth < r.width || xPosition == 0) {
-					xPosition += cellWidth;
 				} else {
-					rows++;
-					xPosition = cellWidth;
+					String label = getLegendLabel(series);
+					int textWidth = Util.getExtentInGC(getFont(), label).x;
+					int cellWidth = textWidth + SYMBOL_WIDTH + MARGIN * 3;
+					if(xPosition + cellWidth < r.width || xPosition == 0) {
+						xPosition += cellWidth;
+					} else {
+						rows++;
+						xPosition = cellWidth;
+					}
+					cellBounds.put(series.getId(), new Rectangle(xPosition - cellWidth, (cellHeight + MARGIN) * (rows - 1) + MARGIN, cellWidth, cellHeight));
+					width = Math.max(xPosition, width);
 				}
-				cellBounds.put(series.getId(), new Rectangle(xPosition - cellWidth, (cellHeight + MARGIN) * (rows - 1) + MARGIN, cellWidth, cellHeight));
-				width = Math.max(xPosition, width);
 			}
 			height = (cellHeight + MARGIN) * rows + MARGIN;
 		}
@@ -385,7 +404,7 @@ public class Legend extends Composite implements ILegend, PaintListener {
 			// draw plot line
 			gc.setForeground(((ILineSeries<?>)series).getLineColor());
 			gc.setLineWidth(LINE_WIDTH);
-			int lineStyle = Util.getIndexDefinedInSWT(((ILineSeries<?>)series).getLineStyle());
+			int lineStyle = ((ILineSeries<?>)series).getLineStyle().value();
 			int x = r.x;
 			int y = r.y + r.height / 2;
 			if(lineStyle != SWT.NONE) {
@@ -429,24 +448,35 @@ public class Legend extends Composite implements ILegend, PaintListener {
 		gc.drawRectangle(0, 0, getSize().x - 1, getSize().y - 1);
 		// draw content
 		for(int i = 0; i < seriesArray.length; i++) {
+			/*
+			 * Skip if not visible.
+			 */
 			if(!seriesArray[i].isVisibleInLegend()) {
 				continue;
 			}
 			//
 			if(seriesArray[i] instanceof ICircularSeries) {
-				ICircularSeries<?> pieSeries = (ICircularSeries<?>)seriesArray[i];
-				String[] labels = pieSeries.getLabels();
-				Color[] color = pieSeries.getColors();
-				for(int j = 0; j != labels.length; j++) {
-					Rectangle r = cellBounds.get(labels[j]);
-					if(r != null) {
-						String labelPie = labels[j];
-						Color colorPie = color[j];
-						if(labelPie != null && colorPie != null) {
-							drawPieSymbol(gc, labelPie, colorPie, new Rectangle(r.x + MARGIN, r.y + MARGIN, SYMBOL_WIDTH, r.height - MARGIN * 2));
-							gc.setBackground(getBackground());
-							gc.setForeground(getForeground());
-							gc.drawText(labelPie, r.x + SYMBOL_WIDTH + MARGIN * 2, r.y, true);
+				ICircularSeries<?> circularSeries = (ICircularSeries<?>)seriesArray[i];
+				String[] labels = circularSeries.getLabels();
+				if(labels != null) {
+					Color[] colors = circularSeries.getColors();
+					for(int j = 0; j < labels.length; j++) {
+						Rectangle r = cellBounds.get(labels[j]);
+						if(r != null) {
+							String id = labels[j];
+							Node node = circularSeries.getNodeById(id);
+							String label = node.getDescription().isEmpty() ? id : node.getDescription();
+							Color color = colors[j];
+							//
+							if(color != null) {
+								boolean draw = node != null ? node.isVisibleInLegend() : true;
+								if(draw) {
+									drawPieSymbol(gc, label, color, new Rectangle(r.x + MARGIN, r.y + MARGIN, SYMBOL_WIDTH, r.height - MARGIN * 2));
+									gc.setBackground(getBackground());
+									gc.setForeground(getForeground());
+									gc.drawText(label, r.x + SYMBOL_WIDTH + MARGIN * 2, r.y, true);
+								}
+							}
 						}
 					}
 				}

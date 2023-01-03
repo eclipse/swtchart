@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2017, 2021 Lablicate GmbH.
+ * Copyright (c) 2017, 2023 Lablicate GmbH.
  *
  * This program and the accompanying materials are made
  * available under the terms of the Eclipse Public License 2.0
@@ -120,6 +120,7 @@ public class LineSeriesSettings extends AbstractPointSeriesSettings implements I
 		if(seriesSettingsHighlight == null) {
 			try {
 				seriesSettingsHighlight = (ILineSeriesSettings)this.clone();
+				seriesSettingsHighlight.setHighlight(true);
 			} catch(CloneNotSupportedException e) {
 				seriesSettingsHighlight = new LineSeriesSettings();
 			}
@@ -155,6 +156,7 @@ public class LineSeriesSettings extends AbstractPointSeriesSettings implements I
 			sink.setEnableStack(source.isEnableStack());
 			sink.setEnableStep(source.isEnableStep());
 			sink.setLineStyle(source.getLineStyle());
+			sink.setHighlight(source.isHighlight());
 			success = true;
 		}
 		//
