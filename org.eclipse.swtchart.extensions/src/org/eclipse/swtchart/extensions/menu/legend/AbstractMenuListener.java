@@ -20,7 +20,6 @@ import org.eclipse.jface.action.IMenuListener;
 import org.eclipse.swtchart.ISeries;
 import org.eclipse.swtchart.extensions.core.ScrollableChart;
 import org.eclipse.swtchart.extensions.core.SeriesListUI;
-import org.eclipse.swtchart.internal.series.Series;
 
 public abstract class AbstractMenuListener implements IMenuListener {
 
@@ -44,7 +43,7 @@ public abstract class AbstractMenuListener implements IMenuListener {
 			Iterator<Object> iterator = seriesListUI.getStructuredSelection().iterator();
 			while(iterator.hasNext()) {
 				Object object = iterator.next();
-				if(object instanceof Series<?>) {
+				if(object instanceof ISeries<?>) {
 					selectedSeries.add((ISeries<?>)object);
 				}
 			}
