@@ -45,7 +45,7 @@ public class HighlightedPieChart_Part extends HighlightedStaticPie {
 		try {
 			initialize();
 		} catch(Exception e) {
-			System.out.println(e);
+			e.printStackTrace();
 		}
 	}
 

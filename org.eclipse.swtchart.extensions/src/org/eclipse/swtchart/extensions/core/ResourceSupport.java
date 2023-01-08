@@ -175,7 +175,7 @@ public class ResourceSupport {
 			try {
 				((PreferenceStore)preferenceStore).load();
 			} catch(IOException e) {
-				System.out.println(e);
+				e.printStackTrace();
 			}
 		}
 		return preferenceStore;

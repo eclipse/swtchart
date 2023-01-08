@@ -294,7 +294,7 @@ public class SeriesSet implements ISeriesSet {
 				compressor.compress(config);
 			}
 		} catch(Exception e) {
-			System.out.println(e);
+			e.printStackTrace();
 		}
 	}
 

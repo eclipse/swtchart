@@ -14,7 +14,7 @@
 package org.eclipse.swtchart.extensions;
 
 import org.eclipse.swtchart.extensions.core.ResourceSupport;
-import org.eclipse.swtchart.extensions.internal.support.MappingsIO;
+import org.eclipse.swtchart.extensions.internal.mappings.MappingsIO;
 import org.osgi.framework.Bundle;
 import org.osgi.framework.BundleActivator;
 import org.osgi.framework.BundleContext;

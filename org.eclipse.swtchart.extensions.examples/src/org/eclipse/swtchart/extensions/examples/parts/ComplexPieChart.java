@@ -253,7 +253,7 @@ public class ComplexPieChart extends PieChart {
 		try {
 			initialize();
 		} catch(Exception e) {
-			System.out.println(e);
+			e.printStackTrace();
 		}
 	}
 

@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2017, 2022 Lablicate GmbH.
+ * Copyright (c) 2017, 2023 Lablicate GmbH.
  *
  * This program and the accompanying materials are made
  * available under the terms of the Eclipse Public License 2.0
@@ -74,7 +74,7 @@ public class LineSeries_Preferences_Part extends Composite {
 		try {
 			initialize();
 		} catch(Exception e) {
-			System.out.println(e);
+			e.printStackTrace();
 		}
 	}
 
@@ -129,7 +129,7 @@ public class LineSeries_Preferences_Part extends Composite {
 						applyChartSettings();
 						applySeriesSettings();
 					} catch(Exception e1) {
-						System.out.println(e1);
+						e1.printStackTrace();
 					}
 				}
 			}

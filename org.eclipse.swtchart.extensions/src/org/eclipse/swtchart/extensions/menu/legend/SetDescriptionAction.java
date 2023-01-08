@@ -23,7 +23,6 @@ import org.eclipse.swt.widgets.Table;
 import org.eclipse.swtchart.ISeries;
 import org.eclipse.swtchart.extensions.core.BaseChart;
 import org.eclipse.swtchart.extensions.core.ISeriesSettings;
-import org.eclipse.swtchart.extensions.core.ScrollableChart;
 import org.eclipse.swtchart.extensions.core.SeriesListUI;
 
 public class SetDescriptionAction extends AbstractMenuListener {
@@ -53,8 +52,7 @@ public class SetDescriptionAction extends AbstractMenuListener {
 			@Override
 			public void run() {
 
-				ScrollableChart scrollableChart = getScrollableChart();
-				BaseChart baseChart = scrollableChart.getBaseChart();
+				BaseChart baseChart = getBaseChart();
 				SeriesListUI seriesListUI = getSeriesListUI();
 				Table table = seriesListUI.getTable();
 				List<ISeries<?>> selectedSeries = getSelectedSeries();

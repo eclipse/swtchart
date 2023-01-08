@@ -41,7 +41,7 @@ import org.eclipse.swtchart.extensions.dialogs.BarSeriesSettingsDialog;
 import org.eclipse.swtchart.extensions.dialogs.CircularSeriesSettingsDialog;
 import org.eclipse.swtchart.extensions.dialogs.LineSeriesSettingsDialog;
 import org.eclipse.swtchart.extensions.dialogs.ScatterSeriesSettingsDialog;
-import org.eclipse.swtchart.extensions.internal.support.MappingsIO;
+import org.eclipse.swtchart.extensions.internal.mappings.MappingsIO;
 import org.eclipse.swtchart.extensions.linecharts.ILineSeriesSettings;
 import org.eclipse.swtchart.extensions.piecharts.ICircularSeriesSettings;
 import org.eclipse.swtchart.extensions.preferences.PreferenceConstants;
@@ -283,7 +283,7 @@ public class MappingsDialog extends Dialog {
 
 		Button button = new Button(parent, SWT.PUSH);
 		button.setText("");
-		button.setToolTipText("Save the mappings.");
+		button.setToolTipText("Save the mappings so that they are available after restart.");
 		button.setImage(ResourceSupport.getImage(ResourceSupport.ICON_SAVE));
 		button.addSelectionListener(new SelectionAdapter() {
 

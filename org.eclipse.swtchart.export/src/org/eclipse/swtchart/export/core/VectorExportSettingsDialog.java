@@ -20,7 +20,10 @@ import java.util.concurrent.atomic.AtomicReference;
 import org.eclipse.jface.dialogs.IMessageProvider;
 import org.eclipse.jface.dialogs.TitleAreaDialog;
 import org.eclipse.jface.preference.IPreferenceStore;
+import org.eclipse.jface.window.Window;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.MouseAdapter;
+import org.eclipse.swt.events.MouseEvent;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Combo;
@@ -30,26 +33,40 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swtchart.ISeries;
+import org.eclipse.swtchart.extensions.barcharts.IBarSeriesSettings;
 import org.eclipse.swtchart.extensions.core.BaseChart;
 import org.eclipse.swtchart.extensions.core.IExtendedChart;
 import org.eclipse.swtchart.extensions.core.ISeriesSettings;
 import org.eclipse.swtchart.extensions.core.MappingsSupport;
 import org.eclipse.swtchart.extensions.core.ResourceSupport;
 import org.eclipse.swtchart.extensions.core.SeriesListUI;
+import org.eclipse.swtchart.extensions.dialogs.AbstractSeriesSettingsDialog;
+import org.eclipse.swtchart.extensions.dialogs.BarSeriesSettingsDialog;
+import org.eclipse.swtchart.extensions.dialogs.CircularSeriesSettingsDialog;
+import org.eclipse.swtchart.extensions.dialogs.LineSeriesSettingsDialog;
+import org.eclipse.swtchart.extensions.dialogs.ScatterSeriesSettingsDialog;
+import org.eclipse.swtchart.extensions.linecharts.ILineSeriesSettings;
+import org.eclipse.swtchart.extensions.piecharts.ICircularSeriesSettings;
 import org.eclipse.swtchart.extensions.preferences.PreferenceConstants;
+import org.eclipse.swtchart.extensions.scattercharts.IScatterSeriesSettings;
 
 public class VectorExportSettingsDialog extends TitleAreaDialog {
 
-	private BaseChart baseChart;
-	private Map<String, ISeriesSettings> cachedSeriesSettings = new HashMap<String, ISeriesSettings>();
-	private AtomicReference<SeriesListUI> tableViewer = new AtomicReference<>();
+	private AtomicReference<SeriesListUI> listControl = new AtomicReference<>();
 	private IPreferenceStore preferenceStore = ResourceSupport.getPreferenceStore();
+	/*
+	 * The use might modify the current settings.
+	 * Hence, cache the original settings.
+	 */
+	private Map<String, ISeriesSettings> cachedSeriesSettings = new HashMap<String, ISeriesSettings>();
 	//
 	private Combo comboScaleX;
 	private Combo comboScaleY;
 	//
 	private int indexAxisX;
 	private int indexAxisY;
+	//
+	private BaseChart baseChart = null;
 
 	public VectorExportSettingsDialog(Shell parent, BaseChart baseChart) {
 
@@ -64,7 +81,10 @@ public class VectorExportSettingsDialog extends TitleAreaDialog {
 			String id = series.getId();
 			ISeriesSettings seriesSettings = baseChart.getSeriesSettings(id);
 			if(seriesSettings != null) {
-				cachedSeriesSettings.put(id, MappingsSupport.copySettings(seriesSettings));
+				ISeriesSettings seriesSettingsCopy = MappingsSupport.copySettings(seriesSettings);
+				if(seriesSettingsCopy != null) {
+					cachedSeriesSettings.put(id, seriesSettingsCopy);
+				}
 			}
 		}
 	}
@@ -102,8 +122,60 @@ public class VectorExportSettingsDialog extends TitleAreaDialog {
 		gridData.horizontalSpan = 2;
 		table.setLayoutData(gridData);
 		seriesListUI.setInput(baseChart.getSeriesSet());
+		seriesListUI.setBaseChart(baseChart);
 		//
-		tableViewer.set(seriesListUI);
+		table.addMouseListener(new MouseAdapter() {
+
+			@Override
+			public void mouseDoubleClick(MouseEvent e) {
+
+				Object object = seriesListUI.getStructuredSelection().getFirstElement();
+				if(object instanceof ISeries<?>) {
+					/*
+					 * Series
+					 */
+					ISeries<?> series = (ISeries<?>)object;
+					ISeriesSettings seriesSettings = baseChart.getSeriesSettings(series.getId());
+					Shell shell = e.display.getActiveShell();
+					AbstractSeriesSettingsDialog<?> settingsDialog = null;
+					/*
+					 * Dialog
+					 */
+					if(seriesSettings instanceof IBarSeriesSettings) {
+						IBarSeriesSettings settings = (IBarSeriesSettings)seriesSettings;
+						settingsDialog = new BarSeriesSettingsDialog(shell, settings);
+					} else if(seriesSettings instanceof ICircularSeriesSettings) {
+						ICircularSeriesSettings settings = (ICircularSeriesSettings)seriesSettings;
+						settingsDialog = new CircularSeriesSettingsDialog(shell, settings);
+					} else if(seriesSettings instanceof ILineSeriesSettings) {
+						ILineSeriesSettings settings = (ILineSeriesSettings)seriesSettings;
+						settingsDialog = new LineSeriesSettingsDialog(shell, settings);
+					} else if(seriesSettings instanceof IScatterSeriesSettings) {
+						IScatterSeriesSettings settings = (IScatterSeriesSettings)seriesSettings;
+						settingsDialog = new ScatterSeriesSettingsDialog(shell, settings);
+					}
+					/*
+					 * Apply
+					 */
+					if(settingsDialog != null) {
+						if(settingsDialog.open() == Window.OK) {
+							applySettings(baseChart, series, seriesSettings, true);
+						}
+					}
+				}
+			}
+		});
+		//
+		listControl.set(seriesListUI);
+	}
+
+	private void applySettings(BaseChart baseChart, ISeries<?> series, ISeriesSettings seriesSettingsSource, boolean refresh) {
+
+		baseChart.applySeriesSettings(series, seriesSettingsSource, true);
+		if(refresh) {
+			baseChart.redraw();
+			listControl.get().refresh();
+		}
 	}
 
 	private void createSelectionAxisX(Composite container) {
@@ -163,14 +235,20 @@ public class VectorExportSettingsDialog extends TitleAreaDialog {
 		return indexAxisY;
 	}
 
-	public void reset(BaseChart baseChart) {
+	public void reset() {
 
 		ISeries<?>[] seriesArray = baseChart.getSeriesSet().getSeries();
 		for(ISeries<?> series : seriesArray) {
-			ISeriesSettings seriesSettings = cachedSeriesSettings.get(series.getId());
-			if(seriesSettings != null) {
-				baseChart.applySeriesSettings(series, seriesSettings);
+			String id = series.getId();
+			ISeriesSettings seriesSettingsCache = cachedSeriesSettings.get(id);
+			if(seriesSettingsCache != null) {
+				ISeriesSettings seriesSettings = baseChart.getSeriesSettings(id);
+				if(seriesSettings != null) {
+					MappingsSupport.transferSettings(seriesSettingsCache, seriesSettings);
+					baseChart.applySeriesSettings(series, seriesSettings, true);
+				}
 			}
 		}
+		baseChart.redraw();
 	}
 }

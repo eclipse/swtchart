@@ -19,7 +19,6 @@ import org.eclipse.swt.graphics.Color;
 import org.eclipse.swtchart.ISeries;
 import org.eclipse.swtchart.extensions.core.BaseChart;
 import org.eclipse.swtchart.extensions.core.ISeriesSettings;
-import org.eclipse.swtchart.extensions.core.ScrollableChart;
 import org.eclipse.swtchart.extensions.core.SeriesLabelProvider;
 import org.eclipse.swtchart.extensions.core.SeriesListUI;
 import org.eclipse.swtchart.extensions.core.SeriesMapper;
@@ -52,7 +51,7 @@ public class SeriesComparator extends ViewerComparator {
 		int sortOrder = 0;
 		if(e1 instanceof ISeries && e2 instanceof ISeries && viewer instanceof SeriesListUI) {
 			SeriesListUI seriesListUI = (SeriesListUI)viewer;
-			BaseChart baseChart = seriesListUI.getScrollableChart().getBaseChart();
+			BaseChart baseChart = seriesListUI.getBaseChart();
 			ISeries<?> series1 = (ISeries<?>)e1;
 			ISeriesSettings seriesSettings1 = baseChart.getSeriesSettings(series1.getId());
 			Color color1 = SeriesLabelProvider.getColor(seriesSettings1);
@@ -65,10 +64,9 @@ public class SeriesComparator extends ViewerComparator {
 					sortOrder = series1.getId().compareTo(series2.getId());
 					break;
 				case 1:
-					ScrollableChart scrollableChart = seriesListUI.getScrollableChart();
-					if(scrollableChart != null) {
-						ISeriesSettings mapping1 = SeriesMapper.get(series1, scrollableChart.getBaseChart());
-						ISeriesSettings mapping2 = SeriesMapper.get(series1, scrollableChart.getBaseChart());
+					if(baseChart != null) {
+						ISeriesSettings mapping1 = SeriesMapper.get(series1, baseChart);
+						ISeriesSettings mapping2 = SeriesMapper.get(series1, baseChart);
 						if(mapping1 != null && mapping2 == null) {
 							sortOrder = -1;
 						} else if(mapping1 == null && mapping2 != null) {

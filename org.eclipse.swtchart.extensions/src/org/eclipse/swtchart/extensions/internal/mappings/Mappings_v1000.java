@@ -10,21 +10,14 @@
  * Contributors:
  * Philip Wenig - initial API and implementation
  *******************************************************************************/
-package org.eclipse.swtchart.extensions.internal.support;
+package org.eclipse.swtchart.extensions.internal.mappings;
 
-import java.io.File;
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.util.ArrayList;
-import java.util.Base64;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.swtchart.IBarSeries.BarWidthStyle;
 import org.eclipse.swtchart.ILineSeries.PlotSymbolType;
 import org.eclipse.swtchart.LineStyle;
@@ -39,49 +32,21 @@ import org.eclipse.swtchart.extensions.core.SeriesLabelProvider;
 import org.eclipse.swtchart.extensions.core.SeriesMapper;
 import org.eclipse.swtchart.extensions.linecharts.ILineSeriesSettings;
 import org.eclipse.swtchart.extensions.piecharts.ICircularSeriesSettings;
-import org.eclipse.swtchart.extensions.preferences.PreferenceConstants;
 import org.eclipse.swtchart.extensions.scattercharts.IScatterSeriesSettings;
 
-public class MappingsIO {
+public class Mappings_v1000 {
 
-	private static final String VALUE_DELIMITER = "\t";
-	private static final String LINE_DELIMITER = "\r\n";
+	public static final String VERSION_NUMBER = "v1000";
 
-	public static Map<String, ISeriesSettings> importSettings(File file) {
-
-		Map<String, ISeriesSettings> mappings = new HashMap<>();
-		try {
-			String content = Files.readString(Path.of(file.getAbsolutePath()));
-			mappings.putAll(readSettings(content));
-		} catch(IOException e) {
-			e.printStackTrace();
-		}
-		//
-		return mappings;
-	}
-
-	public static boolean exportSettings(File file, List<MappedSeriesSettings> mappings) {
-
-		boolean success = false;
-		try (PrintWriter printWriter = new PrintWriter(file)) {
-			printWriter.print(saveSettings(mappings));
-			success = true;
-		} catch(Exception e) {
-			e.printStackTrace();
-		}
-		//
-		return success;
-	}
-
-	public static Map<String, ISeriesSettings> readSettings(String content) {
+	public Map<String, ISeriesSettings> readSettings(String[] lines) {
 
 		Map<String, ISeriesSettings> mappings = new HashMap<>();
-		//
-		String[] lines = content.split(LINE_DELIMITER);
 		for(String line : lines) {
 			try {
-				String[] values = line.split(VALUE_DELIMITER);
-				importMapping(values, mappings);
+				if(!line.startsWith(MappingsIO.VERSION_IDENTIFIER)) {
+					String[] values = line.split(MappingsIO.VALUE_DELIMITER);
+					importMapping(values, mappings);
+				}
 			} catch(Exception e) {
 				e.printStackTrace();
 			}
@@ -90,10 +55,15 @@ public class MappingsIO {
 		return mappings;
 	}
 
-	public static String saveSettings(List<MappedSeriesSettings> mappings) {
+	public String saveSettings(List<MappedSeriesSettings> mappings) {
 
 		StringBuilder builder = new StringBuilder();
+		MappingsIO.appendVersion(builder, VERSION_NUMBER);
+		//
 		for(MappedSeriesSettings mapping : mappings) {
+			/*
+			 * Always use the latest version to save the settings.
+			 */
 			List<Object> values = new ArrayList<>();
 			exportMapping(values, mapping);
 			builder.append(create(values));
@@ -102,37 +72,12 @@ public class MappingsIO {
 		return builder.toString();
 	}
 
-	public static void restoreSettings() {
-
-		IPreferenceStore preferenceStore = ResourceSupport.getPreferenceStore();
-		String settings = preferenceStore.getString(PreferenceConstants.P_SERIES_MAPPINGS);
-		String content = new String(Base64.getDecoder().decode(settings));
-		Map<String, ISeriesSettings> mappings = readSettings(content);
-		for(Map.Entry<String, ISeriesSettings> mapping : mappings.entrySet()) {
-			ISeriesSettings seriesSettings = mapping.getValue();
-			SeriesMapper.put(mapping.getKey(), seriesSettings);
-		}
-	}
-
-	public static void persistsSettings(List<MappedSeriesSettings> mappings) {
-
-		try {
-			IPreferenceStore preferenceStore = ResourceSupport.getPreferenceStore();
-			String content = saveSettings(mappings);
-			String settings = Base64.getEncoder().encodeToString(content.getBytes());
-			preferenceStore.setValue(PreferenceConstants.P_SERIES_MAPPINGS, settings);
-			ResourceSupport.savePreferenceStore();
-		} catch(Exception e) {
-			e.printStackTrace();
-		}
-	}
-
 	/*
 	 * 2 - Header
 	 * 4 - Series Settings
 	 * . - dynamic specific settings
 	 */
-	private static void exportMapping(List<Object> values, MappedSeriesSettings mapping) {
+	private void exportMapping(List<Object> values, MappedSeriesSettings mapping) {
 
 		ISeriesSettings seriesSettings = mapping.getSeriesSettings();
 		values.add(mapping.getMappingsType());
@@ -141,7 +86,7 @@ public class MappingsIO {
 		exportSeriesSetting(values, seriesSettings.getSeriesSettingsHighlight());
 	}
 
-	private static void importMapping(String[] values, Map<String, ISeriesSettings> mappings) {
+	private void importMapping(String[] values, Map<String, ISeriesSettings> mappings) {
 
 		int index = 0;
 		if(values.length >= 2) {
@@ -157,7 +102,7 @@ public class MappingsIO {
 		}
 	}
 
-	private static void exportSeriesSetting(List<Object> values, ISeriesSettings seriesSettings) {
+	private void exportSeriesSetting(List<Object> values, ISeriesSettings seriesSettings) {
 
 		values.add(clean(seriesSettings.getDescription()));
 		values.add(seriesSettings.isVisible());
@@ -175,7 +120,7 @@ public class MappingsIO {
 		}
 	}
 
-	private static int importSeriesSetting(String[] values, int index, ISeriesSettings seriesSettings) {
+	private int importSeriesSetting(String[] values, int index, ISeriesSettings seriesSettings) {
 
 		if(values.length >= (index + 4)) {
 			seriesSettings.setDescription(values[index++]);
@@ -197,7 +142,7 @@ public class MappingsIO {
 		return index;
 	}
 
-	private static void exportBarSeriesSetting(List<Object> values, IBarSeriesSettings barSeriesSettings) {
+	private void exportBarSeriesSetting(List<Object> values, IBarSeriesSettings barSeriesSettings) {
 
 		values.add(ResourceSupport.getColor(barSeriesSettings.getBarColor()));
 		values.add(barSeriesSettings.getBarPadding());
@@ -207,7 +152,7 @@ public class MappingsIO {
 		values.add(barSeriesSettings.isEnableStack());
 	}
 
-	private static int importBarSeriesSetting(String[] values, int index, IBarSeriesSettings barSeriesSettings) {
+	private int importBarSeriesSetting(String[] values, int index, IBarSeriesSettings barSeriesSettings) {
 
 		if(values.length >= (index + 6)) {
 			barSeriesSettings.setBarColor(ResourceSupport.getColor(values[index++]));
@@ -221,21 +166,27 @@ public class MappingsIO {
 		return index;
 	}
 
-	private static void exportCircularSeriesSetting(List<Object> values, ICircularSeriesSettings circularSeriesSettings) {
+	private void exportCircularSeriesSetting(List<Object> values, ICircularSeriesSettings circularSeriesSettings) {
 
 		values.add(ResourceSupport.getColor(circularSeriesSettings.getSliceColor()));
+		values.add(ResourceSupport.getColor(circularSeriesSettings.getBorderColor()));
+		values.add(circularSeriesSettings.getBorderWidth());
+		values.add(circularSeriesSettings.getBorderStyle().name());
 	}
 
-	private static int importCircularSeriesSetting(String[] values, int index, ICircularSeriesSettings circularSeriesSettings) {
+	private int importCircularSeriesSetting(String[] values, int index, ICircularSeriesSettings circularSeriesSettings) {
 
-		if(values.length >= (index + 1)) {
+		if(values.length >= (index + 4)) {
 			circularSeriesSettings.setSliceColor(ResourceSupport.getColor(values[index++]));
+			circularSeriesSettings.setBorderColor(ResourceSupport.getColor(values[index++]));
+			circularSeriesSettings.setBorderWidth(Integer.parseInt(values[index++]));
+			circularSeriesSettings.setBorderStyle(LineStyle.valueOf(values[index++]));
 		}
 		//
 		return index;
 	}
 
-	private static void exportLineSeriesSetting(List<Object> values, ILineSeriesSettings lineSeriesSettings) {
+	private void exportLineSeriesSetting(List<Object> values, ILineSeriesSettings lineSeriesSettings) {
 
 		exportPointSeriesSetting(values, lineSeriesSettings);
 		values.add(lineSeriesSettings.getLineStyle().name());
@@ -247,7 +198,7 @@ public class MappingsIO {
 		values.add(lineSeriesSettings.isEnableStep());
 	}
 
-	private static int importLineSeriesSetting(String[] values, int index, ILineSeriesSettings lineSeriesSettings) {
+	private int importLineSeriesSetting(String[] values, int index, ILineSeriesSettings lineSeriesSettings) {
 
 		index = importPointSeriesSetting(values, index, lineSeriesSettings);
 		if(values.length >= (index + 7)) {
@@ -263,26 +214,26 @@ public class MappingsIO {
 		return index;
 	}
 
-	private static void exportScatterSeriesSetting(List<Object> values, IScatterSeriesSettings scatterSeriesSettings) {
+	private void exportScatterSeriesSetting(List<Object> values, IScatterSeriesSettings scatterSeriesSettings) {
 
 		exportPointSeriesSetting(values, scatterSeriesSettings);
 	}
 
-	private static int importScatterSeriesSetting(String[] values, int index, IScatterSeriesSettings scatterSeriesSettings) {
+	private int importScatterSeriesSetting(String[] values, int index, IScatterSeriesSettings scatterSeriesSettings) {
 
 		index = importPointSeriesSetting(values, index, scatterSeriesSettings);
 		//
 		return index;
 	}
 
-	private static void exportPointSeriesSetting(List<Object> values, IPointSeriesSettings pointSeriesSettings) {
+	private void exportPointSeriesSetting(List<Object> values, IPointSeriesSettings pointSeriesSettings) {
 
 		values.add(pointSeriesSettings.getSymbolType().name());
 		values.add(pointSeriesSettings.getSymbolSize());
 		values.add(ResourceSupport.getColor(pointSeriesSettings.getSymbolColor()));
 	}
 
-	private static int importPointSeriesSetting(String[] values, int index, IPointSeriesSettings pointSeriesSettings) {
+	private int importPointSeriesSetting(String[] values, int index, IPointSeriesSettings pointSeriesSettings) {
 
 		if(values.length >= (index + 3)) {
 			pointSeriesSettings.setSymbolType(PlotSymbolType.valueOf(values[index++]));
@@ -293,23 +244,23 @@ public class MappingsIO {
 		return index;
 	}
 
-	private static String create(List<Object> values) {
+	private String create(List<Object> values) {
 
 		StringBuilder builder = new StringBuilder();
 		Iterator<Object> iterator = values.iterator();
 		while(iterator.hasNext()) {
 			builder.append(iterator.next());
 			if(iterator.hasNext()) {
-				builder.append(VALUE_DELIMITER);
+				builder.append(MappingsIO.VALUE_DELIMITER);
 			}
 		}
-		builder.append(LINE_DELIMITER);
+		builder.append(MappingsIO.LINE_DELIMITER);
 		//
 		return builder.toString();
 	}
 
-	private static final String clean(String value) {
+	private final String clean(String value) {
 
-		return value.replace(VALUE_DELIMITER, "");
+		return value.replace(MappingsIO.VALUE_DELIMITER, "");
 	}
 }

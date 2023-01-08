@@ -233,7 +233,7 @@ public class ScrollableChart extends Composite implements IScrollableChart, IEve
 							try {
 								Thread.sleep(MILLISECONDS_SHOW_RANGE_INFO_HINT);
 							} catch(InterruptedException e) {
-								System.out.println(e);
+								e.printStackTrace();
 								Thread.currentThread().interrupt();
 							}
 							showRangeSelectorHint = false;
@@ -373,6 +373,15 @@ public class ScrollableChart extends Composite implements IScrollableChart, IEve
 		baseChart.adjustRange(adjustMinMax);
 		resetSlider();
 		updateLegend();
+	}
+
+	/**
+	 * Updates the extended legend.
+	 */
+	public void updateLegend() {
+
+		ISeriesSet seriesSet = baseChart.getSeriesSet();
+		extendedLegendUI.setInput(seriesSet);
 	}
 
 	public void adjustXAxis() {
@@ -945,7 +954,7 @@ public class ScrollableChart extends Composite implements IScrollableChart, IEve
 					IChartMenuEntry menuEntry = (IChartMenuEntry)element.createExecutableExtension(EXTENSION_POINT_MENU_ENTRY);
 					addMenuEntry(menuEntry);
 				} catch(CoreException e) {
-					System.out.println(e);
+					e.printStackTrace();
 				}
 			}
 		}
@@ -1001,12 +1010,6 @@ public class ScrollableChart extends Composite implements IScrollableChart, IEve
 
 		setSliderSelection(true);
 		updateLinkedCharts();
-	}
-
-	private void updateLegend() {
-
-		ISeriesSet seriesSet = baseChart.getSeriesSet();
-		extendedLegendUI.setInput(seriesSet);
 	}
 
 	private void setSliderSelection(boolean calculateIncrement) {

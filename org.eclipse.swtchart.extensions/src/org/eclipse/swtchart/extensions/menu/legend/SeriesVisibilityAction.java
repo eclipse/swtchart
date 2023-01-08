@@ -19,7 +19,6 @@ import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.swtchart.ISeries;
 import org.eclipse.swtchart.extensions.core.BaseChart;
 import org.eclipse.swtchart.extensions.core.ISeriesSettings;
-import org.eclipse.swtchart.extensions.core.ScrollableChart;
 import org.eclipse.swtchart.extensions.core.SeriesListUI;
 
 public class SeriesVisibilityAction extends AbstractMenuListener {
@@ -54,8 +53,7 @@ public class SeriesVisibilityAction extends AbstractMenuListener {
 			@Override
 			public void run() {
 
-				ScrollableChart scrollableChart = getScrollableChart();
-				BaseChart baseChart = scrollableChart.getBaseChart();
+				BaseChart baseChart = getBaseChart();
 				//
 				List<ISeries<?>> selectedSeries = getSelectedSeries();
 				for(ISeries<?> series : selectedSeries) {

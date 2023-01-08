@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2017, 2022 Lablicate GmbH.
+ * Copyright (c) 2017, 2023 Lablicate GmbH.
  *
  * This program and the accompanying materials are made
  * available under the terms of the Eclipse Public License 2.0
@@ -106,9 +106,7 @@ public class LaTeXTableExportHandler extends AbstractSeriesExportHandler impleme
 					/*
 					 * Print the XY data.
 					 */
-					PrintWriter printWriter = null;
-					try {
-						printWriter = new PrintWriter(new File(fileName));
+					try (PrintWriter printWriter = new PrintWriter(new File(fileName))) {
 						/*
 						 * Header
 						 */
@@ -147,15 +145,13 @@ public class LaTeXTableExportHandler extends AbstractSeriesExportHandler impleme
 						MessageDialog.openInformation(shell, TITLE, MESSAGE_OK);
 					} catch(FileNotFoundException e) {
 						MessageDialog.openError(shell, TITLE, MESSAGE_ERROR);
-						System.out.println(e);
-					} finally {
-						if(printWriter != null) {
-							printWriter.close();
-							exportSettingsDialog.reset(baseChart);
-						}
+						e.printStackTrace();
 					}
 				}
 			}
+			//
+			exportSettingsDialog.reset();
+			scrollableChart.updateLegend();
 		}
 	}
 

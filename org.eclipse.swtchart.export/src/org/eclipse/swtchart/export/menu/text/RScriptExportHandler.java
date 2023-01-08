@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2017, 2022 Lablicate GmbH.
+ * Copyright (c) 2017, 2023 Lablicate GmbH.
  *
  * This program and the accompanying materials are made
  * available under the terms of the Eclipse Public License 2.0
@@ -57,8 +57,9 @@ public class RScriptExportHandler extends AbstractSeriesExportHandler implements
 	//
 	private static final String AXIS_X = "x"; //$NON-NLS-1$
 	private static final String AXIS_Y = "y"; //$NON-NLS-1$
-	private static Map<PlotSymbolType, Integer> PLOT_SYMBOLS;
-	private static Map<LineStyle, Integer> LINE_STYLES;
+	//
+	private Map<PlotSymbolType, Integer> plotSymbolsMap;
+	private Map<LineStyle, Integer> lineStylesMap;
 
 	@Override
 	public String getName() {
@@ -118,9 +119,7 @@ public class RScriptExportHandler extends AbstractSeriesExportHandler implements
 					/*
 					 * Print the XY data.
 					 */
-					PrintWriter printWriter = null;
-					try {
-						printWriter = new PrintWriter(new File(fileName));
+					try (PrintWriter printWriter = new PrintWriter(new File(fileName))) {
 						/*
 						 * Axis settings.
 						 */
@@ -131,23 +130,23 @@ public class RScriptExportHandler extends AbstractSeriesExportHandler implements
 						axisSettings.setAxisScaleConverterX(axisScaleConverterX);
 						axisSettings.setAxisSettingsY(axisSettingsY);
 						axisSettings.setAxisScaleConverterY(axisScaleConverterY);
-						PLOT_SYMBOLS = new HashMap<PlotSymbolType, Integer>();
-						PLOT_SYMBOLS.put(PlotSymbolType.CIRCLE, 1);
-						PLOT_SYMBOLS.put(PlotSymbolType.CROSS, 4);
-						PLOT_SYMBOLS.put(PlotSymbolType.DIAMOND, 5);
-						PLOT_SYMBOLS.put(PlotSymbolType.INVERTED_TRIANGLE, 6);
-						PLOT_SYMBOLS.put(PlotSymbolType.PLUS, 3);
-						PLOT_SYMBOLS.put(PlotSymbolType.SQUARE, 0);
-						PLOT_SYMBOLS.put(PlotSymbolType.TRIANGLE, 2);
-						PLOT_SYMBOLS.put(PlotSymbolType.NONE, 20);
+						plotSymbolsMap = new HashMap<PlotSymbolType, Integer>();
+						plotSymbolsMap.put(PlotSymbolType.CIRCLE, 1);
+						plotSymbolsMap.put(PlotSymbolType.CROSS, 4);
+						plotSymbolsMap.put(PlotSymbolType.DIAMOND, 5);
+						plotSymbolsMap.put(PlotSymbolType.INVERTED_TRIANGLE, 6);
+						plotSymbolsMap.put(PlotSymbolType.PLUS, 3);
+						plotSymbolsMap.put(PlotSymbolType.SQUARE, 0);
+						plotSymbolsMap.put(PlotSymbolType.TRIANGLE, 2);
+						plotSymbolsMap.put(PlotSymbolType.NONE, 20);
 						//
-						LINE_STYLES = new HashMap<LineStyle, Integer>();
-						LINE_STYLES.put(LineStyle.NONE, 0);
-						LINE_STYLES.put(LineStyle.DASH, 2);
-						LINE_STYLES.put(LineStyle.DASHDOT, 4);
-						LINE_STYLES.put(LineStyle.DASHDOTDOT, 6);
-						LINE_STYLES.put(LineStyle.DOT, 3);
-						LINE_STYLES.put(LineStyle.SOLID, 1);
+						lineStylesMap = new HashMap<LineStyle, Integer>();
+						lineStylesMap.put(LineStyle.NONE, 0);
+						lineStylesMap.put(LineStyle.DASH, 2);
+						lineStylesMap.put(LineStyle.DASHDOT, 4);
+						lineStylesMap.put(LineStyle.DASHDOTDOT, 6);
+						lineStylesMap.put(LineStyle.DOT, 3);
+						lineStylesMap.put(LineStyle.SOLID, 1);
 						//
 						/*
 						 * First check via instance of. If that fails, perform the enhanced
@@ -189,15 +188,13 @@ public class RScriptExportHandler extends AbstractSeriesExportHandler implements
 						MessageDialog.openInformation(shell, TITLE, MESSAGE_OK);
 					} catch(FileNotFoundException e) {
 						MessageDialog.openError(shell, TITLE, MESSAGE_ERROR);
-						System.out.println(e);
-					} finally {
-						if(printWriter != null) {
-							printWriter.close();
-							exportSettingsDialog.reset(baseChart);
-						}
+						e.printStackTrace();
 					}
 				}
 			}
+			//
+			exportSettingsDialog.reset();
+			scrollableChart.updateLegend();
 		}
 	}
 
@@ -267,13 +264,13 @@ public class RScriptExportHandler extends AbstractSeriesExportHandler implements
 				color.add(getColor(col));
 				PlotSymbolType series_symbol = lineSeries.getSymbolType();
 				LineStyle style = lineSeries.getLineStyle();
-				plotSymbols.add(PLOT_SYMBOLS.get(series_symbol));
+				plotSymbols.add(plotSymbolsMap.get(series_symbol));
 				if(series_symbol == PlotSymbolType.NONE) {
 					lineTypes.add('l');
 				} else {
 					lineTypes.add('b');
 				}
-				lineStyles.add(LINE_STYLES.get(style));
+				lineStyles.add(lineStylesMap.get(style));
 				printLineData(dataSeries, widthPlotArea, axisSettings, index++, printWriter);
 			}
 		}
@@ -550,7 +547,7 @@ public class RScriptExportHandler extends AbstractSeriesExportHandler implements
 				Color col = lineSeries.getSymbolColor();
 				color.add(getColor(col));
 				PlotSymbolType series_symbol = lineSeries.getSymbolType();
-				plotSymbols.add(PLOT_SYMBOLS.get(series_symbol));
+				plotSymbols.add(plotSymbolsMap.get(series_symbol));
 				printLineData(dataSeries, widthPlotArea, axisSettings, index++, printWriter);
 			}
 		}

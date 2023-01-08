@@ -65,9 +65,10 @@ public class PieSeries extends CircularSeries {
 		int angleStart = node.getAngleBounds().x;
 		int angleWidth = node.getAngleBounds().y;
 		gc.setBackground(node.getSliceColor());
-		// coloring the pie "slice"
+		/*
+		 * Slice/Bounds
+		 */
 		gc.fillArc(xStart, yStart, xWidth, yWidth, angleStart, angleWidth);
-		// drawing the arc boundary
 		gc.drawArc(xStart, yStart, xWidth, yWidth, angleStart, angleWidth);
 		/*
 		 * drawing the start boundary

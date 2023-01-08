@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2017, 2021 Lablicate GmbH.
+ * Copyright (c) 2017, 2023 Lablicate GmbH.
  *
  * This program and the accompanying materials are made
  * available under the terms of the Eclipse Public License 2.0
@@ -180,7 +180,7 @@ public class RangeSelector extends Composite {
 				try {
 					setRange();
 				} catch(Exception e1) {
-					System.out.println(e1);
+					e1.printStackTrace();
 				}
 			}
 		});
@@ -198,7 +198,7 @@ public class RangeSelector extends Composite {
 				try {
 					resetRange();
 				} catch(Exception e1) {
-					System.out.println(e1);
+					e1.printStackTrace();
 				}
 			}
 		});

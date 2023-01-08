@@ -64,10 +64,11 @@ public class DoughnutSeries extends CircularSeries {
 		int yZero = yAxis.getPixelCoordinate(0);
 		int angleStart = node.getAngleBounds().x;
 		int angleWidth = node.getAngleBounds().y;
+		/*
+		 * Slice/Bounds
+		 */
 		gc.setBackground(node.getSliceColor());
-		// coloring the pie "slice"
 		gc.fillArc(xStart, yStart, xWidth, yWidth, angleStart, angleWidth);
-		// drawing the arc boundary
 		gc.drawArc(xStart, yStart, xWidth, yWidth, angleStart, angleWidth);
 		/*
 		 * drawing the start boundary

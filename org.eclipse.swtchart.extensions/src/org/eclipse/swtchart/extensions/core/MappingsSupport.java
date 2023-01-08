@@ -93,7 +93,7 @@ public class MappingsSupport {
 
 		if(seriesSettings != null) {
 			ISeriesSettings seriesSettingsCopy = seriesSettings.makeDeepCopy();
-			transferSettings(seriesSettings.getSeriesSettingsHighlight(), seriesSettingsCopy.getSeriesSettingsHighlight());
+			transferSettings(seriesSettings, seriesSettingsCopy);
 			return seriesSettingsCopy;
 		} else {
 			return null;

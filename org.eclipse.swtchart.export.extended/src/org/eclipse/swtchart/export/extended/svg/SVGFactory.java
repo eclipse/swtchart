@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2019, 2022 SWTChart project.
+ * Copyright (c) 2019, 2023 SWTChart project.
  *
  * This program and the accompanying materials are made
  * available under the terms of the Eclipse Public License 2.0
@@ -9,6 +9,7 @@
  * 
  * Contributors:
  * Sanatt Abrol - initial API and implementation
+ * Philip Wenig - series mapping
  *******************************************************************************/
 package org.eclipse.swtchart.export.extended.svg;
 

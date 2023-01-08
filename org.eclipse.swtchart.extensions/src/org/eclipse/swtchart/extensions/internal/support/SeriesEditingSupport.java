@@ -23,7 +23,6 @@ import org.eclipse.swtchart.ISeries;
 import org.eclipse.swtchart.extensions.core.BaseChart;
 import org.eclipse.swtchart.extensions.core.ISeriesSettings;
 import org.eclipse.swtchart.extensions.core.ResourceSupport;
-import org.eclipse.swtchart.extensions.core.ScrollableChart;
 import org.eclipse.swtchart.extensions.core.SeriesLabelProvider;
 import org.eclipse.swtchart.extensions.core.SeriesListUI;
 import org.eclipse.swtchart.extensions.core.SeriesMapper;
@@ -103,7 +102,7 @@ public class SeriesEditingSupport extends EditingSupport {
 			 * Series Settings
 			 */
 			ISeries<?> series = (ISeries<?>)element;
-			BaseChart baseChart = seriesListUI.getScrollableChart().getBaseChart();
+			BaseChart baseChart = seriesListUI.getBaseChart();
 			ISeriesSettings seriesSettings = baseChart.getSeriesSettings(series.getId());
 			//
 			switch(title) {
@@ -121,12 +120,7 @@ public class SeriesEditingSupport extends EditingSupport {
 					object = seriesSettings.getDescription();
 					break;
 				case SeriesLabelProvider.MAPPING_STATUS:
-					ScrollableChart scrollableChart = getScrollableChart();
-					if(scrollableChart != null) {
-						object = (SeriesMapper.get(series, scrollableChart.getBaseChart()) != null);
-					} else {
-						object = false;
-					}
+					object = (SeriesMapper.get(series, baseChart) != null);
 					break;
 				default:
 					object = null;
@@ -144,8 +138,7 @@ public class SeriesEditingSupport extends EditingSupport {
 			 * Series Settings
 			 */
 			ISeries<?> series = (ISeries<?>)element;
-			ScrollableChart scrollableChart = getScrollableChart();
-			BaseChart baseChart = scrollableChart.getBaseChart();
+			BaseChart baseChart = getBaseChart();
 			ISeriesSettings seriesSettings = baseChart.getSeriesSettings(series.getId());
 			//
 			switch(title) {
@@ -180,14 +173,14 @@ public class SeriesEditingSupport extends EditingSupport {
 		}
 	}
 
-	private ScrollableChart getScrollableChart() {
+	private BaseChart getBaseChart() {
 
-		return seriesListUI.getScrollableChart();
+		return seriesListUI.getBaseChart();
 	}
 
 	private void refresh() {
 
-		getScrollableChart().redraw();
+		getBaseChart().redraw();
 		seriesListUI.refresh();
 	}
 }

@@ -29,6 +29,10 @@ public interface ICircularSeries<T> extends ISeries<T> {
 
 	void setSliceColor(Color sliceColor);
 
+	Color getBorderColor();
+
+	void setBorderColor(Color borderColor);
+
 	int getBorderWidth();
 
 	void setBorderWidth(int width);
@@ -40,6 +44,10 @@ public interface ICircularSeries<T> extends ISeries<T> {
 	Color getSliceColorHighlight();
 
 	void setSliceColorHighlight(Color sliceColor);
+
+	Color getBorderColorHighlight();
+
+	void setBorderColorHighlight(Color borderColor);
 
 	int getBorderWidthHighlight();
 

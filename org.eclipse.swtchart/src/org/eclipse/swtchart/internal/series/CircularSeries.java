@@ -32,9 +32,12 @@ import org.eclipse.swtchart.model.NodeDataModel;
 public abstract class CircularSeries extends Series implements ICircularSeries {
 
 	private Color sliceColor = Display.getDefault().getSystemColor(SWT.COLOR_BLACK);
+	private Color borderColor = Display.getDefault().getSystemColor(SWT.COLOR_GRAY);
 	private int borderWidth = 1;
 	private int borderStyle = SWT.LINE_SOLID;
+	//
 	private Color sliceColorHighlight = Display.getDefault().getSystemColor(SWT.COLOR_RED);
+	private Color borderColorHighlight = Display.getDefault().getSystemColor(SWT.COLOR_DARK_RED);
 	private int borderWidthHighlight = 3;
 	private int borderStyleHighlight = SWT.LINE_SOLID;
 	//
@@ -71,6 +74,18 @@ public abstract class CircularSeries extends Series implements ICircularSeries {
 	}
 
 	@Override
+	public Color getBorderColor() {
+
+		return borderColor;
+	}
+
+	@Override
+	public void setBorderColor(Color borderColor) {
+
+		this.borderColor = borderColor;
+	}
+
+	@Override
 	public int getBorderWidth() {
 
 		return borderWidth;
@@ -104,6 +119,18 @@ public abstract class CircularSeries extends Series implements ICircularSeries {
 	public void setSliceColorHighlight(Color sliceColor) {
 
 		this.sliceColorHighlight = sliceColor;
+	}
+
+	@Override
+	public Color getBorderColorHighlight() {
+
+		return borderColorHighlight;
+	}
+
+	@Override
+	public void setBorderColorHighlight(Color borderColor) {
+
+		this.borderColorHighlight = borderColor;
 	}
 
 	@Override
@@ -275,9 +302,7 @@ public abstract class CircularSeries extends Series implements ICircularSeries {
 			return;
 		}
 		//
-		if(sliceColorHighlight == null) {
-			sliceColorHighlight = Display.getDefault().getSystemColor(SWT.COLOR_BLACK);
-		}
+		borderColorHighlight = (borderColorHighlight == null) ? Display.getDefault().getSystemColor(SWT.COLOR_BLACK) : borderColorHighlight;
 		//
 		this.highlightedNode = highlightedNode;
 	}
@@ -295,6 +320,7 @@ public abstract class CircularSeries extends Series implements ICircularSeries {
 		gc.setForeground(sliceColor != null ? sliceColor : Display.getDefault().getSystemColor(SWT.COLOR_BLACK));
 		gc.setLineStyle(borderStyle);
 		gc.setLineWidth(borderWidth);
+		//
 		/*
 		 * A DFS function which draws the node after drawing it's children.
 		 */
@@ -302,9 +328,9 @@ public abstract class CircularSeries extends Series implements ICircularSeries {
 		/*
 		 * highlight just the required node.
 		 */
-		if(highlightedNode != null && sliceColorHighlight != null) {
+		if(highlightedNode != null && borderColorHighlight != null) {
 			//
-			gc.setForeground(sliceColorHighlight);
+			gc.setForeground(borderColorHighlight);
 			gc.setLineStyle(borderStyleHighlight);
 			gc.setLineWidth(borderWidthHighlight);
 			// sets the level of the highlighted node.
@@ -357,7 +383,7 @@ public abstract class CircularSeries extends Series implements ICircularSeries {
 
 	protected abstract void setBothAxisRange(int width, int height, Axis xAxis, Axis yAxis);
 
-	protected abstract void drawNode(Node rootNode2, GC gc, Axis xAxis, Axis yAxis);
+	protected abstract void drawNode(Node rootNode, GC gc, Axis xAxis, Axis yAxis);
 
 	@Override
 	protected void setCompressor() {

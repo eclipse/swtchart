@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2017, 2020 Lablicate GmbH.
+ * Copyright (c) 2017, 2023 Lablicate GmbH.
  *
  * This program and the accompanying materials are made
  * available under the terms of the Eclipse Public License 2.0
@@ -108,15 +108,12 @@ public class ScatterSeries_Edit_Part extends Composite {
 				for(ISeries<?> scatterSeries : series) {
 					if(scatterSeries != null) {
 						//
-						// double[] xSeries = scatterSeries.getXSeries();
-						// double[] ySeries = scatterSeries.getYSeries();
 						int size = scatterSeries.getXSeries().length;
 						String id = scatterSeries.getId();
 						//
 						for(int i = 0; i < size; i++) {
 							Point point = scatterSeries.getPixelCoordinates(i);
 							if(isPointVisible(point, plotAreaBounds)) {
-								// System.out.println("\t" + xSeries[i] + "\t" + ySeries[i] + "\t" + point + "\t" + id);
 								baseChart.selectSeries(id);
 							}
 						}
@@ -139,7 +136,7 @@ public class ScatterSeries_Edit_Part extends Composite {
 		try {
 			initialize();
 		} catch(Exception e) {
-			System.out.println(e);
+			e.printStackTrace();
 		}
 	}
 

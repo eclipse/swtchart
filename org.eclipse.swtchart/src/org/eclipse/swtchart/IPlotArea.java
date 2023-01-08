@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2008, 2022 SWTChart project.
+ * Copyright (c) 2008, 2023 SWTChart project.
  *
  * This program and the accompanying materials are made
  * available under the terms of the Eclipse Public License 2.0
@@ -13,6 +13,8 @@
  * Philip Wenig - added the background image option
  *******************************************************************************/
 package org.eclipse.swtchart;
+
+import java.util.List;
 
 import org.eclipse.swt.events.MouseMoveListener;
 import org.eclipse.swt.graphics.Color;
@@ -48,6 +50,14 @@ public interface IPlotArea {
 	 *            the custom paint listener
 	 */
 	void removeCustomPaintListener(ICustomPaintListener listener);
+
+	/**
+	 * Returns the registered custom paint listeners as an
+	 * unmodifiable list.
+	 * 
+	 * @return {@link List}
+	 */
+	List<ICustomPaintListener> getCustomPaintListener();
 
 	/**
 	 * 

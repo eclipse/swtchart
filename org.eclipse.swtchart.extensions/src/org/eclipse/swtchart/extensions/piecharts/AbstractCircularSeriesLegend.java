@@ -202,6 +202,17 @@ public abstract class AbstractCircularSeriesLegend<T> implements ICircularSeries
 	}
 
 	@Override
+	public Color getBorderColor() {
+
+		return null;
+	}
+
+	@Override
+	public void setBorderColor(Color borderColor) {
+
+	}
+
+	@Override
 	public int getBorderWidth() {
 
 		return 0;
@@ -231,6 +242,17 @@ public abstract class AbstractCircularSeriesLegend<T> implements ICircularSeries
 
 	@Override
 	public void setSliceColorHighlight(Color sliceColor) {
+
+	}
+
+	@Override
+	public Color getBorderColorHighlight() {
+
+		return null;
+	}
+
+	@Override
+	public void setBorderColorHighlight(Color borderColor) {
 
 	}
 

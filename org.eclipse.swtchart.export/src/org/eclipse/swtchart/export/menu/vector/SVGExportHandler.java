@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2019, 2022 Lablicate GmbH.
+ * Copyright (c) 2019, 2023 Lablicate GmbH.
  *
  * This program and the accompanying materials are made
  * available under the terms of the Eclipse Public License 2.0
@@ -124,9 +124,7 @@ public class SVGExportHandler extends AbstractSeriesExportHandler implements ISe
 										/*
 										 * Print the XY data.
 										 */
-										PrintWriter printWriter = null;
-										try {
-											printWriter = new PrintWriter(new File(fileName));
+										try (PrintWriter printWriter = new PrintWriter(new File(fileName))) {
 											/*
 											 * Axis settings.
 											 */
@@ -164,7 +162,7 @@ public class SVGExportHandler extends AbstractSeriesExportHandler implements ISe
 														printScatterPlot(fileName, printWriter, scrollableChart, axisSettings);
 														break;
 													default:
-														System.out.println("The chart type export is not supported: " + chartType);
+														System.out.println("The chart type export is not supported yet: " + chartType);
 														break;
 												}
 											}
@@ -172,18 +170,12 @@ public class SVGExportHandler extends AbstractSeriesExportHandler implements ISe
 											MessageDialog.openInformation(shell, TITLE, MESSAGE_OK);
 										} catch(FileNotFoundException e) {
 											MessageDialog.openError(shell, TITLE, MESSAGE_ERROR);
-											System.out.println(e);
-										} finally {
-											if(printWriter != null) {
-												printWriter.flush();
-												printWriter.close();
-											}
+											e.printStackTrace();
 										}
 									} catch(Exception e) {
 										e.printStackTrace();
 									} finally {
 										monitor.done();
-										exportSettingsDialog.reset(baseChart);
 									}
 								}
 							});
@@ -192,6 +184,9 @@ public class SVGExportHandler extends AbstractSeriesExportHandler implements ISe
 						}
 					}
 				}
+				//
+				exportSettingsDialog.reset();
+				scrollableChart.updateLegend();
 			} catch(Exception e) {
 				MessageDialog.openInformation(shell, TITLE, MESSAGE_ERROR);
 				e.printStackTrace();
@@ -240,8 +235,8 @@ public class SVGExportHandler extends AbstractSeriesExportHandler implements ISe
 		boolean isReversedY = axisSettingsY.isReversed();
 		DecimalFormat formatX = axisSettingsX.getDecimalFormat();
 		DecimalFormat formatY = axisSettingsY.getDecimalFormat();
-		//
 		BaseChart baseChart = scrollableChart.getBaseChart();
+		//
 		boolean isShowAxisZeroMarker = baseChart.getChartSettings().isShowAxisZeroMarker();
 		ISeries<?>[] series = baseChart.getSeriesSet().getSeries();
 		String Template = "Template_LineChart.svg";
@@ -453,7 +448,7 @@ public class SVGExportHandler extends AbstractSeriesExportHandler implements ISe
 				printWriter.println(line);
 			}
 		} catch(Exception e) {
-			System.out.println(e);
+			e.printStackTrace();
 		}
 	}
 
@@ -783,7 +778,7 @@ public class SVGExportHandler extends AbstractSeriesExportHandler implements ISe
 				printWriter.println(line);
 			}
 		} catch(Exception e) {
-			System.out.println(e);
+			e.printStackTrace();
 		}
 	}
 
@@ -1172,7 +1167,7 @@ public class SVGExportHandler extends AbstractSeriesExportHandler implements ISe
 				printWriter.println(line);
 			}
 		} catch(Exception e) {
-			System.out.println(e);
+			e.printStackTrace();
 		}
 	}
 

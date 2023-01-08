@@ -18,7 +18,7 @@ import java.util.List;
 
 import org.eclipse.jface.action.IMenuListener;
 import org.eclipse.swtchart.ISeries;
-import org.eclipse.swtchart.extensions.core.ScrollableChart;
+import org.eclipse.swtchart.extensions.core.BaseChart;
 import org.eclipse.swtchart.extensions.core.SeriesListUI;
 
 public abstract class AbstractMenuListener implements IMenuListener {
@@ -52,14 +52,14 @@ public abstract class AbstractMenuListener implements IMenuListener {
 		return selectedSeries;
 	}
 
-	protected ScrollableChart getScrollableChart() {
+	protected BaseChart getBaseChart() {
 
-		return seriesListUI.getScrollableChart();
+		return seriesListUI.getBaseChart();
 	}
 
 	protected void refresh() {
 
-		getScrollableChart().redraw();
+		getBaseChart().redraw();
 		getSeriesListUI().refresh();
 	}
 }

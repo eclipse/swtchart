@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2008, 2020 SWTChart project.
+ * Copyright (c) 2008, 2023 SWTChart project.
  *
  * This program and the accompanying materials are made
  * available under the terms of the Eclipse Public License 2.0
@@ -15,6 +15,7 @@
 package org.eclipse.swtchart.internal;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import org.eclipse.swt.SWT;
@@ -150,6 +151,12 @@ public class PlotArea extends Composite implements PaintListener, IPlotArea {
 	public void removeCustomPaintListener(ICustomPaintListener listener) {
 
 		paintListeners.remove(listener);
+	}
+
+	@Override
+	public List<ICustomPaintListener> getCustomPaintListener() {
+
+		return Collections.unmodifiableList(paintListeners);
 	}
 
 	@Override

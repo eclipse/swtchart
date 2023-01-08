@@ -95,14 +95,16 @@ public class SeriesMapper {
 	 */
 	public static ISeriesSettings get(ISeries<?> series, BaseChart baseChart) {
 
-		String id = series.getId();
-		ISeriesSettings seriesSettings = baseChart.getSeriesSettings(id);
 		ISeriesSettings seriesSettingsMapped = null;
 		//
-		MappingsType mappingsType = MappingsSupport.getMappingsType(seriesSettings);
-		if(isValidMappingsType(mappingsType)) {
-			String key = getKey(mappingsType, id);
-			seriesSettingsMapped = MAPPINGS.get(key);
+		if(baseChart != null) {
+			String id = series.getId();
+			ISeriesSettings seriesSettings = baseChart.getSeriesSettings(id);
+			MappingsType mappingsType = MappingsSupport.getMappingsType(seriesSettings);
+			if(isValidMappingsType(mappingsType)) {
+				String key = getKey(mappingsType, id);
+				seriesSettingsMapped = MAPPINGS.get(key);
+			}
 		}
 		//
 		return seriesSettingsMapped;

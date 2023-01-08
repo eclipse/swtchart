@@ -36,7 +36,7 @@ public class SeriesLabelProvider extends ColumnLabelProvider implements ITableLa
 	public static final int INDEX_VISIBLE = 2;
 	public static final int INDEX_VISIBLE_IN_LEGEND = 3;
 	//
-	private ScrollableChart scrollableChart = null;
+	private BaseChart baseChart = null;
 	//
 	public static final String[] TITLES = { //
 			ID, //
@@ -101,9 +101,9 @@ public class SeriesLabelProvider extends ColumnLabelProvider implements ITableLa
 		}
 	}
 
-	public void setScrollableChart(ScrollableChart scrollableChart) {
+	public void setBaseChart(BaseChart baseChart) {
 
-		this.scrollableChart = scrollableChart;
+		this.baseChart = baseChart;
 	}
 
 	@Override
@@ -126,8 +126,8 @@ public class SeriesLabelProvider extends ColumnLabelProvider implements ITableLa
 			} else if(columnIndex == INDEX_VISIBLE_IN_LEGEND) {
 				return series.isVisibleInLegend() ? checked : unchecked;
 			} else if(columnIndex == INDEX_MAPPING_STATUS) {
-				if(scrollableChart != null) {
-					ISeriesSettings seriesSettings = SeriesMapper.get(series, scrollableChart.getBaseChart());
+				if(baseChart != null) {
+					ISeriesSettings seriesSettings = SeriesMapper.get(series, baseChart);
 					if(seriesSettings != null) {
 						return mappings;
 					}

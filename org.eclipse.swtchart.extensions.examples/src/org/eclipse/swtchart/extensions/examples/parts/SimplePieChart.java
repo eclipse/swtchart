@@ -51,7 +51,7 @@ public class SimplePieChart extends PieChart {
 			this.highlightSeries = highlightSeries;
 			initialize();
 		} catch(Exception e) {
-			System.out.println(e);
+			e.printStackTrace();
 		}
 	}
 
@@ -85,7 +85,7 @@ public class SimplePieChart extends PieChart {
 			ISeriesSettings seriesSettingsHighlight = settings.getSeriesSettingsHighlight();
 			if(seriesSettingsHighlight instanceof ICircularSeriesSettings) {
 				ICircularSeriesSettings settingsHighlight = (ICircularSeriesSettings)seriesSettingsHighlight;
-				settingsHighlight.setSliceColor(Display.getDefault().getSystemColor(SWT.COLOR_RED));
+				settingsHighlight.setBorderColor(Display.getDefault().getSystemColor(SWT.COLOR_CYAN));
 				settingsHighlight.setBorderWidth(5);
 				settingsHighlight.setBorderStyle(LineStyle.DOT);
 			}

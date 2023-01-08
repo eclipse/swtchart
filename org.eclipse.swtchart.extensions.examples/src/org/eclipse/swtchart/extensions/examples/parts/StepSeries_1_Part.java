@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2020 SWTChart project.
+ * Copyright (c) 2020, 2023 SWTChart project.
  *
  * This program and the accompanying materials are made
  * available under the terms of the Eclipse Public License 2.0
@@ -9,6 +9,7 @@
  *
  * Contributors:
  * Yash Bharatiya - initial API and implementation
+ * Philip Wenig - series mapping
  *******************************************************************************/
 package org.eclipse.swtchart.extensions.examples.parts;
 
@@ -44,7 +45,7 @@ public class StepSeries_1_Part extends ChromatogramChart {
 		try {
 			initialize();
 		} catch(Exception e) {
-			System.out.println(e);
+			e.printStackTrace();
 		}
 	}
 

@@ -557,10 +557,6 @@ public abstract class AbstractExtendedChart extends AbstractHandledChart impleme
 							axis.setRange(adjustedRange);
 						}
 					}
-					/*
-					 * Otherwise
-					 * System.out.println("Can't set secondary y axes range: " + start + "\t" + end);
-					 */
 				}
 			}
 		}

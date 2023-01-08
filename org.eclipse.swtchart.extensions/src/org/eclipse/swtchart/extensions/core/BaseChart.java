@@ -792,9 +792,7 @@ public class BaseChart extends AbstractExtendedChart implements IChartDataCoordi
 
 	private void applyLineSeriesSettings(ILineSeries<?> lineSeries, ILineSeriesSettings lineSeriesSettings) {
 
-		lineSeries.setDescription(lineSeriesSettings.getDescription());
-		lineSeries.setVisible(lineSeriesSettings.isVisible());
-		lineSeries.setVisibleInLegend(lineSeriesSettings.isVisibleInLegend());
+		applyBaseSeriesSettings(lineSeries, lineSeriesSettings);
 		lineSeries.setAntialias(lineSeriesSettings.getAntialias());
 		lineSeries.enableArea(lineSeriesSettings.isEnableArea());
 		lineSeries.setSymbolType(lineSeriesSettings.getSymbolType());
@@ -809,9 +807,7 @@ public class BaseChart extends AbstractExtendedChart implements IChartDataCoordi
 
 	private void applyScatterSeriesSettings(ILineSeries<?> scatterSeries, IScatterSeriesSettings scatterSeriesSettings) {
 
-		scatterSeries.setDescription(scatterSeriesSettings.getDescription());
-		scatterSeries.setVisible(scatterSeriesSettings.isVisible());
-		scatterSeries.setVisibleInLegend(scatterSeriesSettings.isVisibleInLegend());
+		applyBaseSeriesSettings(scatterSeries, scatterSeriesSettings);
 		scatterSeries.enableArea(false);
 		scatterSeries.setSymbolType(scatterSeriesSettings.getSymbolType());
 		scatterSeries.setSymbolSize(scatterSeriesSettings.getSymbolSize());
@@ -821,9 +817,7 @@ public class BaseChart extends AbstractExtendedChart implements IChartDataCoordi
 
 	private void applyBarSeriesSettings(IBarSeries<?> barSeries, IBarSeriesSettings barSeriesSettings) {
 
-		barSeries.setDescription(barSeriesSettings.getDescription());
-		barSeries.setVisible(barSeriesSettings.isVisible());
-		barSeries.setVisibleInLegend(barSeriesSettings.isVisibleInLegend());
+		applyBaseSeriesSettings(barSeries, barSeriesSettings);
 		barSeries.setBarColor(barSeriesSettings.getBarColor());
 		barSeries.setBarPadding(barSeriesSettings.getBarPadding());
 		barSeries.setBarWidth(barSeriesSettings.getBarWidth());
@@ -831,20 +825,23 @@ public class BaseChart extends AbstractExtendedChart implements IChartDataCoordi
 		barSeries.enableStack(barSeriesSettings.isEnableStack());
 	}
 
-	private void applyCircularSeriesSettings(ICircularSeries<?> pieSeries, ICircularSeriesSettings circularSeriesSettings) {
+	private void applyCircularSeriesSettings(ICircularSeries<?> circularSeries, ICircularSeriesSettings circularSeriesSettings) {
 
+		applyBaseSeriesSettings(circularSeries, circularSeriesSettings);
 		this.getTitle().setText(circularSeriesSettings.getDescription());
 		//
-		pieSeries.setSliceColor(circularSeriesSettings.getSliceColor());
-		pieSeries.setBorderWidth(circularSeriesSettings.getBorderWidth());
-		pieSeries.setBorderStyle(circularSeriesSettings.getBorderStyle().value());
+		circularSeries.setSliceColor(circularSeriesSettings.getSliceColor());
+		circularSeries.setBorderColor(circularSeriesSettings.getBorderColor());
+		circularSeries.setBorderWidth(circularSeriesSettings.getBorderWidth());
+		circularSeries.setBorderStyle(circularSeriesSettings.getBorderStyle().value());
 		//
 		ISeriesSettings seriesSettingsHighlight = circularSeriesSettings.getSeriesSettingsHighlight();
 		if(seriesSettingsHighlight instanceof ICircularSeriesSettings) {
 			ICircularSeriesSettings circularSeriesSettingsHighlight = (ICircularSeriesSettings)seriesSettingsHighlight;
-			pieSeries.setSliceColorHighlight(circularSeriesSettingsHighlight.getSliceColor());
-			pieSeries.setBorderWidthHighlight(circularSeriesSettingsHighlight.getBorderWidth());
-			pieSeries.setBorderStyleHighlight(circularSeriesSettingsHighlight.getBorderStyle().value());
+			circularSeries.setSliceColorHighlight(circularSeriesSettingsHighlight.getSliceColor());
+			circularSeries.setBorderColorHighlight(circularSeriesSettingsHighlight.getBorderColor());
+			circularSeries.setBorderWidthHighlight(circularSeriesSettingsHighlight.getBorderWidth());
+			circularSeries.setBorderStyleHighlight(circularSeriesSettingsHighlight.getBorderStyle().value());
 		}
 		/*
 		 * Handle the slice selection.
@@ -855,6 +852,13 @@ public class BaseChart extends AbstractExtendedChart implements IChartDataCoordi
 			mouseDownEvent.setRedrawOnClick(circularSeriesSettings.isRedrawOnClick());
 			mouseDownEvent.setFillEntireSpace(circularSeriesSettings.isEntireSpaceFilled());
 		}
+	}
+
+	private void applyBaseSeriesSettings(ISeries<?> series, ISeriesSettings seriesSettings) {
+
+		series.setDescription(seriesSettings.getDescription());
+		series.setVisible(seriesSettings.isVisible());
+		series.setVisibleInLegend(seriesSettings.isVisibleInLegend());
 	}
 
 	public List<double[]> getDataShiftHistory(String selectedSeriesId) {
@@ -1132,7 +1136,7 @@ public class BaseChart extends AbstractExtendedChart implements IChartDataCoordi
 			try {
 				customSelectionHandler.handleUserSelection(event);
 			} catch(Exception e) {
-				System.out.println(e);
+				e.printStackTrace();
 			}
 		}
 	}
@@ -1156,7 +1160,7 @@ public class BaseChart extends AbstractExtendedChart implements IChartDataCoordi
 			try {
 				customSelectionHandler.handleUserSelection(event);
 			} catch(Exception e) {
-				System.out.println(e);
+				e.printStackTrace();
 			}
 		}
 	}
@@ -1167,7 +1171,7 @@ public class BaseChart extends AbstractExtendedChart implements IChartDataCoordi
 			try {
 				seriesModificationListener.handleSeriesModificationEvent();
 			} catch(Exception e) {
-				System.out.println(e);
+				e.printStackTrace();
 			}
 		}
 	}
@@ -1191,7 +1195,7 @@ public class BaseChart extends AbstractExtendedChart implements IChartDataCoordi
 						break;
 				}
 			} catch(Exception e) {
-				System.out.println(e);
+				e.printStackTrace();
 			}
 		}
 	}
@@ -1364,7 +1368,7 @@ public class BaseChart extends AbstractExtendedChart implements IChartDataCoordi
 			double[] undoSelection = handledSelectionEvents.pop();
 			handleSelection(undoSelection);
 		} catch(EmptyStackException e) {
-			System.out.println(e);
+			e.printStackTrace();
 		}
 	}
 

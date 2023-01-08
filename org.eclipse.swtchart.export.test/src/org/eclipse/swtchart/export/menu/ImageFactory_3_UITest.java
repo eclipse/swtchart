@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2017, 2020 Lablicate GmbH.
+ * Copyright (c) 2017, 2023 Lablicate GmbH.
  *
  * This program and the accompanying materials are made
  * available under the terms of the Eclipse Public License 2.0
@@ -124,9 +124,9 @@ public class ImageFactory_3_UITest extends TestCase {
 			imageFactory.closeShell();
 			//
 		} catch(InstantiationException e) {
-			System.out.println(e);
+			e.printStackTrace();
 		} catch(IllegalAccessException e) {
-			System.out.println(e);
+			e.printStackTrace();
 		}
 	}
 }

@@ -24,6 +24,7 @@ import org.eclipse.swtchart.extensions.core.ISeriesSettings;
 public class CircularSeriesSettings extends AbstractSeriesSettings implements ICircularSeriesSettings {
 
 	private Color sliceColor = Display.getDefault().getSystemColor(SWT.COLOR_BLACK);
+	private Color borderColor = Display.getDefault().getSystemColor(SWT.COLOR_GRAY);
 	private int borderWidth = 1;
 	private LineStyle borderStyle = LineStyle.SOLID;
 	private SeriesType seriesType = SeriesType.PIE;
@@ -41,6 +42,18 @@ public class CircularSeriesSettings extends AbstractSeriesSettings implements IC
 	public void setSliceColor(Color color) {
 
 		this.sliceColor = color;
+	}
+
+	@Override
+	public Color getBorderColor() {
+
+		return borderColor;
+	}
+
+	@Override
+	public void setBorderColor(Color borderColor) {
+
+		this.borderColor = borderColor;
 	}
 
 	@Override
@@ -133,7 +146,10 @@ public class CircularSeriesSettings extends AbstractSeriesSettings implements IC
 			ICircularSeriesSettings source = this;
 			ICircularSeriesSettings sink = (ICircularSeriesSettings)seriesSettingsSink;
 			sink.setDescription(source.getDescription());
+			sink.setVisible(source.isVisible());
+			sink.setVisibleInLegend(source.isVisibleInLegend());
 			sink.setSliceColor(source.getSliceColor());
+			sink.setBorderColor(source.getBorderColor());
 			sink.setBorderWidth(source.getBorderWidth());
 			sink.setBorderStyle(source.getBorderStyle());
 			sink.setSeriesType(source.getSeriesType());

@@ -82,7 +82,7 @@ public class ExtendedLegendUI extends Composite {
 
 		this.scrollableChart = scrollableChart;
 		toolbarInChartLegend.get().setScrollableChart(scrollableChart);
-		listControl.get().setScrollableChart(scrollableChart);
+		listControl.get().setBaseChart(scrollableChart.getBaseChart());
 	}
 
 	public void setInput(ISeriesSet seriesSet) {

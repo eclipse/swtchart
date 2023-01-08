@@ -24,6 +24,10 @@ public interface ICircularSeriesSettings extends ISeriesSettings {
 
 	void setSliceColor(Color sliceColor);
 
+	Color getBorderColor();
+
+	void setBorderColor(Color borderColor);
+
 	int getBorderWidth();
 
 	void setBorderWidth(int borderWidth);

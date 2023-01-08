@@ -53,7 +53,7 @@ public class SeriesListUI extends TableViewer {
 	private List<TableViewerColumn> columns = new ArrayList<>();
 	//
 	private IPreferenceStore preferenceStore = ResourceSupport.getPreferenceStore();
-	private ScrollableChart scrollableChart = null;
+	private BaseChart baseChart = null;
 
 	public SeriesListUI(Composite parent, int style) {
 
@@ -86,15 +86,16 @@ public class SeriesListUI extends TableViewer {
 		refresh();
 	}
 
-	public void setScrollableChart(ScrollableChart scrollableChart) {
+	public void setBaseChart(BaseChart baseChart) {
 
-		this.scrollableChart = scrollableChart;
-		labelProvider.setScrollableChart(scrollableChart);
+		this.baseChart = baseChart;
+		labelProvider.setBaseChart(baseChart);
+		refresh();
 	}
 
-	public ScrollableChart getScrollableChart() {
+	public BaseChart getBaseChart() {
 
-		return scrollableChart;
+		return baseChart;
 	}
 
 	private void createControl() {
@@ -208,9 +209,8 @@ public class SeriesListUI extends TableViewer {
 
 				if(cell != null) {
 					Object object = cell.getElement();
-					if(object instanceof ISeries<?>) {
+					if(object instanceof ISeries<?> && baseChart != null) {
 						ISeries<?> series = (ISeries<?>)object;
-						BaseChart baseChart = scrollableChart.getBaseChart();
 						ISeriesSettings seriesSettings = baseChart.getSeriesSettings(series.getId());
 						Color color = SeriesLabelProvider.getColor(seriesSettings);
 						cell.setBackground(color);
