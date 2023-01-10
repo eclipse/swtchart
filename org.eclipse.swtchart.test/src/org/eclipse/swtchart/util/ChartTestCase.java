@@ -14,6 +14,7 @@ package org.eclipse.swtchart.util;
 
 import java.io.File;
 import java.lang.reflect.Field;
+import java.util.Locale;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Device;
@@ -49,6 +50,7 @@ public class ChartTestCase {
 	@Before
 	public void setUp()  {
 
+		Locale.setDefault(Locale.ENGLISH);
 		shell = createShell(name.getMethodName());
 		chart = createChart(shell);
 		if(!shell.isVisible()) {
