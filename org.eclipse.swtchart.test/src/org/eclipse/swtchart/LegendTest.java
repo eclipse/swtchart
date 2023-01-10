@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2008, 2020 SWTChart project.
+ * Copyright (c) 2008, 2023 SWTChart project.
  *
  * This program and the accompanying materials are made
  * available under the terms of the Eclipse Public License 2.0
@@ -43,7 +43,7 @@ public class LegendTest extends ChartTestCase {
 	private static final double[] ySeries4 = {0.4, 0.4, 0.4, 0.4, 0.4};
 
 	@Override
-	public void setUp() throws Exception {
+	public void setUp()  {
 
 		super.setUp();
 		legend = chart.getLegend();
@@ -53,7 +53,7 @@ public class LegendTest extends ChartTestCase {
 	 * Test for legend visibility.
 	 */
 	@Test
-	public void testVisibility() throws Exception {
+	public void testVisibility()  {
 
 		// show legend for no series
 		legend.setVisible(false);
@@ -89,7 +89,7 @@ public class LegendTest extends ChartTestCase {
 	 * Test for foreground.
 	 */
 	@Test
-	public void testForeground() throws Exception {
+	public void testForeground()  {
 
 		// default
 		ISeries<?> series1 = chart.getSeriesSet().createSeries(SeriesType.LINE, "series 1");
@@ -119,7 +119,7 @@ public class LegendTest extends ChartTestCase {
 	 * Test for background.
 	 */
 	@Test
-	public void testBackground() throws Exception {
+	public void testBackground()  {
 
 		// set null
 		legend.setBackground(null);
@@ -149,7 +149,7 @@ public class LegendTest extends ChartTestCase {
 	 * Test for legend font.
 	 */
 	@Test
-	public void testFont() throws Exception {
+	public void testFont()  {
 
 		// set null
 		legend.setFont(null);
@@ -199,7 +199,7 @@ public class LegendTest extends ChartTestCase {
 	 * Test for legend position.
 	 */
 	@Test
-	public void testPosition() throws Exception {
+	public void testPosition()  {
 
 		ISeries<?> series1 = chart.getSeriesSet().createSeries(SeriesType.LINE, "series 1");
 		series1.setYSeries(ySeries1);
@@ -236,7 +236,7 @@ public class LegendTest extends ChartTestCase {
 	 */
 	@Test
 	@Ignore("environment dependent")
-	public void testBounds() throws Exception {
+	public void testBounds()  {
 
 		ISeries<?> series1 = chart.getSeriesSet().createSeries(SeriesType.LINE, "series1");
 		series1.setYSeries(ySeries1);

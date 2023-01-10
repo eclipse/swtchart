@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2008, 2019 SWTChart project.
+ * Copyright (c) 2008, 2023 SWTChart project.
  *
  * This program and the accompanying materials are made
  * available under the terms of the Eclipse Public License 2.0
@@ -14,6 +14,7 @@ package org.eclipse.swtchart.util;
 
 import java.io.File;
 import java.lang.reflect.Field;
+import java.util.Locale;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Device;
@@ -47,8 +48,9 @@ public class ChartTestCase {
 	public TestName name = new TestName();
 
 	@Before
-	public void setUp() throws Exception {
+	public void setUp()  {
 
+		Locale.setDefault(Locale.ENGLISH);
 		shell = createShell(name.getMethodName());
 		chart = createChart(shell);
 		if(!shell.isVisible()) {
@@ -58,15 +60,16 @@ public class ChartTestCase {
 	}
 
 	@After
-	public void tearDown() throws Exception {
+	public void tearDown()  {
 
+		chart.dispose();
 		shell.dispose();
 	}
 
 	/**
 	 * Show the chart on window to check the appearance.
 	 */
-	protected void showChart() throws Exception {
+	protected void showChart()  {
 
 		if(refreshChart) {
 			chart.redraw();

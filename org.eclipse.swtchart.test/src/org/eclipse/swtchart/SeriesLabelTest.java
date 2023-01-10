@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2008, 2020 SWTChart project.
+ * Copyright (c) 2008, 2023 SWTChart project.
  *
  * This program and the accompanying materials are made
  * available under the terms of the Eclipse Public License 2.0
@@ -43,7 +43,7 @@ public class SeriesLabelTest extends ChartTestCase {
 	private static final String[] formats3 = {"b1", "b2", "b3", "b4", "b5"};
 
 	@Override
-	public void setUp() throws Exception {
+	public void setUp()  {
 
 		super.setUp();
 		ISeries<?> series = chart.getSeriesSet().createSeries(SeriesType.LINE, "series");
@@ -57,7 +57,7 @@ public class SeriesLabelTest extends ChartTestCase {
 	 * Test for label format.
 	 */
 	@Test
-	public void testFormat() throws Exception {
+	public void testFormat()  {
 
 		// set null
 		label.setFormat(null);
@@ -119,7 +119,7 @@ public class SeriesLabelTest extends ChartTestCase {
 	 * Test for label formats.
 	 */
 	@Test
-	public void testFormats() throws Exception {
+	public void testFormats()  {
 
 		// decimal formats
 		String[] formats = {"#.##", "#.##", "#.##", ".000", ".000"};
@@ -161,7 +161,7 @@ public class SeriesLabelTest extends ChartTestCase {
 	 * Test for setting color.
 	 */
 	@Test
-	public void testForeground() throws Exception {
+	public void testForeground()  {
 
 		// set null
 		label.setForeground(null);
@@ -186,7 +186,7 @@ public class SeriesLabelTest extends ChartTestCase {
 	 * Test for title font.
 	 */
 	@Test
-	public void testFont() throws Exception {
+	public void testFont()  {
 
 		// set null
 		label.setFont(null);
@@ -231,7 +231,7 @@ public class SeriesLabelTest extends ChartTestCase {
 	 * Test for label visibility.
 	 */
 	@Test
-	public void testVisibility() throws Exception {
+	public void testVisibility()  {
 
 		// set visibility
 		label.setVisible(false);

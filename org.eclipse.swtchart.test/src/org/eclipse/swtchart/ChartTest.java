@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2008, 2020 SWTChart project.
+ * Copyright (c) 2008, 2023 SWTChart project.
  *
  * This program and the accompanying materials are made
  * available under the terms of the Eclipse Public License 2.0
@@ -43,7 +43,7 @@ public class ChartTest extends ChartTestCase {
 	 * Test for background.
 	 */
 	@Test
-	public void testBackground() throws Exception {
+	public void testBackground()  {
 
 		// check the default color
 		showChart();
@@ -81,7 +81,7 @@ public class ChartTest extends ChartTestCase {
 	 * Test for background in plot area
 	 */
 	@Test
-	public void testBackgroundInPlotArea() throws Exception {
+	public void testBackgroundInPlotArea()  {
 
 		// check the default color
 		showChart();
@@ -119,7 +119,7 @@ public class ChartTest extends ChartTestCase {
 	 * Test for chart orientation with line series
 	 */
 	@Test
-	public void testOrientation1() throws Exception {
+	public void testOrientation1()  {
 
 		// create line series
 		ILineSeries<?> lineSeries1 = (ILineSeries<?>)chart.getSeriesSet().createSeries(SeriesType.LINE, "line series 1");
@@ -234,7 +234,7 @@ public class ChartTest extends ChartTestCase {
 	 * Test for chart orientation with bar series
 	 */
 	@Test
-	public void testOrientation2() throws Exception {
+	public void testOrientation2()  {
 
 		// create bar series
 		IBarSeries<?> barSeries1 = (IBarSeries<?>)chart.getSeriesSet().createSeries(SeriesType.BAR, "bar series 1");
@@ -348,7 +348,7 @@ public class ChartTest extends ChartTestCase {
 	 * Test for suspending update
 	 */
 	@Test
-	public void testSuspendUpdate() throws Throwable {
+	public void testSuspendUpdate()  {
 
 		ISeries<?> series1 = chart.getSeriesSet().createSeries(SeriesType.LINE, "series1");
 		series1.setYSeries(ySeries1);
@@ -378,7 +378,7 @@ public class ChartTest extends ChartTestCase {
 	 */
 	@Test
 	@Ignore("environment dependent")
-	public void testSaveToFile() throws Throwable {
+	public void testSaveToFile()  {
 
 		ISeries<?> series = chart.getSeriesSet().createSeries(SeriesType.LINE, "series1");
 		series.setYSeries(ySeries1);

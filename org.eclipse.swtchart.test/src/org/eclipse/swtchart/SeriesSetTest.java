@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2008, 2020 SWTChart project.
+ * Copyright (c) 2008, 2023 SWTChart project.
  *
  * This program and the accompanying materials are made
  * available under the terms of the Eclipse Public License 2.0
@@ -34,7 +34,7 @@ public class SeriesSetTest extends ChartTestCase {
 	private static final String[] categorySeries = {"a", "b", "c", "d", "e"};
 
 	@Override
-	public void setUp() throws Exception {
+	public void setUp()  {
 
 		super.setUp();
 		seriesSet = chart.getSeriesSet();
@@ -44,7 +44,7 @@ public class SeriesSetTest extends ChartTestCase {
 	 * Test for creating series.
 	 */
 	@Test
-	public void testCreateSeries() throws Exception {
+	public void testCreateSeries()  {
 
 		// create series with illegal key
 		try {
@@ -92,7 +92,7 @@ public class SeriesSetTest extends ChartTestCase {
 	 * Test for getting series.
 	 */
 	@Test
-	public void testGetSeries() throws Exception {
+	public void testGetSeries()  {
 
 		// get series with illegal key
 		try {
@@ -125,7 +125,7 @@ public class SeriesSetTest extends ChartTestCase {
 	 * Test for deleting series.
 	 */
 	@Test
-	public void testDeleteSeries() throws Exception {
+	public void testDeleteSeries()  {
 
 		// delete series with illegal key
 		try {
@@ -159,7 +159,7 @@ public class SeriesSetTest extends ChartTestCase {
 	 * Test for changing series order.
 	 */
 	@Test
-	public void testSeriesOrder() throws Exception {
+	public void testSeriesOrder()  {
 
 		IBarSeries<?> series1 = (IBarSeries<?>)seriesSet.createSeries(SeriesType.BAR, "series1");
 		series1.setYSeries(ySeries1);
