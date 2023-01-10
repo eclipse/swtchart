@@ -62,6 +62,7 @@ public class ChartTestCase {
 	@After
 	public void tearDown()  {
 
+		chart.dispose();
 		shell.dispose();
 	}
 
