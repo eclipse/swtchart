@@ -1503,4 +1503,17 @@ public class BaseChart extends AbstractExtendedChart implements IChartDataCoordi
 		//
 		return enableAction;
 	}
+
+	@Override
+	public void dispose() {
+
+		chartSettings.getPrimaryAxisSettingsX().dispose();
+		chartSettings.getPrimaryAxisSettingsY().dispose();
+		for(ISecondaryAxisSettings secondaryX : chartSettings.getSecondaryAxisSettingsListX()) {
+			secondaryX.dispose();
+		}
+		for(ISecondaryAxisSettings secondaryX : chartSettings.getSecondaryAxisSettingsListX()) {
+			secondaryX.dispose();
+		}
+	}
 }

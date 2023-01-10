@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2017, 2022 Lablicate GmbH.
+ * Copyright (c) 2017, 2023 Lablicate GmbH.
  *
  * This program and the accompanying materials are made
  * available under the terms of the Eclipse Public License 2.0
@@ -110,4 +110,6 @@ public interface IAxisSettings {
 	boolean isIntegerDataPointAxis();
 
 	void setIntegerDataPointAxis(boolean isIntegerDataPointAxis);
+
+	void dispose();
 }
