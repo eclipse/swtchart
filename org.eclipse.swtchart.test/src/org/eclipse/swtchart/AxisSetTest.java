@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2008, 2020 SWTChart project.
+ * Copyright (c) 2008, 2023 SWTChart project.
  *
  * This program and the accompanying materials are made
  * available under the terms of the Eclipse Public License 2.0
@@ -31,7 +31,7 @@ public class AxisSetTest extends ChartTestCase {
 	private static final double[] ySeries2 = {4, 2, 0, -2, -4};
 
 	@Override
-	public void setUp() throws Exception {
+	public void setUp()  {
 
 		super.setUp();
 		axisSet = chart.getAxisSet();
@@ -41,7 +41,7 @@ public class AxisSetTest extends ChartTestCase {
 	 * Test for default axes.
 	 */
 	@Test
-	public void testDefaultAxes() throws Exception {
+	public void testDefaultAxes() {
 
 		// get the default axes
 		IAxis[] axes = axisSet.getAxes();
@@ -83,7 +83,7 @@ public class AxisSetTest extends ChartTestCase {
 	 * Test for creating and deleting axes.
 	 */
 	@Test
-	public void testCreateAndDeleteAxes() throws Exception {
+	public void testCreateAndDeleteAxes() {
 
 		ISeries<?> series1 = chart.getSeriesSet().createSeries(SeriesType.LINE, "series 1");
 		series1.setYSeries(ySeries1);
@@ -160,7 +160,7 @@ public class AxisSetTest extends ChartTestCase {
 	 * Test for adjusting axis range.
 	 */
 	@Test
-	public void testAdjustRange() throws Exception {
+	public void testAdjustRange() {
 
 		ISeries<?> series1 = chart.getSeriesSet().createSeries(SeriesType.LINE, "series 1");
 		ISeries<?> series2 = chart.getSeriesSet().createSeries(SeriesType.LINE, "series 2");
@@ -182,7 +182,7 @@ public class AxisSetTest extends ChartTestCase {
 	 * Test for zooming in and out.
 	 */
 	@Test
-	public void testZoomInOut() throws Exception {
+	public void testZoomInOut() {
 
 		ISeries<?> series1 = chart.getSeriesSet().createSeries(SeriesType.LINE, "series 1");
 		series1.setYSeries(ySeries1);

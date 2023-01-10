@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2008, 2020 SWTChart project.
+ * Copyright (c) 2008, 2023 SWTChart project.
  *
  * This program and the accompanying materials are made
  * available under the terms of the Eclipse Public License 2.0
@@ -45,7 +45,7 @@ public class AxisTickTest extends ChartTestCase {
 	private static final double[] ySeries = {0.0, 0.38, 0.71, 0.92, 1.0};
 
 	@Override
-	public void setUp() throws Exception {
+	public void setUp()  {
 
 		super.setUp();
 		xAxisTick = chart.getAxisSet().getXAxis(0).getTick();
@@ -56,7 +56,7 @@ public class AxisTickTest extends ChartTestCase {
 	 * Test for foreground.
 	 */
 	@Test
-	public void testForeground() throws Exception {
+	public void testForeground()  {
 
 		// set null
 		xAxisTick.setForeground(null);
@@ -103,7 +103,7 @@ public class AxisTickTest extends ChartTestCase {
 	 * Test for axis tick font.
 	 */
 	@Test
-	public void testFont() throws Exception {
+	public void testFont()  {
 
 		// set null
 		xAxisTick.setFont(null);
@@ -177,7 +177,7 @@ public class AxisTickTest extends ChartTestCase {
 	 * Test for axis tick visibility.
 	 */
 	@Test
-	public void testVisibility() throws Exception {
+	public void testVisibility()  {
 
 		// show X axis tick
 		xAxisTick.setVisible(false);
@@ -199,7 +199,7 @@ public class AxisTickTest extends ChartTestCase {
 	 * Test for tick mark step hint.
 	 */
 	@Test
-	public void testTickMarkStepHint() throws Exception {
+	public void testTickMarkStepHint()  {
 
 		// set small value the tick mark step hint
 		xAxisTick.setTickMarkStepHint(10);
@@ -234,7 +234,7 @@ public class AxisTickTest extends ChartTestCase {
 	 * Test for format.
 	 */
 	@Test
-	public void testFormat() throws Exception {
+	public void testFormat()  {
 
 		// create line series
 		ILineSeries<?> lineSeries = (ILineSeries<?>)chart.getSeriesSet().createSeries(SeriesType.LINE, "line series");
@@ -263,7 +263,7 @@ public class AxisTickTest extends ChartTestCase {
 	 * Test for tick label values.
 	 */
 	@Test
-	public void testTickLabelValues() throws Throwable {
+	public void testTickLabelValues()  {
 
 		ILineSeries<?> lineSeries = (ILineSeries<?>)chart.getSeriesSet().createSeries(SeriesType.LINE, "line series");
 		lineSeries.setYSeries(ySeries);
@@ -281,7 +281,7 @@ public class AxisTickTest extends ChartTestCase {
 	 * Test for tick label angle.
 	 */
 	@Test
-	public void testTickLabelAngle() throws Throwable {
+	public void testTickLabelAngle()  {
 
 		ILineSeries<?> lineSeries = (ILineSeries<?>)chart.getSeriesSet().createSeries(SeriesType.LINE, "line series");
 		lineSeries.setYSeries(ySeries);
@@ -295,7 +295,7 @@ public class AxisTickTest extends ChartTestCase {
 	 */
 	@Test
 	@Ignore("environment dependent")
-	public void testBounds() throws Throwable {
+	public void testBounds()  {
 
 		ILineSeries<?> lineSeries = (ILineSeries<?>)chart.getSeriesSet().createSeries(SeriesType.LINE, "line series");
 		lineSeries.setYSeries(ySeries);

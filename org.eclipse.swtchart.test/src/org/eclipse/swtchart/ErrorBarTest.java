@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2008, 2020 SWTChart project.
+ * Copyright (c) 2008, 2023 SWTChart project.
  *
  * This program and the accompanying materials are made
  * available under the terms of the Eclipse Public License 2.0
@@ -38,7 +38,7 @@ public class ErrorBarTest extends ChartTestCase {
 	private static final double[] errors2 = {0.2, 0.6, 1.0, 1.4, 1.8};
 
 	@Override
-	public void setUp() throws Exception {
+	public void setUp()  {
 
 		super.setUp();
 		ISeries<?> series = chart.getSeriesSet().createSeries(SeriesType.LINE, "series");
@@ -54,7 +54,7 @@ public class ErrorBarTest extends ChartTestCase {
 	 * Test for type.
 	 */
 	@Test
-	public void testType() throws Exception {
+	public void testType()  {
 
 		// check default
 		assertEquals(ErrorBarType.BOTH, xErrorBar.getType());
@@ -90,7 +90,7 @@ public class ErrorBarTest extends ChartTestCase {
 	 * Test for color.
 	 */
 	@Test
-	public void testColor() throws Exception {
+	public void testColor()  {
 
 		// check default
 		final Color darkGray = Display.getDefault().getSystemColor(SWT.COLOR_DARK_GRAY);
@@ -133,7 +133,7 @@ public class ErrorBarTest extends ChartTestCase {
 	 * Test for line width.
 	 */
 	@Test
-	public void testLineWidth() throws Exception {
+	public void testLineWidth()  {
 
 		// check default
 		assertEquals(1, xErrorBar.getLineWidth());
@@ -158,7 +158,7 @@ public class ErrorBarTest extends ChartTestCase {
 	 * Test for error.
 	 */
 	@Test
-	public void testError() throws Exception {
+	public void testError()  {
 
 		// check default
 		assertEquals(1d, xErrorBar.getError(), 0.01);
@@ -201,7 +201,7 @@ public class ErrorBarTest extends ChartTestCase {
 	 * Test for error series.
 	 */
 	@Test
-	public void testErrorSeries() throws Exception {
+	public void testErrorSeries()  {
 
 		// default
 		assertEquals(0, xErrorBar.getPlusErrors().length);
@@ -229,7 +229,7 @@ public class ErrorBarTest extends ChartTestCase {
 	 * Test for label visibility.
 	 */
 	@Test
-	public void testVisibility() throws Exception {
+	public void testVisibility()  {
 
 		chart.getSeriesSet().deleteSeries("series");
 		ISeries<?> series = chart.getSeriesSet().createSeries(SeriesType.BAR, "series");

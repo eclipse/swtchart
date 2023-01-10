@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2008, 2022 SWTChart project.
+ * Copyright (c) 2008, 2023 SWTChart project.
  *
  * This program and the accompanying materials are made
  * available under the terms of the Eclipse Public License 2.0
@@ -49,7 +49,7 @@ public class AxisTest extends ChartTestCase {
 	private static final double[] ySeries5 = {-1, -2, -3, -4, -5};
 
 	@Override
-	public void setUp() throws Exception {
+	public void setUp()  {
 
 		super.setUp();
 		xAxis = chart.getAxisSet().getXAxis(0);
@@ -60,7 +60,7 @@ public class AxisTest extends ChartTestCase {
 	 * Test for axis position.
 	 */
 	@Test
-	public void testPosition() throws Exception {
+	public void testPosition()  {
 
 		ISeries<?> barSeries = chart.getSeriesSet().createSeries(SeriesType.BAR, "bar series");
 		barSeries.setYSeries(ySeries1);
@@ -135,7 +135,7 @@ public class AxisTest extends ChartTestCase {
 	 * Test for axis range.
 	 */
 	@Test
-	public void testRange() throws Exception {
+	public void testRange()  {
 
 		ISeries<?> barSeries = chart.getSeriesSet().createSeries(SeriesType.BAR, "bar series");
 		barSeries.setXSeries(xSeries1);
@@ -206,7 +206,7 @@ public class AxisTest extends ChartTestCase {
 	 * Test for log scale.
 	 */
 	@Test
-	public void testLogScale() throws Exception {
+	public void testLogScale()  {
 
 		// check the default
 		assertFalse(xAxis.isLogScaleEnabled());
@@ -277,7 +277,7 @@ public class AxisTest extends ChartTestCase {
 	 * Test for arbitrary base logarithmic scale
 	 */
 	@Test
-	public void testArbitraryLogScale() throws Exception {
+	public void testArbitraryLogScale()  {
 
 		ISeries<?> lineSeries = chart.getSeriesSet().createSeries(SeriesType.LINE, "line series");
 		// enable log scale without series
@@ -365,7 +365,7 @@ public class AxisTest extends ChartTestCase {
 	 * Test for adjusting range.
 	 */
 	@Test
-	public void testAdjustRange() throws Exception {
+	public void testAdjustRange()  {
 
 		// line
 		ISeries<?> lineSeries = chart.getSeriesSet().createSeries(SeriesType.LINE, "line series");
@@ -589,7 +589,7 @@ public class AxisTest extends ChartTestCase {
 	 * Test for zooming.
 	 */
 	@Test
-	public void testZoom() throws Exception {
+	public void testZoom()  {
 
 		ISeries<?> lineSeries = chart.getSeriesSet().createSeries(SeriesType.LINE, "line series");
 		lineSeries.setXSeries(series);
@@ -682,7 +682,7 @@ public class AxisTest extends ChartTestCase {
 	 * Test for zooming at a certain coordinate.
 	 */
 	@Test
-	public void testZoomAt() throws Exception {
+	public void testZoomAt()  {
 
 		ISeries<?> lineSeries = chart.getSeriesSet().createSeries(SeriesType.LINE, "line series");
 		lineSeries.setXSeries(series);
@@ -785,7 +785,7 @@ public class AxisTest extends ChartTestCase {
 	 * Test for scrolling.
 	 */
 	@Test
-	public void testScroll() throws Exception {
+	public void testScroll()  {
 
 		ISeries<?> lineSeries = chart.getSeriesSet().createSeries(SeriesType.LINE, "line series");
 		lineSeries.setXSeries(xSeries1);
@@ -959,7 +959,7 @@ public class AxisTest extends ChartTestCase {
 	 * Test for category.
 	 */
 	@Test
-	public void testCategory() throws Exception {
+	public void testCategory()  {
 
 		// enable category for Y axis
 		try {
@@ -1009,7 +1009,7 @@ public class AxisTest extends ChartTestCase {
 	 */
 	@Test
 	@Ignore("environment dependent")
-	public void testCoordinate() throws Exception {
+	public void testCoordinate()  {
 
 		xAxis.setRange(new Range(0, 100));
 		yAxis.setRange(new Range(0, 10));
@@ -1119,7 +1119,7 @@ public class AxisTest extends ChartTestCase {
 	 * Test for reversed axis.
 	 */
 	@Test
-	public void testReversed() throws Exception {
+	public void testReversed()  {
 
 		// linear scale
 		ISeries<?> lineSeries = chart.getSeriesSet().createSeries(SeriesType.LINE, "line series");

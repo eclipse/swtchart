@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2008, 2020 SWTChart project.
+ * Copyright (c) 2008, 2023 SWTChart project.
  *
  * This program and the accompanying materials are made
  * available under the terms of the Eclipse Public License 2.0
@@ -40,7 +40,7 @@ public class LineSeriesTest extends ChartTestCase {
 	private static final String[] categorySeries = {"a", "b", "c", "d", "e"};
 
 	@Override
-	public void setUp() throws Exception {
+	public void setUp()  {
 
 		super.setUp();
 		seriesSet = chart.getSeriesSet();
@@ -50,7 +50,7 @@ public class LineSeriesTest extends ChartTestCase {
 	 * Test for series type.
 	 */
 	@Test
-	public void testType() throws Exception {
+	public void testType() {
 
 		ISeries<?> series = seriesSet.createSeries(SeriesType.LINE, "series");
 		series.setYSeries(ySeries1);
@@ -61,7 +61,7 @@ public class LineSeriesTest extends ChartTestCase {
 	 * Test for visibility.
 	 */
 	@Test
-	public void testVisibility() throws Exception {
+	public void testVisibility()  {
 
 		ISeries<?> series = seriesSet.createSeries(SeriesType.LINE, "series1");
 		series.setYSeries(ySeries1);
@@ -76,7 +76,7 @@ public class LineSeriesTest extends ChartTestCase {
 	 * Test for stack.
 	 */
 	@Test
-	public void testStack() throws Exception {
+	public void testStack()  {
 
 		ISeries<?> series1 = seriesSet.createSeries(SeriesType.LINE, "series1");
 		series1.setYSeries(ySeries1);
@@ -166,7 +166,7 @@ public class LineSeriesTest extends ChartTestCase {
 	 * Test for pixel coordinates.
 	 */
 	@Test
-	public void testPixelCoordinates() throws Exception {
+	public void testPixelCoordinates()  {
 
 		ILineSeries<?> series1 = (ILineSeries<?>)seriesSet.createSeries(SeriesType.LINE, "series 1");
 		series1.setXSeries(xSeries1);
@@ -228,7 +228,7 @@ public class LineSeriesTest extends ChartTestCase {
 	 * Test for line style.
 	 */
 	@Test
-	public void testLineStyle() throws Exception {
+	public void testLineStyle()  {
 
 		ILineSeries<?> series = (ILineSeries<?>)seriesSet.createSeries(SeriesType.LINE, "series");
 		series.setYSeries(ySeries1);
@@ -260,7 +260,7 @@ public class LineSeriesTest extends ChartTestCase {
 	 * Test for line color.
 	 */
 	@Test
-	public void testLineColor() throws Exception {
+	public void testLineColor()  {
 
 		ILineSeries<?> series = (ILineSeries<?>)seriesSet.createSeries(SeriesType.LINE, "series");
 		series.setYSeries(ySeries1);
@@ -290,7 +290,7 @@ public class LineSeriesTest extends ChartTestCase {
 	 * Test for line width.
 	 */
 	@Test
-	public void testLineWidth() throws Exception {
+	public void testLineWidth()  {
 
 		ILineSeries<?> series = (ILineSeries<?>)seriesSet.createSeries(SeriesType.LINE, "series");
 		series.setYSeries(ySeries1);
@@ -316,7 +316,7 @@ public class LineSeriesTest extends ChartTestCase {
 	 * Test for symbol type.
 	 */
 	@Test
-	public void testSymbolType() throws Exception {
+	public void testSymbolType()  {
 
 		ILineSeries<?> series = (ILineSeries<?>)seriesSet.createSeries(SeriesType.LINE, "plot series 1");
 		series.setYSeries(ySeries1);
@@ -361,7 +361,7 @@ public class LineSeriesTest extends ChartTestCase {
 	 * Test for symbol size.
 	 */
 	@Test
-	public void testSymbolSize() throws Exception {
+	public void testSymbolSize()  {
 
 		ILineSeries<?> series = (ILineSeries<?>)seriesSet.createSeries(SeriesType.LINE, "series");
 		series.setYSeries(ySeries1);
@@ -390,7 +390,7 @@ public class LineSeriesTest extends ChartTestCase {
 	 * Test for setting color.
 	 */
 	@Test
-	public void testSymbolColor() throws Exception {
+	public void testSymbolColor()  {
 
 		ILineSeries<?> series = (ILineSeries<?>)seriesSet.createSeries(SeriesType.LINE, "series");
 		series.setYSeries(ySeries1);
@@ -421,7 +421,7 @@ public class LineSeriesTest extends ChartTestCase {
 	 * Test for setting colors.
 	 */
 	@Test
-	public void testSymbolColors() throws Exception {
+	public void testSymbolColors()  {
 
 		ILineSeries<?> series = (ILineSeries<?>)seriesSet.createSeries(SeriesType.LINE, "series");
 		series.setYSeries(ySeries1);
@@ -456,7 +456,7 @@ public class LineSeriesTest extends ChartTestCase {
 	 * Test for area chart.
 	 */
 	@Test
-	public void testArea() throws Exception {
+	public void testArea()  {
 
 		ILineSeries<?> series1 = (ILineSeries<?>)seriesSet.createSeries(SeriesType.LINE, "series1");
 		series1.setYSeries(ySeries1);
@@ -508,7 +508,7 @@ public class LineSeriesTest extends ChartTestCase {
 	 * Test for step chart.
 	 */
 	@Test
-	public void testStep() throws Exception {
+	public void testStep()  {
 
 		// create line series
 		ILineSeries<?> series1 = (ILineSeries<?>)chart.getSeriesSet().createSeries(SeriesType.LINE, "series 1");
@@ -573,7 +573,7 @@ public class LineSeriesTest extends ChartTestCase {
 	 * Test for scatter chart.
 	 */
 	@Test
-	public void testScatter() throws Throwable {
+	public void testScatter()  {
 
 		ILineSeries<?> series = (ILineSeries<?>)chart.getSeriesSet().createSeries(SeriesType.LINE, "series");
 		series.setXSeries(xSeries2);

@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2008, 2020 SWTChart project.
+ * Copyright (c) 2008, 2023 SWTChart project.
  *
  * This program and the accompanying materials are made
  * available under the terms of the Eclipse Public License 2.0
@@ -40,7 +40,7 @@ public class BarSeriesTest extends ChartTestCase {
 	private static final String[] categorySeries = {"a", "b", "c", "d", "e"};
 
 	@Override
-	public void setUp() throws Exception {
+	public void setUp()  {
 
 		super.setUp();
 		seriesSet = chart.getSeriesSet();
@@ -50,7 +50,7 @@ public class BarSeriesTest extends ChartTestCase {
 	 * Test for series type.
 	 */
 	@Test
-	public void testType() throws Exception {
+	public void testType()  {
 
 		final ISeries<?> series = seriesSet.createSeries(SeriesType.BAR, "series");
 		series.setYSeries(ySeries1);
@@ -61,7 +61,7 @@ public class BarSeriesTest extends ChartTestCase {
 	 * Test for visibility.
 	 */
 	@Test
-	public void testVisibility() throws Exception {
+	public void testVisibility()  {
 
 		ISeries<?> series = seriesSet.createSeries(SeriesType.BAR, "series");
 		series.setYSeries(ySeries1);
@@ -76,7 +76,7 @@ public class BarSeriesTest extends ChartTestCase {
 	 * Test for stack.
 	 */
 	@Test
-	public void testStack() throws Exception {
+	public void testStack()  {
 
 		// stacked bar series on category axis
 		ISeries<?> series1 = seriesSet.createSeries(SeriesType.BAR, "series1");
@@ -181,7 +181,7 @@ public class BarSeriesTest extends ChartTestCase {
 	 * Test for pixel coordinates.
 	 */
 	@Test
-	public void testPixelCoordinates() throws Exception {
+	public void testPixelCoordinates()  {
 
 		ISeries<?> series1 = chart.getSeriesSet().createSeries(SeriesType.BAR, "series1");
 		series1.setXSeries(xSeries1);
@@ -243,7 +243,7 @@ public class BarSeriesTest extends ChartTestCase {
 	 * Test for padding.
 	 */
 	@Test
-	public void testPadding() throws Exception {
+	public void testPadding()  {
 
 		// set illegal padding
 		IBarSeries<?> series = (IBarSeries<?>)chart.getSeriesSet().createSeries(SeriesType.BAR, "bar series 1");
@@ -281,7 +281,7 @@ public class BarSeriesTest extends ChartTestCase {
 	 * Test for setting bar color.
 	 */
 	@Test
-	public void testBarColor() throws Exception {
+	public void testBarColor()  {
 
 		// specify null
 		IBarSeries<?> series = (IBarSeries<?>)chart.getSeriesSet().createSeries(SeriesType.BAR, "bar series 1");
@@ -315,7 +315,7 @@ public class BarSeriesTest extends ChartTestCase {
 	 */
 	@Test
 	@Ignore("environment dependent")
-	public void testBounds() throws Exception {
+	public void testBounds()  {
 
 		IBarSeries<?> series1 = (IBarSeries<?>)seriesSet.createSeries(SeriesType.BAR, "series1");
 		series1.setYSeries(ySeries1);

@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2008, 2019 SWTChart project.
+ * Copyright (c) 2008, 2023 SWTChart project.
  *
  * This program and the accompanying materials are made
  * available under the terms of the Eclipse Public License 2.0
@@ -35,7 +35,7 @@ public class ChartTitleTest extends ChartTestCase {
 	private ITitle title;
 
 	@Override
-	public void setUp() throws Exception {
+	public void setUp() {
 
 		super.setUp();
 		title = chart.getTitle();
@@ -45,7 +45,7 @@ public class ChartTitleTest extends ChartTestCase {
 	 * Test for title text.
 	 */
 	@Test
-	public void testText() throws Exception {
+	public void testText()  {
 
 		// set null
 		title.setText(null);
@@ -76,7 +76,7 @@ public class ChartTitleTest extends ChartTestCase {
 	 * Test for foreground.
 	 */
 	@Test
-	public void testForeground() throws Exception {
+	public void testForeground()  {
 
 		// set null
 		title.setForeground(null);
@@ -107,7 +107,7 @@ public class ChartTitleTest extends ChartTestCase {
 	 * Test for title font.
 	 */
 	@Test
-	public void testFont() throws Exception {
+	public void testFont()  {
 
 		// set null
 		title.setFont(null);
@@ -153,7 +153,7 @@ public class ChartTitleTest extends ChartTestCase {
 	 * Test for title visibility.
 	 */
 	@Test
-	public void testVisibility() throws Exception {
+	public void testVisibility()  {
 
 		// set visibility
 		title.setText("foo");
