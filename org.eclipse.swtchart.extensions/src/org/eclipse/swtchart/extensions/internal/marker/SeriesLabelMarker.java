@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2017, 2022 Lablicate GmbH.
+ * Copyright (c) 2017, 2023 Lablicate GmbH.
  *
  * This program and the accompanying materials are made
  * available under the terms of the Eclipse Public License 2.0
@@ -61,8 +61,10 @@ public class SeriesLabelMarker extends AbstractBaseChartPaintListener implements
 					e.gc.setForeground(getForegroundColor());
 					for(int i = 0; i < serie.getXSeries().length; i++) {
 						Point point = serie.getPixelCoordinates(i);
-						Point labelSize = e.gc.textExtent(label);
-						e.gc.drawText(label, (int)(point.x - labelSize.x / 2.0d), (int)(point.y - labelSize.y - symbolSize / 2.0d), true);
+						if(label != null) {
+							Point labelSize = e.gc.textExtent(label);
+							e.gc.drawText(label, (int)(point.x - labelSize.x / 2.0d), (int)(point.y - labelSize.y - symbolSize / 2.0d), true);
+						}
 					}
 				}
 			}
