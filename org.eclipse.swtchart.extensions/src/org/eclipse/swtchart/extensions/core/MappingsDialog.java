@@ -39,6 +39,7 @@ import org.eclipse.swtchart.extensions.barcharts.IBarSeriesSettings;
 import org.eclipse.swtchart.extensions.dialogs.AbstractSeriesSettingsDialog;
 import org.eclipse.swtchart.extensions.dialogs.BarSeriesSettingsDialog;
 import org.eclipse.swtchart.extensions.dialogs.CircularSeriesSettingsDialog;
+import org.eclipse.swtchart.extensions.dialogs.CreateSeriesMappingDialog;
 import org.eclipse.swtchart.extensions.dialogs.LineSeriesSettingsDialog;
 import org.eclipse.swtchart.extensions.dialogs.ScatterSeriesSettingsDialog;
 import org.eclipse.swtchart.extensions.internal.mappings.MappingsIO;
@@ -148,13 +149,42 @@ public class MappingsDialog extends Dialog {
 		GridData gridData = new GridData(GridData.FILL_HORIZONTAL);
 		gridData.horizontalAlignment = SWT.END;
 		composite.setLayoutData(gridData);
-		composite.setLayout(new GridLayout(5, false));
+		composite.setLayout(new GridLayout(6, false));
 		//
+		createButtonAdd(composite);
 		createButtonDelete(composite);
 		createButtonDeleteAll(composite);
 		createButtonImport(composite);
 		createButtonExport(composite);
 		createButtonSave(composite);
+	}
+
+	private Button createButtonAdd(Composite parent) {
+
+		Button button = new Button(parent, SWT.PUSH);
+		button.setText("");
+		button.setToolTipText("Add a mapping.");
+		button.setImage(ResourceSupport.getImage(ResourceSupport.ICON_ADD));
+		button.addSelectionListener(new SelectionAdapter() {
+
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+
+				CreateSeriesMappingDialog dialog = new CreateSeriesMappingDialog(e.display.getActiveShell());
+				if(dialog.open() == Window.OK) {
+					MappingsType mappingsType = dialog.getMappingsType();
+					String id = dialog.getRegularExpression();
+					ISeriesSettings seriesSettings = MappingsSupport.createSeriesSettings(mappingsType);
+					if(seriesSettings != null) {
+						seriesSettings.setDescription(dialog.getDescription());
+						SeriesMapper.put(mappingsType, id, seriesSettings);
+						updateInput();
+					}
+				}
+			}
+		});
+		//
+		return button;
 	}
 
 	private Button createButtonDelete(Composite parent) {

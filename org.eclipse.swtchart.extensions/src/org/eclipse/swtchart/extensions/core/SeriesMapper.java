@@ -16,6 +16,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Pattern;
 
 import org.eclipse.swtchart.ISeries;
 import org.eclipse.swtchart.ISeriesSet;
@@ -102,8 +103,17 @@ public class SeriesMapper {
 			ISeriesSettings seriesSettings = baseChart.getSeriesSettings(id);
 			MappingsType mappingsType = MappingsSupport.getMappingsType(seriesSettings);
 			if(isValidMappingsType(mappingsType)) {
+				/*
+				 * Try to match the id.
+				 */
 				String key = getKey(mappingsType, id);
 				seriesSettingsMapped = MAPPINGS.get(key);
+				if(seriesSettingsMapped == null) {
+					String keyX = getKeyViaRegex(key);
+					if(keyX != null) {
+						seriesSettingsMapped = MAPPINGS.get(keyX);
+					}
+				}
 			}
 		}
 		//
@@ -153,7 +163,7 @@ public class SeriesMapper {
 				String value = key.substring(0, index);
 				MappingsType mappingsType = MappingsSupport.getMappingsType(value);
 				if(!MappingsType.NONE.equals(mappingsType)) {
-					String id = key.substring(index + 1, key.length());
+					String id = extractIdentifier(key);
 					ISeriesSettings seriesSettings = entry.getValue();
 					mappings.add(new MappedSeriesSettings(mappingsType, id, seriesSettings));
 				}
@@ -178,6 +188,14 @@ public class SeriesMapper {
 			String key = getKey(mappingsType, id);
 			if(MAPPINGS.containsKey(key)) {
 				baseChart.applySeriesSettings(series, seriesSettings);
+			} else {
+				/*
+				 * Matched via Regex
+				 */
+				String keyX = getKeyViaRegex(key);
+				if(keyX != null) {
+					baseChart.applySeriesSettings(series, seriesSettings);
+				}
 			}
 		}
 	}
@@ -185,5 +203,42 @@ public class SeriesMapper {
 	private static boolean isValidMappingsType(MappingsType mappingsType) {
 
 		return !MappingsType.NONE.equals(mappingsType);
+	}
+
+	private static String getKeyViaRegex(String key) {
+
+		/*
+		 * Alternatively, match via a regular expression.
+		 * It must contain at least an opening and closing
+		 * bracket ().
+		 */
+		for(String storedKey : MAPPINGS.keySet()) {
+			try {
+				String regex = extractIdentifier(storedKey);
+				Pattern.compile(regex);
+				if(key.matches(regex)) {
+					return storedKey;
+				}
+			} catch(Exception e) {
+				// Not a valid regular expression.
+			}
+		}
+		//
+		return null;
+	}
+
+	/*
+	 * Example:
+	 * "LINE_(.*)(57)"
+	 * returns "(.*)(57)"
+	 */
+	private static String extractIdentifier(String key) {
+
+		int index = key.indexOf(KEY_DELIMITER);
+		if(index > -1) {
+			return key.substring(index + 1, key.length());
+		} else {
+			return key;
+		}
 	}
 }

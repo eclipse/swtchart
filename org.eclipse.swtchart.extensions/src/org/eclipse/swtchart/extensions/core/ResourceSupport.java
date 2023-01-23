@@ -73,6 +73,7 @@ public class ResourceSupport {
 	public static final String ICON_R = "r.gif"; // $NON-NLS-1$
 	public static final String ICON_TRANSFER = "transfer.png"; // $NON-NLS-1$
 	public static final String ICON_SAVE = "save.gif"; // $NON-NLS-1$
+	public static final String ICON_ADD = "add.gif"; // $NON-NLS-1$
 	//
 	private static final Map<RGB, Color> colorMap = new HashMap<>();
 	private static final String RGB_DELIMITER = ",";
@@ -264,6 +265,7 @@ public class ResourceSupport {
 		imageSet.add(ICON_R);
 		imageSet.add(ICON_TRANSFER);
 		imageSet.add(ICON_SAVE);
+		imageSet.add(ICON_ADD);
 		//
 		for(String image : imageSet) {
 			imageRegistry.put(image, createImageDescriptor(image));
