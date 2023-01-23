@@ -24,6 +24,7 @@ public class PreferenceInitializer extends AbstractPreferenceInitializer {
 		IPreferenceStore preferenceStore = ResourceSupport.getPreferenceStore();
 		if(preferenceStore != null) {
 			preferenceStore.setDefault(PreferenceConstants.P_BUFFER_SELECTION, PreferenceConstants.DEF_BUFFER_SELECTION);
+			preferenceStore.setDefault(PreferenceConstants.P_KEEP_SERIES_DESCRIPTION, PreferenceConstants.DEF_KEEP_SERIES_DESCRIPTION);
 			preferenceStore.setDefault(PreferenceConstants.P_MOVE_LEGEND_X, PreferenceConstants.DEF_MOVE_LEGEND_X);
 			preferenceStore.setDefault(PreferenceConstants.P_MOVE_LEGEND_Y, PreferenceConstants.DEF_MOVE_LEGEND_Y);
 			preferenceStore.setDefault(PreferenceConstants.P_LEGEND_POSITION_X, PreferenceConstants.DEF_LEGEND_POSITION_X);

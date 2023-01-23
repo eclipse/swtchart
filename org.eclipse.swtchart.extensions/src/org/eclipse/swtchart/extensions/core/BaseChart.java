@@ -27,6 +27,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.Stack;
 
+import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.PaintEvent;
 import org.eclipse.swt.graphics.Point;
@@ -49,6 +50,7 @@ import org.eclipse.swtchart.extensions.events.IHandledEventProcessor;
 import org.eclipse.swtchart.extensions.exceptions.SeriesException;
 import org.eclipse.swtchart.extensions.linecharts.ILineSeriesSettings;
 import org.eclipse.swtchart.extensions.piecharts.ICircularSeriesSettings;
+import org.eclipse.swtchart.extensions.preferences.PreferenceConstants;
 import org.eclipse.swtchart.extensions.scattercharts.IScatterSeriesSettings;
 import org.eclipse.swtchart.model.Node;
 import org.eclipse.swtchart.model.NodeDataModel;
@@ -121,6 +123,8 @@ public class BaseChart extends AbstractExtendedChart implements IChartDataCoordi
 	private int xMoveStart = 0;
 	private int yMoveStart = 0;
 	private Map<String, List<double[]>> dataShiftHistory;
+	//
+	private IPreferenceStore preferenceStore = ResourceSupport.getPreferenceStore();
 
 	public BaseChart(Composite parent, int style) {
 
@@ -710,6 +714,12 @@ public class BaseChart extends AbstractExtendedChart implements IChartDataCoordi
 		 */
 		ISeriesSettings seriesSettingsMapping = SeriesMapper.get(series, this);
 		if(seriesSettingsMapping != null) {
+			/*
+			 * Original Description
+			 */
+			String originalDescriptionSeries = seriesSettings.getDescription();
+			String originalDescriptionMapping = seriesSettingsMapping.getDescription();
+			//
 			if(seriesSettings.isHighlight()) {
 				/*
 				 * Highlight Series Settings
@@ -727,6 +737,18 @@ public class BaseChart extends AbstractExtendedChart implements IChartDataCoordi
 					MappingsSupport.transferSettings(seriesSettings, seriesSettingsMapping);
 				} else {
 					MappingsSupport.transferSettings(seriesSettingsMapping, seriesSettings);
+				}
+			}
+			/*
+			 * Keep the original description on demand.
+			 */
+			if(preferenceStore != null) {
+				if(preferenceStore.getBoolean(PreferenceConstants.P_KEEP_SERIES_DESCRIPTION)) {
+					if(updateAvailableMapping) {
+						seriesSettingsMapping.setDescription(originalDescriptionMapping);
+					} else {
+						seriesSettings.setDescription(originalDescriptionSeries);
+					}
 				}
 			}
 		}

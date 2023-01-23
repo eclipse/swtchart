@@ -26,6 +26,8 @@ public class PreferenceConstants {
 	 */
 	public static final String P_BUFFER_SELECTION = "bufferSelection";
 	public static final boolean DEF_BUFFER_SELECTION = false;
+	public static final String P_KEEP_SERIES_DESCRIPTION = "keepSeriesDescription";
+	public static final boolean DEF_KEEP_SERIES_DESCRIPTION = false;
 	//
 	public static final String P_MOVE_LEGEND_X = "moveLegendX";
 	public static final int DEF_MOVE_LEGEND_X = 10;

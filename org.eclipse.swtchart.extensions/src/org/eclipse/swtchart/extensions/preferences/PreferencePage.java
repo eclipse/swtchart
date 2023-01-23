@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2020, 2022 Lablicate GmbH.
+ * Copyright (c) 2020, 2023 Lablicate GmbH.
  *
  * This program and the accompanying materials are made
  * available under the terms of the Eclipse Public License 2.0
@@ -36,6 +36,7 @@ public class PreferencePage extends FieldEditorPreferencePage {
 	public void createFieldEditors() {
 
 		addField(new BooleanFieldEditor(PreferenceConstants.P_BUFFER_SELECTION, "Buffered Selection", getFieldEditorParent()));
+		addField(new BooleanFieldEditor(PreferenceConstants.P_KEEP_SERIES_DESCRIPTION, "Keep Series Description", getFieldEditorParent()));
 		addField(new IntegerFieldEditor(PreferenceConstants.P_MOVE_LEGEND_X, "Move Legend [X]", getFieldEditorParent()));
 		addField(new IntegerFieldEditor(PreferenceConstants.P_MOVE_LEGEND_Y, "Move Legend [Y]", getFieldEditorParent()));
 		addField(new IntegerFieldEditor(PreferenceConstants.P_LEGEND_POSITION_X, "Legend Position [X]", getFieldEditorParent()));
