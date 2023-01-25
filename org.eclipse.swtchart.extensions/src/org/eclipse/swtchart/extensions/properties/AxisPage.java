@@ -33,7 +33,6 @@ import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
-import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Spinner;
@@ -42,7 +41,6 @@ import org.eclipse.swtchart.Constants;
 import org.eclipse.swtchart.IAxis;
 import org.eclipse.swtchart.IAxis.Direction;
 import org.eclipse.swtchart.IAxis.Position;
-import org.eclipse.swtchart.IDisposeListener;
 import org.eclipse.swtchart.Range;
 import org.eclipse.swtchart.extensions.charts.InteractiveChart;
 import org.eclipse.swtchart.extensions.core.ResourceSupport;
@@ -52,10 +50,6 @@ import org.eclipse.swtchart.extensions.core.ResourceSupport;
  */
 public class AxisPage extends AbstractSelectorPage {
 
-	/** the key for axis title font */
-	private static final String AXIS_TITLE_FONT = "org.eclipse.swtchart.axis.title.font"; //$NON-NLS-1$
-	/** the key for axis title foreground */
-	private static final String AXIS_TITLE_FOREGROUND = "org.eclipse.swtchart.axis.title.foreground"; //$NON-NLS-1$
 	/** the axes */
 	private IAxis[] axes;
 	/** the axis direction */
@@ -115,9 +109,9 @@ public class AxisPage extends AbstractSelectorPage {
 	 * @param title
 	 *            the title
 	 */
-	public AxisPage(InteractiveChart chart, PropertiesResources resources, Direction direction, String title) {
+	public AxisPage(InteractiveChart chart, Direction direction, String title) {
 
-		super(chart, resources, title, Messages.getString(Messages.AXES));
+		super(chart, title, Messages.getString(Messages.AXES));
 		this.direction = direction;
 		if(direction == Direction.X) {
 			this.axes = chart.getAxisSet().getXAxes();
@@ -328,34 +322,10 @@ public class AxisPage extends AbstractSelectorPage {
 			axes[i].getTitle().setText(titleTexts[i]);
 			FontData fontData = axes[i].getTitle().getFont().getFontData()[0];
 			fontData.setHeight(titleFontSizes[i]);
-			Font font = new Font(Display.getDefault(), fontData);
+			Font font = ResourceSupport.getFont(fontData);
 			axes[i].getTitle().setFont(font);
-			final String fontKey = AXIS_TITLE_FONT + axes[i].getDirection() + axes[i].getId();
-			if(resources.getFont(fontKey) == null) {
-				axes[i].addDisposeListener(new IDisposeListener() {
-
-					@Override
-					public void disposed(Event e) {
-
-						resources.removeFont(fontKey);
-					}
-				});
-			}
-			resources.put(fontKey, font);
 			Color color = ResourceSupport.getColor(titleColors[i]);
 			axes[i].getTitle().setForeground(color);
-			final String colorKey = AXIS_TITLE_FOREGROUND + axes[i].getDirection() + axes[i].getId();
-			if(resources.getColor(colorKey) == null) {
-				axes[i].addDisposeListener(new IDisposeListener() {
-
-					@Override
-					public void disposed(Event e) {
-
-						resources.removeColor(colorKey);
-					}
-				});
-			}
-			resources.put(colorKey, color);
 			axes[i].setRange(new Range(minRanges[i], maxRanges[i]));
 			axes[i].setPosition(positions[i]);
 			try {

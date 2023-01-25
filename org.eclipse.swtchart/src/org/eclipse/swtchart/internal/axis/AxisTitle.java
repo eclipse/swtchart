@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2008, 2019 SWTChart project.
+ * Copyright (c) 2008, 2023 SWTChart project.
  *
  * This program and the accompanying materials are made
  * available under the terms of the Eclipse Public License 2.0
@@ -10,15 +10,15 @@
  * Contributors:
  * yoshitaka - initial API and implementation
  * Frank Buloup - Internationalization
+ * Philip Wenig - resource handling
  *******************************************************************************/
 package org.eclipse.swtchart.internal.axis;
 
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.graphics.Font;
-import org.eclipse.swt.widgets.Display;
 import org.eclipse.swtchart.Chart;
 import org.eclipse.swtchart.Constants;
 import org.eclipse.swtchart.IAxis.Direction;
+import org.eclipse.swtchart.Resources;
 import org.eclipse.swtchart.internal.Title;
 
 /**
@@ -32,8 +32,6 @@ public class AxisTitle extends Title {
 	private static final String DEFAULT_TEXT_FOR_YAXIS = Messages.getString(Messages.Y_AXIS);
 	/** the default color */
 	private static final int DEFAULT_FONT_SIZE = Constants.MEDIUM_FONT_SIZE;
-	/** the default font */
-	private final Font defaultFont;
 	/** the axis */
 	private final Axis axis;
 	/** the direction of axis */
@@ -52,11 +50,11 @@ public class AxisTitle extends Title {
 	 *            the direction
 	 */
 	public AxisTitle(Chart chart, int style, Axis axis, Direction direction) {
+
 		super(chart);
 		this.axis = axis;
 		this.direction = direction;
-		defaultFont = new Font(Display.getDefault(), "Tahoma", DEFAULT_FONT_SIZE, SWT.BOLD); //$NON-NLS-1$
-		setFont(defaultFont);
+		setFont(Resources.getFont("Tahoma", DEFAULT_FONT_SIZE, SWT.BOLD)); //$NON-NLS-1$
 		setText(getDefaultText());
 	}
 
@@ -73,14 +71,5 @@ public class AxisTitle extends Title {
 	protected boolean isHorizontal() {
 
 		return axis.isHorizontalAxis();
-	}
-
-	@Override
-	public void dispose() {
-
-		super.dispose();
-		if(!defaultFont.isDisposed()) {
-			defaultFont.dispose();
-		}
 	}
 }

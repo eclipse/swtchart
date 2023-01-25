@@ -17,9 +17,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.swt.graphics.Color;
-import org.eclipse.swt.graphics.Device;
 import org.eclipse.swt.graphics.RGB;
-import org.eclipse.swt.widgets.Display;
+import org.eclipse.swtchart.Resources;
 import org.eclipse.swtchart.model.Node;
 import org.eclipse.swtchart.model.NodeDataModel;
 
@@ -50,7 +49,6 @@ public class CompressCircularSeries extends Compress {
 	 */
 	private void updateColors() {
 
-		Device device = Display.getDefault();
 		maxTreeDepth = nodeDataModel.getRootPointer().getMaxSubTreeDepth() - 1;
 		List<Node>[] nodes = nodeDataModel.getNodes();
 		/*
@@ -62,7 +60,7 @@ public class CompressCircularSeries extends Compress {
 			float brightness = Math.max(0, (i - 1) / ((float)maxTreeDepth));
 			for(int j = 0; j != length; j++) {
 				RGB rgb = new RGB(anglePerNode * j, 1, 1 - brightness);
-				Color color = new Color(device, rgb);
+				Color color = Resources.getColor(rgb);
 				nodes[i].get(j).setSliceColor(color);
 			}
 		}

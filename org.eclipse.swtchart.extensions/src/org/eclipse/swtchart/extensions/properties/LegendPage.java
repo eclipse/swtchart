@@ -39,12 +39,6 @@ import org.eclipse.swtchart.extensions.core.ResourceSupport;
  */
 public class LegendPage extends AbstractPage {
 
-	/** the key for legend font */
-	private static final String LEGEND_FONT = "org.eclipse.swtchart.legend.font"; //$NON-NLS-1$
-	/** the key for legend foreground */
-	private static final String LEGEND_FOREGROUND = "org.eclipse.swtchart.legend.foreground"; //$NON-NLS-1$
-	/** the key for legend background */
-	private static final String LEGEND_GACKGROUND = "org.eclipse.swtchart.legend.background"; //$NON-NLS-1$
 	/** the show legend button */
 	protected Button showLegendButton;
 	/** the background label */
@@ -72,9 +66,9 @@ public class LegendPage extends AbstractPage {
 	 * @param title
 	 *            the title
 	 */
-	public LegendPage(InteractiveChart chart, PropertiesResources resources, String title) {
+	public LegendPage(InteractiveChart chart, String title) {
 
-		super(chart, resources, title);
+		super(chart, title);
 		legend = chart.getLegend();
 	}
 
@@ -156,14 +150,11 @@ public class LegendPage extends AbstractPage {
 		legend.setVisible(showLegendButton.getSelection());
 		Color color = ResourceSupport.getColor(backgroundButton.getColorValue());
 		legend.setBackground(color);
-		resources.put(LEGEND_GACKGROUND, color);
 		color = ResourceSupport.getColor(foregroundButton.getColorValue());
 		legend.setForeground(color);
-		resources.put(LEGEND_FOREGROUND, color);
 		FontData fontData = legend.getFont().getFontData()[0];
-		Font font = new Font(legend.getFont().getDevice(), fontData.getName(), fontSizeSpinner.getSelection(), fontData.getStyle());
+		Font font = ResourceSupport.getFont(fontData.getName(), fontSizeSpinner.getSelection(), fontData.getStyle());
 		legend.setFont(font);
-		resources.put(LEGEND_FONT, font);
 	}
 
 	@Override

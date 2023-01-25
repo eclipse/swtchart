@@ -48,7 +48,7 @@ public class ChartTestCase {
 	public TestName name = new TestName();
 
 	@Before
-	public void setUp()  {
+	public void setUp() {
 
 		Locale.setDefault(Locale.ENGLISH);
 		shell = createShell(name.getMethodName());
@@ -60,7 +60,7 @@ public class ChartTestCase {
 	}
 
 	@After
-	public void tearDown()  {
+	public void tearDown() {
 
 		chart.dispose();
 		shell.dispose();
@@ -69,7 +69,7 @@ public class ChartTestCase {
 	/**
 	 * Show the chart on window to check the appearance.
 	 */
-	protected void showChart()  {
+	protected void showChart() {
 
 		if(refreshChart) {
 			chart.redraw();

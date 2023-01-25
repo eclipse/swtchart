@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2020 SWTChart project.
+ * Copyright (c) 2020, 2023 SWTChart project.
  *
  * This program and the accompanying materials are made
  * available under the terms of the Eclipse Public License 2.0
@@ -9,6 +9,7 @@
  * 
  * Contributors:
  * Himanshu Balasamanta: Orignal API and implementation
+ * Philip Wenig - resource handling
  *******************************************************************************/
 package org.eclipse.swtchart.support;
 
@@ -33,6 +34,7 @@ import org.eclipse.swtchart.Constants;
 import org.eclipse.swtchart.ICircularSeries;
 import org.eclipse.swtchart.ILegend;
 import org.eclipse.swtchart.ISeries;
+import org.eclipse.swtchart.Resources;
 import org.eclipse.swtchart.internal.ChartLayoutData;
 import org.eclipse.swtchart.internal.Legend;
 import org.eclipse.swtchart.internal.Title;
@@ -86,7 +88,7 @@ public class CircularLegend extends Composite implements ILegend, PaintListener 
 		visible = true;
 		position = DEFAULT_POSITION;
 		cellBounds = new HashMap<String, Rectangle>();
-		defaultFont = new Font(Display.getDefault(), "Tahoma", DEFAULT_FONT_SIZE, SWT.NORMAL); //$NON-NLS-1$
+		defaultFont = Resources.getFont("Tahoma", DEFAULT_FONT_SIZE, SWT.NORMAL); //$NON-NLS-1$
 		setFont(defaultFont);
 		setForeground(DEFAULT_FOREGROUND);
 		setBackground(DEFAULT_BACKGROUND);
@@ -161,15 +163,6 @@ public class CircularLegend extends Composite implements ILegend, PaintListener 
 			SWT.error(SWT.ERROR_INVALID_ARGUMENT);
 		}
 		return cellBounds.get(seriesId.trim());
-	}
-
-	@Override
-	public void dispose() {
-
-		super.dispose();
-		if(!defaultFont.isDisposed()) {
-			defaultFont.dispose();
-		}
 	}
 
 	/**

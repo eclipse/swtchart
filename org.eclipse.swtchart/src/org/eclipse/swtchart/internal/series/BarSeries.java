@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2008, 2020 SWTChart project.
+ * Copyright (c) 2008, 2023 SWTChart project.
  *
  * This program and the accompanying materials are made
  * available under the terms of the Eclipse Public License 2.0
@@ -11,6 +11,7 @@
  * yoshitaka - initial API and implementation
  * Christoph Läubrich - add support for datamodel
  * Frank Buloup = Internationalization
+ * Philip Wenig - resource handling
  *******************************************************************************/
 package org.eclipse.swtchart.internal.series;
 
@@ -24,6 +25,7 @@ import org.eclipse.swtchart.Chart;
 import org.eclipse.swtchart.IAxis.Direction;
 import org.eclipse.swtchart.IBarSeries;
 import org.eclipse.swtchart.Range;
+import org.eclipse.swtchart.Resources;
 import org.eclipse.swtchart.internal.axis.Axis;
 import org.eclipse.swtchart.internal.compress.CompressBarSeries;
 import org.eclipse.swtchart.internal.compress.CompressScatterSeries;
@@ -396,7 +398,7 @@ public class BarSeries<T> extends Series<T> implements IBarSeries<T> {
 		red *= (red > 128) ? 0.8 : 1.2;
 		green *= (green > 128) ? 0.8 : 1.2;
 		blue *= (blue > 128) ? 0.8 : 1.2;
-		return new Color(color.getDevice(), red, green, blue);
+		return Resources.getColor(red, green, blue);
 	}
 
 	@Override
@@ -463,7 +465,6 @@ public class BarSeries<T> extends Series<T> implements IBarSeries<T> {
 		Color oldForeground = gc.getForeground();
 		gc.setForeground(frameColor);
 		gc.drawRectangle(h, v, width, height);
-		frameColor.dispose();
 		gc.setAlpha(alpha);
 		gc.setBackground(oldBackground);
 		gc.setForeground(oldForeground);

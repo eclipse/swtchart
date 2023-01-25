@@ -37,6 +37,7 @@ import org.eclipse.swtchart.ICircularSeries;
 import org.eclipse.swtchart.ILegend;
 import org.eclipse.swtchart.ILineSeries;
 import org.eclipse.swtchart.ISeries;
+import org.eclipse.swtchart.Resources;
 import org.eclipse.swtchart.internal.series.LineSeries;
 import org.eclipse.swtchart.internal.series.Series;
 import org.eclipse.swtchart.model.Node;
@@ -86,7 +87,7 @@ public class Legend extends Composite implements ILegend, PaintListener {
 		visible = true;
 		position = DEFAULT_POSITION;
 		cellBounds = new HashMap<String, Rectangle>();
-		defaultFont = new Font(Display.getDefault(), "Tahoma", DEFAULT_FONT_SIZE, SWT.NORMAL); //$NON-NLS-1$
+		defaultFont = Resources.getFont("Tahoma", DEFAULT_FONT_SIZE, SWT.NORMAL); //$NON-NLS-1$
 		setFont(defaultFont);
 		setForeground(DEFAULT_FOREGROUND);
 		setBackground(DEFAULT_BACKGROUND);
@@ -164,15 +165,6 @@ public class Legend extends Composite implements ILegend, PaintListener {
 			SWT.error(SWT.ERROR_INVALID_ARGUMENT);
 		}
 		return cellBounds.get(seriesId.trim());
-	}
-
-	@Override
-	public void dispose() {
-
-		super.dispose();
-		if(!defaultFont.isDisposed()) {
-			defaultFont.dispose();
-		}
 	}
 
 	/**

@@ -110,6 +110,4 @@ public interface IAxisSettings {
 	boolean isIntegerDataPointAxis();
 
 	void setIntegerDataPointAxis(boolean isIntegerDataPointAxis);
-
-	void dispose();
 }

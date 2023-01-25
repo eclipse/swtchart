@@ -45,7 +45,7 @@ public abstract class AbstractAxisSettings implements IAxisSettings {
 	/*
 	 * The default font is only used if no font is set.
 	 */
-	private final Font defaultFont = new Font(Display.getDefault(), "Tahoma", Constants.MEDIUM_FONT_SIZE, SWT.BOLD); //$NON-NLS-1$
+	private final Font defaultFont = ResourceSupport.getFont("Tahoma", Constants.MEDIUM_FONT_SIZE, SWT.BOLD); //$NON-NLS-1$
 
 	public AbstractAxisSettings(String title) {
 
@@ -328,13 +328,5 @@ public abstract class AbstractAxisSettings implements IAxisSettings {
 	public void setIntegerDataPointAxis(boolean isIntegerDataPointAxis) {
 
 		this.integerDataPointAxis = isIntegerDataPointAxis;
-	}
-
-	@Override
-	public void dispose() {
-
-		if(!defaultFont.isDisposed()) {
-			defaultFont.dispose();
-		}
 	}
 }

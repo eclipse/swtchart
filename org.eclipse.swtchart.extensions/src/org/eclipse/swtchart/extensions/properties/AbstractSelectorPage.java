@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2008, 2019 SWTChart project.
+ * Copyright (c) 2008, 2023 SWTChart project.
  *
  * This program and the accompanying materials are made
  * available under the terms of the Eclipse Public License 2.0
@@ -9,6 +9,7 @@
  * 
  * Contributors:
  * yoshitaka - initial API and implementation
+ * Philip Wenig - handle colors and fonts
  *******************************************************************************/
 package org.eclipse.swtchart.extensions.properties;
 
@@ -49,8 +50,9 @@ abstract public class AbstractSelectorPage extends AbstractPage {
 	 * @param selector
 	 *            the selector name
 	 */
-	public AbstractSelectorPage(InteractiveChart chart, PropertiesResources resources, String title, String selector) {
-		super(chart, resources, title);
+	public AbstractSelectorPage(InteractiveChart chart, String title, String selector) {
+
+		super(chart, title);
 		this.selector = selector;
 		selectedIndex = 0;
 		selectorEnabled = true;

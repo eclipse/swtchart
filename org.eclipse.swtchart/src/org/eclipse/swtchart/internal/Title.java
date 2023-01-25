@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2008, 2022 SWTChart project.
+ * Copyright (c) 2008, 2023 SWTChart project.
  *
  * This program and the accompanying materials are made
  * available under the terms of the Eclipse Public License 2.0
@@ -10,6 +10,7 @@
  * Contributors:
  * yoshitaka - initial API and implementation
  * Frank Buloup - Internationalization
+ * Philip Wenig - resource handling
  *******************************************************************************/
 package org.eclipse.swtchart.internal;
 
@@ -29,6 +30,7 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.swtchart.Chart;
 import org.eclipse.swtchart.Constants;
 import org.eclipse.swtchart.ITitle;
+import org.eclipse.swtchart.Resources;
 
 /**
  * A base class for title.
@@ -36,9 +38,9 @@ import org.eclipse.swtchart.ITitle;
 public class Title implements ITitle, PaintListener {
 
 	/** the chart */
-	protected Chart chart;
+	private Chart chart;
 	/** the title text */
-	protected String text;
+	private String text;
 	/** the foreground color */
 	private Color foreground;
 	/** the font */
@@ -48,7 +50,7 @@ public class Title implements ITitle, PaintListener {
 	/** The text layout */
 	private final TextLayout textLayout;
 	/** the visibility state of axis */
-	protected boolean isVisible;
+	private boolean isVisible;
 	/** the default font */
 	private final Font defaultFont;
 	/** the bounds of title */
@@ -62,18 +64,12 @@ public class Title implements ITitle, PaintListener {
 	/** the default text */
 	private static final String DEFAULT_TEXT = ""; //$NON-NLS-1$
 
-	/**
-	 * Constructor.
-	 * 
-	 * @param parent
-	 *            the parent composite
-	 */
 	public Title(Chart parent) {
 
 		this.chart = parent;
 		text = DEFAULT_TEXT;
 		isVisible = true;
-		defaultFont = new Font(Display.getDefault(), "Tahoma", DEFAULT_FONT_SIZE, SWT.BOLD); //$NON-NLS-1$
+		defaultFont = Resources.getFont("Tahoma", DEFAULT_FONT_SIZE, SWT.BOLD); //$NON-NLS-1$
 		textLayout = new TextLayout(Display.getDefault());
 		bounds = new Rectangle(0, 0, 0, 0);
 		font = defaultFont;
@@ -273,9 +269,6 @@ public class Title implements ITitle, PaintListener {
 	 */
 	public void dispose() {
 
-		if(!defaultFont.isDisposed()) {
-			defaultFont.dispose();
-		}
 		if(!textLayout.isDisposed()) {
 			textLayout.dispose();
 		}
@@ -377,7 +370,9 @@ public class Title implements ITitle, PaintListener {
 			tmpGc.fillRectangle(image.getBounds());
 			tmpGc.drawText(text, 0, 0);
 		}
-		// set transform to rotate
+		/*
+		 * Set transform to rotate.
+		 */
 		Transform oldTransform = new Transform(gc.getDevice());
 		gc.getTransform(oldTransform);
 		Transform transform = new Transform(gc.getDevice());

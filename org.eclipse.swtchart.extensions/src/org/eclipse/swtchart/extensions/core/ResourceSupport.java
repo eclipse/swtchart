@@ -15,9 +15,7 @@ package org.eclipse.swtchart.extensions.core;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
-import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Map;
 import java.util.Set;
 
 import org.eclipse.jface.preference.IPreferenceStore;
@@ -29,13 +27,11 @@ import org.eclipse.jface.resource.LocalResourceManager;
 import org.eclipse.jface.resource.ResourceManager;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.SWTException;
-import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Image;
-import org.eclipse.swt.graphics.RGB;
-import org.eclipse.swt.widgets.Display;
+import org.eclipse.swtchart.Resources;
 import org.eclipse.swtchart.extensions.preferences.PreferenceInitializer;
 
-public class ResourceSupport {
+public class ResourceSupport extends Resources {
 
 	public static final String ICON_SET_RANGE = "set_range.gif"; // $NON-NLS-1$7
 	public static final String ICON_HIDE = "hide.gif"; // $NON-NLS-1$
@@ -75,83 +71,12 @@ public class ResourceSupport {
 	public static final String ICON_SAVE = "save.gif"; // $NON-NLS-1$
 	public static final String ICON_ADD = "add.gif"; // $NON-NLS-1$
 	//
-	private static final Map<RGB, Color> colorMap = new HashMap<>();
-	private static final String RGB_DELIMITER = ",";
-	//
-	private static final ResourceManager resourceManager = new LocalResourceManager(JFaceResources.getResources());
+	private static ResourceManager resourceManager = new LocalResourceManager(JFaceResources.getResources());
 	private static IPreferenceStore preferenceStore = null;
 	private static ImageRegistry imageRegistry = null;
 
 	private ResourceSupport() {
 
-	}
-
-	public static Color getColorDefault() {
-
-		return Display.getDefault().getSystemColor(SWT.COLOR_RED);
-	}
-
-	public static Color getColor(String color) {
-
-		if(color != null && !color.isEmpty()) {
-			String[] values = color.split(RGB_DELIMITER);
-			if(values.length == 3) {
-				int red = Integer.parseInt(values[0]);
-				int green = Integer.parseInt(values[1]);
-				int blue = Integer.parseInt(values[2]);
-				//
-				return getColor(new RGB(red, green, blue));
-			}
-		}
-		//
-		return getColorDefault();
-	}
-
-	public static String getColor(Color color) {
-
-		if(color == null) {
-			color = getColorDefault();
-		}
-		//
-		StringBuilder builder = new StringBuilder();
-		//
-		builder.append(color.getRed());
-		builder.append(RGB_DELIMITER);
-		builder.append(color.getGreen());
-		builder.append(RGB_DELIMITER);
-		builder.append(color.getBlue());
-		//
-		return builder.toString();
-	}
-
-	/**
-	 * The color is mapped and disposed by this color support.
-	 * Hence, it doesn't need to be disposed manually.
-	 * 
-	 * @param rgb
-	 * @return color
-	 */
-	public static Color getColor(RGB rgb) {
-
-		Color color = colorMap.get(rgb);
-		if(color == null) {
-			color = new Color(Display.getDefault(), rgb);
-			colorMap.put(rgb, color);
-		}
-		return color;
-	}
-
-	/**
-	 * The color is mapped and disposed by this color support.
-	 * Hence, it doesn't need to be disposed manually.
-	 * 
-	 * @param rgb
-	 * @return color
-	 */
-	public static Color getColor(int red, int green, int blue) {
-
-		RGB rgb = new RGB(red, green, blue);
-		return getColor(rgb);
 	}
 
 	/**
@@ -213,16 +138,18 @@ public class ResourceSupport {
 	@Override
 	protected void finalize() throws Throwable {
 
-		for(Color color : colorMap.values()) {
-			if(color != null) {
-				color.dispose();
-			}
+		/*
+		 * Images
+		 */
+		if(imageRegistry != null) {
+			imageRegistry.dispose();
 		}
+		super.finalize();
 	}
 
 	private static ImageRegistry initializeImageRegistry() {
 
-		if(Display.getCurrent() == null) {
+		if(getDisplay() == null) {
 			throw new SWTException(SWT.ERROR_THREAD_INVALID_ACCESS);
 		} else {
 			imageRegistry = new ImageRegistry();

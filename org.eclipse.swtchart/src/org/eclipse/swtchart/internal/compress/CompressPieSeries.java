@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2020 SWTChart project.
+ * Copyright (c) 2020, 2023 SWTChart project.
  *
  * This program and the accompanying materials are made
  * available under the terms of the Eclipse Public License 2.0
@@ -9,15 +9,15 @@
  * 
  * Contributors:
  * Himanshu Balasamanta - initial API and implementation
+ * Philip Wenig - resource handling
  *******************************************************************************/
 package org.eclipse.swtchart.internal.compress;
 
 import java.util.ArrayList;
 
 import org.eclipse.swt.graphics.Color;
-import org.eclipse.swt.graphics.Device;
 import org.eclipse.swt.graphics.RGB;
-import org.eclipse.swt.widgets.Display;
+import org.eclipse.swtchart.Resources;
 
 public class CompressPieSeries extends Compress {
 
@@ -95,8 +95,7 @@ public class CompressPieSeries extends Compress {
 		float anglePerColor = 360 / colour;
 		colors = new Color[colour];
 		for(int i = 0; i != colour; i++) {
-			Device device = Display.getDefault();
-			colors[i] = new Color(device, new RGB(anglePerColor * i, 1, 1));
+			colors[i] = Resources.getColor(new RGB(anglePerColor * i, 1, 1));
 		}
 	}
 }

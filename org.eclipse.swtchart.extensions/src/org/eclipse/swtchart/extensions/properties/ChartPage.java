@@ -41,14 +41,6 @@ import org.eclipse.swtchart.extensions.core.ResourceSupport;
  */
 public class ChartPage extends AbstractPage {
 
-	/** the key for plot area background */
-	private static final String PLOT_AREA_BACKGROUND = "org.eclipse.swtchart.plotarea.background"; //$NON-NLS-1$
-	/** the key for chart background */
-	private static final String CHART_BACKGROUND = "org.eclipse.swtchart.chart.background"; //$NON-NLS-1$
-	/** the key for chart background */
-	private static final String TITLE_FOREGROUND = "org.eclipse.swtchart.chart.title.foreground"; //$NON-NLS-1$
-	/** the key for title font */
-	private static final String TITLE_FONT = "org.eclipse.swtchart.chart.title.font"; //$NON-NLS-1$
 	/** the color selector for background color in plot area */
 	private ColorSelector backgroundInPlotAreaButton;
 	/** the color selector for background */
@@ -80,9 +72,9 @@ public class ChartPage extends AbstractPage {
 	 * @param title
 	 *            the title
 	 */
-	public ChartPage(InteractiveChart chart, PropertiesResources resources, String title) {
+	public ChartPage(InteractiveChart chart, String title) {
 
-		super(chart, resources, title);
+		super(chart, title);
 	}
 
 	@Override
@@ -179,22 +171,18 @@ public class ChartPage extends AbstractPage {
 
 		Color color = ResourceSupport.getColor(backgroundInPlotAreaButton.getColorValue());
 		chart.getPlotArea().setBackground(color);
-		resources.put(PLOT_AREA_BACKGROUND, color);
 		color = ResourceSupport.getColor(backgroundButton.getColorValue());
 		chart.setBackground(color);
-		resources.put(CHART_BACKGROUND, color);
 		chart.setOrientation(orientationButton.getSelection() ? SWT.VERTICAL : SWT.HORIZONTAL);
 		ITitle title = chart.getTitle();
 		title.setVisible(showTitleButton.getSelection());
 		title.setText(titleText.getText());
 		FontData fontData = title.getFont().getFontData()[0];
 		fontData.setHeight(fontSizeSpinner.getSelection());
-		Font font = new Font(Display.getDefault(), fontData);
+		Font font = ResourceSupport.getFont(fontData);
 		title.setFont(font);
-		resources.put(TITLE_FONT, font);
 		color = ResourceSupport.getColor(titleColorButton.getColorValue());
 		title.setForeground(color);
-		resources.put(TITLE_FOREGROUND, color);
 	}
 
 	@Override

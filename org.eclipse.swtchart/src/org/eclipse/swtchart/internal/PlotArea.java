@@ -89,8 +89,8 @@ public class PlotArea extends Composite implements PaintListener, IPlotArea {
 	@Override
 	public void dispose() {
 
-		super.dispose();
 		chart.removeDisposeListener(disposeListener);
+		super.dispose();
 	}
 
 	@Override

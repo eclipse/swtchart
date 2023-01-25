@@ -29,13 +29,11 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
-import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Spinner;
 import org.eclipse.swtchart.Constants;
 import org.eclipse.swtchart.IAxis;
 import org.eclipse.swtchart.IAxis.Direction;
-import org.eclipse.swtchart.IDisposeListener;
 import org.eclipse.swtchart.extensions.charts.InteractiveChart;
 import org.eclipse.swtchart.extensions.core.ResourceSupport;
 
@@ -44,10 +42,6 @@ import org.eclipse.swtchart.extensions.core.ResourceSupport;
  */
 public class AxisTickPage extends AbstractSelectorPage {
 
-	/** the key for axis tick font */
-	private static final String AXIS_TICK_FONT = "org.eclipse.swtchart.axistick.font"; //$NON-NLS-1$
-	/** the key for axis tick foreground */
-	private static final String AXIS_TICK_FOREGROUND = "org.eclipse.swtchart.axistick.foreground"; //$NON-NLS-1$
 	/** the axes */
 	private IAxis[] axes;
 	/** the show tick button */
@@ -79,9 +73,9 @@ public class AxisTickPage extends AbstractSelectorPage {
 	 * @param title
 	 *            the title
 	 */
-	public AxisTickPage(InteractiveChart chart, PropertiesResources resources, Direction direction, String title) {
+	public AxisTickPage(InteractiveChart chart, Direction direction, String title) {
 
-		super(chart, resources, title, Messages.getString(Messages.AXES));
+		super(chart, title, Messages.getString(Messages.AXES));
 		if(direction == Direction.X) {
 			this.axes = chart.getAxisSet().getXAxes();
 		} else if(direction == Direction.Y) {
@@ -194,34 +188,10 @@ public class AxisTickPage extends AbstractSelectorPage {
 			axes[i].getTick().setVisible(visibilityStates[i]);
 			FontData fontData = axes[i].getTick().getFont().getFontData()[0];
 			fontData.setHeight(fontSizes[i]);
-			Font font = new Font(Display.getDefault(), fontData);
+			Font font = ResourceSupport.getFont(fontData);
 			axes[i].getTick().setFont(font);
-			final String fontKey = AXIS_TICK_FONT + axes[i].getDirection() + axes[i].getId();
-			if(resources.getFont(fontKey) == null) {
-				axes[i].addDisposeListener(new IDisposeListener() {
-
-					@Override
-					public void disposed(Event e) {
-
-						resources.removeFont(fontKey);
-					}
-				});
-			}
-			resources.put(fontKey, font);
 			Color color = ResourceSupport.getColor(foregroundColors[i]);
 			axes[i].getTick().setForeground(color);
-			final String colorKey = AXIS_TICK_FOREGROUND + axes[i].getDirection() + axes[i].getId();
-			if(resources.getColor(colorKey) == null) {
-				axes[i].addDisposeListener(new IDisposeListener() {
-
-					@Override
-					public void disposed(Event e) {
-
-						resources.removeColor(colorKey);
-					}
-				});
-			}
-			resources.put(colorKey, color);
 		}
 	}
 

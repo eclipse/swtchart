@@ -41,7 +41,9 @@ public final class Util {
 		if(font == null || font.isDisposed()) {
 			return new Point(0, 0);
 		}
-		// create GC
+		/*
+		 * Create a GC
+		 */
 		int ARBITRARY_WIDTH = 10;
 		int ARBITRARY_HEIGHT = 10;
 		Image image = new Image(Display.getCurrent(), ARBITRARY_WIDTH, ARBITRARY_HEIGHT);
@@ -54,9 +56,12 @@ public final class Util {
 		} else {
 			p = gc.textExtent(text);
 		}
-		// dispose resources
+		/*
+		 * Dispose resources
+		 */
 		image.dispose();
 		gc.dispose();
+		//
 		return p;
 	}
 }

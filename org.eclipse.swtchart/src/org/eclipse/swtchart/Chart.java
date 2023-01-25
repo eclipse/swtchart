@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2008, 2022 SWTChart project.
+ * Copyright (c) 2008, 2023 SWTChart project.
  *
  * This program and the accompanying materials are made
  * available under the terms of the Eclipse Public License 2.0
@@ -412,6 +412,9 @@ public class Chart extends Composite implements Listener {
 	 */
 	public void save(String filename, int format) {
 
+		/*
+		 * Dispose when finished
+		 */
 		Image image = new Image(Display.getDefault(), getBounds());
 		GC gc = new GC(image);
 		print(gc);

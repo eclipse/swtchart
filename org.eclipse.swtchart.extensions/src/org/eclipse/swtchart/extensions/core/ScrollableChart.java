@@ -340,8 +340,8 @@ public class ScrollableChart extends Composite implements IScrollableChart, IEve
 	@Override
 	public void dispose() {
 
-		super.dispose();
 		baseChart.dispose();
+		super.dispose();
 	}
 
 	@Override
@@ -910,9 +910,9 @@ public class ScrollableChart extends Composite implements IScrollableChart, IEve
 			IPlotArea area = baseChart.getPlotArea();
 			if(area instanceof Control) {
 				Control control = (Control)area;
-				Menu old = control.getMenu();
-				if(old != null) {
-					old.dispose();
+				Menu menu = control.getMenu();
+				if(menu != null) {
+					menu.dispose();
 				}
 				control.setMenu(null);
 			}

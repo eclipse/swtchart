@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2008, 2020 SWTChart project.
+ * Copyright (c) 2008, 2023 SWTChart project.
  *
  * This program and the accompanying materials are made
  * available under the terms of the Eclipse Public License 2.0
@@ -10,6 +10,7 @@
  * Contributors:
  * yoshitaka - initial API and implementation
  * Frank Buloup - Internationalization
+ * Philip Wenig - resource handling
  *******************************************************************************/
 package org.eclipse.swtchart.internal.axis;
 
@@ -46,6 +47,7 @@ public class AxisSet implements IAxisSet {
 	 *            the chart
 	 */
 	public AxisSet(Chart chart) {
+
 		this.chart = chart;
 		xAxisMap = new HashMap<Integer, Axis>();
 		yAxisMap = new HashMap<Integer, Axis>();

@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2008, 2021 SWTChart project.
+ * Copyright (c) 2008, 2023 SWTChart project.
  *
  * This program and the accompanying materials are made
  * available under the terms of the Eclipse Public License 2.0
@@ -37,7 +37,6 @@ import org.eclipse.swtchart.extensions.properties.AxisTickPage;
 import org.eclipse.swtchart.extensions.properties.ChartPage;
 import org.eclipse.swtchart.extensions.properties.GridPage;
 import org.eclipse.swtchart.extensions.properties.LegendPage;
-import org.eclipse.swtchart.extensions.properties.PropertiesResources;
 import org.eclipse.swtchart.extensions.properties.SeriesLabelPage;
 import org.eclipse.swtchart.extensions.properties.SeriesPage;
 
@@ -59,8 +58,6 @@ public class InteractiveChart extends Chart implements PaintListener {
 	protected SelectionRectangle selection;
 	/** the clicked time in milliseconds */
 	private long clickedTime;
-	/** the resources created with properties dialog */
-	private PropertiesResources resources;
 	/** the initial proposed filename in save as dialog */
 	private String saveAsFilename;
 
@@ -84,7 +81,6 @@ public class InteractiveChart extends Chart implements PaintListener {
 	private void init() {
 
 		selection = new SelectionRectangle();
-		resources = new PropertiesResources();
 		IPlotArea area = getPlotArea();
 		if(area instanceof Control) {
 			Control plot = (Control)area;
@@ -206,13 +202,6 @@ public class InteractiveChart extends Chart implements PaintListener {
 		}
 	}
 
-	@Override
-	public void dispose() {
-
-		super.dispose();
-		resources.dispose();
-	}
-
 	/**
 	 * Sets the name to be proposed as default when running "Save As".
 	 * 
@@ -273,6 +262,7 @@ public class InteractiveChart extends Chart implements PaintListener {
 				}
 			}
 		}
+		//
 		selection.dispose();
 		redraw();
 	}
@@ -445,41 +435,41 @@ public class InteractiveChart extends Chart implements PaintListener {
 		PreferenceManager manager = new PreferenceManager();
 		final String chartTitle = Messages.getString("CHART"); //$NON-NLS-1$
 		PreferenceNode chartNode = new PreferenceNode(chartTitle);
-		chartNode.setPage(new ChartPage(this, resources, chartTitle));
+		chartNode.setPage(new ChartPage(this, chartTitle));
 		manager.addToRoot(chartNode);
 		final String legendTitle = Messages.getString("LEGEND"); //$NON-NLS-1$
 		PreferenceNode legendNode = new PreferenceNode(legendTitle);
-		legendNode.setPage(new LegendPage(this, resources, legendTitle));
+		legendNode.setPage(new LegendPage(this, legendTitle));
 		manager.addTo(chartTitle, legendNode);
 		final String xAxisTitle = Messages.getString("X_AXIS"); //$NON-NLS-1$
 		PreferenceNode xAxisNode = new PreferenceNode(xAxisTitle);
-		xAxisNode.setPage(new AxisPage(this, resources, Direction.X, xAxisTitle));
+		xAxisNode.setPage(new AxisPage(this, Direction.X, xAxisTitle));
 		manager.addTo(chartTitle, xAxisNode);
 		final String gridTitle = Messages.getString("GRID"); //$NON-NLS-1$
 		PreferenceNode xGridNode = new PreferenceNode(gridTitle);
-		xGridNode.setPage(new GridPage(this, resources, Direction.X, gridTitle));
+		xGridNode.setPage(new GridPage(this, Direction.X, gridTitle));
 		manager.addTo(chartTitle + "." + xAxisTitle, xGridNode); //$NON-NLS-1$
 		final String tickTitle = Messages.getString("TICK"); //$NON-NLS-1$
 		PreferenceNode xTickNode = new PreferenceNode(tickTitle);
-		xTickNode.setPage(new AxisTickPage(this, resources, Direction.X, tickTitle));
+		xTickNode.setPage(new AxisTickPage(this, Direction.X, tickTitle));
 		manager.addTo(chartTitle + "." + xAxisTitle, xTickNode); //$NON-NLS-1$
 		final String yAxisTitle = Messages.getString("Y_AXIS"); //$NON-NLS-1$
 		PreferenceNode yAxisNode = new PreferenceNode(yAxisTitle);
-		yAxisNode.setPage(new AxisPage(this, resources, Direction.Y, yAxisTitle));
+		yAxisNode.setPage(new AxisPage(this, Direction.Y, yAxisTitle));
 		manager.addTo(chartTitle, yAxisNode);
 		PreferenceNode yGridNode = new PreferenceNode(gridTitle);
-		yGridNode.setPage(new GridPage(this, resources, Direction.Y, gridTitle));
+		yGridNode.setPage(new GridPage(this, Direction.Y, gridTitle));
 		manager.addTo(chartTitle + "." + yAxisTitle, yGridNode); //$NON-NLS-1$
 		PreferenceNode yTickNode = new PreferenceNode(tickTitle);
-		yTickNode.setPage(new AxisTickPage(this, resources, Direction.Y, tickTitle));
+		yTickNode.setPage(new AxisTickPage(this, Direction.Y, tickTitle));
 		manager.addTo(chartTitle + "." + yAxisTitle, yTickNode); //$NON-NLS-1$
 		final String seriesTitle = Messages.getString("SERIES"); //$NON-NLS-1$
 		PreferenceNode plotNode = new PreferenceNode(seriesTitle);
-		plotNode.setPage(new SeriesPage(this, resources, seriesTitle));
+		plotNode.setPage(new SeriesPage(this, seriesTitle));
 		manager.addTo(chartTitle, plotNode);
 		final String labelTitle = Messages.getString("LABEL"); //$NON-NLS-1$
 		PreferenceNode labelNode = new PreferenceNode(labelTitle);
-		labelNode.setPage(new SeriesLabelPage(this, resources, labelTitle));
+		labelNode.setPage(new SeriesLabelPage(this, labelTitle));
 		manager.addTo(chartTitle + "." + seriesTitle, labelNode); //$NON-NLS-1$
 		PreferenceDialog dialog = new PreferenceDialog(getShell(), manager);
 		dialog.create();
@@ -501,6 +491,7 @@ public class InteractiveChart extends Chart implements PaintListener {
 		if(range == null) {
 			return;
 		}
+		//
 		double min = axis.getDataCoordinate(range.x);
 		double max = axis.getDataCoordinate(range.y);
 		axis.setRange(new Range(min, max));

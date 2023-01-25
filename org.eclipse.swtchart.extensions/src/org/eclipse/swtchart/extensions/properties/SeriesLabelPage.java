@@ -30,11 +30,9 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
-import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Spinner;
 import org.eclipse.swtchart.Constants;
-import org.eclipse.swtchart.IDisposeListener;
 import org.eclipse.swtchart.ISeries;
 import org.eclipse.swtchart.extensions.charts.InteractiveChart;
 import org.eclipse.swtchart.extensions.core.ResourceSupport;
@@ -44,10 +42,6 @@ import org.eclipse.swtchart.extensions.core.ResourceSupport;
  */
 public class SeriesLabelPage extends AbstractSelectorPage {
 
-	/** the key for series label foreground */
-	private static final String SERIES_LABEL_FOREGROUND = "org.eclipse.swtchart.series.foreground"; //$NON-NLS-1$
-	/** the key for series label font */
-	private static final String SERIES_LABEL_FONT = "org.eclipse.swtchart.series.font"; //$NON-NLS-1$
 	/** the series array */
 	private ISeries<?>[] series;
 	/** the show label button */
@@ -77,9 +71,9 @@ public class SeriesLabelPage extends AbstractSelectorPage {
 	 * @param title
 	 *            the title
 	 */
-	public SeriesLabelPage(InteractiveChart chart, PropertiesResources resources, String title) {
+	public SeriesLabelPage(InteractiveChart chart, String title) {
 
-		super(chart, resources, title, Messages.getString(Messages.SERIES));
+		super(chart, title, Messages.getString(Messages.SERIES));
 		series = chart.getSeriesSet().getSeries();
 		visibleStates = new boolean[series.length];
 		colors = new RGB[series.length];
@@ -142,6 +136,7 @@ public class SeriesLabelPage extends AbstractSelectorPage {
 				setControlsEnable(visible);
 			}
 		});
+		//
 		colorLabel = createLabelControl(group, Messages.getString(Messages.COLOR));
 		colorButton = createColorButtonControl(group);
 		colorButton.addListener(new IPropertyChangeListener() {
@@ -152,6 +147,7 @@ public class SeriesLabelPage extends AbstractSelectorPage {
 				colors[selectedIndex] = colorButton.getColorValue();
 			}
 		});
+		//
 		fontSizeLabel = createLabelControl(group, Messages.getString(Messages.FONT_SIZE));
 		fontSizeSpinner = createSpinnerControl(group, 8, 30);
 		fontSizeSpinner.addModifyListener(new ModifyListener() {
@@ -185,34 +181,10 @@ public class SeriesLabelPage extends AbstractSelectorPage {
 			series[i].getLabel().setVisible(visibleStates[i]);
 			Color color = ResourceSupport.getColor(colors[i]);
 			series[i].getLabel().setForeground(color);
-			final String colorKey = SERIES_LABEL_FOREGROUND + series[i].getId();
-			if(resources.getColor(colorKey) == null) {
-				series[i].addDisposeListener(new IDisposeListener() {
-
-					@Override
-					public void disposed(Event e) {
-
-						resources.removeColor(colorKey);
-					}
-				});
-			}
-			resources.put(colorKey, color);
 			FontData fontData = series[i].getLabel().getFont().getFontData()[0];
 			fontData.setHeight(fontSizes[i]);
-			Font font = new Font(Display.getDefault(), fontData);
+			Font font = ResourceSupport.getFont(fontData);
 			series[i].getLabel().setFont(font);
-			final String fontKey = SERIES_LABEL_FONT + series[i].getId();
-			if(resources.getFont(fontKey) == null) {
-				series[i].addDisposeListener(new IDisposeListener() {
-
-					@Override
-					public void disposed(Event e) {
-
-						resources.removeFont(fontKey);
-					}
-				});
-			}
-			resources.put(fontKey, font);
 		}
 	}
 

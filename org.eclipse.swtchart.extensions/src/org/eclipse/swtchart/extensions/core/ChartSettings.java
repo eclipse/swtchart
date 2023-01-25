@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2017, 2022 Lablicate GmbH.
+ * Copyright (c) 2017, 2023 Lablicate GmbH.
  *
  * This program and the accompanying materials are made
  * available under the terms of the Eclipse Public License 2.0
@@ -118,7 +118,7 @@ public class ChartSettings implements IChartSettings {
 	/*
 	 * The default font is only used if no font is set.
 	 */
-	private final Font defaultFont = new Font(Display.getDefault(), "Tahoma", Constants.MEDIUM_FONT_SIZE, SWT.BOLD); //$NON-NLS-1$
+	private final Font defaultFont = ResourceSupport.getFont("Tahoma", Constants.MEDIUM_FONT_SIZE, SWT.BOLD); //$NON-NLS-1$
 
 	public ChartSettings() {
 
@@ -732,17 +732,6 @@ public class ChartSettings implements IChartSettings {
 	public boolean isEnableTooltips() {
 
 		return enableTooltips;
-	}
-
-	@Override
-	protected void finalize() throws Throwable {
-
-		if(!defaultFont.isDisposed()) {
-			defaultFont.dispose();
-		}
-		if(!titleFont.isDisposed()) {
-			titleFont.dispose();
-		}
 	}
 
 	private boolean isMacOS() {

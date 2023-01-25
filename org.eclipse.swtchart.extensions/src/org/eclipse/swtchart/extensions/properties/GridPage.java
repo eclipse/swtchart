@@ -38,8 +38,6 @@ import org.eclipse.swtchart.extensions.core.ResourceSupport;
  */
 public class GridPage extends AbstractSelectorPage {
 
-	/** the key for grid foreground */
-	private static final String GRID_FOREGROUND = "org.eclipse.swtchart.grid.foreground"; //$NON-NLS-1$
 	/** the axes */
 	private IAxis[] axes;
 	/** the style combo */
@@ -63,9 +61,9 @@ public class GridPage extends AbstractSelectorPage {
 	 * @param title
 	 *            the title
 	 */
-	public GridPage(InteractiveChart chart, PropertiesResources resources, Direction direction, String title) {
+	public GridPage(InteractiveChart chart, Direction direction, String title) {
 
-		super(chart, resources, title, Messages.getString(Messages.AXES));
+		super(chart, title, Messages.getString(Messages.AXES));
 		if(direction == Direction.X) {
 			this.axes = chart.getAxisSet().getXAxes();
 		} else if(direction == Direction.Y) {
@@ -161,7 +159,6 @@ public class GridPage extends AbstractSelectorPage {
 			axes[i].getGrid().setStyle(styles[i]);
 			Color color = ResourceSupport.getColor(foregroundColors[i]);
 			axes[i].getGrid().setForeground(color);
-			resources.put(GRID_FOREGROUND + axes[i].getDirection() + axes[i].getId(), color);
 		}
 	}
 

@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2008, 2019 SWTChart project.
+ * Copyright (c) 2008, 2023 SWTChart project.
  *
  * This program and the accompanying materials are made
  * available under the terms of the Eclipse Public License 2.0
@@ -9,6 +9,7 @@
  * 
  * Contributors:
  * yoshitaka - initial API and implementation
+ * Philip Wenig - handle color and fonts
  *******************************************************************************/
 package org.eclipse.swtchart.extensions.properties;
 
@@ -33,8 +34,6 @@ public abstract class AbstractPage extends PreferencePage {
 
 	/** the chart */
 	protected InteractiveChart chart;
-	/** the properties resources */
-	protected PropertiesResources resources;
 
 	/**
 	 * Constructor.
@@ -46,9 +45,9 @@ public abstract class AbstractPage extends PreferencePage {
 	 * @param title
 	 *            the title
 	 */
-	public AbstractPage(InteractiveChart chart, PropertiesResources resources, String title) {
+	public AbstractPage(InteractiveChart chart, String title) {
+
 		this.chart = chart;
-		this.resources = resources;
 		setTitle(title);
 	}
 

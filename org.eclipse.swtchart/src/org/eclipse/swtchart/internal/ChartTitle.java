@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2008, 2019 SWTChart project.
+ * Copyright (c) 2008, 2023 SWTChart project.
  *
  * This program and the accompanying materials are made
  * available under the terms of the Eclipse Public License 2.0
@@ -10,6 +10,7 @@
  * Contributors:
  * yoshitaka - initial API and implementation
  * Frank Buloup - Internationalization
+ * Philip Wenig - resource handling
  *******************************************************************************/
 package org.eclipse.swtchart.internal;
 
@@ -21,7 +22,7 @@ import org.eclipse.swtchart.Chart;
 public class ChartTitle extends Title {
 
 	/** the default text */
-	private static final String DEFAULT_TEXT = Messages.getString(Messages.CHART_TITLE); 
+	private static final String DEFAULT_TEXT = Messages.getString(Messages.CHART_TITLE);
 
 	/**
 	 * Constructor.
@@ -30,6 +31,7 @@ public class ChartTitle extends Title {
 	 *            the plot chart
 	 */
 	public ChartTitle(Chart chart) {
+
 		super(chart);
 		setText(getDefaultText());
 	}
