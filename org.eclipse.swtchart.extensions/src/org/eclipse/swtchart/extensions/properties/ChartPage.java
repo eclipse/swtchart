@@ -31,8 +31,8 @@ import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Spinner;
 import org.eclipse.swt.widgets.Text;
-import org.eclipse.swtchart.Constants;
 import org.eclipse.swtchart.ITitle;
+import org.eclipse.swtchart.Resources;
 import org.eclipse.swtchart.extensions.charts.InteractiveChart;
 import org.eclipse.swtchart.extensions.core.ResourceSupport;
 
@@ -194,7 +194,7 @@ public class ChartPage extends AbstractPage {
 		showTitleButton.setSelection(true);
 		setTitleControlsEnable(true);
 		titleText.setText(Messages.getString(Messages.CHART_TITLE));
-		fontSizeSpinner.setSelection(Constants.LARGE_FONT_SIZE);
+		fontSizeSpinner.setSelection(Resources.LARGE_FONT_SIZE);
 		titleColorButton.setColorValue(new RGB(0, 0, 255));
 		super.performDefaults();
 	}

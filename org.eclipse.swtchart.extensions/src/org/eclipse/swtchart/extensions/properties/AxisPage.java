@@ -37,11 +37,11 @@ import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Spinner;
 import org.eclipse.swt.widgets.Text;
-import org.eclipse.swtchart.Constants;
 import org.eclipse.swtchart.IAxis;
 import org.eclipse.swtchart.IAxis.Direction;
 import org.eclipse.swtchart.IAxis.Position;
 import org.eclipse.swtchart.Range;
+import org.eclipse.swtchart.Resources;
 import org.eclipse.swtchart.extensions.charts.InteractiveChart;
 import org.eclipse.swtchart.extensions.core.ResourceSupport;
 
@@ -351,7 +351,7 @@ public class AxisPage extends AbstractSelectorPage {
 			titleTexts[selectedIndex] = Messages.getString(Messages.Y_AXIS);
 		}
 		positions[selectedIndex] = Position.Primary;
-		titleFontSizes[selectedIndex] = Constants.MEDIUM_FONT_SIZE;
+		titleFontSizes[selectedIndex] = Resources.MEDIUM_FONT_SIZE;
 		titleColors[selectedIndex] = Display.getDefault().getSystemColor(SWT.COLOR_BLUE).getRGB();
 		minRanges[selectedIndex] = 0.0;
 		maxRanges[selectedIndex] = 1.0;

@@ -31,7 +31,6 @@ import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swtchart.Chart;
-import org.eclipse.swtchart.Constants;
 import org.eclipse.swtchart.IBarSeries;
 import org.eclipse.swtchart.ICircularSeries;
 import org.eclipse.swtchart.ILegend;
@@ -66,7 +65,7 @@ public class Legend extends Composite implements ILegend, PaintListener {
 	/** the default font */
 	private Font defaultFont;
 	/** the default font size */
-	private static final int DEFAULT_FONT_SIZE = Constants.SMALL_FONT_SIZE;
+	private static final int DEFAULT_FONT_SIZE = Resources.SMALL_FONT_SIZE;
 	/** the default position */
 	private static final int DEFAULT_POSITION = SWT.RIGHT;
 	/** the map between series id and cell bounds */

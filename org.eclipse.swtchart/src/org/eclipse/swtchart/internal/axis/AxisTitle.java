@@ -16,7 +16,6 @@ package org.eclipse.swtchart.internal.axis;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swtchart.Chart;
-import org.eclipse.swtchart.Constants;
 import org.eclipse.swtchart.IAxis.Direction;
 import org.eclipse.swtchart.Resources;
 import org.eclipse.swtchart.internal.Title;
@@ -31,7 +30,7 @@ public class AxisTitle extends Title {
 	/** the default text for X Axis */
 	private static final String DEFAULT_TEXT_FOR_YAXIS = Messages.getString(Messages.Y_AXIS);
 	/** the default color */
-	private static final int DEFAULT_FONT_SIZE = Constants.MEDIUM_FONT_SIZE;
+	private static final int DEFAULT_FONT_SIZE = Resources.MEDIUM_FONT_SIZE;
 	/** the axis */
 	private final Axis axis;
 	/** the direction of axis */

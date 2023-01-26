@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2020, 2023 Lablicate GmbH.
+ * Copyright (c) 2008, 2023 Lablicate GmbH.
  *
  * This program and the accompanying materials are made
  * available under the terms of the Eclipse Public License 2.0
@@ -8,6 +8,7 @@
  * SPDX-License-Identifier: EPL-2.0
  * 
  * Contributors:
+ * yoshitaka - initial API and implementation
  * Philip Wenig - initial API and implementation
  *******************************************************************************/
 package org.eclipse.swtchart;
@@ -20,14 +21,19 @@ import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Font;
 import org.eclipse.swt.graphics.FontData;
 import org.eclipse.swt.graphics.RGB;
+import org.eclipse.swt.graphics.TextLayout;
 import org.eclipse.swt.widgets.Display;
 
 public class Resources {
 
+	public static final int LARGE_FONT_SIZE = 13;
+	public static final int MEDIUM_FONT_SIZE = 11;
+	public static final int SMALL_FONT_SIZE = 9;
 	public static final String RGB_DELIMITER = ",";
 	//
 	private static final Map<RGB, Color> colorMap = new HashMap<>();
 	private static final Map<String, Font> fontMap = new HashMap<>();
+	private static final Map<String, TextLayout> textLayoutMap = new HashMap<>();
 
 	/*
 	 * Only static methods are used here.
@@ -121,6 +127,17 @@ public class Resources {
 		return font;
 	}
 
+	public static TextLayout getTextLayout(String uuid) {
+
+		TextLayout textLayout = textLayoutMap.get(uuid);
+		if(textLayout == null) {
+			textLayout = new TextLayout(getDisplay());
+			textLayoutMap.put(uuid, textLayout);
+		}
+		//
+		return textLayout;
+	}
+
 	@Override
 	protected void finalize() throws Throwable {
 
@@ -138,6 +155,14 @@ public class Resources {
 		for(Font font : fontMap.values()) {
 			if(font != null && !font.isDisposed()) {
 				font.dispose();
+			}
+		}
+		/*
+		 * Text Layouts
+		 */
+		for(TextLayout textLayout : textLayoutMap.values()) {
+			if(textLayout != null && !textLayout.isDisposed()) {
+				textLayout.dispose();
 			}
 		}
 	}

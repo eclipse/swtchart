@@ -14,6 +14,8 @@
  *******************************************************************************/
 package org.eclipse.swtchart.internal;
 
+import java.util.UUID;
+
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.StyleRange;
 import org.eclipse.swt.events.PaintEvent;
@@ -28,7 +30,6 @@ import org.eclipse.swt.graphics.TextLayout;
 import org.eclipse.swt.graphics.Transform;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swtchart.Chart;
-import org.eclipse.swtchart.Constants;
 import org.eclipse.swtchart.ITitle;
 import org.eclipse.swtchart.Resources;
 
@@ -47,8 +48,6 @@ public class Title implements ITitle, PaintListener {
 	private Font font;
 	/** the style ranges */
 	private StyleRange[] styleRanges;
-	/** The text layout */
-	private final TextLayout textLayout;
 	/** the visibility state of axis */
 	private boolean isVisible;
 	/** the default font */
@@ -58,11 +57,15 @@ public class Title implements ITitle, PaintListener {
 	/** the layout data */
 	private ChartLayoutData layoutData;
 	/** the default font size */
-	private static final int DEFAULT_FONT_SIZE = Constants.LARGE_FONT_SIZE;
+	private static final int DEFAULT_FONT_SIZE = Resources.LARGE_FONT_SIZE;
 	/** the default color */
 	private static final int DEFAULT_FOREGROUND = SWT.COLOR_BLUE;
 	/** the default text */
 	private static final String DEFAULT_TEXT = ""; //$NON-NLS-1$
+	/*
+	 * Used internally to track the text layout.
+	 */
+	private String textLayoutUUID = null;
 
 	public Title(Chart parent) {
 
@@ -70,7 +73,6 @@ public class Title implements ITitle, PaintListener {
 		text = DEFAULT_TEXT;
 		isVisible = true;
 		defaultFont = Resources.getFont("Tahoma", DEFAULT_FONT_SIZE, SWT.BOLD); //$NON-NLS-1$
-		textLayout = new TextLayout(Display.getDefault());
 		bounds = new Rectangle(0, 0, 0, 0);
 		font = defaultFont;
 		setForeground(Display.getDefault().getSystemColor(DEFAULT_FOREGROUND));
@@ -80,15 +82,11 @@ public class Title implements ITitle, PaintListener {
 	@Override
 	public void setText(String text) {
 
-		String title;
-		if(text == null) {
-			title = getDefaultText();
-		} else {
-			title = text;
-		}
-		textLayout.setText(title);
-		this.text = title;
-		chart.updateLayout(); // text could be changed to blank
+		/*
+		 * Text could have been changed to blank.
+		 */
+		this.text = (text == null) ? getDefaultText() : text;
+		chart.updateLayout();
 	}
 
 	/**
@@ -172,11 +170,14 @@ public class Title implements ITitle, PaintListener {
 	@Override
 	public void setStyleRanges(StyleRange[] ranges) {
 
+		initializeTextLayout();
+		TextLayout textLayout = Resources.getTextLayout(textLayoutUUID);
+		//
 		styleRanges = ranges;
 		if(styleRanges != null) {
-			for(StyleRange range : styleRanges) {
-				if(range != null) {
-					textLayout.setStyle(range, range.start, range.start + range.length);
+			for(StyleRange styleRange : styleRanges) {
+				if(styleRange != null) {
+					textLayout.setStyle(styleRange, styleRange.start, styleRange.start + styleRange.length);
 				}
 			}
 		}
@@ -223,14 +224,15 @@ public class Title implements ITitle, PaintListener {
 		int height;
 		int width;
 		if(isVisible() && !text.trim().equals("")) { //$NON-NLS-1$
-			if(styleRanges == null) {
-				Point p = Util.getExtentInGC(getFont(), text);
-				width = p.x;
-				height = p.y;
+			if(useTextLayout()) {
+				TextLayout textLayout = Resources.getTextLayout(textLayoutUUID);
+				Rectangle rectangle = textLayout.getBounds();
+				width = rectangle.width;
+				height = rectangle.height;
 			} else {
-				Rectangle r = textLayout.getBounds();
-				width = r.width;
-				height = r.height;
+				Point point = Util.getExtentInGC(getFont(), text);
+				width = point.x;
+				height = point.y;
 			}
 		} else {
 			width = 0;
@@ -269,9 +271,6 @@ public class Title implements ITitle, PaintListener {
 	 */
 	public void dispose() {
 
-		if(!textLayout.isDisposed()) {
-			textLayout.dispose();
-		}
 		chart.removePaintListener(this);
 	}
 
@@ -329,10 +328,10 @@ public class Title implements ITitle, PaintListener {
 	 */
 	private void drawHorizontalTitle(GC gc) {
 
-		boolean useStyleRanges = styleRanges != null;
 		int x = getBounds().x;
 		int y = getBounds().y;
-		if(useStyleRanges) {
+		if(useTextLayout()) {
+			TextLayout textLayout = Resources.getTextLayout(textLayoutUUID);
 			textLayout.draw(gc, x, y);
 		} else {
 			gc.drawText(text, x, y, true);
@@ -347,47 +346,68 @@ public class Title implements ITitle, PaintListener {
 	 */
 	private void drawVerticalTitle(GC gc) {
 
-		boolean useStyleRanges = styleRanges != null;
 		int textWidth = getBounds().height;
 		int textHeight = getBounds().width;
 		if(getFont().getFontData()[0].getStyle() == SWT.ITALIC) {
 			int margin = textHeight / 10;
 			textWidth += margin;
 		}
-		/*
-		 * create image to draw text. If drawing text on rotated graphics
-		 * context instead of drawing rotated image, the text shape becomes a
-		 * bit ugly especially with small font with bold.
-		 */
-		Image image = new Image(Display.getCurrent(), textWidth, textHeight);
-		GC tmpGc = new GC(image);
-		if(useStyleRanges) {
-			textLayout.draw(tmpGc, 0, 0);
-		} else {
-			tmpGc.setBackground(chart.getBackground());
-			tmpGc.setForeground(getForeground());
-			tmpGc.setFont(getFont());
-			tmpGc.fillRectangle(image.getBounds());
-			tmpGc.drawText(text, 0, 0);
+		//
+		if(textWidth > 0 && textHeight > 0) {
+			/*
+			 * Create image to draw text. If drawing text on rotated graphics
+			 * context instead of drawing rotated image, the text shape becomes a
+			 * bit ugly especially with small font with bold.
+			 */
+			Image image = new Image(Display.getCurrent(), textWidth, textHeight);
+			GC tmpGc = new GC(image);
+			//
+			if(useTextLayout()) {
+				TextLayout textLayout = Resources.getTextLayout(textLayoutUUID);
+				textLayout.draw(tmpGc, 0, 0);
+			} else {
+				tmpGc.setBackground(chart.getBackground());
+				tmpGc.setForeground(getForeground());
+				tmpGc.setFont(getFont());
+				tmpGc.fillRectangle(image.getBounds());
+				tmpGc.drawText(text, 0, 0);
+			}
+			/*
+			 * Set transform to rotate.
+			 */
+			Transform oldTransform = new Transform(gc.getDevice());
+			gc.getTransform(oldTransform);
+			Transform transform = new Transform(gc.getDevice());
+			transform.translate(0, textWidth);
+			transform.rotate(270);
+			gc.setTransform(transform);
+			// draw the image on the rotated graphics context
+			int x = getBounds().x;
+			int y = getBounds().y;
+			gc.drawImage(image, -y, x);
+			gc.setTransform(oldTransform);
+			// dispose resources
+			oldTransform.dispose();
+			tmpGc.dispose();
+			transform.dispose();
+			image.dispose();
 		}
-		/*
-		 * Set transform to rotate.
-		 */
-		Transform oldTransform = new Transform(gc.getDevice());
-		gc.getTransform(oldTransform);
-		Transform transform = new Transform(gc.getDevice());
-		transform.translate(0, textWidth);
-		transform.rotate(270);
-		gc.setTransform(transform);
-		// draw the image on the rotated graphics context
-		int x = getBounds().x;
-		int y = getBounds().y;
-		gc.drawImage(image, -y, x);
-		gc.setTransform(oldTransform);
-		// dispose resources
-		oldTransform.dispose();
-		tmpGc.dispose();
-		transform.dispose();
-		image.dispose();
+	}
+
+	private boolean useTextLayout() {
+
+		boolean useTextLayout = (styleRanges != null);
+		if(useTextLayout && textLayoutUUID == null) {
+			initializeTextLayout();
+		}
+		//
+		return useTextLayout;
+	}
+
+	private void initializeTextLayout() {
+
+		if(textLayoutUUID == null) {
+			textLayoutUUID = UUID.randomUUID().toString();
+		}
 	}
 }

@@ -24,7 +24,7 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Font;
 import org.eclipse.swt.widgets.Display;
-import org.eclipse.swtchart.Constants;
+import org.eclipse.swtchart.Resources;
 import org.eclipse.swtchart.extensions.events.CopyToClipboardEvent;
 import org.eclipse.swtchart.extensions.events.IHandledEventProcessor;
 import org.eclipse.swtchart.extensions.events.MouseDownEvent;
@@ -118,7 +118,7 @@ public class ChartSettings implements IChartSettings {
 	/*
 	 * The default font is only used if no font is set.
 	 */
-	private final Font defaultFont = ResourceSupport.getFont("Tahoma", Constants.MEDIUM_FONT_SIZE, SWT.BOLD); //$NON-NLS-1$
+	private final Font defaultFont = ResourceSupport.getFont("Tahoma", Resources.MEDIUM_FONT_SIZE, SWT.BOLD); //$NON-NLS-1$
 
 	public ChartSettings() {
 

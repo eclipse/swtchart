@@ -29,8 +29,8 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Spinner;
-import org.eclipse.swtchart.Constants;
 import org.eclipse.swtchart.ILegend;
+import org.eclipse.swtchart.Resources;
 import org.eclipse.swtchart.extensions.charts.InteractiveChart;
 import org.eclipse.swtchart.extensions.core.ResourceSupport;
 
@@ -164,7 +164,7 @@ public class LegendPage extends AbstractPage {
 		setControlsEnable(true);
 		backgroundButton.setColorValue(new RGB(255, 255, 255));
 		foregroundButton.setColorValue(new RGB(0, 0, 0));
-		fontSizeSpinner.setSelection(Constants.SMALL_FONT_SIZE);
+		fontSizeSpinner.setSelection(Resources.SMALL_FONT_SIZE);
 		super.performDefaults();
 	}
 }
