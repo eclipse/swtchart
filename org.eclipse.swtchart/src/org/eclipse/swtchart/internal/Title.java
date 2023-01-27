@@ -86,6 +86,10 @@ public class Title implements ITitle, PaintListener {
 		 * Text could have been changed to blank.
 		 */
 		this.text = (text == null) ? getDefaultText() : text;
+		if(useTextLayout()) {
+			TextLayout textLayout = Resources.getTextLayout(textLayoutUUID);
+			textLayout.setText(text);
+		}
 		chart.updateLayout();
 	}
 
@@ -172,6 +176,7 @@ public class Title implements ITitle, PaintListener {
 
 		initializeTextLayout();
 		TextLayout textLayout = Resources.getTextLayout(textLayoutUUID);
+		textLayout.setText(text);
 		//
 		styleRanges = ranges;
 		if(styleRanges != null) {
