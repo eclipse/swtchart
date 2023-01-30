@@ -177,7 +177,7 @@ public class MappingsDialog extends Dialog {
 					ISeriesSettings seriesSettings = MappingsSupport.createSeriesSettings(mappingsType);
 					if(seriesSettings != null) {
 						seriesSettings.setDescription(dialog.getDescription());
-						SeriesMapper.put(mappingsType, id, seriesSettings);
+						SeriesMapper.put(new MappingsKey(mappingsType, id), seriesSettings);
 						updateInput();
 					}
 				}
@@ -208,7 +208,8 @@ public class MappingsDialog extends Dialog {
 						Object object = iterator.next();
 						if(object instanceof MappedSeriesSettings) {
 							MappedSeriesSettings mappedSeriesSettings = (MappedSeriesSettings)object;
-							SeriesMapper.remove(mappedSeriesSettings.getMappingsType(), mappedSeriesSettings.getIdentifier());
+							MappingsKey mappingsKey = new MappingsKey(mappedSeriesSettings.getMappingsType(), mappedSeriesSettings.getIdentifier());
+							SeriesMapper.remove(mappingsKey);
 						}
 					}
 					updateInput();
@@ -265,10 +266,9 @@ public class MappingsDialog extends Dialog {
 					preferenceStore.setValue(PreferenceConstants.P_PATH_MAPPINGS_IMPORT, fileDialog.getFilterPath());
 					ResourceSupport.savePreferenceStore();
 					File file = new File(path);
-					Map<String, ISeriesSettings> mappings = MappingsIO.importSettings(file);
-					for(Map.Entry<String, ISeriesSettings> mapping : mappings.entrySet()) {
-						ISeriesSettings seriesSettings = mapping.getValue();
-						SeriesMapper.put(mapping.getKey(), seriesSettings);
+					Map<MappingsKey, ISeriesSettings> mappings = MappingsIO.importSettings(file);
+					for(Map.Entry<MappingsKey, ISeriesSettings> mapping : mappings.entrySet()) {
+						SeriesMapper.put(mapping.getKey(), mapping.getValue());
 					}
 					updateInput();
 				}

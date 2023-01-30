@@ -25,6 +25,7 @@ import java.util.Map;
 import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.swtchart.extensions.core.ISeriesSettings;
 import org.eclipse.swtchart.extensions.core.MappedSeriesSettings;
+import org.eclipse.swtchart.extensions.core.MappingsKey;
 import org.eclipse.swtchart.extensions.core.ResourceSupport;
 import org.eclipse.swtchart.extensions.core.SeriesMapper;
 import org.eclipse.swtchart.extensions.preferences.PreferenceConstants;
@@ -35,9 +36,9 @@ public class MappingsIO {
 	public static final String LINE_DELIMITER = "\r\n";
 	public static final String VALUE_DELIMITER = "\t";
 
-	public static Map<String, ISeriesSettings> readSettings(String content) {
+	public static Map<MappingsKey, ISeriesSettings> readSettings(String content) {
 
-		Map<String, ISeriesSettings> mappings = new HashMap<>();
+		Map<MappingsKey, ISeriesSettings> mappings = new HashMap<>();
 		String[] lines = content.split(LINE_DELIMITER);
 		if(lines.length > 0) {
 			String version = getVersion(lines[0]);
@@ -63,9 +64,9 @@ public class MappingsIO {
 		return mappingsIO.saveSettings(mappings);
 	}
 
-	public static Map<String, ISeriesSettings> importSettings(File file) {
+	public static Map<MappingsKey, ISeriesSettings> importSettings(File file) {
 
-		Map<String, ISeriesSettings> mappings = new HashMap<>();
+		Map<MappingsKey, ISeriesSettings> mappings = new HashMap<>();
 		try {
 			String content = Files.readString(Path.of(file.getAbsolutePath()));
 			mappings.putAll(readSettings(content));
@@ -94,8 +95,8 @@ public class MappingsIO {
 		IPreferenceStore preferenceStore = ResourceSupport.getPreferenceStore();
 		String settings = preferenceStore.getString(PreferenceConstants.P_SERIES_MAPPINGS);
 		String content = new String(Base64.getDecoder().decode(settings));
-		Map<String, ISeriesSettings> mappings = readSettings(content);
-		for(Map.Entry<String, ISeriesSettings> mapping : mappings.entrySet()) {
+		Map<MappingsKey, ISeriesSettings> mappings = readSettings(content);
+		for(Map.Entry<MappingsKey, ISeriesSettings> mapping : mappings.entrySet()) {
 			ISeriesSettings seriesSettings = mapping.getValue();
 			SeriesMapper.put(mapping.getKey(), seriesSettings);
 		}

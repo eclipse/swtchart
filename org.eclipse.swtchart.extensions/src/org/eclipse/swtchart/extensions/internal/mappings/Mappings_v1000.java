@@ -25,11 +25,11 @@ import org.eclipse.swtchart.extensions.barcharts.IBarSeriesSettings;
 import org.eclipse.swtchart.extensions.core.IPointSeriesSettings;
 import org.eclipse.swtchart.extensions.core.ISeriesSettings;
 import org.eclipse.swtchart.extensions.core.MappedSeriesSettings;
+import org.eclipse.swtchart.extensions.core.MappingsKey;
 import org.eclipse.swtchart.extensions.core.MappingsSupport;
 import org.eclipse.swtchart.extensions.core.MappingsType;
 import org.eclipse.swtchart.extensions.core.ResourceSupport;
 import org.eclipse.swtchart.extensions.core.SeriesLabelProvider;
-import org.eclipse.swtchart.extensions.core.SeriesMapper;
 import org.eclipse.swtchart.extensions.linecharts.ILineSeriesSettings;
 import org.eclipse.swtchart.extensions.piecharts.ICircularSeriesSettings;
 import org.eclipse.swtchart.extensions.scattercharts.IScatterSeriesSettings;
@@ -38,9 +38,9 @@ public class Mappings_v1000 {
 
 	public static final String VERSION_NUMBER = "v1000";
 
-	public Map<String, ISeriesSettings> readSettings(String[] lines) {
+	public Map<MappingsKey, ISeriesSettings> readSettings(String[] lines) {
 
-		Map<String, ISeriesSettings> mappings = new HashMap<>();
+		Map<MappingsKey, ISeriesSettings> mappings = new HashMap<>();
 		for(String line : lines) {
 			try {
 				if(!line.startsWith(MappingsIO.VERSION_IDENTIFIER)) {
@@ -86,7 +86,7 @@ public class Mappings_v1000 {
 		exportSeriesSetting(values, seriesSettings.getSeriesSettingsHighlight());
 	}
 
-	private void importMapping(String[] values, Map<String, ISeriesSettings> mappings) {
+	private void importMapping(String[] values, Map<MappingsKey, ISeriesSettings> mappings) {
 
 		int index = 0;
 		if(values.length >= 2) {
@@ -94,10 +94,10 @@ public class Mappings_v1000 {
 			ISeriesSettings seriesSettings = MappingsSupport.createSeriesSettings(mappingsType);
 			if(seriesSettings != null) {
 				String id = values[index++];
-				String key = SeriesMapper.getKey(mappingsType, id);
+				MappingsKey mappingsKey = new MappingsKey(mappingsType, id);
 				index = importSeriesSetting(values, index, seriesSettings);
 				index = importSeriesSetting(values, index, seriesSettings.getSeriesSettingsHighlight());
-				mappings.put(key, seriesSettings);
+				mappings.put(mappingsKey, seriesSettings);
 			}
 		}
 	}

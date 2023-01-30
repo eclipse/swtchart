@@ -26,16 +26,10 @@ import org.eclipse.swtchart.ISeriesSet;
  */
 public class SeriesMapper {
 
-	private static final String KEY_DELIMITER = "_";
-	private static final Map<String, ISeriesSettings> MAPPINGS = new HashMap<>();
+	private static final Map<MappingsKey, ISeriesSettings> MAPPINGS = new HashMap<>();
 
 	private SeriesMapper() {
 
-	}
-
-	public static String getKey(MappingsType mappingsType, String id) {
-
-		return mappingsType.name() + KEY_DELIMITER + id;
 	}
 
 	public static void clear() {
@@ -44,46 +38,20 @@ public class SeriesMapper {
 	}
 
 	/**
-	 * Removes the mapping identified by the key.
-	 * 
-	 * @param key
-	 */
-	public static void remove(String key) {
-
-		MAPPINGS.remove(key);
-	}
-
-	/**
 	 * Removes the mapping identified by the id.
 	 * 
 	 * @param mappingsType
 	 * @param id
 	 */
-	public static void remove(MappingsType mappingsType, String id) {
+	public static void remove(MappingsKey mappingsKey) {
 
-		remove(getKey(mappingsType, id));
+		MAPPINGS.remove(mappingsKey);
 	}
 
-	/**
-	 * Put the instance to the settings map.
-	 * 
-	 * @param mappingsType
-	 * @param id
-	 * @param seriesSettings
-	 */
-	public static void put(MappingsType mappingsType, String id, ISeriesSettings seriesSettings) {
-
-		if(id != null) {
-			if(isValidMappingsType(mappingsType)) {
-				put(getKey(mappingsType, id), seriesSettings);
-			}
-		}
-	}
-
-	public static void put(String key, ISeriesSettings seriesSettings) {
+	public static void put(MappingsKey mappingsKey, ISeriesSettings seriesSettings) {
 
 		if(seriesSettings != null) {
-			MAPPINGS.put(key, seriesSettings);
+			MAPPINGS.put(mappingsKey, seriesSettings);
 		}
 	}
 
@@ -106,12 +74,12 @@ public class SeriesMapper {
 				/*
 				 * Try to match the id.
 				 */
-				String key = getKey(mappingsType, id);
-				seriesSettingsMapped = MAPPINGS.get(key);
+				MappingsKey mappingsKey = new MappingsKey(mappingsType, id);
+				seriesSettingsMapped = MAPPINGS.get(mappingsKey);
 				if(seriesSettingsMapped == null) {
-					String keyX = getKeyViaRegex(key);
-					if(keyX != null) {
-						seriesSettingsMapped = MAPPINGS.get(keyX);
+					MappingsKey mappingsKeyX = getKeyViaRegex(mappingsKey);
+					if(mappingsKeyX != null) {
+						seriesSettingsMapped = MAPPINGS.get(mappingsKeyX);
 					}
 				}
 			}
@@ -135,16 +103,24 @@ public class SeriesMapper {
 		//
 		if(seriesSettingsCopy != null) {
 			MappingsType mappingsType = MappingsSupport.getMappingsType(seriesSettings);
-			put(mappingsType, id, seriesSettingsCopy);
+			if(isValidMappingsType(mappingsType)) {
+				put(new MappingsKey(mappingsType, id), seriesSettingsCopy);
+			}
 		}
 	}
 
+	/**
+	 * Remove the mapping of the given series.
+	 * 
+	 * @param series
+	 * @param baseChart
+	 */
 	public static void unmap(ISeries<?> series, BaseChart baseChart) {
 
-		String id = series.getId();
-		ISeriesSettings seriesSettings = baseChart.getSeriesSettings(id);
+		String seriesId = series.getId();
+		ISeriesSettings seriesSettings = baseChart.getSeriesSettings(seriesId);
 		MappingsType mappingsType = MappingsSupport.getMappingsType(seriesSettings);
-		remove(mappingsType, id);
+		remove(new MappingsKey(mappingsType, seriesId));
 		baseChart.resetSeriesSettings(series);
 	}
 
@@ -156,17 +132,13 @@ public class SeriesMapper {
 	public static List<MappedSeriesSettings> getMappings() {
 
 		List<MappedSeriesSettings> mappings = new ArrayList<>();
-		for(Map.Entry<String, ISeriesSettings> entry : MAPPINGS.entrySet()) {
-			String key = entry.getKey();
-			int index = key.indexOf(KEY_DELIMITER);
-			if(index > 0) {
-				String value = key.substring(0, index);
-				MappingsType mappingsType = MappingsSupport.getMappingsType(value);
-				if(!MappingsType.NONE.equals(mappingsType)) {
-					String id = extractIdentifier(key);
-					ISeriesSettings seriesSettings = entry.getValue();
-					mappings.add(new MappedSeriesSettings(mappingsType, id, seriesSettings));
-				}
+		for(Map.Entry<MappingsKey, ISeriesSettings> entry : MAPPINGS.entrySet()) {
+			MappingsKey mappingsKey = entry.getKey();
+			MappingsType mappingsType = mappingsKey.getMappingsType();
+			if(!MappingsType.NONE.equals(mappingsType)) {
+				String id = mappingsKey.getId();
+				ISeriesSettings seriesSettings = entry.getValue();
+				mappings.add(new MappedSeriesSettings(mappingsType, id, seriesSettings));
 			}
 		}
 		//
@@ -185,15 +157,15 @@ public class SeriesMapper {
 			String id = series.getId();
 			ISeriesSettings seriesSettings = baseChart.getSeriesSettings(id);
 			MappingsType mappingsType = MappingsSupport.getMappingsType(seriesSettings);
-			String key = getKey(mappingsType, id);
-			if(MAPPINGS.containsKey(key)) {
+			MappingsKey mappingsKey = new MappingsKey(mappingsType, id);
+			if(MAPPINGS.containsKey(mappingsKey)) {
 				baseChart.applySeriesSettings(series, seriesSettings);
 			} else {
 				/*
 				 * Matched via Regex
 				 */
-				String keyX = getKeyViaRegex(key);
-				if(keyX != null) {
+				MappingsKey mappingsKeyX = getKeyViaRegex(mappingsKey);
+				if(mappingsKeyX != null) {
 					baseChart.applySeriesSettings(series, seriesSettings);
 				}
 			}
@@ -205,19 +177,24 @@ public class SeriesMapper {
 		return !MappingsType.NONE.equals(mappingsType);
 	}
 
-	private static String getKeyViaRegex(String key) {
+	private static MappingsKey getKeyViaRegex(MappingsKey mappingsKey) {
 
 		/*
 		 * Alternatively, match via a regular expression.
-		 * It must contain at least an opening and closing
-		 * bracket ().
 		 */
-		for(String storedKey : MAPPINGS.keySet()) {
+		for(MappingsKey mappingsKeyStored : MAPPINGS.keySet()) {
 			try {
-				String regex = extractIdentifier(storedKey);
-				Pattern.compile(regex);
-				if(key.matches(regex)) {
-					return storedKey;
+				if(!MappingsType.NONE.equals(mappingsKeyStored.getMappingsType())) {
+					if(mappingsKeyStored.getMappingsType().equals(mappingsKey.getMappingsType())) {
+						String regularExpression = mappingsKeyStored.getId();
+						if(!regularExpression.isEmpty()) {
+							String id = mappingsKey.getId();
+							Pattern.compile(regularExpression);
+							if(id.matches(regularExpression)) {
+								return mappingsKeyStored;
+							}
+						}
+					}
 				}
 			} catch(Exception e) {
 				// Not a valid regular expression.
@@ -225,20 +202,5 @@ public class SeriesMapper {
 		}
 		//
 		return null;
-	}
-
-	/*
-	 * Example:
-	 * "LINE_(.*)(57)"
-	 * returns "(.*)(57)"
-	 */
-	private static String extractIdentifier(String key) {
-
-		int index = key.indexOf(KEY_DELIMITER);
-		if(index > -1) {
-			return key.substring(index + 1, key.length());
-		} else {
-			return key;
-		}
 	}
 }

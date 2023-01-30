@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2022 Lablicate GmbH.
+ * Copyright (c) 2022, 2023 Lablicate GmbH.
  *
  * This program and the accompanying materials are made
  * available under the terms of the Eclipse Public License 2.0
@@ -26,8 +26,8 @@ import org.eclipse.swtchart.extensions.core.BaseChart;
 
 public class TextClipboardSupport {
 
-	private static final String VALUE_DELIMITER = "\t";
-	private static final String LINE_DELIMITER = "\r\n";
+	public static final String VALUE_DELIMITER = "\t";
+	public static final String LINE_DELIMITER = "\r\n";
 
 	public static void transfer(Display display, BaseChart baseChart) {
 
