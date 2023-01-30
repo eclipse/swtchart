@@ -13,6 +13,7 @@
 package org.eclipse.swtchart.extensions.core;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicReference;
 
@@ -25,6 +26,11 @@ import org.eclipse.jface.preference.PreferenceManager;
 import org.eclipse.jface.preference.PreferenceNode;
 import org.eclipse.jface.window.Window;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.dnd.Clipboard;
+import org.eclipse.swt.dnd.TextTransfer;
+import org.eclipse.swt.dnd.Transfer;
+import org.eclipse.swt.events.KeyAdapter;
+import org.eclipse.swt.events.KeyEvent;
 import org.eclipse.swt.events.MouseAdapter;
 import org.eclipse.swt.events.MouseEvent;
 import org.eclipse.swt.events.SelectionAdapter;
@@ -41,6 +47,7 @@ import org.eclipse.swtchart.ICircularSeries;
 import org.eclipse.swtchart.ISeries;
 import org.eclipse.swtchart.ISeriesSet;
 import org.eclipse.swtchart.extensions.barcharts.IBarSeriesSettings;
+import org.eclipse.swtchart.extensions.clipboard.TextClipboardSupport;
 import org.eclipse.swtchart.extensions.dialogs.AbstractSeriesSettingsDialog;
 import org.eclipse.swtchart.extensions.dialogs.BarSeriesSettingsDialog;
 import org.eclipse.swtchart.extensions.dialogs.CircularSeriesSettingsDialog;
@@ -337,6 +344,7 @@ public class ExtendedLegendUI extends Composite {
 		Menu menu = menuManager.createContextMenu(table);
 		table.setMenu(menu);
 		//
+		setClipboardCommand(seriesListUI);
 		table.addMouseListener(new MouseAdapter() {
 
 			@Override
@@ -381,6 +389,47 @@ public class ExtendedLegendUI extends Composite {
 		});
 		//
 		listControl.set(seriesListUI);
+	}
+
+	private void setClipboardCommand(SeriesListUI seriesListUI) {
+
+		Table table = seriesListUI.getTable();
+		table.addKeyListener(new KeyAdapter() {
+
+			@Override
+			public void keyReleased(KeyEvent e) {
+
+				if(e.stateMask == SWT.MOD1 && e.keyCode == IKeyboardSupport.KEY_CODE_LC_C) {
+					/*
+					 * Collect series ids
+					 */
+					StringBuilder builder = new StringBuilder();
+					Iterator<?> iterator = seriesListUI.getStructuredSelection().iterator();
+					while(iterator.hasNext()) {
+						Object object = iterator.next();
+						if(object instanceof ISeries) {
+							ISeries<?> series = (ISeries<?>)object;
+							builder.append(series.getId());
+							builder.append(TextClipboardSupport.LINE_DELIMITER);
+						}
+					}
+					/*
+					 * Transfer to Clipboard
+					 */
+					TextTransfer textTransfer = TextTransfer.getInstance();
+					Object[] data = new Object[]{builder.toString()};
+					Transfer[] dataTypes = new Transfer[]{textTransfer};
+					Clipboard clipboard = new Clipboard(e.display);
+					try {
+						clipboard.setContents(data, dataTypes);
+					} finally {
+						if(clipboard != null && !clipboard.isDisposed()) {
+							clipboard.dispose();
+						}
+					}
+				}
+			}
+		});
 	}
 
 	private void updateControls() {
