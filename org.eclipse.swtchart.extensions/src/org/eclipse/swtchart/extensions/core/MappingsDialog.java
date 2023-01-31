@@ -32,6 +32,7 @@ import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.FileDialog;
+import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.MessageBox;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Table;
@@ -51,6 +52,7 @@ import org.eclipse.swtchart.extensions.scattercharts.IScatterSeriesSettings;
 public class MappingsDialog extends Dialog {
 
 	private AtomicReference<MappingsListUI> listControl = new AtomicReference<>();
+	private AtomicReference<Label> toolbarInfoControl = new AtomicReference<>();
 	private IPreferenceStore preferenceStore = ResourceSupport.getPreferenceStore();
 
 	public MappingsDialog(Shell shell) {
@@ -84,8 +86,10 @@ public class MappingsDialog extends Dialog {
 		//
 		createToolbarMain(composite);
 		createMappingsList(composite);
+		createToolbarInfo(composite);
 		//
 		updateInput();
+		updateToolbarInfo("");
 		//
 		return composite;
 	}
@@ -159,6 +163,13 @@ public class MappingsDialog extends Dialog {
 		createButtonSave(composite);
 	}
 
+	private void createToolbarInfo(Composite parent) {
+
+		Label label = new Label(parent, SWT.NONE);
+		label.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+		toolbarInfoControl.set(label);
+	}
+
 	private Button createButtonAdd(Composite parent) {
 
 		Button button = new Button(parent, SWT.PUSH);
@@ -179,6 +190,7 @@ public class MappingsDialog extends Dialog {
 						seriesSettings.setDescription(dialog.getDescription());
 						SeriesMapper.put(new MappingsKey(mappingsType, id), seriesSettings);
 						updateInput();
+						updateToolbarInfo("A new mapping has been added.");
 					}
 				}
 			}
@@ -212,7 +224,9 @@ public class MappingsDialog extends Dialog {
 							SeriesMapper.remove(mappingsKey);
 						}
 					}
+					//
 					updateInput();
+					updateToolbarInfo("The selected mappings have been deleted.");
 				}
 			}
 		});
@@ -238,6 +252,7 @@ public class MappingsDialog extends Dialog {
 				if(SWT.YES == decision) {
 					SeriesMapper.clear();
 					updateInput();
+					updateToolbarInfo("All mappings have been deleted.");
 				}
 			}
 		});
@@ -270,7 +285,9 @@ public class MappingsDialog extends Dialog {
 					for(Map.Entry<MappingsKey, ISeriesSettings> mapping : mappings.entrySet()) {
 						SeriesMapper.put(mapping.getKey(), mapping.getValue());
 					}
+					//
 					updateInput();
+					updateToolbarInfo("Mappings have been imported.");
 				}
 			}
 		});
@@ -302,6 +319,7 @@ public class MappingsDialog extends Dialog {
 					ResourceSupport.savePreferenceStore();
 					File file = new File(path);
 					MappingsIO.exportSettings(file, SeriesMapper.getMappings());
+					updateToolbarInfo("Mappings have been exported.");
 				}
 			}
 		});
@@ -321,10 +339,16 @@ public class MappingsDialog extends Dialog {
 			public void widgetSelected(SelectionEvent e) {
 
 				MappingsIO.persistsSettings(SeriesMapper.getMappings());
+				updateToolbarInfo("Mappings have been saved. They are available on restart now.");
 			}
 		});
 		//
 		return button;
+	}
+
+	private void updateToolbarInfo(String message) {
+
+		toolbarInfoControl.get().setText(message);
 	}
 
 	private void updateInput() {
