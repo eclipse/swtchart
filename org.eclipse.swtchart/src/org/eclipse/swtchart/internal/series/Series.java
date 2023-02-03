@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2008, 2020 SWTChart project.
+ * Copyright (c) 2008, 2023 SWTChart project.
  *
  * This program and the accompanying materials are made
  * available under the terms of the Eclipse Public License 2.0
@@ -11,6 +11,9 @@
  *******************************************************************************/
 package org.eclipse.swtchart.internal.series;
 
+import java.time.Instant;
+import java.time.LocalDate;
+import java.time.ZoneOffset;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -230,6 +233,29 @@ abstract public class Series<T> implements ISeries<T> {
 			return new Date[0];
 		}
 		return StreamSupport.stream(dataModel.spliterator(), false).filter(t -> dataModel.getX(t) != null).map(value -> new Date(dataModel.getX(value).longValue())).toArray(Date[]::new);
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public void setXLocalDateSeries(LocalDate[] series, ZoneOffset zoneOffset) {
+
+		double[] ySeries = getYSeries();
+		if(ySeries.length != series.length) {
+			ySeries = new double[series.length];
+		}
+		setDataModel((CartesianSeriesModel<T>)new DateArraySeriesModel(series, ySeries, zoneOffset));
+	}
+
+	@Override
+	public LocalDate[] getXLocalDateSeries(ZoneOffset zoneOffset) {
+
+		CartesianSeriesModel<T> dataModel = getDataModel();
+		if(dataModel == null) {
+			return new LocalDate[0];
+		}
+		return StreamSupport.stream(dataModel.spliterator(), false).filter(t -> dataModel.getX(t) != null) //
+				.map(value -> LocalDate.from(Instant.ofEpochMilli(dataModel.getX(value).longValue()).atZone(zoneOffset))) //
+				.toArray(LocalDate[]::new);
 	}
 
 	@Override
