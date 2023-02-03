@@ -20,16 +20,12 @@ import java.util.List;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.MouseEvent;
 import org.eclipse.swt.events.MouseMoveListener;
-import org.eclipse.swt.events.PaintEvent;
 import org.eclipse.swt.events.PaintListener;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.GC;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.ImageData;
 import org.eclipse.swt.graphics.ImageLoader;
-import org.eclipse.swt.graphics.Point;
-import org.eclipse.swt.graphics.Rectangle;
-import org.eclipse.swt.graphics.Transform;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Display;
@@ -424,66 +420,6 @@ public class Chart extends Composite implements Listener {
 		loader.data = new ImageData[]{data};
 		loader.save(filename, format);
 		image.dispose();
-	}
-
-	/**
-	 * Renders off-screen image.
-	 * 
-	 * @param image
-	 *            The image to render off-screen
-	 */
-	public void renderOffscreenImage(Image image) {
-
-		GC gc = new GC(image);
-		print(gc);
-		gc.dispose();
-	}
-
-	public void printChart(GC gc, Rectangle clientArea) {
-
-		Transform oldTransform = new Transform(gc.getDevice());
-		try {
-			gc.getTransform(oldTransform);
-			Point oldSize = getSize();
-			try {
-				setSize(clientArea.width, clientArea.height);
-				Event e = new Event();
-				e.gc = gc;
-				e.widget = this;
-				PaintEvent paintEvent = new PaintEvent(e);
-				for(Control child : getChildren()) {
-					Rectangle bounds = child.getBounds();
-					if(child instanceof PaintListener) {
-						Event subEvent = new Event();
-						subEvent.gc = gc;
-						subEvent.widget = child;
-						Rectangle oldClipping = gc.getClipping();
-						try {
-							gc.setClipping(bounds);
-							PaintEvent subPaint = new PaintEvent(subEvent);
-							Transform transform = new Transform(gc.getDevice());
-							try {
-								transform.translate(bounds.x, bounds.y);
-								gc.setTransform(transform);
-								((PaintListener)child).paintControl(subPaint);
-							} finally {
-								transform.dispose();
-								gc.setTransform(oldTransform);
-							}
-						} finally {
-							gc.setClipping(oldClipping);
-						}
-					}
-				}
-				for(PaintListener listener : paintListener) {
-					listener.paintControl(paintEvent);
-				}
-			} finally {
-				setSize(oldSize);
-			}
-		} finally {
-			oldTransform.dispose();
-		}
 	}
 
 	@Override
