@@ -232,7 +232,8 @@ abstract public class Series<T> implements ISeries<T> {
 		if(dataModel == null) {
 			return new Date[0];
 		}
-		return StreamSupport.stream(dataModel.spliterator(), false).filter(t -> dataModel.getX(t) != null).map(value -> new Date(dataModel.getX(value).longValue())).toArray(Date[]::new);
+		return StreamSupport.stream(dataModel.spliterator(), false).filter(t -> dataModel.getX(t) != null) //
+				.map(value -> new Date(dataModel.getX(value).longValue())).toArray(Date[]::new);
 	}
 
 	@SuppressWarnings("unchecked")
@@ -265,7 +266,8 @@ abstract public class Series<T> implements ISeries<T> {
 		if(dataModel == null) {
 			return new double[0];
 		}
-		return StreamSupport.stream(dataModel.spliterator(), false).filter(t -> dataModel.getX(t) != null).mapToDouble(value -> dataModel.getX(value).doubleValue()).toArray();
+		return StreamSupport.stream(dataModel.spliterator(), false).filter(t -> dataModel.getX(t) != null) //
+				.mapToDouble(value -> dataModel.getX(value).doubleValue()).toArray();
 	}
 
 	@SuppressWarnings("unchecked")
@@ -296,7 +298,8 @@ abstract public class Series<T> implements ISeries<T> {
 		if(dataModel == null) {
 			return new double[0];
 		}
-		return StreamSupport.stream(dataModel.spliterator(), false).filter(t -> dataModel.getY(t) != null).mapToDouble(value -> dataModel.getY(value).doubleValue()).toArray();
+		return StreamSupport.stream(dataModel.spliterator(), false).filter(t -> dataModel.getY(t) != null) //
+				.mapToDouble(value -> dataModel.getY(value).doubleValue()).toArray();
 	}
 
 	/**
@@ -306,7 +309,8 @@ abstract public class Series<T> implements ISeries<T> {
 	 */
 	public boolean isValidStackSeries() {
 
-		return stackEnabled && stackSeries != null && stackSeries.length > 0 && !chart.getAxisSet().getYAxis(yAxisId).isLogScaleEnabled() && ((Axis)chart.getAxisSet().getXAxis(xAxisId)).isValidCategoryAxis();
+		return stackEnabled && stackSeries != null && stackSeries.length > 0 //
+				&& !chart.getAxisSet().getYAxis(yAxisId).isLogScaleEnabled() && ((Axis)chart.getAxisSet().getXAxis(xAxisId)).isValidCategoryAxis();
 	}
 
 	/**
@@ -338,7 +342,7 @@ abstract public class Series<T> implements ISeries<T> {
 	 *            the axis length in pixels
 	 * @return the adjusted range
 	 */
-	abstract public Range getAdjustedRange(Axis axis, int length);
+	public abstract Range getAdjustedRange(Axis axis, int length);
 
 	/**
 	 * Gets the Y range of series.
@@ -380,7 +384,7 @@ abstract public class Series<T> implements ISeries<T> {
 	/**
 	 * Sets the compressor.
 	 */
-	abstract protected void setCompressor();
+	protected abstract void setCompressor();
 
 	@Override
 	public int getXAxisId() {
@@ -614,5 +618,5 @@ abstract public class Series<T> implements ISeries<T> {
 	 * @param yAxis
 	 *            the y axis
 	 */
-	abstract protected void draw(GC gc, int width, int height, Axis xAxis, Axis yAxis);
+	protected abstract void draw(GC gc, int width, int height, Axis xAxis, Axis yAxis);
 }

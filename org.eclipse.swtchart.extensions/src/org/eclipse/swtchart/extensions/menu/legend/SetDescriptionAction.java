@@ -57,7 +57,7 @@ public class SetDescriptionAction extends AbstractMenuListener {
 				Table table = seriesListUI.getTable();
 				List<ISeries<?>> selectedSeries = getSelectedSeries();
 				//
-				if(selectedSeries.size() > 0) {
+				if(!selectedSeries.isEmpty()) {
 					String firstDescription = selectedSeries.get(0).getDescription();
 					InputDialog dialog = new InputDialog(table.getShell(), "Description", "Set a description.", firstDescription, new IInputValidator() {
 

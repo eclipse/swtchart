@@ -59,7 +59,7 @@ public class SetColorAction extends AbstractMenuListener {
 				Table table = seriesListUI.getTable();
 				List<ISeries<?>> selectedSeries = getSelectedSeries();
 				//
-				if(selectedSeries.size() > 0) {
+				if(!selectedSeries.isEmpty()) {
 					ColorDialog colorDialog = new ColorDialog(table.getShell());
 					colorDialog.setText("Set Series Color");
 					RGB rgbNew = colorDialog.open();
