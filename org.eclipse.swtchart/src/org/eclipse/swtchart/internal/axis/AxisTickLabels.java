@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2008, 2022 SWTChart project.
+ * Copyright (c) 2008, 2023 SWTChart project.
  *
  * This program and the accompanying materials are made
  * available under the terms of the Eclipse Public License 2.0
@@ -209,7 +209,6 @@ public class AxisTickLabels implements PaintListener {
 
 		double min = axis.getRange().lower;
 		double max = axis.getRange().upper;
-
 		double base = axis.getLogScaleBase();
 		int digitMin = (int)Math.ceil(axis.logBase(min));
 		int digitMax = (int)Math.ceil(axis.logBase(max));
@@ -304,7 +303,7 @@ public class AxisTickLabels implements PaintListener {
 		for(int i = 0; i < tickLabelPositions.size(); i++) {
 			tickVisibilities.add(Boolean.TRUE);
 		}
-		if(tickLabelPositions.size() == 0 || axis.getTick().getTickLabelAngle() != 0) {
+		if(tickLabelPositions.isEmpty() || axis.getTick().getTickLabelAngle() != 0) {
 			return;
 		}
 		// set the tick label visibility
@@ -421,7 +420,7 @@ public class AxisTickLabels implements PaintListener {
 		// search the most right tick label
 		int mostRightLabelIndex = -1;
 		for(int i = tickLabels.size() - 1; i >= 0; i--) {
-			if(tickVisibilities.size() > i && tickVisibilities.get(i)) {
+			if(tickVisibilities.size() > i && Boolean.TRUE.equals(tickVisibilities.get(i))) {
 				mostRightLabelIndex = i;
 				break;
 			}
@@ -453,7 +452,7 @@ public class AxisTickLabels implements PaintListener {
 		// search the most left tick label
 		int mostLeftLabelIndex = -1;
 		for(int i = 0; i < tickLabels.size(); i++) {
-			if(tickVisibilities.size() > i && tickVisibilities.get(i)) {
+			if(tickVisibilities.size() > i && Boolean.TRUE.equals(tickVisibilities.get(i))) {
 				mostLeftLabelIndex = i;
 				break;
 			}
@@ -482,7 +481,7 @@ public class AxisTickLabels implements PaintListener {
 
 		int maxLength = 0;
 		for(int i = 0; i < tickLabels.size(); i++) {
-			if(tickVisibilities.size() > i && tickVisibilities.get(i) == true) {
+			if(tickVisibilities.size() > i && Boolean.TRUE.equals(tickVisibilities.get(i))) {
 				Point p = Util.getExtentInGC(axis.getTick().getFont(), tickLabels.get(i));
 				if(p.x > maxLength) {
 					maxLength = p.x;
@@ -801,10 +800,10 @@ public class AxisTickLabels implements PaintListener {
 		gc.setFont(axis.getTick().getFont());
 		int figureHeight = gc.textExtent("dummy").y; //$NON-NLS-1$
 		for(int i = 0; i < tickLabelPositions.size(); i++) {
-			if(tickVisibilities.size() == 0 || tickLabels.size() == 0) {
+			if(tickVisibilities.isEmpty() || tickLabels.isEmpty()) {
 				break;
 			}
-			if(tickVisibilities.get(i) == true) {
+			if(Boolean.TRUE.equals(tickVisibilities.get(i))) {
 				String text = tickLabels.get(i);
 				int x = Axis.MARGIN;
 				if(tickLabels.get(0).startsWith("-") && !text.startsWith("-")) { //$NON-NLS-1$ //$NON-NLS-2$

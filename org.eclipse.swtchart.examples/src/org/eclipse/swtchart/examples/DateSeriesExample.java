@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2020 SWTChart project.
+ * Copyright (c) 2020, 2023 SWTChart project.
  *
  * This program and the accompanying materials are made
  * available under the terms of the Eclipse Public License 2.0
@@ -12,7 +12,8 @@
  *******************************************************************************/
 package org.eclipse.swtchart.examples;
 
-import java.util.Date;
+import java.time.LocalDate;
+import java.time.ZoneOffset;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.FillLayout;
@@ -26,7 +27,6 @@ import org.eclipse.swtchart.ISeries.SeriesType;
 public class DateSeriesExample {
 
 	private static final double[] ySeries = {0.26, 0.59, 0.92, 0.70, 1.03, 1.34, 1.09, 1.42, 1.75};
-	private static Date[] xDateSeries;
 
 	/**
 	 * The main method.
@@ -58,7 +58,6 @@ public class DateSeriesExample {
 	 *            The parent composite
 	 * @return The created chart
 	 */
-	@SuppressWarnings("deprecation")
 	static public Chart createChart(Composite parent) {
 
 		// create a chart
@@ -67,14 +66,14 @@ public class DateSeriesExample {
 		chart.getTitle().setText("Line Chart");
 		chart.getAxisSet().getXAxis(0).getTitle().setText("Data Points");
 		chart.getAxisSet().getYAxis(0).getTitle().setText("Amplitude");
-		xDateSeries = new Date[ySeries.length];
+		LocalDate[] xDateSeries = new LocalDate[ySeries.length];
 		for(int i = 0; i < ySeries.length; i++) {
-			xDateSeries[i] = new Date(2020, 5, i * 2);
+			xDateSeries[i] = LocalDate.of(2020, 5, i + 1 * 2);
 		}
 		// create line series
 		ILineSeries<?> lineSeries = (ILineSeries<?>)chart.getSeriesSet().createSeries(SeriesType.LINE, "line series");
 		lineSeries.setYSeries(ySeries);
-		lineSeries.setXDateSeries(xDateSeries);
+		lineSeries.setXLocalDateSeries(xDateSeries, ZoneOffset.UTC);
 		// adjust the axis range
 		chart.getAxisSet().adjustRange();
 		return chart;

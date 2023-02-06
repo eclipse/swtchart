@@ -12,6 +12,9 @@
  *******************************************************************************/
 package org.eclipse.swtchart.extensions.piecharts;
 
+import java.time.LocalDate;
+import java.time.ZoneOffset;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -84,26 +87,39 @@ public abstract class AbstractCircularSeriesLegend<T> implements ICircularSeries
 	}
 
 	@Override
+	@Deprecated
 	public void setXDateSeries(Date[] series) {
 
 	}
 
 	@Override
+	@Deprecated
 	public Date[] getXDateSeries() {
 
-		return null;
+		return new Date[0];
+	}
+
+	@Override
+	public void setXLocalDateSeries(LocalDate[] series, ZoneOffset zoneOffset) {
+
+	}
+
+	@Override
+	public LocalDate[] getXLocalDateSeries(ZoneOffset zoneOffset) {
+
+		return new LocalDate[0];
 	}
 
 	@Override
 	public double[] getXSeries() {
 
-		return null;
+		return new double[0];
 	}
 
 	@Override
 	public double[] getYSeries() {
 
-		return null;
+		return new double[0];
 	}
 
 	@Override
@@ -281,13 +297,13 @@ public abstract class AbstractCircularSeriesLegend<T> implements ICircularSeries
 	@Override
 	public String[] getLabels() {
 
-		return null;
+		return new String[0];
 	}
 
 	@Override
 	public Color[] getColors() {
 
-		return null;
+		return new Color[0];
 	}
 
 	@Override
@@ -326,7 +342,7 @@ public abstract class AbstractCircularSeriesLegend<T> implements ICircularSeries
 	@Override
 	public List<Node> getSeries() {
 
-		return null;
+		return new ArrayList<>();
 	}
 
 	@Override

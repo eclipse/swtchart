@@ -56,7 +56,7 @@ public class StepChart extends ScrollableChart implements ICompressionSupport {
 		/*
 		 * Suspend the update when adding new data to improve the performance.
 		 */
-		if(lineSeriesDataList != null && lineSeriesDataList.size() > 0) {
+		if(lineSeriesDataList != null && !lineSeriesDataList.isEmpty()) {
 			BaseChart baseChart = getBaseChart();
 			baseChart.suspendUpdate(true);
 			for(ILineSeriesData lineSeriesData : lineSeriesDataList) {

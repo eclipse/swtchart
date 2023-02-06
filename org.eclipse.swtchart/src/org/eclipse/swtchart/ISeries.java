@@ -15,6 +15,8 @@
  *******************************************************************************/
 package org.eclipse.swtchart;
 
+import java.time.LocalDate;
+import java.time.ZoneOffset;
 import java.util.Date;
 
 import org.eclipse.swt.graphics.Point;
@@ -139,6 +141,10 @@ public interface ISeries<DataType> {
 
 	@Deprecated
 	Date[] getXDateSeries();
+
+	void setXLocalDateSeries(LocalDate[] series, ZoneOffset zoneOffset);
+
+	LocalDate[] getXLocalDateSeries(ZoneOffset zoneOffset);
 
 	/**
 	 * This is a legacy/convenient method.

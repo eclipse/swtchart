@@ -52,7 +52,7 @@ public class BarChart extends ScrollableChart {
 		/*
 		 * Suspend the update when adding new data to improve the performance.
 		 */
-		if(barSeriesDataList != null && barSeriesDataList.size() > 0) {
+		if(barSeriesDataList != null && !barSeriesDataList.isEmpty()) {
 			BaseChart baseChart = getBaseChart();
 			baseChart.suspendUpdate(true);
 			for(IBarSeriesData barSeriesData : barSeriesDataList) {
