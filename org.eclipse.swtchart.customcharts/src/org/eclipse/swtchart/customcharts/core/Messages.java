@@ -22,6 +22,7 @@ public class Messages extends NLS {
 	public static String MINUTES;
 	public static String RELATIVE_INTENSITY;
 	public static String RETENTION_TIME;
+	public static String RESET_CHROMATOGRAM;
 	//
 	static {
 		NLS.initializeMessages(BUNDLE_NAME, Messages.class);

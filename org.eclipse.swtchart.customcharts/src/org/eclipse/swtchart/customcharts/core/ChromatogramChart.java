@@ -28,6 +28,7 @@ import org.eclipse.swtchart.extensions.core.IPrimaryAxisSettings;
 import org.eclipse.swtchart.extensions.core.ISecondaryAxisSettings;
 import org.eclipse.swtchart.extensions.core.SecondaryAxisSettings;
 import org.eclipse.swtchart.extensions.linecharts.LineChart;
+import org.eclipse.swtchart.extensions.menu.ResetChartHandler;
 
 public class ChromatogramChart extends LineChart {
 
@@ -54,6 +55,8 @@ public class ChromatogramChart extends LineChart {
 		chartSettings.setVerticalSliderVisible(true);
 		chartSettings.getRangeRestriction().setZeroX(true);
 		chartSettings.getRangeRestriction().setZeroY(true);
+		chartSettings.removeMenuEntry(chartSettings.getChartMenuEntryByClass(ResetChartHandler.class));
+		chartSettings.addMenuEntry(new ResetChromatogramHandler());
 		//
 		setPrimaryAxisSet(chartSettings);
 		addSecondaryAxisSet(chartSettings);
