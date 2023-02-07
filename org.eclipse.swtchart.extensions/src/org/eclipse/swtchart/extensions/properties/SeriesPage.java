@@ -117,7 +117,7 @@ public class SeriesPage extends AbstractSelectorPage {
 	 */
 	public SeriesPage(InteractiveChart chart, String title) {
 
-		super(chart, title, Messages.getString(Messages.SERIES));
+		super(chart, title, Messages.SERIES);
 		series = chart.getSeriesSet().getSeries();
 		xAxisIdItems = chart.getAxisSet().getXAxisIds();
 		yAxisIdItems = chart.getAxisSet().getYAxisIds();
@@ -229,7 +229,7 @@ public class SeriesPage extends AbstractSelectorPage {
 
 		Composite group = new Composite(parent, SWT.NONE);
 		group.setLayout(new GridLayout(2, true));
-		visibleButton = createCheckBoxControl(group, Messages.getString(Messages.SHOW_PLOT));
+		visibleButton = createCheckBoxControl(group, Messages.SHOW_PLOT);
 		visibleButton.addSelectionListener(new SelectionAdapter() {
 
 			@Override
@@ -240,7 +240,7 @@ public class SeriesPage extends AbstractSelectorPage {
 				setControlsEnable(visible);
 			}
 		});
-		stackedButton = createCheckBoxControl(group, Messages.getString(Messages.STACKED_SERIES));
+		stackedButton = createCheckBoxControl(group, Messages.STACKED_SERIES);
 		stackedButton.addSelectionListener(new SelectionAdapter() {
 
 			@Override
@@ -250,7 +250,7 @@ public class SeriesPage extends AbstractSelectorPage {
 			}
 		});
 		if(xAxisIdItems.length > 1) {
-			createLabelControl(group, Messages.getString(Messages.X_AXIS));
+			createLabelControl(group, Messages.X_AXIS);
 			String[] items = new String[xAxisIdItems.length];
 			for(int i = 0; i < items.length; i++) {
 				items[i] = "" + xAxisIdItems[i]; //$NON-NLS-1$
@@ -266,7 +266,7 @@ public class SeriesPage extends AbstractSelectorPage {
 			});
 		}
 		if(yAxisIdItems.length > 1) {
-			createLabelControl(group, Messages.getString(Messages.Y_AXIS));
+			createLabelControl(group, Messages.Y_AXIS);
 			String[] items = new String[yAxisIdItems.length];
 			for(int i = 0; i < items.length; i++) {
 				items[i] = "" + yAxisIdItems[i]; //$NON-NLS-1$
@@ -291,9 +291,9 @@ public class SeriesPage extends AbstractSelectorPage {
 	 */
 	private void addLineSeriesGroup(Composite parent) {
 
-		lineSeriesGroup = createGroupControl(parent, Messages.getString(Messages.LINE_SERIES), true);
+		lineSeriesGroup = createGroupControl(parent, Messages.LINE_SERIES, true);
 		stackLayout.topControl = lineSeriesGroup;
-		createLabelControl(lineSeriesGroup, Messages.getString(Messages.LINE_COLOR));
+		createLabelControl(lineSeriesGroup, Messages.LINE_COLOR);
 		lineColorButton = createColorButtonControl(lineSeriesGroup);
 		lineColorButton.addListener(new IPropertyChangeListener() {
 
@@ -303,7 +303,7 @@ public class SeriesPage extends AbstractSelectorPage {
 				lineColors[selectedIndex] = lineColorButton.getColorValue();
 			}
 		});
-		createLabelControl(lineSeriesGroup, Messages.getString(Messages.LINE_STYLE));
+		createLabelControl(lineSeriesGroup, Messages.LINE_STYLE);
 		LineStyle[] styles = LineStyle.values();
 		String[] labels = new String[styles.length];
 		for(int i = 0; i < styles.length; i++) {
@@ -325,7 +325,7 @@ public class SeriesPage extends AbstractSelectorPage {
 				lineStyles[selectedIndex] = selectedStyle;
 			}
 		});
-		createLabelControl(lineSeriesGroup, Messages.getString(Messages.SYMBOL_COLOR));
+		createLabelControl(lineSeriesGroup, Messages.SYMBOL_COLOR);
 		symbolColorButton = createColorButtonControl(lineSeriesGroup);
 		symbolColorButton.addListener(new IPropertyChangeListener() {
 
@@ -335,7 +335,7 @@ public class SeriesPage extends AbstractSelectorPage {
 				symbolColors[selectedIndex] = symbolColorButton.getColorValue();
 			}
 		});
-		createLabelControl(lineSeriesGroup, Messages.getString(Messages.SYMBOL_TYPE));
+		createLabelControl(lineSeriesGroup, Messages.SYMBOL_TYPE);
 		PlotSymbolType[] types = PlotSymbolType.values();
 		labels = new String[types.length];
 		for(int i = 0; i < types.length; i++) {
@@ -357,7 +357,7 @@ public class SeriesPage extends AbstractSelectorPage {
 				symbolTypes[selectedIndex] = selectedType;
 			}
 		});
-		createLabelControl(lineSeriesGroup, Messages.getString(Messages.SYMBOL_SIZE));
+		createLabelControl(lineSeriesGroup, Messages.SYMBOL_SIZE);
 		symbolSizeSpinner = createSpinnerControl(lineSeriesGroup, 1, 10);
 		symbolSizeSpinner.addModifyListener(new ModifyListener() {
 
@@ -380,8 +380,8 @@ public class SeriesPage extends AbstractSelectorPage {
 		barSeriesGroup = new Composite(parent, SWT.NONE);
 		barSeriesGroup.setLayout(new GridLayout(1, true));
 		barSeriesGroup.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
-		Group group = createGroupControl(barSeriesGroup, Messages.getString(Messages.BAR_SERIES), true);
-		createLabelControl(group, Messages.getString(Messages.COLOR));
+		Group group = createGroupControl(barSeriesGroup, Messages.BAR_SERIES, true);
+		createLabelControl(group, Messages.COLOR);
 		barColorButton = createColorButtonControl(group);
 		barColorButton.addListener(new IPropertyChangeListener() {
 
@@ -391,7 +391,7 @@ public class SeriesPage extends AbstractSelectorPage {
 				barColors[selectedIndex] = barColorButton.getColorValue();
 			}
 		});
-		createLabelControl(group, Messages.getString(Messages.PADDING_SIZE));
+		createLabelControl(group, Messages.PADDING_SIZE);
 		paddingSizeSpinner = createSpinnerControl(group, 0, 100);
 		paddingSizeSpinner.addModifyListener(new ModifyListener() {
 

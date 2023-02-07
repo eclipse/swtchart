@@ -17,6 +17,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
 import java.text.DecimalFormat;
+import java.text.MessageFormat;
 
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.window.Window;
@@ -28,7 +29,6 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swtchart.ISeries;
 import org.eclipse.swtchart.export.core.AbstractSeriesExportHandler;
 import org.eclipse.swtchart.export.core.AxisSettings;
-import org.eclipse.swtchart.export.core.ISeriesExportConverter;
 import org.eclipse.swtchart.export.core.VectorExportSettingsDialog;
 import org.eclipse.swtchart.extensions.core.BaseChart;
 import org.eclipse.swtchart.extensions.core.IAxisScaleConverter;
@@ -36,13 +36,14 @@ import org.eclipse.swtchart.extensions.core.IAxisSettings;
 import org.eclipse.swtchart.extensions.core.ISecondaryAxisSettings;
 import org.eclipse.swtchart.extensions.core.ResourceSupport;
 import org.eclipse.swtchart.extensions.core.ScrollableChart;
+import org.eclipse.swtchart.extensions.menu.IChartMenuEntry;
 
-public class LaTeXTableExportHandler extends AbstractSeriesExportHandler implements ISeriesExportConverter {
+public class LaTeXTableExportHandler extends AbstractSeriesExportHandler implements IChartMenuEntry {
 
 	private static final String FILE_EXTENSION = "*.tex"; //$NON-NLS-1$
-	public static final String NAME = Messages.getString(Messages.LATEX_TABLE) + FILE_EXTENSION + ")"; //$NON-NLS-1$
+	public static final String NAME = MessageFormat.format(Messages.LATEX_TABLE, FILE_EXTENSION);
 	//
-	private static final String TITLE = Messages.getString(Messages.SAVE_AS_LATEX);
+	private static final String TITLE = Messages.SAVE_AS_LATEX;
 	private static final String TAB = "\t"; //$NON-NLS-1$
 	private static final String DELIMITER = " & "; //$NON-NLS-1$
 	private static final String HORIZONTAL_LINE = "\\hline"; //$NON-NLS-1$
@@ -142,9 +143,9 @@ public class LaTeXTableExportHandler extends AbstractSeriesExportHandler impleme
 						printWriter.println("\\end{tabular}"); //$NON-NLS-1$
 						printWriter.println("\\end{center}"); //$NON-NLS-1$
 						printWriter.flush();
-						MessageDialog.openInformation(shell, TITLE, MESSAGE_OK);
+						MessageDialog.openInformation(shell, TITLE, org.eclipse.swtchart.export.core.Messages.DATA_EXPORT_SUCCESS);
 					} catch(FileNotFoundException e) {
-						MessageDialog.openError(shell, TITLE, MESSAGE_ERROR);
+						MessageDialog.openError(shell, TITLE, org.eclipse.swtchart.export.core.Messages.DATA_EXPORT_ERROR);
 						e.printStackTrace();
 					}
 				}

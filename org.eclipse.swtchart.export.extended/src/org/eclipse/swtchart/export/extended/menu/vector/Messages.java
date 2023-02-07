@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2020 SWT Chart Project
+ * Copyright (c) 2020, 2023 SWT Chart Project
  *
  * This program and the accompanying materials are made
  * available under the terms of the Eclipse Public License 2.0
@@ -12,27 +12,21 @@
  *******************************************************************************/
 package org.eclipse.swtchart.export.extended.menu.vector;
 
-import java.util.MissingResourceException;
-import java.util.ResourceBundle;
+import org.eclipse.osgi.util.NLS;
 
-public class Messages {
+public class Messages extends NLS {
 
 	private static final String BUNDLE_NAME = "org.eclipse.swtchart.export.extended.menu.vector.messages"; //$NON-NLS-1$
-	private static final ResourceBundle RESOURCE_BUNDLE = ResourceBundle.getBundle(BUNDLE_NAME);
-	public static final String EXPORT_TO_SVG = "EXPORT_TO_SVG";
-	public static final String SAVE_AS_SVG = "SAVE_AS_SVG";
-	public static final String SVG = "SVG";
+	//
+	public static String EXPORT_TO_SVG;
+	public static String SAVE_AS_SVG;
+	public static String SVG;
+	//
+	static {
+		NLS.initializeMessages(BUNDLE_NAME, Messages.class);
+	}
 
 	private Messages() {
 
-	}
-
-	public static String getString(String key) {
-
-		try {
-			return RESOURCE_BUNDLE.getString(key);
-		} catch(MissingResourceException e) {
-			return '!' + key + '!';
-		}
 	}
 }

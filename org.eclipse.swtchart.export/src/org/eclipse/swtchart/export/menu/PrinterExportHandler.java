@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2017, 2022 Lablicate GmbH.
+ * Copyright (c) 2017, 2023 Lablicate GmbH.
  *
  * This program and the accompanying materials are made
  * available under the terms of the Eclipse Public License 2.0
@@ -23,19 +23,19 @@ import org.eclipse.swt.printing.Printer;
 import org.eclipse.swt.printing.PrinterData;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swtchart.export.core.AbstractSeriesExportHandler;
-import org.eclipse.swtchart.export.core.ISeriesExportConverter;
 import org.eclipse.swtchart.extensions.clipboard.ImageSupplier;
 import org.eclipse.swtchart.extensions.core.ResourceSupport;
 import org.eclipse.swtchart.extensions.core.ScrollableChart;
+import org.eclipse.swtchart.extensions.menu.IChartMenuEntry;
 
-public class PrinterExportHandler extends AbstractSeriesExportHandler implements ISeriesExportConverter {
+public class PrinterExportHandler extends AbstractSeriesExportHandler implements IChartMenuEntry {
 
-	private static final String TITLE = Messages.getString(Messages.SAVE_SELECTION);
+	private static final String TITLE = Messages.SAVE_SELECTION;
 
 	@Override
 	public String getName() {
 
-		return Messages.getString(Messages.PRINT);
+		return Messages.PRINT;
 	}
 
 	@Override
@@ -54,7 +54,7 @@ public class PrinterExportHandler extends AbstractSeriesExportHandler implements
 		PrinterData printerData = dialog.open();
 		if(printerData != null) {
 			Printer printer = new Printer(printerData);
-			if(printer.startJob(Messages.getString(Messages.PRINTER_EXPORT))) {
+			if(printer.startJob(Messages.PRINTER_EXPORT)) {
 				/*
 				 * Create a page
 				 */
@@ -84,7 +84,7 @@ public class PrinterExportHandler extends AbstractSeriesExportHandler implements
 				printer.endPage();
 				printer.endJob();
 				//
-				MessageDialog.openInformation(shell, TITLE, MESSAGE_OK);
+				MessageDialog.openInformation(shell, TITLE, org.eclipse.swtchart.export.core.Messages.DATA_EXPORT_SUCCESS);
 			}
 			printer.dispose();
 		}

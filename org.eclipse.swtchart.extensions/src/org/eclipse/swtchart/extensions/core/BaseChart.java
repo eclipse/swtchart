@@ -59,10 +59,10 @@ public class BaseChart extends AbstractExtendedChart implements IChartDataCoordi
 
 	public static final int ID_PRIMARY_X_AXIS = 0;
 	public static final int ID_PRIMARY_Y_AXIS = 0;
-	public static final String DEFAULT_TITLE_X_AXIS = Messages.getString(Messages.X_AXIS);
-	public static final String DEFAULT_TITLE_Y_AXIS = Messages.getString(Messages.Y_AXIS);
+	public static final String DEFAULT_TITLE_X_AXIS = Messages.X_AXIS;
+	public static final String DEFAULT_TITLE_Y_AXIS = Messages.Y_AXIS;
 	//
-	public static final String SELECTED_SERIES_NONE = Messages.getString(Messages.NONE);
+	public static final String SELECTED_SERIES_NONE = Messages.NONE;
 	/*
 	 * see: IHandledEventProcessor
 	 * Map<Integer, Map<Integer, Map<Integer, List<IEventProcessor>>>>
@@ -1069,7 +1069,7 @@ public class BaseChart extends AbstractExtendedChart implements IChartDataCoordi
 			if(axisSettings != null) {
 				label = axisSettings.getLabel();
 			} else {
-				label = Messages.getString(Messages.NOT_SET);
+				label = Messages.NOT_SET;
 			}
 			items[i] = label;
 		}

@@ -42,7 +42,6 @@ import org.eclipse.swtchart.ISeries;
 import org.eclipse.swtchart.LineStyle;
 import org.eclipse.swtchart.export.core.AbstractSeriesExportHandler;
 import org.eclipse.swtchart.export.core.AxisSettings;
-import org.eclipse.swtchart.export.core.ISeriesExportConverter;
 import org.eclipse.swtchart.export.core.VectorExportSettingsDialog;
 import org.eclipse.swtchart.extensions.barcharts.BarChart;
 import org.eclipse.swtchart.extensions.core.BaseChart;
@@ -53,9 +52,10 @@ import org.eclipse.swtchart.extensions.core.ISecondaryAxisSettings;
 import org.eclipse.swtchart.extensions.core.ResourceSupport;
 import org.eclipse.swtchart.extensions.core.ScrollableChart;
 import org.eclipse.swtchart.extensions.linecharts.LineChart;
+import org.eclipse.swtchart.extensions.menu.IChartMenuEntry;
 import org.eclipse.swtchart.extensions.scattercharts.ScatterChart;
 
-public class SVGExportHandler extends AbstractSeriesExportHandler implements ISeriesExportConverter {
+public class SVGExportHandler extends AbstractSeriesExportHandler implements IChartMenuEntry {
 
 	private static final String FILE_EXTENSION = "*.svg"; //$NON-NLS-1$
 	private static final String NAME = Messages.getString(Messages.SVG) + FILE_EXTENSION + ")"; //$NON-NLS-1$
@@ -167,9 +167,9 @@ public class SVGExportHandler extends AbstractSeriesExportHandler implements ISe
 												}
 											}
 											//
-											MessageDialog.openInformation(shell, TITLE, MESSAGE_OK);
+											MessageDialog.openInformation(shell, TITLE, org.eclipse.swtchart.export.core.Messages.DATA_EXPORT_SUCCESS);
 										} catch(FileNotFoundException e) {
-											MessageDialog.openError(shell, TITLE, MESSAGE_ERROR);
+											MessageDialog.openError(shell, TITLE, org.eclipse.swtchart.export.core.Messages.DATA_EXPORT_ERROR);
 											e.printStackTrace();
 										}
 									} catch(Exception e) {

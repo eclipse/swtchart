@@ -76,7 +76,7 @@ public class ChartSettings implements IChartSettings {
 	 * To display a space on top of the chart, a default
 	 * title is set and WHITE is used to hide it.
 	 */
-	private String title = Messages.getString(Messages.CHART_TITLE);
+	private String title = Messages.CHART_TITLE;
 	private boolean titleVisible = true;
 	private Color titleColor;
 	private Font titleFont;

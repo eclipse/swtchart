@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2008, 2021 SWTChart project.
+ * Copyright (c) 2008, 2023 SWTChart project.
  *
  * This program and the accompanying materials are made
  * available under the terms of the Eclipse Public License 2.0
@@ -202,7 +202,7 @@ public class AxisTick implements IAxisTick {
 		} else if(position == Position.Secondary && !axis.isHorizontalAxis()) {
 			return new Rectangle(r1.x, r1.y, r1.width + r2.width, r1.height);
 		} else {
-			throw new IllegalStateException(Messages.getString(Messages.UNKNOWN_AXIS_POSITION));
+			throw new IllegalStateException(Messages.UNKNOWN_AXIS_POSITION);
 		}
 	}
 

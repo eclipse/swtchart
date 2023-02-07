@@ -106,65 +106,65 @@ public class InteractiveChart extends Chart implements PaintListener {
 		plot.setMenu(menu);
 		// adjust axis range menu group
 		MenuItem menuItem = new MenuItem(menu, SWT.CASCADE);
-		menuItem.setText(ChartMenuMessages.ADJUST_AXIS_RANGE_GROUP);
+		menuItem.setText(Messages.ADJUST_AXIS_RANGE);
 		Menu adjustAxisRangeMenu = new Menu(menuItem);
 		menuItem.setMenu(adjustAxisRangeMenu);
 		// adjust axis range
 		menuItem = new MenuItem(adjustAxisRangeMenu, SWT.PUSH);
-		menuItem.setText(ChartMenuMessages.ADJUST_AXIS_RANGE);
+		menuItem.setText(Messages.ADJUST_AXIS_RANGE);
 		menuItem.addListener(SWT.Selection, this);
 		// adjust X axis range
 		menuItem = new MenuItem(adjustAxisRangeMenu, SWT.PUSH);
-		menuItem.setText(ChartMenuMessages.ADJUST_X_AXIS_RANGE);
+		menuItem.setText(Messages.ADJUST_X_AXIS_RANGE);
 		menuItem.addListener(SWT.Selection, this);
 		// adjust Y axis range
 		menuItem = new MenuItem(adjustAxisRangeMenu, SWT.PUSH);
-		menuItem.setText(ChartMenuMessages.ADJUST_Y_AXIS_RANGE);
+		menuItem.setText(Messages.ADJUST_Y_AXIS_RANGE);
 		menuItem.addListener(SWT.Selection, this);
 		menuItem = new MenuItem(menu, SWT.SEPARATOR);
 		// zoom in menu group
 		menuItem = new MenuItem(menu, SWT.CASCADE);
-		menuItem.setText(ChartMenuMessages.ZOOMIN_GROUP);
+		menuItem.setText(Messages.ZOOM_IN);
 		Menu zoomInMenu = new Menu(menuItem);
 		menuItem.setMenu(zoomInMenu);
 		// zoom in both axes
 		menuItem = new MenuItem(zoomInMenu, SWT.PUSH);
-		menuItem.setText(ChartMenuMessages.ZOOMIN);
+		menuItem.setText(Messages.ZOOM_IN_CTRL);
 		menuItem.addListener(SWT.Selection, this);
 		// zoom in X axis
 		menuItem = new MenuItem(zoomInMenu, SWT.PUSH);
-		menuItem.setText(ChartMenuMessages.ZOOMIN_X);
+		menuItem.setText(Messages.ZOOM_IN_X_AXIS);
 		menuItem.addListener(SWT.Selection, this);
 		// zoom in Y axis
 		menuItem = new MenuItem(zoomInMenu, SWT.PUSH);
-		menuItem.setText(ChartMenuMessages.ZOOMIN_Y);
+		menuItem.setText(Messages.ZOOM_IN_Y_AXIS);
 		menuItem.addListener(SWT.Selection, this);
 		// zoom out menu group
 		menuItem = new MenuItem(menu, SWT.CASCADE);
-		menuItem.setText(ChartMenuMessages.ZOOMOUT_GROUP);
+		menuItem.setText(Messages.ZOOM_OUT);
 		Menu zoomOutMenu = new Menu(menuItem);
 		menuItem.setMenu(zoomOutMenu);
 		// zoom out both axes
 		menuItem = new MenuItem(zoomOutMenu, SWT.PUSH);
-		menuItem.setText(ChartMenuMessages.ZOOMOUT);
+		menuItem.setText(Messages.ZOOM_OUT_CTRL);
 		menuItem.addListener(SWT.Selection, this);
 		// zoom out X axis
 		menuItem = new MenuItem(zoomOutMenu, SWT.PUSH);
-		menuItem.setText(ChartMenuMessages.ZOOMOUT_X);
+		menuItem.setText(Messages.ZOOM_OUT_X_AXIS);
 		menuItem.addListener(SWT.Selection, this);
 		// zoom out Y axis
 		menuItem = new MenuItem(zoomOutMenu, SWT.PUSH);
-		menuItem.setText(ChartMenuMessages.ZOOMOUT_Y);
+		menuItem.setText(Messages.ZOOM_OUT_Y_AXIS);
 		menuItem.addListener(SWT.Selection, this);
 		menuItem = new MenuItem(menu, SWT.SEPARATOR);
 		// save as
 		menuItem = new MenuItem(menu, SWT.PUSH);
-		menuItem.setText(ChartMenuMessages.SAVE_AS);
+		menuItem.setText(Messages.SAVE_AS);
 		menuItem.addListener(SWT.Selection, this);
 		menuItem = new MenuItem(menu, SWT.SEPARATOR);
 		// properties
 		menuItem = new MenuItem(menu, SWT.PUSH);
-		menuItem.setText(ChartMenuMessages.PROPERTIES);
+		menuItem.setText(Messages.PROPERTIES);
 		menuItem.addListener(SWT.Selection, this);
 	}
 
@@ -363,39 +363,39 @@ public class InteractiveChart extends Chart implements PaintListener {
 			return;
 		}
 		MenuItem menuItem = (MenuItem)event.widget;
-		if(menuItem.getText().equals(ChartMenuMessages.ADJUST_AXIS_RANGE)) {
+		if(menuItem.getText().equals(Messages.ADJUST_AXIS_RANGE)) {
 			getAxisSet().adjustRange();
-		} else if(menuItem.getText().equals(ChartMenuMessages.ADJUST_X_AXIS_RANGE)) {
+		} else if(menuItem.getText().equals(Messages.ADJUST_X_AXIS_RANGE)) {
 			for(IAxis axis : getAxisSet().getXAxes()) {
 				axis.adjustRange();
 			}
-		} else if(menuItem.getText().equals(ChartMenuMessages.ADJUST_Y_AXIS_RANGE)) {
+		} else if(menuItem.getText().equals(Messages.ADJUST_Y_AXIS_RANGE)) {
 			for(IAxis axis : getAxisSet().getYAxes()) {
 				axis.adjustRange();
 			}
-		} else if(menuItem.getText().equals(ChartMenuMessages.ZOOMIN)) {
+		} else if(menuItem.getText().equals(Messages.ZOOM_IN_CTRL)) {
 			getAxisSet().zoomIn();
-		} else if(menuItem.getText().equals(ChartMenuMessages.ZOOMIN_X)) {
+		} else if(menuItem.getText().equals(Messages.ZOOM_IN_X_AXIS)) {
 			for(IAxis axis : getAxisSet().getXAxes()) {
 				axis.zoomIn();
 			}
-		} else if(menuItem.getText().equals(ChartMenuMessages.ZOOMIN_Y)) {
+		} else if(menuItem.getText().equals(Messages.ZOOM_IN_Y_AXIS)) {
 			for(IAxis axis : getAxisSet().getYAxes()) {
 				axis.zoomIn();
 			}
-		} else if(menuItem.getText().equals(ChartMenuMessages.ZOOMOUT)) {
+		} else if(menuItem.getText().equals(Messages.ZOOM_OUT)) {
 			getAxisSet().zoomOut();
-		} else if(menuItem.getText().equals(ChartMenuMessages.ZOOMOUT_X)) {
+		} else if(menuItem.getText().equals(Messages.ZOOM_OUT_X_AXIS)) {
 			for(IAxis axis : getAxisSet().getXAxes()) {
 				axis.zoomOut();
 			}
-		} else if(menuItem.getText().equals(ChartMenuMessages.ZOOMOUT_Y)) {
+		} else if(menuItem.getText().equals(Messages.ZOOM_OUT_Y_AXIS)) {
 			for(IAxis axis : getAxisSet().getYAxes()) {
 				axis.zoomOut();
 			}
-		} else if(menuItem.getText().equals(ChartMenuMessages.SAVE_AS)) {
+		} else if(menuItem.getText().equals(Messages.SAVE_AS)) {
 			openSaveAsDialog();
-		} else if(menuItem.getText().equals(ChartMenuMessages.PROPERTIES)) {
+		} else if(menuItem.getText().equals(Messages.PROPERTIES)) {
 			openPropertiesDialog();
 		}
 		redraw();
@@ -407,7 +407,7 @@ public class InteractiveChart extends Chart implements PaintListener {
 	private void openSaveAsDialog() {
 
 		FileDialog dialog = new FileDialog(getShell(), SWT.SAVE);
-		dialog.setText(ChartMenuMessages.SAVE_AS_DIALOG_TITLE);
+		dialog.setText(Messages.SAVE_AS_DIALOG);
 		dialog.setFilterExtensions(EXTENSIONS);
 		dialog.setFileName(saveAsFilename);
 		String filename = dialog.open();
@@ -433,27 +433,27 @@ public class InteractiveChart extends Chart implements PaintListener {
 	private void openPropertiesDialog() {
 
 		PreferenceManager manager = new PreferenceManager();
-		final String chartTitle = Messages.getString("CHART"); //$NON-NLS-1$
+		final String chartTitle = Messages.CHART;
 		PreferenceNode chartNode = new PreferenceNode(chartTitle);
 		chartNode.setPage(new ChartPage(this, chartTitle));
 		manager.addToRoot(chartNode);
-		final String legendTitle = Messages.getString("LEGEND"); //$NON-NLS-1$
+		final String legendTitle = Messages.LEGEND;
 		PreferenceNode legendNode = new PreferenceNode(legendTitle);
 		legendNode.setPage(new LegendPage(this, legendTitle));
 		manager.addTo(chartTitle, legendNode);
-		final String xAxisTitle = Messages.getString("X_AXIS"); //$NON-NLS-1$
+		final String xAxisTitle = Messages.X_AXIS;
 		PreferenceNode xAxisNode = new PreferenceNode(xAxisTitle);
 		xAxisNode.setPage(new AxisPage(this, Direction.X, xAxisTitle));
 		manager.addTo(chartTitle, xAxisNode);
-		final String gridTitle = Messages.getString("GRID"); //$NON-NLS-1$
+		final String gridTitle = Messages.GRID;
 		PreferenceNode xGridNode = new PreferenceNode(gridTitle);
 		xGridNode.setPage(new GridPage(this, Direction.X, gridTitle));
 		manager.addTo(chartTitle + "." + xAxisTitle, xGridNode); //$NON-NLS-1$
-		final String tickTitle = Messages.getString("TICK"); //$NON-NLS-1$
+		final String tickTitle = Messages.TICK;
 		PreferenceNode xTickNode = new PreferenceNode(tickTitle);
 		xTickNode.setPage(new AxisTickPage(this, Direction.X, tickTitle));
 		manager.addTo(chartTitle + "." + xAxisTitle, xTickNode); //$NON-NLS-1$
-		final String yAxisTitle = Messages.getString("Y_AXIS"); //$NON-NLS-1$
+		final String yAxisTitle = Messages.Y_AXIS;
 		PreferenceNode yAxisNode = new PreferenceNode(yAxisTitle);
 		yAxisNode.setPage(new AxisPage(this, Direction.Y, yAxisTitle));
 		manager.addTo(chartTitle, yAxisNode);
@@ -463,17 +463,17 @@ public class InteractiveChart extends Chart implements PaintListener {
 		PreferenceNode yTickNode = new PreferenceNode(tickTitle);
 		yTickNode.setPage(new AxisTickPage(this, Direction.Y, tickTitle));
 		manager.addTo(chartTitle + "." + yAxisTitle, yTickNode); //$NON-NLS-1$
-		final String seriesTitle = Messages.getString("SERIES"); //$NON-NLS-1$
+		final String seriesTitle = Messages.SERIES;
 		PreferenceNode plotNode = new PreferenceNode(seriesTitle);
 		plotNode.setPage(new SeriesPage(this, seriesTitle));
 		manager.addTo(chartTitle, plotNode);
-		final String labelTitle = Messages.getString("LABEL"); //$NON-NLS-1$
+		final String labelTitle = Messages.LABEL;
 		PreferenceNode labelNode = new PreferenceNode(labelTitle);
 		labelNode.setPage(new SeriesLabelPage(this, labelTitle));
 		manager.addTo(chartTitle + "." + seriesTitle, labelNode); //$NON-NLS-1$
 		PreferenceDialog dialog = new PreferenceDialog(getShell(), manager);
 		dialog.create();
-		dialog.getShell().setText(Messages.getString("PROPERTIES")); //$NON-NLS-1$
+		dialog.getShell().setText(Messages.PROPERTIES);
 		dialog.getTreeViewer().expandAll();
 		dialog.open();
 	}

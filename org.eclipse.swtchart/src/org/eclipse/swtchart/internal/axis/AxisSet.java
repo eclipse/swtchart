@@ -228,7 +228,7 @@ public class AxisSet implements IAxisSet {
 			SWT.error(SWT.ERROR_CANNOT_BE_ZERO);
 		}
 		if(getAxisMap(direction).get(id) == null) {
-			throw new IllegalArgumentException(Messages.getString(Messages.AXIS_ID_DONT_EXIST));
+			throw new IllegalArgumentException(Messages.AXIS_ID_DONT_EXIST);
 		}
 		((Axis)getAxis(id, direction)).dispose();
 		getAxisMap(direction).remove(id);

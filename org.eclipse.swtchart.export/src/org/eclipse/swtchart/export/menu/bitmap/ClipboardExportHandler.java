@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2022 Lablicate GmbH.
+ * Copyright (c) 2022, 2023 Lablicate GmbH.
  *
  * This program and the accompanying materials are made
  * available under the terms of the Eclipse Public License 2.0
@@ -15,12 +15,12 @@ package org.eclipse.swtchart.export.menu.bitmap;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swtchart.export.core.AbstractSeriesExportHandler;
-import org.eclipse.swtchart.export.core.ISeriesExportConverter;
 import org.eclipse.swtchart.extensions.clipboard.ImageClipboardSupport;
 import org.eclipse.swtchart.extensions.core.ResourceSupport;
 import org.eclipse.swtchart.extensions.core.ScrollableChart;
+import org.eclipse.swtchart.extensions.menu.IChartMenuEntry;
 
-public class ClipboardExportHandler extends AbstractSeriesExportHandler implements ISeriesExportConverter {
+public class ClipboardExportHandler extends AbstractSeriesExportHandler implements IChartMenuEntry {
 
 	@Override
 	public String getName() {

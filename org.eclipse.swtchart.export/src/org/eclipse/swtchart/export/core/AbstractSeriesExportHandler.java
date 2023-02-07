@@ -14,9 +14,10 @@ package org.eclipse.swtchart.export.core;
 
 import org.eclipse.swtchart.ISeries;
 import org.eclipse.swtchart.extensions.menu.AbstractChartMenuEntry;
-import org.eclipse.swtchart.extensions.menu.IChartMenuCategories;
+import org.eclipse.swtchart.extensions.menu.IChartMenuEntry;
+import org.eclipse.swtchart.extensions.menu.Messages;
 
-public abstract class AbstractSeriesExportHandler extends AbstractChartMenuEntry implements ISeriesExportConverter {
+public abstract class AbstractSeriesExportHandler extends AbstractChartMenuEntry implements IChartMenuEntry {
 
 	/**
 	 * Returns the description if available.
@@ -35,6 +36,6 @@ public abstract class AbstractSeriesExportHandler extends AbstractChartMenuEntry
 	@Override
 	public String getCategory() {
 
-		return IChartMenuCategories.EXPORT_CONVERTER;
+		return Messages.EXPORT_CHART_SELECTION;
 	}
 }

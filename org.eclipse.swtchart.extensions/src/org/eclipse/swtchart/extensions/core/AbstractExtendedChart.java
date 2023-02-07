@@ -384,7 +384,7 @@ public abstract class AbstractExtendedChart extends AbstractHandledChart impleme
 					calculateCoordinates(series);
 					return series;
 				} else {
-					throw new SeriesException(Messages.getString(Messages.X_Y_SERIES_LENGTH_DIFFERS));
+					throw new SeriesException(Messages.X_Y_SERIES_LENGTH_DIFFERS);
 				}
 			}
 		} else {
@@ -529,7 +529,7 @@ public abstract class AbstractExtendedChart extends AbstractHandledChart impleme
 						Range adjustedRange = new Range(start, end);
 						axis.setRange(adjustedRange);
 					} else {
-						System.out.println(Messages.getString(Messages.CANT_SET_SECONDARY_X_AXIS_RANGE) + start + "\t" + end); //$NON-NLS-1$ //$NON-NLS-2$
+						System.out.println(Messages.CANT_SET_SECONDARY_X_AXIS_RANGE + start + "\t" + end); //$NON-NLS-1$ //$NON-NLS-2$
 					}
 				}
 			}

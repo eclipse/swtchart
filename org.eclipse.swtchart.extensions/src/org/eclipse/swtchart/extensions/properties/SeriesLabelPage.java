@@ -73,7 +73,7 @@ public class SeriesLabelPage extends AbstractSelectorPage {
 	 */
 	public SeriesLabelPage(InteractiveChart chart, String title) {
 
-		super(chart, title, Messages.getString(Messages.SERIES));
+		super(chart, title, Messages.SERIES);
 		series = chart.getSeriesSet().getSeries();
 		visibleStates = new boolean[series.length];
 		colors = new RGB[series.length];
@@ -125,7 +125,7 @@ public class SeriesLabelPage extends AbstractSelectorPage {
 
 		Composite group = new Composite(parent, SWT.NONE);
 		group.setLayout(new GridLayout(2, false));
-		showLabelButton = createCheckBoxControl(group, Messages.getString(Messages.SHOW_LABEL));
+		showLabelButton = createCheckBoxControl(group, Messages.SHOW_LABEL);
 		showLabelButton.addSelectionListener(new SelectionAdapter() {
 
 			@Override
@@ -137,7 +137,7 @@ public class SeriesLabelPage extends AbstractSelectorPage {
 			}
 		});
 		//
-		colorLabel = createLabelControl(group, Messages.getString(Messages.COLOR));
+		colorLabel = createLabelControl(group, Messages.COLOR);
 		colorButton = createColorButtonControl(group);
 		colorButton.addListener(new IPropertyChangeListener() {
 
@@ -148,7 +148,7 @@ public class SeriesLabelPage extends AbstractSelectorPage {
 			}
 		});
 		//
-		fontSizeLabel = createLabelControl(group, Messages.getString(Messages.FONT_SIZE));
+		fontSizeLabel = createLabelControl(group, Messages.FONT_SIZE);
 		fontSizeSpinner = createSpinnerControl(group, 8, 30);
 		fontSizeSpinner.addModifyListener(new ModifyListener() {
 

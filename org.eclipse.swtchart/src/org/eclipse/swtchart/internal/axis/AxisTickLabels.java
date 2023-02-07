@@ -527,11 +527,11 @@ public class AxisTickLabels implements PaintListener {
 	private BigDecimal getGridStep(int lengthInPixels, double min, double max) {
 
 		if(lengthInPixels <= 0) {
-			throw new IllegalArgumentException(Messages.getString(Messages.LENGTH_MUST_BE_POSITIVE));
+			throw new IllegalArgumentException(Messages.LENGTH_MUST_BE_POSITIVE);
 		}
 		//
 		if(min >= max) {
-			throw new IllegalArgumentException(Messages.getString(Messages.MUST_BE_LESS_MAX));
+			throw new IllegalArgumentException(Messages.MUST_BE_LESS_MAX);
 		}
 		/*
 		 * BigDecimal gridStep calculation.

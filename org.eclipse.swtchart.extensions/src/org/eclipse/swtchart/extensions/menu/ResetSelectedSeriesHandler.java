@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2017, 2022 Lablicate GmbH.
+ * Copyright (c) 2017, 2023 Lablicate GmbH.
  *
  * This program and the accompanying materials are made
  * available under the terms of the Eclipse Public License 2.0
@@ -25,13 +25,13 @@ public class ResetSelectedSeriesHandler extends AbstractChartMenuEntry implement
 	@Override
 	public String getCategory() {
 
-		return IChartMenuCategories.RANGE_SELECTION;
+		return Messages.RANGE_SELECTION;
 	}
 
 	@Override
 	public String getName() {
 
-		return Messages.getString(Messages.RESET_SELECTED_SERIES);
+		return Messages.RESET_SELECTED_SERIES;
 	}
 
 	@Override

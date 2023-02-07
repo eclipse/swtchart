@@ -97,7 +97,7 @@ public class LegendPage extends AbstractPage {
 		gridData.horizontalSpan = 2;
 		group.setLayoutData(gridData);
 		group.setLayout(new GridLayout(2, false));
-		showLegendButton = createCheckBoxControl(group, Messages.getString(Messages.SHOW_LEGEND));
+		showLegendButton = createCheckBoxControl(group, Messages.SHOW_LEGEND);
 		showLegendButton.addSelectionListener(new SelectionAdapter() {
 
 			@Override
@@ -107,11 +107,11 @@ public class LegendPage extends AbstractPage {
 				setControlsEnable(visible);
 			}
 		});
-		backgroundLabel = createLabelControl(group, Messages.getString(Messages.BACKGROUND));
+		backgroundLabel = createLabelControl(group, Messages.BACKGROUND);
 		backgroundButton = createColorButtonControl(group);
-		foregroundLabel = createLabelControl(group, Messages.getString(Messages.FOREGROUND));
+		foregroundLabel = createLabelControl(group, Messages.FOREGROUND);
 		foregroundButton = createColorButtonControl(group);
-		fontSizeLabel = createLabelControl(group, Messages.getString(Messages.FONT_SIZE));
+		fontSizeLabel = createLabelControl(group, Messages.FONT_SIZE);
 		fontSizeSpinner = createSpinnerControl(group, 8, 30);
 	}
 

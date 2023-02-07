@@ -35,7 +35,6 @@ import org.eclipse.swtchart.IAxis;
 import org.eclipse.swtchart.IAxis.Direction;
 import org.eclipse.swtchart.Resources;
 import org.eclipse.swtchart.extensions.charts.InteractiveChart;
-import org.eclipse.swtchart.extensions.core.ResourceSupport;
 
 /**
  * The tick page on properties dialog.
@@ -75,7 +74,7 @@ public class AxisTickPage extends AbstractSelectorPage {
 	 */
 	public AxisTickPage(InteractiveChart chart, Direction direction, String title) {
 
-		super(chart, title, Messages.getString(Messages.AXES));
+		super(chart, title, Messages.AXES);
 		if(direction == Direction.X) {
 			this.axes = chart.getAxisSet().getXAxes();
 		} else if(direction == Direction.Y) {
@@ -134,7 +133,7 @@ public class AxisTickPage extends AbstractSelectorPage {
 		gridData.horizontalSpan = 2;
 		group.setLayoutData(gridData);
 		group.setLayout(new GridLayout(2, false));
-		showTickButton = createCheckBoxControl(group, Messages.getString(Messages.SHOW_TICK));
+		showTickButton = createCheckBoxControl(group, Messages.SHOW_TICK);
 		showTickButton.addSelectionListener(new SelectionAdapter() {
 
 			@Override
@@ -145,7 +144,7 @@ public class AxisTickPage extends AbstractSelectorPage {
 				setControlsEnable(visible);
 			}
 		});
-		fontSizeLabel = createLabelControl(group, Messages.getString(Messages.FONT_SIZE));
+		fontSizeLabel = createLabelControl(group, Messages.FONT_SIZE);
 		fontSizeSpinner = createSpinnerControl(group, 8, 30);
 		fontSizeSpinner.addSelectionListener(new SelectionAdapter() {
 
@@ -155,7 +154,7 @@ public class AxisTickPage extends AbstractSelectorPage {
 				fontSizes[selectedIndex] = fontSizeSpinner.getSelection();
 			}
 		});
-		foregroundLabel = createLabelControl(group, Messages.getString(Messages.COLOR));
+		foregroundLabel = createLabelControl(group, Messages.COLOR);
 		foregroundButton = createColorButtonControl(group);
 		foregroundButton.addListener(new IPropertyChangeListener() {
 

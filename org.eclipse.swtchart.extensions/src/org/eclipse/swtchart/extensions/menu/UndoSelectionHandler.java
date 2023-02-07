@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2017, 2022 Lablicate GmbH.
+ * Copyright (c) 2017, 2023 Lablicate GmbH.
  *
  * This program and the accompanying materials are made
  * available under the terms of the Eclipse Public License 2.0
@@ -23,13 +23,13 @@ public class UndoSelectionHandler extends AbstractChartMenuEntry implements ICha
 	@Override
 	public String getCategory() {
 
-		return IChartMenuCategories.RANGE_SELECTION;
+		return Messages.RANGE_SELECTION;
 	}
 
 	@Override
 	public String getName() {
 
-		return Messages.getString(Messages.UNDO_SELECTION);
+		return Messages.UNDO_SELECTION;
 	}
 
 	@Override

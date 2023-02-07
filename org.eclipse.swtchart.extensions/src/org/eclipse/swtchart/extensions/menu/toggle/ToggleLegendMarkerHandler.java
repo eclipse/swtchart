@@ -17,7 +17,6 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swtchart.extensions.core.IChartSettings;
 import org.eclipse.swtchart.extensions.core.ScrollableChart;
 import org.eclipse.swtchart.extensions.menu.AbstractChartMenuEntry;
-import org.eclipse.swtchart.extensions.menu.IChartMenuCategories;
 import org.eclipse.swtchart.extensions.menu.IChartMenuEntry;
 
 public class ToggleLegendMarkerHandler extends AbstractChartMenuEntry implements IChartMenuEntry {
@@ -25,13 +24,13 @@ public class ToggleLegendMarkerHandler extends AbstractChartMenuEntry implements
 	@Override
 	public String getCategory() {
 
-		return IChartMenuCategories.TOGGLE_VISIBILITY;
+		return org.eclipse.swtchart.extensions.menu.Messages.TOGGLE_VISIBILITY;
 	}
 
 	@Override
 	public String getName() {
 
-		return Messages.getString(Messages.LEGEND_MARKER);
+		return Messages.LEGEND_MARKER;
 	}
 
 	@Override

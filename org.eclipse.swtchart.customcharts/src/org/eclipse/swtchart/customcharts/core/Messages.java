@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2020 SWT Chart Project
+ * Copyright (c) 2020, 2023 SWT Chart Project
  *
  * This program and the accompanying materials are made
  * available under the terms of the Eclipse Public License 2.0
@@ -12,28 +12,22 @@
  *******************************************************************************/
 package org.eclipse.swtchart.customcharts.core;
 
-import java.util.MissingResourceException;
-import java.util.ResourceBundle;
+import org.eclipse.osgi.util.NLS;
 
-public class Messages {
+public class Messages extends NLS {
 
 	private static final String BUNDLE_NAME = "org.eclipse.swtchart.customcharts.core.messages"; //$NON-NLS-1$
-	private static final ResourceBundle RESOURCE_BUNDLE = ResourceBundle.getBundle(BUNDLE_NAME);
-	public static String INTENSITY = "INTENSITY";
-	public static String MINUTES = "MINUTES";
-	public static String RELATIVE_INTENSITY = "RELATIVE_INTENSITY";
-	public static String RETENTION_TIME = "RETENTION_TIME";
+	//
+	public static String INTENSITY;
+	public static String MINUTES;
+	public static String RELATIVE_INTENSITY;
+	public static String RETENTION_TIME;
+	//
+	static {
+		NLS.initializeMessages(BUNDLE_NAME, Messages.class);
+	}
 
 	private Messages() {
 
-	}
-
-	public static String getString(String key) {
-
-		try {
-			return RESOURCE_BUNDLE.getString(key);
-		} catch(MissingResourceException e) {
-			return '!' + key + '!';
-		}
 	}
 }

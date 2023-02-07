@@ -170,7 +170,7 @@ public class RangeSelector extends Composite {
 		Button buttonSetRange = new Button(this, SWT.PUSH);
 		buttonSetRange.setText(""); //$NON-NLS-1$
 		buttonSetRange.setImage(ResourceSupport.getImage(ResourceSupport.ICON_SET_RANGE));
-		buttonSetRange.setToolTipText(Messages.getString(Messages.SET_CURRENT_SELECTION));
+		buttonSetRange.setToolTipText(Messages.SET_CURRENT_SELECTION);
 		buttonSetRange.setLayoutData(getButtonGridData());
 		buttonSetRange.addSelectionListener(new SelectionAdapter() {
 
@@ -188,7 +188,7 @@ public class RangeSelector extends Composite {
 		Button buttonResetRange = new Button(this, SWT.PUSH);
 		buttonResetRange.setText(""); //$NON-NLS-1$
 		buttonResetRange.setImage(ResourceSupport.getImage(ResourceSupport.ICON_RESET));
-		buttonResetRange.setToolTipText(Messages.getString(Messages.RESET_RANGE));
+		buttonResetRange.setToolTipText(Messages.RESET_RANGE);
 		buttonResetRange.setLayoutData(getButtonGridData());
 		buttonResetRange.addSelectionListener(new SelectionAdapter() {
 
@@ -206,7 +206,7 @@ public class RangeSelector extends Composite {
 		Button buttonHide = new Button(this, SWT.PUSH);
 		buttonHide.setText(""); //$NON-NLS-1$
 		buttonHide.setImage(ResourceSupport.getImage(ResourceSupport.ICON_HIDE));
-		buttonHide.setToolTipText(Messages.getString(Messages.HIDE_RANGE_SELECTOR_UI));
+		buttonHide.setToolTipText(Messages.HIDE_RANGE_SELECTOR_UI);
 		buttonHide.setLayoutData(getButtonGridData());
 		buttonHide.addSelectionListener(new SelectionAdapter() {
 

@@ -100,11 +100,11 @@ public class ChartPage extends AbstractPage {
 
 		Composite panel = new Composite(parent, SWT.NONE);
 		panel.setLayout(new GridLayout(2, false));
-		createLabelControl(panel, Messages.getString(Messages.BACKGROUND_PLOT_AREA));
+		createLabelControl(panel, Messages.BACKGROUND_PLOT_AREA);
 		backgroundInPlotAreaButton = createColorButtonControl(panel);
-		createLabelControl(panel, Messages.getString(Messages.BACKGROUND));
+		createLabelControl(panel, Messages.BACKGROUND);
 		backgroundButton = createColorButtonControl(panel);
-		orientationButton = createCheckBoxControl(panel, Messages.getString(Messages.VERTICAL_ORIENTATION));
+		orientationButton = createCheckBoxControl(panel, Messages.VERTICAL_ORIENTATION);
 	}
 
 	/**
@@ -115,8 +115,8 @@ public class ChartPage extends AbstractPage {
 	 */
 	private void addTitleGroup(Composite parent) {
 
-		Group group = createGroupControl(parent, Messages.getString(Messages.TITLE), false);
-		showTitleButton = createCheckBoxControl(group, Messages.getString(Messages.SHOW_TITLE));
+		Group group = createGroupControl(parent, Messages.TITLE, false);
+		showTitleButton = createCheckBoxControl(group, Messages.SHOW_TITLE);
 		showTitleButton.addSelectionListener(new SelectionAdapter() {
 
 			@Override
@@ -125,11 +125,11 @@ public class ChartPage extends AbstractPage {
 				setTitleControlsEnable(showTitleButton.getSelection());
 			}
 		});
-		titleLabel = createLabelControl(group, Messages.getString(Messages.TEXT));
+		titleLabel = createLabelControl(group, Messages.TEXT);
 		titleText = createTextControl(group);
-		fontSizeLabel = createLabelControl(group, Messages.getString(Messages.FONT_SIZE));
+		fontSizeLabel = createLabelControl(group, Messages.FONT_SIZE);
 		fontSizeSpinner = createSpinnerControl(group, 8, 30);
-		titleColorLabel = createLabelControl(group, Messages.getString(Messages.COLOR));
+		titleColorLabel = createLabelControl(group, Messages.COLOR);
 		titleColorButton = createColorButtonControl(group);
 	}
 
@@ -192,7 +192,7 @@ public class ChartPage extends AbstractPage {
 		orientationButton.setSelection(false);
 		showTitleButton.setSelection(true);
 		setTitleControlsEnable(true);
-		titleText.setText(Messages.getString(Messages.CHART_TITLE));
+		titleText.setText(Messages.CHART_TITLE);
 		fontSizeSpinner.setSelection(Resources.LARGE_FONT_SIZE);
 		titleColorButton.setColorValue(new RGB(0, 0, 255));
 		super.performDefaults();

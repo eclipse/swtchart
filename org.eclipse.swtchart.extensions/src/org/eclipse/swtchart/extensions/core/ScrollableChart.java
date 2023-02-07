@@ -218,7 +218,7 @@ public class ScrollableChart extends Composite implements IScrollableChart, IEve
 						/*
 						 * Draw the message.
 						 */
-						String label = Messages.getString(Messages.DOUBLE_CLICK_TO_SHOW_RANGE_INFO);
+						String label = Messages.DOUBLE_CLICK_TO_SHOW_RANGE_INFO;
 						Point labelSize = e.gc.textExtent(label);
 						e.gc.drawText(label, (int)(width / 2.0d - labelSize.x / 2.0d), 5, true);
 					}

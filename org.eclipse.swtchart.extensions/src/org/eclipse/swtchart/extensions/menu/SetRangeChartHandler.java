@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2021, 2022 Lablicate GmbH.
+ * Copyright (c) 2021, 2023 Lablicate GmbH.
  *
  * This program and the accompanying materials are made
  * available under the terms of the Eclipse Public License 2.0
@@ -33,7 +33,7 @@ public class SetRangeChartHandler extends AbstractChartMenuEntry implements ICha
 	@Override
 	public String getCategory() {
 
-		return IChartMenuCategories.STANDARD_OPERATION;
+		return ""; // Must be empty to be placed on the main menu level. //$NON-NLS-1$
 	}
 
 	@Override

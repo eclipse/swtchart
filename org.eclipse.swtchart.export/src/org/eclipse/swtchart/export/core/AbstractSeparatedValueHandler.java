@@ -30,8 +30,9 @@ import org.eclipse.swtchart.extensions.core.IAxisScaleConverter;
 import org.eclipse.swtchart.extensions.core.IAxisSettings;
 import org.eclipse.swtchart.extensions.core.ISecondaryAxisSettings;
 import org.eclipse.swtchart.extensions.core.ScrollableChart;
+import org.eclipse.swtchart.extensions.menu.IChartMenuEntry;
 
-public abstract class AbstractSeparatedValueHandler extends AbstractSeriesExportHandler implements ISeriesExportConverter {
+public abstract class AbstractSeparatedValueHandler extends AbstractSeriesExportHandler implements IChartMenuEntry {
 
 	private String title;
 	private String fileExtension;
@@ -119,9 +120,9 @@ public abstract class AbstractSeparatedValueHandler extends AbstractSeriesExport
 						}
 						//
 						printWriter.flush();
-						MessageDialog.openInformation(shell, title, MESSAGE_OK);
+						MessageDialog.openInformation(shell, title, Messages.DATA_EXPORT_SUCCESS);
 					} catch(FileNotFoundException e) {
-						MessageDialog.openError(shell, title, MESSAGE_ERROR);
+						MessageDialog.openError(shell, title, Messages.DATA_EXPORT_ERROR);
 						e.printStackTrace();
 					}
 				}

@@ -63,7 +63,7 @@ public class GridPage extends AbstractSelectorPage {
 	 */
 	public GridPage(InteractiveChart chart, Direction direction, String title) {
 
-		super(chart, title, Messages.getString(Messages.AXES));
+		super(chart, title, Messages.AXES);
 		if(direction == Direction.X) {
 			this.axes = chart.getAxisSet().getXAxes();
 		} else if(direction == Direction.Y) {
@@ -118,7 +118,7 @@ public class GridPage extends AbstractSelectorPage {
 		gridData.horizontalSpan = 2;
 		group.setLayoutData(gridData);
 		group.setLayout(new GridLayout(2, false));
-		createLabelControl(group, Messages.getString(Messages.LINE_STYLE));
+		createLabelControl(group, Messages.LINE_STYLE);
 		LineStyle[] values = LineStyle.values();
 		String[] labels = new String[values.length];
 		for(int i = 0; i < values.length; i++) {
@@ -140,7 +140,7 @@ public class GridPage extends AbstractSelectorPage {
 				styles[selectedIndex] = selectedStyle;
 			}
 		});
-		createLabelControl(group, Messages.getString(Messages.COLOR));
+		createLabelControl(group, Messages.COLOR);
 		foregroundButton = createColorButtonControl(group);
 		foregroundButton.addListener(new IPropertyChangeListener() {
 

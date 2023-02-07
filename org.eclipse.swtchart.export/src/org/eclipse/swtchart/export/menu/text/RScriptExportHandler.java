@@ -16,6 +16,7 @@ package org.eclipse.swtchart.export.menu.text;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
+import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -34,7 +35,6 @@ import org.eclipse.swtchart.ISeries;
 import org.eclipse.swtchart.LineStyle;
 import org.eclipse.swtchart.export.core.AbstractSeriesExportHandler;
 import org.eclipse.swtchart.export.core.AxisSettings;
-import org.eclipse.swtchart.export.core.ISeriesExportConverter;
 import org.eclipse.swtchart.export.core.VectorExportSettingsDialog;
 import org.eclipse.swtchart.extensions.barcharts.BarChart;
 import org.eclipse.swtchart.extensions.core.BaseChart;
@@ -46,14 +46,15 @@ import org.eclipse.swtchart.extensions.core.ResourceSupport;
 import org.eclipse.swtchart.extensions.core.ScrollableChart;
 import org.eclipse.swtchart.extensions.linecharts.LineChart;
 import org.eclipse.swtchart.extensions.linecharts.StepChart;
+import org.eclipse.swtchart.extensions.menu.IChartMenuEntry;
 import org.eclipse.swtchart.extensions.scattercharts.ScatterChart;
 
-public class RScriptExportHandler extends AbstractSeriesExportHandler implements ISeriesExportConverter {
+public class RScriptExportHandler extends AbstractSeriesExportHandler implements IChartMenuEntry {
 
 	private static final String FILE_EXTENSION = Messages.getString(Messages.R_EXTENSION);
-	public static final String NAME = Messages.getString(Messages.IMAGE_R_SCRIPT) + FILE_EXTENSION + ")"; //$NON-NLS-1$
+	public static final String NAME = MessageFormat.format(Messages.IMAGE_R_SCRIPT, FILE_EXTENSION);
 	//
-	private static final String TITLE = Messages.getString(Messages.SAVE_AS_IMAGE_R_SCRIPT);
+	private static final String TITLE = Messages.SAVE_AS_IMAGE_R_SCRIPT;
 	//
 	private static final String AXIS_X = "x"; //$NON-NLS-1$
 	private static final String AXIS_Y = "y"; //$NON-NLS-1$
@@ -130,7 +131,7 @@ public class RScriptExportHandler extends AbstractSeriesExportHandler implements
 						axisSettings.setAxisScaleConverterX(axisScaleConverterX);
 						axisSettings.setAxisSettingsY(axisSettingsY);
 						axisSettings.setAxisScaleConverterY(axisScaleConverterY);
-						plotSymbolsMap = new HashMap<PlotSymbolType, Integer>();
+						plotSymbolsMap = new HashMap<>();
 						plotSymbolsMap.put(PlotSymbolType.CIRCLE, 1);
 						plotSymbolsMap.put(PlotSymbolType.CROSS, 4);
 						plotSymbolsMap.put(PlotSymbolType.DIAMOND, 5);
@@ -140,7 +141,7 @@ public class RScriptExportHandler extends AbstractSeriesExportHandler implements
 						plotSymbolsMap.put(PlotSymbolType.TRIANGLE, 2);
 						plotSymbolsMap.put(PlotSymbolType.NONE, 20);
 						//
-						lineStylesMap = new HashMap<LineStyle, Integer>();
+						lineStylesMap = new HashMap<>();
 						lineStylesMap.put(LineStyle.NONE, 0);
 						lineStylesMap.put(LineStyle.DASH, 2);
 						lineStylesMap.put(LineStyle.DASHDOT, 4);
@@ -185,9 +186,9 @@ public class RScriptExportHandler extends AbstractSeriesExportHandler implements
 						}
 						//
 						printWriter.flush();
-						MessageDialog.openInformation(shell, TITLE, MESSAGE_OK);
+						MessageDialog.openInformation(shell, TITLE, org.eclipse.swtchart.export.core.Messages.DATA_EXPORT_SUCCESS);
 					} catch(FileNotFoundException e) {
-						MessageDialog.openError(shell, TITLE, MESSAGE_ERROR);
+						MessageDialog.openError(shell, TITLE, org.eclipse.swtchart.export.core.Messages.DATA_EXPORT_ERROR);
 						e.printStackTrace();
 					}
 				}

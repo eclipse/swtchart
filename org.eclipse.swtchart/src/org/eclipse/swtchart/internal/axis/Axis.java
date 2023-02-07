@@ -180,7 +180,7 @@ public class Axis implements IAxis {
 			return; // to suppress warnings...
 		}
 		if(Double.isNaN(range.lower) || Double.isNaN(range.upper) || Double.isInfinite(range.lower) || Double.isInfinite(range.upper) || range.lower > range.upper) {
-			throw new IllegalArgumentException(Messages.getString(Messages.ILLEGAL_RANGE) + range);
+			throw new IllegalArgumentException(Messages.ILLEGAL_RANGE + range);
 		}
 		if(min == range.lower && max == range.upper) {
 			return;
@@ -196,7 +196,7 @@ public class Axis implements IAxis {
 			}
 		} else {
 			if(range.lower == range.upper) {
-				throw new IllegalArgumentException(Messages.getString(Messages.GIVEN_RANGE_INVALID));
+				throw new IllegalArgumentException(Messages.GIVEN_RANGE_INVALID);
 			}
 			if(logScaleEnabled && range.lower <= 0) {
 				range.lower = min;
@@ -259,7 +259,7 @@ public class Axis implements IAxis {
 			// check if series contain zero or negative value
 			double minSeriesValue = getMinSeriesValue();
 			if(minSeriesValue <= 0) {
-				throw new IllegalStateException(Messages.getString(Messages.SERIES_CONTAIN_INVALID_VALUES));
+				throw new IllegalStateException(Messages.SERIES_CONTAIN_INVALID_VALUES);
 			}
 			// adjust the range in order not to have zero or negative value
 			if(min <= 0) {
@@ -283,7 +283,7 @@ public class Axis implements IAxis {
 	public void setLogScaleBase(double base) {
 
 		if(base <= 0 || base == 1d || !Double.isFinite(base)) {
-			throw new IllegalStateException(Messages.getString(Messages.LOGARITHM_BASE_IS_INVALID));
+			throw new IllegalStateException(Messages.LOGARITHM_BASE_IS_INVALID);
 		}
 		logScaleBase = base;
 		chart.updateLayout();
@@ -523,7 +523,7 @@ public class Axis implements IAxis {
 		}
 		if(enabled) {
 			if(direction == Direction.Y) {
-				throw new IllegalStateException(Messages.getString(Messages.Y_AXIS_CANNOT_BE_CATEGORY));
+				throw new IllegalStateException(Messages.Y_AXIS_CANNOT_BE_CATEGORY);
 			}
 			if(categorySeries != null && categorySeries.length != 0) {
 				min = (min < 0 || min >= categorySeries.length) ? 0 : (int)min;
@@ -545,7 +545,7 @@ public class Axis implements IAxis {
 			return; // to suppress warnings...
 		}
 		if(direction == Direction.Y) {
-			throw new IllegalStateException(Messages.getString(Messages.Y_AXIS_CANNOT_BE_CATEGORY));
+			throw new IllegalStateException(Messages.Y_AXIS_CANNOT_BE_CATEGORY);
 		}
 		String[] copiedSeries = new String[series.length];
 		System.arraycopy(series, 0, copiedSeries, 0, series.length);

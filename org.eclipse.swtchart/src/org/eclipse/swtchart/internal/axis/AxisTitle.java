@@ -26,9 +26,9 @@ import org.eclipse.swtchart.internal.Title;
 public class AxisTitle extends Title {
 
 	/** the default text for X Axis */
-	private static final String DEFAULT_TEXT_FOR_XAXIS = Messages.getString(Messages.X_AXIS);
+	private static final String DEFAULT_TEXT_FOR_XAXIS = Messages.X_AXIS;
 	/** the default text for X Axis */
-	private static final String DEFAULT_TEXT_FOR_YAXIS = Messages.getString(Messages.Y_AXIS);
+	private static final String DEFAULT_TEXT_FOR_YAXIS = Messages.Y_AXIS;
 	/** the default color */
 	private static final int DEFAULT_FONT_SIZE = Resources.MEDIUM_FONT_SIZE;
 	/** the axis */

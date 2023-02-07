@@ -22,9 +22,9 @@ import org.eclipse.swtchart.extensions.linecharts.ICompressionSupport;
 public class ChartOptions {
 
 	public static final String[][] FONT_STYLES = new String[][]{ //
-			{Messages.getString(Messages.NORMAL), Integer.toString(SWT.NORMAL)}, //
-			{Messages.getString(Messages.BOLD), Integer.toString(SWT.BOLD)}, //
-			{Messages.getString(Messages.ITALIC), Integer.toString(SWT.ITALIC)} //
+			{Messages.NORMAL, Integer.toString(SWT.NORMAL)}, //
+			{Messages.BOLD, Integer.toString(SWT.BOLD)}, //
+			{Messages.ITALIC, Integer.toString(SWT.ITALIC)} //
 	};
 	//
 	public static final String[][] COMPRESSION_TYPES = new String[][]{ //
@@ -37,29 +37,29 @@ public class ChartOptions {
 	};
 	//
 	public static final String[][] SYMBOL_TYPES = new String[][]{ //
-			{Messages.getString(Messages.NONE), PlotSymbolType.NONE.toString()}, //
-			{Messages.getString(Messages.CIRCLE), PlotSymbolType.CIRCLE.toString()}, //
-			{Messages.getString(Messages.CROSS), PlotSymbolType.CROSS.toString()}, //
-			{Messages.getString(Messages.DIAMON), PlotSymbolType.DIAMOND.toString()}, //
-			{Messages.getString(Messages.INVERTED_TRIANGLE), PlotSymbolType.INVERTED_TRIANGLE.toString()}, //
-			{Messages.getString(Messages.PLUS), PlotSymbolType.PLUS.toString()}, //
-			{Messages.getString(Messages.SQUARE), PlotSymbolType.SQUARE.toString()}, //
-			{Messages.getString(Messages.TRIANGLE), PlotSymbolType.TRIANGLE.toString()}, //
-			{Messages.getString(Messages.EMOJI), PlotSymbolType.EMOJI.toString()} //
+			{Messages.NONE, PlotSymbolType.NONE.toString()}, //
+			{Messages.CIRCLE, PlotSymbolType.CIRCLE.toString()}, //
+			{Messages.CROSS, PlotSymbolType.CROSS.toString()}, //
+			{Messages.DIAMON, PlotSymbolType.DIAMOND.toString()}, //
+			{Messages.INVERTED_TRIANGLE, PlotSymbolType.INVERTED_TRIANGLE.toString()}, //
+			{Messages.PLUS, PlotSymbolType.PLUS.toString()}, //
+			{Messages.SQUARE, PlotSymbolType.SQUARE.toString()}, //
+			{Messages.TRIANGLE, PlotSymbolType.TRIANGLE.toString()}, //
+			{Messages.EMOJI, PlotSymbolType.EMOJI.toString()} //
 	};
 	//
 	public static final String[][] POSITIONS = new String[][]{ //
-			{Messages.getString(Messages.PRIMARY), Position.Primary.toString()}, //
-			{Messages.getString(Messages.SECONDARY), Position.Secondary.toString()} //
+			{Messages.PRIMARY, Position.Primary.toString()}, //
+			{Messages.SECONDARY, Position.Secondary.toString()} //
 	};
 	//
 	public static final String[][] LINE_STYLES = new String[][]{ //
-			{Messages.getString(Messages.NONE), LineStyle.NONE.toString()}, //
+			{Messages.NONE, LineStyle.NONE.toString()}, //
 			{"-", LineStyle.DASH.toString()}, //
 			{"-.", LineStyle.DASHDOT.toString()}, //
 			{"-..", LineStyle.DASHDOTDOT.toString()}, //
 			{".", LineStyle.DOT.toString()}, //
-			{Messages.getString(Messages.SOLID), LineStyle.SOLID.toString()} //
+			{Messages.SOLID, LineStyle.SOLID.toString()} //
 	};
 
 	private ChartOptions() {

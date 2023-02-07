@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2017, 2020 Lablicate GmbH.
+ * Copyright (c) 2017, 2023 Lablicate GmbH.
  *
  * This program and the accompanying materials are made
  * available under the terms of the Eclipse Public License 2.0
@@ -13,15 +13,17 @@
  *******************************************************************************/
 package org.eclipse.swtchart.export.menu.text;
 
-import org.eclipse.swtchart.export.core.AbstractSeparatedValueHandler;
-import org.eclipse.swtchart.export.core.ISeriesExportConverter;
+import java.text.MessageFormat;
 
-public class TSVExportHandler extends AbstractSeparatedValueHandler implements ISeriesExportConverter {
+import org.eclipse.swtchart.export.core.AbstractSeparatedValueHandler;
+import org.eclipse.swtchart.extensions.menu.IChartMenuEntry;
+
+public class TSVExportHandler extends AbstractSeparatedValueHandler implements IChartMenuEntry {
 
 	private static final String FILE_EXTENSION = "*.tsv"; //$NON-NLS-1$
-	public static final String NAME = Messages.getString(Messages.TAB_SEPARATED_VALUES) + FILE_EXTENSION + ")"; //$NON-NLS-1$
+	public static final String NAME = MessageFormat.format(Messages.TAB_SEPARATED_VALUES, FILE_EXTENSION);
 	//
-	private static final String TITLE = Messages.getString(Messages.SAVE_AS_TAB_SEPARATED); // $NON-NLS-1$
+	private static final String TITLE = Messages.SAVE_AS_TAB_SEPARATED;
 	private static final String DELIMITER = "\t"; //$NON-NLS-1$
 
 	@Override

@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2020 SWT Chart Project
+ * Copyright (c) 2020, 2023 SWT Chart Project
  *
  * This program and the accompanying materials are made
  * available under the terms of the Eclipse Public License 2.0
@@ -10,37 +10,28 @@
  * Contributors:
  * Frank Buloup - initial API and implementation
  *******************************************************************************/
-
 package org.eclipse.swtchart.export.menu.text;
 
-import java.util.MissingResourceException;
-import java.util.ResourceBundle;
+import org.eclipse.osgi.util.NLS;
 
 public class Messages {
 
 	private static final String BUNDLE_NAME = "org.eclipse.swtchart.export.menu.text.messages"; //$NON-NLS-1$
-	private static final ResourceBundle RESOURCE_BUNDLE = ResourceBundle.getBundle(BUNDLE_NAME);
-	
-	public static final String COMMA_SEPARATED_VALUES = "COMMA_SEPARATED_VALUES";
-	public static final String IMAGE_R_SCRIPT = "IMAGE_R_SCRIPT";
-	public static final String LATEX_TABLE = "LATEX_TABLE";
-	public static final String R_EXTENSION = "R_EXTENSION";
-	public static final String SAVE_AS_COMMA_SEPARATED = "SAVE_AS_COMMA_SEPARATED";
-	public static final String SAVE_AS_IMAGE_R_SCRIPT = "SAVE_AS_IMAGE_R_SCRIPT";
-	public static final String SAVE_AS_LATEX = "SAVE_AS_LATEX";
-	public static final String SAVE_AS_TAB_SEPARATED = "SAVE_AS_TAB_SEPARATED";
-	public static final String TAB_SEPARATED_VALUES = "TAB_SEPARATED_VALUES";
+	//
+	public static String COMMA_SEPARATED_VALUES;
+	public static String IMAGE_R_SCRIPT;
+	public static String LATEX_TABLE;
+	public static String SAVE_AS_COMMA_SEPARATED;
+	public static String SAVE_AS_IMAGE_R_SCRIPT;
+	public static String SAVE_AS_LATEX;
+	public static String SAVE_AS_TAB_SEPARATED;
+	public static String TAB_SEPARATED_VALUES;
+	//
+	static {
+		NLS.initializeMessages(BUNDLE_NAME, Messages.class);
+	}
 
 	private Messages() {
 
-	}
-
-	public static String getString(String key) {
-
-		try {
-			return RESOURCE_BUNDLE.getString(key);
-		} catch(MissingResourceException e) {
-			return '!' + key + '!';
-		}
 	}
 }

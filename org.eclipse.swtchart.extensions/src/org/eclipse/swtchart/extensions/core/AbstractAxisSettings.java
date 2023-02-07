@@ -45,7 +45,7 @@ public abstract class AbstractAxisSettings implements IAxisSettings {
 	/*
 	 * The default font is only used if no font is set.
 	 */
-	private final Font defaultFont = ResourceSupport.getFont("Tahoma", Resources.MEDIUM_FONT_SIZE, SWT.BOLD); //$NON-NLS-1$
+	private final Font defaultFont = Resources.getFont("Tahoma", Resources.MEDIUM_FONT_SIZE, SWT.BOLD); //$NON-NLS-1$
 
 	public AbstractAxisSettings(String title) {
 
@@ -96,7 +96,7 @@ public abstract class AbstractAxisSettings implements IAxisSettings {
 			 * print a note that no label is available.
 			 */
 			if(description.equals("")) { //$NON-NLS-1$
-				label = Messages.getString(Messages.LABEL_NOT_SET);
+				label = Messages.LABEL_NOT_SET;
 			} else {
 				label = description;
 			}

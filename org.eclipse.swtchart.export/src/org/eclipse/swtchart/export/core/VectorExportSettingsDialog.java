@@ -93,8 +93,8 @@ public class VectorExportSettingsDialog extends TitleAreaDialog {
 	public void create() {
 
 		super.create();
-		setTitle(Messages.getString(Messages.EXPORT_AXIS_SELECTION));
-		setMessage(Messages.getString(Messages.SELECT_X_Y_TO_EXPORT), IMessageProvider.INFORMATION); // $NON-NLS-1$
+		setTitle(Messages.EXPORT_AXIS_SELECTION);
+		setMessage(Messages.SELECT_X_Y_TO_EXPORT, IMessageProvider.INFORMATION); // $NON-NLS-1$
 	}
 
 	@Override
@@ -181,7 +181,7 @@ public class VectorExportSettingsDialog extends TitleAreaDialog {
 	private void createSelectionAxisX(Composite container) {
 
 		Label label = new Label(container, SWT.NONE);
-		label.setText(Messages.getString(Messages.X_AXIS));
+		label.setText(Messages.X_AXIS);
 		//
 		String[] axisLabelsX = baseChart.getAxisLabels(IExtendedChart.X_AXIS);
 		comboScaleX = new Combo(container, SWT.READ_ONLY);
@@ -195,7 +195,7 @@ public class VectorExportSettingsDialog extends TitleAreaDialog {
 	private void createSelectionAxisY(Composite container) {
 
 		Label label = new Label(container, SWT.NONE);
-		label.setText(Messages.getString(Messages.Y_AXIS));
+		label.setText(Messages.Y_AXIS);
 		//
 		String[] axisLabelsY = baseChart.getAxisLabels(IExtendedChart.Y_AXIS);
 		comboScaleY = new Combo(container, SWT.READ_ONLY);

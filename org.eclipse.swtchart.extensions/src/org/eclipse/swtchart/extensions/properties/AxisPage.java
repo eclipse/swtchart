@@ -43,7 +43,6 @@ import org.eclipse.swtchart.IAxis.Position;
 import org.eclipse.swtchart.Range;
 import org.eclipse.swtchart.Resources;
 import org.eclipse.swtchart.extensions.charts.InteractiveChart;
-import org.eclipse.swtchart.extensions.core.ResourceSupport;
 
 /**
  * The axis page on properties dialog.
@@ -111,7 +110,7 @@ public class AxisPage extends AbstractSelectorPage {
 	 */
 	public AxisPage(InteractiveChart chart, Direction direction, String title) {
 
-		super(chart, title, Messages.getString(Messages.AXES));
+		super(chart, title, Messages.AXES);
 		this.direction = direction;
 		if(direction == Direction.X) {
 			this.axes = chart.getAxisSet().getXAxes();
@@ -193,7 +192,7 @@ public class AxisPage extends AbstractSelectorPage {
 
 		Composite group = new Composite(parent, SWT.NONE);
 		group.setLayout(new GridLayout(2, true));
-		createLabelControl(group, Messages.getString(Messages.MIN_RANGE_VALUE));
+		createLabelControl(group, Messages.MIN_RANGE_VALUE);
 		minRangeText = createTextControl(group);
 		minRangeText.addFocusListener(new FocusAdapter() {
 
@@ -203,7 +202,7 @@ public class AxisPage extends AbstractSelectorPage {
 				minRanges[selectedIndex] = Double.valueOf(minRangeText.getText());
 			}
 		});
-		createLabelControl(group, Messages.getString(Messages.MAX_RANGE_VALUE));
+		createLabelControl(group, Messages.MAX_RANGE_VALUE);
 		maxRangeText = createTextControl(group);
 		maxRangeText.addFocusListener(new FocusAdapter() {
 
@@ -213,7 +212,7 @@ public class AxisPage extends AbstractSelectorPage {
 				maxRanges[selectedIndex] = Double.valueOf(maxRangeText.getText());
 			}
 		});
-		createLabelControl(group, Messages.getString(Messages.POSITION));
+		createLabelControl(group, Messages.POSITION);
 		String[] items = new String[]{Position.Primary.name(), Position.Secondary.name()};
 		positionCombo = createComboControl(group, items);
 		positionCombo.addSelectionListener(new SelectionAdapter() {
@@ -224,7 +223,7 @@ public class AxisPage extends AbstractSelectorPage {
 				positions[selectedIndex] = Position.valueOf(positionCombo.getText());
 			}
 		});
-		logScaleButton = createCheckBoxControl(group, Messages.getString(Messages.ENABLE_LOG_SCALE));
+		logScaleButton = createCheckBoxControl(group, Messages.ENABLE_LOG_SCALE);
 		logScaleButton.addSelectionListener(new SelectionAdapter() {
 
 			@Override
@@ -234,7 +233,7 @@ public class AxisPage extends AbstractSelectorPage {
 			}
 		});
 		if(direction == Direction.X) {
-			categoryButton = createCheckBoxControl(group, Messages.getString(Messages.ENABLE_CATEGORY));
+			categoryButton = createCheckBoxControl(group, Messages.ENABLE_CATEGORY);
 			categoryButton.addSelectionListener(new SelectionAdapter() {
 
 				@Override
@@ -254,8 +253,8 @@ public class AxisPage extends AbstractSelectorPage {
 	 */
 	private void addTitleGroup(Composite parent) {
 
-		Group group = createGroupControl(parent, Messages.getString(Messages.TITLE), false);
-		showTitleButton = createCheckBoxControl(group, Messages.getString(Messages.SHOW_TITLE));
+		Group group = createGroupControl(parent, Messages.TITLE, false);
+		showTitleButton = createCheckBoxControl(group, Messages.SHOW_TITLE);
 		showTitleButton.addSelectionListener(new SelectionAdapter() {
 
 			@Override
@@ -266,7 +265,7 @@ public class AxisPage extends AbstractSelectorPage {
 				setControlsEnable(visible);
 			}
 		});
-		titleLabel = createLabelControl(group, Messages.getString(Messages.TEXT));
+		titleLabel = createLabelControl(group, Messages.TEXT);
 		titleText = createTextControl(group);
 		titleText.addModifyListener(new ModifyListener() {
 
@@ -276,7 +275,7 @@ public class AxisPage extends AbstractSelectorPage {
 				titleTexts[selectedIndex] = titleText.getText();
 			}
 		});
-		fontSizeLabel = createLabelControl(group, Messages.getString(Messages.FONT_SIZE));
+		fontSizeLabel = createLabelControl(group, Messages.FONT_SIZE);
 		fontSizeSpinner = createSpinnerControl(group, 8, 30);
 		fontSizeSpinner.addSelectionListener(new SelectionAdapter() {
 
@@ -286,7 +285,7 @@ public class AxisPage extends AbstractSelectorPage {
 				titleFontSizes[selectedIndex] = fontSizeSpinner.getSelection();
 			}
 		});
-		titleColorLabel = createLabelControl(group, Messages.getString(Messages.COLOR));
+		titleColorLabel = createLabelControl(group, Messages.COLOR);
 		titleColorButton = createColorButtonControl(group);
 		titleColorButton.addListener(new IPropertyChangeListener() {
 
@@ -345,10 +344,10 @@ public class AxisPage extends AbstractSelectorPage {
 
 		titleVisibleStates[selectedIndex] = true;
 		if(direction == Direction.X) {
-			titleTexts[selectedIndex] = Messages.getString(Messages.X_AXIS);
+			titleTexts[selectedIndex] = Messages.X_AXIS;
 			categoryStates[selectedIndex] = false;
 		} else if(direction == Direction.Y) {
-			titleTexts[selectedIndex] = Messages.getString(Messages.Y_AXIS);
+			titleTexts[selectedIndex] = Messages.Y_AXIS;
 		}
 		positions[selectedIndex] = Position.Primary;
 		titleFontSizes[selectedIndex] = Resources.MEDIUM_FONT_SIZE;

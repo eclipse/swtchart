@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2020 SWT Chart Project
+ * Copyright (c) 2020, 2023 SWT Chart Project
  *
  * This program and the accompanying materials are made
  * available under the terms of the Eclipse Public License 2.0
@@ -10,30 +10,23 @@
  * Contributors:
  * Frank Buloup - initial API and implementation
  *******************************************************************************/
-
 package org.eclipse.swtchart.export.menu.bitmap;
 
-import java.util.MissingResourceException;
-import java.util.ResourceBundle;
+import org.eclipse.osgi.util.NLS;
 
 public class Messages {
 
 	private static final String BUNDLE_NAME = "org.eclipse.swtchart.export.menu.bitmap.messages"; //$NON-NLS-1$
-	private static final ResourceBundle RESOURCE_BUNDLE = ResourceBundle.getBundle(BUNDLE_NAME);
-
-	public static final String IMAGE = "IMAGE";
-	public static final String SAVE_AS_IMAGE = "SAVE_AS_IMAGE";
-	
-	private Messages() {
-
+	//
+	public static String IMAGE;
+	public static String SAVE_AS_IMAGE;
+	public static String COPY_IMAGE_TO_CLIPBOARD;
+	//
+	static {
+		NLS.initializeMessages(BUNDLE_NAME, Messages.class);
 	}
 
-	public static String getString(String key) {
+	private Messages() {
 
-		try {
-			return RESOURCE_BUNDLE.getString(key);
-		} catch(MissingResourceException e) {
-			return '!' + key + '!';
-		}
 	}
 }

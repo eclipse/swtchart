@@ -15,9 +15,11 @@
 package org.eclipse.swtchart.export.extended.menu.vector;
 
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.io.Writer;
 import java.lang.reflect.InvocationTargetException;
+import java.text.MessageFormat;
 
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.jface.dialogs.MessageDialog;
@@ -28,17 +30,17 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.FileDialog;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swtchart.export.core.AbstractSeriesExportHandler;
-import org.eclipse.swtchart.export.core.ISeriesExportConverter;
 import org.eclipse.swtchart.export.core.VectorExportSettingsDialog;
 import org.eclipse.swtchart.export.extended.svg.SVGFactory;
 import org.eclipse.swtchart.extensions.core.BaseChart;
 import org.eclipse.swtchart.extensions.core.ScrollableChart;
+import org.eclipse.swtchart.extensions.menu.IChartMenuEntry;
 
-public class SVGExportHandler extends AbstractSeriesExportHandler implements ISeriesExportConverter {
+public class SVGExportHandler extends AbstractSeriesExportHandler implements IChartMenuEntry {
 
 	private static final String FILE_EXTENSION = "*.svg"; //$NON-NLS-1$
-	private static final String NAME = Messages.getString(Messages.SVG) + FILE_EXTENSION + ")"; //$NON-NLS-1$
-	private static final String TITLE = Messages.getString(Messages.SAVE_AS_SVG);
+	private static final String NAME = MessageFormat.format(Messages.SVG, FILE_EXTENSION);
+	private static final String TITLE = Messages.SAVE_AS_SVG;
 
 	@Override
 	public String getName() {
@@ -77,9 +79,9 @@ public class SVGExportHandler extends AbstractSeriesExportHandler implements ISe
 										SVGFactory svgFactory = new SVGFactory();
 										svgFactory.createSvg(baseChart, indexAxisX, indexAxisY);
 										if(svgFactory.stream(output, useCSS)) {
-											MessageDialog.openInformation(fileDialog.getParent(), TITLE, MESSAGE_OK);
+											MessageDialog.openInformation(fileDialog.getParent(), TITLE, org.eclipse.swtchart.export.core.Messages.DATA_EXPORT_SUCCESS);
 										} else {
-											MessageDialog.openInformation(fileDialog.getParent(), TITLE, MESSAGE_ERROR);
+											MessageDialog.openInformation(fileDialog.getParent(), TITLE, org.eclipse.swtchart.export.core.Messages.DATA_EXPORT_ERROR);
 										}
 									} catch(IOException e) {
 										e.printStackTrace();
@@ -95,7 +97,7 @@ public class SVGExportHandler extends AbstractSeriesExportHandler implements ISe
 					}
 				}
 			} catch(InvocationTargetException e) {
-				MessageDialog.openInformation(shell, TITLE, MESSAGE_ERROR);
+				MessageDialog.openInformation(shell, TITLE, org.eclipse.swtchart.export.core.Messages.DATA_EXPORT_ERROR);
 				e.getCause().printStackTrace();
 			}
 		}
