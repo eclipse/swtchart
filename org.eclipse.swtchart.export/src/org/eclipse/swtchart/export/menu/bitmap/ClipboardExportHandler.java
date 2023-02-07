@@ -25,7 +25,7 @@ public class ClipboardExportHandler extends AbstractSeriesExportHandler implemen
 	@Override
 	public String getName() {
 
-		return "Copy Image to Clipboard";
+		return Messages.COPY_IMAGE_TO_CLIPBOARD;
 	}
 
 	@Override

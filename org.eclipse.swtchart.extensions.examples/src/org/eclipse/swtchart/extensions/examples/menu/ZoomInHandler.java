@@ -29,7 +29,7 @@ public class ZoomInHandler extends AbstractChartMenuEntry implements IChartMenuE
 	@Override
 	public String getName() {
 
-		return "Zoom In";
+		return Messages.ZOOM_IN;
 	}
 
 	@Override

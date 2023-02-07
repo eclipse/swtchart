@@ -39,7 +39,7 @@ public class SetRangeChartHandler extends AbstractChartMenuEntry implements ICha
 	@Override
 	public String getName() {
 
-		return "Set Chart Range";
+		return Messages.SET_CHART_RANGE;
 	}
 
 	@Override

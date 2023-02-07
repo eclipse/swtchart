@@ -23,8 +23,13 @@ public class Messages extends NLS {
 	public static String REDO_SELECTION;
 	public static String RESET_CHART;
 	public static String RESET_SELECTED_SERIES;
+	public static String RESET_X_AXIS;
+	public static String RESET_Y_AXIS;
 	public static String TOGGLE_VISIBILITY;
 	public static String UNDO_SELECTION;
+	public static String SET_CHART_RANGE;
+	public static String ZOOM_IN;
+	public static String ZOOM_OUT;
 	//
 	static {
 		NLS.initializeMessages(BUNDLE_NAME, Messages.class);

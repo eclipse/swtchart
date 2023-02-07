@@ -29,7 +29,7 @@ public class ResetYAxisHandler extends AbstractChartMenuEntry implements IChartM
 	@Override
 	public String getName() {
 
-		return "Reset Y-Axis";
+		return Messages.RESET_Y_AXIS;
 	}
 
 	@Override

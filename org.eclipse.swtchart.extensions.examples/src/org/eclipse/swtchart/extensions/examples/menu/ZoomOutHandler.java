@@ -29,7 +29,7 @@ public class ZoomOutHandler extends AbstractChartMenuEntry implements IChartMenu
 	@Override
 	public String getName() {
 
-		return "Zoom Out";
+		return Messages.ZOOM_OUT;
 	}
 
 	@Override
