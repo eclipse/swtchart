@@ -322,9 +322,9 @@ public class AxisPage extends AbstractSelectorPage {
 			axes[i].getTitle().setText(titleTexts[i]);
 			FontData fontData = axes[i].getTitle().getFont().getFontData()[0];
 			fontData.setHeight(titleFontSizes[i]);
-			Font font = ResourceSupport.getFont(fontData);
+			Font font = Resources.getFont(fontData);
 			axes[i].getTitle().setFont(font);
-			Color color = ResourceSupport.getColor(titleColors[i]);
+			Color color = Resources.getColor(titleColors[i]);
 			axes[i].getTitle().setForeground(color);
 			axes[i].setRange(new Range(minRanges[i], maxRanges[i]));
 			axes[i].setPosition(positions[i]);

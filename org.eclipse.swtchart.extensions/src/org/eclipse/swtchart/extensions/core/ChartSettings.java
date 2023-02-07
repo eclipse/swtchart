@@ -118,7 +118,7 @@ public class ChartSettings implements IChartSettings {
 	/*
 	 * The default font is only used if no font is set.
 	 */
-	private final Font defaultFont = ResourceSupport.getFont("Tahoma", Resources.MEDIUM_FONT_SIZE, SWT.BOLD); //$NON-NLS-1$
+	private final Font defaultFont = Resources.getFont("Tahoma", Resources.MEDIUM_FONT_SIZE, SWT.BOLD); //$NON-NLS-1$
 
 	public ChartSettings() {
 

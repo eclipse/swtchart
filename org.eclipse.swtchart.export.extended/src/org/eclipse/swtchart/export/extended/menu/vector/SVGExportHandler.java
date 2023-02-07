@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2019, 2021 Lablicate GmbH.
+ * Copyright (c) 2019, 2023 Lablicate GmbH.
  *
  * This program and the accompanying materials are made
  * available under the terms of the Eclipse Public License 2.0
@@ -71,10 +71,9 @@ public class SVGExportHandler extends AbstractSeriesExportHandler implements ISe
 								@Override
 								public void run(IProgressMonitor monitor) throws InvocationTargetException, InterruptedException {
 
-									try {
-										monitor.beginTask(Messages.getString(Messages.EXPORT_TO_SVG), IProgressMonitor.UNKNOWN);
+									monitor.beginTask(Messages.EXPORT_TO_SVG, IProgressMonitor.UNKNOWN);
+									try (Writer output = new OutputStreamWriter(new FileOutputStream(fileName), "UTF-8")) { //$NON-NLS-1$
 										boolean useCSS = true;
-										Writer output = new OutputStreamWriter(new FileOutputStream(fileName), "UTF-8"); //$NON-NLS-1$
 										SVGFactory svgFactory = new SVGFactory();
 										svgFactory.createSvg(baseChart, indexAxisX, indexAxisY);
 										if(svgFactory.stream(output, useCSS)) {
@@ -82,21 +81,22 @@ public class SVGExportHandler extends AbstractSeriesExportHandler implements ISe
 										} else {
 											MessageDialog.openInformation(fileDialog.getParent(), TITLE, MESSAGE_ERROR);
 										}
-									} catch(Exception e) {
+									} catch(IOException e) {
 										e.printStackTrace();
 									} finally {
 										monitor.done();
 									}
 								}
 							});
-						} catch(Exception e) {
+						} catch(InterruptedException e) {
 							e.printStackTrace();
+							Thread.currentThread().interrupt();
 						}
 					}
 				}
-			} catch(Exception e) {
+			} catch(InvocationTargetException e) {
 				MessageDialog.openInformation(shell, TITLE, MESSAGE_ERROR);
-				e.printStackTrace();
+				e.getCause().printStackTrace();
 			}
 		}
 	}

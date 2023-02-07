@@ -58,7 +58,7 @@ public class VectorExportSettingsDialog extends TitleAreaDialog {
 	 * The use might modify the current settings.
 	 * Hence, cache the original settings.
 	 */
-	private Map<String, ISeriesSettings> cachedSeriesSettings = new HashMap<String, ISeriesSettings>();
+	private Map<String, ISeriesSettings> cachedSeriesSettings = new HashMap<>();
 	//
 	private Combo comboScaleX;
 	private Combo comboScaleY;

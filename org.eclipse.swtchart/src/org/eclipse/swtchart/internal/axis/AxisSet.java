@@ -49,8 +49,8 @@ public class AxisSet implements IAxisSet {
 	public AxisSet(Chart chart) {
 
 		this.chart = chart;
-		xAxisMap = new HashMap<Integer, Axis>();
-		yAxisMap = new HashMap<Integer, Axis>();
+		xAxisMap = new HashMap<>();
+		yAxisMap = new HashMap<>();
 		// add default axes
 		Axis xAxis = new Axis(0, Direction.X, chart);
 		Axis yAxis = new Axis(0, Direction.Y, chart);
@@ -165,7 +165,7 @@ public class AxisSet implements IAxisSet {
 	@Override
 	public IAxis[] getAxes() {
 
-		Collection<Axis> axes = new ArrayList<Axis>();
+		Collection<Axis> axes = new ArrayList<>();
 		axes.addAll(xAxisMap.values());
 		axes.addAll(yAxisMap.values());
 		return axes.toArray(new Axis[axes.size()]);

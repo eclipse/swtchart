@@ -60,14 +60,14 @@ public abstract class AbstractExtendedChart extends AbstractHandledChart impleme
 	//
 	private boolean isCircularSeries;
 	//
-	private Map<Integer, IAxisSettings> xAxisSettingsMap = new HashMap<Integer, IAxisSettings>();
-	private Map<Integer, IAxisSettings> yAxisSettingsMap = new HashMap<Integer, IAxisSettings>();
+	private Map<Integer, IAxisSettings> xAxisSettingsMap = new HashMap<>();
+	private Map<Integer, IAxisSettings> yAxisSettingsMap = new HashMap<>();
 	/*
 	 * The series settings map contains the settings that are currently used.
 	 * The reset map contains a copy of the initial series settings.
 	 */
-	private Map<String, ISeriesSettings> seriesSettingsMap = new HashMap<String, ISeriesSettings>();
-	private Map<String, ISeriesSettings> seriesSettingsMapReset = new HashMap<String, ISeriesSettings>();
+	private Map<String, ISeriesSettings> seriesSettingsMap = new HashMap<>();
+	private Map<String, ISeriesSettings> seriesSettingsMapReset = new HashMap<>();
 
 	public AbstractExtendedChart(Composite parent, int style) {
 

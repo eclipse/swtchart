@@ -493,11 +493,7 @@ public class BaseChart extends AbstractExtendedChart implements IChartDataCoordi
 
 	public boolean isSeriesContained(String seriesId) {
 
-		if(getSeriesSet().getSeries(seriesId) == null) {
-			return false;
-		} else {
-			return true;
-		}
+		return getSeriesSet().getSeries(seriesId) != null;
 	}
 
 	@Override
@@ -889,7 +885,7 @@ public class BaseChart extends AbstractExtendedChart implements IChartDataCoordi
 		if(dataShifts != null) {
 			return Collections.unmodifiableList(dataShifts);
 		} else {
-			return null;
+			return Collections.emptyList();
 		}
 	}
 

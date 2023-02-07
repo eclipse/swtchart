@@ -179,17 +179,18 @@ public class SVGExportHandler extends AbstractSeriesExportHandler implements ISe
 									}
 								}
 							});
-						} catch(Exception e) {
+						} catch(InterruptedException e) {
 							e.printStackTrace();
+							Thread.currentThread().interrupt();
 						}
 					}
 				}
 				//
 				exportSettingsDialog.reset();
 				scrollableChart.updateLegend();
-			} catch(Exception e) {
-				MessageDialog.openInformation(shell, TITLE, MESSAGE_ERROR);
-				e.printStackTrace();
+			} catch(InvocationTargetException e) {
+				MessageDialog.openInformation(shell, TITLE, org.eclipse.swtchart.export.core.Messages.DATA_EXPORT_ERROR);
+				e.getCause().printStackTrace();
 			}
 		}
 	}
