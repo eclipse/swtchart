@@ -200,6 +200,7 @@ public class AxisTitleTest extends ChartTestCase {
 		fontData = yAxisTitle.getFont().getFontData()[0];
 		assertEquals(64, fontData.getHeight());
 		showChart();
+		font.dispose();
 		// set tiny font size
 		font = new Font(Display.getCurrent(), "Tahoma", 4, SWT.ITALIC);
 		xAxisTitle.setFont(font);

@@ -45,7 +45,7 @@ public class ChartTitleTest extends ChartTestCase {
 	 * Test for title text.
 	 */
 	@Test
-	public void testText()  {
+	public void testText() {
 
 		// set null
 		title.setText(null);
@@ -76,7 +76,7 @@ public class ChartTitleTest extends ChartTestCase {
 	 * Test for foreground.
 	 */
 	@Test
-	public void testForeground()  {
+	public void testForeground() {
 
 		// set null
 		title.setForeground(null);
@@ -107,7 +107,7 @@ public class ChartTitleTest extends ChartTestCase {
 	 * Test for title font.
 	 */
 	@Test
-	public void testFont()  {
+	public void testFont() {
 
 		// set null
 		title.setFont(null);
@@ -141,19 +141,21 @@ public class ChartTitleTest extends ChartTestCase {
 		fontData = font.getFontData()[0];
 		assertEquals(64, fontData.getHeight());
 		showChart();
+		font.dispose();
 		// set tiny font size
 		title.setFont(new Font(Display.getCurrent(), "Tahoma", 4, SWT.ITALIC));
 		font = title.getFont();
 		fontData = font.getFontData()[0];
 		assertEquals(4, fontData.getHeight());
 		showChart();
+		font.dispose();
 	}
 
 	/**
 	 * Test for title visibility.
 	 */
 	@Test
-	public void testVisibility()  {
+	public void testVisibility() {
 
 		// set visibility
 		title.setText("foo");
