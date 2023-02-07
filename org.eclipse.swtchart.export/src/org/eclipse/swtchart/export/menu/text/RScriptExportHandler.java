@@ -51,7 +51,7 @@ import org.eclipse.swtchart.extensions.scattercharts.ScatterChart;
 
 public class RScriptExportHandler extends AbstractSeriesExportHandler implements IChartMenuEntry {
 
-	private static final String FILE_EXTENSION = Messages.getString(Messages.R_EXTENSION);
+	private static final String FILE_EXTENSION = "*.R"; //$NON-NLS-1$
 	public static final String NAME = MessageFormat.format(Messages.IMAGE_R_SCRIPT, FILE_EXTENSION);
 	//
 	private static final String TITLE = Messages.SAVE_AS_IMAGE_R_SCRIPT;
