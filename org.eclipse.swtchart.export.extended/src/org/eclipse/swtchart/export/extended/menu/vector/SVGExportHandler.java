@@ -15,9 +15,11 @@
 package org.eclipse.swtchart.export.extended.menu.vector;
 
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.io.Writer;
 import java.lang.reflect.InvocationTargetException;
+import java.text.MessageFormat;
 
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.jface.dialogs.MessageDialog;
@@ -37,7 +39,7 @@ import org.eclipse.swtchart.extensions.core.ScrollableChart;
 public class SVGExportHandler extends AbstractSeriesExportHandler implements ISeriesExportConverter {
 
 	private static final String FILE_EXTENSION = "*.svg"; //$NON-NLS-1$
-	private static final String NAME = Messages.getString(Messages.SVG) + FILE_EXTENSION + ")"; //$NON-NLS-1$
+	private static final String NAME = MessageFormat.format(Messages.getString(Messages.SVG), FILE_EXTENSION);
 	private static final String TITLE = Messages.getString(Messages.SAVE_AS_SVG);
 
 	@Override

@@ -21,6 +21,7 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.lang.reflect.InvocationTargetException;
 import java.text.DecimalFormat;
+import java.text.MessageFormat;
 import java.util.regex.Pattern;
 
 import org.eclipse.core.runtime.IProgressMonitor;
@@ -58,7 +59,7 @@ import org.eclipse.swtchart.extensions.scattercharts.ScatterChart;
 public class SVGExportHandler extends AbstractSeriesExportHandler implements ISeriesExportConverter {
 
 	private static final String FILE_EXTENSION = "*.svg"; //$NON-NLS-1$
-	private static final String NAME = Messages.getString(Messages.SVG) + FILE_EXTENSION + ")"; //$NON-NLS-1$
+	private static final String NAME = MessageFormat.format(Messages.getString(Messages.SVG), FILE_EXTENSION);
 	private static final String TITLE = Messages.getString(Messages.SAVE_AS_SVG);
 	//
 	private static final String AXIS_X = "x"; //$NON-NLS-1$

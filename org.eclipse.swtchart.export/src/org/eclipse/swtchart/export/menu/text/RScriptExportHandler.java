@@ -16,6 +16,7 @@ package org.eclipse.swtchart.export.menu.text;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
+import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -51,7 +52,7 @@ import org.eclipse.swtchart.extensions.scattercharts.ScatterChart;
 public class RScriptExportHandler extends AbstractSeriesExportHandler implements ISeriesExportConverter {
 
 	private static final String FILE_EXTENSION = "*.R"; //$NON-NLS-1$
-	public static final String NAME = Messages.getString(Messages.IMAGE_R_SCRIPT) + FILE_EXTENSION + ")"; //$NON-NLS-1$
+	public static final String NAME = MessageFormat.format(Messages.getString(Messages.IMAGE_R_SCRIPT), FILE_EXTENSION);
 	//
 	private static final String TITLE = Messages.getString(Messages.SAVE_AS_IMAGE_R_SCRIPT);
 	//

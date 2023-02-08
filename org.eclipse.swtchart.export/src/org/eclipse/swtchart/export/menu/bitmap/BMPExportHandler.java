@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2017, 2021 Lablicate GmbH.
+ * Copyright (c) 2017, 2023 Lablicate GmbH.
  *
  * This program and the accompanying materials are made
  * available under the terms of the Eclipse Public License 2.0
@@ -13,12 +13,14 @@
  *******************************************************************************/
 package org.eclipse.swtchart.export.menu.bitmap;
 
+import java.text.MessageFormat;
+
 import org.eclipse.swt.SWT;
 
 public class BMPExportHandler extends AbstractBitmapExportHandler {
 
 	private static final String FILE_EXTENSION = "*.bmp"; //$NON-NLS-1$
-	public static final String NAME = Messages.getString(Messages.IMAGE) + FILE_EXTENSION + ")"; //$NON-NLS-1$
+	public static final String NAME = MessageFormat.format(Messages.getString(Messages.IMAGE), FILE_EXTENSION);
 	private static final String TITLE = Messages.getString(Messages.SAVE_AS_IMAGE);
 	private static final String[] FILTER_EXTENSIONS = new String[]{"*.bmp"}; //$NON-NLS-1$ //$NON-NLS-2$
 
