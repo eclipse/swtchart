@@ -43,7 +43,6 @@ import org.eclipse.swtchart.IAxis.Position;
 import org.eclipse.swtchart.Range;
 import org.eclipse.swtchart.Resources;
 import org.eclipse.swtchart.extensions.charts.InteractiveChart;
-import org.eclipse.swtchart.extensions.core.ResourceSupport;
 
 /**
  * The axis page on properties dialog.
