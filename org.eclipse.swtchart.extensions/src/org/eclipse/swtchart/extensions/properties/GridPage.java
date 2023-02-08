@@ -30,8 +30,8 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.swtchart.IAxis;
 import org.eclipse.swtchart.IAxis.Direction;
 import org.eclipse.swtchart.LineStyle;
+import org.eclipse.swtchart.Resources;
 import org.eclipse.swtchart.extensions.charts.InteractiveChart;
-import org.eclipse.swtchart.extensions.core.ResourceSupport;
 
 /**
  * The grid page on properties dialog.
@@ -157,7 +157,7 @@ public class GridPage extends AbstractSelectorPage {
 
 		for(int i = 0; i < axes.length; i++) {
 			axes[i].getGrid().setStyle(styles[i]);
-			Color color = ResourceSupport.getColor(foregroundColors[i]);
+			Color color = Resources.getColor(foregroundColors[i]);
 			axes[i].getGrid().setForeground(color);
 		}
 	}

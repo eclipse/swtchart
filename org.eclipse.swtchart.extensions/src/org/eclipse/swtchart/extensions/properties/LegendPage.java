@@ -32,7 +32,6 @@ import org.eclipse.swt.widgets.Spinner;
 import org.eclipse.swtchart.ILegend;
 import org.eclipse.swtchart.Resources;
 import org.eclipse.swtchart.extensions.charts.InteractiveChart;
-import org.eclipse.swtchart.extensions.core.ResourceSupport;
 
 /**
  * The legend property page on properties dialog.
@@ -148,12 +147,12 @@ public class LegendPage extends AbstractPage {
 	public void apply() {
 
 		legend.setVisible(showLegendButton.getSelection());
-		Color color = ResourceSupport.getColor(backgroundButton.getColorValue());
+		Color color = Resources.getColor(backgroundButton.getColorValue());
 		legend.setBackground(color);
-		color = ResourceSupport.getColor(foregroundButton.getColorValue());
+		color = Resources.getColor(foregroundButton.getColorValue());
 		legend.setForeground(color);
 		FontData fontData = legend.getFont().getFontData()[0];
-		Font font = ResourceSupport.getFont(fontData.getName(), fontSizeSpinner.getSelection(), fontData.getStyle());
+		Font font = Resources.getFont(fontData.getName(), fontSizeSpinner.getSelection(), fontData.getStyle());
 		legend.setFont(font);
 	}
 

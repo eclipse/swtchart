@@ -114,7 +114,7 @@ public class AxisTickLabels implements PaintListener {
 		final Integer[] dates = {1, 7, 14, 28};
 		final Integer[] months = {1, 2, 3, 4, 6, 11};
 		final Integer[] years = {1, 2, 5, 10, 20, 50, 100, 200, 500, 1000};
-		possibleTickSteps = new HashMap<Integer, Integer[]>();
+		possibleTickSteps = new HashMap<>();
 		possibleTickSteps.put(Calendar.MILLISECOND, milliseconds);
 		possibleTickSteps.put(Calendar.SECOND, seconds);
 		possibleTickSteps.put(Calendar.MINUTE, minutes);

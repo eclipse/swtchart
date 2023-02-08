@@ -116,7 +116,7 @@ public class Axis implements IAxis {
 		grid = new Grid(this);
 		title = new AxisTitle(chart, SWT.NONE, this, direction);
 		tick = new AxisTick(chart, this);
-		listeners = new ArrayList<IDisposeListener>();
+		listeners = new ArrayList<>();
 		// sets initial default values
 		position = Position.Primary;
 		min = DEFAULT_MIN;
@@ -239,9 +239,7 @@ public class Axis implements IAxis {
 	@Override
 	public void setIntegerDataPointAxis(boolean integerDataPointAxis) {
 
-		if(this.integerDataPointAxis == integerDataPointAxis) {
-			return;
-		} else {
+		if(this.integerDataPointAxis != integerDataPointAxis) {
 			this.integerDataPointAxis = integerDataPointAxis;
 			if(integerDataPointAxis) {
 				enableCategory(false);

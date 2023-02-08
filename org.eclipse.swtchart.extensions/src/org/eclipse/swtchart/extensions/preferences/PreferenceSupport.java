@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2017, 2019 Lablicate GmbH.
+ * Copyright (c) 2017, 2023 Lablicate GmbH.
  *
  * This program and the accompanying materials are made
  * available under the terms of the Eclipse Public License 2.0
@@ -83,4 +83,8 @@ public class PreferenceSupport {
 			{Messages.getString(Messages.RELATIVE), RangeRestriction.ExtendType.RELATIVE.toString()}, 
 			{Messages.getString(Messages.ABSOLUTE), RangeRestriction.ExtendType.ABSOLUTE.toString()}
 	};
+
+	private PreferenceSupport() {
+
+	}
 }

@@ -34,7 +34,6 @@ import org.eclipse.swt.widgets.Text;
 import org.eclipse.swtchart.ITitle;
 import org.eclipse.swtchart.Resources;
 import org.eclipse.swtchart.extensions.charts.InteractiveChart;
-import org.eclipse.swtchart.extensions.core.ResourceSupport;
 
 /**
  * The chart property page on properties dialog.
@@ -169,9 +168,9 @@ public class ChartPage extends AbstractPage {
 	@Override
 	public void apply() {
 
-		Color color = ResourceSupport.getColor(backgroundInPlotAreaButton.getColorValue());
+		Color color = Resources.getColor(backgroundInPlotAreaButton.getColorValue());
 		chart.getPlotArea().setBackground(color);
-		color = ResourceSupport.getColor(backgroundButton.getColorValue());
+		color = Resources.getColor(backgroundButton.getColorValue());
 		chart.setBackground(color);
 		chart.setOrientation(orientationButton.getSelection() ? SWT.VERTICAL : SWT.HORIZONTAL);
 		ITitle title = chart.getTitle();
@@ -179,9 +178,9 @@ public class ChartPage extends AbstractPage {
 		title.setText(titleText.getText());
 		FontData fontData = title.getFont().getFontData()[0];
 		fontData.setHeight(fontSizeSpinner.getSelection());
-		Font font = ResourceSupport.getFont(fontData);
+		Font font = Resources.getFont(fontData);
 		title.setFont(font);
-		color = ResourceSupport.getColor(titleColorButton.getColorValue());
+		color = Resources.getColor(titleColorButton.getColorValue());
 		title.setForeground(color);
 	}
 

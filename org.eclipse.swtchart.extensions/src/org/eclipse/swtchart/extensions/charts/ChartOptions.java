@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2019, 2022 Lablicate GmbH.
+ * Copyright (c) 2019, 2023 Lablicate GmbH.
  *
  * This program and the accompanying materials are made
  * available under the terms of the Eclipse Public License 2.0
@@ -17,7 +17,7 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swtchart.IAxis.Position;
 import org.eclipse.swtchart.ILineSeries.PlotSymbolType;
 import org.eclipse.swtchart.LineStyle;
-import org.eclipse.swtchart.extensions.linecharts.LineChart;
+import org.eclipse.swtchart.extensions.linecharts.ICompressionSupport;
 
 public class ChartOptions {
 
@@ -28,11 +28,12 @@ public class ChartOptions {
 	};
 	//
 	public static final String[][] COMPRESSION_TYPES = new String[][]{ //
-			{LineChart.COMPRESSION_EXTREME, LineChart.COMPRESSION_EXTREME}, //
-			{LineChart.COMPRESSION_HIGH, LineChart.COMPRESSION_HIGH}, //
-			{LineChart.COMPRESSION_MEDIUM, LineChart.COMPRESSION_MEDIUM}, //
-			{LineChart.COMPRESSION_LOW, LineChart.COMPRESSION_LOW}, {LineChart.COMPRESSION_AUTO, LineChart.COMPRESSION_AUTO}, //
-			{LineChart.COMPRESSION_NONE, LineChart.COMPRESSION_NONE} //
+			{ICompressionSupport.COMPRESSION_EXTREME, ICompressionSupport.COMPRESSION_EXTREME}, //
+			{ICompressionSupport.COMPRESSION_HIGH, ICompressionSupport.COMPRESSION_HIGH}, //
+			{ICompressionSupport.COMPRESSION_MEDIUM, ICompressionSupport.COMPRESSION_MEDIUM}, //
+			{ICompressionSupport.COMPRESSION_LOW, ICompressionSupport.COMPRESSION_LOW}, //
+			{ICompressionSupport.COMPRESSION_AUTO, ICompressionSupport.COMPRESSION_AUTO}, //
+			{ICompressionSupport.COMPRESSION_NONE, ICompressionSupport.COMPRESSION_NONE} //
 	};
 	//
 	public static final String[][] SYMBOL_TYPES = new String[][]{ //
@@ -60,4 +61,8 @@ public class ChartOptions {
 			{".", LineStyle.DOT.toString()}, //
 			{Messages.getString(Messages.SOLID), LineStyle.SOLID.toString()} //
 	};
+
+	private ChartOptions() {
+
+	}
 }

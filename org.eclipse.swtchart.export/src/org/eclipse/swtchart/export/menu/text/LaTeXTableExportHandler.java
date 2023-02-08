@@ -17,6 +17,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
 import java.text.DecimalFormat;
+import java.text.MessageFormat;
 
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.window.Window;
@@ -40,7 +41,7 @@ import org.eclipse.swtchart.extensions.core.ScrollableChart;
 public class LaTeXTableExportHandler extends AbstractSeriesExportHandler implements ISeriesExportConverter {
 
 	private static final String FILE_EXTENSION = "*.tex"; //$NON-NLS-1$
-	public static final String NAME = Messages.getString(Messages.LATEX_TABLE) + FILE_EXTENSION + ")"; //$NON-NLS-1$
+	public static final String NAME = MessageFormat.format(Messages.getString(Messages.LATEX_TABLE), FILE_EXTENSION);
 	//
 	private static final String TITLE = Messages.getString(Messages.SAVE_AS_LATEX);
 	private static final String TAB = "\t"; //$NON-NLS-1$

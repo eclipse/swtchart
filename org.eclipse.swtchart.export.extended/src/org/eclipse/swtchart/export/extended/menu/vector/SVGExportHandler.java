@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2019, 2021 Lablicate GmbH.
+ * Copyright (c) 2019, 2023 Lablicate GmbH.
  *
  * This program and the accompanying materials are made
  * available under the terms of the Eclipse Public License 2.0
@@ -15,9 +15,11 @@
 package org.eclipse.swtchart.export.extended.menu.vector;
 
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.io.Writer;
 import java.lang.reflect.InvocationTargetException;
+import java.text.MessageFormat;
 
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.jface.dialogs.MessageDialog;
@@ -37,7 +39,7 @@ import org.eclipse.swtchart.extensions.core.ScrollableChart;
 public class SVGExportHandler extends AbstractSeriesExportHandler implements ISeriesExportConverter {
 
 	private static final String FILE_EXTENSION = "*.svg"; //$NON-NLS-1$
-	private static final String NAME = Messages.getString(Messages.SVG) + FILE_EXTENSION + ")"; //$NON-NLS-1$
+	private static final String NAME = MessageFormat.format(Messages.getString(Messages.SVG), FILE_EXTENSION);
 	private static final String TITLE = Messages.getString(Messages.SAVE_AS_SVG);
 
 	@Override
@@ -71,10 +73,9 @@ public class SVGExportHandler extends AbstractSeriesExportHandler implements ISe
 								@Override
 								public void run(IProgressMonitor monitor) throws InvocationTargetException, InterruptedException {
 
-									try {
-										monitor.beginTask(Messages.getString(Messages.EXPORT_TO_SVG), IProgressMonitor.UNKNOWN);
+									monitor.beginTask(Messages.EXPORT_TO_SVG, IProgressMonitor.UNKNOWN);
+									try (Writer output = new OutputStreamWriter(new FileOutputStream(fileName), "UTF-8")) { //$NON-NLS-1$
 										boolean useCSS = true;
-										Writer output = new OutputStreamWriter(new FileOutputStream(fileName), "UTF-8"); //$NON-NLS-1$
 										SVGFactory svgFactory = new SVGFactory();
 										svgFactory.createSvg(baseChart, indexAxisX, indexAxisY);
 										if(svgFactory.stream(output, useCSS)) {
@@ -82,21 +83,22 @@ public class SVGExportHandler extends AbstractSeriesExportHandler implements ISe
 										} else {
 											MessageDialog.openInformation(fileDialog.getParent(), TITLE, MESSAGE_ERROR);
 										}
-									} catch(Exception e) {
+									} catch(IOException e) {
 										e.printStackTrace();
 									} finally {
 										monitor.done();
 									}
 								}
 							});
-						} catch(Exception e) {
+						} catch(InterruptedException e) {
 							e.printStackTrace();
+							Thread.currentThread().interrupt();
 						}
 					}
 				}
-			} catch(Exception e) {
+			} catch(InvocationTargetException e) {
 				MessageDialog.openInformation(shell, TITLE, MESSAGE_ERROR);
-				e.printStackTrace();
+				e.getCause().printStackTrace();
 			}
 		}
 	}
