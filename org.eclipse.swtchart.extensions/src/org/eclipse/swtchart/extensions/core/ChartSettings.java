@@ -134,9 +134,6 @@ public class ChartSettings implements IChartSettings {
 		titleColor = display.getSystemColor(SWT.COLOR_TITLE_FOREGROUND);
 		titleFont = defaultFont;
 		//
-		background = display.getSystemColor(SWT.COLOR_LIST_BACKGROUND);
-		backgroundChart = display.getSystemColor(SWT.COLOR_LIST_BACKGROUND);
-		backgroundPlotArea = display.getSystemColor(SWT.COLOR_LIST_BACKGROUND);
 		rangeRestriction.setZeroX(true);
 		rangeRestriction.setZeroY(true);
 		rangeRestriction.setRestrictFrame(true);

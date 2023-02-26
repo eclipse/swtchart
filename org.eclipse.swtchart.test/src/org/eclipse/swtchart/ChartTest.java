@@ -43,7 +43,7 @@ public class ChartTest extends ChartTestCase {
 	 * Test for background.
 	 */
 	@Test
-	public void testBackground()  {
+	public void testBackground() {
 
 		// check the default color
 		showChart();
@@ -81,12 +81,12 @@ public class ChartTest extends ChartTestCase {
 	 * Test for background in plot area
 	 */
 	@Test
-	public void testBackgroundInPlotArea()  {
+	public void testBackgroundInPlotArea() {
 
 		// check the default color
 		showChart();
 		Color color = chart.getPlotArea().getBackground();
-		assertEquals(new RGB(255, 255, 255), color.getRGB());
+		assertEquals(new RGB(246, 245, 244), color.getRGB());
 		// set color
 		Color cyan = Display.getDefault().getSystemColor(SWT.COLOR_CYAN);
 		chart.getPlotArea().setBackground(cyan);
@@ -111,7 +111,7 @@ public class ChartTest extends ChartTestCase {
 			fail();
 		}
 		color = chart.getPlotArea().getBackground();
-		assertEquals(new RGB(255, 255, 255), color.getRGB());
+		assertEquals(new RGB(246, 245, 244), color.getRGB());
 		showChart();
 	}
 
@@ -119,7 +119,7 @@ public class ChartTest extends ChartTestCase {
 	 * Test for chart orientation with line series
 	 */
 	@Test
-	public void testOrientation1()  {
+	public void testOrientation1() {
 
 		// create line series
 		ILineSeries<?> lineSeries1 = (ILineSeries<?>)chart.getSeriesSet().createSeries(SeriesType.LINE, "line series 1");
@@ -234,7 +234,7 @@ public class ChartTest extends ChartTestCase {
 	 * Test for chart orientation with bar series
 	 */
 	@Test
-	public void testOrientation2()  {
+	public void testOrientation2() {
 
 		// create bar series
 		IBarSeries<?> barSeries1 = (IBarSeries<?>)chart.getSeriesSet().createSeries(SeriesType.BAR, "bar series 1");
@@ -348,7 +348,7 @@ public class ChartTest extends ChartTestCase {
 	 * Test for suspending update
 	 */
 	@Test
-	public void testSuspendUpdate()  {
+	public void testSuspendUpdate() {
 
 		ISeries<?> series1 = chart.getSeriesSet().createSeries(SeriesType.LINE, "series1");
 		series1.setYSeries(ySeries1);
@@ -378,7 +378,7 @@ public class ChartTest extends ChartTestCase {
 	 */
 	@Test
 	@Ignore("environment dependent")
-	public void testSaveToFile()  {
+	public void testSaveToFile() {
 
 		ISeries<?> series = chart.getSeriesSet().createSeries(SeriesType.LINE, "series1");
 		series.setYSeries(ySeries1);

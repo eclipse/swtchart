@@ -31,7 +31,6 @@ import org.eclipse.swt.graphics.PaletteData;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
-import org.eclipse.swt.widgets.Display;
 import org.eclipse.swtchart.Chart;
 import org.eclipse.swtchart.IAxis;
 import org.eclipse.swtchart.IBarSeries;
@@ -53,8 +52,6 @@ public class PlotArea extends Composite implements PaintListener, IPlotArea {
 	private Chart chart;
 	/** the custom paint listeners */
 	private List<ICustomPaintListener> paintListeners;
-	/** the default background color */
-	private static final int DEFAULT_BACKGROUND = SWT.COLOR_WHITE;
 	private DisposeListener disposeListener;
 	private Image image = null;
 	private boolean buffered = false;
@@ -72,7 +69,6 @@ public class PlotArea extends Composite implements PaintListener, IPlotArea {
 		super(chart, style | SWT.NO_BACKGROUND | SWT.DOUBLE_BUFFERED);
 		this.chart = chart;
 		paintListeners = new ArrayList<ICustomPaintListener>();
-		setBackground(Display.getDefault().getSystemColor(DEFAULT_BACKGROUND));
 		addPaintListener(this);
 		disposeListener = new DisposeListener() {
 
@@ -123,16 +119,6 @@ public class PlotArea extends Composite implements PaintListener, IPlotArea {
 
 		super.setBounds(x, y, width, height);
 		((SeriesSet)getSeriesSet()).compressAllSeries();
-	}
-
-	@Override
-	public void setBackground(Color color) {
-
-		if(color == null) {
-			super.setBackground(Display.getDefault().getSystemColor(DEFAULT_BACKGROUND));
-		} else {
-			super.setBackground(color);
-		}
 	}
 
 	@Override
