@@ -86,7 +86,7 @@ public class ChartTest extends ChartTestCase {
 		// check the default color
 		showChart();
 		Color color = chart.getPlotArea().getBackground();
-		assertEquals(new RGB(246, 245, 244), color.getRGB());
+		assertEquals(Display.getDefault().getSystemColor(SWT.COLOR_WIDGET_BACKGROUND).getRGB(), color.getRGB());
 		// set color
 		Color cyan = Display.getDefault().getSystemColor(SWT.COLOR_CYAN);
 		chart.getPlotArea().setBackground(cyan);
@@ -111,7 +111,7 @@ public class ChartTest extends ChartTestCase {
 			fail();
 		}
 		color = chart.getPlotArea().getBackground();
-		assertEquals(new RGB(246, 245, 244), color.getRGB());
+		assertEquals(Display.getDefault().getSystemColor(SWT.COLOR_WIDGET_BACKGROUND).getRGB(), color.getRGB());
 		showChart();
 	}
 
