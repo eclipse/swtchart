@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2017, 2020 Lablicate GmbH.
+ * Copyright (c) 2017, 2023 Lablicate GmbH.
  *
  * This program and the accompanying materials are made
  * available under the terms of the Eclipse Public License 2.0
@@ -33,20 +33,21 @@ import org.eclipse.swtchart.extensions.scattercharts.ScatterChart;
 
 public class PCAChart extends ScatterChart {
 
-	private Color COLOR_BLACK = getDisplay().getSystemColor(SWT.COLOR_BLACK);
+	private Color colorBlack = getDisplay().getSystemColor(SWT.COLOR_BLACK);
 	//
-	private int symbolSize = 0;
 	private String chartTitle = ""; //$NON-NLS-1$
 	private String xAxisTitle = "PC1"; //$NON-NLS-1$
 	private String yAxisTitle = "PC2"; //$NON-NLS-1$
 	private DecimalFormat decimalFormat = new DecimalFormat(("0.0##"), new DecimalFormatSymbols(Locale.ENGLISH)); //$NON-NLS-1$
 
 	public PCAChart() {
+
 		super();
 		initialize();
 	}
 
 	public PCAChart(Composite parent, int style) {
+
 		super(parent, style);
 		initialize();
 	}
@@ -55,7 +56,7 @@ public class PCAChart extends ScatterChart {
 	public void addSeriesData(List<IScatterSeriesData> scatterSeriesDataList) {
 
 		super.addSeriesData(scatterSeriesDataList);
-		symbolSize = 0;
+		int symbolSize = 0;
 		for(IScatterSeriesData scatterSeriesData : scatterSeriesDataList) {
 			symbolSize = Math.max(symbolSize, scatterSeriesData.getSettings().getSymbolSize());
 		}
@@ -95,7 +96,7 @@ public class PCAChart extends ScatterChart {
 		IChartSettings chartSettings = getChartSettings();
 		chartSettings.setTitle(chartTitle);
 		chartSettings.setTitleVisible(true);
-		chartSettings.setTitleColor(COLOR_BLACK);
+		chartSettings.setTitleColor(colorBlack);
 		chartSettings.setOrientation(SWT.HORIZONTAL);
 		chartSettings.setHorizontalSliderVisible(false);
 		chartSettings.setVerticalSliderVisible(true);
@@ -107,9 +108,9 @@ public class PCAChart extends ScatterChart {
 		rangeRestriction.setExtendTypeY(RangeRestriction.ExtendType.RELATIVE);
 		rangeRestriction.setExtend(0.25d);
 		chartSettings.setShowAxisZeroMarker(true);
-		chartSettings.setColorAxisZeroMarker(COLOR_BLACK);
+		chartSettings.setColorAxisZeroMarker(colorBlack);
 		chartSettings.setShowSeriesLabelMarker(true);
-		chartSettings.setColorSeriesLabelMarker(COLOR_BLACK);
+		chartSettings.setColorSeriesLabelMarker(colorBlack);
 		//
 		setPrimaryAxisSet(chartSettings);
 		addSecondaryAxisSet(chartSettings);
@@ -122,12 +123,12 @@ public class PCAChart extends ScatterChart {
 		IPrimaryAxisSettings primaryAxisSettingsX = chartSettings.getPrimaryAxisSettingsX();
 		primaryAxisSettingsX.setTitle(xAxisTitle);
 		primaryAxisSettingsX.setDecimalFormat(decimalFormat);
-		primaryAxisSettingsX.setColor(COLOR_BLACK);
+		primaryAxisSettingsX.setColor(colorBlack);
 		//
 		IPrimaryAxisSettings primaryAxisSettingsY = chartSettings.getPrimaryAxisSettingsY();
 		primaryAxisSettingsY.setTitle(yAxisTitle);
 		primaryAxisSettingsY.setDecimalFormat(decimalFormat);
-		primaryAxisSettingsY.setColor(COLOR_BLACK);
+		primaryAxisSettingsY.setColor(colorBlack);
 	}
 
 	private void addSecondaryAxisSet(IChartSettings chartSettings) {
@@ -136,13 +137,13 @@ public class PCAChart extends ScatterChart {
 		secondaryAxisSettingsX.setTitle(""); //$NON-NLS-1$
 		secondaryAxisSettingsX.setPosition(Position.Secondary);
 		secondaryAxisSettingsX.setDecimalFormat(decimalFormat);
-		secondaryAxisSettingsX.setColor(COLOR_BLACK);
+		secondaryAxisSettingsX.setColor(colorBlack);
 		chartSettings.getSecondaryAxisSettingsListX().add(secondaryAxisSettingsX);
 		//
 		ISecondaryAxisSettings secondaryAxisSettingsY = new SecondaryAxisSettings(yAxisTitle, new PassThroughConverter());
 		secondaryAxisSettingsY.setPosition(Position.Secondary);
 		secondaryAxisSettingsY.setDecimalFormat(decimalFormat);
-		secondaryAxisSettingsY.setColor(COLOR_BLACK);
+		secondaryAxisSettingsY.setColor(colorBlack);
 		chartSettings.getSecondaryAxisSettingsListY().add(secondaryAxisSettingsY);
 	}
 }

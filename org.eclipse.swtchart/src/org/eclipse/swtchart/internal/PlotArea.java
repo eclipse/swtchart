@@ -68,7 +68,7 @@ public class PlotArea extends Composite implements PaintListener, IPlotArea {
 
 		super(chart, style | SWT.NO_BACKGROUND | SWT.DOUBLE_BUFFERED);
 		this.chart = chart;
-		paintListeners = new ArrayList<ICustomPaintListener>();
+		paintListeners = new ArrayList<>();
 		addPaintListener(this);
 		disposeListener = new DisposeListener() {
 

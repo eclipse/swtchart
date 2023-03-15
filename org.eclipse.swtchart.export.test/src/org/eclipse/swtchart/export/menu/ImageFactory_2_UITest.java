@@ -18,6 +18,7 @@ import java.util.List;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swtchart.customcharts.core.MassSpectrumChart;
+import org.eclipse.swtchart.export.PathResolver;
 import org.eclipse.swtchart.export.SeriesConverter;
 import org.eclipse.swtchart.export.TestPathHelper;
 import org.eclipse.swtchart.export.images.ImageFactory;
@@ -53,14 +54,14 @@ public class ImageFactory_2_UITest extends TestCase {
 			/*
 			 * Create the factory.
 			 */
-			ImageFactory<MassSpectrumChart> imageFactory = new ImageFactory<MassSpectrumChart>(MassSpectrumChart.class, 800, 600);
+			ImageFactory<MassSpectrumChart> imageFactory = new ImageFactory<>(MassSpectrumChart.class, 800, 600);
 			/*
 			 * Modify the chart.
 			 */
 			MassSpectrumChart massSpectrumChart = imageFactory.getChart();
 			massSpectrumChart.setBackground(massSpectrumChart.getBaseChart().getDisplay().getSystemColor(SWT.COLOR_WHITE));
-			List<IBarSeriesData> barSeriesDataList = new ArrayList<IBarSeriesData>();
-			ISeriesData seriesData = SeriesConverter.getSeriesXY(TestPathHelper.getAbsolutePath(TestPathHelper.TESTFILE_BAR_SERIES_1));
+			List<IBarSeriesData> barSeriesDataList = new ArrayList<>();
+			ISeriesData seriesData = SeriesConverter.getSeriesXY(PathResolver.getAbsolutePath(TestPathHelper.TESTFILE_BAR_SERIES_1));
 			//
 			IBarSeriesData barSeriesData = new BarSeriesData(seriesData);
 			IBarSeriesSettings barSeriesSettings = barSeriesData.getSettings();
@@ -70,7 +71,7 @@ public class ImageFactory_2_UITest extends TestCase {
 			/*
 			 * Export the images.
 			 */
-			String exportFolder = TestPathHelper.getAbsolutePath(TestPathHelper.TESTFOLDER_EXPORT);
+			String exportFolder = PathResolver.getAbsolutePath(TestPathHelper.TESTFOLDER_EXPORT);
 			String prefix = "BarSeries1";
 			//
 			String png = exportFolder + File.separator + prefix + ".png";

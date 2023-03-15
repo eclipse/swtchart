@@ -37,8 +37,6 @@ public class ParallelPieCharts {
 	private boolean redrawOnClick;
 	private SeriesType seriesType;
 	private int noOfCharts;
-	private int noOfSlices;
-	private String[] legendLabels;
 	// private String[] pieTitles; // It's not used yet.
 	private CircularSeriesData[] dataArray;
 
@@ -47,7 +45,7 @@ public class ParallelPieCharts {
 		composite = parent;
 		redrawOnClick = redraw;
 		seriesType = type;
-		linkedPieCharts = new ArrayList<PieChart>();
+		linkedPieCharts = new ArrayList<>();
 		parent.setLayout(new FillLayout());
 	}
 
@@ -64,18 +62,17 @@ public class ParallelPieCharts {
 	 * @param val
 	 *            New values.
 	 */
-	public void addPieChartSeries(String labels[], double val[][]) {
+	public void addPieChartSeries(String[] labels, double[][] val) {
 
 		noOfCharts = val[0].length;
-		legendLabels = labels;
-		noOfSlices = labels.length;
-		double[] values = new double[noOfSlices];
+		String[] legendLabels = labels;
+		int noOfSlices = labels.length;
 		dataArray = new CircularSeriesData[noOfCharts];
 		// create the charts independently
 		for(int i = 0; i != noOfCharts; i++) {
 			dataArray[i] = new CircularSeriesData();
 			dataArray[i].getSettings().setSeriesType(seriesType);
-			values = new double[noOfSlices];
+			double[] values = new double[noOfSlices];
 			for(int j = 0; j != noOfSlices; j++) {
 				values[j] = val[j][i];
 			}
@@ -89,8 +86,9 @@ public class ParallelPieCharts {
 		// add them to linked scrollable charts
 		for(int i = 0; i != noOfCharts; i++) {
 			for(int j = 0; j != noOfCharts; j++) {
-				if(i == j)
+				if(i == j) {
 					continue;
+				}
 				linkedPieCharts.get(i).addLinkedScrollableChart(linkedPieCharts.get(j));
 			}
 		}

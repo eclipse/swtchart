@@ -33,9 +33,10 @@ public class HighlightedStaticPie extends PieChart {
 		super(parent, style);
 	}
 
+	@Override
 	public void addSeriesData(ICircularSeriesData model) {
 
-		ICircularSeriesSettings seriesSettings = (ICircularSeriesSettings)model.getSettings();
+		ICircularSeriesSettings seriesSettings = model.getSettings();
 		seriesSettings.setRedrawOnClick(false);
 		seriesSettings.setSliceColor(Display.getDefault().getSystemColor(SWT.COLOR_WHITE));
 		ISeriesSettings seriesSettingsHighlight = seriesSettings.getSeriesSettingsHighlight();

@@ -18,6 +18,7 @@ import java.util.List;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swtchart.customcharts.core.ChromatogramChart;
+import org.eclipse.swtchart.export.PathResolver;
 import org.eclipse.swtchart.export.SeriesConverter;
 import org.eclipse.swtchart.export.TestPathHelper;
 import org.eclipse.swtchart.export.images.ImageFactory;
@@ -53,15 +54,15 @@ public class ImageFactory_1_UITest extends TestCase {
 			/*
 			 * Create the factory.
 			 */
-			ImageFactory<ChromatogramChart> imageFactory = new ImageFactory<ChromatogramChart>(ChromatogramChart.class, 800, 600);
+			ImageFactory<ChromatogramChart> imageFactory = new ImageFactory<>(ChromatogramChart.class, 800, 600);
 			/*
 			 * Modify the chart.
 			 */
 			ChromatogramChart chromatogramChart = imageFactory.getChart();
 			chromatogramChart.setBackground(chromatogramChart.getBaseChart().getDisplay().getSystemColor(SWT.COLOR_WHITE));
-			List<ILineSeriesData> lineSeriesDataList = new ArrayList<ILineSeriesData>();
+			List<ILineSeriesData> lineSeriesDataList = new ArrayList<>();
 			//
-			ISeriesData seriesData = SeriesConverter.getSeriesXY(TestPathHelper.getAbsolutePath(TestPathHelper.TESTFILE_LINE_SERIES_1));
+			ISeriesData seriesData = SeriesConverter.getSeriesXY(PathResolver.getAbsolutePath(TestPathHelper.TESTFILE_LINE_SERIES_1));
 			ILineSeriesData lineSeriesData = new LineSeriesData(seriesData);
 			ILineSeriesSettings lineSerieSettings = lineSeriesData.getSettings();
 			lineSerieSettings.setEnableArea(true);
@@ -70,7 +71,7 @@ public class ImageFactory_1_UITest extends TestCase {
 			/*
 			 * Export the images.
 			 */
-			String exportFolder = TestPathHelper.getAbsolutePath(TestPathHelper.TESTFOLDER_EXPORT);
+			String exportFolder = PathResolver.getAbsolutePath(TestPathHelper.TESTFOLDER_EXPORT);
 			String prefix = "LineSeries1";
 			//
 			String png = exportFolder + File.separator + prefix + ".png";

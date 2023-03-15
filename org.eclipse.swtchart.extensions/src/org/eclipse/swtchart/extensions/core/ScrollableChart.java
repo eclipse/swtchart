@@ -742,10 +742,8 @@ public class ScrollableChart extends Composite implements IScrollableChart, IEve
 
 		boolean isLegendVisible = false;
 		int[] weights = sashForm.getWeights();
-		if(weights.length > 0) {
-			if(weights[0] < MAX_WEIGHT) {
-				isLegendVisible = true;
-			}
+		if(weights.length > 0 && weights[0] < MAX_WEIGHT) {
+			isLegendVisible = true;
 		}
 		return isLegendVisible;
 	}
