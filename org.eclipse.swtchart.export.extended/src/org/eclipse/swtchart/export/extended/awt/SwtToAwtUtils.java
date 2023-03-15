@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2019, 2020 SWTChart project.
+ * Copyright (c) 2019, 2023 SWTChart project.
  *
  * This program and the accompanying materials are made
  * available under the terms of the Eclipse Public License 2.0
@@ -52,15 +52,15 @@ public class SwtToAwtUtils {
 		GC tempGC = new GC(device);
 		Font tempFont = new Font(device, fontData);
 		tempGC.setFont(tempFont);
-		JPanel DUMMY_PANEL = new JPanel();
+		JPanel dummyPanel = new JPanel();
 		java.awt.Font tempAWTFont = new java.awt.Font(fontData.getName(), fontData.getStyle(), fontHeight);
-		if(DUMMY_PANEL.getFontMetrics(tempAWTFont).stringWidth(DUMMY_STRING) > tempGC.textExtent(DUMMY_STRING).x) {
-			while(DUMMY_PANEL.getFontMetrics(tempAWTFont).stringWidth(DUMMY_STRING) > tempGC.textExtent(DUMMY_STRING).x) {
+		if(dummyPanel.getFontMetrics(tempAWTFont).stringWidth(DUMMY_STRING) > tempGC.textExtent(DUMMY_STRING).x) {
+			while(dummyPanel.getFontMetrics(tempAWTFont).stringWidth(DUMMY_STRING) > tempGC.textExtent(DUMMY_STRING).x) {
 				fontHeight--;
 				tempAWTFont = new java.awt.Font(fontData.getName(), fontData.getStyle(), fontHeight);
 			}
-		} else if(DUMMY_PANEL.getFontMetrics(tempAWTFont).stringWidth(DUMMY_STRING) < tempGC.textExtent(DUMMY_STRING).x) {
-			while(DUMMY_PANEL.getFontMetrics(tempAWTFont).stringWidth(DUMMY_STRING) < tempGC.textExtent(DUMMY_STRING).x) {
+		} else if(dummyPanel.getFontMetrics(tempAWTFont).stringWidth(DUMMY_STRING) < tempGC.textExtent(DUMMY_STRING).x) {
+			while(dummyPanel.getFontMetrics(tempAWTFont).stringWidth(DUMMY_STRING) < tempGC.textExtent(DUMMY_STRING).x) {
 				fontHeight++;
 				tempAWTFont = new java.awt.Font(fontData.getName(), fontData.getStyle(), fontHeight);
 			}

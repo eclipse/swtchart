@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2019, 2020 SWTChart project.
+ * Copyright (c) 2019, 2023 SWTChart project.
  *
  * This program and the accompanying materials are made
  * available under the terms of the Eclipse Public License 2.0
@@ -112,16 +112,16 @@ public class ChartToGraphics2D {
 		graphics2D.setClip(null);
 		graphics2D.setColor(java.awt.Color.BLACK);
 		/** Draw X Axis */
-		int x11 = (int)(xBorder);
-		int y11 = (int)(height - yBorder);
-		int x12 = (int)(width - xBorder);
-		int y12 = (int)(height - yBorder);
+		int x11 = xBorder;
+		int y11 = height - yBorder;
+		int x12 = width - xBorder;
+		int y12 = height - yBorder;
 		graphics2D.drawLine(x11, y11, x12, y12);
 		/** Draw Y Axis */
-		int x21 = (int)(xBorder);
-		int y21 = (int)(yBorder);
-		int x22 = (int)(xBorder);
-		int y22 = (int)(height - yBorder);
+		int x21 = xBorder;
+		int y21 = yBorder;
+		int x22 = xBorder;
+		int y22 = height - yBorder;
 		graphics2D.drawLine(x21, y21, x22, y22);
 		/** Draw Grids and Ticks on X axis and Y axis */
 		drawGridAndTicks(xAxis);
@@ -140,8 +140,8 @@ public class ChartToGraphics2D {
 		java.awt.Font font = graphics2D.getFont();
 		int textwidth = (int)(font.getStringBounds(labelX, fontRenderContext).getWidth());
 		int textheight = (int)(font.getStringBounds(labelX, fontRenderContext).getHeight());
-		int x1 = (int)(width / 2 - textwidth / 2);
-		int y1 = (int)(height - textheight / 2 + AxisTickMarks.TICK_LENGTH);
+		int x1 = width / 2 - textwidth / 2;
+		int y1 = height - textheight / 2 + AxisTickMarks.TICK_LENGTH;
 		/** Draw X Axis label */
 		graphics2D.drawString(labelX, x1, y1);
 		affineTransform.rotate(Math.toRadians(-90), 0, 0);
@@ -278,7 +278,7 @@ public class ChartToGraphics2D {
 		Position position = xAxis.getPosition();
 		/** Draw Tick Labels */
 		for(int i = 0; i < tickLabelPositions.size(); i++) {
-			if(xAxis.isValidCategoryAxis() || tickVisibilities.get(i) == true) {
+			if(xAxis.isValidCategoryAxis() || Boolean.TRUE.equals(tickVisibilities.get(i))) {
 				String text = tickLabels.get(i);
 				int textWidth = (int)(font.getStringBounds(text, fontRenderContext).getWidth());
 				int textHeight = (int)(font.getStringBounds(text, fontRenderContext).getHeight());
@@ -316,10 +316,10 @@ public class ChartToGraphics2D {
 		Rectangle bounds = yAxis.getTick().getAxisTickLabels().getBounds();
 		/** Draw Tick Labels */
 		for(int i = 0; i < tickLabelPositions.size(); i++) {
-			if(tickVisibilities.size() == 0 || tickLabels.size() == 0) {
+			if(tickVisibilities.isEmpty() || tickLabels.isEmpty()) {
 				break;
 			}
-			if(tickVisibilities.get(i) == true) {
+			if(Boolean.TRUE.equals(tickVisibilities.get(i))) {
 				String text = tickLabels.get(i);
 				int x = Axis.MARGIN;
 				if(tickLabels.get(0).startsWith("-") && !text.startsWith("-")) { //$NON-NLS-1$ //$NON-NLS-2$
@@ -337,7 +337,7 @@ public class ChartToGraphics2D {
 	private void drawRotatedText(Graphics2D g2d, String text, float x, float y, int angle) {
 
 		AffineTransform original = g2d.getTransform();
-		g2d.rotate(Math.PI * (angle / 180));
+		g2d.rotate(Math.PI * ((double)angle / 180));
 		g2d.drawString(text, x, y);
 		g2d.setTransform(original);
 	}

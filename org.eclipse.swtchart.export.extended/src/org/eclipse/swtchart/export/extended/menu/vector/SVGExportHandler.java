@@ -19,6 +19,7 @@ import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.io.Writer;
 import java.lang.reflect.InvocationTargetException;
+import java.nio.charset.StandardCharsets;
 import java.text.MessageFormat;
 
 import org.eclipse.core.runtime.IProgressMonitor;
@@ -74,7 +75,7 @@ public class SVGExportHandler extends AbstractSeriesExportHandler implements ISe
 								public void run(IProgressMonitor monitor) throws InvocationTargetException, InterruptedException {
 
 									monitor.beginTask(Messages.EXPORT_TO_SVG, IProgressMonitor.UNKNOWN);
-									try (Writer output = new OutputStreamWriter(new FileOutputStream(fileName), "UTF-8")) { //$NON-NLS-1$
+									try (Writer output = new OutputStreamWriter(new FileOutputStream(fileName), StandardCharsets.UTF_8)) {
 										boolean useCSS = true;
 										SVGFactory svgFactory = new SVGFactory();
 										svgFactory.createSvg(baseChart, indexAxisX, indexAxisY);
