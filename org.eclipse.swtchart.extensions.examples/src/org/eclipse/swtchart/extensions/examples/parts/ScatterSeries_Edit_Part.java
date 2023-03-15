@@ -235,7 +235,7 @@ public class ScatterSeries_Edit_Part extends Composite {
 
 		buttonSetCustomSelection = new Button(parent, SWT.PUSH);
 		buttonSetCustomSelection.setToolTipText("Enable Custom Selection");
-		buttonSetCustomSelection.setText(Activator.getDefault() != null ? "" : "Custom Selection (s)");
+		buttonSetCustomSelection.setText(Activator.getDefault() != null ? "" : "Custom Selections");
 		buttonSetCustomSelection.setImage(Activator.getDefault() != null ? Activator.getDefault().getImage(Activator.ICON_START) : null);
 		buttonSetCustomSelection.addSelectionListener(new SelectionAdapter() {
 
