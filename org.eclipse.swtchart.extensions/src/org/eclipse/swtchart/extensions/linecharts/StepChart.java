@@ -18,6 +18,7 @@ import java.util.List;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swtchart.ILineSeries;
 import org.eclipse.swtchart.extensions.core.BaseChart;
+import org.eclipse.swtchart.extensions.core.ChartType;
 import org.eclipse.swtchart.extensions.core.ISeriesData;
 import org.eclipse.swtchart.extensions.core.ScrollableChart;
 import org.eclipse.swtchart.extensions.exceptions.SeriesException;
@@ -27,11 +28,13 @@ public class StepChart extends ScrollableChart implements ICompressionSupport {
 	public StepChart() {
 
 		super();
+		setChartType(ChartType.STEP);
 	}
 
 	public StepChart(Composite parent, int style) {
 
 		super(parent, style);
+		setChartType(ChartType.STEP);
 	}
 
 	public void addSeriesData(List<ILineSeriesData> lineSeriesDataList) {

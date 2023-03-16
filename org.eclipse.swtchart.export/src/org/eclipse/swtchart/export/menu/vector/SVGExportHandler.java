@@ -162,6 +162,7 @@ public class SVGExportHandler extends AbstractSeriesExportHandler implements ISe
 													case SCATTER:
 														printScatterPlot(fileName, printWriter, scrollableChart, axisSettings);
 														break;
+													case PIE: // TODO
 													default:
 														System.out.println("The chart type export is not supported yet: " + chartType);
 														break;

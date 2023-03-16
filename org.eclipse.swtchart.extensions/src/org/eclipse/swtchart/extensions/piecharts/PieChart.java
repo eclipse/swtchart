@@ -16,6 +16,7 @@ package org.eclipse.swtchart.extensions.piecharts;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swtchart.ICircularSeries;
 import org.eclipse.swtchart.extensions.core.BaseChart;
+import org.eclipse.swtchart.extensions.core.ChartType;
 import org.eclipse.swtchart.extensions.core.IChartSettings;
 import org.eclipse.swtchart.extensions.core.IPrimaryAxisSettings;
 import org.eclipse.swtchart.extensions.core.ScrollableChart;
@@ -30,11 +31,13 @@ public class PieChart extends ScrollableChart {
 	public PieChart() {
 
 		super();
+		setChartType(ChartType.PIE);
 	}
 
 	public PieChart(Composite parent, int style) {
 
 		super(parent, style);
+		setChartType(ChartType.PIE);
 	}
 
 	public void addSeriesData(ICircularSeriesData seriesData) {
