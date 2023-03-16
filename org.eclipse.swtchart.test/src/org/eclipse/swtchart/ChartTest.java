@@ -22,7 +22,6 @@ import java.util.UUID;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.SWTException;
 import org.eclipse.swt.graphics.Color;
-import org.eclipse.swt.graphics.RGB;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swtchart.ISeries.SeriesType;
 import org.eclipse.swtchart.util.ChartTestCase;
