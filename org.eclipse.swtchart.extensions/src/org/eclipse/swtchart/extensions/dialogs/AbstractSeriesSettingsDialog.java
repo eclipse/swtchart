@@ -45,6 +45,7 @@ import org.eclipse.swtchart.extensions.core.ResourceSupport;
 import org.eclipse.swtchart.extensions.linecharts.ILineSeriesSettings;
 import org.eclipse.swtchart.extensions.piecharts.ICircularSeriesSettings;
 import org.eclipse.swtchart.extensions.scattercharts.IScatterSeriesSettings;
+import org.eclipse.swtchart.extensions.widgets.ExtendedComboViewer;
 
 public abstract class AbstractSeriesSettingsDialog<T extends ISeriesSettings> extends TitleAreaDialog {
 
@@ -139,7 +140,7 @@ public abstract class AbstractSeriesSettingsDialog<T extends ISeriesSettings> ex
 
 	protected ComboViewer createComboViewer(Composite parent, String tooltip, IEnumLabel[] input, Object selection, GridData gridData, Consumer<Object> consumer) {
 
-		ComboViewer comboViewer = new ComboViewer(parent, SWT.READ_ONLY);
+		ComboViewer comboViewer = new ExtendedComboViewer(parent, SWT.READ_ONLY);
 		comboViewer.setContentProvider(ArrayContentProvider.getInstance());
 		comboViewer.setInput(input);
 		comboViewer.setLabelProvider(new LabelProvider() {

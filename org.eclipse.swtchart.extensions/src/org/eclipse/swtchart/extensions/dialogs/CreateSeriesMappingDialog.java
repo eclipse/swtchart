@@ -34,6 +34,7 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.swtchart.IEnumLabel;
 import org.eclipse.swtchart.extensions.core.MappingsType;
+import org.eclipse.swtchart.extensions.widgets.ExtendedComboViewer;
 
 public class CreateSeriesMappingDialog extends TitleAreaDialog {
 
@@ -130,7 +131,7 @@ public class CreateSeriesMappingDialog extends TitleAreaDialog {
 
 	private ComboViewer createComboViewerMappingsType(Composite parent) {
 
-		ComboViewer comboViewer = new ComboViewer(parent, SWT.READ_ONLY);
+		ComboViewer comboViewer = new ExtendedComboViewer(parent, SWT.READ_ONLY);
 		comboViewer.setContentProvider(ArrayContentProvider.getInstance());
 		comboViewer.setInput(MappingsType.values());
 		comboViewer.setLabelProvider(new LabelProvider() {

@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2022 Lablicate GmbH.
+ * Copyright (c) 2022, 2023 Lablicate GmbH.
  *
  * This program and the accompanying materials are made
  * available under the terms of the Eclipse Public License 2.0
@@ -18,6 +18,7 @@ import org.eclipse.swt.dnd.Transfer;
 import org.eclipse.swt.graphics.ImageData;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swtchart.extensions.core.BaseChart;
+import org.eclipse.swtchart.extensions.internal.support.OS;
 
 public class ImageClipboardSupport {
 
@@ -31,11 +32,11 @@ public class ImageClipboardSupport {
 		//
 		Clipboard clipboard = new Clipboard(display);
 		try {
-			if(isWindows()) {
+			if(OS.isWindows()) {
 				clipboard.setContents(new Object[]{imageData, imageData}, new Transfer[]{ImageTransfer.getInstance(), ImageArrayTransfer.getInstanceWindows()});
-			} else if(isLinux()) {
+			} else if(OS.isLinux()) {
 				clipboard.setContents(new Object[]{imageData}, new Transfer[]{ImageArrayTransfer.getInstanceLinux()});
-			} else if(isMac() || isUnix()) {
+			} else if(OS.isMac() || OS.isUnix()) {
 				clipboard.setContents(new Object[]{imageData}, new Transfer[]{ImageTransfer.getInstance()});
 			}
 		} finally {
@@ -43,30 +44,5 @@ public class ImageClipboardSupport {
 				clipboard.dispose();
 			}
 		}
-	}
-
-	private static boolean isWindows() {
-
-		return (getOperatingSystem().indexOf("win") >= 0);
-	}
-
-	private static boolean isLinux() {
-
-		return (getOperatingSystem().indexOf("linux") >= 0);
-	}
-
-	private static boolean isMac() {
-
-		return (getOperatingSystem().indexOf("mac") >= 0);
-	}
-
-	private static boolean isUnix() {
-
-		return (getOperatingSystem().indexOf("unix") >= 0);
-	}
-
-	private static String getOperatingSystem() {
-
-		return System.getProperty("os.name").toLowerCase();
 	}
 }

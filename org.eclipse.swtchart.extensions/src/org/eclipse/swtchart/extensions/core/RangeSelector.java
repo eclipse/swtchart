@@ -27,6 +27,7 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.swtchart.IAxis;
 import org.eclipse.swtchart.Range;
+import org.eclipse.swtchart.extensions.widgets.ExtendedCombo;
 
 public class RangeSelector extends Composite {
 
@@ -121,7 +122,7 @@ public class RangeSelector extends Composite {
 		textStopX.setText(""); //$NON-NLS-1$
 		textStopX.setLayoutData(getTextGridData());
 		//
-		comboScaleX = new Combo(this, SWT.READ_ONLY);
+		comboScaleX = ExtendedCombo.create(this, SWT.READ_ONLY);
 		comboScaleX.setLayoutData(getComboGridData());
 		comboScaleX.addSelectionListener(new SelectionAdapter() {
 
@@ -148,7 +149,7 @@ public class RangeSelector extends Composite {
 		textStopY.setText(""); //$NON-NLS-1$
 		textStopY.setLayoutData(getTextGridData());
 		//
-		comboScaleY = new Combo(this, SWT.READ_ONLY);
+		comboScaleY = ExtendedCombo.create(this, SWT.READ_ONLY);
 		comboScaleY.setLayoutData(getComboGridData());
 		comboScaleY.addSelectionListener(new SelectionAdapter() {
 

@@ -28,4 +28,5 @@ Export-Package: org.eclipse.swtchart.extensions.axisconverter,
  org.eclipse.swtchart.extensions.piecharts,
  org.eclipse.swtchart.extensions.preferences,
  org.eclipse.swtchart.extensions.properties,
- org.eclipse.swtchart.extensions.scattercharts
+ org.eclipse.swtchart.extensions.scattercharts,
+ org.eclipse.swtchart.extensions.widgets
