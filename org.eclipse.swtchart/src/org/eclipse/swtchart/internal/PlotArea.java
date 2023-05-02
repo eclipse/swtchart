@@ -78,6 +78,7 @@ public class PlotArea extends Composite implements PaintListener, IPlotArea {
 				dispose();
 			}
 		};
+		setData("org.eclipse.e4.ui.css.CssClassName", "PlotArea");
 		chart.addDisposeListener(disposeListener);
 		chart.setPlotArea(this);
 	}

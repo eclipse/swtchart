@@ -29,12 +29,14 @@ public class StepChart extends ScrollableChart implements ICompressionSupport {
 
 		super();
 		setChartType(ChartType.STEP);
+		setData("org.eclipse.e4.ui.css.CssClassName", "StepChart");
 	}
 
 	public StepChart(Composite parent, int style) {
 
 		super(parent, style);
 		setChartType(ChartType.STEP);
+		setData("org.eclipse.e4.ui.css.CssClassName", "StepChart");
 	}
 
 	public void addSeriesData(List<ILineSeriesData> lineSeriesDataList) {

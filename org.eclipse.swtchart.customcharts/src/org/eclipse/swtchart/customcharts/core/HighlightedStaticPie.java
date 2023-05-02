@@ -26,11 +26,13 @@ public class HighlightedStaticPie extends PieChart {
 	public HighlightedStaticPie(Composite parent) {
 
 		super(parent, SWT.NONE);
+		setData("org.eclipse.e4.ui.css.CssClassName", "HighlightedStaticPie");
 	}
 
 	public HighlightedStaticPie(Composite parent, int style) {
 
 		super(parent, style);
+		setData("org.eclipse.e4.ui.css.CssClassName", "HighlightedStaticPie");
 	}
 
 	@Override

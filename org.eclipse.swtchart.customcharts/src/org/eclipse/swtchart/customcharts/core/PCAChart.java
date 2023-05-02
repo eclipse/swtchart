@@ -116,6 +116,7 @@ public class PCAChart extends ScatterChart {
 		addSecondaryAxisSet(chartSettings);
 		//
 		applySettings(chartSettings);
+		setData("org.eclipse.e4.ui.css.CssClassName", "PCAChart");
 	}
 
 	private void setPrimaryAxisSet(IChartSettings chartSettings) {

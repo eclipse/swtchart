@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2017, 2022 Lablicate GmbH.
+ * Copyright (c) 2017, 2023 Lablicate GmbH.
  *
  * This program and the accompanying materials are made
  * available under the terms of the Eclipse Public License 2.0
@@ -114,6 +114,7 @@ public class MassSpectrumChart extends BarChart {
 		applySettings(chartSettings);
 		//
 		addSeriesLabelMarker();
+		setData("org.eclipse.e4.ui.css.CssClassName", "MassSpectrumChart");
 	}
 
 	private void setPrimaryAxisSet(IChartSettings chartSettings) {

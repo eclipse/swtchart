@@ -176,6 +176,10 @@ public class ScrollableChart extends Composite implements IScrollableChart, IEve
 	@Override
 	public void setBackground(Color color) {
 
+		// Use CSS styles instead.
+		if(color == null) {
+			return;
+		}
 		super.setBackground(color);
 		sashForm.setBackground(color);
 		chartSection.setBackground(color);
@@ -1347,6 +1351,8 @@ public class ScrollableChart extends Composite implements IScrollableChart, IEve
 		 * Legend is invisible by default.
 		 */
 		sashForm.setWeights(DEFAULT_WEIGHTS);
+		//
+		setData("org.eclipse.e4.ui.css.CssClassName", "ScrollableChart");
 	}
 
 	private Composite createChartSection(Composite parent) {

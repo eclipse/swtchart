@@ -91,6 +91,7 @@ public class Legend extends Composite implements ILegend, PaintListener {
 		setForeground(DEFAULT_FOREGROUND);
 		setBackground(DEFAULT_BACKGROUND);
 		addPaintListener(this);
+		setData("org.eclipse.e4.ui.css.CssClassName", "Legend");
 	}
 
 	@Override

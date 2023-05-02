@@ -26,11 +26,13 @@ public class ScatterChart extends ScrollableChart {
 	public ScatterChart() {
 
 		super();
+		setData("org.eclipse.e4.ui.css.CssClassName", "ScatterChart");
 	}
 
 	public ScatterChart(Composite parent, int style) {
 
 		super(parent, style);
+		setData("org.eclipse.e4.ui.css.CssClassName", "ScatterChart");
 	}
 
 	public void addSeriesData(List<IScatterSeriesData> scatterSeriesDataList) {

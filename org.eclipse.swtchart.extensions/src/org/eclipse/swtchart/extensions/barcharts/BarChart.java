@@ -29,11 +29,13 @@ public class BarChart extends ScrollableChart {
 	public BarChart() {
 
 		super();
+		setData("org.eclipse.e4.ui.css.CssClassName", "BarChart");
 	}
 
 	public BarChart(Composite parent, int style) {
 
 		super(parent, style);
+		setData("org.eclipse.e4.ui.css.CssClassName", "BarChart");
 	}
 
 	public void addSeriesData(List<IBarSeriesData> barSeriesDataList) {

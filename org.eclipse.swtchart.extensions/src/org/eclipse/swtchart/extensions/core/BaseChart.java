@@ -175,6 +175,8 @@ public class BaseChart extends AbstractExtendedChart implements IChartDataCoordi
 		redoSelection = null;
 		//
 		dataShiftHistory = new HashMap<>();
+		//
+		setData("org.eclipse.e4.ui.css.CssClassName", "BaseChart");
 	}
 
 	private void initializeEventProcessors() {

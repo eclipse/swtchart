@@ -61,6 +61,7 @@ public class ChromatogramChart extends LineChart {
 		setPrimaryAxisSet(chartSettings);
 		addSecondaryAxisSet(chartSettings);
 		applySettings(chartSettings);
+		setData("org.eclipse.e4.ui.css.CssClassName", "ChromatogramChart");
 	}
 
 	private void setPrimaryAxisSet(IChartSettings chartSettings) {
