@@ -93,6 +93,7 @@ public class InteractiveChart extends Chart implements PaintListener {
 			plot.addPaintListener(this);
 			createMenuItems(plot);
 		}
+		setData("org.eclipse.e4.ui.css.CssClassName", "InteractiveChart");
 	}
 
 	/**

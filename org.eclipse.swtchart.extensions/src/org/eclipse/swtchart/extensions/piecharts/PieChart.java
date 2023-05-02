@@ -32,12 +32,14 @@ public class PieChart extends ScrollableChart {
 
 		super();
 		setChartType(ChartType.PIE);
+		setData("org.eclipse.e4.ui.css.CssClassName", "BarChart");
 	}
 
 	public PieChart(Composite parent, int style) {
 
 		super(parent, style);
 		setChartType(ChartType.PIE);
+		setData("org.eclipse.e4.ui.css.CssClassName", "BarChart");
 	}
 
 	public void addSeriesData(ICircularSeriesData seriesData) {

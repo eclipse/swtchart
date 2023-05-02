@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2022 Lablicate GmbH.
+ * Copyright (c) 2022, 2023 Lablicate GmbH.
  *
  * This program and the accompanying materials are made
  * available under the terms of the Eclipse Public License 2.0
@@ -44,6 +44,7 @@ public class BoxPlotChart extends ScatterChart {
 		IPlotArea plotArea = getBaseChart().getPlotArea();
 		BoxPlotMarker boxPlotMarker = new BoxPlotMarker(getBaseChart(), this);
 		plotArea.addCustomPaintListener(boxPlotMarker);
+		setData("org.eclipse.e4.ui.css.CssClassName", "BoxPlotChart");
 	}
 
 	@Override

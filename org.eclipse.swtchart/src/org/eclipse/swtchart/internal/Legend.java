@@ -85,12 +85,13 @@ public class Legend extends Composite implements ILegend, PaintListener {
 		this.chart = chart;
 		visible = true;
 		position = DEFAULT_POSITION;
-		cellBounds = new HashMap<String, Rectangle>();
+		cellBounds = new HashMap<>();
 		defaultFont = Resources.getFont("Tahoma", DEFAULT_FONT_SIZE, SWT.NORMAL); //$NON-NLS-1$
 		setFont(defaultFont);
 		setForeground(DEFAULT_FOREGROUND);
 		setBackground(DEFAULT_BACKGROUND);
 		addPaintListener(this);
+		setData("org.eclipse.e4.ui.css.CssClassName", "Legend");
 	}
 
 	@Override

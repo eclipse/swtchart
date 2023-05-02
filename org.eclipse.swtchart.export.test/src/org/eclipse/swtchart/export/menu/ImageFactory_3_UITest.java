@@ -19,6 +19,7 @@ import java.util.List;
 import org.eclipse.swt.SWT;
 import org.eclipse.swtchart.ILineSeries.PlotSymbolType;
 import org.eclipse.swtchart.customcharts.core.PCAChart;
+import org.eclipse.swtchart.export.PathResolver;
 import org.eclipse.swtchart.export.SeriesConverter;
 import org.eclipse.swtchart.export.TestPathHelper;
 import org.eclipse.swtchart.export.images.ImageFactory;
@@ -57,15 +58,15 @@ public class ImageFactory_3_UITest extends TestCase {
 			/*
 			 * Create the factory.
 			 */
-			ImageFactory<PCAChart> imageFactory = new ImageFactory<PCAChart>(PCAChart.class, 800, 600);
+			ImageFactory<PCAChart> imageFactory = new ImageFactory<>(PCAChart.class, 800, 600);
 			/*
 			 * Modify the chart.
 			 */
 			PCAChart pcaChart = imageFactory.getChart();
 			BaseChart baseChart = pcaChart.getBaseChart();
 			pcaChart.setBackground(baseChart.getDisplay().getSystemColor(SWT.COLOR_WHITE));
-			List<ISeriesData> scatterSeriesList = SeriesConverter.getSeriesScatter(TestPathHelper.getAbsolutePath(TestPathHelper.TESTFILE_SCATTER_SERIES_1));
-			List<IScatterSeriesData> scatterSeriesDataList = new ArrayList<IScatterSeriesData>();
+			List<ISeriesData> scatterSeriesList = SeriesConverter.getSeriesScatter(PathResolver.getAbsolutePath(TestPathHelper.TESTFILE_SCATTER_SERIES_1));
+			List<IScatterSeriesData> scatterSeriesDataList = new ArrayList<>();
 			//
 			for(ISeriesData seriesData : scatterSeriesList) {
 				IScatterSeriesData scatterSeriesData = new ScatterSeriesData(seriesData);
@@ -100,7 +101,7 @@ public class ImageFactory_3_UITest extends TestCase {
 			/*
 			 * Export the images.
 			 */
-			String exportFolder = TestPathHelper.getAbsolutePath(TestPathHelper.TESTFOLDER_EXPORT);
+			String exportFolder = PathResolver.getAbsolutePath(TestPathHelper.TESTFOLDER_EXPORT);
 			String prefix = "ScatterSeries1";
 			//
 			String png = exportFolder + File.separator + prefix + ".png";

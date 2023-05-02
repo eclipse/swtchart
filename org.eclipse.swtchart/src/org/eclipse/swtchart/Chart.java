@@ -94,6 +94,7 @@ public class Chart extends Composite implements Listener {
 				redraw();
 			}
 		});
+		setData("org.eclipse.e4.ui.css.CssClassName", "Chart");
 	}
 
 	/**
