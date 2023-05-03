@@ -1264,7 +1264,6 @@ public class ScrollableChart extends Composite implements IScrollableChart, IEve
 			int length = axisText.length() - 1;
 			StyleRange styleRange = new StyleRange();
 			styleRange.length = (length > 0) ? length : 0;
-			styleRange.background = baseChart.getBackground();
 			styleRange.foreground = (color != null) ? color : baseChart.getForeground();
 			styleRange.font = font;
 			styleRange.rise = getAxisExtraSpaceTitle(axis, axisSettings);

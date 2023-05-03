@@ -955,7 +955,7 @@ public class BaseChart extends AbstractExtendedChart implements IChartDataCoordi
 
 		List<double[]> shiftRecord = dataShiftHistory.get(selectedSeriesId);
 		if(shiftRecord == null) {
-			shiftRecord = new ArrayList<double[]>();
+			shiftRecord = new ArrayList<>();
 			dataShiftHistory.put(selectedSeriesId, shiftRecord);
 		}
 		return shiftRecord;
@@ -971,7 +971,7 @@ public class BaseChart extends AbstractExtendedChart implements IChartDataCoordi
 			 */
 			boolean deleteShiftedData = isDeleteShiftedData(axisOrientation);
 			if(deleteShiftedData) {
-				series = adjustArrayWithConstraints(series, shift, axisOrientation);
+				series = adjustArrayWithConstraints(series, shift);
 			} else {
 				series = adjustArrayWithoutConstraints(series, shift);
 			}
@@ -987,7 +987,7 @@ public class BaseChart extends AbstractExtendedChart implements IChartDataCoordi
 		return series;
 	}
 
-	private double[] adjustArrayWithConstraints(double[] series, double shift, String axisOrientation) {
+	private double[] adjustArrayWithConstraints(double[] series, double shift) {
 
 		double lowerBorder = 0.0d;
 		/*
