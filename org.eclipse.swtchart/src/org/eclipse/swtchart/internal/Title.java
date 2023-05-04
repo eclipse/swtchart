@@ -24,6 +24,8 @@ import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Font;
 import org.eclipse.swt.graphics.GC;
 import org.eclipse.swt.graphics.Image;
+import org.eclipse.swt.graphics.ImageData;
+import org.eclipse.swt.graphics.PaletteData;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.graphics.TextLayout;
@@ -357,21 +359,29 @@ public class Title implements ITitle, PaintListener {
 			int margin = textHeight / 10;
 			textWidth += margin;
 		}
-		//
+		/*
+		 * Create image to draw text. If drawing text on rotated graphics
+		 * context instead of drawing rotated image, the text shape becomes a
+		 * bit ugly especially with small font with bold.
+		 */
 		if(textWidth > 0 && textHeight > 0) {
 			/*
-			 * Create image to draw text. If drawing text on rotated graphics
-			 * context instead of drawing rotated image, the text shape becomes a
-			 * bit ugly especially with small font with bold.
+			 * Set transparent background
 			 */
-			Image image = new Image(Display.getCurrent(), textWidth, textHeight);
+			ImageData imageData = new ImageData(textWidth, textHeight, 32, new PaletteData(0xFF0000, 0xFF00, 0xFF));
+			for(int x = 0; x < textWidth; x++) {
+				for(int y = 0; y < textHeight; y++) {
+					int pixelValue = imageData.getPixel(x, y);
+					imageData.setAlpha(x, y, pixelValue == 0 ? 0 : 255);
+				}
+			}
+			Image image = new Image(Display.getCurrent(), imageData);
 			GC tmpGc = new GC(image);
 			//
 			if(useTextLayout()) {
 				TextLayout textLayout = Resources.getTextLayout(textLayoutUUID);
 				textLayout.draw(tmpGc, 0, 0);
 			} else {
-				tmpGc.setBackground(chart.getBackground());
 				tmpGc.setForeground(getForeground());
 				tmpGc.setFont(getFont());
 				tmpGc.fillRectangle(image.getBounds());
