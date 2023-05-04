@@ -45,9 +45,9 @@ public abstract class AbstractAxisSettings implements IAxisSettings {
 	/*
 	 * The default font is only used if no font is set.
 	 */
-	private final Font defaultFont = ResourceSupport.getFont("Tahoma", Resources.MEDIUM_FONT_SIZE, SWT.BOLD); //$NON-NLS-1$
+	private final Font defaultFont = Resources.getFont("Tahoma", Resources.MEDIUM_FONT_SIZE, SWT.BOLD); //$NON-NLS-1$
 
-	public AbstractAxisSettings(String title) {
+	protected AbstractAxisSettings(String title) {
 
 		/*
 		 * In this case, the title is used also as
@@ -56,7 +56,7 @@ public abstract class AbstractAxisSettings implements IAxisSettings {
 		this(title, title);
 	}
 
-	public AbstractAxisSettings(String title, String description) {
+	protected AbstractAxisSettings(String title, String description) {
 
 		this.title = title;
 		this.description = description;
