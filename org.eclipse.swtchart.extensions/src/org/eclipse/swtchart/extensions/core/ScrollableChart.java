@@ -182,8 +182,12 @@ public class ScrollableChart extends Composite implements IScrollableChart, IEve
 		}
 		super.setBackground(color);
 		sashForm.setBackground(color);
-		chartSection.setBackground(color);
-		compositeChart.setBackground(color);
+		if(chartSection != null) {
+			chartSection.setBackground(color);
+		}
+		if(compositeChart != null) {
+			compositeChart.setBackground(color);
+		}
 	}
 
 	/**
