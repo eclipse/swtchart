@@ -25,6 +25,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 import java.util.TreeMap;
+import java.util.concurrent.atomic.AtomicReference;
 
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IConfigurationElement;
@@ -98,8 +99,8 @@ public class ScrollableChart extends Composite implements IScrollableChart, IEve
 	private Map<String, Set<IChartMenuEntry>> categoryMenuEntriesMap = new HashMap<>();
 	private Map<String, IChartMenuEntry> menuEntryMap = new HashMap<>();
 	//
-	private Slider sliderVertical;
-	private Slider sliderHorizontal;
+	private AtomicReference<Slider> sliderVerticalControl = new AtomicReference<>();
+	private AtomicReference<Slider> sliderHorizontalControl = new AtomicReference<>();
 	private RangeSelector rangeSelector;
 	private SashForm sashForm;
 	private Composite chartSection;
@@ -164,7 +165,7 @@ public class ScrollableChart extends Composite implements IScrollableChart, IEve
 
 		super(parent, style);
 		setChartType();
-		initialize();
+		createControl();
 	}
 
 	@Override
@@ -176,15 +177,19 @@ public class ScrollableChart extends Composite implements IScrollableChart, IEve
 	@Override
 	public void setBackground(Color color) {
 
-		// Use CSS styles instead.
+		/*
+		 * Use CSS styles instead.
+		 */
 		if(color == null) {
 			return;
 		}
+		//
 		super.setBackground(color);
 		sashForm.setBackground(color);
 		if(chartSection != null) {
 			chartSection.setBackground(color);
 		}
+		//
 		if(compositeChart != null) {
 			compositeChart.setBackground(color);
 		}
@@ -972,10 +977,12 @@ public class ScrollableChart extends Composite implements IScrollableChart, IEve
 		 * pack(); doesn't work???!!! Why? It should!
 		 * Exclude and layout did the trick.
 		 */
+		Slider sliderVertical = sliderVerticalControl.get();
 		GridData gridDataVertical = (GridData)sliderVertical.getLayoutData();
 		gridDataVertical.exclude = !chartSettings.isVerticalSliderVisible();
 		sliderVertical.setVisible(chartSettings.isVerticalSliderVisible());
 		//
+		Slider sliderHorizontal = sliderHorizontalControl.get();
 		GridData gridDataHorizontal = (GridData)sliderHorizontal.getLayoutData();
 		gridDataHorizontal.exclude = !chartSettings.isHorizontalSliderVisible();
 		sliderHorizontal.setVisible(chartSettings.isHorizontalSliderVisible());
@@ -1070,11 +1077,13 @@ public class ScrollableChart extends Composite implements IScrollableChart, IEve
 				//
 				boolean isHorizontal = isOrientationHorizontal();
 				//
+				Slider sliderVertical = sliderVerticalControl.get();
 				sliderVertical.setMinimum(0);
 				sliderVertical.setMaximum((isHorizontal) ? maxY : maxX);
 				sliderVertical.setThumb((isHorizontal) ? thumbSelectionY : thumbSelectionX);
 				sliderVertical.setSelection((isHorizontal) ? maxSelectionY : minSelectionX);
 				//
+				Slider sliderHorizontal = sliderHorizontalControl.get();
 				sliderHorizontal.setMinimum(0);
 				sliderHorizontal.setMaximum((isHorizontal) ? maxX : maxY);
 				sliderHorizontal.setThumb((isHorizontal) ? thumbSelectionX : thumbSelectionY);
@@ -1343,7 +1352,7 @@ public class ScrollableChart extends Composite implements IScrollableChart, IEve
 		rangeSelector.adjustRanges(true);
 	}
 
-	private void initialize() {
+	private void createControl() {
 
 		this.setLayout(new FillLayout());
 		sashForm = new SashForm(this, SWT.HORIZONTAL);
@@ -1354,7 +1363,14 @@ public class ScrollableChart extends Composite implements IScrollableChart, IEve
 		 * Legend is invisible by default.
 		 */
 		sashForm.setWeights(DEFAULT_WEIGHTS);
-		//
+		initialize();
+	}
+
+	private void initialize() {
+
+		/*
+		 * CSS coordinate
+		 */
 		setData("org.eclipse.e4.ui.css.CssClassName", "ScrollableChart");
 	}
 
@@ -1383,11 +1399,12 @@ public class ScrollableChart extends Composite implements IScrollableChart, IEve
 
 	private void createSliderVertical(Composite parent) {
 
-		sliderVertical = new Slider(parent, SWT.VERTICAL);
-		sliderVertical.setLayoutData(new GridData(GridData.FILL_VERTICAL));
-		sliderVertical.setOrientation(SWT.RIGHT_TO_LEFT); // See Bug #511257
-		sliderVertical.setVisible(true);
-		sliderVertical.addListener(SWT.Selection, new Listener() {
+		Slider slider = new Slider(parent, SWT.VERTICAL);
+		slider.setLayoutData(new GridData(GridData.FILL_VERTICAL));
+		slider.setOrientation(SWT.RIGHT_TO_LEFT); // See Bug #511257
+		slider.setVisible(true);
+		//
+		slider.addListener(SWT.Selection, new Listener() {
 
 			@Override
 			public void handleEvent(Event event) {
@@ -1396,29 +1413,80 @@ public class ScrollableChart extends Composite implements IScrollableChart, IEve
 				IAxis yAxis = baseChart.getAxisSet().getYAxis(BaseChart.ID_PRIMARY_Y_AXIS);
 				//
 				if(xAxis != null && yAxis != null) {
-					Range range = calculateShiftedRange(yAxis.getRange(), sliderVertical, SWT.VERTICAL);
-					if(range != null) {
-						if(isOrientationHorizontal()) {
-							if(baseChart.isRangeValid(range)) {
-								yAxis.setRange(range);
-								baseChart.adjustMinMaxRange(yAxis);
-								adjustSecondaryYAxes();
-							}
-						} else {
-							if(baseChart.isRangeValid(range)) {
-								xAxis.setRange(range);
-								baseChart.adjustMinMaxRange(xAxis);
-								adjustSecondaryXAxes();
-							}
-						}
-						//
-						displayRangeInfo();
-						fireUpdateCustomRangeSelectionHandlers(event);
-						baseChart.redraw();
+					Range range = calculateShiftedRange(yAxis.getRange(), slider, SWT.VERTICAL);
+					applyVerticalSlide(xAxis, yAxis, range, event);
+				}
+			}
+		});
+		//
+		slider.addMouseListener(new MouseAdapter() {
+
+			@Override
+			public void mouseDoubleClick(MouseEvent e) {
+
+				IAxis xAxis = baseChart.getAxisSet().getXAxis(BaseChart.ID_PRIMARY_X_AXIS);
+				IAxis yAxis = baseChart.getAxisSet().getYAxis(BaseChart.ID_PRIMARY_Y_AXIS);
+				//
+				if(xAxis != null && yAxis != null) {
+					/*
+					 * Slide to the previous or next block.
+					 */
+					double minY = getBaseChart().getMinX();
+					double maxY = getBaseChart().getMaxX();
+					double delta = yAxis.getRange().upper - yAxis.getRange().lower;
+					double lower;
+					double upper;
+					//
+					if(e.stateMask == SWT.MOD1) {
+						/*
+						 * Previous
+						 */
+						lower = yAxis.getRange().lower + delta;
+						upper = yAxis.getRange().upper + delta;
+						upper = (upper > maxY) ? maxY : upper;
+					} else {
+						/*
+						 * Next
+						 */
+						lower = yAxis.getRange().lower - delta;
+						upper = yAxis.getRange().upper - delta;
+						lower = (lower < minY) ? minY : lower;
+					}
+					/*
+					 * Validate the range.
+					 */
+					if(lower >= minY && upper <= maxY) {
+						Range range = new Range(lower, upper);
+						applyVerticalSlide(xAxis, yAxis, range, new Event());
 					}
 				}
 			}
 		});
+		//
+		sliderVerticalControl.set(slider);
+	}
+
+	private void applyVerticalSlide(IAxis xAxis, IAxis yAxis, Range range, Event event) {
+
+		if(range != null) {
+			if(isOrientationHorizontal()) {
+				if(baseChart.isRangeValid(range)) {
+					yAxis.setRange(range);
+					baseChart.adjustMinMaxRange(yAxis);
+					adjustSecondaryYAxes();
+				}
+			} else {
+				if(baseChart.isRangeValid(range)) {
+					xAxis.setRange(range);
+					baseChart.adjustMinMaxRange(xAxis);
+					adjustSecondaryXAxes();
+				}
+			}
+			//
+			displayRangeInfo();
+			fireUpdateCustomRangeSelectionHandlers(event);
+			baseChart.redraw();
+		}
 	}
 
 	private Composite createChart(Composite parent) {
@@ -1508,13 +1576,14 @@ public class ScrollableChart extends Composite implements IScrollableChart, IEve
 
 	private void createSliderHorizontal(Composite parent) {
 
-		sliderHorizontal = new Slider(parent, SWT.HORIZONTAL);
+		Slider slider = new Slider(parent, SWT.HORIZONTAL);
 		GridData gridData = new GridData(GridData.FILL_HORIZONTAL);
 		gridData.horizontalSpan = 2;
-		sliderHorizontal.setLayoutData(gridData);
-		sliderHorizontal.setOrientation(SWT.LEFT_TO_RIGHT);
-		sliderHorizontal.setVisible(true);
-		sliderHorizontal.addListener(SWT.Selection, new Listener() {
+		slider.setLayoutData(gridData);
+		slider.setOrientation(SWT.LEFT_TO_RIGHT);
+		slider.setVisible(true);
+		//
+		slider.addListener(SWT.Selection, new Listener() {
 
 			@Override
 			public void handleEvent(Event event) {
@@ -1523,29 +1592,82 @@ public class ScrollableChart extends Composite implements IScrollableChart, IEve
 				IAxis yAxis = baseChart.getAxisSet().getYAxis(BaseChart.ID_PRIMARY_Y_AXIS);
 				//
 				if(xAxis != null && yAxis != null) {
-					Range range = calculateShiftedRange(xAxis.getRange(), sliderHorizontal, SWT.HORIZONTAL);
-					if(range != null) {
-						if(isOrientationHorizontal()) {
-							if(baseChart.isRangeValid(range)) {
-								xAxis.setRange(range);
-								baseChart.adjustMinMaxRange(xAxis);
-								adjustSecondaryXAxes();
-							}
-						} else {
-							if(baseChart.isRangeValid(range)) {
-								yAxis.setRange(range);
-								baseChart.adjustMinMaxRange(yAxis);
-								adjustSecondaryYAxes();
-							}
-						}
-						//
-						displayRangeInfo();
-						fireUpdateCustomRangeSelectionHandlers(event);
-						baseChart.redraw();
+					Range range = calculateShiftedRange(xAxis.getRange(), slider, SWT.HORIZONTAL);
+					applyHorizontalSlide(xAxis, yAxis, range, event);
+				}
+			}
+		});
+		//
+		slider.addMouseListener(new MouseAdapter() {
+
+			@Override
+			public void mouseDoubleClick(MouseEvent e) {
+
+				IAxis xAxis = baseChart.getAxisSet().getXAxis(BaseChart.ID_PRIMARY_X_AXIS);
+				IAxis yAxis = baseChart.getAxisSet().getYAxis(BaseChart.ID_PRIMARY_Y_AXIS);
+				//
+				if(xAxis != null && yAxis != null) {
+					/*
+					 * Slide to the previous or next block.
+					 */
+					double minX = getBaseChart().getMinX();
+					double maxX = getBaseChart().getMaxX();
+					double delta = xAxis.getRange().upper - xAxis.getRange().lower;
+					double lower;
+					double upper;
+					//
+					if(e.stateMask == SWT.MOD1) {
+						/*
+						 * Previous
+						 */
+						lower = xAxis.getRange().lower - delta;
+						upper = xAxis.getRange().upper - delta;
+						lower = (lower < minX) ? minX : lower;
+					} else {
+						/*
+						 * Next
+						 */
+						lower = xAxis.getRange().lower + delta;
+						upper = xAxis.getRange().upper + delta;
+						upper = (upper > maxX) ? maxX : upper;
+					}
+					/*
+					 * Validate the range.
+					 */
+					if(lower >= minX && upper <= maxX) {
+						Range range = new Range(lower, upper);
+						applyHorizontalSlide(xAxis, yAxis, range, new Event());
 					}
 				}
 			}
 		});
+		//
+		sliderHorizontalControl.set(slider);
+	}
+
+	private void applyHorizontalSlide(IAxis xAxis, IAxis yAxis, Range range, Event event) {
+
+		if(xAxis != null && yAxis != null) {
+			if(range != null) {
+				if(isOrientationHorizontal()) {
+					if(baseChart.isRangeValid(range)) {
+						xAxis.setRange(range);
+						baseChart.adjustMinMaxRange(xAxis);
+						adjustSecondaryXAxes();
+					}
+				} else {
+					if(baseChart.isRangeValid(range)) {
+						yAxis.setRange(range);
+						baseChart.adjustMinMaxRange(yAxis);
+						adjustSecondaryYAxes();
+					}
+				}
+				//
+				displayRangeInfo();
+				fireUpdateCustomRangeSelectionHandlers(event);
+				baseChart.redraw();
+			}
+		}
 	}
 
 	private void updateLinkedCharts() {
