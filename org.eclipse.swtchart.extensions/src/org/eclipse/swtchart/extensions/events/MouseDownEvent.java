@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2017, 2020 Lablicate GmbH.
+ * Copyright (c) 2017, 2023 Lablicate GmbH.
  *
  * This program and the accompanying materials are made
  * available under the terms of the Eclipse Public License 2.0
@@ -47,6 +47,7 @@ public class MouseDownEvent extends AbstractHandledEventProcessor implements IHa
 		baseChart.setClickStartTime(System.currentTimeMillis());
 		UserSelection userSelection = baseChart.getUserSelection();
 		if(isSingleClick(event)) {
+			baseChart.setCursor(baseChart.getDisplay().getSystemCursor(SWT.CURSOR_CROSS));
 			userSelection.setStartCoordinate(event.x, event.y);
 			userSelection.setSingleClick(true);
 		} else {

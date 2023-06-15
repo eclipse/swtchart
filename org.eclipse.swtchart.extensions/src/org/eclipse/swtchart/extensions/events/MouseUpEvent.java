@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2017, 2022 Lablicate GmbH.
+ * Copyright (c) 2017, 2023 Lablicate GmbH.
  *
  * This program and the accompanying materials are made
  * available under the terms of the Eclipse Public License 2.0
@@ -76,6 +76,7 @@ public class MouseUpEvent extends AbstractHandledEventProcessor implements IHand
 		 * Apply the selection.
 		 */
 		if(isSingleClick(event)) {
+			baseChart.setCursor(baseChart.getDisplay().getSystemCursor(SWT.CURSOR_ARROW));
 			long deltaTime = System.currentTimeMillis() - baseChart.getClickStartTime();
 			if(deltaTime >= BaseChart.DELTA_CLICK_TIME) {
 				baseChart.handleUserSelection(event);
