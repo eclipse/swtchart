@@ -335,9 +335,9 @@ public class ScrollableChart extends Composite implements IScrollableChart, IEve
 		if(!wasSuspend) {
 			baseChart.suspendUpdate(true);
 		}
-		for(ISeries<?> series : baseChart.getSeriesSet().getSeries()) {
-			baseChart.deleteSeries(series.getId());
-		}
+		//
+		baseChart.deleteSeries();
+		//
 		if(!wasSuspend) {
 			baseChart.suspendUpdate(false);
 		}

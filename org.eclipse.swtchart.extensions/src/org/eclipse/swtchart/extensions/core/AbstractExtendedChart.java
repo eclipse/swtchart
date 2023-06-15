@@ -417,6 +417,28 @@ public abstract class AbstractExtendedChart extends AbstractHandledChart impleme
 	}
 
 	@Override
+	public void deleteSeries() {
+
+		ISeriesSet seriesSet = getSeriesSet();
+		resetCoordinates();
+		/*
+		 * Collect the ids first to avoid
+		 * a concurrent modification exception.
+		 */
+		Set<String> ids = new HashSet<>();
+		for(ISeries<?> series : seriesSet.getSeries()) {
+			ids.add(series.getId());
+		}
+		//
+		for(String id : ids) {
+			seriesSet.deleteSeries(id);
+		}
+		//
+		seriesSettingsMap.clear();
+		seriesSettingsMapReset.clear();
+	}
+
+	@Override
 	public void appendSeries(ISeriesData seriesData) {
 
 		if(seriesData != null) {

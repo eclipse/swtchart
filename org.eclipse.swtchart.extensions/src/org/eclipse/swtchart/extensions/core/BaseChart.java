@@ -364,6 +364,14 @@ public class BaseChart extends AbstractExtendedChart implements IChartDataCoordi
 	}
 
 	@Override
+	public void deleteSeries() {
+
+		super.deleteSeries();
+		calculateRedrawFrequency();
+		dataShiftHistory.clear();
+	}
+
+	@Override
 	public void appendSeries(ISeriesData seriesData) {
 
 		super.appendSeries(seriesData);
