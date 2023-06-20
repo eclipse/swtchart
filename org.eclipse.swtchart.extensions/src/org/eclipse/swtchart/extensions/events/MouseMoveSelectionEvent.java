@@ -13,6 +13,7 @@
 package org.eclipse.swtchart.extensions.events;
 
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.graphics.Cursor;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Event;
@@ -23,6 +24,8 @@ import org.eclipse.swtchart.extensions.core.BaseChart;
 import org.eclipse.swtchart.extensions.core.IMouseSupport;
 
 public class MouseMoveSelectionEvent extends AbstractHandledEventProcessor implements IHandledEventProcessor {
+
+	private Cursor cursorCross = Display.getDefault().getSystemCursor(SWT.CURSOR_CROSS);
 
 	@Override
 	public int getEvent() {
@@ -65,6 +68,12 @@ public class MouseMoveSelectionEvent extends AbstractHandledEventProcessor imple
 			}
 		}
 		/*
+		 * Cursor
+		 */
+		if(applyCursor(baseChart)) {
+			baseChart.setCursor(cursorCross);
+		}
+		/*
 		 * Set Selection Range
 		 */
 		baseChart.getUserSelection().setStopCoordinate(event.x, event.y);
@@ -77,5 +86,11 @@ public class MouseMoveSelectionEvent extends AbstractHandledEventProcessor imple
 			baseChart.redraw();
 			baseChart.resetRedrawCounter();
 		}
+	}
+
+	private boolean applyCursor(BaseChart baseChart) {
+
+		Cursor cursor = baseChart.getCursor();
+		return cursor == null || !baseChart.getCursor().equals(cursorCross);
 	}
 }

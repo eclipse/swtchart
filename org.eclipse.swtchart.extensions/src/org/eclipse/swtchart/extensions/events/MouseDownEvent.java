@@ -47,7 +47,6 @@ public class MouseDownEvent extends AbstractHandledEventProcessor implements IHa
 		baseChart.setClickStartTime(System.currentTimeMillis());
 		UserSelection userSelection = baseChart.getUserSelection();
 		if(isSingleClick(event)) {
-			baseChart.setCursor(baseChart.getDisplay().getSystemCursor(SWT.CURSOR_CROSS));
 			userSelection.setStartCoordinate(event.x, event.y);
 			userSelection.setSingleClick(true);
 		} else {
