@@ -10,7 +10,7 @@
 <unit id="org.apache.batik.dom" version="0.0.0"/>
 <unit id="org.w3c.dom.events" version="0.0.0"/>
 <unit id="org.apache.batik.ext" version="0.0.0"/>
-<repository location="https://download.eclipse.org/releases/2023-03/"/>
+<repository location="https://download.eclipse.org/releases/2023-06/"/>
 </location>
 </locations>
 </target>
