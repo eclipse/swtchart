@@ -10,7 +10,7 @@ pipeline {
 	}
 	tools {
 		maven 'apache-maven-latest'
-		jdk 'adoptopenjdk-hotspot-jdk17-latest'
+		jdk   'temurin-jdk17-latest'
 	}
 	stages {
 		stage('Build') {
