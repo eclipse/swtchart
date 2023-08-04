@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2022 Lablicate GmbH.
+ * Copyright (c) 2022, 2023 Lablicate GmbH.
  *
  * This program and the accompanying materials are made
  * available under the terms of the Eclipse Public License 2.0
@@ -22,6 +22,7 @@ import org.eclipse.swtchart.extensions.core.IKeyboardSupport;
 public class CopyToClipboardEvent extends AbstractHandledEventProcessor implements IHandledEventProcessor {
 
 	private int copyTextMask = SWT.MOD2;
+	private int copyVectorMask = SWT.MOD3;
 
 	@Override
 	public int getEvent() {
@@ -47,7 +48,11 @@ public class CopyToClipboardEvent extends AbstractHandledEventProcessor implemen
 		if((event.stateMask & copyTextMask) == copyTextMask) {
 			TextClipboardSupport.transfer(event.display, baseChart);
 		} else {
-			ImageClipboardSupport.transfer(event.display, baseChart);
+			if((event.stateMask & copyVectorMask) == copyVectorMask) {
+				ImageClipboardSupport.transfer(event.display, baseChart, true);
+			} else {
+				ImageClipboardSupport.transfer(event.display, baseChart, false);
+			}
 		}
 	}
 }

@@ -44,6 +44,7 @@ import org.eclipse.swtchart.ITitle;
 import org.eclipse.swtchart.LineStyle;
 import org.eclipse.swtchart.Range;
 import org.eclipse.swtchart.extensions.barcharts.IBarSeriesSettings;
+import org.eclipse.swtchart.extensions.clipboard.IImageClipboardSupplier;
 import org.eclipse.swtchart.extensions.events.CircularMouseDownEvent;
 import org.eclipse.swtchart.extensions.events.IEventProcessor;
 import org.eclipse.swtchart.extensions.events.IHandledEventProcessor;
@@ -123,6 +124,10 @@ public class BaseChart extends AbstractExtendedChart implements IChartDataCoordi
 	private int xMoveStart = 0;
 	private int yMoveStart = 0;
 	private Map<String, List<double[]>> dataShiftHistory;
+	/*
+	 * This supplier returns a specific Copy & Paste clipboard content on demand.
+	 */
+	private IImageClipboardSupplier imageClipboardSupplier = null;
 	//
 	private IPreferenceStore preferenceStore = ResourceSupport.getPreferenceStore();
 
@@ -1530,5 +1535,15 @@ public class BaseChart extends AbstractExtendedChart implements IChartDataCoordi
 		}
 		//
 		return enableAction;
+	}
+
+	public IImageClipboardSupplier getImageClipboardSupplier() {
+
+		return imageClipboardSupplier;
+	}
+
+	public void setImageClipboardSupplier(IImageClipboardSupplier imageClipboardSupplier) {
+
+		this.imageClipboardSupplier = imageClipboardSupplier;
 	}
 }

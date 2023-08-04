@@ -13,9 +13,7 @@
 package org.eclipse.swtchart.extensions.clipboard;
 
 import org.eclipse.swt.dnd.Clipboard;
-import org.eclipse.swt.dnd.ImageTransfer;
 import org.eclipse.swt.dnd.Transfer;
-import org.eclipse.swt.graphics.ImageData;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swtchart.extensions.core.BaseChart;
 import org.eclipse.swtchart.extensions.internal.support.OS;
@@ -24,24 +22,56 @@ public class ImageClipboardSupport {
 
 	public static void transfer(Display display, BaseChart baseChart) {
 
+		transfer(display, baseChart, false);
+	}
+
+	public static void transfer(Display display, BaseChart baseChart, boolean useSpecificSupplier) {
+
 		/*
-		 * Image Data
+		 * Image Data / Supplier
 		 */
-		ImageSupplier imageSupplier = new ImageSupplier();
-		ImageData imageData = imageSupplier.getImageData(baseChart);
+		Object imageData = null;
+		IImageClipboardSupplier specificSupplier = null;
 		//
-		Clipboard clipboard = new Clipboard(display);
-		try {
-			if(OS.isWindows()) {
-				clipboard.setContents(new Object[]{imageData, imageData}, new Transfer[]{ImageTransfer.getInstance(), ImageArrayTransfer.getInstanceWindows()});
-			} else if(OS.isLinux()) {
-				clipboard.setContents(new Object[]{imageData}, new Transfer[]{ImageArrayTransfer.getInstanceLinux()});
-			} else if(OS.isMac() || OS.isUnix()) {
-				clipboard.setContents(new Object[]{imageData}, new Transfer[]{ImageTransfer.getInstance()});
+		if(useSpecificSupplier) {
+			specificSupplier = baseChart.getImageClipboardSupplier();
+			if(specificSupplier != null) {
+				imageData = specificSupplier.createData(baseChart);
 			}
-		} finally {
-			if(clipboard != null && !clipboard.isDisposed()) {
-				clipboard.dispose();
+		} else {
+			ImageSupplier imageSupplier = new ImageSupplier();
+			imageData = imageSupplier.getImageData(baseChart);
+		}
+		/*
+		 * Clipboard
+		 */
+		if(imageData != null) {
+			Clipboard clipboard = new Clipboard(display);
+			try {
+				ImageArrayTransfer transferSpecific = (specificSupplier != null) ? ImageArrayTransfer.getInstanceSpecific(specificSupplier) : null;
+				if(OS.isWindows()) {
+					if(transferSpecific != null) {
+						clipboard.setContents(new Object[]{imageData, imageData}, new Transfer[]{ImageArrayTransfer.getImageTransferWindows(), transferSpecific});
+					} else {
+						clipboard.setContents(new Object[]{imageData, imageData}, new Transfer[]{ImageArrayTransfer.getImageTransferWindows(), ImageArrayTransfer.getInstanceWindows()});
+					}
+				} else if(OS.isLinux()) {
+					if(transferSpecific != null) {
+						clipboard.setContents(new Object[]{imageData}, new Transfer[]{transferSpecific});
+					} else {
+						clipboard.setContents(new Object[]{imageData}, new Transfer[]{ImageArrayTransfer.getInstanceLinux()});
+					}
+				} else if(OS.isMac() || OS.isUnix()) {
+					if(transferSpecific != null) {
+						clipboard.setContents(new Object[]{imageData}, new Transfer[]{transferSpecific});
+					} else {
+						clipboard.setContents(new Object[]{imageData}, new Transfer[]{ImageArrayTransfer.getImageTransferMacOS()});
+					}
+				}
+			} finally {
+				if(clipboard != null && !clipboard.isDisposed()) {
+					clipboard.dispose();
+				}
 			}
 		}
 	}
