@@ -16,7 +16,6 @@ package org.eclipse.swtchart.export.menu.vector;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
-import java.io.PrintWriter;
 import java.text.DecimalFormat;
 import java.util.regex.Pattern;
 
@@ -119,8 +118,11 @@ public class InkscapeLineChart extends AbstractInkscapeLineChart {
 			+ "               id=\"path1740\"\n" //
 			+ "               inkscape:connector-curvature=\"0\" />";
 
-	public void printLinePlot(String fileName, PrintWriter printWriter, ScrollableChart scrollableChart, AxisSettings axisSettings) throws Exception {
+	@Override
+	public String generate(ScrollableChart scrollableChart, AxisSettings axisSettings) throws Exception {
 
+		StringBuilder builder = new StringBuilder();
+		//
 		IAxisSettings axisSettingsX = axisSettings.getAxisSettingsX();
 		IAxisSettings axisSettingsY = axisSettings.getAxisSettingsY();
 		boolean isReversedX = axisSettingsX.isReversed();
@@ -168,11 +170,13 @@ public class InkscapeLineChart extends AbstractInkscapeLineChart {
 				} else if(Pattern.matches(data_series, line)) {
 					line = getDataSeries(baseChart, series, axisSettings, isReversedX, isReversedY, data_series, line);
 				}
-				printWriter.println(line);
+				builder.append(line);
 			}
 		} catch(Exception e) {
 			e.printStackTrace();
 		}
+		//
+		return builder.toString();
 	}
 
 	private String getTickX(BaseChart baseChart, AxisSettings axisSettings, double xTicks[], StringBuilder tickX, DecimalFormat formatX, boolean isReversedX, String regexX, String line) {

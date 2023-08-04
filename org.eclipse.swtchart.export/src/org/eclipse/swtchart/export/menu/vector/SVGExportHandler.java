@@ -125,12 +125,13 @@ public class SVGExportHandler extends AbstractSeriesExportHandler implements ISe
 											 * First check via instance of. If that fails, perform the enhanced
 											 * check via the chart type.
 											 */
+											IVectorDataExport vectorDataExport = null;
 											if(scrollableChart instanceof LineChart) {
-												printLinePlot(fileName, printWriter, scrollableChart, axisSettings);
+												vectorDataExport = new InkscapeLineChart();
 											} else if(scrollableChart instanceof BarChart) {
-												printBarPlot(fileName, printWriter, scrollableChart, axisSettings);
+												vectorDataExport = new InkscapeBarChart();
 											} else if(scrollableChart instanceof ScatterChart) {
-												printScatterPlot(fileName, printWriter, scrollableChart, axisSettings);
+												vectorDataExport = new InkscapeScatterChart();
 											} else {
 												/*
 												 * The chart extends ScrollableChart directly.
@@ -139,19 +140,25 @@ public class SVGExportHandler extends AbstractSeriesExportHandler implements ISe
 												switch(chartType) {
 													case STEP:
 													case LINE:
-														printLinePlot(fileName, printWriter, scrollableChart, axisSettings);
+														vectorDataExport = new InkscapeLineChart();
 														break;
 													case BAR:
-														printBarPlot(fileName, printWriter, scrollableChart, axisSettings);
+														vectorDataExport = new InkscapeBarChart();
 														break;
 													case SCATTER:
-														printScatterPlot(fileName, printWriter, scrollableChart, axisSettings);
+														vectorDataExport = new InkscapeScatterChart();
 														break;
 													case PIE: // TODO
 													default:
 														System.out.println("The chart type export is not supported yet: " + chartType);
 														break;
 												}
+											}
+											/*
+											 * Generate and export the data.
+											 */
+											if(vectorDataExport != null) {
+												exportPlot(printWriter, vectorDataExport, scrollableChart, axisSettings);
 											}
 											//
 											MessageDialog.openInformation(shell, TITLE, MESSAGE_OK);
@@ -182,21 +189,9 @@ public class SVGExportHandler extends AbstractSeriesExportHandler implements ISe
 		}
 	}
 
-	private void printLinePlot(String fileName, PrintWriter printWriter, ScrollableChart scrollableChart, AxisSettings axisSettings) throws Exception {
+	private void exportPlot(PrintWriter printWriter, IVectorDataExport vectorDataExport, ScrollableChart scrollableChart, AxisSettings axisSettings) throws Exception {
 
-		InkscapeLineChart inkscapeLineChart = new InkscapeLineChart();
-		inkscapeLineChart.printLinePlot(fileName, printWriter, scrollableChart, axisSettings);
-	}
-
-	private void printBarPlot(String fileName, PrintWriter printWriter, ScrollableChart scrollableChart, AxisSettings axisSettings) {
-
-		InkscapeBarChart inkscapeBarChart = new InkscapeBarChart();
-		inkscapeBarChart.printBarPlot(fileName, printWriter, scrollableChart, axisSettings);
-	}
-
-	private void printScatterPlot(String fileName, PrintWriter printWriter, ScrollableChart scrollableChart, AxisSettings axisSettings) {
-
-		InkscapeScatterChart inkscapeScatterChart = new InkscapeScatterChart();
-		inkscapeScatterChart.printScatterPlot(fileName, printWriter, scrollableChart, axisSettings);
+		String content = vectorDataExport.generate(scrollableChart, axisSettings);
+		printWriter.print(content);
 	}
 }

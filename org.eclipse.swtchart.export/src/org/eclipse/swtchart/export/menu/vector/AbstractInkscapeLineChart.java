@@ -14,7 +14,6 @@
  *******************************************************************************/
 package org.eclipse.swtchart.export.menu.vector;
 
-import java.io.PrintWriter;
 import java.util.regex.Pattern;
 
 import org.eclipse.swt.graphics.Color;
@@ -28,11 +27,6 @@ import org.eclipse.swtchart.extensions.core.BaseChart;
 import org.eclipse.swtchart.extensions.core.IAxisScaleConverter;
 
 public abstract class AbstractInkscapeLineChart extends AbstractInkscapeTemplate {
-
-	protected StringBuilder printScatterData(ISeries<?> dataSeries, int widthPlotArea, int heightPlotArea, AxisSettings axisSettings, int index, PrintWriter printWriter, IAxisSet axisSet, boolean isReversedX, boolean isReversedY) {
-
-		return printScatterData(dataSeries, widthPlotArea, heightPlotArea, axisSettings, index, axisSet, isReversedX, isReversedY);
-	}
 
 	protected StringBuilder printScatterData(ISeries<?> dataSeries, int widthPlotArea, int heightPlotArea, AxisSettings axisSettings, int index, IAxisSet axisSet, boolean isReversedX, boolean isReversedY) {
 

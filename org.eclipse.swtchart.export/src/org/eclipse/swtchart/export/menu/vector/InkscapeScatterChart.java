@@ -16,7 +16,6 @@ package org.eclipse.swtchart.export.menu.vector;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
-import java.io.PrintWriter;
 import java.text.DecimalFormat;
 import java.util.regex.Pattern;
 
@@ -33,8 +32,11 @@ public class InkscapeScatterChart extends AbstractInkscapeLineChart {
 
 	private static final String TEMPLATE_SCATTER_CHART = "Template_ScatterChart.svg";
 
-	public void printScatterPlot(String fileName, PrintWriter printWriter, ScrollableChart scrollableChart, AxisSettings axisSettings) {
+	@Override
+	public String generate(ScrollableChart scrollableChart, AxisSettings axisSettings) throws Exception {
 
+		StringBuilder builder = new StringBuilder();
+		//
 		IAxisSettings axisSettingsX = axisSettings.getAxisSettingsX();
 		IAxisSettings axisSettingsY = axisSettings.getAxisSettingsY();
 		boolean isReversedX = axisSettingsX.isReversed();
@@ -239,16 +241,18 @@ public class InkscapeScatterChart extends AbstractInkscapeLineChart {
 					int index = 0;
 					for(ISeries<?> dataSeries : series) {
 						if(dataSeries != null && dataSeries.isVisible()) {
-							StringBuilder string = printScatterData(dataSeries, widthPlotArea, heightPlotArea, axisSettings, index++, printWriter, axisSet, isReversedX, isReversedY);
+							StringBuilder string = printScatterData(dataSeries, widthPlotArea, heightPlotArea, axisSettings, index++, axisSet, isReversedX, isReversedY);
 							out.append(string);
 						}
 					}
 					line = line.replaceAll(data_series, out.toString());
 				}
-				printWriter.println(line);
+				builder.append(line);
 			}
 		} catch(Exception e) {
 			e.printStackTrace();
 		}
+		//
+		return builder.toString();
 	}
 }

@@ -16,7 +16,7 @@ package org.eclipse.swtchart.export.menu.vector;
 
 import org.eclipse.swt.graphics.Color;
 
-public abstract class AbstractInkscapeTemplate {
+public abstract class AbstractInkscapeTemplate implements IVectorDataExport {
 
 	protected static final String LINE_DELIMITER = "\n";
 	protected static final String SPLIT_LINE_DELIMITER = "\\n";
