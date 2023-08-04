@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2020, 2022 SWTChart project.
+ * Copyright (c) 2020, 2023 SWTChart project.
  *
  * This program and the accompanying materials are made
  * available under the terms of the Eclipse Public License 2.0
@@ -87,8 +87,6 @@ public class DemoChart {
 			@Override
 			public void execute(Shell shell, ScrollableChart scrollableChart) {
 
-				Clipboard clipboard = new Clipboard(Display.getDefault());
-				//
 				StringBuilder builder = new StringBuilder();
 				IAxisSet axisSet = scrollableChart.getBaseChart().getAxisSet();
 				builder.append(getAxisTicks(axisSet.getXAxes()));
@@ -97,7 +95,9 @@ public class DemoChart {
 				//
 				TextTransfer textTransfer = TextTransfer.getInstance();
 				Transfer[] dataTypes = new Transfer[]{textTransfer};
+				Clipboard clipboard = new Clipboard(Display.getDefault());
 				clipboard.setContents(data, dataTypes);
+				clipboard.dispose();
 			}
 
 			private String getAxisTicks(IAxis[] axes) {
