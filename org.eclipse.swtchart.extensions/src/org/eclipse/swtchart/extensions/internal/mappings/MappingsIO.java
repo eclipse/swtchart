@@ -12,11 +12,12 @@
  *******************************************************************************/
 package org.eclipse.swtchart.extensions.internal.mappings;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileReader;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.nio.file.Files;
-import java.nio.file.Path;
+import java.nio.charset.StandardCharsets;
 import java.util.Base64;
 import java.util.HashMap;
 import java.util.List;
@@ -67,9 +68,14 @@ public class MappingsIO {
 	public static Map<MappingsKey, ISeriesSettings> importSettings(File file) {
 
 		Map<MappingsKey, ISeriesSettings> mappings = new HashMap<>();
-		try {
-			String content = Files.readString(Path.of(file.getAbsolutePath()));
-			mappings.putAll(readSettings(content));
+		try (BufferedReader bufferedReader = new BufferedReader(new FileReader(file, StandardCharsets.UTF_8))) {
+			StringBuilder builder = new StringBuilder();
+			String line = null;
+			while((line = bufferedReader.readLine()) != null) {
+				builder.append(line);
+				builder.append(LINE_DELIMITER);
+			}
+			mappings.putAll(readSettings(builder.toString()));
 		} catch(IOException e) {
 			e.printStackTrace();
 		}
