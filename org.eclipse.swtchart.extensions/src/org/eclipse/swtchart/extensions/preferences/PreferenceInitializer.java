@@ -31,6 +31,7 @@ public class PreferenceInitializer extends AbstractPreferenceInitializer {
 			preferenceStore.setDefault(PreferenceConstants.P_LEGEND_POSITION_Y, PreferenceConstants.DEF_LEGEND_POSITION_Y);
 			preferenceStore.setDefault(PreferenceConstants.P_SORT_LEGEND_TABLE, PreferenceConstants.DEF_SORT_LEGEND_TABLE);
 			preferenceStore.setDefault(PreferenceConstants.P_LEGEND_COLUMN_ORDER, PreferenceConstants.DEF_LEGEND_COLUMN_ORDER);
+			preferenceStore.setDefault(PreferenceConstants.P_CUSTOM_SERIES_COLUMN_ORDER, PreferenceConstants.DEF_CUSTOM_SERIES_COLUMN_ORDER);
 			preferenceStore.setDefault(PreferenceConstants.P_SERIES_MAPPINGS, PreferenceConstants.DEF_SERIES_MAPPINGS);
 			preferenceStore.setDefault(PreferenceConstants.P_PATH_MAPPINGS_IMPORT, PreferenceConstants.DEF_PATH_MAPPINGS_IMPORT);
 			preferenceStore.setDefault(PreferenceConstants.P_PATH_MAPPINGS_EXPORT, PreferenceConstants.DEF_PATH_MAPPINGS_EXPORT);

@@ -8,7 +8,7 @@
  * SPDX-License-Identifier: EPL-2.0
  * 
  * Contributors:
- * Dr. Philip Wenig - initial API and implementation
+ * Philip Wenig - initial API and implementation
  * Frank Buloup - Internationalization
  * Himanshu Balasamanta - Circular Charts
  *******************************************************************************/
@@ -50,6 +50,8 @@ import org.eclipse.swtchart.extensions.events.IEventProcessor;
 import org.eclipse.swtchart.extensions.events.IHandledEventProcessor;
 import org.eclipse.swtchart.extensions.exceptions.SeriesException;
 import org.eclipse.swtchart.extensions.linecharts.ILineSeriesSettings;
+import org.eclipse.swtchart.extensions.model.CustomSeries;
+import org.eclipse.swtchart.extensions.model.ICustomSeries;
 import org.eclipse.swtchart.extensions.piecharts.ICircularSeriesSettings;
 import org.eclipse.swtchart.extensions.preferences.PreferenceConstants;
 import org.eclipse.swtchart.extensions.scattercharts.IScatterSeriesSettings;
@@ -128,6 +130,10 @@ public class BaseChart extends AbstractExtendedChart implements IChartDataCoordi
 	 * This supplier returns a specific Copy & Paste clipboard content on demand.
 	 */
 	private IImageClipboardSupplier imageClipboardSupplier = null;
+	/*
+	 * Custom Paint Series (Experimental)
+	 */
+	private List<ICustomSeries> customSeriesList = new ArrayList<>();
 	//
 	private IPreferenceStore preferenceStore = ResourceSupport.getPreferenceStore();
 
@@ -182,6 +188,62 @@ public class BaseChart extends AbstractExtendedChart implements IChartDataCoordi
 		dataShiftHistory = new HashMap<>();
 		//
 		setData("org.eclipse.e4.ui.css.CssClassName", "BaseChart");
+		/*
+		 * Draw the custom paint series elements (Experimental).
+		 * Not yet implemented.
+		 */
+		// addPaintListener(new CustomSeriesMarker(this));
+	}
+
+	/**
+	 * (Experimental)
+	 * Returns an unmodifiable list of the custom paint series.
+	 * 
+	 * @return List<ICustomPaintSeries>
+	 */
+	public List<ICustomSeries> getCustomSeries() {
+
+		return Collections.unmodifiableList(customSeriesList);
+	}
+
+	/**
+	 * (Experimental)
+	 * Create a custom series.
+	 * 
+	 * @param label
+	 * @param description
+	 * @return
+	 */
+	public ICustomSeries createCustomSeries(String label, String description) {
+
+		ICustomSeries customSeries = new CustomSeries();
+		customSeries.setLabel(label);
+		customSeries.setDescription(description);
+		customSeriesList.add(customSeries);
+		//
+		return customSeries;
+	}
+
+	/**
+	 * (Experimental)
+	 * Delete the custom series.
+	 * 
+	 * @param id
+	 */
+	public void deleteCustomSeries(String id) {
+
+		ICustomSeries customSeriesDelete = null;
+		exitloop:
+		for(ICustomSeries customSeries : customSeriesList) {
+			if(customSeries.getId().equals(id)) {
+				customSeriesDelete = customSeries;
+				break exitloop;
+			}
+		}
+		//
+		if(customSeriesDelete != null) {
+			customSeriesList.remove(customSeriesDelete);
+		}
 	}
 
 	private void initializeEventProcessors() {

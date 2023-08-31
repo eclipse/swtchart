@@ -31,10 +31,13 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
+import org.eclipse.swt.widgets.TabFolder;
+import org.eclipse.swt.widgets.TabItem;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swtchart.ISeries;
 import org.eclipse.swtchart.extensions.barcharts.IBarSeriesSettings;
 import org.eclipse.swtchart.extensions.core.BaseChart;
+import org.eclipse.swtchart.extensions.core.CustomSeriesListUI;
 import org.eclipse.swtchart.extensions.core.IExtendedChart;
 import org.eclipse.swtchart.extensions.core.ISeriesSettings;
 import org.eclipse.swtchart.extensions.core.MappingsSupport;
@@ -109,19 +112,32 @@ public class VectorExportSettingsDialog extends TitleAreaDialog {
 		//
 		createSelectionAxisX(container);
 		createSelectionAxisY(container);
-		createSeriesList(container);
+		createSeriesSection(container);
 		//
 		return composite;
 	}
 
-	private void createSeriesList(Composite container) {
+	private void createSeriesSection(Composite parent) {
 
-		SeriesListUI seriesListUI = new SeriesListUI(container, SWT.MULTI | SWT.H_SCROLL | SWT.V_SCROLL | SWT.FULL_SELECTION | SWT.BORDER);
-		seriesListUI.setTableSortable(preferenceStore.getBoolean(PreferenceConstants.P_SORT_LEGEND_TABLE));
-		Table table = seriesListUI.getTable();
+		TabFolder tabFolder = new TabFolder(parent, SWT.BOTTOM);
 		GridData gridData = new GridData(GridData.FILL_BOTH);
 		gridData.horizontalSpan = 2;
-		table.setLayoutData(gridData);
+		tabFolder.setLayoutData(gridData);
+		tabFolder.setLayout(new GridLayout(1, true));
+		//
+		createStandardSeriesList(tabFolder);
+		createCustomSeriesList(tabFolder);
+	}
+
+	private void createStandardSeriesList(TabFolder tabFolder) {
+
+		TabItem tabItem = new TabItem(tabFolder, SWT.NONE);
+		tabItem.setText("Standard Series");
+		//
+		SeriesListUI seriesListUI = new SeriesListUI(tabFolder, SWT.MULTI | SWT.H_SCROLL | SWT.V_SCROLL | SWT.FULL_SELECTION | SWT.BORDER);
+		seriesListUI.setTableSortable(preferenceStore.getBoolean(PreferenceConstants.P_SORT_LEGEND_TABLE));
+		Table table = seriesListUI.getTable();
+		table.setLayoutData(new GridData(GridData.FILL_BOTH));
 		seriesListUI.setInput(baseChart.getSeriesSet());
 		seriesListUI.setBaseChart(baseChart);
 		//
@@ -168,6 +184,21 @@ public class VectorExportSettingsDialog extends TitleAreaDialog {
 		});
 		//
 		listControl.set(seriesListUI);
+		tabItem.setControl(seriesListUI.getTable());
+	}
+
+	private void createCustomSeriesList(TabFolder tabFolder) {
+
+		TabItem tabItem = new TabItem(tabFolder, SWT.NONE);
+		tabItem.setText("Custom Series");
+		//
+		CustomSeriesListUI seriesListUI = new CustomSeriesListUI(tabFolder, SWT.MULTI | SWT.H_SCROLL | SWT.V_SCROLL | SWT.FULL_SELECTION | SWT.BORDER);
+		// seriesListUI.setTableSortable(preferenceStore.getBoolean(PreferenceConstants.P_SORT_LEGEND_TABLE));
+		Table table = seriesListUI.getTable();
+		table.setLayoutData(new GridData(GridData.FILL_BOTH));
+		seriesListUI.setInput(baseChart.getCustomSeries().toArray());
+		//
+		tabItem.setControl(seriesListUI.getTable());
 	}
 
 	private void applySettings(BaseChart baseChart, ISeries<?> series, ISeriesSettings seriesSettingsSource, boolean refresh) {

@@ -44,6 +44,8 @@ public class PreferenceConstants {
 	//
 	public static final String P_LEGEND_COLUMN_ORDER = "legendColumnOrder";
 	public static final String DEF_LEGEND_COLUMN_ORDER = "";
+	public static final String P_CUSTOM_SERIES_COLUMN_ORDER = "customSeriesColumnOrder";
+	public static final String DEF_CUSTOM_SERIES_COLUMN_ORDER = "";
 	//
 	public static final String P_SERIES_MAPPINGS = "seriesMappings";
 	public static final String DEF_SERIES_MAPPINGS = "";

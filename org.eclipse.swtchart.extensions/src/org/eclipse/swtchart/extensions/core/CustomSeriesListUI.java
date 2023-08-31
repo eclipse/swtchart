@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2020, 2023 Lablicate GmbH.
+ * Copyright (c) 2023 Lablicate GmbH.
  *
  * This program and the accompanying materials are made
  * available under the terms of the Eclipse Public License 2.0
@@ -16,45 +16,37 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.jface.preference.IPreferenceStore;
+import org.eclipse.jface.viewers.ArrayContentProvider;
 import org.eclipse.jface.viewers.IContentProvider;
-import org.eclipse.jface.viewers.StyledCellLabelProvider;
 import org.eclipse.jface.viewers.TableViewerColumn;
-import org.eclipse.jface.viewers.ViewerCell;
-import org.eclipse.jface.viewers.ViewerFilter;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.SWTException;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
-import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
-import org.eclipse.swtchart.ISeries;
-import org.eclipse.swtchart.extensions.internal.support.SeriesComparator;
-import org.eclipse.swtchart.extensions.internal.support.SeriesContentProvider;
-import org.eclipse.swtchart.extensions.internal.support.SeriesEditingSupport;
-import org.eclipse.swtchart.extensions.internal.support.SeriesFilter;
+import org.eclipse.swtchart.extensions.internal.support.CustomSeriesComparator;
+import org.eclipse.swtchart.extensions.internal.support.CustomSeriesEditingSupport;
 import org.eclipse.swtchart.extensions.preferences.PreferenceConstants;
 
-public class SeriesListUI extends AbstractSeriesListUI {
+public class CustomSeriesListUI extends AbstractSeriesListUI {
 
-	private static final String[] TITLES = SeriesLabelProvider.TITLES;
-	private static final int[] BOUNDS = SeriesLabelProvider.BOUNDS;
+	private static final String[] TITLES = CustomSeriesLabelProvider.TITLES;
+	private static final int[] BOUNDS = CustomSeriesLabelProvider.BOUNDS;
 	//
 	private static final String COLUMN_DELIMITER = " ";
 	//
-	private SeriesLabelProvider labelProvider = new SeriesLabelProvider();
-	private IContentProvider contentProvider = new SeriesContentProvider();
-	private SeriesComparator comparator = new SeriesComparator();
-	private SeriesFilter filter = new SeriesFilter();
+	private CustomSeriesLabelProvider labelProvider = new CustomSeriesLabelProvider();
+	private IContentProvider contentProvider = ArrayContentProvider.getInstance();
+	private CustomSeriesComparator comparator = new CustomSeriesComparator();
 	private List<TableViewerColumn> columns = new ArrayList<>();
 	//
 	private IPreferenceStore preferenceStore = ResourceSupport.getPreferenceStore();
-	private BaseChart baseChart = null;
 
-	public SeriesListUI(Composite parent, int style) {
+	public CustomSeriesListUI(Composite parent, int style) {
 
 		super(parent, style);
 		createControl();
@@ -69,32 +61,13 @@ public class SeriesListUI extends AbstractSeriesListUI {
 		}
 	}
 
-	public void setSearchText(String searchText, boolean caseSensitive) {
-
-		filter.setSearchText(searchText, caseSensitive);
-		refresh();
-	}
-
-	public void setBaseChart(BaseChart baseChart) {
-
-		this.baseChart = baseChart;
-		labelProvider.setBaseChart(baseChart);
-		refresh();
-	}
-
-	public BaseChart getBaseChart() {
-
-		return baseChart;
-	}
-
 	private void createControl() {
 
 		createColumns(TITLES, BOUNDS);
 		setLabelProvider(labelProvider);
 		setContentProvider(contentProvider);
 		setComparator(null);
-		setFilters(new ViewerFilter[]{filter});
-		setCellColorAndEditSupport();
+		setEditSupport();
 		setColumnOrder(getTable());
 	}
 
@@ -162,7 +135,7 @@ public class SeriesListUI extends AbstractSeriesListUI {
 
 				String columnOrder = getColumnOrder(getTable());
 				if(preferenceStore != null) {
-					preferenceStore.setValue(PreferenceConstants.P_LEGEND_COLUMN_ORDER, columnOrder);
+					preferenceStore.setValue(PreferenceConstants.P_CUSTOM_SERIES_COLUMN_ORDER, columnOrder);
 					ResourceSupport.savePreferenceStore();
 				}
 			}
@@ -170,52 +143,27 @@ public class SeriesListUI extends AbstractSeriesListUI {
 		return tableViewerColumn;
 	}
 
-	private void setCellColorAndEditSupport() {
+	private void setEditSupport() {
 
 		for(TableViewerColumn tableViewerColumn : columns) {
 			/*
-			 * Cell Color Provider
-			 */
-			String title = tableViewerColumn.getColumn().getText();
-			switch(title) {
-				case SeriesLabelProvider.COLOR:
-					setColorColumnProvider(tableViewerColumn);
-					break;
-			}
-			/*
 			 * Edit Support
 			 */
-			tableViewerColumn.setEditingSupport(new SeriesEditingSupport(this, title));
+			String title = tableViewerColumn.getColumn().getText();
+			tableViewerColumn.setEditingSupport(new CustomSeriesEditingSupport(this, title));
 		}
 	}
 
-	private void setColorColumnProvider(TableViewerColumn tableViewerColumn) {
+	private String getColumnOrder(Table table) {
 
-		tableViewerColumn.setLabelProvider(new StyledCellLabelProvider() {
-
-			@Override
-			public void update(ViewerCell cell) {
-
-				if(cell != null) {
-					Object object = cell.getElement();
-					if(object instanceof ISeries<?> && baseChart != null) {
-						ISeries<?> series = (ISeries<?>)object;
-						ISeriesSettings seriesSettings = baseChart.getSeriesSettings(series.getId());
-						Color color = SeriesLabelProvider.getColor(seriesSettings);
-						cell.setBackground(color);
-						cell.setText(""); // No text
-						super.update(cell);
-					}
-				}
-			}
-		});
+		return convertColumnOrder(table.getColumnOrder());
 	}
 
 	private void setColumnOrder(Table table) {
 
 		if(preferenceStore != null) {
 			try {
-				String columnOrder = preferenceStore.getString(PreferenceConstants.P_LEGEND_COLUMN_ORDER);
+				String columnOrder = preferenceStore.getString(PreferenceConstants.P_CUSTOM_SERIES_COLUMN_ORDER);
 				if(!columnOrder.isEmpty()) {
 					int[] columns = convertColumnOrder(columnOrder);
 					table.setColumnOrder(columns);
@@ -242,11 +190,6 @@ public class SeriesListUI extends AbstractSeriesListUI {
 		}
 		//
 		return columns;
-	}
-
-	private String getColumnOrder(Table table) {
-
-		return convertColumnOrder(table.getColumnOrder());
 	}
 
 	private String convertColumnOrder(int[] columnOrder) {
