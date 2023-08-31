@@ -24,13 +24,16 @@ import org.eclipse.swt.events.DisposeListener;
 import org.eclipse.swt.events.PaintEvent;
 import org.eclipse.swt.events.PaintListener;
 import org.eclipse.swt.graphics.Color;
+import org.eclipse.swt.graphics.Font;
 import org.eclipse.swt.graphics.GC;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.ImageData;
 import org.eclipse.swt.graphics.PaletteData;
 import org.eclipse.swt.graphics.Point;
+import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.swtchart.Chart;
 import org.eclipse.swtchart.IAxis;
 import org.eclipse.swtchart.IBarSeries;
@@ -53,7 +56,17 @@ public class PlotArea extends Composite implements PaintListener, IPlotArea {
 	/** the custom paint listeners */
 	private List<ICustomPaintListener> paintListeners;
 	private DisposeListener disposeListener;
+	//
 	private Image image = null;
+	private int imagePositionX = 0;
+	private int imagePositionY = 0;
+	//
+	private String text = "";
+	private Font fontText = Display.getDefault().getSystemFont();
+	private Color colorText = Display.getDefault().getSystemColor(SWT.COLOR_BLACK);
+	private int textPositionX = 0;
+	private int textPositionY = 0;
+	//
 	private boolean buffered = false;
 
 	/**
@@ -125,7 +138,31 @@ public class PlotArea extends Composite implements PaintListener, IPlotArea {
 	@Override
 	public void setBackgroundImage(Image image) {
 
+		setBackgroundImage(image, 0, 0);
+	}
+
+	@Override
+	public void setBackgroundImage(Image image, int x, int y) {
+
 		this.image = image;
+		this.imagePositionX = x;
+		this.imagePositionY = y;
+	}
+
+	@Override
+	public void setBackgroundText(String text, Font font, Color color) {
+
+		setBackgroundText(text, font, color, 0, 0);
+	}
+
+	@Override
+	public void setBackgroundText(String text, Font font, Color color, int x, int y) {
+
+		this.text = text != null ? text : "";
+		this.fontText = font != null ? font : Display.getDefault().getSystemFont();
+		this.colorText = color != null ? color : Display.getDefault().getSystemColor(SWT.COLOR_BLACK);
+		this.textPositionX = x;
+		this.textPositionY = y;
 	}
 
 	@Override
@@ -149,21 +186,36 @@ public class PlotArea extends Composite implements PaintListener, IPlotArea {
 	@Override
 	public void paintControl(PaintEvent e) {
 
-		Point p = getSize();
+		Point sizePlotArea = getSize();
 		GC gc = e.gc;
-		// draw the plot area background
+		/*
+		 * Draw the plot area background
+		 */
 		Color oldBackground = gc.getBackground();
 		gc.setBackground(getBackground());
-		gc.fillRectangle(0, 0, p.x, p.y);
+		gc.fillRectangle(0, 0, sizePlotArea.x, sizePlotArea.y);
 		/*
-		 * Draw the image centered if available.
+		 * Background Image / Text
 		 */
+		Font fontDefault = gc.getFont();
+		Color colorDefault = gc.getForeground();
+		//
+		gc.setFont(fontText);
+		gc.setForeground(colorText);
 		if(image != null) {
-			e.gc.drawImage(image, 0, 0);
+			int offsetY = drawImage(gc, sizePlotArea, image, imagePositionX, imagePositionY);
+			drawText(gc, sizePlotArea, text, textPositionX, textPositionY, offsetY);
+		} else {
+			drawText(gc, sizePlotArea, text, textPositionX, textPositionY, 0);
 		}
-		// draw grid
+		//
+		gc.setForeground(colorDefault);
+		gc.setFont(fontDefault);
+		/*
+		 * Draw Grid
+		 */
 		for(IAxis axis : chart.getAxisSet().getAxes()) {
-			((Grid)axis.getGrid()).draw(gc, p.x, p.y);
+			((Grid)axis.getGrid()).draw(gc, sizePlotArea.x, sizePlotArea.y);
 		}
 		// draw behind series
 		for(ICustomPaintListener listener : paintListeners) {
@@ -174,19 +226,19 @@ public class PlotArea extends Composite implements PaintListener, IPlotArea {
 		// draw series. The line series should be drawn on bar series.
 		for(ISeries<?> series : chart.getSeriesSet().getSeries()) {
 			if(series instanceof IBarSeries) {
-				((Series<?>)series).draw(gc, p.x, p.y);
+				((Series<?>)series).draw(gc, sizePlotArea.x, sizePlotArea.y);
 			}
 		}
 		//
 		for(ISeries<?> series : chart.getSeriesSet().getSeries()) {
 			if(series instanceof ILineSeries) {
-				((Series<?>)series).draw(gc, p.x, p.y);
+				((Series<?>)series).draw(gc, sizePlotArea.x, sizePlotArea.y);
 			}
 		}
 		//
 		for(ISeries<?> series : chart.getSeriesSet().getSeries()) {
 			if(series instanceof ICircularSeries) {
-				((Series<?>)series).draw(gc, p.x, p.y);
+				((Series<?>)series).draw(gc, sizePlotArea.x, sizePlotArea.y);
 			}
 		}
 		// draw over series
@@ -239,5 +291,55 @@ public class PlotArea extends Composite implements PaintListener, IPlotArea {
 	public void setBuffered(boolean buffered) {
 
 		this.buffered = buffered;
+	}
+
+	private int drawImage(GC gc, Point sizePlotArea, Image image, int imagePositionX, int imagePositionY) {
+
+		/*
+		 * Position exact or center
+		 */
+		Rectangle rectangle = image.getBounds();
+		int x = imagePositionX;
+		int y = imagePositionY;
+		int offset = rectangle.height;
+		//
+		if(imagePositionX == POSITION_CENTER_X && imagePositionY == POSITION_CENTER_Y) {
+			x = (int)(sizePlotArea.x / 2.0d - rectangle.width / 2.0d);
+			y = (int)(sizePlotArea.y / 2.0d - rectangle.height / 2.0d);
+			offset = (int)(rectangle.height / 2.0d);
+		}
+		/*
+		 * Draw
+		 */
+		gc.drawImage(image, x, y);
+		return offset;
+	}
+
+	private void drawText(GC gc, Point sizePlotArea, String text, int textPositionX, int textPositionY, int offsetY) {
+
+		if(!text.isEmpty()) {
+			/*
+			 * Position exact or center
+			 */
+			int x = textPositionX;
+			int y = textPositionY;
+			Point sizeText = gc.textExtent(text);
+			//
+			if(textPositionX == POSITION_CENTER_X && textPositionY == POSITION_CENTER_Y) {
+				x = (int)(sizePlotArea.x / 2.0d - sizeText.x / 2.0d);
+				y = (int)(sizePlotArea.y / 2.0d - sizeText.y);
+			}
+			/*
+			 * Offset
+			 */
+			if(offsetY != 0) {
+				y += offsetY;
+				y += (sizeText.y * 1.5d);
+			}
+			/*
+			 * Draw
+			 */
+			gc.drawString(text, x, y);
+		}
 	}
 }

@@ -18,6 +18,7 @@ import java.util.List;
 
 import org.eclipse.swt.events.MouseMoveListener;
 import org.eclipse.swt.graphics.Color;
+import org.eclipse.swt.graphics.Font;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.ImageData;
 import org.eclipse.swt.graphics.Point;
@@ -28,6 +29,9 @@ import org.eclipse.swt.widgets.Control;
  * The plot area.
  */
 public interface IPlotArea {
+
+	int POSITION_CENTER_X = -1;
+	int POSITION_CENTER_Y = -1;
 
 	/**
 	 * 
@@ -107,6 +111,35 @@ public interface IPlotArea {
 	 * @param image
 	 */
 	void setBackgroundImage(Image image);
+
+	/**
+	 * Draws the image centered in the plot area at the given position.
+	 * 
+	 * @param image
+	 * @param x
+	 * @param y
+	 */
+	void setBackgroundImage(Image image, int x, int y);
+
+	/**
+	 * Draws the background text.
+	 * 
+	 * @param text
+	 * @param font
+	 * @param color
+	 */
+	void setBackgroundText(String text, Font font, Color color);
+
+	/**
+	 * Draws the background text at the given position.
+	 * 
+	 * @param text
+	 * @param font
+	 * @param color
+	 * @param x
+	 * @param y
+	 */
+	void setBackgroundText(String text, Font font, Color color, int x, int y);
 
 	/**
 	 * Returns the image data of the plot area.
