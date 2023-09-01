@@ -4,10 +4,9 @@ pipeline {
 			label 'centos-latest'
 		}
 	}
-	triggers {
-	cron('@midnight')
-	pollSCM('H/5 * * * *')
-	}
+	options {
+            disableConcurrentBuilds()
+        }
 	tools {
 		maven 'apache-maven-latest'
 		jdk   'temurin-jdk17-latest'
