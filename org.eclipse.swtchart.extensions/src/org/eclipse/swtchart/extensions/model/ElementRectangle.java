@@ -12,27 +12,28 @@
  *******************************************************************************/
 package org.eclipse.swtchart.extensions.model;
 
-import java.util.Set;
+public class ElementRectangle extends AbstractElement implements IGraphicElement {
 
-public interface ICustomSeries {
+	private double width = 0.0d;
+	private double height = 0.0d;
 
-	String getId();
+	public double getWidth() {
 
-	String getLabel();
+		return width;
+	}
 
-	void setLabel(String label);
+	public void setWidth(double width) {
 
-	String getDescription();
+		this.width = width;
+	}
 
-	void setDescription(String description);
+	public double getHeight() {
 
-	boolean isDraw();
+		return height;
+	}
 
-	void setDraw(boolean draw);
+	public void setHeight(double height) {
 
-	void clear();
-
-	Set<ITextElement> getTextElements();
-
-	Set<IGraphicElement> getGraphicElements();
+		this.height = height;
+	}
 }

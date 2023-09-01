@@ -70,6 +70,13 @@ public class CustomSeries implements ICustomSeries {
 	}
 
 	@Override
+	public void clear() {
+
+		textElements.clear();
+		graphicElements.clear();
+	}
+
+	@Override
 	public Set<ITextElement> getTextElements() {
 
 		return textElements;

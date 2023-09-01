@@ -12,27 +12,30 @@
  *******************************************************************************/
 package org.eclipse.swtchart.extensions.model;
 
-import java.util.Set;
+import org.eclipse.swt.graphics.Color;
 
-public interface ICustomSeries {
+public interface IElement {
 
-	String getId();
+	double POSITION_TOP_Y = Double.NEGATIVE_INFINITY;
+	double POSITION_BOTTOM_Y = Double.POSITIVE_INFINITY;
+	double POSITION_LEFT_X = Double.NEGATIVE_INFINITY;
+	double POSITION_RIGHT_X = Double.POSITIVE_INFINITY;
+	double MAX_HEIGHT = Double.POSITIVE_INFINITY;
+	double MAX_WIDTH = Double.POSITIVE_INFINITY;
 
-	String getLabel();
+	double getX();
 
-	void setLabel(String label);
+	void setX(double x);
 
-	String getDescription();
+	double getY();
 
-	void setDescription(String description);
+	void setY(double y);
 
-	boolean isDraw();
+	Color getColor();
 
-	void setDraw(boolean draw);
+	void setColor(Color color);
 
-	void clear();
+	int getAlpha();
 
-	Set<ITextElement> getTextElements();
-
-	Set<IGraphicElement> getGraphicElements();
+	void setAlpha(int alpha);
 }

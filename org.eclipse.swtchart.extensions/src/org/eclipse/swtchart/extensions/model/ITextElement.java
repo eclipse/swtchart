@@ -12,27 +12,13 @@
  *******************************************************************************/
 package org.eclipse.swtchart.extensions.model;
 
-import org.eclipse.swt.graphics.Color;
-
-public interface ITextElement {
+public interface ITextElement extends IElement {
 
 	String getLabel();
 
 	void setLabel(String label);
-
-	Color getColor();
-
-	void setColor(Color color);
-
+	
 	int getRotation();
 
 	void setRotation(int rotation);
-
-	double getX();
-
-	void setX(double x);
-
-	double getY();
-
-	void setY(double y);
 }

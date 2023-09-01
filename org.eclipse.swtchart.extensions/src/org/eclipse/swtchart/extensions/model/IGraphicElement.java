@@ -12,5 +12,5 @@
  *******************************************************************************/
 package org.eclipse.swtchart.extensions.model;
 
-public interface IGraphicElement {
+public interface IGraphicElement extends IElement {
 }
