@@ -38,6 +38,8 @@ public class PreferenceInitializer extends AbstractPreferenceInitializer {
 			preferenceStore.setDefault(PreferenceConstants.P_BITMAP_EXPORT_CUSTOM_SIZE, PreferenceConstants.DEF_BITMAP_EXPORT_CUSTOM_SIZE);
 			preferenceStore.setDefault(PreferenceConstants.P_BITMAP_EXPORT_WIDTH, PreferenceConstants.DEF_BITMAP_EXPORT_WIDTH);
 			preferenceStore.setDefault(PreferenceConstants.P_BITMAP_EXPORT_HEIGHT, PreferenceConstants.DEF_BITMAP_EXPORT_HEIGHT);
+			preferenceStore.setDefault(PreferenceConstants.P_SHOW_HELP_FOR_EVENTS, PreferenceConstants.DEF_SHOW_HELP_FOR_EVENTS);
+			preferenceStore.setDefault(PreferenceConstants.P_HELP_POPUP_TIME_TO_CLOSE, PreferenceConstants.DEF_HELP_POPUP_TIME_TO_CLOSE);
 		}
 	}
 }

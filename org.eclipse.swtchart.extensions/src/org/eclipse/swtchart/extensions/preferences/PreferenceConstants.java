@@ -60,4 +60,9 @@ public class PreferenceConstants {
 	public static final int DEF_BITMAP_EXPORT_WIDTH = 512;
 	public static final String P_BITMAP_EXPORT_HEIGHT = "bitmapExportHeight";
 	public static final int DEF_BITMAP_EXPORT_HEIGHT = 512;
+	//
+	public static final String P_SHOW_HELP_FOR_EVENTS = "showHelpForEvents";
+	public static final boolean DEF_SHOW_HELP_FOR_EVENTS = false;
+	public static final String P_HELP_POPUP_TIME_TO_CLOSE = "showHelpForEvents_timeToClose";
+	public static final int DEF_HELP_POPUP_TIME_TO_CLOSE = 6000;
 }

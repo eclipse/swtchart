@@ -64,6 +64,7 @@ public class MouseMoveShiftEvent extends AbstractHandledEventProcessor implement
 						/*
 						 * Shift
 						 */
+						showClickbindingHelp(baseChart, "Shift series", "Shift the selected series.");
 						baseChart.setMoveStartTime(System.currentTimeMillis());
 						//
 						double shiftX = baseChart.getShiftValue(baseChart.getXMoveStart(), event.x, IExtendedChart.X_AXIS);

@@ -45,6 +45,7 @@ import org.eclipse.swtchart.LineStyle;
 import org.eclipse.swtchart.Range;
 import org.eclipse.swtchart.extensions.barcharts.IBarSeriesSettings;
 import org.eclipse.swtchart.extensions.clipboard.IImageClipboardSupplier;
+import org.eclipse.swtchart.extensions.dialogs.ClickBindingHelpDialog;
 import org.eclipse.swtchart.extensions.events.CircularMouseDownEvent;
 import org.eclipse.swtchart.extensions.events.IEventProcessor;
 import org.eclipse.swtchart.extensions.events.IHandledEventProcessor;
@@ -136,6 +137,8 @@ public class BaseChart extends AbstractExtendedChart implements IChartDataCoordi
 	private List<ICustomSeries> customSeriesList = new ArrayList<>();
 	//
 	private IPreferenceStore preferenceStore = ResourceSupport.getPreferenceStore();
+	//
+	private ClickBindingHelpDialog clickBindingPopup;
 
 	public BaseChart(Composite parent, int style) {
 
@@ -698,6 +701,26 @@ public class BaseChart extends AbstractExtendedChart implements IChartDataCoordi
 		}
 	}
 
+	public void openShortcutPopup(String shortcut, String name, String description) {
+
+		if(!preferenceStore.getBoolean(PreferenceConstants.P_SHOW_HELP_FOR_EVENTS)) {
+			return;
+		}
+		closeShortcutPopup();
+		int timeToClose = preferenceStore.getInt(PreferenceConstants.P_HELP_POPUP_TIME_TO_CLOSE);
+		clickBindingPopup = new ClickBindingHelpDialog(getShell(), timeToClose);
+		clickBindingPopup.setShortcut(shortcut, name, description);
+		clickBindingPopup.open();
+	}
+
+	private void closeShortcutPopup() {
+
+		if(clickBindingPopup != null) {
+			clickBindingPopup.close();
+			clickBindingPopup = null;
+		}
+	}
+
 	public void selectSeries(String selectedSeriesId) {
 
 		selectSeries(selectedSeriesId, true);
@@ -830,35 +853,31 @@ public class BaseChart extends AbstractExtendedChart implements IChartDataCoordi
 		 */
 		if(series instanceof ILineSeries) {
 			ILineSeries<?> lineSeries = (ILineSeries<?>)series;
-			if(seriesSettings instanceof ILineSeriesSettings) {
+			if(seriesSettings instanceof ILineSeriesSettings lineSeriesSettings) {
 				/*
 				 * Line Series
 				 */
-				ILineSeriesSettings lineSeriesSettings = (ILineSeriesSettings)seriesSettings;
 				applyLineSeriesSettings(lineSeries, lineSeriesSettings);
-			} else if(seriesSettings instanceof IScatterSeriesSettings) {
+			} else if(seriesSettings instanceof IScatterSeriesSettings scatterSeriesSettings) {
 				/*
 				 * Scatter Series
 				 */
-				IScatterSeriesSettings scatterSeriesSettings = (IScatterSeriesSettings)seriesSettings;
 				applyScatterSeriesSettings(lineSeries, scatterSeriesSettings);
 			}
 		} else if(series instanceof IBarSeries) {
 			IBarSeries<?> barSeries = (IBarSeries<?>)series;
-			if(seriesSettings instanceof IBarSeriesSettings) {
+			if(seriesSettings instanceof IBarSeriesSettings barSeriesSettings) {
 				/*
 				 * Bar Series
 				 */
-				IBarSeriesSettings barSeriesSettings = (IBarSeriesSettings)seriesSettings;
 				applyBarSeriesSettings(barSeries, barSeriesSettings);
 			}
 		} else if(series instanceof ICircularSeries) {
 			ICircularSeries<?> circularSeries = (ICircularSeries<?>)series;
-			if(seriesSettings instanceof ICircularSeriesSettings) {
+			if(seriesSettings instanceof ICircularSeriesSettings circularSeriesSettings) {
 				/*
 				 * Pie Series
 				 */
-				ICircularSeriesSettings circularSeriesSettings = (ICircularSeriesSettings)seriesSettings;
 				applyCircularSeriesSettings(circularSeries, circularSeriesSettings);
 				//
 				String id = circularSeries.getId();
@@ -931,8 +950,7 @@ public class BaseChart extends AbstractExtendedChart implements IChartDataCoordi
 		circularSeries.setBorderStyle(circularSeriesSettings.getBorderStyle().value());
 		//
 		ISeriesSettings seriesSettingsHighlight = circularSeriesSettings.getSeriesSettingsHighlight();
-		if(seriesSettingsHighlight instanceof ICircularSeriesSettings) {
-			ICircularSeriesSettings circularSeriesSettingsHighlight = (ICircularSeriesSettings)seriesSettingsHighlight;
+		if(seriesSettingsHighlight instanceof ICircularSeriesSettings circularSeriesSettingsHighlight) {
 			circularSeries.setSliceColorHighlight(circularSeriesSettingsHighlight.getSliceColor());
 			circularSeries.setBorderColorHighlight(circularSeriesSettingsHighlight.getBorderColor());
 			circularSeries.setBorderWidthHighlight(circularSeriesSettingsHighlight.getBorderWidth());
