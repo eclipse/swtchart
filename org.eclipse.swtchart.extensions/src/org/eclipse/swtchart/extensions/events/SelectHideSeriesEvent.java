@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2017, 2021 Lablicate GmbH.
+ * Copyright (c) 2017, 2023 Lablicate GmbH.
  *
  * This program and the accompanying materials are made
  * available under the terms of the Eclipse Public License 2.0
@@ -49,8 +49,10 @@ public class SelectHideSeriesEvent extends AbstractHandledEventProcessor impleme
 			 */
 			String selectedSeriesId = baseChart.getSelectedseriesId(event);
 			if(selectedSeriesId.equals("")) { //$NON-NLS-1$
+				showClickbindingHelp(baseChart, "Unhide", "Display all series again.");
 				baseChart.resetSeriesSettings();
 			} else {
+				showClickbindingHelp(baseChart, "Hide", "Hide the selected series.");
 				baseChart.hideSeries(selectedSeriesId);
 				baseChart.redraw();
 			}
@@ -60,8 +62,10 @@ public class SelectHideSeriesEvent extends AbstractHandledEventProcessor impleme
 			 */
 			String selectedSeriesId = baseChart.getSelectedseriesId(event);
 			if(selectedSeriesId.equals("")) { //$NON-NLS-1$
+				showClickbindingHelp(baseChart, "Unselect", "Deselect a series.");
 				baseChart.resetSeriesSettings();
 			} else {
+				showClickbindingHelp(baseChart, "Select", "Select series.");
 				baseChart.selectSeries(selectedSeriesId);
 				baseChart.redraw();
 			}

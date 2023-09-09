@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2017, 2020 Lablicate GmbH.
+ * Copyright (c) 2017, 2023 Lablicate GmbH.
  *
  * This program and the accompanying materials are made
  * available under the terms of the Eclipse Public License 2.0
@@ -64,14 +64,17 @@ public class MouseWheelEvent extends AbstractHandledEventProcessor implements IH
 			 */
 			baseChart.zoomX(xAxis, event);
 			baseChart.zoomY(yAxis, event);
+			showClickbindingHelp(baseChart, "Zoom", "Zoom the X and Y axis.");
 		} else {
 			/*
 			 * X or Y zoom.
 			 */
 			if(rangeRestriction.isRestrictZoomX()) {
 				baseChart.zoomX(xAxis, event);
+				showClickbindingHelp(baseChart, "Zoom", "Zoom the X axis.");
 			} else if(rangeRestriction.isRestrictZoomY()) {
 				baseChart.zoomY(yAxis, event);
+				showClickbindingHelp(baseChart, "Zoom", "Zoom the Y axis.");
 			}
 		}
 	}

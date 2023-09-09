@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2017, 2021 Lablicate GmbH.
+ * Copyright (c) 2017, 2023 Lablicate GmbH.
  *
  * This program and the accompanying materials are made
  * available under the terms of the Eclipse Public License 2.0
@@ -40,6 +40,7 @@ public class ResetSeriesEvent extends AbstractHandledEventProcessor implements I
 	@Override
 	public void handleEvent(BaseChart baseChart, Event event) {
 
+		showClickbindingHelp(baseChart, "Reset", "Unzoom to cover complete range.");
 		baseChart.adjustRange(true);
 		baseChart.fireUpdateCustomRangeSelectionHandlers(event);
 		baseChart.redraw();

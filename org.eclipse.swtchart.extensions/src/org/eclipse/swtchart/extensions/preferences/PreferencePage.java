@@ -47,5 +47,7 @@ public class PreferencePage extends FieldEditorPreferencePage {
 		addField(new BooleanFieldEditor(PreferenceConstants.P_BITMAP_EXPORT_CUSTOM_SIZE, "Bitmap Export Custom Size", getFieldEditorParent()));
 		addField(new IntegerFieldEditor(PreferenceConstants.P_BITMAP_EXPORT_WIDTH, "Bitmap Export Width", getFieldEditorParent()));
 		addField(new IntegerFieldEditor(PreferenceConstants.P_BITMAP_EXPORT_HEIGHT, "Bitmap Export Height", getFieldEditorParent()));
+		addField(new BooleanFieldEditor(PreferenceConstants.P_SHOW_HELP_FOR_EVENTS, "Show pop-up on clickbinding", getFieldEditorParent()));
+		addField(new IntegerFieldEditor(PreferenceConstants.P_HELP_POPUP_TIME_TO_CLOSE, "Time to close popup [ms]", getFieldEditorParent()));
 	}
 }
