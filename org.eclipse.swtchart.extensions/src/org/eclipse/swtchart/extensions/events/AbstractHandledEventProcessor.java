@@ -75,9 +75,9 @@ public abstract class AbstractHandledEventProcessor implements IHandledEventProc
 		}
 		if(!button.isEmpty()) {
 			if(!modifier.isEmpty()) {
-				builder.append(" + " + button);
+				builder.append(" + " + button + " 🖰");
 			} else {
-				builder.append(button);
+				builder.append(button + " 🖰");
 			}
 		}
 		if(!event.isEmpty()) {
