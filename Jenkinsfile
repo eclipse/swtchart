@@ -4,9 +4,12 @@ pipeline {
 			label 'centos-latest'
 		}
 	}
+	triggers {
+		pollSCM('H/5 * * * *')
+	}
 	options {
-            disableConcurrentBuilds()
-        }
+		disableConcurrentBuilds()
+	}
 	tools {
 		maven 'apache-maven-latest'
 		jdk   'temurin-jdk17-latest'
