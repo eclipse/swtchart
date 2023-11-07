@@ -10,6 +10,7 @@
  * Contributors:
  * yoshitaka - initial API and implementation
  * Christoph Läubrich - adjust for API changes
+ * Philip Wenig - default font name
  *******************************************************************************/
 package org.eclipse.swtchart;
 
@@ -45,7 +46,7 @@ public class AxisTickTest extends ChartTestCase {
 	private static final double[] ySeries = {0.0, 0.38, 0.71, 0.92, 1.0};
 
 	@Override
-	public void setUp()  {
+	public void setUp() {
 
 		super.setUp();
 		xAxisTick = chart.getAxisSet().getXAxis(0).getTick();
@@ -56,7 +57,7 @@ public class AxisTickTest extends ChartTestCase {
 	 * Test for foreground.
 	 */
 	@Test
-	public void testForeground()  {
+	public void testForeground() {
 
 		// set null
 		xAxisTick.setForeground(null);
@@ -103,7 +104,7 @@ public class AxisTickTest extends ChartTestCase {
 	 * Test for axis tick font.
 	 */
 	@Test
-	public void testFont()  {
+	public void testFont() {
 
 		// set null
 		xAxisTick.setFont(null);
@@ -118,7 +119,7 @@ public class AxisTickTest extends ChartTestCase {
 		assertEquals(smallFontData.getHeight(), fontData.getHeight());
 		assertEquals(smallFontData.getStyle(), fontData.getStyle());
 		// set the disposed font
-		Font font = new Font(Display.getCurrent(), "Tahoma", 11, SWT.BOLD);
+		Font font = new Font(Display.getCurrent(), Resources.DEFAULT_FONT_NAME, 11, SWT.BOLD);
 		font.dispose();
 		try {
 			xAxisTick.setFont(font);
@@ -126,7 +127,7 @@ public class AxisTickTest extends ChartTestCase {
 		} catch(IllegalArgumentException e) {
 			// expected to reach here
 		}
-		font = new Font(Display.getCurrent(), "Tahoma", 12, SWT.BOLD);
+		font = new Font(Display.getCurrent(), Resources.DEFAULT_FONT_NAME, 12, SWT.BOLD);
 		font.dispose();
 		try {
 			yAxisTick.setFont(font);
@@ -135,22 +136,22 @@ public class AxisTickTest extends ChartTestCase {
 			// expected to reach here
 		}
 		// set normal font
-		font = new Font(Display.getCurrent(), "Tahoma", 18, SWT.ITALIC);
+		font = new Font(Display.getCurrent(), Resources.DEFAULT_FONT_NAME, 18, SWT.ITALIC);
 		xAxisTick.setFont(font);
 		fontData = xAxisTick.getFont().getFontData()[0];
-		assertEquals("Tahoma", fontData.getName());
+		assertEquals(Resources.DEFAULT_FONT_NAME, fontData.getName());
 		assertEquals(18, fontData.getHeight());
 		assertEquals(SWT.ITALIC, fontData.getStyle());
 		showChart();
 		yAxisTick.setFont(font);
 		fontData = yAxisTick.getFont().getFontData()[0];
-		assertEquals("Tahoma", fontData.getName());
+		assertEquals(Resources.DEFAULT_FONT_NAME, fontData.getName());
 		assertEquals(18, fontData.getHeight());
 		assertEquals(SWT.ITALIC, fontData.getStyle());
 		showChart();
 		font.dispose();
 		// set large font size
-		font = new Font(Display.getCurrent(), "Tahoma", 64, SWT.BOLD);
+		font = new Font(Display.getCurrent(), Resources.DEFAULT_FONT_NAME, 64, SWT.BOLD);
 		xAxisTick.setFont(font);
 		fontData = xAxisTick.getFont().getFontData()[0];
 		assertEquals(64, fontData.getHeight());
@@ -161,7 +162,7 @@ public class AxisTickTest extends ChartTestCase {
 		showChart();
 		font.dispose();
 		// set tiny font size
-		font = new Font(Display.getCurrent(), "Tahoma", 4, SWT.ITALIC);
+		font = new Font(Display.getCurrent(), Resources.DEFAULT_FONT_NAME, 4, SWT.ITALIC);
 		xAxisTick.setFont(font);
 		fontData = xAxisTick.getFont().getFontData()[0];
 		assertEquals(4, fontData.getHeight());
@@ -177,7 +178,7 @@ public class AxisTickTest extends ChartTestCase {
 	 * Test for axis tick visibility.
 	 */
 	@Test
-	public void testVisibility()  {
+	public void testVisibility() {
 
 		// show X axis tick
 		xAxisTick.setVisible(false);
@@ -199,7 +200,7 @@ public class AxisTickTest extends ChartTestCase {
 	 * Test for tick mark step hint.
 	 */
 	@Test
-	public void testTickMarkStepHint()  {
+	public void testTickMarkStepHint() {
 
 		// set small value the tick mark step hint
 		xAxisTick.setTickMarkStepHint(10);
@@ -234,7 +235,7 @@ public class AxisTickTest extends ChartTestCase {
 	 * Test for format.
 	 */
 	@Test
-	public void testFormat()  {
+	public void testFormat() {
 
 		// create line series
 		ILineSeries<?> lineSeries = (ILineSeries<?>)chart.getSeriesSet().createSeries(SeriesType.LINE, "line series");
@@ -263,7 +264,7 @@ public class AxisTickTest extends ChartTestCase {
 	 * Test for tick label values.
 	 */
 	@Test
-	public void testTickLabelValues()  {
+	public void testTickLabelValues() {
 
 		ILineSeries<?> lineSeries = (ILineSeries<?>)chart.getSeriesSet().createSeries(SeriesType.LINE, "line series");
 		lineSeries.setYSeries(ySeries);
@@ -281,7 +282,7 @@ public class AxisTickTest extends ChartTestCase {
 	 * Test for tick label angle.
 	 */
 	@Test
-	public void testTickLabelAngle()  {
+	public void testTickLabelAngle() {
 
 		ILineSeries<?> lineSeries = (ILineSeries<?>)chart.getSeriesSet().createSeries(SeriesType.LINE, "line series");
 		lineSeries.setYSeries(ySeries);
@@ -295,7 +296,7 @@ public class AxisTickTest extends ChartTestCase {
 	 */
 	@Test
 	@Ignore("environment dependent")
-	public void testBounds()  {
+	public void testBounds() {
 
 		ILineSeries<?> lineSeries = (ILineSeries<?>)chart.getSeriesSet().createSeries(SeriesType.LINE, "line series");
 		lineSeries.setYSeries(ySeries);

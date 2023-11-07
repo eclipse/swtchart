@@ -8,7 +8,7 @@
  * SPDX-License-Identifier: EPL-2.0
  * 
  * Contributors:
- * Dr. Philip Wenig - initial API and implementation
+ * Philip Wenig - initial API and implementation
  * Frank Buloup - Internationalization
  *******************************************************************************/
 package org.eclipse.swtchart.extensions.core;
@@ -45,7 +45,7 @@ public abstract class AbstractAxisSettings implements IAxisSettings {
 	/*
 	 * The default font is only used if no font is set.
 	 */
-	private final Font defaultFont = Resources.getFont("Tahoma", Resources.MEDIUM_FONT_SIZE, SWT.BOLD); //$NON-NLS-1$
+	private final Font defaultFont = Resources.getFont(Resources.DEFAULT_FONT_NAME, Resources.MEDIUM_FONT_SIZE, SWT.BOLD); // $NON-NLS-1$
 
 	protected AbstractAxisSettings(String title) {
 

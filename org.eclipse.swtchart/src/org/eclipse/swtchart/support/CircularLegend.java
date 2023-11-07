@@ -87,7 +87,7 @@ public class CircularLegend extends Composite implements ILegend, PaintListener 
 		visible = true;
 		position = DEFAULT_POSITION;
 		cellBounds = new HashMap<String, Rectangle>();
-		defaultFont = Resources.getFont("Tahoma", DEFAULT_FONT_SIZE, SWT.NORMAL); //$NON-NLS-1$
+		defaultFont = Resources.getFont(Resources.DEFAULT_FONT_NAME, DEFAULT_FONT_SIZE, SWT.NORMAL); // $NON-NLS-1$
 		setFont(defaultFont);
 		setForeground(DEFAULT_FOREGROUND);
 		setBackground(DEFAULT_BACKGROUND);

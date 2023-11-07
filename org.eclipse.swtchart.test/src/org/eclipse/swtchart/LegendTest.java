@@ -9,6 +9,7 @@
  * 
  * Contributors:
  * yoshitaka - initial API and implementation
+ * Philip Wenig - default font name
  *******************************************************************************/
 package org.eclipse.swtchart;
 
@@ -43,7 +44,7 @@ public class LegendTest extends ChartTestCase {
 	private static final double[] ySeries4 = {0.4, 0.4, 0.4, 0.4, 0.4};
 
 	@Override
-	public void setUp()  {
+	public void setUp() {
 
 		super.setUp();
 		legend = chart.getLegend();
@@ -53,7 +54,7 @@ public class LegendTest extends ChartTestCase {
 	 * Test for legend visibility.
 	 */
 	@Test
-	public void testVisibility()  {
+	public void testVisibility() {
 
 		// show legend for no series
 		legend.setVisible(false);
@@ -89,7 +90,7 @@ public class LegendTest extends ChartTestCase {
 	 * Test for foreground.
 	 */
 	@Test
-	public void testForeground()  {
+	public void testForeground() {
 
 		// default
 		ISeries<?> series1 = chart.getSeriesSet().createSeries(SeriesType.LINE, "series 1");
@@ -119,7 +120,7 @@ public class LegendTest extends ChartTestCase {
 	 * Test for background.
 	 */
 	@Test
-	public void testBackground()  {
+	public void testBackground() {
 
 		// set null
 		legend.setBackground(null);
@@ -149,12 +150,12 @@ public class LegendTest extends ChartTestCase {
 	 * Test for legend font.
 	 */
 	@Test
-	public void testFont()  {
+	public void testFont() {
 
 		// set null
 		legend.setFont(null);
 		FontData fontData = legend.getFont().getFontData()[0];
-		Font font = new Font(Display.getCurrent(), "Tahoma", 9, SWT.NORMAL);
+		Font font = new Font(Display.getCurrent(), Resources.DEFAULT_FONT_NAME, 9, SWT.NORMAL);
 		FontData systemFontData = font.getFontData()[0];
 		assertEquals(systemFontData.getName(), fontData.getName());
 		assertEquals(systemFontData.getHeight(), fontData.getHeight());
@@ -164,10 +165,10 @@ public class LegendTest extends ChartTestCase {
 		series1.setYSeries(ySeries1);
 		legend.setVisible(true);
 		font.dispose();
-		font = new Font(Display.getCurrent(), "Tahoma", 18, SWT.ITALIC);
+		font = new Font(Display.getCurrent(), Resources.DEFAULT_FONT_NAME, 18, SWT.ITALIC);
 		legend.setFont(font);
 		fontData = legend.getFont().getFontData()[0];
-		assertEquals("Tahoma", fontData.getName());
+		assertEquals(Resources.DEFAULT_FONT_NAME, fontData.getName());
 		assertEquals(18, fontData.getHeight());
 		assertEquals(SWT.ITALIC, fontData.getStyle());
 		showChart();
@@ -180,14 +181,14 @@ public class LegendTest extends ChartTestCase {
 			// expected to reach here
 		}
 		// set large font size
-		font = new Font(Display.getCurrent(), "Tahoma", 36, SWT.ITALIC);
+		font = new Font(Display.getCurrent(), Resources.DEFAULT_FONT_NAME, 36, SWT.ITALIC);
 		legend.setFont(font);
 		fontData = legend.getFont().getFontData()[0];
 		assertEquals(36, fontData.getHeight());
 		showChart();
 		// set tiny font size
 		font.dispose();
-		font = new Font(Display.getCurrent(), "Tahoma", 4, SWT.ITALIC);
+		font = new Font(Display.getCurrent(), Resources.DEFAULT_FONT_NAME, 4, SWT.ITALIC);
 		legend.setFont(font);
 		fontData = legend.getFont().getFontData()[0];
 		assertEquals(4, fontData.getHeight());
@@ -199,7 +200,7 @@ public class LegendTest extends ChartTestCase {
 	 * Test for legend position.
 	 */
 	@Test
-	public void testPosition()  {
+	public void testPosition() {
 
 		ISeries<?> series1 = chart.getSeriesSet().createSeries(SeriesType.LINE, "series 1");
 		series1.setYSeries(ySeries1);
@@ -236,7 +237,7 @@ public class LegendTest extends ChartTestCase {
 	 */
 	@Test
 	@Ignore("environment dependent")
-	public void testBounds()  {
+	public void testBounds() {
 
 		ISeries<?> series1 = chart.getSeriesSet().createSeries(SeriesType.LINE, "series1");
 		series1.setYSeries(ySeries1);

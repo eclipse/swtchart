@@ -26,6 +26,12 @@ import org.eclipse.swt.widgets.Display;
 
 public class Resources {
 
+	/*
+	 * It was Tahoma before, but Verdana is also available on
+	 * other systems than Microsoft and looks similar.
+	 */
+	public static final String DEFAULT_FONT_NAME = "Verdana";
+	//
 	public static final int LARGE_FONT_SIZE = 13;
 	public static final int MEDIUM_FONT_SIZE = 11;
 	public static final int SMALL_FONT_SIZE = 9;

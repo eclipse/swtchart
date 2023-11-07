@@ -74,7 +74,7 @@ public class Title implements ITitle, PaintListener {
 		this.chart = parent;
 		text = DEFAULT_TEXT;
 		isVisible = true;
-		defaultFont = Resources.getFont("Tahoma", DEFAULT_FONT_SIZE, SWT.BOLD); //$NON-NLS-1$
+		defaultFont = Resources.getFont(Resources.DEFAULT_FONT_NAME, DEFAULT_FONT_SIZE, SWT.BOLD); //$NON-NLS-1$
 		bounds = new Rectangle(0, 0, 0, 0);
 		font = defaultFont;
 		setForeground(Display.getDefault().getSystemColor(DEFAULT_FOREGROUND));

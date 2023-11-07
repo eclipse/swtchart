@@ -9,6 +9,7 @@
  * 
  * Contributors:
  * yoshitaka - initial API and implementation
+ * Philip Wenig - default font name
  *******************************************************************************/
 package org.eclipse.swtchart;
 
@@ -43,7 +44,7 @@ public class SeriesLabelTest extends ChartTestCase {
 	private static final String[] formats3 = {"b1", "b2", "b3", "b4", "b5"};
 
 	@Override
-	public void setUp()  {
+	public void setUp() {
 
 		super.setUp();
 		ISeries<?> series = chart.getSeriesSet().createSeries(SeriesType.LINE, "series");
@@ -57,7 +58,7 @@ public class SeriesLabelTest extends ChartTestCase {
 	 * Test for label format.
 	 */
 	@Test
-	public void testFormat()  {
+	public void testFormat() {
 
 		// set null
 		label.setFormat(null);
@@ -119,7 +120,7 @@ public class SeriesLabelTest extends ChartTestCase {
 	 * Test for label formats.
 	 */
 	@Test
-	public void testFormats()  {
+	public void testFormats() {
 
 		// decimal formats
 		String[] formats = {"#.##", "#.##", "#.##", ".000", ".000"};
@@ -161,7 +162,7 @@ public class SeriesLabelTest extends ChartTestCase {
 	 * Test for setting color.
 	 */
 	@Test
-	public void testForeground()  {
+	public void testForeground() {
 
 		// set null
 		label.setForeground(null);
@@ -186,7 +187,7 @@ public class SeriesLabelTest extends ChartTestCase {
 	 * Test for title font.
 	 */
 	@Test
-	public void testFont()  {
+	public void testFont() {
 
 		// set null
 		label.setFont(null);
@@ -196,10 +197,10 @@ public class SeriesLabelTest extends ChartTestCase {
 		assertEquals(smallFontData.getHeight(), fontData.getHeight());
 		assertEquals(smallFontData.getStyle(), fontData.getStyle());
 		// set font
-		Font font = new Font(Display.getCurrent(), "Tahoma", 13, SWT.ITALIC);
+		Font font = new Font(Display.getCurrent(), Resources.DEFAULT_FONT_NAME, 13, SWT.ITALIC);
 		label.setFont(font);
 		fontData = label.getFont().getFontData()[0];
-		assertEquals("Tahoma", fontData.getName());
+		assertEquals(Resources.DEFAULT_FONT_NAME, fontData.getName());
 		assertEquals(13, fontData.getHeight());
 		assertEquals(SWT.ITALIC, fontData.getStyle());
 		showChart();
@@ -212,14 +213,14 @@ public class SeriesLabelTest extends ChartTestCase {
 			// expected to reach here
 		}
 		// set large font size
-		font = new Font(Display.getCurrent(), "Tahoma", 16, SWT.ITALIC);
+		font = new Font(Display.getCurrent(), Resources.DEFAULT_FONT_NAME, 16, SWT.ITALIC);
 		label.setFont(font);
 		fontData = label.getFont().getFontData()[0];
 		assertEquals(16, fontData.getHeight());
 		showChart();
 		font.dispose();
 		// set tiny font size
-		font = new Font(Display.getCurrent(), "Tahoma", 4, SWT.ITALIC);
+		font = new Font(Display.getCurrent(), Resources.DEFAULT_FONT_NAME, 4, SWT.ITALIC);
 		label.setFont(font);
 		fontData = label.getFont().getFontData()[0];
 		assertEquals(4, fontData.getHeight());
@@ -231,7 +232,7 @@ public class SeriesLabelTest extends ChartTestCase {
 	 * Test for label visibility.
 	 */
 	@Test
-	public void testVisibility()  {
+	public void testVisibility() {
 
 		// set visibility
 		label.setVisible(false);

@@ -9,6 +9,7 @@
  * 
  * Contributors:
  * yoshitaka - initial API and implementation
+ * Philip Wenig - default font name
  *******************************************************************************/
 package org.eclipse.swtchart;
 
@@ -149,7 +150,7 @@ public class AxisTitleTest extends ChartTestCase {
 		// set null
 		xAxisTitle.setFont(null);
 		FontData fontData = xAxisTitle.getFont().getFontData()[0];
-		Font font = new Font(Display.getCurrent(), "Tahoma", 13, SWT.BOLD);
+		Font font = new Font(Display.getCurrent(), Resources.DEFAULT_FONT_NAME, 13, SWT.BOLD);
 		FontData defaultFontData = font.getFontData()[0];
 		assertEquals(defaultFontData.getName(), fontData.getName());
 		assertEquals(defaultFontData.getHeight(), fontData.getHeight());
@@ -161,16 +162,16 @@ public class AxisTitleTest extends ChartTestCase {
 		assertEquals(defaultFontData.getStyle(), fontData.getStyle());
 		font.dispose();
 		// set font
-		font = new Font(Display.getCurrent(), "Tahoma", 15, SWT.ITALIC);
+		font = new Font(Display.getCurrent(), Resources.DEFAULT_FONT_NAME, 15, SWT.ITALIC);
 		xAxisTitle.setFont(font);
 		fontData = xAxisTitle.getFont().getFontData()[0];
-		assertEquals("Tahoma", fontData.getName());
+		assertEquals(Resources.DEFAULT_FONT_NAME, fontData.getName());
 		assertEquals(15, fontData.getHeight());
 		assertEquals(SWT.ITALIC, fontData.getStyle());
 		showChart();
 		yAxisTitle.setFont(font);
 		fontData = yAxisTitle.getFont().getFontData()[0];
-		assertEquals("Tahoma", fontData.getName());
+		assertEquals(Resources.DEFAULT_FONT_NAME, fontData.getName());
 		assertEquals(15, fontData.getHeight());
 		assertEquals(SWT.ITALIC, fontData.getStyle());
 		showChart();
@@ -189,26 +190,26 @@ public class AxisTitleTest extends ChartTestCase {
 			// expected to reach here
 		}
 		// set large font size
-		font = new Font(Display.getCurrent(), "Tahoma", 64, SWT.ITALIC);
+		font = new Font(Display.getCurrent(), Resources.DEFAULT_FONT_NAME, 64, SWT.ITALIC);
 		xAxisTitle.setFont(font);
 		fontData = xAxisTitle.getFont().getFontData()[0];
 		assertEquals(64, fontData.getHeight());
 		showChart();
 		font.dispose();
-		font = new Font(Display.getCurrent(), "Tahoma", 64, SWT.ITALIC);
+		font = new Font(Display.getCurrent(), Resources.DEFAULT_FONT_NAME, 64, SWT.ITALIC);
 		yAxisTitle.setFont(font);
 		fontData = yAxisTitle.getFont().getFontData()[0];
 		assertEquals(64, fontData.getHeight());
 		showChart();
 		font.dispose();
 		// set tiny font size
-		font = new Font(Display.getCurrent(), "Tahoma", 4, SWT.ITALIC);
+		font = new Font(Display.getCurrent(), Resources.DEFAULT_FONT_NAME, 4, SWT.ITALIC);
 		xAxisTitle.setFont(font);
 		fontData = xAxisTitle.getFont().getFontData()[0];
 		assertEquals(4, fontData.getHeight());
 		showChart();
 		font.dispose();
-		font = new Font(Display.getCurrent(), "Tahoma", 4, SWT.ITALIC);
+		font = new Font(Display.getCurrent(), Resources.DEFAULT_FONT_NAME, 4, SWT.ITALIC);
 		yAxisTitle.setFont(font);
 		font = yAxisTitle.getFont();
 		fontData = font.getFontData()[0];

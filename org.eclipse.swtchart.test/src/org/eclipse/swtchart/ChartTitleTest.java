@@ -9,6 +9,7 @@
  * 
  * Contributors:
  * yoshitaka - initial API and implementation
+ * Philip Wenig - default font name
  *******************************************************************************/
 package org.eclipse.swtchart;
 
@@ -113,17 +114,17 @@ public class ChartTitleTest extends ChartTestCase {
 		title.setFont(null);
 		Font font = title.getFont();
 		FontData fontData = font.getFontData()[0];
-		FontData defaultFontData = new Font(Display.getDefault(), "Tahoma", 13, SWT.BOLD).getFontData()[0];
+		FontData defaultFontData = new Font(Display.getDefault(), Resources.DEFAULT_FONT_NAME, 13, SWT.BOLD).getFontData()[0];
 		assertEquals(defaultFontData.getName(), fontData.getName());
 		assertEquals(defaultFontData.getHeight(), fontData.getHeight());
 		assertEquals(defaultFontData.getStyle(), fontData.getStyle());
 		// set font
 		title.setText("foo");
-		font = new Font(Display.getCurrent(), "Tahoma", 18, SWT.ITALIC);
+		font = new Font(Display.getCurrent(), Resources.DEFAULT_FONT_NAME, 18, SWT.ITALIC);
 		title.setFont(font);
 		font = title.getFont();
 		fontData = font.getFontData()[0];
-		assertEquals("Tahoma", fontData.getName());
+		assertEquals(Resources.DEFAULT_FONT_NAME, fontData.getName());
 		assertEquals(18, fontData.getHeight());
 		assertEquals(SWT.ITALIC, fontData.getStyle());
 		showChart();
@@ -136,14 +137,14 @@ public class ChartTitleTest extends ChartTestCase {
 			// expected to reach here
 		}
 		// set large font size
-		title.setFont(new Font(Display.getCurrent(), "Tahoma", 64, SWT.ITALIC));
+		title.setFont(new Font(Display.getCurrent(), Resources.DEFAULT_FONT_NAME, 64, SWT.ITALIC));
 		font = title.getFont();
 		fontData = font.getFontData()[0];
 		assertEquals(64, fontData.getHeight());
 		showChart();
 		font.dispose();
 		// set tiny font size
-		title.setFont(new Font(Display.getCurrent(), "Tahoma", 4, SWT.ITALIC));
+		title.setFont(new Font(Display.getCurrent(), Resources.DEFAULT_FONT_NAME, 4, SWT.ITALIC));
 		font = title.getFont();
 		fontData = font.getFontData()[0];
 		assertEquals(4, fontData.getHeight());

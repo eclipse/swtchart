@@ -53,7 +53,7 @@ public class AxisTitle extends Title {
 		super(chart);
 		this.axis = axis;
 		this.direction = direction;
-		setFont(Resources.getFont("Tahoma", DEFAULT_FONT_SIZE, SWT.BOLD)); //$NON-NLS-1$
+		setFont(Resources.getFont(Resources.DEFAULT_FONT_NAME, DEFAULT_FONT_SIZE, SWT.BOLD)); //$NON-NLS-1$
 		setText(getDefaultText());
 	}
 
