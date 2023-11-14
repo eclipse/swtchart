@@ -13,6 +13,7 @@
  *******************************************************************************/
 package org.eclipse.swtchart.extensions.examples.charts;
 
+import org.eclipse.swt.SWT;
 import org.eclipse.swt.dnd.Clipboard;
 import org.eclipse.swt.dnd.TextTransfer;
 import org.eclipse.swt.dnd.Transfer;
@@ -48,8 +49,13 @@ public class DemoChart {
 		 * environments.
 		 */
 		IChartSettings chartSettings = scrollableChart.getChartSettings();
+		chartSettings.setTitle("Chromatogram Example");
+		chartSettings.setTitleColor(display.getSystemColor(SWT.COLOR_BLACK));
 		chartSettings.setLegendExtendedVisible(true);
 		chartSettings.setBufferSelection(true);
+		chartSettings.setBackground(display.getSystemColor(SWT.COLOR_WHITE));
+		chartSettings.setBackgroundChart(display.getSystemColor(SWT.COLOR_WHITE));
+		chartSettings.setBackgroundPlotArea(display.getSystemColor(SWT.COLOR_WHITE));
 		addClipboardMenuEntry(chartSettings);
 		addToggleAxisLinesMenuEntry(chartSettings);
 		scrollableChart.applySettings(chartSettings);
