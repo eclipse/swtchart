@@ -20,7 +20,6 @@ import org.eclipse.jface.viewers.IContentProvider;
 import org.eclipse.jface.viewers.StyledCellLabelProvider;
 import org.eclipse.jface.viewers.TableViewerColumn;
 import org.eclipse.jface.viewers.ViewerCell;
-import org.eclipse.jface.viewers.ViewerFilter;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.SWTException;
 import org.eclipse.swt.events.SelectionAdapter;
@@ -43,7 +42,7 @@ public class SeriesListUI extends AbstractSeriesListUI {
 	private static final String[] TITLES = SeriesLabelProvider.TITLES;
 	private static final int[] BOUNDS = SeriesLabelProvider.BOUNDS;
 	//
-	private static final String COLUMN_DELIMITER = " ";
+	private static final String COLUMN_DELIMITER = " "; //$NON-NLS-1$
 	//
 	private SeriesLabelProvider labelProvider = new SeriesLabelProvider();
 	private IContentProvider contentProvider = new SeriesContentProvider();
@@ -93,7 +92,7 @@ public class SeriesListUI extends AbstractSeriesListUI {
 		setLabelProvider(labelProvider);
 		setContentProvider(contentProvider);
 		setComparator(null);
-		setFilters(new ViewerFilter[]{filter});
+		setFilters(filter);
 		setCellColorAndEditSupport();
 		setColumnOrder(getTable());
 	}
@@ -119,7 +118,7 @@ public class SeriesListUI extends AbstractSeriesListUI {
 				String title = titles[i];
 				final TableViewerColumn tableViewerColumn = createTableColumn(title, bounds[i]);
 				final TableColumn tableColumn = tableViewerColumn.getColumn();
-				tableColumn.addSelectionListener(createSelectionAdapter(tableColumn, i));
+				tableColumn.addSelectionListener(createSelectionAdapter(i));
 				columns.add(tableViewerColumn);
 			}
 		}
@@ -130,9 +129,9 @@ public class SeriesListUI extends AbstractSeriesListUI {
 		table.setLinesVisible(true);
 	}
 
-	private SelectionAdapter createSelectionAdapter(final TableColumn column, final int index) {
+	private SelectionAdapter createSelectionAdapter(final int index) {
 
-		SelectionAdapter selectionAdapter = new SelectionAdapter() {
+		return new SelectionAdapter() {
 
 			@Override
 			public void widgetSelected(SelectionEvent e) {
@@ -143,8 +142,6 @@ public class SeriesListUI extends AbstractSeriesListUI {
 				refresh();
 			}
 		};
-		//
-		return selectionAdapter;
 	}
 
 	private TableViewerColumn createTableColumn(String title, int width) {
@@ -172,20 +169,18 @@ public class SeriesListUI extends AbstractSeriesListUI {
 
 	private void setCellColorAndEditSupport() {
 
-		for(TableViewerColumn tableViewerColumn : columns) {
+		for(int index = 0; index < columns.size(); index++) {
+			TableViewerColumn tableViewerColumn = columns.get(index);
 			/*
 			 * Cell Color Provider
 			 */
-			String title = tableViewerColumn.getColumn().getText();
-			switch(title) {
-				case SeriesLabelProvider.COLOR:
-					setColorColumnProvider(tableViewerColumn);
-					break;
+			if(index == SeriesLabelProvider.INDEX_COLOR) {
+				setColorColumnProvider(tableViewerColumn);
 			}
 			/*
 			 * Edit Support
 			 */
-			tableViewerColumn.setEditingSupport(new SeriesEditingSupport(this, title));
+			tableViewerColumn.setEditingSupport(new SeriesEditingSupport(this, index));
 		}
 	}
 
@@ -198,12 +193,11 @@ public class SeriesListUI extends AbstractSeriesListUI {
 
 				if(cell != null) {
 					Object object = cell.getElement();
-					if(object instanceof ISeries<?> && baseChart != null) {
-						ISeries<?> series = (ISeries<?>)object;
+					if(object instanceof ISeries<?> series && baseChart != null) {
 						ISeriesSettings seriesSettings = baseChart.getSeriesSettings(series.getId());
 						Color color = SeriesLabelProvider.getColor(seriesSettings);
 						cell.setBackground(color);
-						cell.setText(""); // No text
+						cell.setText(""); // No text //$NON-NLS-1$
 						super.update(cell);
 					}
 				}

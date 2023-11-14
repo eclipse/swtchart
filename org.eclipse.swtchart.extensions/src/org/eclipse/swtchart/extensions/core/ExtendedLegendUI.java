@@ -68,7 +68,7 @@ import org.eclipse.swtchart.model.NodeDataModel;
 
 public class ExtendedLegendUI extends Composite {
 
-	private static final String MENU_TEXT = "Series PopUp Menu";
+	private static final String MENU_TEXT = Messages.getString(Messages.SERIES_POPUP_MENU);
 	//
 	private AtomicReference<Button> sortControl = new AtomicReference<>();
 	private AtomicReference<InChartLegendUI> toolbarInChartLegend = new AtomicReference<>();
@@ -143,8 +143,8 @@ public class ExtendedLegendUI extends Composite {
 	private Button createButtonToggleVisibility(Composite parent) {
 
 		Button button = new Button(parent, SWT.PUSH);
-		button.setText("");
-		button.setToolTipText("Toggle visibility.");
+		button.setText(""); //$NON-NLS-1$
+		button.setToolTipText(Messages.getString(Messages.TOGGLE_VISIBILITY));
 		button.setImage(getVisibilityIcon(true));
 		button.addSelectionListener(new SelectionAdapter() {
 
@@ -188,8 +188,8 @@ public class ExtendedLegendUI extends Composite {
 	private Button createButtonToggleLegend(Composite parent) {
 
 		Button button = new Button(parent, SWT.PUSH);
-		button.setText("");
-		button.setToolTipText("Toggle the visibility of the embedded legend.");
+		button.setText(""); //$NON-NLS-1$
+		button.setToolTipText(Messages.getString(Messages.TOGGLE_VISIBILITY_OF_EMBEDDED_LEGEND));
 		button.setImage(ResourceSupport.getImage(ResourceSupport.ICON_LEGEND));
 		button.addSelectionListener(new SelectionAdapter() {
 
@@ -213,8 +213,8 @@ public class ExtendedLegendUI extends Composite {
 	private void createButtonToggleSort(Composite parent) {
 
 		Button button = new Button(parent, SWT.PUSH);
-		button.setText("");
-		button.setToolTipText("Sort the table.");
+		button.setText(""); //$NON-NLS-1$
+		button.setToolTipText(Messages.getString(Messages.SORT_TABLE));
 		button.setImage(getSortedIcon(preferenceStore.getBoolean(PreferenceConstants.P_SORT_LEGEND_TABLE)));
 		button.addSelectionListener(new SelectionAdapter() {
 
@@ -240,15 +240,15 @@ public class ExtendedLegendUI extends Composite {
 	private Button createButtonTransferMappings(Composite parent) {
 
 		Button button = new Button(parent, SWT.PUSH);
-		button.setText("");
-		button.setToolTipText("Transfer the mappings of the selected series.");
+		button.setText(""); //$NON-NLS-1$
+		button.setToolTipText(Messages.getString(Messages.TRANSFER_MAPPINGS_OF_SELECTED_SERIES));
 		button.setImage(ResourceSupport.getImage(ResourceSupport.ICON_TRANSFER));
 		button.addSelectionListener(new SelectionAdapter() {
 
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 
-				if(MessageDialog.openQuestion(e.display.getActiveShell(), "Mappings", "Would you like to map all listed series?")) {
+				if(MessageDialog.openQuestion(e.display.getActiveShell(), Messages.getString(Messages.MAPPINGS), Messages.getString(Messages.MAP_ALL_LISTED_SERIES))) {
 					if(seriesSet != null) {
 						BaseChart baseChart = scrollableChart.getBaseChart();
 						for(ISeries<?> series : seriesSet.getSeries()) {
@@ -265,8 +265,8 @@ public class ExtendedLegendUI extends Composite {
 	private Button createButtonShowMappings(Composite parent) {
 
 		Button button = new Button(parent, SWT.PUSH);
-		button.setText("");
-		button.setToolTipText("Display the mappings.");
+		button.setText(""); //$NON-NLS-1$
+		button.setToolTipText(Messages.getString(Messages.DISPLAY_MAPPINGS));
 		button.setImage(ResourceSupport.getImage(ResourceSupport.ICON_MAPPINGS));
 		button.addSelectionListener(new SelectionAdapter() {
 
@@ -288,8 +288,8 @@ public class ExtendedLegendUI extends Composite {
 	private Button createButtonSettings(Composite parent) {
 
 		Button button = new Button(parent, SWT.PUSH);
-		button.setText("");
-		button.setToolTipText("Open the settings page.");
+		button.setText(""); //$NON-NLS-1$
+		button.setToolTipText(Messages.getString(Messages.OPEN_SETTINGS_PAGE));
 		button.setImage(ResourceSupport.getImage(ResourceSupport.ICON_SETTINGS));
 		button.addSelectionListener(new SelectionAdapter() {
 
@@ -297,15 +297,15 @@ public class ExtendedLegendUI extends Composite {
 			public void widgetSelected(SelectionEvent e) {
 
 				PreferenceManager preferenceManager = new PreferenceManager();
-				preferenceManager.addToRoot(new PreferenceNode("1", new PreferencePage()));
+				preferenceManager.addToRoot(new PreferenceNode("1", new PreferencePage())); //$NON-NLS-1$
 				PreferenceDialog preferenceDialog = new PreferenceDialog(e.display.getActiveShell(), preferenceManager);
 				preferenceDialog.create();
-				preferenceDialog.setMessage("Settings");
+				preferenceDialog.setMessage(Messages.getString(Messages.SETTINGS));
 				if(preferenceDialog.open() == Window.OK) {
 					try {
 						applySettings();
 					} catch(Exception e1) {
-						MessageDialog.openError(e.display.getActiveShell(), "Settings", "Something has gone wrong to apply the settings.");
+						MessageDialog.openError(e.display.getActiveShell(), Messages.getString(Messages.SETTINGS), Messages.getString(Messages.FAILED_TO_APPLY_SETTINGS));
 					}
 				}
 			}
@@ -351,11 +351,10 @@ public class ExtendedLegendUI extends Composite {
 			public void mouseDoubleClick(MouseEvent e) {
 
 				Object object = seriesListUI.getStructuredSelection().getFirstElement();
-				if(object instanceof ISeries<?>) {
+				if(object instanceof ISeries<?> series) {
 					/*
 					 * Series
 					 */
-					ISeries<?> series = (ISeries<?>)object;
 					BaseChart baseChart = scrollableChart.getBaseChart();
 					ISeriesSettings seriesSettings = baseChart.getSeriesSettings(series.getId());
 					Shell shell = e.display.getActiveShell();
@@ -363,17 +362,13 @@ public class ExtendedLegendUI extends Composite {
 					/*
 					 * Dialog
 					 */
-					if(seriesSettings instanceof IBarSeriesSettings) {
-						IBarSeriesSettings settings = (IBarSeriesSettings)seriesSettings;
+					if(seriesSettings instanceof IBarSeriesSettings settings) {
 						settingsDialog = new BarSeriesSettingsDialog(shell, settings);
-					} else if(seriesSettings instanceof ICircularSeriesSettings) {
-						ICircularSeriesSettings settings = (ICircularSeriesSettings)seriesSettings;
+					} else if(seriesSettings instanceof ICircularSeriesSettings settings) {
 						settingsDialog = new CircularSeriesSettingsDialog(shell, settings);
-					} else if(seriesSettings instanceof ILineSeriesSettings) {
-						ILineSeriesSettings settings = (ILineSeriesSettings)seriesSettings;
+					} else if(seriesSettings instanceof ILineSeriesSettings settings) {
 						settingsDialog = new LineSeriesSettingsDialog(shell, settings);
-					} else if(seriesSettings instanceof IScatterSeriesSettings) {
-						IScatterSeriesSettings settings = (IScatterSeriesSettings)seriesSettings;
+					} else if(seriesSettings instanceof IScatterSeriesSettings settings) {
 						settingsDialog = new ScatterSeriesSettingsDialog(shell, settings);
 					}
 					/*
@@ -423,7 +418,7 @@ public class ExtendedLegendUI extends Composite {
 					try {
 						clipboard.setContents(data, dataTypes);
 					} finally {
-						if(clipboard != null && !clipboard.isDisposed()) {
+						if(!clipboard.isDisposed()) {
 							clipboard.dispose();
 						}
 					}
@@ -517,8 +512,7 @@ public class ExtendedLegendUI extends Composite {
 		if(composite != null) {
 			composite.setVisible(visible);
 			Object layoutData = composite.getLayoutData();
-			if(layoutData instanceof GridData) {
-				GridData gridData = (GridData)layoutData;
+			if(layoutData instanceof GridData gridData) {
 				gridData.exclude = !visible;
 			}
 			Composite parent = composite.getParent();

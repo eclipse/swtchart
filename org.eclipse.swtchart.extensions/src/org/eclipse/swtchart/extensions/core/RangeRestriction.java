@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2017, 2020 Lablicate GmbH.
+ * Copyright (c) 2017, 2023 Lablicate GmbH.
  *
  * This program and the accompanying materials are made
  * available under the terms of the Eclipse Public License 2.0
@@ -41,10 +41,12 @@ public class RangeRestriction {
 	private int selection;
 
 	public RangeRestriction() {
+
 		this(NONE);
 	}
 
 	public RangeRestriction(int selection) {
+
 		this.selection = selection;
 		extendTypeX = ExtendType.RELATIVE;
 		extendMinX = 0.0d;

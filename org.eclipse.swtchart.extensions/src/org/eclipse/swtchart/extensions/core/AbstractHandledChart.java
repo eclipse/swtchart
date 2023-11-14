@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2017, 2019 Lablicate GmbH.
+ * Copyright (c) 2017, 2023 Lablicate GmbH.
  *
  * This program and the accompanying materials are made
  * available under the terms of the Eclipse Public License 2.0
@@ -18,7 +18,8 @@ import org.eclipse.swtchart.Chart;
 
 public abstract class AbstractHandledChart extends Chart implements IEventHandler {
 
-	public AbstractHandledChart(Composite parent, int style) {
+	protected AbstractHandledChart(Composite parent, int style) {
+
 		super(parent, style);
 	}
 

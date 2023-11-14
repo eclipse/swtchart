@@ -21,9 +21,9 @@ import org.eclipse.swt.graphics.RGB;
 import org.eclipse.swt.widgets.ColorDialog;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swtchart.ISeries;
+import org.eclipse.swtchart.Resources;
 import org.eclipse.swtchart.extensions.core.BaseChart;
 import org.eclipse.swtchart.extensions.core.ISeriesSettings;
-import org.eclipse.swtchart.extensions.core.ResourceSupport;
 import org.eclipse.swtchart.extensions.core.SeriesLabelProvider;
 import org.eclipse.swtchart.extensions.core.SeriesListUI;
 
@@ -42,13 +42,13 @@ public class SetColorAction extends AbstractMenuListener {
 			@Override
 			public String getText() {
 
-				return "Set Color";
+				return Messages.getString(Messages.setColor);
 			}
 
 			@Override
 			public String getToolTipText() {
 
-				return "Adjust the color of the selected series.";
+				return Messages.getString(Messages.adjustColorOfSelectedSeries);
 			}
 
 			@Override
@@ -61,12 +61,12 @@ public class SetColorAction extends AbstractMenuListener {
 				//
 				if(!selectedSeries.isEmpty()) {
 					ColorDialog colorDialog = new ColorDialog(table.getShell());
-					colorDialog.setText("Set Series Color");
+					colorDialog.setText(Messages.getString(Messages.setSeriesColor));
 					RGB rgbNew = colorDialog.open();
 					if(rgbNew != null) {
 						for(ISeries<?> series : selectedSeries) {
 							ISeriesSettings seriesSettings = baseChart.getSeriesSettings(series.getId());
-							Color color = ResourceSupport.getColor(rgbNew);
+							Color color = Resources.getColor(rgbNew);
 							SeriesLabelProvider.setColor(seriesSettings, color);
 							baseChart.applySeriesSettings(series, seriesSettings, true);
 						}

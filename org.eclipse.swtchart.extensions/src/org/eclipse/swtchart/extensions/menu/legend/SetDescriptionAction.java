@@ -40,13 +40,13 @@ public class SetDescriptionAction extends AbstractMenuListener {
 			@Override
 			public String getText() {
 
-				return "Set Description";
+				return Messages.getString(Messages.setDescription);
 			}
 
 			@Override
 			public String getToolTipText() {
 
-				return "Set a description for the selected series.";
+				return Messages.getString(Messages.setDescriptionForSelectedSeries);
 			}
 
 			@Override
@@ -59,17 +59,17 @@ public class SetDescriptionAction extends AbstractMenuListener {
 				//
 				if(!selectedSeries.isEmpty()) {
 					String firstDescription = selectedSeries.get(0).getDescription();
-					InputDialog dialog = new InputDialog(table.getShell(), "Description", "Set a description.", firstDescription, new IInputValidator() {
+					InputDialog dialog = new InputDialog(table.getShell(), Messages.getString(Messages.description), Messages.getString(Messages.setDescription), firstDescription, new IInputValidator() {
 
 						@Override
 						public String isValid(String input) {
 
 							if(input == null) {
-								return "Please set a description.";
+								return Messages.forgotToSetDescription;
 							} else {
 								input = input.trim();
 								if(input.isEmpty()) {
-									return "The description must be not empty.";
+									return Messages.descriptionMustNotBeEmpty;
 								}
 							}
 							//

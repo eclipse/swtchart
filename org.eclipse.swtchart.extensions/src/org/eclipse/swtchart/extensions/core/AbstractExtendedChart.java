@@ -13,6 +13,7 @@
  *******************************************************************************/
 package org.eclipse.swtchart.extensions.core;
 
+import java.text.MessageFormat;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -69,7 +70,7 @@ public abstract class AbstractExtendedChart extends AbstractHandledChart impleme
 	private Map<String, ISeriesSettings> seriesSettingsMap = new HashMap<>();
 	private Map<String, ISeriesSettings> seriesSettingsMapReset = new HashMap<>();
 
-	public AbstractExtendedChart(Composite parent, int style) {
+	protected AbstractExtendedChart(Composite parent, int style) {
 
 		super(parent, style);
 		resetCoordinates();
@@ -388,7 +389,7 @@ public abstract class AbstractExtendedChart extends AbstractHandledChart impleme
 				}
 			}
 		} else {
-			throw new SeriesException("The series type couldn't be determined.");
+			throw new SeriesException(Messages.getString(Messages.UNDETERMINED_SERIES_TYPE));
 		}
 	}
 
@@ -542,8 +543,8 @@ public abstract class AbstractExtendedChart extends AbstractHandledChart impleme
 			if(id != BaseChart.ID_PRIMARY_X_AXIS) {
 				IAxis axis = axisSet.getXAxis(id);
 				IAxisSettings axisSettings = xAxisSettingsMap.get(id);
-				if(axis != null && axisSettings instanceof ISecondaryAxisSettings) {
-					IAxisScaleConverter axisScaleConverter = ((ISecondaryAxisSettings)axisSettings).getAxisScaleConverter();
+				if(axis != null && axisSettings instanceof ISecondaryAxisSettings secondaryAxisSettings) {
+					IAxisScaleConverter axisScaleConverter = secondaryAxisSettings.getAxisScaleConverter();
 					axisScaleConverter.setChartDataCoordinates(this);
 					double start = axisScaleConverter.convertToSecondaryUnit(range.lower);
 					double end = axisScaleConverter.convertToSecondaryUnit(range.upper);
@@ -551,7 +552,7 @@ public abstract class AbstractExtendedChart extends AbstractHandledChart impleme
 						Range adjustedRange = new Range(start, end);
 						axis.setRange(adjustedRange);
 					} else {
-						System.out.println(Messages.getString(Messages.CANT_SET_SECONDARY_X_AXIS_RANGE) + start + "\t" + end); //$NON-NLS-1$ //$NON-NLS-2$
+						System.out.println(MessageFormat.format(Messages.getString(Messages.CANT_SET_SECONDARY_X_AXIS_RANGE), start, end));
 					}
 				}
 			}
@@ -568,8 +569,8 @@ public abstract class AbstractExtendedChart extends AbstractHandledChart impleme
 			if(id != BaseChart.ID_PRIMARY_Y_AXIS) {
 				IAxis axis = axisSet.getYAxis(id);
 				IAxisSettings axisSettings = yAxisSettingsMap.get(id);
-				if(axis != null && axisSettings instanceof ISecondaryAxisSettings) {
-					IAxisScaleConverter axisScaleConverter = ((ISecondaryAxisSettings)axisSettings).getAxisScaleConverter();
+				if(axis != null && axisSettings instanceof ISecondaryAxisSettings secondaryAxisSettings) {
+					IAxisScaleConverter axisScaleConverter = secondaryAxisSettings.getAxisScaleConverter();
 					axisScaleConverter.setChartDataCoordinates(this);
 					double start = axisScaleConverter.convertToSecondaryUnit(range.lower);
 					double end = axisScaleConverter.convertToSecondaryUnit(range.upper);

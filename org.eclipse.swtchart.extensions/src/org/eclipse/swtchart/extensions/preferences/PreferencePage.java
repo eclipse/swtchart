@@ -29,25 +29,26 @@ public class PreferencePage extends FieldEditorPreferencePage {
 
 		super(style);
 		setPreferenceStore(ResourceSupport.getPreferenceStore());
-		setTitle("SWTChart");
-		setDescription("");
+		setTitle("SWTChart"); //$NON-NLS-1$
+		setDescription(""); //$NON-NLS-1$
 	}
 
+	@Override
 	public void createFieldEditors() {
 
-		addField(new BooleanFieldEditor(PreferenceConstants.P_BUFFER_SELECTION, "Buffered Selection", getFieldEditorParent()));
-		addField(new BooleanFieldEditor(PreferenceConstants.P_KEEP_SERIES_DESCRIPTION, "Keep Series Description", getFieldEditorParent()));
-		addField(new IntegerFieldEditor(PreferenceConstants.P_MOVE_LEGEND_X, "Move Legend [X]", getFieldEditorParent()));
-		addField(new IntegerFieldEditor(PreferenceConstants.P_MOVE_LEGEND_Y, "Move Legend [Y]", getFieldEditorParent()));
-		addField(new IntegerFieldEditor(PreferenceConstants.P_LEGEND_POSITION_X, "Legend Position [X]", getFieldEditorParent()));
-		addField(new IntegerFieldEditor(PreferenceConstants.P_LEGEND_POSITION_Y, "Legend Position [Y]", getFieldEditorParent()));
-		addField(new BooleanFieldEditor(PreferenceConstants.P_SORT_LEGEND_TABLE, "Sort Legend Table", getFieldEditorParent()));
-		addField(new StringFieldEditor(PreferenceConstants.P_LEGEND_COLUMN_ORDER, "Sort Order Columns Legend", getFieldEditorParent()));
-		addField(new StringFieldEditor(PreferenceConstants.P_CUSTOM_SERIES_COLUMN_ORDER, "Sort Order Columns Custom Series", getFieldEditorParent()));
-		addField(new BooleanFieldEditor(PreferenceConstants.P_BITMAP_EXPORT_CUSTOM_SIZE, "Bitmap Export Custom Size", getFieldEditorParent()));
-		addField(new IntegerFieldEditor(PreferenceConstants.P_BITMAP_EXPORT_WIDTH, "Bitmap Export Width", getFieldEditorParent()));
-		addField(new IntegerFieldEditor(PreferenceConstants.P_BITMAP_EXPORT_HEIGHT, "Bitmap Export Height", getFieldEditorParent()));
-		addField(new BooleanFieldEditor(PreferenceConstants.P_SHOW_HELP_FOR_EVENTS, "Show pop-up on clickbinding", getFieldEditorParent()));
-		addField(new IntegerFieldEditor(PreferenceConstants.P_HELP_POPUP_TIME_TO_CLOSE, "Time to close popup [ms]", getFieldEditorParent()));
+		addField(new BooleanFieldEditor(PreferenceConstants.P_BUFFER_SELECTION, Messages.getString(Messages.BUFFERED_SELECTION), getFieldEditorParent()));
+		addField(new BooleanFieldEditor(PreferenceConstants.P_KEEP_SERIES_DESCRIPTION, Messages.getString(Messages.KEEP_SERIES_DESCRIPTION), getFieldEditorParent()));
+		addField(new IntegerFieldEditor(PreferenceConstants.P_MOVE_LEGEND_X, Messages.getString(Messages.MOVE_LEGEND_X), getFieldEditorParent()));
+		addField(new IntegerFieldEditor(PreferenceConstants.P_MOVE_LEGEND_Y, Messages.getString(Messages.MOVE_LEGEND_Y), getFieldEditorParent()));
+		addField(new IntegerFieldEditor(PreferenceConstants.P_LEGEND_POSITION_X, Messages.getString(Messages.LEGEND_POSITION_X), getFieldEditorParent()));
+		addField(new IntegerFieldEditor(PreferenceConstants.P_LEGEND_POSITION_Y, Messages.getString(Messages.LEGEND_POSITION_Y), getFieldEditorParent()));
+		addField(new BooleanFieldEditor(PreferenceConstants.P_SORT_LEGEND_TABLE, Messages.getString(Messages.SORT_LEGEND_TABLE), getFieldEditorParent()));
+		addField(new StringFieldEditor(PreferenceConstants.P_LEGEND_COLUMN_ORDER, Messages.getString(Messages.SORT_ORDER_COLUMNS_LEGEND), getFieldEditorParent()));
+		addField(new StringFieldEditor(PreferenceConstants.P_CUSTOM_SERIES_COLUMN_ORDER, Messages.getString(Messages.SORT_ORDER_COLUMNS_CUSTOM_SERIES), getFieldEditorParent()));
+		addField(new BooleanFieldEditor(PreferenceConstants.P_BITMAP_EXPORT_CUSTOM_SIZE, Messages.getString(Messages.BITMAP_EXPORT_CUSTOM_SIZE), getFieldEditorParent()));
+		addField(new IntegerFieldEditor(PreferenceConstants.P_BITMAP_EXPORT_WIDTH, Messages.getString(Messages.BITMAP_EXPORT_WIDTH), getFieldEditorParent()));
+		addField(new IntegerFieldEditor(PreferenceConstants.P_BITMAP_EXPORT_HEIGHT, Messages.getString(Messages.BITMAP_EXPORT_HEIGHT), getFieldEditorParent()));
+		addField(new BooleanFieldEditor(PreferenceConstants.P_SHOW_HELP_FOR_EVENTS, Messages.getString(Messages.SHOW_POPUP_ON_CLICKBINDING), getFieldEditorParent()));
+		addField(new IntegerFieldEditor(PreferenceConstants.P_HELP_POPUP_TIME_TO_CLOSE, Messages.getString(Messages.POPUP_CLOSE_TIME), getFieldEditorParent()));
 	}
 }

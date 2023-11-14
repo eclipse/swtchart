@@ -16,11 +16,11 @@ import org.eclipse.swtchart.IEnumLabel;
 
 public enum MappingsType implements IEnumLabel {
 
-	NONE("None"), //
-	BAR("Bar"), //
-	LINE("Line"), //
-	SCATTER("Scatter"), //
-	CIRCULAR("Circular"); //
+	NONE(Messages.getString(Messages.NONE)), //
+	BAR(Messages.getString(Messages.BAR)), //
+	LINE(Messages.getString(Messages.LINE)), //
+	SCATTER(Messages.getString(Messages.SCATTER)), //
+	CIRCULAR(Messages.getString(Messages.CIRCULAR)); //
 
 	private String label;
 

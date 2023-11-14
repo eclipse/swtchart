@@ -64,7 +64,7 @@ public class TextClipboardSupport {
 		try {
 			clipboard.setContents(data, dataTypes);
 		} finally {
-			if(clipboard != null && !clipboard.isDisposed()) {
+			if(!clipboard.isDisposed()) {
 				clipboard.dispose();
 			}
 		}

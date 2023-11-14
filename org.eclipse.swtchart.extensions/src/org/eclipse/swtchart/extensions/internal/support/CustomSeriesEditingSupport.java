@@ -23,21 +23,21 @@ import org.eclipse.swtchart.extensions.model.ICustomSeries;
 public class CustomSeriesEditingSupport extends EditingSupport {
 
 	private CustomSeriesListUI customSeriesListUI;
-	private String title = "";
+	private int columnIndex = 0;
 
-	public CustomSeriesEditingSupport(CustomSeriesListUI seriesListUI, String title) {
+	public CustomSeriesEditingSupport(CustomSeriesListUI seriesListUI, int columnIndex) {
 
 		super(seriesListUI);
 		this.customSeriesListUI = seriesListUI;
-		this.title = title;
+		this.columnIndex = columnIndex;
 	}
 
 	@Override
 	protected boolean canEdit(Object element) {
 
 		boolean canEdit;
-		switch(title) {
-			case CustomSeriesLabelProvider.DRAW:
+		switch(columnIndex) {
+			case CustomSeriesLabelProvider.INDEX_DRAW:
 				canEdit = true;
 				break;
 			default:
@@ -51,8 +51,8 @@ public class CustomSeriesEditingSupport extends EditingSupport {
 	protected CellEditor getCellEditor(Object element) {
 
 		CellEditor cellEditor;
-		switch(title) {
-			case CustomSeriesLabelProvider.DRAW:
+		switch(columnIndex) {
+			case CustomSeriesLabelProvider.INDEX_DRAW:
 				cellEditor = new CheckboxCellEditor(customSeriesListUI.getTable());
 				break;
 			default:
@@ -70,8 +70,8 @@ public class CustomSeriesEditingSupport extends EditingSupport {
 			/*
 			 * Series Settings
 			 */
-			switch(title) {
-				case CustomSeriesLabelProvider.DRAW:
+			switch(columnIndex) {
+				case CustomSeriesLabelProvider.INDEX_DRAW:
 					object = customSeries.isDraw();
 					break;
 				default:
@@ -89,8 +89,8 @@ public class CustomSeriesEditingSupport extends EditingSupport {
 			/*
 			 * Series Settings
 			 */
-			switch(title) {
-				case CustomSeriesLabelProvider.DRAW:
+			switch(columnIndex) {
+				case CustomSeriesLabelProvider.INDEX_DRAW:
 					customSeries.setDraw(Boolean.valueOf(object.toString()));
 					break;
 			}

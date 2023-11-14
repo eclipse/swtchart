@@ -69,7 +69,7 @@ public class ImageClipboardSupport {
 					}
 				}
 			} finally {
-				if(clipboard != null && !clipboard.isDisposed()) {
+				if(!clipboard.isDisposed()) {
 					clipboard.dispose();
 				}
 			}

@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2017, 2019 Lablicate GmbH.
+ * Copyright (c) 2017, 2023 Lablicate GmbH.
  *
  * This program and the accompanying materials are made
  * available under the terms of the Eclipse Public License 2.0
@@ -12,6 +12,8 @@
  * Frank Buloup - Internationalization
  *******************************************************************************/
 package org.eclipse.swtchart.extensions.axisconverter;
+
+import java.security.InvalidParameterException;
 
 import org.eclipse.swtchart.extensions.core.AbstractAxisScaleConverter;
 import org.eclipse.swtchart.extensions.core.IAxisScaleConverter;
@@ -27,16 +29,17 @@ public class MillisecondsToScanNumberConverter extends AbstractAxisScaleConverte
 	 * @param scanDelay
 	 * @param scanInterval
 	 */
-	public MillisecondsToScanNumberConverter(int scanDelay, int scanInterval) throws Exception {
+	public MillisecondsToScanNumberConverter(int scanDelay, int scanInterval) throws InvalidParameterException {
+
 		/*
 		 * Validations.
 		 */
 		if(scanDelay < 0) {
-			throw new Exception(Messages.getString(Messages.SCAN_MUST_BE_GE_0_KEY));
+			throw new InvalidParameterException(Messages.getString(Messages.SCAN_MUST_BE_GE_0_KEY));
 		}
 		//
 		if(scanInterval <= 0) {
-			throw new Exception(Messages.getString(Messages.SCAN_MUST_BE_G_0_KEY)); 
+			throw new InvalidParameterException(Messages.getString(Messages.SCAN_MUST_BE_G_0_KEY));
 		}
 		//
 		this.scanDelay = scanDelay;

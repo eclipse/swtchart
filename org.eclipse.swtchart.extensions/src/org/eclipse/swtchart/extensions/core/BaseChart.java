@@ -190,7 +190,7 @@ public class BaseChart extends AbstractExtendedChart implements IChartDataCoordi
 		//
 		dataShiftHistory = new HashMap<>();
 		//
-		setData("org.eclipse.e4.ui.css.CssClassName", "BaseChart");
+		setData("org.eclipse.e4.ui.css.CssClassName", "BaseChart"); //$NON-NLS-1$ //$NON-NLS-2$
 		/*
 		 * Draw the custom paint series elements (Experimental).
 		 * Not yet implemented.
@@ -1223,8 +1223,8 @@ public class BaseChart extends AbstractExtendedChart implements IChartDataCoordi
 			axisSettings = getYAxisSettings(id);
 		}
 		//
-		if(axisSettings instanceof ISecondaryAxisSettings) {
-			axisScaleConverter = ((ISecondaryAxisSettings)axisSettings).getAxisScaleConverter();
+		if(axisSettings instanceof ISecondaryAxisSettings secondaryAxisSettings) {
+			axisScaleConverter = secondaryAxisSettings.getAxisScaleConverter();
 		}
 		//
 		return axisScaleConverter;
@@ -1428,7 +1428,7 @@ public class BaseChart extends AbstractExtendedChart implements IChartDataCoordi
 	public void redraw() {
 
 		super.redraw();
-		fireSeriesStatusEvent("", ISeriesStatusListener.REDRAW);
+		fireSeriesStatusEvent("", ISeriesStatusListener.REDRAW); //$NON-NLS-1$
 	}
 
 	/**

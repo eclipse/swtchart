@@ -20,7 +20,6 @@ import org.eclipse.jface.viewers.IContentProvider;
 import org.eclipse.jface.viewers.ILabelProvider;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.TableViewerColumn;
-import org.eclipse.jface.viewers.ViewerFilter;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
@@ -61,7 +60,7 @@ public class MappingsListUI extends TableViewer {
 		setLabelProvider(labelProvider);
 		setContentProvider(contentProvider);
 		setComparator(comparator);
-		setFilters(new ViewerFilter[]{filter});
+		setFilters(filter);
 	}
 
 	private void createColumns(String[] titles, int[] bounds) {
@@ -85,7 +84,7 @@ public class MappingsListUI extends TableViewer {
 				String title = titles[i];
 				final TableViewerColumn tableViewerColumn = createTableColumn(title, bounds[i]);
 				final TableColumn tableColumn = tableViewerColumn.getColumn();
-				tableColumn.addSelectionListener(createSelectionAdapter(tableColumn, i));
+				tableColumn.addSelectionListener(createSelectionAdapter(i));
 				columns.add(tableViewerColumn);
 			}
 		}
@@ -96,9 +95,9 @@ public class MappingsListUI extends TableViewer {
 		table.setLinesVisible(true);
 	}
 
-	private SelectionAdapter createSelectionAdapter(final TableColumn column, final int index) {
+	private SelectionAdapter createSelectionAdapter(final int index) {
 
-		SelectionAdapter selectionAdapter = new SelectionAdapter() {
+		return new SelectionAdapter() {
 
 			@Override
 			public void widgetSelected(SelectionEvent e) {
@@ -109,8 +108,6 @@ public class MappingsListUI extends TableViewer {
 				refresh();
 			}
 		};
-		//
-		return selectionAdapter;
 	}
 
 	private TableViewerColumn createTableColumn(String title, int width) {

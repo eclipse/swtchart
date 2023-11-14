@@ -23,7 +23,7 @@ public abstract class AbstractPointSeriesSettings extends AbstractSeriesSettings
 	private int symbolSize;
 	private Color symbolColor;
 
-	public AbstractPointSeriesSettings() {
+	protected AbstractPointSeriesSettings() {
 
 		symbolType = PlotSymbolType.NONE;
 		symbolSize = 8;

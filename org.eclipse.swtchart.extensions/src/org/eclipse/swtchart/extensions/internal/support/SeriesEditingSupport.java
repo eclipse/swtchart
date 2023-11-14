@@ -30,33 +30,33 @@ import org.eclipse.swtchart.extensions.core.SeriesMapper;
 public class SeriesEditingSupport extends EditingSupport {
 
 	private SeriesListUI seriesListUI;
-	private String title = "";
+	private int columnIndex = 0;
 
-	public SeriesEditingSupport(SeriesListUI seriesListUI, String title) {
+	public SeriesEditingSupport(SeriesListUI seriesListUI, int columnIndex) {
 
 		super(seriesListUI);
+		this.columnIndex = columnIndex;
 		this.seriesListUI = seriesListUI;
-		this.title = title;
 	}
 
 	@Override
 	protected boolean canEdit(Object element) {
 
 		boolean canEdit;
-		switch(title) {
-			case SeriesLabelProvider.VISIBLE:
+		switch(columnIndex) {
+			case SeriesLabelProvider.INDEX_VISIBLE:
 				canEdit = true;
 				break;
-			case SeriesLabelProvider.VISIBLE_IN_LEGEND:
+			case SeriesLabelProvider.INDEX_VISIBLE_IN_LEGEND:
 				canEdit = true;
 				break;
-			case SeriesLabelProvider.COLOR:
+			case SeriesLabelProvider.INDEX_COLOR:
 				canEdit = true;
 				break;
-			case SeriesLabelProvider.DESCRIPTION:
+			case SeriesLabelProvider.INDEX_DESCRIPTION:
 				canEdit = true;
 				break;
-			case SeriesLabelProvider.MAPPING_STATUS:
+			case SeriesLabelProvider.INDEX_MAPPING_STATUS:
 				canEdit = true;
 				break;
 			default:
@@ -70,20 +70,20 @@ public class SeriesEditingSupport extends EditingSupport {
 	protected CellEditor getCellEditor(Object element) {
 
 		CellEditor cellEditor;
-		switch(title) {
-			case SeriesLabelProvider.VISIBLE:
+		switch(columnIndex) {
+			case SeriesLabelProvider.INDEX_VISIBLE:
 				cellEditor = new CheckboxCellEditor(seriesListUI.getTable());
 				break;
-			case SeriesLabelProvider.VISIBLE_IN_LEGEND:
+			case SeriesLabelProvider.INDEX_VISIBLE_IN_LEGEND:
 				cellEditor = new CheckboxCellEditor(seriesListUI.getTable());
 				break;
-			case SeriesLabelProvider.COLOR:
+			case SeriesLabelProvider.INDEX_COLOR:
 				cellEditor = new ColorCellEditor(seriesListUI.getTable());
 				break;
-			case SeriesLabelProvider.DESCRIPTION:
+			case SeriesLabelProvider.INDEX_DESCRIPTION:
 				cellEditor = new TextCellEditor(seriesListUI.getTable());
 				break;
-			case SeriesLabelProvider.MAPPING_STATUS:
+			case SeriesLabelProvider.INDEX_MAPPING_STATUS:
 				cellEditor = new CheckboxCellEditor(seriesListUI.getTable());
 				break;
 			default:
@@ -105,21 +105,21 @@ public class SeriesEditingSupport extends EditingSupport {
 			BaseChart baseChart = seriesListUI.getBaseChart();
 			ISeriesSettings seriesSettings = baseChart.getSeriesSettings(series.getId());
 			//
-			switch(title) {
-				case SeriesLabelProvider.VISIBLE:
+			switch(columnIndex) {
+				case SeriesLabelProvider.INDEX_VISIBLE:
 					object = seriesSettings.isVisible();
 					break;
-				case SeriesLabelProvider.VISIBLE_IN_LEGEND:
+				case SeriesLabelProvider.INDEX_VISIBLE_IN_LEGEND:
 					object = seriesSettings.isVisibleInLegend();
 					break;
-				case SeriesLabelProvider.COLOR:
+				case SeriesLabelProvider.INDEX_COLOR:
 					Color color = SeriesLabelProvider.getColor(seriesSettings);
 					object = color != null ? color.getRGB() : null;
 					break;
-				case SeriesLabelProvider.DESCRIPTION:
+				case SeriesLabelProvider.INDEX_DESCRIPTION:
 					object = seriesSettings.getDescription();
 					break;
-				case SeriesLabelProvider.MAPPING_STATUS:
+				case SeriesLabelProvider.INDEX_MAPPING_STATUS:
 					object = (SeriesMapper.get(series, baseChart) != null);
 					break;
 				default:
@@ -141,24 +141,23 @@ public class SeriesEditingSupport extends EditingSupport {
 			BaseChart baseChart = getBaseChart();
 			ISeriesSettings seriesSettings = baseChart.getSeriesSettings(series.getId());
 			//
-			switch(title) {
-				case SeriesLabelProvider.VISIBLE:
+			switch(columnIndex) {
+				case SeriesLabelProvider.INDEX_VISIBLE:
 					seriesSettings.setVisible(Boolean.valueOf(object.toString()));
 					break;
-				case SeriesLabelProvider.VISIBLE_IN_LEGEND:
+				case SeriesLabelProvider.INDEX_VISIBLE_IN_LEGEND:
 					seriesSettings.setVisibleInLegend(Boolean.valueOf(object.toString()));
 					break;
-				case SeriesLabelProvider.COLOR:
-					if(object instanceof RGB) {
-						RGB rgbNew = (RGB)object;
+				case SeriesLabelProvider.INDEX_COLOR:
+					if(object instanceof RGB rgbNew) {
 						Color color = ResourceSupport.getColor(rgbNew);
 						SeriesLabelProvider.setColor(seriesSettings, color);
 					}
 					break;
-				case SeriesLabelProvider.DESCRIPTION:
+				case SeriesLabelProvider.INDEX_DESCRIPTION:
 					seriesSettings.setDescription(object.toString());
 					break;
-				case SeriesLabelProvider.MAPPING_STATUS:
+				case SeriesLabelProvider.INDEX_MAPPING_STATUS:
 					boolean map = Boolean.valueOf(object.toString());
 					if(map) {
 						SeriesMapper.map(series, baseChart);

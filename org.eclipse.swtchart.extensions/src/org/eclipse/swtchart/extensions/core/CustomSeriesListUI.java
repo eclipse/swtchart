@@ -37,7 +37,7 @@ public class CustomSeriesListUI extends AbstractSeriesListUI {
 	private static final String[] TITLES = CustomSeriesLabelProvider.TITLES;
 	private static final int[] BOUNDS = CustomSeriesLabelProvider.BOUNDS;
 	//
-	private static final String COLUMN_DELIMITER = " ";
+	private static final String COLUMN_DELIMITER = " "; //$NON-NLS-1$
 	//
 	private CustomSeriesLabelProvider labelProvider = new CustomSeriesLabelProvider();
 	private IContentProvider contentProvider = ArrayContentProvider.getInstance();
@@ -92,7 +92,7 @@ public class CustomSeriesListUI extends AbstractSeriesListUI {
 				String title = titles[i];
 				final TableViewerColumn tableViewerColumn = createTableColumn(title, bounds[i]);
 				final TableColumn tableColumn = tableViewerColumn.getColumn();
-				tableColumn.addSelectionListener(createSelectionAdapter(tableColumn, i));
+				tableColumn.addSelectionListener(createSelectionAdapter(i));
 				columns.add(tableViewerColumn);
 			}
 		}
@@ -103,9 +103,9 @@ public class CustomSeriesListUI extends AbstractSeriesListUI {
 		table.setLinesVisible(true);
 	}
 
-	private SelectionAdapter createSelectionAdapter(final TableColumn column, final int index) {
+	private SelectionAdapter createSelectionAdapter(final int index) {
 
-		SelectionAdapter selectionAdapter = new SelectionAdapter() {
+		return new SelectionAdapter() {
 
 			@Override
 			public void widgetSelected(SelectionEvent e) {
@@ -116,8 +116,6 @@ public class CustomSeriesListUI extends AbstractSeriesListUI {
 				refresh();
 			}
 		};
-		//
-		return selectionAdapter;
 	}
 
 	private TableViewerColumn createTableColumn(String title, int width) {
@@ -145,12 +143,9 @@ public class CustomSeriesListUI extends AbstractSeriesListUI {
 
 	private void setEditSupport() {
 
-		for(TableViewerColumn tableViewerColumn : columns) {
-			/*
-			 * Edit Support
-			 */
-			String title = tableViewerColumn.getColumn().getText();
-			tableViewerColumn.setEditingSupport(new CustomSeriesEditingSupport(this, title));
+		for(int i = 0; i < columns.size(); i++) {
+			TableViewerColumn tableViewerColumn = columns.get(i);
+			tableViewerColumn.setEditingSupport(new CustomSeriesEditingSupport(this, i));
 		}
 	}
 

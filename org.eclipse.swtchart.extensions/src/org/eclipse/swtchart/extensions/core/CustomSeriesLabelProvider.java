@@ -19,19 +19,14 @@ import org.eclipse.swtchart.extensions.model.ICustomSeries;
 
 public class CustomSeriesLabelProvider extends ColumnLabelProvider implements ITableLabelProvider {
 
-	public static final String ID = "ID";
-	public static final String DRAW = "Draw";
-	public static final String LABEL = "Label";
-	public static final String DESCRIPTION = "Description";
-	//
 	public static final int INDEX_ID = 0;
 	public static final int INDEX_DRAW = 1;
 	//
 	public static final String[] TITLES = { //
-			ID, //
-			DRAW, //
-			LABEL, //
-			DESCRIPTION, //
+			Messages.getString(Messages.ID), //
+			Messages.getString(Messages.DRAW), //
+			Messages.getString(Messages.LABEL), //
+			Messages.getString(Messages.DESCRIPTION), //
 	};
 	//
 	public static final int[] BOUNDS = { //
@@ -59,14 +54,14 @@ public class CustomSeriesLabelProvider extends ColumnLabelProvider implements IT
 	@Override
 	public String getColumnText(Object element, int columnIndex) {
 
-		String text = "";
+		String text = ""; //$NON-NLS-1$
 		if(element instanceof ICustomSeries customPaintSeries) {
 			switch(columnIndex) {
 				case 0:
 					text = customPaintSeries.getId();
 					break;
 				case 1:
-					text = "";
+					text = ""; //$NON-NLS-1$
 					break;
 				case 2:
 					text = customPaintSeries.getLabel();
@@ -75,7 +70,7 @@ public class CustomSeriesLabelProvider extends ColumnLabelProvider implements IT
 					text = customPaintSeries.getDescription();
 					break;
 				default:
-					text = "";
+					text = ""; //$NON-NLS-1$
 					break;
 			}
 		}

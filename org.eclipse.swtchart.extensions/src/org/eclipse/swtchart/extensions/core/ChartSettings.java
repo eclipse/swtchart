@@ -228,7 +228,7 @@ public class ChartSettings implements IChartSettings {
 		 * GTK3 - https://github.com/eclipse/swtchart/issues/166
 		 */
 		if(isMacOS()) {
-			System.out.println("Can't set buffer selection on macOS true, see: https://github.com/eclipse/swtchart/issues/150");
+			System.out.println("Can't set buffer selection on macOS true, see: https://github.com/eclipse/swtchart/issues/150"); //$NON-NLS-1$
 			this.bufferSelection = false;
 		} else {
 			this.bufferSelection = bufferSelection;
@@ -733,9 +733,9 @@ public class ChartSettings implements IChartSettings {
 
 	private boolean isMacOS() {
 
-		String os = System.getProperty("os.name");
+		String os = System.getProperty("os.name"); //$NON-NLS-1$
 		if(os != null) {
-			return os.toLowerCase().indexOf("mac") >= 0;
+			return os.toLowerCase().indexOf("mac") >= 0; //$NON-NLS-1$
 		}
 		return false;
 	}
