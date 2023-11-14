@@ -1223,8 +1223,8 @@ public class BaseChart extends AbstractExtendedChart implements IChartDataCoordi
 			axisSettings = getYAxisSettings(id);
 		}
 		//
-		if(axisSettings instanceof ISecondaryAxisSettings) {
-			axisScaleConverter = ((ISecondaryAxisSettings)axisSettings).getAxisScaleConverter();
+		if(axisSettings instanceof ISecondaryAxisSettings secondaryAxisSettings) {
+			axisScaleConverter = secondaryAxisSettings.getAxisScaleConverter();
 		}
 		//
 		return axisScaleConverter;

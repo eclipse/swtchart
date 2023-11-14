@@ -463,8 +463,8 @@ public class ScrollableChart extends Composite implements IScrollableChart, IEve
 
 		BaseChart chart = getBaseChart();
 		IPlotArea plot = chart.getPlotArea();
-		if(plot instanceof Control) {
-			((Control)plot).redraw();
+		if(plot instanceof Control control) {
+			control.redraw();
 		} else {
 			chart.redraw();
 		}
@@ -919,8 +919,7 @@ public class ScrollableChart extends Composite implements IScrollableChart, IEve
 			 * No menu
 			 */
 			IPlotArea area = baseChart.getPlotArea();
-			if(area instanceof Control) {
-				Control control = (Control)area;
+			if(area instanceof Control control) {
 				Menu menu = control.getMenu();
 				if(menu != null) {
 					menu.dispose();
@@ -1291,11 +1290,10 @@ public class ScrollableChart extends Composite implements IScrollableChart, IEve
 			/*
 			 * Apply primary axis specific settings.
 			 */
-			if(axisSettings instanceof IPrimaryAxisSettings) {
+			if(axisSettings instanceof IPrimaryAxisSettings primaryAxisSettings) {
 				/*
 				 * Category is only valid for the X-Axis.
 				 */
-				IPrimaryAxisSettings primaryAxisSettings = (IPrimaryAxisSettings)axisSettings;
 				if(axis.getDirection() == Direction.X) {
 					axis.enableCategory(primaryAxisSettings.isEnableCategory());
 					axis.setCategorySeries(primaryAxisSettings.getCategorySeries());
@@ -1560,8 +1558,7 @@ public class ScrollableChart extends Composite implements IScrollableChart, IEve
 		 * Add the listeners.
 		 */
 		IPlotArea area = baseChart.getPlotArea();
-		if(area instanceof Control) {
-			Control plotArea = (Control)area;
+		if(area instanceof Control plotArea) {
 			plotArea.addListener(SWT.KeyDown, this);
 			plotArea.addListener(SWT.KeyUp, this);
 			plotArea.addListener(SWT.MouseMove, this);
@@ -1700,8 +1697,7 @@ public class ScrollableChart extends Composite implements IScrollableChart, IEve
 	private void createPopupMenu() {
 
 		IPlotArea area = baseChart.getPlotArea();
-		if(area instanceof Control) {
-			Control plotArea = (Control)area;
+		if(area instanceof Control plotArea) {
 			Menu menu = new Menu(plotArea);
 			Menu currentMenu = plotArea.getMenu();
 			if(currentMenu != null) {

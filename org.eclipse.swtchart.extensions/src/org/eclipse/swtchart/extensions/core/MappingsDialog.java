@@ -106,28 +106,23 @@ public class MappingsDialog extends Dialog {
 			public void mouseDoubleClick(MouseEvent e) {
 
 				Object object = mappingsListUI.getStructuredSelection().getFirstElement();
-				if(object instanceof MappedSeriesSettings) {
+				if(object instanceof MappedSeriesSettings mappedSeriesSettings) {
 					/*
 					 * Series
 					 */
-					MappedSeriesSettings mappedSeriesSettings = (MappedSeriesSettings)object;
 					ISeriesSettings seriesSettings = mappedSeriesSettings.getSeriesSettings();
 					Shell shell = e.display.getActiveShell();
 					AbstractSeriesSettingsDialog<?> settingsDialog = null;
 					/*
 					 * Dialog
 					 */
-					if(seriesSettings instanceof IBarSeriesSettings) {
-						IBarSeriesSettings settings = (IBarSeriesSettings)seriesSettings;
+					if(seriesSettings instanceof IBarSeriesSettings settings) {
 						settingsDialog = new BarSeriesSettingsDialog(shell, settings);
-					} else if(seriesSettings instanceof ICircularSeriesSettings) {
-						ICircularSeriesSettings settings = (ICircularSeriesSettings)seriesSettings;
+					} else if(seriesSettings instanceof ICircularSeriesSettings settings) {
 						settingsDialog = new CircularSeriesSettingsDialog(shell, settings);
-					} else if(seriesSettings instanceof ILineSeriesSettings) {
-						ILineSeriesSettings settings = (ILineSeriesSettings)seriesSettings;
+					} else if(seriesSettings instanceof ILineSeriesSettings settings) {
 						settingsDialog = new LineSeriesSettingsDialog(shell, settings);
-					} else if(seriesSettings instanceof IScatterSeriesSettings) {
-						IScatterSeriesSettings settings = (IScatterSeriesSettings)seriesSettings;
+					} else if(seriesSettings instanceof IScatterSeriesSettings settings) {
 						settingsDialog = new ScatterSeriesSettingsDialog(shell, settings);
 					}
 					/*
@@ -218,8 +213,7 @@ public class MappingsDialog extends Dialog {
 					Iterator<?> iterator = listControl.get().getStructuredSelection().iterator();
 					while(iterator.hasNext()) {
 						Object object = iterator.next();
-						if(object instanceof MappedSeriesSettings) {
-							MappedSeriesSettings mappedSeriesSettings = (MappedSeriesSettings)object;
+						if(object instanceof MappedSeriesSettings mappedSeriesSettings) {
 							MappingsKey mappingsKey = new MappingsKey(mappedSeriesSettings.getMappingsType(), mappedSeriesSettings.getIdentifier());
 							SeriesMapper.remove(mappingsKey);
 						}

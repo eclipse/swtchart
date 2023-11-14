@@ -351,11 +351,10 @@ public class ExtendedLegendUI extends Composite {
 			public void mouseDoubleClick(MouseEvent e) {
 
 				Object object = seriesListUI.getStructuredSelection().getFirstElement();
-				if(object instanceof ISeries<?>) {
+				if(object instanceof ISeries<?> series) {
 					/*
 					 * Series
 					 */
-					ISeries<?> series = (ISeries<?>)object;
 					BaseChart baseChart = scrollableChart.getBaseChart();
 					ISeriesSettings seriesSettings = baseChart.getSeriesSettings(series.getId());
 					Shell shell = e.display.getActiveShell();
@@ -363,17 +362,13 @@ public class ExtendedLegendUI extends Composite {
 					/*
 					 * Dialog
 					 */
-					if(seriesSettings instanceof IBarSeriesSettings) {
-						IBarSeriesSettings settings = (IBarSeriesSettings)seriesSettings;
+					if(seriesSettings instanceof IBarSeriesSettings settings) {
 						settingsDialog = new BarSeriesSettingsDialog(shell, settings);
-					} else if(seriesSettings instanceof ICircularSeriesSettings) {
-						ICircularSeriesSettings settings = (ICircularSeriesSettings)seriesSettings;
+					} else if(seriesSettings instanceof ICircularSeriesSettings settings) {
 						settingsDialog = new CircularSeriesSettingsDialog(shell, settings);
-					} else if(seriesSettings instanceof ILineSeriesSettings) {
-						ILineSeriesSettings settings = (ILineSeriesSettings)seriesSettings;
+					} else if(seriesSettings instanceof ILineSeriesSettings settings) {
 						settingsDialog = new LineSeriesSettingsDialog(shell, settings);
-					} else if(seriesSettings instanceof IScatterSeriesSettings) {
-						IScatterSeriesSettings settings = (IScatterSeriesSettings)seriesSettings;
+					} else if(seriesSettings instanceof IScatterSeriesSettings settings) {
 						settingsDialog = new ScatterSeriesSettingsDialog(shell, settings);
 					}
 					/*
@@ -423,7 +418,7 @@ public class ExtendedLegendUI extends Composite {
 					try {
 						clipboard.setContents(data, dataTypes);
 					} finally {
-						if(clipboard != null && !clipboard.isDisposed()) {
+						if(!clipboard.isDisposed()) {
 							clipboard.dispose();
 						}
 					}
@@ -517,8 +512,7 @@ public class ExtendedLegendUI extends Composite {
 		if(composite != null) {
 			composite.setVisible(visible);
 			Object layoutData = composite.getLayoutData();
-			if(layoutData instanceof GridData) {
-				GridData gridData = (GridData)layoutData;
+			if(layoutData instanceof GridData gridData) {
 				gridData.exclude = !visible;
 			}
 			Composite parent = composite.getParent();

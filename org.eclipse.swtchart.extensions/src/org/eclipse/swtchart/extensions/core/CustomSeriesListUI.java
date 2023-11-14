@@ -92,7 +92,7 @@ public class CustomSeriesListUI extends AbstractSeriesListUI {
 				String title = titles[i];
 				final TableViewerColumn tableViewerColumn = createTableColumn(title, bounds[i]);
 				final TableColumn tableColumn = tableViewerColumn.getColumn();
-				tableColumn.addSelectionListener(createSelectionAdapter(tableColumn, i));
+				tableColumn.addSelectionListener(createSelectionAdapter(i));
 				columns.add(tableViewerColumn);
 			}
 		}
@@ -103,9 +103,9 @@ public class CustomSeriesListUI extends AbstractSeriesListUI {
 		table.setLinesVisible(true);
 	}
 
-	private SelectionAdapter createSelectionAdapter(final TableColumn column, final int index) {
+	private SelectionAdapter createSelectionAdapter(final int index) {
 
-		SelectionAdapter selectionAdapter = new SelectionAdapter() {
+		return new SelectionAdapter() {
 
 			@Override
 			public void widgetSelected(SelectionEvent e) {
@@ -116,8 +116,6 @@ public class CustomSeriesListUI extends AbstractSeriesListUI {
 				refresh();
 			}
 		};
-		//
-		return selectionAdapter;
 	}
 
 	private TableViewerColumn createTableColumn(String title, int width) {

@@ -110,9 +110,9 @@ public class ResourceSupport extends Resources {
 	public static void savePreferenceStore() {
 
 		IPreferenceStore preferenceStore = getPreferenceStore();
-		if(preferenceStore instanceof PreferenceStore) {
+		if(preferenceStore instanceof PreferenceStore savablePreferenceStore) {
 			try {
-				((PreferenceStore)preferenceStore).save();
+				savablePreferenceStore.save();
 			} catch(IOException e) {
 				e.printStackTrace();
 			}

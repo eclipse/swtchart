@@ -17,7 +17,7 @@ import org.eclipse.swt.widgets.Composite;
 
 public abstract class AbstractSeriesListUI extends TableViewer {
 
-	public AbstractSeriesListUI(Composite parent, int style) {
+	protected AbstractSeriesListUI(Composite parent, int style) {
 
 		super(parent, style);
 	}

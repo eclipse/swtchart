@@ -127,9 +127,8 @@ public class BarSeriesSettings extends AbstractSeriesSettings implements IBarSer
 	public boolean transfer(ISeriesSettings seriesSettingsSink) {
 
 		boolean success = false;
-		if(seriesSettingsSink instanceof IBarSeriesSettings) {
+		if(seriesSettingsSink instanceof IBarSeriesSettings sink) {
 			IBarSeriesSettings source = this;
-			IBarSeriesSettings sink = (IBarSeriesSettings)seriesSettingsSink;
 			sink.setDescription(source.getDescription());
 			sink.setVisible(source.isVisible());
 			sink.setVisibleInLegend(source.isVisibleInLegend());

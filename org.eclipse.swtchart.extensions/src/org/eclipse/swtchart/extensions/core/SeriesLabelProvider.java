@@ -66,14 +66,14 @@ public class SeriesLabelProvider extends ColumnLabelProvider implements ITableLa
 
 		Color color = null;
 		//
-		if(seriesSettings instanceof IBarSeriesSettings) {
-			color = ((IBarSeriesSettings)seriesSettings).getBarColor();
-		} else if(seriesSettings instanceof ILineSeriesSettings) {
-			color = ((ILineSeriesSettings)seriesSettings).getLineColor();
-		} else if(seriesSettings instanceof IScatterSeriesSettings) {
-			color = ((IScatterSeriesSettings)seriesSettings).getSymbolColor();
-		} else if(seriesSettings instanceof ICircularSeriesSettings) {
-			color = ((ICircularSeriesSettings)seriesSettings).getSliceColor();
+		if(seriesSettings instanceof IBarSeriesSettings barSeriesSettings) {
+			color = barSeriesSettings.getBarColor();
+		} else if(seriesSettings instanceof ILineSeriesSettings lineSeriesSettings) {
+			color = lineSeriesSettings.getLineColor();
+		} else if(seriesSettings instanceof IScatterSeriesSettings scatterSeriesSettings) {
+			color = scatterSeriesSettings.getSymbolColor();
+		} else if(seriesSettings instanceof ICircularSeriesSettings circularSeriesSettings) {
+			color = circularSeriesSettings.getSliceColor();
 		}
 		//
 		return color;
@@ -89,14 +89,14 @@ public class SeriesLabelProvider extends ColumnLabelProvider implements ITableLa
 	public static void setColor(ISeriesSettings seriesSettings, Color color) {
 
 		if(color != null) {
-			if(seriesSettings instanceof IBarSeriesSettings) {
-				((IBarSeriesSettings)seriesSettings).setBarColor(color);
-			} else if(seriesSettings instanceof ILineSeriesSettings) {
-				((ILineSeriesSettings)seriesSettings).setLineColor(color);
-			} else if(seriesSettings instanceof IScatterSeriesSettings) {
-				((IScatterSeriesSettings)seriesSettings).setSymbolColor(color);
-			} else if(seriesSettings instanceof ICircularSeriesSettings) {
-				((ICircularSeriesSettings)seriesSettings).setSliceColor(color);
+			if(seriesSettings instanceof IBarSeriesSettings barSeriesSettings) {
+				barSeriesSettings.setBarColor(color);
+			} else if(seriesSettings instanceof ILineSeriesSettings lineSeriesSettings) {
+				lineSeriesSettings.setLineColor(color);
+			} else if(seriesSettings instanceof IScatterSeriesSettings scatterSeriesSettings) {
+				scatterSeriesSettings.setSymbolColor(color);
+			} else if(seriesSettings instanceof ICircularSeriesSettings circularSeriesSettings) {
+				circularSeriesSettings.setSliceColor(color);
 			}
 		}
 	}
@@ -109,11 +109,10 @@ public class SeriesLabelProvider extends ColumnLabelProvider implements ITableLa
 	@Override
 	public Image getColumnImage(Object element, int columnIndex) {
 
-		if(element instanceof ISeries<?>) {
+		if(element instanceof ISeries<?> series) {
 			/*
 			 * CheckBoxes
 			 */
-			ISeries<?> series = (ISeries<?>)element;
 			Image seriesMarker = ResourceSupport.getImage(ResourceSupport.ICON_SERIES_MARKER);
 			Image checked = ResourceSupport.getImage(ResourceSupport.ICON_CHECKED);
 			Image unchecked = ResourceSupport.getImage(ResourceSupport.ICON_UNCHECKED);

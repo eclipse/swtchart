@@ -69,7 +69,7 @@ public abstract class AbstractExtendedChart extends AbstractHandledChart impleme
 	private Map<String, ISeriesSettings> seriesSettingsMap = new HashMap<>();
 	private Map<String, ISeriesSettings> seriesSettingsMapReset = new HashMap<>();
 
-	public AbstractExtendedChart(Composite parent, int style) {
+	protected AbstractExtendedChart(Composite parent, int style) {
 
 		super(parent, style);
 		resetCoordinates();
@@ -542,8 +542,8 @@ public abstract class AbstractExtendedChart extends AbstractHandledChart impleme
 			if(id != BaseChart.ID_PRIMARY_X_AXIS) {
 				IAxis axis = axisSet.getXAxis(id);
 				IAxisSettings axisSettings = xAxisSettingsMap.get(id);
-				if(axis != null && axisSettings instanceof ISecondaryAxisSettings) {
-					IAxisScaleConverter axisScaleConverter = ((ISecondaryAxisSettings)axisSettings).getAxisScaleConverter();
+				if(axis != null && axisSettings instanceof ISecondaryAxisSettings secondaryAxisSettings) {
+					IAxisScaleConverter axisScaleConverter = secondaryAxisSettings.getAxisScaleConverter();
 					axisScaleConverter.setChartDataCoordinates(this);
 					double start = axisScaleConverter.convertToSecondaryUnit(range.lower);
 					double end = axisScaleConverter.convertToSecondaryUnit(range.upper);
@@ -568,8 +568,8 @@ public abstract class AbstractExtendedChart extends AbstractHandledChart impleme
 			if(id != BaseChart.ID_PRIMARY_Y_AXIS) {
 				IAxis axis = axisSet.getYAxis(id);
 				IAxisSettings axisSettings = yAxisSettingsMap.get(id);
-				if(axis != null && axisSettings instanceof ISecondaryAxisSettings) {
-					IAxisScaleConverter axisScaleConverter = ((ISecondaryAxisSettings)axisSettings).getAxisScaleConverter();
+				if(axis != null && axisSettings instanceof ISecondaryAxisSettings secondaryAxisSettings) {
+					IAxisScaleConverter axisScaleConverter = secondaryAxisSettings.getAxisScaleConverter();
 					axisScaleConverter.setChartDataCoordinates(this);
 					double start = axisScaleConverter.convertToSecondaryUnit(range.lower);
 					double end = axisScaleConverter.convertToSecondaryUnit(range.upper);
