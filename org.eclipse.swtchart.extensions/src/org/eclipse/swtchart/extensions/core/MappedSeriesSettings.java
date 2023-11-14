@@ -14,14 +14,14 @@ package org.eclipse.swtchart.extensions.core;
 
 public class MappedSeriesSettings {
 
-	public static final String DESCRIPTION = "Mapped Series Settings";
-	public static final String FILE_EXTENSION = ".mss";
-	public static final String FILE_NAME = DESCRIPTION.replaceAll("\\s", "") + FILE_EXTENSION;
-	public static final String FILTER_EXTENSION = "*" + FILE_EXTENSION;
-	public static final String FILTER_NAME = DESCRIPTION + " (*" + FILE_EXTENSION + ")";
+	public static final String DESCRIPTION = Messages.getString(Messages.MAPPED_SERIES_SETTINGS);
+	public static final String FILE_EXTENSION = ".mss"; //$NON-NLS-1$
+	public static final String FILE_NAME = DESCRIPTION.replaceAll("\\s", "") + FILE_EXTENSION; //$NON-NLS-1$ //$NON-NLS-2$
+	public static final String FILTER_EXTENSION = "*" + FILE_EXTENSION; //$NON-NLS-1$
+	public static final String FILTER_NAME = DESCRIPTION + " (*" + FILE_EXTENSION + ")"; //$NON-NLS-1$ //$NON-NLS-2$
 	//
 	private MappingsType mappingsType = null;
-	private String identifier = "";
+	private String identifier = ""; //$NON-NLS-1$
 	private ISeriesSettings seriesSettings = null;
 
 	public MappedSeriesSettings(String identifier, ISeriesSettings seriesSettings) {
@@ -38,7 +38,7 @@ public class MappedSeriesSettings {
 	public MappedSeriesSettings(MappingsType mappingsType, String identifier, ISeriesSettings seriesSettings) {
 
 		this.mappingsType = mappingsType;
-		this.identifier = identifier != null ? identifier : "";
+		this.identifier = identifier != null ? identifier : ""; //$NON-NLS-1$
 		this.seriesSettings = seriesSettings;
 	}
 
@@ -54,7 +54,7 @@ public class MappedSeriesSettings {
 
 	public String getDescription() {
 
-		return seriesSettings != null ? seriesSettings.getDescription() : "";
+		return seriesSettings != null ? seriesSettings.getDescription() : ""; //$NON-NLS-1$
 	}
 
 	/**

@@ -37,7 +37,7 @@ public class CustomSeriesListUI extends AbstractSeriesListUI {
 	private static final String[] TITLES = CustomSeriesLabelProvider.TITLES;
 	private static final int[] BOUNDS = CustomSeriesLabelProvider.BOUNDS;
 	//
-	private static final String COLUMN_DELIMITER = " ";
+	private static final String COLUMN_DELIMITER = " "; //$NON-NLS-1$
 	//
 	private CustomSeriesLabelProvider labelProvider = new CustomSeriesLabelProvider();
 	private IContentProvider contentProvider = ArrayContentProvider.getInstance();
@@ -143,12 +143,9 @@ public class CustomSeriesListUI extends AbstractSeriesListUI {
 
 	private void setEditSupport() {
 
-		for(TableViewerColumn tableViewerColumn : columns) {
-			/*
-			 * Edit Support
-			 */
-			String title = tableViewerColumn.getColumn().getText();
-			tableViewerColumn.setEditingSupport(new CustomSeriesEditingSupport(this, title));
+		for(int i = 0; i < columns.size(); i++) {
+			TableViewerColumn tableViewerColumn = columns.get(i);
+			tableViewerColumn.setEditingSupport(new CustomSeriesEditingSupport(this, i));
 		}
 	}
 

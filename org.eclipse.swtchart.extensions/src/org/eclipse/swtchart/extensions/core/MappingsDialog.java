@@ -89,7 +89,7 @@ public class MappingsDialog extends Dialog {
 		createToolbarInfo(composite);
 		//
 		updateInput();
-		updateToolbarInfo("");
+		updateToolbarInfo(""); //$NON-NLS-1$
 		//
 		return composite;
 	}
@@ -168,8 +168,8 @@ public class MappingsDialog extends Dialog {
 	private Button createButtonAdd(Composite parent) {
 
 		Button button = new Button(parent, SWT.PUSH);
-		button.setText("");
-		button.setToolTipText("Add a mapping.");
+		button.setText(""); //$NON-NLS-1$
+		button.setToolTipText(Messages.getString(Messages.ADD_MAPPING));
 		button.setImage(ResourceSupport.getImage(ResourceSupport.ICON_ADD));
 		button.addSelectionListener(new SelectionAdapter() {
 
@@ -185,7 +185,7 @@ public class MappingsDialog extends Dialog {
 						seriesSettings.setDescription(dialog.getDescription());
 						SeriesMapper.put(new MappingsKey(mappingsType, id), seriesSettings);
 						updateInput();
-						updateToolbarInfo("A new mapping has been added.");
+						updateToolbarInfo(Messages.getString(Messages.NEW_MAPPING_ADDED));
 					}
 				}
 			}
@@ -197,8 +197,8 @@ public class MappingsDialog extends Dialog {
 	private Button createButtonDelete(Composite parent) {
 
 		Button button = new Button(parent, SWT.PUSH);
-		button.setText("");
-		button.setToolTipText("Delete the selected mappings.");
+		button.setText(""); //$NON-NLS-1$
+		button.setToolTipText(Messages.getString(Messages.DELETE_SELECTED_MAPPING));
 		button.setImage(ResourceSupport.getImage(ResourceSupport.ICON_DELETE));
 		button.addSelectionListener(new SelectionAdapter() {
 
@@ -207,7 +207,7 @@ public class MappingsDialog extends Dialog {
 
 				MessageBox messageBox = new MessageBox(e.display.getActiveShell(), SWT.ICON_QUESTION | SWT.YES | SWT.NO);
 				messageBox.setText(MappedSeriesSettings.DESCRIPTION);
-				messageBox.setMessage("Would you like to delete the selected mappings?");
+				messageBox.setMessage(Messages.getString(Messages.REALLY_DELETE_SELECTED_MAPPING));
 				int decision = messageBox.open();
 				if(SWT.YES == decision) {
 					Iterator<?> iterator = listControl.get().getStructuredSelection().iterator();
@@ -220,7 +220,7 @@ public class MappingsDialog extends Dialog {
 					}
 					//
 					updateInput();
-					updateToolbarInfo("The selected mappings have been deleted.");
+					updateToolbarInfo(Messages.getString(Messages.SELECTED_MAPPING_DELETED));
 				}
 			}
 		});
@@ -231,8 +231,8 @@ public class MappingsDialog extends Dialog {
 	private Button createButtonDeleteAll(Composite parent) {
 
 		Button button = new Button(parent, SWT.PUSH);
-		button.setText("");
-		button.setToolTipText("Delete all mappings.");
+		button.setText(""); //$NON-NLS-1$
+		button.setToolTipText(Messages.getString(Messages.DELETE_ALL_MAPPINGS));
 		button.setImage(ResourceSupport.getImage(ResourceSupport.ICON_DELETE_ALL));
 		button.addSelectionListener(new SelectionAdapter() {
 
@@ -241,12 +241,12 @@ public class MappingsDialog extends Dialog {
 
 				MessageBox messageBox = new MessageBox(e.display.getActiveShell(), SWT.ICON_QUESTION | SWT.YES | SWT.NO);
 				messageBox.setText(MappedSeriesSettings.DESCRIPTION);
-				messageBox.setMessage("Would you like to delete all mappings?");
+				messageBox.setMessage(Messages.getString(Messages.REALLY_DELETE_ALL_MAPPINGS));
 				int decision = messageBox.open();
 				if(SWT.YES == decision) {
 					SeriesMapper.clear();
 					updateInput();
-					updateToolbarInfo("All mappings have been deleted.");
+					updateToolbarInfo(Messages.getString(Messages.ALL_MAPPINGS_DELETED));
 				}
 			}
 		});
@@ -257,8 +257,8 @@ public class MappingsDialog extends Dialog {
 	private Button createButtonImport(Composite parent) {
 
 		Button button = new Button(parent, SWT.PUSH);
-		button.setText("");
-		button.setToolTipText("Import");
+		button.setText(""); //$NON-NLS-1$
+		button.setToolTipText(Messages.getString(Messages.IMPORT));
 		button.setImage(ResourceSupport.getImage(ResourceSupport.ICON_IMPORT));
 		button.addSelectionListener(new SelectionAdapter() {
 
@@ -281,7 +281,7 @@ public class MappingsDialog extends Dialog {
 					}
 					//
 					updateInput();
-					updateToolbarInfo("Mappings have been imported.");
+					updateToolbarInfo(Messages.getString(Messages.MAPPINGS_IMPORTED));
 				}
 			}
 		});
@@ -292,8 +292,8 @@ public class MappingsDialog extends Dialog {
 	private Button createButtonExport(Composite parent) {
 
 		Button button = new Button(parent, SWT.PUSH);
-		button.setText("");
-		button.setToolTipText("Export");
+		button.setText(""); //$NON-NLS-1$
+		button.setToolTipText(Messages.getString(Messages.EXPORT));
 		button.setImage(ResourceSupport.getImage(ResourceSupport.ICON_EXPORT));
 		button.addSelectionListener(new SelectionAdapter() {
 
@@ -313,7 +313,7 @@ public class MappingsDialog extends Dialog {
 					ResourceSupport.savePreferenceStore();
 					File file = new File(path);
 					MappingsIO.exportSettings(file, SeriesMapper.getMappings());
-					updateToolbarInfo("Mappings have been exported.");
+					updateToolbarInfo(Messages.getString(Messages.MAPPINGS_EXPORTED));
 				}
 			}
 		});
@@ -324,8 +324,8 @@ public class MappingsDialog extends Dialog {
 	private Button createButtonSave(Composite parent) {
 
 		Button button = new Button(parent, SWT.PUSH);
-		button.setText("");
-		button.setToolTipText("Save the mappings so that they are available after restart.");
+		button.setText(""); //$NON-NLS-1$
+		button.setToolTipText(Messages.getString(Messages.SAVE_MAPPINGS));
 		button.setImage(ResourceSupport.getImage(ResourceSupport.ICON_SAVE));
 		button.addSelectionListener(new SelectionAdapter() {
 
@@ -333,7 +333,7 @@ public class MappingsDialog extends Dialog {
 			public void widgetSelected(SelectionEvent e) {
 
 				MappingsIO.persistsSettings(SeriesMapper.getMappings());
-				updateToolbarInfo("Mappings have been saved. They are available on restart now.");
+				updateToolbarInfo(Messages.getString(Messages.MAPPINGS_SAVED));
 			}
 		});
 		//

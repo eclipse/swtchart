@@ -689,7 +689,7 @@ public class ScrollableChart extends Composite implements IScrollableChart, IEve
 			setChartType(ChartType.NONE);
 		}
 		//
-		System.out.println("The following ChartType has been set using the auto-detection: " + chartType);
+		System.out.println("The following ChartType has been set using the auto-detection: " + chartType); //$NON-NLS-1$
 	}
 
 	/**
@@ -1369,7 +1369,7 @@ public class ScrollableChart extends Composite implements IScrollableChart, IEve
 		/*
 		 * CSS coordinate
 		 */
-		setData("org.eclipse.e4.ui.css.CssClassName", "ScrollableChart");
+		setData("org.eclipse.e4.ui.css.CssClassName", "ScrollableChart"); //$NON-NLS-1$ //$NON-NLS-2$
 	}
 
 	private Composite createChartSection(Composite parent) {

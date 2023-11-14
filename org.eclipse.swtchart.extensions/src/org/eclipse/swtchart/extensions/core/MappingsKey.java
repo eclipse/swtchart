@@ -16,11 +16,11 @@ import java.util.Objects;
 
 public class MappingsKey {
 
-	private static final String KEY_DELIMITER = "_";
+	private static final String KEY_DELIMITER = "_"; //$NON-NLS-1$
 	//
 	private MappingsType mappingsType = MappingsType.NONE;
-	private String id = "";
-	private String key = "";
+	private String id = ""; //$NON-NLS-1$
+	private String key = ""; //$NON-NLS-1$
 
 	/*
 	 * E.g.
@@ -101,6 +101,6 @@ public class MappingsKey {
 	@Override
 	public String toString() {
 
-		return "MappingsKey [key=" + key + "]";
+		return "MappingsKey [key=" + key + "]"; //$NON-NLS-1$ //$NON-NLS-2$
 	}
 }

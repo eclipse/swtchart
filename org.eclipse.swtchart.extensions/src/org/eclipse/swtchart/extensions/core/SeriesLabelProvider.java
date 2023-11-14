@@ -24,27 +24,22 @@ import org.eclipse.swtchart.extensions.scattercharts.IScatterSeriesSettings;
 
 public class SeriesLabelProvider extends ColumnLabelProvider implements ITableLabelProvider {
 
-	public static final String ID = "ID";
-	public static final String VISIBLE = "Visible";
-	public static final String VISIBLE_IN_LEGEND = "Visible In Legend";
-	public static final String COLOR = "Color";
-	public static final String DESCRIPTION = "Description";
-	public static final String MAPPING_STATUS = "Mapping Status";
-	//
 	public static final int INDEX_ID = 0;
 	public static final int INDEX_MAPPING_STATUS = 1;
 	public static final int INDEX_VISIBLE = 2;
 	public static final int INDEX_VISIBLE_IN_LEGEND = 3;
+	public static final int INDEX_COLOR = 4;
+	public static final int INDEX_DESCRIPTION = 5;
 	//
 	private BaseChart baseChart = null;
 	//
 	public static final String[] TITLES = { //
-			ID, //
-			MAPPING_STATUS, //
-			VISIBLE, //
-			VISIBLE_IN_LEGEND, //
-			COLOR, //
-			DESCRIPTION, //
+			Messages.getString(Messages.ID), //
+			Messages.getString(Messages.MAPPING_STATUS), //
+			Messages.getString(Messages.VISIBLE), //
+			Messages.getString(Messages.VISIBLE_IN_LEGEND), //
+			Messages.getString(Messages.COLOR), //
+			Messages.getString(Messages.DESCRIPTION), //
 	};
 	//
 	public static final int[] BOUNDS = { //
@@ -139,7 +134,7 @@ public class SeriesLabelProvider extends ColumnLabelProvider implements ITableLa
 	@Override
 	public String getColumnText(Object element, int columnIndex) {
 
-		String text = "";
+		String text = ""; //$NON-NLS-1$
 		if(element instanceof ISeries) {
 			ISeries<?> series = (ISeries<?>)element;
 			switch(columnIndex) {
@@ -147,22 +142,22 @@ public class SeriesLabelProvider extends ColumnLabelProvider implements ITableLa
 					text = series.getId();
 					break;
 				case 1:
-					text = ""; // Visible
+					text = ""; // Visible //$NON-NLS-1$
 					break;
 				case 2:
-					text = ""; // Mapping Status
+					text = ""; // Mapping Status //$NON-NLS-1$
 					break;
 				case 3:
-					text = ""; // VisibleInLegend
+					text = ""; // VisibleInLegend //$NON-NLS-1$
 					break;
 				case 4:
-					text = ""; // Color
+					text = ""; // Color //$NON-NLS-1$
 					break;
 				case 5:
 					text = series.getDescription();
 					break;
 				default:
-					text = "";
+					text = ""; //$NON-NLS-1$
 					break;
 			}
 		}

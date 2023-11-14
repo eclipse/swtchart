@@ -41,13 +41,17 @@ public class SeriesVisibilityAction extends AbstractMenuListener {
 			@Override
 			public String getText() {
 
-				return (setVisible ? "Show" : "Hide") + " Series" + (inLegend ? " in Legend" : "");
+				return setVisible //
+						? (inLegend ? Messages.getString(Messages.showSeriesInLegend) : Messages.getString(Messages.showSeries)) //
+						: (inLegend ? Messages.getString(Messages.hideSeriesInLegend) : Messages.getString(Messages.hideSeries));
 			}
 
 			@Override
 			public String getToolTipText() {
 
-				return (setVisible ? "Show" : "Hide") + " the selected series " + (inLegend ? " in legend" : "") + ".";
+				return setVisible //
+						? (inLegend ? Messages.getString(Messages.showSelectedSeriesInLegend) : Messages.getString(Messages.showSelectedSeries)) //
+						: (inLegend ? Messages.getString(Messages.hideSelectedSeriesInLegend) : Messages.getString(Messages.hideSelectedSeries));
 			}
 
 			@Override
