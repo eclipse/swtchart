@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2008, 2020 SWTChart project.
+ * Copyright (c) 2008, 2023 SWTChart project.
  *
  * This program and the accompanying materials are made
  * available under the terms of the Eclipse Public License 2.0
@@ -61,15 +61,17 @@ public class CustomPaintListenerExample {
 	 *            The parent composite
 	 * @return The created chart
 	 */
-	static public Chart createChart(Composite parent) {
+	public static Chart createChart(Composite parent) {
 
 		// create a chart
 		Chart chart = new Chart(parent, SWT.NONE);
 		chart.getTitle().setText("Custom Paint Listener");
+		chart.getPlotArea().setBackground(parent.getDisplay().getSystemColor(SWT.COLOR_WHITE));
+		chart.setBackground(parent.getDisplay().getSystemColor(SWT.COLOR_WHITE));
 		ISeries<?> lineSeries = chart.getSeriesSet().createSeries(SeriesType.LINE, "line series");
 		lineSeries.setYSeries(ySeries);
 		// add paint listeners
-		IPlotArea plotArea = (IPlotArea)chart.getPlotArea();
+		IPlotArea plotArea = chart.getPlotArea();
 		plotArea.addCustomPaintListener(new FrontPaintListener());
 		plotArea.addCustomPaintListener(new BehindPaintListener());
 		// adjust the axis range

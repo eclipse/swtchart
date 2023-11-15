@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2022 Lablicate GmbH.
+ * Copyright (c) 2022, 2023 Lablicate GmbH.
  *
  * This program and the accompanying materials are made
  * available under the terms of the Eclipse Public License 2.0
@@ -53,6 +53,9 @@ public class DemoBoxPlotChart {
 		chartSettings.setBufferSelection(true);
 		chartSettings.setHorizontalSliderVisible(false);
 		chartSettings.setVerticalSliderVisible(false);
+		chartSettings.setBackground(display.getSystemColor(SWT.COLOR_WHITE));
+		chartSettings.setBackgroundChart(display.getSystemColor(SWT.COLOR_WHITE));
+		chartSettings.setBackgroundPlotArea(display.getSystemColor(SWT.COLOR_WHITE));
 		RangeRestriction rangeRestriction = chartSettings.getRangeRestriction();
 		rangeRestriction.setExtendTypeX(ExtendType.ABSOLUTE);
 		rangeRestriction.setExtendMinX(0.5d);

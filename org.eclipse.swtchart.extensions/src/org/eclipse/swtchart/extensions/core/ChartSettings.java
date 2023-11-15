@@ -77,7 +77,7 @@ public class ChartSettings implements IChartSettings {
 	 * title is set and WHITE is used to hide it.
 	 */
 	private String title = Messages.getString(Messages.CHART_TITLE);
-	private boolean titleVisible = true;
+	private boolean titleVisible = false;
 	private Color titleColor;
 	private Font titleFont;
 	//
@@ -131,7 +131,11 @@ public class ChartSettings implements IChartSettings {
 		//
 		colorHintRangeSelector = display.getSystemColor(SWT.COLOR_RED);
 		//
-		titleColor = display.getSystemColor(SWT.COLOR_TITLE_FOREGROUND);
+		if(Display.isSystemDarkTheme()) {
+			titleColor = display.getSystemColor(SWT.COLOR_WHITE);
+		} else {
+			titleColor = display.getSystemColor(SWT.COLOR_BLACK);
+		}
 		titleFont = defaultFont;
 		//
 		rangeRestriction.setZeroX(true);

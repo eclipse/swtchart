@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2022 SWTChart project.
+ * Copyright (c) 2022, 2023 SWTChart project.
  *
  * This program and the accompanying materials are made
  * available under the terms of the Eclipse Public License 2.0
@@ -12,12 +12,14 @@
  *******************************************************************************/
 package org.eclipse.swtchart.extensions.examples.charts;
 
+import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swtchart.IAxis;
 import org.eclipse.swtchart.Range;
 import org.eclipse.swtchart.extensions.core.BaseChart;
+import org.eclipse.swtchart.extensions.core.IChartSettings;
 import org.eclipse.swtchart.extensions.core.ScrollableChart;
 import org.eclipse.swtchart.extensions.examples.parts.BarSeries_1_1_Part;
 
@@ -32,6 +34,11 @@ public class FixedRangeChart {
 		shell.setLayout(new FillLayout());
 		//
 		ScrollableChart scrollableChart = new BarSeries_1_1_Part(shell);
+		IChartSettings chartSettings = scrollableChart.getChartSettings();
+		chartSettings.setBackground(display.getSystemColor(SWT.COLOR_WHITE));
+		chartSettings.setBackgroundChart(display.getSystemColor(SWT.COLOR_WHITE));
+		chartSettings.setBackgroundPlotArea(display.getSystemColor(SWT.COLOR_WHITE));
+		scrollableChart.applySettings(chartSettings);
 		shell.open();
 		/*
 		 * Set a fixed range.
