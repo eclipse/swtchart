@@ -131,7 +131,11 @@ public class ChartSettings implements IChartSettings {
 		//
 		colorHintRangeSelector = display.getSystemColor(SWT.COLOR_RED);
 		//
-		titleColor = display.getSystemColor(SWT.COLOR_TITLE_FOREGROUND);
+		if(Display.isSystemDarkTheme()) {
+			titleColor = display.getSystemColor(SWT.COLOR_WHITE);
+		} else {
+			titleColor = display.getSystemColor(SWT.COLOR_BLACK);
+		}
 		titleFont = defaultFont;
 		//
 		rangeRestriction.setZeroX(true);
