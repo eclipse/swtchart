@@ -50,6 +50,7 @@ public class DemoChart {
 		 */
 		IChartSettings chartSettings = scrollableChart.getChartSettings();
 		chartSettings.setTitle("Chromatogram Example");
+		chartSettings.setTitleVisible(true);
 		chartSettings.setTitleColor(display.getSystemColor(SWT.COLOR_BLACK));
 		chartSettings.setLegendExtendedVisible(true);
 		chartSettings.setBufferSelection(true);

@@ -151,6 +151,7 @@ public class ParallelPieCharts {
 			linkedPieCharts.get(i).getChartSettings().setTitle(titles[i]);
 			PieChart pieChart = linkedPieCharts.get(i);
 			ChartSettings chartSettings = (ChartSettings)pieChart.getChartSettings();
+			chartSettings.setTitleVisible(true);
 			chartSettings.setTitleColor(Display.getDefault().getSystemColor(SWT.COLOR_BLACK));
 			pieChart.applySettings(chartSettings);
 		}
@@ -182,6 +183,7 @@ public class ParallelPieCharts {
 		}
 		ChartSettings chartSettings = (ChartSettings)pieChart.getChartSettings();
 		chartSettings.setLegendVisible(false);
+		chartSettings.setTitleVisible(true);
 		chartSettings.setTitleColor(Display.getDefault().getSystemColor(SWT.COLOR_BLACK));
 		chartSettings.setLegendExtendedVisible(false);
 		chartSettings.setShowLegendMarker(false);

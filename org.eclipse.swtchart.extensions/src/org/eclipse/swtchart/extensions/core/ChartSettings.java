@@ -77,7 +77,7 @@ public class ChartSettings implements IChartSettings {
 	 * title is set and WHITE is used to hide it.
 	 */
 	private String title = Messages.getString(Messages.CHART_TITLE);
-	private boolean titleVisible = true;
+	private boolean titleVisible = false;
 	private Color titleColor;
 	private Font titleFont;
 	//

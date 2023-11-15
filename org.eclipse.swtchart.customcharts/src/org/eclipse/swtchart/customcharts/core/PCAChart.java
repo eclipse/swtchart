@@ -70,6 +70,7 @@ public class PCAChart extends ScatterChart {
 		//
 		IChartSettings chartSettings = getChartSettings();
 		chartSettings.setTitle(chartTitle);
+		chartSettings.setTitleVisible(true);
 		chartSettings.getPrimaryAxisSettingsX().setTitle(xAxisTitle);
 		chartSettings.getPrimaryAxisSettingsY().setTitle(yAxisTitle);
 		applySettings(chartSettings);
