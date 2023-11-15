@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2022 Lablicate GmbH.
+ * Copyright (c) 2022, 2023 Lablicate GmbH.
  *
  * This program and the accompanying materials are made
  * available under the terms of the Eclipse Public License 2.0
@@ -52,6 +52,9 @@ public class NoBorderSimpleChart {
 		chartSettings.setTitleColor(Display.getDefault().getSystemColor(SWT.COLOR_BLACK));
 		chartSettings.setTitleFont(font);
 		chartSettings.setTitleVisible(true);
+		chartSettings.setBackground(display.getSystemColor(SWT.COLOR_WHITE));
+		chartSettings.setBackgroundChart(display.getSystemColor(SWT.COLOR_WHITE));
+		chartSettings.setBackgroundPlotArea(display.getSystemColor(SWT.COLOR_WHITE));
 		disableSecondaryAxes(chartSettings.getSecondaryAxisSettingsListX());
 		disableSecondaryAxes(chartSettings.getSecondaryAxisSettingsListY());
 		scrollableChart.applySettings(chartSettings);

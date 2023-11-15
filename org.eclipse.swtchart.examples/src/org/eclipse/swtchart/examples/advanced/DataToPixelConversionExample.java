@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2008, 2020 SWTChart project.
+ * Copyright (c) 2008, 2023 SWTChart project.
  *
  * This program and the accompanying materials are made
  * available under the terms of the Eclipse Public License 2.0
@@ -68,6 +68,8 @@ public class DataToPixelConversionExample {
 		// create a chart
 		Chart chart = new Chart(parent, SWT.NONE);
 		chart.getTitle().setText("Data To Pixel Conversion");
+		chart.getPlotArea().setBackground(parent.getDisplay().getSystemColor(SWT.COLOR_WHITE));
+		chart.setBackground(parent.getDisplay().getSystemColor(SWT.COLOR_WHITE));
 		// get Y axis
 		final IAxis yAxis = chart.getAxisSet().getYAxis(0);
 		// create line series

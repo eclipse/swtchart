@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2020, 2022 SWTChart project.
+ * Copyright (c) 2020, 2023 SWTChart project.
  *
  * This program and the accompanying materials are made
  * available under the terms of the Eclipse Public License 2.0
@@ -12,9 +12,11 @@
  *******************************************************************************/
 package org.eclipse.swtchart.extensions.examples.charts;
 
+import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
+import org.eclipse.swtchart.extensions.core.IChartSettings;
 import org.eclipse.swtchart.extensions.examples.parts.ComplexPieChart;
 
 public class ComplexPieChartExample {
@@ -27,7 +29,12 @@ public class ComplexPieChartExample {
 		shell.setSize(700, 600);
 		shell.setLayout(new FillLayout());
 		//
-		new ComplexPieChart(shell);
+		ComplexPieChart complexPieChart = new ComplexPieChart(shell);
+		IChartSettings chartSettings = complexPieChart.getChartSettings();
+		chartSettings.setBackground(display.getSystemColor(SWT.COLOR_WHITE));
+		chartSettings.setBackgroundChart(display.getSystemColor(SWT.COLOR_WHITE));
+		chartSettings.setBackgroundPlotArea(display.getSystemColor(SWT.COLOR_WHITE));
+		complexPieChart.applySettings(chartSettings);
 		shell.open();
 		//
 		while(!shell.isDisposed()) {

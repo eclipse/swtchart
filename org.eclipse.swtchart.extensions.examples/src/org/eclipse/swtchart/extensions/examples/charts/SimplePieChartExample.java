@@ -13,9 +13,11 @@
  *******************************************************************************/
 package org.eclipse.swtchart.extensions.examples.charts;
 
+import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
+import org.eclipse.swtchart.extensions.core.IChartSettings;
 import org.eclipse.swtchart.extensions.examples.parts.SimplePieChart;
 
 public class SimplePieChartExample {
@@ -30,7 +32,12 @@ public class SimplePieChartExample {
 		//
 		boolean doughnut = true;
 		boolean highlightSeries = false;
-		new SimplePieChart(shell, doughnut, highlightSeries);
+		SimplePieChart simplePieChart = new SimplePieChart(shell, doughnut, highlightSeries);
+		IChartSettings chartSettings = simplePieChart.getChartSettings();
+		chartSettings.setBackground(display.getSystemColor(SWT.COLOR_WHITE));
+		chartSettings.setBackgroundChart(display.getSystemColor(SWT.COLOR_WHITE));
+		chartSettings.setBackgroundPlotArea(display.getSystemColor(SWT.COLOR_WHITE));
+		simplePieChart.applySettings(chartSettings);
 		shell.open();
 		//
 		while(!shell.isDisposed()) {

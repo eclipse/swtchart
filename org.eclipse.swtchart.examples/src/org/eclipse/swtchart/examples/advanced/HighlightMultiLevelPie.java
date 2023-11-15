@@ -72,6 +72,8 @@ public class HighlightMultiLevelPie {
 
 		Chart chart = new Chart(parent, SWT.NONE);
 		chart.getTitle().setText("Multi Level Pie Chart");
+		chart.getPlotArea().setBackground(parent.getDisplay().getSystemColor(SWT.COLOR_WHITE));
+		chart.setBackground(parent.getDisplay().getSystemColor(SWT.COLOR_WHITE));
 		ICircularSeries<?> multiLevelPie = (ICircularSeries<?>)chart.getSeriesSet().createSeries(SeriesType.PIE, "countries");
 		multiLevelPie.setSeries(continentLabels, continentValues);
 		multiLevelPie.getNodeById("Asia").addChildren(AsianCountriesLabels, AsianCountriesValues);
