@@ -61,7 +61,7 @@ public class CustomPaintListenerExample {
 	 *            The parent composite
 	 * @return The created chart
 	 */
-	static public Chart createChart(Composite parent) {
+	public static Chart createChart(Composite parent) {
 
 		// create a chart
 		Chart chart = new Chart(parent, SWT.NONE);
@@ -71,7 +71,7 @@ public class CustomPaintListenerExample {
 		ISeries<?> lineSeries = chart.getSeriesSet().createSeries(SeriesType.LINE, "line series");
 		lineSeries.setYSeries(ySeries);
 		// add paint listeners
-		IPlotArea plotArea = (IPlotArea)chart.getPlotArea();
+		IPlotArea plotArea = chart.getPlotArea();
 		plotArea.addCustomPaintListener(new FrontPaintListener());
 		plotArea.addCustomPaintListener(new BehindPaintListener());
 		// adjust the axis range

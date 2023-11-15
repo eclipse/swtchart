@@ -83,8 +83,7 @@ public class SimplePieChart extends PieChart {
 		if(highlightSeries) {
 			settings.setRedrawOnClick(false);
 			ISeriesSettings seriesSettingsHighlight = settings.getSeriesSettingsHighlight();
-			if(seriesSettingsHighlight instanceof ICircularSeriesSettings) {
-				ICircularSeriesSettings settingsHighlight = (ICircularSeriesSettings)seriesSettingsHighlight;
+			if(seriesSettingsHighlight instanceof ICircularSeriesSettings settingsHighlight) {
 				settingsHighlight.setBorderColor(Display.getDefault().getSystemColor(SWT.COLOR_CYAN));
 				settingsHighlight.setBorderWidth(5);
 				settingsHighlight.setBorderStyle(LineStyle.DOT);

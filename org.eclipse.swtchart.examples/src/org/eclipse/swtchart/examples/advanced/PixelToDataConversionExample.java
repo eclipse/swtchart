@@ -59,7 +59,7 @@ public class PixelToDataConversionExample {
 	 *            The parent composite
 	 * @return The created chart
 	 */
-	static public Chart createChart(Composite parent) {
+	public static Chart createChart(Composite parent) {
 
 		// create a chart
 		final Chart chart = new Chart(parent, SWT.NONE);
