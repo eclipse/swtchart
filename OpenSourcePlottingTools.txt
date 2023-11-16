@@ -1,4 +1,0 @@
--------------------------------------------------
-Other great open source plotting libraries/tools
--------------------------------------------------
-https://labplot.kde.org/gallery
