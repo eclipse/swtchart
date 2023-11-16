@@ -42,13 +42,13 @@ public class SetColorAction extends AbstractMenuListener {
 			@Override
 			public String getText() {
 
-				return Messages.getString(Messages.setColor);
+				return Messages.getString(Messages.SET_COLOR);
 			}
 
 			@Override
 			public String getToolTipText() {
 
-				return Messages.getString(Messages.adjustColorOfSelectedSeries);
+				return Messages.getString(Messages.ADJUST_COLOR_OF_SELECTED_SERIES);
 			}
 
 			@Override
@@ -61,7 +61,7 @@ public class SetColorAction extends AbstractMenuListener {
 				//
 				if(!selectedSeries.isEmpty()) {
 					ColorDialog colorDialog = new ColorDialog(table.getShell());
-					colorDialog.setText(Messages.getString(Messages.setSeriesColor));
+					colorDialog.setText(Messages.getString(Messages.SET_SERIES_COLOR));
 					RGB rgbNew = colorDialog.open();
 					if(rgbNew != null) {
 						for(ISeries<?> series : selectedSeries) {

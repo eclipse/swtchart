@@ -20,18 +20,18 @@ public class Messages {
 	private static final String BUNDLE_NAME = "org.eclipse.swtchart.extensions.menu.messages"; //$NON-NLS-1$
 	private static final ResourceBundle RESOURCE_BUNDLE = ResourceBundle.getBundle(BUNDLE_NAME);
 	//
-	public static String EXPORT_CHART_SELECTION = "EXPORT_CHART_SELECTION";
-	public static String RANGE_SELECTION = "RANGE_SELECTION";
-	public static String REDO_SELECTION = "REDO_SELECTION";
-	public static String RESET_CHART = "RESET_CHART";
-	public static String RESET_SELECTED_SERIES = "RESET_SELECTED_SERIES";
-	public static String TOGGLE_VISIBILITY = "TOGGLE_VISIBILITY";
-	public static String UNDO_SELECTION = "UNDO_SELECTION";
-	public static String RESET_X_AXIS = "RESET_X_AXIS";
-	public static String RESET_Y_AXIS = "RESET_Y_AXIS";
-	public static String SET_CHART_RANGE = "SET_CHART_RANGE";
-	public static String ZOOM_IN = "ZOOM_IN";
-	public static String ZOOM_OUT = "ZOOM_OUT";
+	public static final String EXPORT_CHART_SELECTION = "EXPORT_CHART_SELECTION";
+	public static final String RANGE_SELECTION = "RANGE_SELECTION";
+	public static final String REDO_SELECTION = "REDO_SELECTION";
+	public static final String RESET_CHART = "RESET_CHART";
+	public static final String RESET_SELECTED_SERIES = "RESET_SELECTED_SERIES";
+	public static final String TOGGLE_VISIBILITY = "TOGGLE_VISIBILITY";
+	public static final String UNDO_SELECTION = "UNDO_SELECTION";
+	public static final String RESET_X_AXIS = "RESET_X_AXIS";
+	public static final String RESET_Y_AXIS = "RESET_Y_AXIS";
+	public static final String SET_CHART_RANGE = "SET_CHART_RANGE";
+	public static final String ZOOM_IN = "ZOOM_IN";
+	public static final String ZOOM_OUT = "ZOOM_OUT";
 
 	private Messages() {
 

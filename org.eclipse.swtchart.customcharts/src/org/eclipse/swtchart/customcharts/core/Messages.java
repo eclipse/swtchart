@@ -18,13 +18,13 @@ import java.util.ResourceBundle;
 public class Messages {
 
 	private static final String BUNDLE_NAME = "org.eclipse.swtchart.customcharts.core.messages"; //$NON-NLS-1$
-	//
 	private static final ResourceBundle RESOURCE_BUNDLE = ResourceBundle.getBundle(BUNDLE_NAME);
-	public static String INTENSITY = "INTENSITY";
-	public static String MINUTES = "MINUTES";
-	public static String RELATIVE_INTENSITY = "RELATIVE_INTENSITY";
-	public static String RETENTION_TIME = "RETENTION_TIME";
-	public static String RESET_CHROMATOGRAM = "RESET_CHROMATOGRAM";;
+	//
+	public static final String INTENSITY = "INTENSITY";
+	public static final String MINUTES = "MINUTES";
+	public static final String RELATIVE_INTENSITY = "RELATIVE_INTENSITY";
+	public static final String RETENTION_TIME = "RETENTION_TIME";
+	public static final String RESET_CHROMATOGRAM = "RESET_CHROMATOGRAM";
 
 	private Messages() {
 
