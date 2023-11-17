@@ -329,9 +329,9 @@ public class AxisTickLabels implements PaintListener {
 					 * https://github.com/eclipse/swtchart/pull/215/commits/b8214bd422205386e5470af2498dbd8227f87d8c
 					 */
 					double value = parse(currentLabel);
-					double diff = Math.abs((value - tickLabelValues.get(i)) / value);
-					double maximumDelta = 0.01;
-					isMajorTick = (diff <= maximumDelta);
+					int diffPixels = Math.abs((axis.getPixelCoordinate(value) - axis.getPixelCoordinate(tickLabelValues.get(i))));
+					int maximumDeltaPixels = 2;
+					isMajorTick = (diffPixels <= maximumDeltaPixels);
 				} catch(ParseException e) {
 					// label is not decimal value but string
 				}

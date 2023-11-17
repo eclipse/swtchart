@@ -22,6 +22,7 @@ import static org.junit.Assert.fail;
 import java.text.DateFormat;
 import java.text.DecimalFormat;
 import java.text.Format;
+import java.util.ArrayList;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Color;
@@ -32,6 +33,8 @@ import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swtchart.IAxis.Position;
 import org.eclipse.swtchart.ISeries.SeriesType;
+import org.eclipse.swtchart.internal.axis.AxisTick;
+import org.eclipse.swtchart.internal.axis.AxisTickLabels;
 import org.eclipse.swtchart.util.ChartTestCase;
 import org.junit.Ignore;
 import org.junit.Test;
@@ -258,6 +261,18 @@ public class AxisTickTest extends ChartTestCase {
 		Format xFormat = DateFormat.getTimeInstance(DateFormat.FULL);
 		xAxisTick.setFormat(xFormat);
 		showChart();
+		
+		// set axis range
+        chart.getAxisSet().getYAxis(0).setRange(new Range(10000, 10000.001));
+		showChart();
+
+		// check if displayed tick labels are not duplicated
+		AxisTickLabels axisTickLabels = ((AxisTick)yAxisTick).getAxisTickLabels();
+		ArrayList<Boolean> visibilities = axisTickLabels.getTickVisibilities();
+		boolean[] expected = {true, false, false, false, false, true};
+		for(int i = 0; i < expected.length; i++) {
+			assertEquals(expected[i], visibilities.get(i));
+		}
 	}
 
 	/**
@@ -275,6 +290,13 @@ public class AxisTickTest extends ChartTestCase {
 		assertEquals(expected.length, values.length);
 		for(int i = 0; i < expected.length; i++) {
 			assertEquals(expected[i], values[i], 0);
+		}
+		
+		// check if tick labels are visible
+		AxisTickLabels axisTickLabels = ((AxisTick)yAxisTick).getAxisTickLabels();
+		ArrayList<Boolean> visibilities = axisTickLabels.getTickVisibilities();
+		for(boolean visibility: visibilities) {
+			assertTrue(visibility);
 		}
 	}
 
