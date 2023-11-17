@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2020 SWT Chart Project
+ * Copyright (c) 2020, 2023 SWT Chart Project
  *
  * This program and the accompanying materials are made
  * available under the terms of the Eclipse Public License 2.0
@@ -10,7 +10,6 @@
  * Contributors:
  * Frank Buloup - initial API and implementation
  *******************************************************************************/
-
 package org.eclipse.swtchart.extensions.linecharts;
 
 import java.util.MissingResourceException;
@@ -20,13 +19,13 @@ public class Messages {
 
 	private static final String BUNDLE_NAME = "org.eclipse.swtchart.extensions.linecharts.messages"; //$NON-NLS-1$
 	private static final ResourceBundle RESOURCE_BUNDLE = ResourceBundle.getBundle(BUNDLE_NAME);
-	
-	public static String AUTO = "AUTO";
-	public static String EXTREME = "EXTREME";
-	public static String HIGH = "HIGH";
-	public static String LOW = "LOW";
-	public static String MEDIUM = "MEDIUM";
-	public static String NONE = "NONE";
+	//
+	public static final String AUTO = "AUTO";
+	public static final String EXTREME = "EXTREME";
+	public static final String HIGH = "HIGH";
+	public static final String LOW = "LOW";
+	public static final String MEDIUM = "MEDIUM";
+	public static final String NONE = "NONE";
 
 	private Messages() {
 

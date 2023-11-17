@@ -39,13 +39,13 @@ public class MapSettingsAction extends AbstractMenuListener {
 			@Override
 			public String getText() {
 
-				return addMapping ? Messages.getString(Messages.addSeriesMapping) : Messages.getString(Messages.removeSeriesMapping);
+				return addMapping ? Messages.getString(Messages.ADD_SERIES_MAPPING) : Messages.getString(Messages.REMOVE_SERIES_MAPPING);
 			}
 
 			@Override
 			public String getToolTipText() {
 
-				return Messages.getString(Messages.addRemoveSeriesMapping);
+				return Messages.getString(Messages.ADD_REMOVE_SERIES_MAPPING);
 			}
 
 			@Override

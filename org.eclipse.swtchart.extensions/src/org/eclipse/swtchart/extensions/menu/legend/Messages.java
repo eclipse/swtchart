@@ -20,25 +20,25 @@ public class Messages {
 	private static final String BUNDLE_NAME = "org.eclipse.swtchart.extensions.menu.legend.messages"; //$NON-NLS-1$
 	private static final ResourceBundle RESOURCE_BUNDLE = ResourceBundle.getBundle(BUNDLE_NAME);
 	//
-	public static String addSeriesMapping = "addSeriesMapping";
-	public static String removeSeriesMapping = "removeSeriesMapping";
-	public static String addRemoveSeriesMapping = "addRemoveSeriesMapping";
-	public static String adjustColorOfSelectedSeries = "adjustColorOfSelectedSeries";
-	public static String description = "description";
-	public static String descriptionMustNotBeEmpty = "descriptionMustNotBeEmpty";
-	public static String forgotToSetDescription = "forgotToSetDescription";
-	public static String hideSelectedSeries = "hideSelectedSeries";
-	public static String hideSelectedSeriesInLegend = "hideSelectedSeriesInLegend";
-	public static String hideSeries = "hideSeries";
-	public static String hideSeriesInLegend = "hideSeriesInLegend";
-	public static String setColor = "setColor";
-	public static String setDescription = "setDescription";
-	public static String setDescriptionForSelectedSeries = "setDescriptionForSelectedSeries";
-	public static String setSeriesColor = "setSeriesColor";
-	public static String showSelectedSeries = "showSelectedSeries";
-	public static String showSelectedSeriesInLegend = "showSelectedSeriesInLegend";
-	public static String showSeries = "showSeries";
-	public static String showSeriesInLegend = "showSeriesInLegend";
+	public static final String ADD_SERIES_MAPPING = "ADD_SERIES_MAPPING";
+	public static final String REMOVE_SERIES_MAPPING = "REMOVE_SERIES_MAPPING";
+	public static final String ADD_REMOVE_SERIES_MAPPING = "ADD_REMOVE_SERIES_MAPPING";
+	public static final String ADJUST_COLOR_OF_SELECTED_SERIES = "ADJUST_COLOR_OF_SELECTED_SERIES";
+	public static final String DESCRIPTION = "DESCRIPTION";
+	public static final String DESCRIPTION_MUST_NOT_BE_EMPTY = "DESCRIPTION_MUST_NOT_BE_EMPTY";
+	public static final String FORGOT_TO_SET_DESCRIPTION = "FORGOT_TO_SET_DESCRIPTION";
+	public static final String HIDE_SELECTED_SERIES = "HIDE_SELECTED_SERIES";
+	public static final String HIDE_SELECTED_SERIES_IN_LEGEND = "HIDE_SELECTED_SERIES_IN_LEGEND";
+	public static final String HIDE_SERIES = "HIDE_SERIES";
+	public static final String HIDE_SERIES_IN_LEGEND = "HIDE_SERIES_IN_LEGEND";
+	public static final String SET_COLOR = "SET_COLOR";
+	public static final String SET_DESCRIPTION = "SET_DESCRIPTION";
+	public static final String SET_DESCRIPTION_FOR_SELECTED_SERIES = "setDescriptionForSelectedSeries";
+	public static final String SET_SERIES_COLOR = "setSeriesColor";
+	public static final String SHOW_SELECTED_SERIES = "showSelectedSeries";
+	public static final String SHOW_SELECTED_SERIES_IN_LEGEND = "showSelectedSeriesInLegend";
+	public static final String SHOW_SERIES = "SHOW_SERIES";
+	public static final String SHOW_SERIES_IN_LEGEND = "SHOW_SERIES_IN_LEGEND";
 
 	private Messages() {
 
