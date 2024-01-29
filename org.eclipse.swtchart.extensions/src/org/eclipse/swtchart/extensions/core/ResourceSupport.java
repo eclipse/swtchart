@@ -13,6 +13,7 @@
 package org.eclipse.swtchart.extensions.core;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URL;
 import java.util.HashSet;
@@ -100,6 +101,8 @@ public class ResourceSupport extends Resources {
 			 */
 			try {
 				((PreferenceStore)preferenceStore).load();
+			} catch(FileNotFoundException e) {
+				// Ignore
 			} catch(IOException e) {
 				e.printStackTrace();
 			}
