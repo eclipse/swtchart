@@ -1,5 +1,5 @@
 ###############################################################################
-# Copyright (c) 2022, 2023 SWTChart project
+# Copyright (c) 2022, 2024 SWTChart project
 #
 # This program and the accompanying materials are made available under the
 # terms of the Eclipse Public License 2.0 which is available at
@@ -18,16 +18,12 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    container:
+      image: maven:3.8.8-eclipse-temurin-17
 
     steps:
     - name: Checkout SWTChart
       uses: actions/checkout@v3
-    - name: Set up JDK 17
-      uses: actions/setup-java@v3
-      with:
-        distribution: 'temurin'
-        java-version: '17'
-        cache: 'maven'
     - name: Build with Maven
       uses: coactions/setup-xvfb@v1
       with:
