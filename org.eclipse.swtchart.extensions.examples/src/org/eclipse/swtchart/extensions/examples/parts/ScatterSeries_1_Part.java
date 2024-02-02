@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2017, 2020 Lablicate GmbH.
+ * Copyright (c) 2017, 2024 Lablicate GmbH.
  *
  * This program and the accompanying materials are made
  * available under the terms of the Eclipse Public License 2.0
@@ -15,8 +15,6 @@ package org.eclipse.swtchart.extensions.examples.parts;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.inject.Inject;
-
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.widgets.Composite;
@@ -28,6 +26,8 @@ import org.eclipse.swtchart.extensions.examples.support.SeriesConverter;
 import org.eclipse.swtchart.extensions.scattercharts.IScatterSeriesData;
 import org.eclipse.swtchart.extensions.scattercharts.IScatterSeriesSettings;
 import org.eclipse.swtchart.extensions.scattercharts.ScatterSeriesData;
+
+import jakarta.inject.Inject;
 
 public class ScatterSeries_1_Part extends PCAChart {
 

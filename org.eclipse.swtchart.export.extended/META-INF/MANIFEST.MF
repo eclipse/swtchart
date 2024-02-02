@@ -19,5 +19,4 @@ Import-Package: org.apache.batik;version="1.14.0",
  org.apache.batik.anim.dom;version="1.14.0",
  org.apache.batik.dom.svg;version="1.14.0",
  org.apache.batik.ext.awt;version="1.14.0",
- org.apache.batik.svggen;version="1.14.0",
- org.w3c.dom.events;version="3.0.0"
+ org.apache.batik.svggen;version="1.14.0"
