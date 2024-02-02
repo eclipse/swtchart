@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2017, 2023 Lablicate GmbH.
+ * Copyright (c) 2017, 2024 Lablicate GmbH.
  *
  * This program and the accompanying materials are made
  * available under the terms of the Eclipse Public License 2.0
@@ -12,13 +12,13 @@
  *******************************************************************************/
 package org.eclipse.swtchart.extensions.examples.parts;
 
-import javax.inject.Inject;
-
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swtchart.extensions.examples.swt.CustomLinkedLineSeries1;
+
+import jakarta.inject.Inject;
 
 public class LineSeriesLinked_1_Part {
 
