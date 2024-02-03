@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2020, 2023 Lablicate GmbH.
+ * Copyright (c) 2020, 2024 Lablicate GmbH.
  *
  * This program and the accompanying materials are made
  * available under the terms of the Eclipse Public License 2.0
@@ -132,7 +132,8 @@ public class ResourceSupport extends Resources {
 		if(imageRegistry == null) {
 			imageRegistry = initializeImageRegistry();
 		}
-		return resourceManager.createImage(imageRegistry.getDescriptor(key));
+		//
+		return resourceManager.createImageWithDefault(imageRegistry.getDescriptor(key));
 	}
 
 	@Override
