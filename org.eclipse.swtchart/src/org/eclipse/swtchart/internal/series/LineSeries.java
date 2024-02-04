@@ -34,51 +34,28 @@ import org.eclipse.swtchart.internal.compress.CompressScatterSeries;
 import org.eclipse.swtchart.model.CartesianSeriesModel;
 import org.eclipse.swtchart.model.DoubleArraySeriesModel;
 
-/**
- * Line series.
- */
 public class LineSeries<T> extends Series<T> implements ILineSeries<T> {
 
-	/** the symbol size in pixel */
 	private int symbolSize = 4;
-	/** the symbol color */
 	private Color symbolColor = Display.getDefault().getSystemColor(DEFAULT_SYMBOL_COLOR);
-	/** the symbol colors */
 	private Color[] symbolColors = new Color[0];
-	/** the symbol type */
 	private PlotSymbolType symbolType = DEFAULT_SYMBOL_TYPE;
-	/** the line style */
 	private LineStyle lineStyle = DEFAULT_LINE_STYLE;
-	/** the line color */
 	private Color lineColor = Display.getDefault().getSystemColor(DEFAULT_LINE_COLOR);
-	/** the line width */
 	private int lineWidth = DEFAULT_LINE_WIDTH;
-	/** the state indicating if area chart is enabled */
 	private boolean areaEnabled = false;
 	private boolean areaStrict = false; // Experimental
-	/** the state indicating if step chart is enabled */
 	private boolean stepEnabled = false;
-	/** the anti-aliasing value for drawing line */
 	private int antialias = DEFAULT_ANTIALIAS;
-	/** specific symbol */
 	private String extendedSymbolType = "😂"; //$NON-NLS-1$
-	/** the alpha value to draw area */
 	private static final int ALPHA = 50;
-	/** the default line style */
 	private static final LineStyle DEFAULT_LINE_STYLE = LineStyle.SOLID;
-	/** the default line width */
 	private static final int DEFAULT_LINE_WIDTH = 1;
-	/** the default line color */
 	private static final int DEFAULT_LINE_COLOR = SWT.COLOR_BLUE;
-	/** the default symbol color */
 	private static final int DEFAULT_SYMBOL_COLOR = SWT.COLOR_DARK_GRAY;
-	/** the default symbol size */
 	private static final int DEFAULT_SIZE = 4;
-	/** the default symbol type */
 	private static final PlotSymbolType DEFAULT_SYMBOL_TYPE = PlotSymbolType.CIRCLE;
-	/** the default anti-aliasing value */
 	private static final int DEFAULT_ANTIALIAS = SWT.DEFAULT;
-	/** the margin in pixels attached at the minimum/maximum plot */
 	private static final int MARGIN_AT_MIN_MAX_PLOT = 6;
 
 	/**
@@ -109,8 +86,8 @@ public class LineSeries<T> extends Series<T> implements ILineSeries<T> {
 			return;
 		}
 		this.lineStyle = style;
-		if(compressor instanceof CompressScatterSeries) {
-			((CompressScatterSeries)compressor).setLineVisible(style != LineStyle.NONE);
+		if(compressor instanceof CompressScatterSeries compressScatterSeries) {
+			compressScatterSeries.setLineVisible(style != LineStyle.NONE);
 		}
 	}
 
@@ -243,8 +220,8 @@ public class LineSeries<T> extends Series<T> implements ILineSeries<T> {
 	protected void setCompressor() {
 
 		CartesianSeriesModel<T> dataModel = getDataModel();
-		if(dataModel instanceof DoubleArraySeriesModel) {
-			if(((DoubleArraySeriesModel)dataModel).isXMonotoneIncreasing()) {
+		if(dataModel instanceof DoubleArraySeriesModel doubleArraySeriesModel) {
+			if(doubleArraySeriesModel.isXMonotoneIncreasing()) {
 				compressor = new CompressLineSeries();
 				return;
 			}
@@ -370,12 +347,15 @@ public class LineSeries<T> extends Series<T> implements ILineSeries<T> {
 		int oldLineWidth = gc.getLineWidth();
 		gc.setAntialias(antialias);
 		gc.setLineWidth(lineWidth);
+		//
 		if(lineStyle != LineStyle.NONE) {
 			drawLineAndArea(gc, width, height, xAxis, yAxis);
 		}
+		//
 		if(symbolType != PlotSymbolType.NONE || getLabel().isVisible() || getXErrorBar().isVisible() || getYErrorBar().isVisible()) {
 			drawSymbolAndLabel(gc, width, height, xAxis, yAxis);
 		}
+		//
 		gc.setAntialias(oldAntialias);
 		gc.setLineWidth(oldLineWidth);
 	}
@@ -402,12 +382,14 @@ public class LineSeries<T> extends Series<T> implements ILineSeries<T> {
 		if(xseries.length == 0 || yseries.length == 0) {
 			return;
 		}
+		//
 		int[] indexes = compressor.getCompressedIndexes();
 		if(xAxis.isValidCategoryAxis()) {
 			for(int i = 0; i < xseries.length; i++) {
 				xseries[i] = indexes[i];
 			}
 		}
+		//
 		gc.setLineStyle(lineStyle.value());
 		Color oldForeground = gc.getForeground();
 		gc.setForeground(getLineColor());
@@ -424,7 +406,9 @@ public class LineSeries<T> extends Series<T> implements ILineSeries<T> {
 			//
 			for(int i = 0; i < length; i++) {
 				int[] p = getLinePoints(xseries, yseries, indexes, i, xAxis, yAxis);
-				// draw line
+				/*
+				 * Draw Line
+				 */
 				if(lineStyle != LineStyle.NONE) {
 					if(stepEnabled) {
 						if(isHorizontal) {
@@ -438,7 +422,9 @@ public class LineSeries<T> extends Series<T> implements ILineSeries<T> {
 						gc.drawLine(p[0], p[1], p[2], p[3]);
 					}
 				}
-				// draw area
+				/*
+				 * Draw Area (strict = false)
+				 */
 				if(areaEnabled) {
 					if(useAreaStrict) {
 						for(int j = 0; j < numberValues; j++) {
@@ -449,7 +435,9 @@ public class LineSeries<T> extends Series<T> implements ILineSeries<T> {
 					}
 				}
 			}
-			//
+			/*
+			 * Draw Area (strict = true)
+			 */
 			if(useAreaStrict) {
 				int size = points.length - 1;
 				int max = Math.max(points[1], points[size]);
@@ -630,6 +618,7 @@ public class LineSeries<T> extends Series<T> implements ILineSeries<T> {
 		gc.setAlpha(ALPHA);
 		Color oldBackground = gc.getBackground();
 		gc.setBackground(getLineColor());
+		//
 		int[] pointArray;
 		if(stepEnabled) {
 			if(isHorizontal) {
@@ -640,6 +629,7 @@ public class LineSeries<T> extends Series<T> implements ILineSeries<T> {
 		} else {
 			pointArray = new int[]{p[0], p[1], p[2], p[3], p[4], p[5], p[6], p[7], p[0], p[1]};
 		}
+		//
 		gc.fillPolygon(pointArray);
 		gc.setAlpha(alpha);
 		gc.setBackground(oldBackground);
