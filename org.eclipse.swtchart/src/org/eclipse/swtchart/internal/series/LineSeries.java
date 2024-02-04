@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2008, 2023 SWTChart project.
+ * Copyright (c) 2008, 2024 SWTChart project.
  *
  * This program and the accompanying materials are made
  * available under the terms of the Eclipse Public License 2.0
@@ -55,6 +55,7 @@ public class LineSeries<T> extends Series<T> implements ILineSeries<T> {
 	private int lineWidth = DEFAULT_LINE_WIDTH;
 	/** the state indicating if area chart is enabled */
 	private boolean areaEnabled = false;
+	private boolean areaStrict = false; // Experimental
 	/** the state indicating if step chart is enabled */
 	private boolean stepEnabled = false;
 	/** the anti-aliasing value for drawing line */
@@ -265,6 +266,18 @@ public class LineSeries<T> extends Series<T> implements ILineSeries<T> {
 	}
 
 	@Override
+	public boolean isAreaStrict() {
+
+		return areaStrict;
+	}
+
+	@Override
+	public void setAreaStrict(boolean areaStrict) {
+
+		this.areaStrict = areaStrict;
+	}
+
+	@Override
 	public void enableStep(boolean enabled) {
 
 		stepEnabled = enabled;
@@ -400,7 +413,16 @@ public class LineSeries<T> extends Series<T> implements ILineSeries<T> {
 		gc.setForeground(getLineColor());
 		boolean isHorizontal = xAxis.isHorizontalAxis();
 		if(stepEnabled || areaEnabled || stackEnabled) {
-			for(int i = 0; i < xseries.length - 1; i++) {
+			/*
+			 * Area Strict
+			 * If true, the area is not drawn to the Y or X zero line.
+			 */
+			boolean useAreaStrict = isUseAreaStrict();
+			int length = xseries.length - 1;
+			int numberValues = 4;
+			int[] points = useAreaStrict ? new int[length * numberValues] : null;
+			//
+			for(int i = 0; i < length; i++) {
 				int[] p = getLinePoints(xseries, yseries, indexes, i, xAxis, yAxis);
 				// draw line
 				if(lineStyle != LineStyle.NONE) {
@@ -418,8 +440,22 @@ public class LineSeries<T> extends Series<T> implements ILineSeries<T> {
 				}
 				// draw area
 				if(areaEnabled) {
-					drawArea(gc, p, isHorizontal);
+					if(useAreaStrict) {
+						for(int j = 0; j < numberValues; j++) {
+							points[i * numberValues + j] = p[j];
+						}
+					} else {
+						drawArea(gc, p, isHorizontal);
+					}
 				}
+			}
+			//
+			if(useAreaStrict) {
+				int size = points.length - 1;
+				int max = Math.max(points[1], points[size]);
+				points[1] = max;
+				points[size] = max;
+				drawAreaStrict(gc, points, isHorizontal);
 			}
 		} else {
 			if(lineStyle == LineStyle.SOLID) {
@@ -429,6 +465,11 @@ public class LineSeries<T> extends Series<T> implements ILineSeries<T> {
 			}
 		}
 		gc.setForeground(oldForeground);
+	}
+
+	private boolean isUseAreaStrict() {
+
+		return areaEnabled && areaStrict && !stepEnabled;
 	}
 
 	/*
@@ -600,6 +641,17 @@ public class LineSeries<T> extends Series<T> implements ILineSeries<T> {
 			pointArray = new int[]{p[0], p[1], p[2], p[3], p[4], p[5], p[6], p[7], p[0], p[1]};
 		}
 		gc.fillPolygon(pointArray);
+		gc.setAlpha(alpha);
+		gc.setBackground(oldBackground);
+	}
+
+	private void drawAreaStrict(GC gc, int[] p, boolean isHorizontal) {
+
+		int alpha = gc.getAlpha();
+		gc.setAlpha(ALPHA);
+		Color oldBackground = gc.getBackground();
+		gc.setBackground(getLineColor());
+		gc.fillPolygon(p);
 		gc.setAlpha(alpha);
 		gc.setBackground(oldBackground);
 	}

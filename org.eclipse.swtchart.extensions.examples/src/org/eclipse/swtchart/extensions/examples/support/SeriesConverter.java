@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2017, 2022 Lablicate GmbH.
+ * Copyright (c) 2017, 2024 Lablicate GmbH.
  *
  * This program and the accompanying materials are made
  * available under the terms of the Eclipse Public License 2.0
@@ -8,7 +8,7 @@
  * SPDX-License-Identifier: EPL-2.0
  * 
  * Contributors:
- * Dr. Philip Wenig - initial API and implementation
+ * Philip Wenig - initial API and implementation
  *******************************************************************************/
 package org.eclipse.swtchart.extensions.examples.support;
 
@@ -28,6 +28,7 @@ public class SeriesConverter {
 	public static final String SCATTER_SERIES = "ScatterSeries";
 	//
 	public static final String LINE_SERIES_1 = "LineSeries1";
+	public static final String LINE_SERIES_1A = "LineSeries1a";
 	public static final String LINE_SERIES_1_ACTIVE_PEAKS = "LineSeries1_ActivePeaks";
 	public static final String LINE_SERIES_1_INACTIVE_PEAKS = "LineSeries1_InactivePeaks";
 	public static final String LINE_SERIES_1_SELECTED_PEAK_1 = "LineSeries1_SelectedPeak_1";

@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2008, 2023 SWTChart project.
+ * Copyright (c) 2008, 2024 SWTChart project.
  *
  * This program and the accompanying materials are made
  * available under the terms of the Eclipse Public License 2.0
@@ -212,6 +212,20 @@ public interface ILineSeries<T> extends ISeries<T> {
 	 * @return true if area chart is enabled
 	 */
 	boolean isAreaEnabled();
+
+	/**
+	 * Returns if the area display is constrained by its left and right min Y value.
+	 * 
+	 * @return boolean
+	 */
+	boolean isAreaStrict();
+
+	/**
+	 * Try to display the area as is, constrained by its left and right min Y value.
+	 * 
+	 * @param areaStrict
+	 */
+	void setAreaStrict(boolean areaStrict);
 
 	/**
 	 * Enables the step chart.

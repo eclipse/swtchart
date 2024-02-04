@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2017, 2023 Lablicate GmbH.
+ * Copyright (c) 2017, 2024 Lablicate GmbH.
  *
  * This program and the accompanying materials are made
  * available under the terms of the Eclipse Public License 2.0
@@ -909,6 +909,7 @@ public class BaseChart extends AbstractExtendedChart implements IChartDataCoordi
 		applyBaseSeriesSettings(lineSeries, lineSeriesSettings);
 		lineSeries.setAntialias(lineSeriesSettings.getAntialias());
 		lineSeries.enableArea(lineSeriesSettings.isEnableArea());
+		lineSeries.setAreaStrict(lineSeriesSettings.isAreaStrict());
 		lineSeries.setSymbolType(lineSeriesSettings.getSymbolType());
 		lineSeries.setSymbolSize(lineSeriesSettings.getSymbolSize());
 		lineSeries.setSymbolColor(lineSeriesSettings.getSymbolColor());
@@ -923,6 +924,7 @@ public class BaseChart extends AbstractExtendedChart implements IChartDataCoordi
 
 		applyBaseSeriesSettings(scatterSeries, scatterSeriesSettings);
 		scatterSeries.enableArea(false);
+		scatterSeries.setAreaStrict(false);
 		scatterSeries.setSymbolType(scatterSeriesSettings.getSymbolType());
 		scatterSeries.setSymbolSize(scatterSeriesSettings.getSymbolSize());
 		scatterSeries.setSymbolColor(scatterSeriesSettings.getSymbolColor());

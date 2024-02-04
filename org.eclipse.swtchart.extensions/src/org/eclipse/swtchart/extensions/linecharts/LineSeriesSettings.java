@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2017, 2023 Lablicate GmbH.
+ * Copyright (c) 2017, 2024 Lablicate GmbH.
  *
  * This program and the accompanying materials are made
  * available under the terms of the Eclipse Public License 2.0
@@ -8,7 +8,7 @@
  * SPDX-License-Identifier: EPL-2.0
  * 
  * Contributors:
- * Dr. Philip Wenig - initial API and implementation
+ * Philip Wenig - initial API and implementation
  *******************************************************************************/
 package org.eclipse.swtchart.extensions.linecharts;
 
@@ -23,6 +23,7 @@ public class LineSeriesSettings extends AbstractPointSeriesSettings implements I
 
 	private int antialias = SWT.DEFAULT;
 	private boolean enableArea = true;
+	private boolean areaStrict = false; // Experimental
 	private Color lineColor = Display.getDefault().getSystemColor(SWT.COLOR_RED);
 	private int lineWidth = 1;
 	private boolean enableStack = false;
@@ -52,6 +53,18 @@ public class LineSeriesSettings extends AbstractPointSeriesSettings implements I
 	public void setEnableArea(boolean enableArea) {
 
 		this.enableArea = enableArea;
+	}
+
+	@Override
+	public boolean isAreaStrict() {
+
+		return areaStrict;
+	}
+
+	@Override
+	public void setAreaStrict(boolean areaStrict) {
+
+		this.areaStrict = areaStrict;
 	}
 
 	@Override
@@ -148,6 +161,7 @@ public class LineSeriesSettings extends AbstractPointSeriesSettings implements I
 			sink.setVisibleInLegend(source.isVisibleInLegend());
 			sink.setAntialias(source.getAntialias());
 			sink.setEnableArea(source.isEnableArea());
+			sink.setAreaStrict(source.isAreaStrict());
 			sink.setSymbolType(source.getSymbolType());
 			sink.setSymbolSize(source.getSymbolSize());
 			sink.setSymbolColor(source.getSymbolColor());
