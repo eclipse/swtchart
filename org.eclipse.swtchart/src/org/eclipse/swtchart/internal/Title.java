@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2008, 2023 SWTChart project.
+ * Copyright (c) 2008, 2024 SWTChart project.
  *
  * This program and the accompanying materials are made
  * available under the terms of the Eclipse Public License 2.0
@@ -277,8 +277,9 @@ public class Title implements ITitle, PaintListener {
 	 * Disposes the resources.
 	 */
 	public void dispose() {
-
-		chart.removePaintListener(this);
+		if(!chart.isDisposed()) {
+			chart.removePaintListener(this);
+		}
 	}
 
 	@Override

@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2008, 2023 SWTChart project.
+ * Copyright (c) 2008, 2024 SWTChart project.
  *
  * This program and the accompanying materials are made
  * available under the terms of the Eclipse Public License 2.0
@@ -386,12 +386,10 @@ public class Chart extends Composite implements Listener {
 	@Override
 	public void dispose() {
 
-		if(!isDisposed()) {
-			title.dispose();
-			legend.dispose();
-			axisSet.dispose();
-			super.dispose();
-		}
+		title.dispose();
+		legend.dispose();
+		axisSet.dispose();
+		super.dispose();
 	}
 
 	@Override
