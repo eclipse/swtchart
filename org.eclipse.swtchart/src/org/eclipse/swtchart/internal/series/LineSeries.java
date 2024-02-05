@@ -17,6 +17,7 @@ package org.eclipse.swtchart.internal.series;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.IntStream;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Color;
@@ -403,6 +404,17 @@ public class LineSeries<T> extends Series<T> implements ILineSeries<T> {
 			int length = xseries.length - 1;
 			int numberValues = 4;
 			int[] points = useAreaStrict ? new int[length * numberValues] : null;
+			/*
+			 * Additionally get the first and last point array of the
+			 * full range. Otherwise, the polygon would only show
+			 * the min ranges of the selection, which leads to an
+			 * odd display if zoomed in.
+			 */
+			double[] x = getXSeries();
+			double[] y = getYSeries();
+			int[] idx = useAreaStrict ? IntStream.range(0, x.length - 1).toArray() : null;
+			int[] p0 = useAreaStrict ? getLinePoints(x, y, idx, 0, xAxis, yAxis) : null;
+			int[] pn = useAreaStrict ? getLinePoints(x, y, idx, idx.length - 1, xAxis, yAxis) : null;
 			//
 			for(int i = 0; i < length; i++) {
 				int[] p = getLinePoints(xseries, yseries, indexes, i, xAxis, yAxis);
@@ -439,10 +451,15 @@ public class LineSeries<T> extends Series<T> implements ILineSeries<T> {
 			 * Draw Area (strict = true)
 			 */
 			if(useAreaStrict) {
-				int size = points.length - 1;
-				int max = Math.max(points[1], points[size]);
-				points[1] = max;
-				points[size] = max;
+				/*
+				 * Adjust the first and last x|y pair
+				 * to correctly display the polygon
+				 * even if zoomed in.
+				 */
+				points[0] = p0[0];
+				points[1] = p0[1];
+				points[points.length - 2] = pn[0];
+				points[points.length - 1] = pn[1];
 				drawAreaStrict(gc, points, isHorizontal);
 			}
 		} else {
