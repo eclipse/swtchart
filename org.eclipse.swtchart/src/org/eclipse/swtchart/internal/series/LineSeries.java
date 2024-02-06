@@ -458,8 +458,8 @@ public class LineSeries<T> extends Series<T> implements ILineSeries<T> {
 				 */
 				points[0] = p0[0];
 				points[1] = p0[1];
-				points[points.length - 2] = pn[0];
-				points[points.length - 1] = pn[1];
+				points[points.length - 2] = pn[2];
+				points[points.length - 1] = pn[3];
 				drawAreaStrict(gc, points, isHorizontal);
 			}
 		} else {
