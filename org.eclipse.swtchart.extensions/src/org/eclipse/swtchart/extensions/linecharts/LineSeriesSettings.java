@@ -23,7 +23,7 @@ public class LineSeriesSettings extends AbstractPointSeriesSettings implements I
 
 	private int antialias = SWT.DEFAULT;
 	private boolean enableArea = true;
-	private boolean areaStrict = false; // Experimental
+	private boolean areaStrict = false;
 	private Color lineColor = Display.getDefault().getSystemColor(SWT.COLOR_RED);
 	private int lineWidth = 1;
 	private boolean enableStack = false;

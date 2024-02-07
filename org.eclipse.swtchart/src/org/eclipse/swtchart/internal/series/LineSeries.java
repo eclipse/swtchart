@@ -45,7 +45,7 @@ public class LineSeries<T> extends Series<T> implements ILineSeries<T> {
 	private Color lineColor = Display.getDefault().getSystemColor(DEFAULT_LINE_COLOR);
 	private int lineWidth = DEFAULT_LINE_WIDTH;
 	private boolean areaEnabled = false;
-	private boolean areaStrict = false; // Experimental
+	private boolean areaStrict = false;
 	private boolean stepEnabled = false;
 	private int antialias = DEFAULT_ANTIALIAS;
 	private String extendedSymbolType = "😂"; //$NON-NLS-1$
