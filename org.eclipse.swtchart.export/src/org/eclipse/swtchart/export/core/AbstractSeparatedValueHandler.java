@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2017, 2023 Lablicate GmbH.
+ * Copyright (c) 2017, 2024 Lablicate GmbH.
  *
  * This program and the accompanying materials are made
  * available under the terms of the Eclipse Public License 2.0
@@ -8,7 +8,7 @@
  * SPDX-License-Identifier: EPL-2.0
  * 
  * Contributors:
- * Dr. Philip Wenig - initial API and implementation
+ * Philip Wenig - initial API and implementation
  * Frank Buloup - Internationalization
  *******************************************************************************/
 package org.eclipse.swtchart.export.core;
@@ -55,6 +55,7 @@ public abstract class AbstractSeparatedValueHandler extends AbstractSeriesExport
 		fileDialog.setOverwrite(true);
 		fileDialog.setText(title);
 		fileDialog.setFilterExtensions(new String[]{fileExtension});
+		fileDialog.setFileName(scrollableChart.getFileName());
 		//
 		String fileName = fileDialog.open();
 		if(fileName != null) {

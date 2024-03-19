@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2017, 2022 Lablicate GmbH.
+ * Copyright (c) 2017, 2024 Lablicate GmbH.
  *
  * This program and the accompanying materials are made
  * available under the terms of the Eclipse Public License 2.0
@@ -8,7 +8,7 @@
  * SPDX-License-Identifier: EPL-2.0
  * 
  * Contributors:
- * Dr. Philip Wenig - initial API and implementation
+ * Philip Wenig - initial API and implementation
  * Frank Buloup - Internationalization
  *******************************************************************************/
 package org.eclipse.swtchart.export.menu.bitmap;
@@ -67,6 +67,7 @@ public abstract class AbstractBitmapExportHandler extends AbstractSeriesExportHa
 		fileDialog.setOverwrite(true);
 		fileDialog.setText(name);
 		fileDialog.setFilterExtensions(filterExtensions); // $NON-NLS-1$ //$NON-NLS-2$
+		fileDialog.setFileName(scrollableChart.getFileName());
 		//
 		String fileName = fileDialog.open();
 		if(fileName != null) {

@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2017, 2023 Lablicate GmbH.
+ * Copyright (c) 2017, 2024 Lablicate GmbH.
  *
  * This program and the accompanying materials are made
  * available under the terms of the Eclipse Public License 2.0
@@ -8,7 +8,7 @@
  * SPDX-License-Identifier: EPL-2.0
  * 
  * Contributors:
- * Dr. Philip Wenig - initial API and implementation
+ * Philip Wenig - initial API and implementation
  * Christoph Läubrich - rework redraw of the plot area, enhance menu item handling
  * Frank Buloup - Internationalization
  * Himanshu Balasamanta - Circular charts
@@ -147,6 +147,7 @@ public class ScrollableChart extends Composite implements IScrollableChart, IEve
 	 * in case a chart directly extends from ScrollableChart instead of from LineChart, ... .
 	 */
 	private ChartType chartType = ChartType.NONE;
+	private String fileName = "Untitled";
 	/*
 	 * Menu listener for receiving open/close updates.
 	 */
@@ -193,6 +194,26 @@ public class ScrollableChart extends Composite implements IScrollableChart, IEve
 		if(compositeChart != null) {
 			compositeChart.setBackground(color);
 		}
+	}
+
+	/**
+	 * Get the default file name e.g. for exporting the chart data to a file.
+	 * 
+	 * @return String
+	 */
+	public String getFileName() {
+
+		return fileName;
+	}
+
+	/**
+	 * Set the default file name used by the data export (png, csv, svg ...) suppliers.
+	 * 
+	 * @param fileName
+	 */
+	public void setFileName(String fileName) {
+
+		this.fileName = fileName;
 	}
 
 	/**

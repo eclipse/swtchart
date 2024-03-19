@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2020, 2023 SWTChart project.
+ * Copyright (c) 2020, 2024 SWTChart project.
  *
  * This program and the accompanying materials are made
  * available under the terms of the Eclipse Public License 2.0
@@ -43,6 +43,7 @@ public class DemoChart {
 		shell.setLayout(new FillLayout());
 		//
 		ScrollableChart scrollableChart = new LineSeries_1_Part(shell);
+		scrollableChart.setFileName("Demo Chart");
 		shell.open();
 		/*
 		 * Use this demo to test the buffer selection in different
