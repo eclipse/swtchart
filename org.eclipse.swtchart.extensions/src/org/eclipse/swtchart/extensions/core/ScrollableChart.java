@@ -107,16 +107,9 @@ public class ScrollableChart extends Composite implements IScrollableChart, IEve
 	private Composite compositeChart;
 	private BaseChart baseChart;
 	private ExtendedLegendUI extendedLegendUI;
-	/*
-	 * With enableRangeSelectorHint the gc draws an info
-	 * that the range selector can be activated by using a
-	 * mouse double click. It's implemented and works fine,
-	 * but is a bit crappy when a chart title is used. So, it is
-	 * deactivated for now, but not removed.
-	 */
-	private boolean enableRangeSelectorHint = false;
+	//
 	private static final int MILLISECONDS_SHOW_RANGE_INFO_HINT = 1000;
-	private boolean showRangeSelectorHint = enableRangeSelectorHint;
+	private boolean showRangeSelectorHint = false;
 	private RangeHintPaintListener rangeHintPaintListener;
 	/*
 	 * This list contains all scrollable charts
@@ -1438,50 +1431,6 @@ public class ScrollableChart extends Composite implements IScrollableChart, IEve
 			}
 		});
 		//
-		slider.addMouseListener(new MouseAdapter() {
-
-			@Override
-			public void mouseDoubleClick(MouseEvent e) {
-
-				IAxis xAxis = baseChart.getAxisSet().getXAxis(BaseChart.ID_PRIMARY_X_AXIS);
-				IAxis yAxis = baseChart.getAxisSet().getYAxis(BaseChart.ID_PRIMARY_Y_AXIS);
-				//
-				if(xAxis != null && yAxis != null) {
-					/*
-					 * Slide to the previous or next block.
-					 */
-					double minY = getBaseChart().getMinX();
-					double maxY = getBaseChart().getMaxX();
-					double delta = yAxis.getRange().upper - yAxis.getRange().lower;
-					double lower;
-					double upper;
-					//
-					if(e.stateMask == SWT.MOD1) {
-						/*
-						 * Previous
-						 */
-						lower = yAxis.getRange().lower + delta;
-						upper = yAxis.getRange().upper + delta;
-						upper = (upper > maxY) ? maxY : upper;
-					} else {
-						/*
-						 * Next
-						 */
-						lower = yAxis.getRange().lower - delta;
-						upper = yAxis.getRange().upper - delta;
-						lower = (lower < minY) ? minY : lower;
-					}
-					/*
-					 * Validate the range.
-					 */
-					if(lower >= minY && upper <= maxY) {
-						Range range = new Range(lower, upper);
-						applyVerticalSlide(xAxis, yAxis, range, new Event());
-					}
-				}
-			}
-		});
-		//
 		sliderVerticalControl.set(slider);
 	}
 
@@ -1556,16 +1505,23 @@ public class ScrollableChart extends Composite implements IScrollableChart, IEve
 			@Override
 			public void mouseDoubleClick(MouseEvent e) {
 
-				IChartSettings chartSettings = baseChart.getChartSettings();
-				if(chartSettings.isEnableRangeSelector()) {
-					if(!rangeSelector.isVisible()) {
-						if(e.y <= 47) {
-							/*
-							 * Show the range info composite.
-							 */
-							showRangeSelectorHint = enableRangeSelectorHint;
-							showRangeSelector(showRangeSelectorHint);
-						}
+				int x = e.x;
+				int y = e.y;
+				Rectangle boundsPlotArea = baseChart.getPlotArea().getBounds();
+				//
+				if(x >= boundsPlotArea.x && x <= (boundsPlotArea.x + boundsPlotArea.width)) {
+					if(y >= boundsPlotArea.y + boundsPlotArea.height) {
+						/*
+						 * Horizontal
+						 */
+						applyHorizontalDoubleClick(e);
+					}
+				} else if(x < boundsPlotArea.x) {
+					if(y >= boundsPlotArea.y && y <= (boundsPlotArea.y + boundsPlotArea.height)) {
+						/*
+						 * Vertical
+						 */
+						applyVerticalDoubleClick(e);
 					}
 				}
 			}
@@ -1592,6 +1548,90 @@ public class ScrollableChart extends Composite implements IScrollableChart, IEve
 		}
 	}
 
+	private void applyHorizontalDoubleClick(MouseEvent e) {
+
+		IAxis xAxis = baseChart.getAxisSet().getXAxis(BaseChart.ID_PRIMARY_X_AXIS);
+		IAxis yAxis = baseChart.getAxisSet().getYAxis(BaseChart.ID_PRIMARY_Y_AXIS);
+		//
+		if(xAxis != null && yAxis != null) {
+			/*
+			 * Slide to the previous or next block.
+			 */
+			double minX = getBaseChart().getMinX();
+			double maxX = getBaseChart().getMaxX();
+			double delta = xAxis.getRange().upper - xAxis.getRange().lower;
+			double lower;
+			double upper;
+			//
+			if(e.stateMask == SWT.MOD1) {
+				/*
+				 * Previous
+				 */
+				lower = xAxis.getRange().lower - delta;
+				upper = xAxis.getRange().upper - delta;
+				lower = (lower < minX) ? minX : lower;
+			} else {
+				/*
+				 * Next
+				 */
+				lower = xAxis.getRange().lower + delta;
+				upper = xAxis.getRange().upper + delta;
+				upper = (upper > maxX) ? maxX : upper;
+			}
+			/*
+			 * Validate the range.
+			 */
+			if(lower >= minX && upper <= maxX) {
+				Range range = new Range(lower, upper);
+				if(lower != upper) {
+					applyHorizontalSlide(xAxis, yAxis, range, new Event());
+				}
+			}
+		}
+	}
+
+	private void applyVerticalDoubleClick(MouseEvent e) {
+
+		IAxis xAxis = baseChart.getAxisSet().getXAxis(BaseChart.ID_PRIMARY_X_AXIS);
+		IAxis yAxis = baseChart.getAxisSet().getYAxis(BaseChart.ID_PRIMARY_Y_AXIS);
+		//
+		if(xAxis != null && yAxis != null) {
+			/*
+			 * Slide to the previous or next block.
+			 */
+			double minY = getBaseChart().getMinX();
+			double maxY = getBaseChart().getMaxX();
+			double delta = yAxis.getRange().upper - yAxis.getRange().lower;
+			double lower;
+			double upper;
+			//
+			if(e.stateMask == SWT.MOD1) {
+				/*
+				 * Previous
+				 */
+				lower = yAxis.getRange().lower + delta;
+				upper = yAxis.getRange().upper + delta;
+				upper = (upper > maxY) ? maxY : upper;
+			} else {
+				/*
+				 * Next
+				 */
+				lower = yAxis.getRange().lower - delta;
+				upper = yAxis.getRange().upper - delta;
+				lower = (lower < minY) ? minY : lower;
+			}
+			/*
+			 * Validate the range.
+			 */
+			if(lower >= minY && upper <= maxY) {
+				Range range = new Range(lower, upper);
+				if(lower != upper) {
+					applyVerticalSlide(xAxis, yAxis, range, new Event());
+				}
+			}
+		}
+	}
+
 	private void createSliderHorizontal(Composite parent) {
 
 		Slider slider = new Slider(parent, SWT.HORIZONTAL);
@@ -1612,50 +1652,6 @@ public class ScrollableChart extends Composite implements IScrollableChart, IEve
 				if(xAxis != null && yAxis != null) {
 					Range range = calculateShiftedRange(xAxis.getRange(), slider, SWT.HORIZONTAL);
 					applyHorizontalSlide(xAxis, yAxis, range, event);
-				}
-			}
-		});
-		//
-		slider.addMouseListener(new MouseAdapter() {
-
-			@Override
-			public void mouseDoubleClick(MouseEvent e) {
-
-				IAxis xAxis = baseChart.getAxisSet().getXAxis(BaseChart.ID_PRIMARY_X_AXIS);
-				IAxis yAxis = baseChart.getAxisSet().getYAxis(BaseChart.ID_PRIMARY_Y_AXIS);
-				//
-				if(xAxis != null && yAxis != null) {
-					/*
-					 * Slide to the previous or next block.
-					 */
-					double minX = getBaseChart().getMinX();
-					double maxX = getBaseChart().getMaxX();
-					double delta = xAxis.getRange().upper - xAxis.getRange().lower;
-					double lower;
-					double upper;
-					//
-					if(e.stateMask == SWT.MOD1) {
-						/*
-						 * Previous
-						 */
-						lower = xAxis.getRange().lower - delta;
-						upper = xAxis.getRange().upper - delta;
-						lower = (lower < minX) ? minX : lower;
-					} else {
-						/*
-						 * Next
-						 */
-						lower = xAxis.getRange().lower + delta;
-						upper = xAxis.getRange().upper + delta;
-						upper = (upper > maxX) ? maxX : upper;
-					}
-					/*
-					 * Validate the range.
-					 */
-					if(lower >= minX && upper <= maxX) {
-						Range range = new Range(lower, upper);
-						applyHorizontalSlide(xAxis, yAxis, range, new Event());
-					}
 				}
 			}
 		});
