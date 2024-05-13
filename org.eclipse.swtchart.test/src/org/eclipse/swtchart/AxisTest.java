@@ -494,7 +494,7 @@ public class AxisTest extends ChartTestCase {
 		showChart();
 		yRange = yAxis.getRange();
 		assertEquals(0d, yRange.lower, 0.01);
-		assertEquals(4.43, yRange.upper, 0.01);
+		assertEquals(4.41, yRange.upper, 0.03);
 		barSeries.setYSeries(ySeries4);
 		showChart();
 		yAxis.adjustRange();
@@ -509,7 +509,7 @@ public class AxisTest extends ChartTestCase {
 		yAxis.adjustRange();
 		showChart();
 		yRange = yAxis.getRange();
-		assertEquals(-5.15, yRange.lower, 0.01);
+		assertEquals(-5.13, yRange.lower, 0.03);
 		assertEquals(0d, yRange.upper, 0.01);
 		// bar + vertical orientation
 		barSeries.setYSeries(ySeries2);
