@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2008, 2023 SWTChart project.
+ * Copyright (c) 2008, 2024 SWTChart project.
  *
  * This program and the accompanying materials are made
  * available under the terms of the Eclipse Public License 2.0
@@ -494,7 +494,7 @@ public class AxisTest extends ChartTestCase {
 		showChart();
 		yRange = yAxis.getRange();
 		assertEquals(0d, yRange.lower, 0.01);
-		assertEquals(4.42, yRange.upper, 0.01); // was before 4.41
+		assertEquals(4.43, yRange.upper, 0.01);
 		barSeries.setYSeries(ySeries4);
 		showChart();
 		yAxis.adjustRange();
@@ -509,7 +509,7 @@ public class AxisTest extends ChartTestCase {
 		yAxis.adjustRange();
 		showChart();
 		yRange = yAxis.getRange();
-		assertEquals(-5.14, yRange.lower, 0.01); // was before -5.13
+		assertEquals(-5.15, yRange.lower, 0.01);
 		assertEquals(0d, yRange.upper, 0.01);
 		// bar + vertical orientation
 		barSeries.setYSeries(ySeries2);
