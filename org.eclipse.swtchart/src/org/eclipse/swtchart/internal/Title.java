@@ -24,8 +24,6 @@ import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Font;
 import org.eclipse.swt.graphics.GC;
 import org.eclipse.swt.graphics.Image;
-import org.eclipse.swt.graphics.ImageData;
-import org.eclipse.swt.graphics.PaletteData;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.graphics.TextLayout;
@@ -74,7 +72,7 @@ public class Title implements ITitle, PaintListener {
 		this.chart = parent;
 		text = DEFAULT_TEXT;
 		isVisible = true;
-		defaultFont = Resources.getFont(Resources.DEFAULT_FONT_NAME, DEFAULT_FONT_SIZE, SWT.BOLD); //$NON-NLS-1$
+		defaultFont = Resources.getFont(Resources.DEFAULT_FONT_NAME, DEFAULT_FONT_SIZE, SWT.BOLD); // $NON-NLS-1$
 		bounds = new Rectangle(0, 0, 0, 0);
 		font = defaultFont;
 		setForeground(Display.getDefault().getSystemColor(DEFAULT_FOREGROUND));
@@ -277,6 +275,7 @@ public class Title implements ITitle, PaintListener {
 	 * Disposes the resources.
 	 */
 	public void dispose() {
+
 		if(!chart.isDisposed()) {
 			chart.removePaintListener(this);
 		}
@@ -366,26 +365,16 @@ public class Title implements ITitle, PaintListener {
 		 * bit ugly especially with small font with bold.
 		 */
 		if(textWidth > 0 && textHeight > 0) {
-			/*
-			 * Set transparent background
-			 */
-			ImageData imageData = new ImageData(textWidth, textHeight, 32, new PaletteData(0xFF0000, 0xFF00, 0xFF));
-			for(int x = 0; x < textWidth; x++) {
-				for(int y = 0; y < textHeight; y++) {
-					int pixelValue = imageData.getPixel(x, y);
-					imageData.setAlpha(x, y, pixelValue == 0 ? 0 : 255);
-				}
-			}
-			Image image = new Image(Display.getCurrent(), imageData);
+			Image image = new Image(Display.getCurrent(), textWidth, textHeight);
 			GC tmpGc = new GC(image);
-			//
+			tmpGc.setBackground(chart.getBackground());
+			tmpGc.fillRectangle(image.getBounds());
 			if(useTextLayout()) {
 				TextLayout textLayout = Resources.getTextLayout(textLayoutUUID);
 				textLayout.draw(tmpGc, 0, 0);
 			} else {
 				tmpGc.setForeground(getForeground());
 				tmpGc.setFont(getFont());
-				tmpGc.fillRectangle(image.getBounds());
 				tmpGc.drawText(text, 0, 0);
 			}
 			/*
