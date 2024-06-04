@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2020, 2023 Lablicate GmbH.
+ * Copyright (c) 2020, 2024 Lablicate GmbH.
  *
  * This program and the accompanying materials are made
  * available under the terms of the Eclipse Public License 2.0
@@ -65,4 +65,9 @@ public class PreferenceConstants {
 	public static final boolean DEF_SHOW_HELP_FOR_EVENTS = false;
 	public static final String P_HELP_POPUP_TIME_TO_CLOSE = "showHelpForEvents_timeToClose";
 	public static final int DEF_HELP_POPUP_TIME_TO_CLOSE = 6000;
+	//
+	public static final String P_EXPORT_INDEX_AXIS_X = "exportIndexAxisX_";
+	public static final int DEF_EXPORT_INDEX_AXIS_X = 0;
+	public static final String P_EXPORT_INDEX_AXIS_Y = "exportIndexAxisY_";
+	public static final int DEF_EXPORT_INDEX_AXIS_Y = 0;
 }

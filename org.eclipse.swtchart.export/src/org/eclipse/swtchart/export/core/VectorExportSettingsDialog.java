@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2017, 2023 Lablicate GmbH.
+ * Copyright (c) 2017, 2024 Lablicate GmbH.
  *
  * This program and the accompanying materials are made
  * available under the terms of the Eclipse Public License 2.0
@@ -8,11 +8,12 @@
  * SPDX-License-Identifier: EPL-2.0
  * 
  * Contributors:
- * Dr. Philip Wenig - initial API and implementation
+ * Philip Wenig - initial API and implementation
  * Frank Buloup - Internationalization
  *******************************************************************************/
 package org.eclipse.swtchart.export.core;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicReference;
@@ -24,6 +25,8 @@ import org.eclipse.jface.window.Window;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.MouseAdapter;
 import org.eclipse.swt.events.MouseEvent;
+import org.eclipse.swt.events.SelectionAdapter;
+import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Combo;
@@ -219,8 +222,29 @@ public class VectorExportSettingsDialog extends TitleAreaDialog {
 		comboScaleX = ExtendedCombo.create(container, SWT.READ_ONLY);
 		comboScaleX.setItems(axisLabelsX);
 		comboScaleX.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+		comboScaleX.addSelectionListener(new SelectionAdapter() {
+
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+
+				if(preferenceStore != null) {
+					String name = getPreferenceName(PreferenceConstants.P_EXPORT_INDEX_AXIS_X, axisLabelsX);
+					String value = Integer.toString(comboScaleX.getSelectionIndex());
+					preferenceStore.setValue(name, value);
+				}
+			}
+		});
+		/*
+		 * Select the saved or default axis.
+		 */
 		if(axisLabelsX.length > 0) {
-			comboScaleX.select(0);
+			String name = getPreferenceName(PreferenceConstants.P_EXPORT_INDEX_AXIS_X, axisLabelsX);
+			int index = preferenceStore != null ? preferenceStore.getInt(name) : 0;
+			if(index >= 0 && index < axisLabelsX.length) {
+				comboScaleX.select(index);
+			} else {
+				comboScaleX.select(0);
+			}
 		}
 	}
 
@@ -233,8 +257,29 @@ public class VectorExportSettingsDialog extends TitleAreaDialog {
 		comboScaleY = ExtendedCombo.create(container, SWT.READ_ONLY);
 		comboScaleY.setItems(axisLabelsY);
 		comboScaleY.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+		comboScaleY.addSelectionListener(new SelectionAdapter() {
+
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+
+				if(preferenceStore != null) {
+					String name = getPreferenceName(PreferenceConstants.P_EXPORT_INDEX_AXIS_Y, axisLabelsY);
+					String value = Integer.toString(comboScaleY.getSelectionIndex());
+					preferenceStore.setValue(name, value);
+				}
+			}
+		});
+		/*
+		 * Select the saved or default axis.
+		 */
 		if(axisLabelsY.length > 0) {
-			comboScaleY.select(0);
+			String name = getPreferenceName(PreferenceConstants.P_EXPORT_INDEX_AXIS_Y, axisLabelsY);
+			int index = preferenceStore != null ? preferenceStore.getInt(name) : 0;
+			if(index >= 0 && index < axisLabelsY.length) {
+				comboScaleY.select(index);
+			} else {
+				comboScaleY.select(0);
+			}
 		}
 	}
 
@@ -282,5 +327,10 @@ public class VectorExportSettingsDialog extends TitleAreaDialog {
 			}
 		}
 		baseChart.redraw();
+	}
+
+	private String getPreferenceName(String prefix, String[] axisLabels) {
+
+		return prefix + Arrays.hashCode(axisLabels);
 	}
 }
