@@ -75,6 +75,7 @@
     <module>../org.eclipse.swtchart.export.extended.test</module>    
     <module>../org.eclipse.swtchart.feature</module>
     <module>../org.eclipse.swtchart.updatesite</module>
+    <module>../org.eclipse.swtchart.bom</module>    
   </modules>
   <!--
 	USE MAVEN 3.1.0
@@ -90,6 +91,7 @@
     <tycho.version>4.0.7</tycho.version>
     <pmd.version>3.22.0</pmd.version>
     <checkstyle.version>3.3.1</checkstyle.version>
+    <swtchart.version>0.14.0</swtchart.version>
     <!-- IDS -->
     <tycho.groupid>org.eclipse.tycho</tycho.groupid>
     <maven.groupid>org.apache.maven.plugins</maven.groupid>
@@ -129,7 +131,7 @@
            <artifact>
              <groupId>org.eclipse.swtchart</groupId>
 	     <artifactId>org.eclipse.swtchart.targetplatform</artifactId>
-	     <version>0.14.0</version>
+	     <version>${swtchart.version}</version>
             </artifact>
           </target>
           <environments>
