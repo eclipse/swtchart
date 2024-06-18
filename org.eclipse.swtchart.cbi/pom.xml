@@ -91,7 +91,6 @@
     <tycho.version>4.0.7</tycho.version>
     <pmd.version>3.22.0</pmd.version>
     <checkstyle.version>3.3.1</checkstyle.version>
-    <swtchart.version>0.14.0</swtchart.version>
     <!-- IDS -->
     <tycho.groupid>org.eclipse.tycho</tycho.groupid>
     <maven.groupid>org.apache.maven.plugins</maven.groupid>
@@ -131,7 +130,7 @@
            <artifact>
              <groupId>org.eclipse.swtchart</groupId>
 	     <artifactId>org.eclipse.swtchart.targetplatform</artifactId>
-	     <version>${swtchart.version}</version>
+	     <version>0.14.0</version>
             </artifact>
           </target>
           <environments>

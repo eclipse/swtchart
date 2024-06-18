@@ -5,7 +5,7 @@
 	<parent>
 		<groupId>org.eclipse.swtchart</groupId>
 		<artifactId>org.eclipse.swtchart.build</artifactId>
-		<version>${swtchart.version}</version>
+		<version>0.14.0</version>
 		<relativePath>../org.eclipse.swtchart.cbi/pom.xml</relativePath>
 	</parent>
 	
@@ -18,27 +18,27 @@
 			<dependency>
 				<groupId>org.eclipse.swtchart</groupId>
 				<artifactId>org.eclipse.swtchart</artifactId>
-				<version>${swtchart.version}</version>
+				<version>0.14.0-SNAPSHOT</version>
 			</dependency>
 			<dependency>
 				<groupId>org.eclipse.swtchart</groupId>
 				<artifactId>org.eclipse.swtchart.customcharts</artifactId>
-				<version>${swtchart.version}</version>
+				<version>0.14.0-SNAPSHOT</version>
 			</dependency>
 			<dependency>
 				<groupId>org.eclipse.swtchart</groupId>
 				<artifactId>org.eclipse.swtchart.extensions</artifactId>
-				<version>${swtchart.version}</version>
+				<version>0.14.0-SNAPSHOT</version>
 			</dependency>
 			<dependency>
 				<groupId>org.eclipse.swtchart</groupId>
 				<artifactId>org.eclipse.swtchart.extensions.eclipse</artifactId>
-				<version>${swtchart.version}</version>
+				<version>0.14.0-SNAPSHOT</version>
 			</dependency>
 			<dependency>
 				<groupId>org.eclipse.swtchart</groupId>
 				<artifactId>org.eclipse.swtchart.export</artifactId>
-				<version>${swtchart.version}</version>
+				<version>0.14.0-SNAPSHOT</version>
 			</dependency>
 		</dependencies>			
 	</dependencyManagement>
