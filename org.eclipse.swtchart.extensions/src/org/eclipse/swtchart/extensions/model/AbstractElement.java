@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2023 Lablicate GmbH.
+ * Copyright (c) 2023, 2024 Lablicate GmbH.
  *
  * This program and the accompanying materials are made
  * available under the terms of the Eclipse Public License 2.0
@@ -76,7 +76,7 @@ public abstract class AbstractElement implements IElement {
 	@Override
 	public int hashCode() {
 
-		return Objects.hash(color, x, y);
+		return Objects.hash(color, getX(), getY());
 	}
 
 	@Override
@@ -89,12 +89,12 @@ public abstract class AbstractElement implements IElement {
 		if(getClass() != obj.getClass())
 			return false;
 		AbstractElement other = (AbstractElement)obj;
-		return Objects.equals(color, other.color) && Double.doubleToLongBits(x) == Double.doubleToLongBits(other.x) && Double.doubleToLongBits(y) == Double.doubleToLongBits(other.y);
+		return Objects.equals(color, other.color) && Double.doubleToLongBits(getX()) == Double.doubleToLongBits(other.getX()) && Double.doubleToLongBits(getY()) == Double.doubleToLongBits(other.getY());
 	}
 
 	@Override
 	public String toString() {
 
-		return "AbstractElement [x=" + x + ", y=" + y + ", color=" + color + "]";
+		return "AbstractElement [x=" + getX() + ", y=" + getY() + ", color=" + color + "]";
 	}
 }
