@@ -94,8 +94,6 @@ public class ResourceSupport extends Resources {
 			 */
 			String filename = System.getProperty("user.home") + File.separator + ".eclipseswtchartsettings";
 			preferenceStore = new PreferenceStore(filename);
-			PreferenceInitializer preferenceInitializer = new PreferenceInitializer();
-			preferenceInitializer.initializeDefaultPreferences();
 			/*
 			 * Load existing values.
 			 */
