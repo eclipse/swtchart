@@ -20,14 +20,14 @@
   <version>0.14.0</version>
   <packaging>pom</packaging>
   <!--
-	DESCRIPTION
-  --> 
+  DESCRIPTION
+  -->
   <name>Eclipse SWTChart</name>
   <description>
-	Use this module to build the SWTChart bundles.
+  Use this module to build the SWTChart bundles.
   </description>
   <!--
-	LICENSES
+  LICENSES
   -->
   <licenses>
     <license>
@@ -36,7 +36,7 @@
     </license> 
   </licenses>
   <!--
-	DEVELOPERS
+  DEVELOPERS
   -->
   <developers>
     <developer>
@@ -59,7 +59,7 @@
     </developer>
   </developers>
   <!--
-	MODULES
+  MODULES
   -->
   <modules>
     <module>../org.eclipse.swtchart.targetplatform</module>
@@ -84,7 +84,7 @@
     <maven>3.1.0</maven>
   </prerequisites>
   <!--
-	PROPERTIES
+  PROPERTIES
   -->
   <properties>
     <!-- VERSIONS -->
@@ -98,11 +98,11 @@
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
   </properties>
   <!--
-	BUILD
+  BUILD
   -->
   <build>
     <!--
-	PLUGINS
+  PLUGINS
     -->  
     <plugins>
       <plugin>
@@ -129,8 +129,8 @@
          <target>
            <artifact>
              <groupId>org.eclipse.swtchart</groupId>
-	     <artifactId>org.eclipse.swtchart.targetplatform</artifactId>
-	     <version>0.14.0</version>
+             <artifactId>org.eclipse.swtchart.targetplatform</artifactId>
+             <version>0.14.0</version>
             </artifact>
           </target>
           <environments>
