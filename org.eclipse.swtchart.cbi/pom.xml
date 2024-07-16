@@ -20,14 +20,14 @@
   <version>0.14.0</version>
   <packaging>pom</packaging>
   <!--
-	DESCRIPTION
-  --> 
+  DESCRIPTION
+  -->
   <name>Eclipse SWTChart</name>
   <description>
-	Use this module to build the SWTChart bundles.
+  Use this module to build the SWTChart bundles.
   </description>
   <!--
-	LICENSES
+  LICENSES
   -->
   <licenses>
     <license>
@@ -36,7 +36,7 @@
     </license> 
   </licenses>
   <!--
-	DEVELOPERS
+  DEVELOPERS
   -->
   <developers>
     <developer>
@@ -59,7 +59,7 @@
     </developer>
   </developers>
   <!--
-	MODULES
+  MODULES
   -->
   <modules>
     <module>../org.eclipse.swtchart.targetplatform</module>
@@ -78,17 +78,11 @@
     <module>../org.eclipse.swtchart.bom</module>    
   </modules>
   <!--
-	USE MAVEN 3.1.0
-  --> 
-  <prerequisites>
-    <maven>3.1.0</maven>
-  </prerequisites>
-  <!--
-	PROPERTIES
+  PROPERTIES
   -->
   <properties>
     <!-- VERSIONS -->
-    <tycho.version>4.0.7</tycho.version>
+    <tycho.version>4.0.8</tycho.version>
     <pmd.version>3.22.0</pmd.version>
     <checkstyle.version>3.3.1</checkstyle.version>
     <!-- IDS -->
@@ -98,13 +92,33 @@
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
   </properties>
   <!--
-	BUILD
+  BUILD
   -->
   <build>
     <!--
-	PLUGINS
+  PLUGINS
     -->  
     <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-enforcer-plugin</artifactId>
+        <version>3.4.1</version>
+        <executions>
+          <execution>
+            <id>enforce-maven</id>
+            <goals>
+              <goal>enforce</goal>
+            </goals>
+            <configuration>
+              <rules>
+                <requireMavenVersion>
+                <version>3.9.6</version>
+                </requireMavenVersion>
+              </rules>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
       <plugin>
         <groupId>${tycho.groupid}</groupId>
         <artifactId>tycho-packaging-plugin</artifactId>
@@ -129,8 +143,8 @@
          <target>
            <artifact>
              <groupId>org.eclipse.swtchart</groupId>
-	     <artifactId>org.eclipse.swtchart.targetplatform</artifactId>
-	     <version>0.14.0</version>
+             <artifactId>org.eclipse.swtchart.targetplatform</artifactId>
+             <version>0.14.0</version>
             </artifact>
           </target>
           <environments>
