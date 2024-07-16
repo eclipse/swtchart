@@ -12,10 +12,11 @@
  *******************************************************************************/
 package org.eclipse.swtchart.extensions.core;
 
-import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URL;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -30,7 +31,6 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.SWTException;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swtchart.Resources;
-import org.eclipse.swtchart.extensions.preferences.PreferenceInitializer;
 
 public class ResourceSupport extends Resources {
 
@@ -88,21 +88,21 @@ public class ResourceSupport extends Resources {
 	public static IPreferenceStore getPreferenceStore() {
 
 		if(preferenceStore == null) {
-			/*
-			 * SWTChart may be used also in a non Eclipse context.
-			 * Hence, a simple file preference store instead of a ScopedPreferenceStore is used.
-			 */
-			String filename = System.getProperty("user.home") + File.separator + ".eclipseswtchartsettings";
-			preferenceStore = new PreferenceStore(filename);
-			PreferenceInitializer preferenceInitializer = new PreferenceInitializer();
-			preferenceInitializer.initializeDefaultPreferences();
-			/*
-			 * Load existing values.
-			 */
 			try {
+				/*
+				 * SWTChart may be used also in a non Eclipse context.
+				 * Hence, a simple file preference store instead of a ScopedPreferenceStore is used.
+				 */
+				Path path = Paths.get(System.getProperty("user.home"), ".eclipse", "org.eclipse.swtchart.extensions", "chart.properties");
+				if(!path.toFile().exists()) {
+					Files.createDirectories(path.getParent());
+					Files.createFile(path);
+				}
+				preferenceStore = new PreferenceStore(path.toAbsolutePath().toString());
+				/*
+				 * Load existing values.
+				 */
 				((PreferenceStore)preferenceStore).load();
-			} catch(FileNotFoundException e) {
-				// Ignore
 			} catch(IOException e) {
 				e.printStackTrace();
 			}
