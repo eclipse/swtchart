@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2017, 2023 Lablicate GmbH.
+ * Copyright (c) 2017, 2024 Lablicate GmbH.
  *
  * This program and the accompanying materials are made
  * available under the terms of the Eclipse Public License 2.0
@@ -8,11 +8,10 @@
  * SPDX-License-Identifier: EPL-2.0
  * 
  * Contributors:
- * Dr. Philip Wenig - initial API and implementation
+ * Philip Wenig - initial API and implementation
  *******************************************************************************/
 package org.eclipse.swtchart.extensions.events;
 
-import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swtchart.IAxis;
 import org.eclipse.swtchart.IAxisSet;
@@ -21,7 +20,7 @@ import org.eclipse.swtchart.extensions.core.BaseChart;
 import org.eclipse.swtchart.extensions.core.IMouseSupport;
 import org.eclipse.swtchart.extensions.core.RangeRestriction;
 
-public class MouseWheelEvent extends AbstractHandledEventProcessor implements IHandledEventProcessor {
+public abstract class AbstractMouseEvent extends AbstractHandledEventProcessor implements IHandledEventProcessor {
 
 	@Override
 	public int getEvent() {
@@ -36,50 +35,17 @@ public class MouseWheelEvent extends AbstractHandledEventProcessor implements IH
 	}
 
 	@Override
-	public int getStateMask() {
-
-		return SWT.NONE;
-	}
-
-	@Override
 	public void handleEvent(BaseChart baseChart, Event event) {
 
-		runZoomAction(baseChart, event);
+		runAction(baseChart, event);
 		postValidateZoom(baseChart);
-		//
 		baseChart.fireUpdateCustomRangeSelectionHandlers(event);
 		baseChart.redraw();
 	}
 
-	private void runZoomAction(BaseChart baseChart, Event event) {
+	protected abstract void runAction(BaseChart baseChart, Event event);
 
-		RangeRestriction rangeRestriction = baseChart.getRangeRestriction();
-		IAxisSet axisSet = baseChart.getAxisSet();
-		IAxis xAxis = axisSet.getXAxis(BaseChart.ID_PRIMARY_X_AXIS);
-		IAxis yAxis = axisSet.getYAxis(BaseChart.ID_PRIMARY_Y_AXIS);
-		//
-		if(baseChart.isZoomXY(rangeRestriction)) {
-			/*
-			 * X and Y zoom.
-			 */
-			baseChart.zoomX(xAxis, event);
-			baseChart.zoomY(yAxis, event);
-			showClickbindingHelp(baseChart, "Zoom", "Zoom the X and Y axis.");
-		} else {
-			/*
-			 * X or Y zoom.
-			 */
-			if(rangeRestriction.isRestrictZoomX()) {
-				baseChart.zoomX(xAxis, event);
-				showClickbindingHelp(baseChart, "Zoom", "Zoom the X axis.");
-			} else if(rangeRestriction.isRestrictZoomY()) {
-				baseChart.zoomY(yAxis, event);
-				showClickbindingHelp(baseChart, "Zoom", "Zoom the Y axis.");
-			}
-		}
-	}
-
-	private void postValidateZoom(BaseChart baseChart) {
+	protected void postValidateZoom(BaseChart baseChart) {
 
 		RangeRestriction rangeRestriction = baseChart.getRangeRestriction();
 		IAxisSet axisSet = baseChart.getAxisSet();

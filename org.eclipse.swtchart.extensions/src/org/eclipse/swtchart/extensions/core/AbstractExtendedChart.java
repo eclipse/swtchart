@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2017, 2023 Lablicate GmbH.
+ * Copyright (c) 2017, 2024 Lablicate GmbH.
  *
  * This program and the accompanying materials are made
  * available under the terms of the Eclipse Public License 2.0
@@ -8,7 +8,7 @@
  * SPDX-License-Identifier: EPL-2.0
  * 
  * Contributors:
- * Dr. Philip Wenig - initial API and implementation
+ * Philip Wenig - initial API and implementation
  * Frank Buloup - Internationalization
  *******************************************************************************/
 package org.eclipse.swtchart.extensions.core;
@@ -459,7 +459,7 @@ public abstract class AbstractExtendedChart extends AbstractHandledChart impleme
 		}
 	}
 
-	protected boolean isRangeValid(Range range) {
+	public boolean isRangeValid(Range range) {
 
 		if(Double.isNaN(range.lower) || Double.isNaN(range.upper)) {
 			return false;
