@@ -26,7 +26,7 @@ public class RangeSupport {
 	private static final int HORIZONTAL_SCROLL_LENGTH = 1000000;
 	private static final int VERTICAL_SCROLL_LENGTH = 1000000;
 
-	public static void applyHorizontalSlide(BaseChart baseChart, boolean slidePrevious) {
+	public static void applyHorizontalSlide(BaseChart baseChart, double factor, boolean slidePrevious) {
 
 		IAxis xAxis = baseChart.getAxisSet().getXAxis(BaseChart.ID_PRIMARY_X_AXIS);
 		IAxis yAxis = baseChart.getAxisSet().getYAxis(BaseChart.ID_PRIMARY_Y_AXIS);
@@ -37,7 +37,7 @@ public class RangeSupport {
 			 */
 			double minX = baseChart.getMinX();
 			double maxX = baseChart.getMaxX();
-			double delta = xAxis.getRange().upper - xAxis.getRange().lower;
+			double delta = (xAxis.getRange().upper - xAxis.getRange().lower) * factor;
 			double lower;
 			double upper;
 			//
@@ -68,7 +68,7 @@ public class RangeSupport {
 		}
 	}
 
-	public static void applyVerticalSlide(BaseChart baseChart, boolean slidePrevious) {
+	public static void applyVerticalSlide(BaseChart baseChart, double factor, boolean slidePrevious) {
 
 		IAxis xAxis = baseChart.getAxisSet().getXAxis(BaseChart.ID_PRIMARY_X_AXIS);
 		IAxis yAxis = baseChart.getAxisSet().getYAxis(BaseChart.ID_PRIMARY_Y_AXIS);
@@ -79,7 +79,7 @@ public class RangeSupport {
 			 */
 			double minY = baseChart.getMinX();
 			double maxY = baseChart.getMaxX();
-			double delta = yAxis.getRange().upper - yAxis.getRange().lower;
+			double delta = (yAxis.getRange().upper - yAxis.getRange().lower) * factor;
 			double lower;
 			double upper;
 			//

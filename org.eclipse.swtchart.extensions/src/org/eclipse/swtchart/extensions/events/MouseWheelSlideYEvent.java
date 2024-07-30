@@ -27,6 +27,6 @@ public class MouseWheelSlideYEvent extends AbstractMouseEvent {
 
 	protected void runAction(BaseChart baseChart, Event event) {
 
-		RangeSupport.applyVerticalSlide(baseChart, event.count < 0);
+		RangeSupport.applyVerticalSlide(baseChart, 0.1d, event.count < 0);
 	}
 }

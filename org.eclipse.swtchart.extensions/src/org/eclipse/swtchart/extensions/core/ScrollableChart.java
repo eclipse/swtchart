@@ -1434,14 +1434,14 @@ public class ScrollableChart extends Composite implements IScrollableChart, IEve
 						/*
 						 * Horizontal
 						 */
-						RangeSupport.applyHorizontalSlide(baseChart, e.stateMask == SWT.MOD1);
+						RangeSupport.applyHorizontalSlide(baseChart, 0.9d, e.stateMask == SWT.MOD1);
 					}
 				} else if(x < boundsPlotArea.x) {
 					if(y >= boundsPlotArea.y && y <= (boundsPlotArea.y + boundsPlotArea.height)) {
 						/*
 						 * Vertical
 						 */
-						RangeSupport.applyVerticalSlide(baseChart, e.stateMask == SWT.MOD1);
+						RangeSupport.applyVerticalSlide(baseChart, 0.9d, e.stateMask == SWT.MOD1);
 					}
 				}
 			}
