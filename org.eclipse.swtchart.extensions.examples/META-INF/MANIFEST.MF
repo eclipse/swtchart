@@ -5,7 +5,7 @@ Bundle-Name: SWTChat Extension Examples
 Bundle-SymbolicName: org.eclipse.swtchart.extensions.examples;singleton:=true
 Bundle-Version: 0.14.0.qualifier
 Bundle-Activator: org.eclipse.swtchart.extensions.examples.Activator
-Bundle-Vendor: Eclipse
+Bundle-Vendor: Eclipse SWTChart
 Require-Bundle: org.eclipse.ui,
  org.eclipse.core.runtime,
  org.eclipse.swtchart;bundle-version="0.14.0",

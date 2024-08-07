@@ -4,7 +4,7 @@ Bundle-ManifestVersion: 2
 Bundle-Name: Test
 Bundle-SymbolicName: org.eclipse.swtchart.extensions.test
 Bundle-Version: 0.14.0.qualifier
-Bundle-Vendor: ChemClipse
+Bundle-Vendor: Eclipse SWTChart
 Fragment-Host: org.eclipse.swtchart.extensions;bundle-version="0.14.0"
 Bundle-RequiredExecutionEnvironment: JavaSE-17
 Require-Bundle: org.junit;bundle-version="4.12.0",
