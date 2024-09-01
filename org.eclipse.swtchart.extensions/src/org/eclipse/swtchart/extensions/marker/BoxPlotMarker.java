@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2022 Lablicate GmbH.
+ * Copyright (c) 2022, 2024 Lablicate GmbH.
  *
  * This program and the accompanying materials are made
  * available under the terms of the Eclipse Public License 2.0
@@ -40,7 +40,6 @@ public class BoxPlotMarker extends AbstractBaseChartPaintListener implements IBa
 		this.boxPlotChart = boxPlotChart;
 	}
 
-	@SuppressWarnings("unused")
 	@Override
 	public void paintControl(PaintEvent e) {
 
