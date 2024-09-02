@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2008, 2023 SWTChart project.
+ * Copyright (c) 2008, 2024 SWTChart project.
  *
  * This program and the accompanying materials are made
  * available under the terms of the Eclipse Public License 2.0
@@ -306,38 +306,53 @@ public class AxisTickLabels implements PaintListener {
 		if(tickLabelPositions.isEmpty() || axis.getTick().getTickLabelAngle() != 0) {
 			return;
 		}
-		// set the tick label visibility
+		/*
+		 * Set the tick label visibility.
+		 */
 		int previousPosition = 0;
 		for(int i = 0; i < tickLabelPositions.size(); i++) {
-			// check if there is enough space to draw tick label
+			/*
+			 * Check if there is enough space to draw tick label.
+			 */
 			boolean hasSpaceToDraw = true;
 			if(i != 0) {
 				hasSpaceToDraw = hasSpaceToDraw(previousPosition, tickLabelPositions.get(i), tickLabels.get(i));
 			}
-			// check if the tick label value is major
+			/*
+			 * Check if the tick label value is major.
+			 */
 			boolean isMajorTick = true;
 			if(!axis.isValidCategoryAxis()) {
+				/*
+				 * Log
+				 */
 				if(axis.isLogScaleEnabled()) {
 					isMajorTick = isMajorTick(tickLabelValues.get(i));
 				}
-				// check if the same tick label is repeated
-				String currentLabel = tickLabels.get(i);
+				//
 				try {
 					/*
 					 * Check if the value is close to the tick label, then it is a major tick
 					 * Patch by MatthewKhouzam
-					 * https://github.com/eclipse/swtchart/pull/215/commits/b8214bd422205386e5470af2498dbd8227f87d8c
+					 * https://github.com/eclipse/swtchart/pull/215/commits/b8214bd422205386e5470af2498dbd8227f87d8c7
+					 * Check if the same tick label is repeated
 					 */
+					String currentLabel = tickLabels.get(i);
 					double value = parse(currentLabel);
 					int diffPixels = Math.abs((axis.getPixelCoordinate(value) - axis.getPixelCoordinate(tickLabelValues.get(i))));
 					int maximumDeltaPixels = 2;
 					isMajorTick = (diffPixels <= maximumDeltaPixels);
 				} catch(ParseException e) {
-					// label is not decimal value but string
+					// Label is not decimal value but string
 				}
 			}
-			if(hasSpaceToDraw && isMajorTick) {
-				previousPosition = tickLabelPositions.get(i);
+			//
+			if(hasSpaceToDraw) {
+				if(isMajorTick) {
+					previousPosition = tickLabelPositions.get(i);
+				} else {
+					tickLabels.set(i, "...");
+				}
 			} else {
 				tickVisibilities.set(i, Boolean.FALSE);
 			}
@@ -364,9 +379,12 @@ public class AxisTickLabels implements PaintListener {
 		if(format == null) {
 			return new DecimalFormat(DEFAULT_DECIMAL_FORMAT).parse(label).doubleValue();
 		}
+		//
 		Object parsed = format.parseObject(label);
-		if(!(parsed instanceof Number))
+		if(!(parsed instanceof Number)) {
 			throw new ParseException(label, 0);
+		}
+		//
 		return ((Number)parsed).doubleValue();
 	}
 
