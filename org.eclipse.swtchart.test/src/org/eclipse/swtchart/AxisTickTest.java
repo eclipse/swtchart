@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2008, 2023 SWTChart project.
+ * Copyright (c) 2008, 2024 SWTChart project.
  *
  * This program and the accompanying materials are made
  * available under the terms of the Eclipse Public License 2.0
@@ -261,15 +261,13 @@ public class AxisTickTest extends ChartTestCase {
 		Format xFormat = DateFormat.getTimeInstance(DateFormat.FULL);
 		xAxisTick.setFormat(xFormat);
 		showChart();
-		
 		// set axis range
-        chart.getAxisSet().getYAxis(0).setRange(new Range(10000, 10000.001));
+		chart.getAxisSet().getYAxis(0).setRange(new Range(10000, 10000.001));
 		showChart();
-
 		// check if displayed tick labels are not duplicated
 		AxisTickLabels axisTickLabels = ((AxisTick)yAxisTick).getAxisTickLabels();
 		ArrayList<Boolean> visibilities = axisTickLabels.getTickVisibilities();
-		boolean[] expected = {true, false, false, false, false, true};
+		boolean[] expected = {true, true, true, true, true, true}; // true but "..." is displayed
 		for(int i = 0; i < expected.length; i++) {
 			assertEquals(expected[i], visibilities.get(i));
 		}
@@ -291,11 +289,10 @@ public class AxisTickTest extends ChartTestCase {
 		for(int i = 0; i < expected.length; i++) {
 			assertEquals(expected[i], values[i], 0);
 		}
-		
 		// check if tick labels are visible
 		AxisTickLabels axisTickLabels = ((AxisTick)yAxisTick).getAxisTickLabels();
 		ArrayList<Boolean> visibilities = axisTickLabels.getTickVisibilities();
-		for(boolean visibility: visibilities) {
+		for(boolean visibility : visibilities) {
 			assertTrue(visibility);
 		}
 	}
