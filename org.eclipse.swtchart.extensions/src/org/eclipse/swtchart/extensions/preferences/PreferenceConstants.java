@@ -16,16 +16,9 @@ public class PreferenceConstants {
 
 	public static final int MIN_MOVE_LEGEND = 1;
 	public static final int MAX_MOVE_LEGEND = 100;
-	/*
-	 * The buffered selection creates a screenshot and sets it in the background
-	 * while doing the data selection. This prevents to redraw the series while
-	 * doing the selection event. Known limitations:
-	 * ---
-	 * macOS - https://github.com/eclipse/swtchart/issues/150
-	 * GTK3 - https://github.com/eclipse/swtchart/issues/166
-	 */
+	//
 	public static final String P_BUFFER_SELECTION = "bufferSelection";
-	public static final boolean DEF_BUFFER_SELECTION = false;
+	public static final boolean DEF_BUFFER_SELECTION = true;
 	public static final String P_KEEP_SERIES_DESCRIPTION = "keepSeriesDescription";
 	public static final boolean DEF_KEEP_SERIES_DESCRIPTION = false;
 	//

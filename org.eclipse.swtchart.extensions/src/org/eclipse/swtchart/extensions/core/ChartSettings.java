@@ -57,12 +57,6 @@ import org.eclipse.swtchart.extensions.preferences.PreferenceConstants;
 
 public class ChartSettings implements IChartSettings {
 
-	/*
-	 * As it turned out, that buffered rendering under macOS fails somehow,
-	 * the bufferSelection option is deactivated by default. Charts shall
-	 * enable buffering via an option, so that it can be tested in several
-	 * environments, e.g. macOS, GTK3, ... .
-	 */
 	private boolean bufferSelection = false;
 	//
 	private boolean enableRangeSelector = false;
@@ -230,17 +224,7 @@ public class ChartSettings implements IChartSettings {
 	@Override
 	public void setBufferSelection(boolean bufferSelection) {
 
-		/*
-		 * Limitations
-		 * macOS - https://github.com/eclipse/swtchart/issues/150
-		 * GTK3 - https://github.com/eclipse/swtchart/issues/166
-		 */
-		if(isMacOS()) {
-			System.out.println("Can't set buffer selection on macOS true, see: https://github.com/eclipse/swtchart/issues/150"); //$NON-NLS-1$
-			this.bufferSelection = false;
-		} else {
-			this.bufferSelection = bufferSelection;
-		}
+		this.bufferSelection = bufferSelection;
 	}
 
 	@Override
@@ -737,14 +721,5 @@ public class ChartSettings implements IChartSettings {
 	public boolean isEnableTooltips() {
 
 		return enableTooltips;
-	}
-
-	private boolean isMacOS() {
-
-		String os = System.getProperty("os.name"); //$NON-NLS-1$
-		if(os != null) {
-			return os.toLowerCase().indexOf("mac") >= 0; //$NON-NLS-1$
-		}
-		return false;
 	}
 }

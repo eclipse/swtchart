@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2017, 2023 Lablicate GmbH.
+ * Copyright (c) 2017, 2024 Lablicate GmbH.
  *
  * This program and the accompanying materials are made
  * available under the terms of the Eclipse Public License 2.0
@@ -90,6 +90,11 @@ public class PreferenceSupport {
 
 	}
 
+	/**
+	 * The buffered selection creates a screenshot and sets it in the background
+	 * while doing the data selection. This prevents to redraw the series while
+	 * doing the selection event.
+	 */
 	public static boolean isBufferedSelection() {
 
 		boolean bufferedSelection = false;
@@ -97,7 +102,6 @@ public class PreferenceSupport {
 		if(preferenceStore != null) {
 			bufferedSelection = preferenceStore.getBoolean(PreferenceConstants.P_BUFFER_SELECTION);
 		}
-		//
 		return bufferedSelection;
 	}
 
