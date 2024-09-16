@@ -1,4 +1,4 @@
-# The Eclipse SWTChart Main Repository
+# Eclipse SWTChart
 
 Please see [our homepage](https://projects.eclipse.org/projects/science.swtchart) for detailed information about SWTChart, including the update site.
 
