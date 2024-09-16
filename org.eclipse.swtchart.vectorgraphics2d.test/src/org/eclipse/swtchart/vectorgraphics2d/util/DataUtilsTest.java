@@ -1,0 +1,234 @@
+/*******************************************************************************
+ * Copyright (c) 2010, 2019 VectorGraphics2D project.
+ *
+ * This program and the accompanying materials are made
+ * available under the terms of the Eclipse Public License 2.0
+ * which is available at https://www.eclipse.org/legal/epl-2.0/
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ * 
+ * Contributors:
+ * Erich Seifert - initial API and implementation
+ * Michael Seifert - initial API and implementation
+ *******************************************************************************/
+package org.eclipse.swtchart.vectorgraphics2d.util;
+
+import static org.junit.Assert.assertArrayEquals;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+import java.util.Map;
+
+import org.junit.Test;
+
+public class DataUtilsTest {
+
+	@Test
+	public void stripTrailingSpaces() {
+
+		String result = DataUtils.stripTrailing(" foo bar!   ", " ");
+		String expected = " foo bar!";
+		assertEquals(expected, result);
+	}
+
+	@Test
+	public void stripTrailingSpacesInMultilineString() {
+
+		String result = DataUtils.stripTrailing(" foo bar! \n   ", " ");
+		String expected = " foo bar! \n";
+		assertEquals(expected, result);
+	}
+
+	@Test
+	public void stripComplexSubstring() {
+
+		String result = DataUtils.stripTrailing("+bar foo+bar+bar+bar", "+bar");
+		String expected = "+bar foo";
+		assertEquals(expected, result);
+	}
+
+	@Test
+	public void formattingIntegersDoesntCauseTrailingZeros() {
+
+		String smallDecimalString = DataUtils.format(42);
+		String expected = "42";
+		assertEquals(expected, smallDecimalString);
+	}
+
+	@Test
+	public void formattingSmallDecimalsDoesntCauseScientificNotation() {
+
+		String result = DataUtils.format(1e-4d);
+		String expected = "0.0001";
+		assertEquals(expected, result);
+	}
+
+	@Test
+	public void formattingZeroDecimalsDoesntCauseTrailingZeros() {
+
+		String result = DataUtils.format(0d);
+		String expected = "0";
+		assertEquals(expected, result);
+	}
+
+	@Test
+	public void formattingBigDecimalsDoesntCauseScientificNotation() {
+
+		String result = DataUtils.format(1e+8d);
+		String expected = "100000000";
+		assertEquals(expected, result);
+	}
+
+	@SuppressWarnings("removal")
+	@Test
+	public void mapCreatesCorrectMappingWithValidParameters() {
+
+		Map<String, Integer> result = DataUtils.map(new String[]{"foo"}, new Integer[]{42});
+		assertTrue(result.containsKey("foo"));
+		assertEquals(new Integer(42), result.get("foo"));
+	}
+
+	@Test(expected = IllegalArgumentException.class)
+	public void mapFailsWithInvalidParameterCount() {
+
+		DataUtils.map(new String[]{"foo", "bar"}, new Integer[]{42});
+	}
+
+	@Test
+	public void joinReturnsEmptyStringForEmptyList() {
+
+		String result = DataUtils.join("@@", Collections.emptyList());
+		assertTrue(result.isEmpty());
+	}
+
+	@Test
+	public void joinReturnsEmptyStringForEmptyArray() {
+
+		String result = DataUtils.join("@@", new String[]{});
+		assertTrue(result.isEmpty());
+	}
+
+	@Test
+	public void joinReturnsEmptyStringForFloatArray() {
+
+		String result = DataUtils.join("@@", new float[]{});
+		assertTrue(result.isEmpty());
+	}
+
+	@Test
+	public void joinReturnsEmptyStringForDoubleArray() {
+
+		String result = DataUtils.join("@@", new double[]{});
+		assertTrue(result.isEmpty());
+	}
+
+	@Test
+	public void joinReturnsEmptyStringForNullParameter() {
+
+		String result = DataUtils.join("@@", (String[])null);
+		assertTrue(result.isEmpty());
+	}
+
+	@Test
+	public void joinReturnsOnlyElementForSingletonArray() {
+
+		String result = DataUtils.join("@@", new String[]{"foo"});
+		assertEquals("foo", result);
+	}
+
+	@Test
+	public void joinReturnsOnlyElementForSingletonList() {
+
+		String result = DataUtils.join("@@", Collections.singletonList("foo"));
+		assertEquals("foo", result);
+	}
+
+	@Test
+	public void joinReturnsStringWithElementsAndSeparatorForArray() {
+
+		String result = DataUtils.join("@@", new String[]{"foo", "bar"});
+		assertEquals("foo@@bar", result);
+	}
+
+	@Test
+	public void joinReturnsStringWithElementsAndSeparatorForFloatArray() {
+
+		String result = DataUtils.join("@@", new float[]{1.2f, 3.4f});
+		assertEquals("1.2@@3.4", result);
+	}
+
+	@Test
+	public void joinReturnsStringWithElementsAndSeparatorForDoubleArray() {
+
+		String result = DataUtils.join("@@", new double[]{1.2d, 3.4d});
+		assertEquals("1.2@@3.4", result);
+	}
+
+	@Test
+	public void joinReturnsStringWithElementsAndSeparatorForList() {
+
+		String result = DataUtils.join("@@", Arrays.asList("foo", "bar"));
+		assertEquals("foo@@bar", result);
+	}
+
+	@Test
+	public void maxReturnsMaximumOfIntegers() {
+
+		int result = DataUtils.max(23, 42, -128, 4, 0);
+		assertEquals(42, result);
+	}
+
+	@Test(expected = IllegalArgumentException.class)
+	public void maxFailsWithoutParameters() {
+
+		DataUtils.max();
+	}
+
+	@Test
+	public void asListReturnsListContainingCorrectFloatValues() {
+
+		float[] floatValues = {1f, 2f, 3f};
+		List<Float> result = DataUtils.asList(floatValues);
+		List<Float> expected = Arrays.asList(1f, 2f, 3f);
+		assertEquals(expected, result);
+	}
+
+	@Test
+	public void asListReturnsEmptyListForNullFloatArray() {
+
+		List<Float> result = DataUtils.asList((float[])null);
+		assertEquals(Collections.<Float> emptyList(), result);
+	}
+
+	@Test
+	public void asListReturnsListContainingCorrectDoubleValues() {
+
+		double[] doubleValues = {1d, 2d, 3d};
+		List<Double> result = DataUtils.asList(doubleValues);
+		List<Double> expected = Arrays.asList(1d, 2d, 3d);
+		assertEquals(expected, result);
+	}
+
+	@Test
+	public void asListReturnsEmptyListForNullDoubleArray() {
+
+		List<Double> result = DataUtils.asList((double[])null);
+		assertEquals(Collections.<Double> emptyList(), result);
+	}
+
+	@Test
+	public void transferWritesAllBytesOfInputStreamToOutputStream() throws IOException {
+
+		byte[] bytes = {86, 71, 50, 68};
+		ByteArrayInputStream inputStream = new ByteArrayInputStream(bytes);
+		ByteArrayOutputStream outputStream = new ByteArrayOutputStream(4);
+		DataUtils.transfer(inputStream, outputStream, 1);
+		assertArrayEquals(bytes, outputStream.toByteArray());
+	}
+}

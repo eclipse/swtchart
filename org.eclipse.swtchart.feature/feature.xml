@@ -45,4 +45,8 @@ SPDX-License-Identifier: EPL-2.0
          id="org.eclipse.swtchart.extensions.eclipse"
          version="0.0.0"/>
 
+   <plugin
+         id="org.eclipse.swtchart.vectorgraphics2d"
+         version="0.0.0"/>
+
 </feature>

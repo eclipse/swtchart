@@ -72,7 +72,9 @@
     <module>../org.eclipse.swtchart.export</module>
     <module>../org.eclipse.swtchart.export.test</module>
     <module>../org.eclipse.swtchart.export.extended</module>
-    <module>../org.eclipse.swtchart.export.extended.test</module>    
+    <module>../org.eclipse.swtchart.export.extended.test</module>
+    <module>../org.eclipse.swtchart.vectorgraphics2d</module>
+    <module>../org.eclipse.swtchart.vectorgraphics2d.test</module>        
     <module>../org.eclipse.swtchart.feature</module>
     <module>../org.eclipse.swtchart.updatesite</module>
     <module>../org.eclipse.swtchart.bom</module>    

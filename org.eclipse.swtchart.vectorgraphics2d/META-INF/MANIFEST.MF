@@ -1,0 +1,20 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: SWTChart VectorGraphics2d
+Bundle-SymbolicName: org.eclipse.swtchart.vectorgraphics2d
+Bundle-Vendor: Eclipse SWTChart
+Bundle-Version: 0.14.0.qualifier
+Export-Package: org.eclipse.swtchart.vectorgraphics2d.core,
+ org.eclipse.swtchart.vectorgraphics2d.eps,
+ org.eclipse.swtchart.vectorgraphics2d.intermediate,
+ org.eclipse.swtchart.vectorgraphics2d.intermediate.commands,
+ org.eclipse.swtchart.vectorgraphics2d.intermediate.filters,
+ org.eclipse.swtchart.vectorgraphics2d.pdf,
+ org.eclipse.swtchart.vectorgraphics2d.svg,
+ org.eclipse.swtchart.vectorgraphics2d.util
+Bundle-Activator: org.eclipse.swtchart.vectorgraphics2d.Activator
+Require-Bundle: org.eclipse.ui,
+ org.eclipse.core.runtime
+Bundle-RequiredExecutionEnvironment: JavaSE-17
+Automatic-Module-Name: org.eclipse.swtchart.vectorgraphics2d
+Bundle-ActivationPolicy: lazy
