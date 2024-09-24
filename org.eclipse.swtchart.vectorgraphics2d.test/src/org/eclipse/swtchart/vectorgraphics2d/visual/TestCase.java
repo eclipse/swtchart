@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2010, 2019 VectorGraphics2D project.
+ * Copyright (c) 2010, 2024 VectorGraphics2D project.
  *
  * This program and the accompanying materials are made
  * available under the terms of the Eclipse Public License 2.0
@@ -89,38 +89,41 @@ public abstract class TestCase {
 
 	public InputStream getEPS() {
 
-		Document document = epsProcessor.getDocument(vectorGraphics.getCommands(), getPageSize());
-		ByteArrayOutputStream byteOutput = new ByteArrayOutputStream();
 		try {
+			Document document = epsProcessor.getDocument(vectorGraphics.getCommands(), getPageSize());
+			ByteArrayOutputStream byteOutput = new ByteArrayOutputStream();
 			document.writeTo(byteOutput);
+			return new ByteArrayInputStream(byteOutput.toByteArray());
 		} catch(IOException e) {
 			e.printStackTrace();
 		}
-		return new ByteArrayInputStream(byteOutput.toByteArray());
+		return null;
 	}
 
 	public InputStream getPDF() {
 
-		Document document = pdfProcessor.getDocument(vectorGraphics.getCommands(), getPageSize());
-		ByteArrayOutputStream byteOutput = new ByteArrayOutputStream();
 		try {
+			Document document = pdfProcessor.getDocument(vectorGraphics.getCommands(), getPageSize());
+			ByteArrayOutputStream byteOutput = new ByteArrayOutputStream();
 			document.writeTo(byteOutput);
+			return new ByteArrayInputStream(byteOutput.toByteArray());
 		} catch(IOException e) {
 			e.printStackTrace();
 		}
-		return new ByteArrayInputStream(byteOutput.toByteArray());
+		return null;
 	}
 
 	public InputStream getSVG() {
 
-		Document document = svgProcessor.getDocument(vectorGraphics.getCommands(), getPageSize());
-		ByteArrayOutputStream byteOutput = new ByteArrayOutputStream();
 		try {
+			Document document = svgProcessor.getDocument(vectorGraphics.getCommands(), getPageSize());
+			ByteArrayOutputStream byteOutput = new ByteArrayOutputStream();
 			document.writeTo(byteOutput);
+			return new ByteArrayInputStream(byteOutput.toByteArray());
 		} catch(IOException e) {
 			e.printStackTrace();
 		}
-		return new ByteArrayInputStream(byteOutput.toByteArray());
+		return null;
 	}
 
 	public BufferedImage getRasterizedEPS() {

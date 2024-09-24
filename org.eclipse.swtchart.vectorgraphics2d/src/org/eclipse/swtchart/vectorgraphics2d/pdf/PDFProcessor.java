@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2010, 2019 VectorGraphics2D project.
+ * Copyright (c) 2010, 2024 VectorGraphics2D project.
  *
  * This program and the accompanying materials are made
  * available under the terms of the Eclipse Public License 2.0
@@ -12,6 +12,8 @@
  * Michael Seifert - initial API and implementation
  *******************************************************************************/
 package org.eclipse.swtchart.vectorgraphics2d.pdf;
+
+import java.io.IOException;
 
 import org.eclipse.swtchart.vectorgraphics2d.core.Document;
 import org.eclipse.swtchart.vectorgraphics2d.core.Processor;
@@ -59,7 +61,7 @@ public class PDFProcessor implements Processor {
 	}
 
 	@Override
-	public Document getDocument(CommandSequence commands, PageSize pageSize) {
+	public Document getDocument(CommandSequence commands, PageSize pageSize) throws IOException {
 
 		AbsoluteToRelativeTransformsFilter absoluteToRelativeTransformsFilter = new AbsoluteToRelativeTransformsFilter(commands);
 		FillPaintedShapeAsImageFilter paintedShapeAsImageFilter = new FillPaintedShapeAsImageFilter(absoluteToRelativeTransformsFilter);

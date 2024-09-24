@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2010, 2019 VectorGraphics2D project.
+ * Copyright (c) 2010, 2024 VectorGraphics2D project.
  *
  * This program and the accompanying materials are made
  * available under the terms of the Eclipse Public License 2.0
@@ -12,6 +12,8 @@
  * Michael Seifert - initial API and implementation
  *******************************************************************************/
 package org.eclipse.swtchart.vectorgraphics2d.core;
+
+import java.io.IOException;
 
 import org.eclipse.swtchart.vectorgraphics2d.intermediate.CommandSequence;
 import org.eclipse.swtchart.vectorgraphics2d.intermediate.commands.Command;
@@ -30,6 +32,7 @@ public interface Processor {
 	 * @param pageSize
 	 *            Size of the resulting {@code Document}.
 	 * @return {@code Document} representation of the commands.
+	 * @throws IOException
 	 */
-	Document getDocument(CommandSequence commands, PageSize pageSize);
+	Document getDocument(CommandSequence commands, PageSize pageSize) throws IOException;
 }

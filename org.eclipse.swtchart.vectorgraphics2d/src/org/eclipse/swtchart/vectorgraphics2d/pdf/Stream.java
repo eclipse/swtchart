@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2010, 2019 VectorGraphics2D project.
+ * Copyright (c) 2010, 2024 VectorGraphics2D project.
  *
  * This program and the accompanying materials are made
  * available under the terms of the Eclipse Public License 2.0
@@ -59,11 +59,7 @@ class Stream extends OutputStream implements PDFObject {
 		if(isClosed()) {
 			throw new IOException("Unable to write to closed stream.");
 		}
-		try {
-			this.filteredData.write(b);
-		} catch(IOException e) {
-			throw new RuntimeException("Unable to write to the output stream", e);
-		}
+		this.filteredData.write(b);
 	}
 
 	/**
@@ -72,16 +68,13 @@ class Stream extends OutputStream implements PDFObject {
 	 * @param data
 	 *            Data to be appended.
 	 */
+	@Override
 	public void write(byte[] data) throws IOException {
 
 		if(isClosed()) {
 			throw new IOException("Unable to write to closed stream.");
 		}
-		try {
-			this.filteredData.write(data);
-		} catch(IOException e) {
-			throw new RuntimeException("Unable to write to the output stream", e);
-		}
+		this.filteredData.write(data);
 	}
 
 	/**
@@ -120,14 +113,10 @@ class Stream extends OutputStream implements PDFObject {
 	}
 
 	@Override
-	public void close() {
+	public void close() throws IOException {
 
 		closed = true;
-		try {
-			filteredData.close();
-		} catch(IOException e) {
-			throw new RuntimeException(e);
-		}
+		filteredData.close();
 	}
 
 	public List<Filter> getFilters() {

@@ -89,7 +89,7 @@ class PDFDocument extends SizedDocument {
 	private final Stack<GraphicsState> states;
 	private boolean transformed;
 
-	PDFDocument(CommandSequence commands, PageSize pageSize, boolean compressed) {
+	PDFDocument(CommandSequence commands, PageSize pageSize, boolean compressed) throws IOException {
 
 		super(pageSize, compressed);
 		states = new Stack<>();
@@ -99,13 +99,9 @@ class PDFDocument extends SizedDocument {
 		images = new HashMap<>();
 		contents = initPage();
 		for(Command<?> command : commands) {
-			try {
-				byte[] pdfStatement = toBytes(command);
-				contents.write(pdfStatement);
-				contents.write(EOL.getBytes(CHARSET));
-			} catch(IOException e) {
-				throw new RuntimeException(e);
-			}
+			byte[] pdfStatement = toBytes(command);
+			contents.write(pdfStatement);
+			contents.write(EOL.getBytes(CHARSET));
 		}
 		close();
 	}
@@ -119,8 +115,9 @@ class PDFDocument extends SizedDocument {
 	 * Initializes the document and returns a {@code Stream} representing the contents.
 	 * 
 	 * @return {@code Stream} to which the contents are written.
+	 * @throws IOException
 	 */
-	private Stream initPage() {
+	private Stream initPage() throws IOException {
 
 		DefaultPDFObject catalog = addCatalog();
 		List<PDFObject> pagesKids = new LinkedList<>();
@@ -143,8 +140,6 @@ class PDFDocument extends SizedDocument {
 			string.writeln("q");
 			string.writeln(getOutput(getCurrentState().getColor()));
 			string.write(scaleH).write(" ").write(0.0).write(" ").write(0.0).write(" ").write(scaleV).write(" ").write(translateX).write(" ").write(translateY).writeln(" cm");
-		} catch(IOException e) {
-			throw new RuntimeException(e);
 		}
 		// Resources
 		resources = new Resources();
@@ -158,12 +153,10 @@ class PDFDocument extends SizedDocument {
 		return contents;
 	}
 
-	private void setFont(String fontId, float fontSize, Stream contents) {
+	private void setFont(String fontId, float fontSize, Stream contents) throws IOException {
 
 		try (FormattingWriter string = new FormattingWriter(contents, CHARSET, EOL)) {
 			string.write("/").write(fontId).write(" ").write(fontSize).writeln(" Tf");
-		} catch(IOException e) {
-			throw new RuntimeException(e);
 		}
 	}
 
@@ -205,7 +198,7 @@ class PDFDocument extends SizedDocument {
 		return object;
 	}
 
-	private DefaultPDFObject addObject(Image image) {
+	private DefaultPDFObject addObject(Image image) throws IOException {
 
 		BufferedImage bufferedImage = GraphicsUtils.toBufferedImage(image);
 		int width = bufferedImage.getWidth();
@@ -221,13 +214,8 @@ class PDFDocument extends SizedDocument {
 			imageFilters = new String[]{"FlateDecode"};
 		}
 		InputStream imageDataStream = new ImageDataStream(bufferedImage, Interleaving.WITHOUT_ALPHA);
-		try {
-			DataUtils.transfer(imageDataStream, imagePayload, 1024);
-			imagePayload.close();
-		} catch(IOException e) {
-			// TODO Improve exception handling
-			throw new RuntimeException(e);
-		}
+		DataUtils.transfer(imageDataStream, imagePayload, 1024);
+		imagePayload.close();
 		int length = imagePayload.getBytes().length;
 		Map<String, Object> imageDict = DataUtils.map(new String[]{"Type", "Subtype", "Width", "Height", "ColorSpace", "BitsPerComponent", "Length", "Filter"}, new Object[]{"XObject", "Image", width, height, colorSpaceName, bitsPerSample, length, imageFilters});
 		DefaultPDFObject imageObject = addObject(imageDict, imagePayload);
@@ -447,7 +435,7 @@ class PDFDocument extends SizedDocument {
 		}
 	}
 
-	private byte[] toBytes(Command<?> command) {
+	private byte[] toBytes(Command<?> command) throws IOException {
 
 		byte[] s = {};
 		if(command instanceof Group) {
@@ -692,11 +680,7 @@ class PDFDocument extends SizedDocument {
 
 		double[] matrix = new double[6];
 		transform.getMatrix(matrix);
-		try {
-			return DataUtils.join(" ", matrix).getBytes(CHARSET);
-		} catch(UnsupportedEncodingException e) {
-			return null;
-		}
+		return DataUtils.join(" ", matrix).getBytes(StandardCharsets.ISO_8859_1);
 	}
 
 	private static byte[] getOutput(String str, double x, double y) {
@@ -745,17 +729,13 @@ class PDFDocument extends SizedDocument {
 		}
 	}
 
-	public void close() {
+	public void close() throws IOException {
 
-		try {
-			String footer = "Q";
-			if(transformed) {
-				footer += EOL + "Q";
-			}
-			contents.write(footer.getBytes(CHARSET));
-			contents.close();
-		} catch(IOException e) {
-			throw new RuntimeException(e);
+		String footer = "Q";
+		if(transformed) {
+			footer += EOL + "Q";
 		}
+		contents.write(footer.getBytes(StandardCharsets.ISO_8859_1));
+		contents.close();
 	}
 }

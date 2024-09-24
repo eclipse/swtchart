@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2010, 2019 VectorGraphics2D project.
+ * Copyright (c) 2010, 2024 VectorGraphics2D project.
  *
  * This program and the accompanying materials are made
  * available under the terms of the Eclipse Public License 2.0
@@ -17,16 +17,16 @@ import java.io.Closeable;
 import java.io.Flushable;
 import java.io.IOException;
 import java.io.OutputStream;
-import java.io.UnsupportedEncodingException;
+import java.nio.charset.Charset;
 
 public class FormattingWriter implements Closeable, Flushable, AutoCloseable {
 
 	private final OutputStream out;
-	private final String encoding;
+	private final Charset encoding;
 	private final byte[] eolBytes;
 	private long position;
 
-	public FormattingWriter(OutputStream out, String encoding, String eol) throws UnsupportedEncodingException {
+	public FormattingWriter(OutputStream out, Charset encoding, String eol) {
 
 		if(out == null) {
 			throw new IllegalArgumentException("Output stream cannot be null.");
@@ -91,11 +91,13 @@ public class FormattingWriter implements Closeable, Flushable, AutoCloseable {
 		return writeln();
 	}
 
+	@Override
 	public void flush() throws IOException {
 
 		out.flush();
 	}
 
+	@Override
 	public void close() throws IOException {
 
 		out.close();
