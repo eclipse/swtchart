@@ -62,6 +62,7 @@ import org.eclipse.swtchart.vectorgraphics2d.util.FormattingWriter;
 import org.eclipse.swtchart.vectorgraphics2d.util.GraphicsUtils;
 import org.eclipse.swtchart.vectorgraphics2d.util.ImageDataStream;
 import org.eclipse.swtchart.vectorgraphics2d.util.ImageDataStream.Interleaving;
+import org.eclipse.swtchart.vectorgraphics2d.util.NonClosingFormattingWriter;
 import org.eclipse.swtchart.vectorgraphics2d.util.PageSize;
 
 /**
@@ -130,7 +131,7 @@ class PDFDocument extends SizedDocument {
 		objects.add(contents);
 		page.dict.put("Contents", contents);
 		// Initial content
-		try (FormattingWriter string = new FormattingWriter(contents, StandardCharsets.ISO_8859_1, EOL)) {
+		try (FormattingWriter string = new NonClosingFormattingWriter(contents, StandardCharsets.ISO_8859_1, EOL)) {
 			double scaleH = MM_IN_UNITS;
 			double scaleV = -MM_IN_UNITS;
 			PageSize pageSize = getPageSize();
@@ -154,7 +155,7 @@ class PDFDocument extends SizedDocument {
 
 	private void setFont(String fontId, float fontSize, Stream contents) throws IOException {
 
-		try (FormattingWriter string = new FormattingWriter(contents, StandardCharsets.ISO_8859_1, EOL)) {
+		try (FormattingWriter string = new NonClosingFormattingWriter(contents, StandardCharsets.ISO_8859_1, EOL)) {
 			string.write("/").write(fontId).write(" ").write(fontSize).writeln(" Tf");
 		}
 	}
