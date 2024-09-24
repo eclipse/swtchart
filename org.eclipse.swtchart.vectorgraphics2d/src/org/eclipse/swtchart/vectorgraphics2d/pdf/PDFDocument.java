@@ -311,7 +311,7 @@ class PDFDocument extends SizedDocument {
 			string.write("endobj");
 			return out.toByteArray();
 		} catch(IOException e) {
-			return null;
+			return new byte[0];
 		}
 	}
 
@@ -324,7 +324,7 @@ class PDFDocument extends SizedDocument {
 			string.write("endobj");
 			return out.toByteArray();
 		} catch(IOException e) {
-			return null;
+			return new byte[0];
 		}
 	}
 
@@ -343,7 +343,7 @@ class PDFDocument extends SizedDocument {
 			serialized.write("endstream");
 			return out.toByteArray();
 		} catch(IOException e) {
-			return null;
+			return new byte[0];
 		}
 	}
 
@@ -359,7 +359,7 @@ class PDFDocument extends SizedDocument {
 			serialized.write(">>");
 			return out.toByteArray();
 		} catch(IOException e) {
-			return null;
+			return new byte[0];
 		}
 	}
 
@@ -384,7 +384,7 @@ class PDFDocument extends SizedDocument {
 			string.write("endobj");
 			return out.toByteArray();
 		} catch(IOException e) {
-			return null;
+			return new byte[0];
 		}
 	}
 
@@ -547,7 +547,7 @@ class PDFDocument extends SizedDocument {
 			}
 			return out.toByteArray();
 		} catch(IOException e) {
-			return null;
+			return new byte[0];
 		}
 	}
 
@@ -599,7 +599,7 @@ class PDFDocument extends SizedDocument {
 			}
 			return out.toByteArray();
 		} catch(IOException e) {
-			return null;
+			return new byte[0];
 		}
 	}
 
@@ -636,7 +636,7 @@ class PDFDocument extends SizedDocument {
 			}
 			return out.toByteArray();
 		} catch(IOException e) {
-			return null;
+			return new byte[0];
 		}
 	}
 
@@ -671,7 +671,7 @@ class PDFDocument extends SizedDocument {
 			}
 			return out.toByteArray();
 		} catch(IOException e) {
-			return null;
+			return new byte[0];
 		}
 	}
 
@@ -693,7 +693,7 @@ class PDFDocument extends SizedDocument {
 			string.write("q 1 0 0 -1 ").write(x).write(" ").write(y).write(" cm BT ").write(getOutput(str)).write(" Tj ET Q");
 			return out.toByteArray();
 		} catch(IOException e) {
-			return null;
+			return new byte[0];
 		}
 	}
 
@@ -706,7 +706,7 @@ class PDFDocument extends SizedDocument {
 			string.write("(").write(str).write(")");
 			return out.toByteArray();
 		} catch(IOException e) {
-			return null;
+			return new byte[0];
 		}
 	}
 
@@ -724,7 +724,7 @@ class PDFDocument extends SizedDocument {
 			string.write("q ").write(width).write(" 0 0 ").write(height).write(" ").write(x).write(" ").write(y).write(" cm 1 0 0 -1 0 1 cm /").write(resourceId).write(" Do Q");
 			return out.toByteArray();
 		} catch(IOException e) {
-			return null;
+			return new byte[0];
 		}
 	}
 
