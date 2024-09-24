@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2010, 2019 VectorGraphics2D project.
+ * Copyright (c) 2010, 2024 VectorGraphics2D project.
  *
  * This program and the accompanying materials are made
  * available under the terms of the Eclipse Public License 2.0
@@ -28,7 +28,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.io.UnsupportedEncodingException;
+import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -70,7 +70,6 @@ import org.eclipse.swtchart.vectorgraphics2d.util.PageSize;
 // TODO Support for different image formats (binary, grayscale, etc.)
 class PDFDocument extends SizedDocument {
 
-	private static final String CHARSET = "ISO-8859-1";
 	private static final String HEADER = "%PDF-1.4";
 	private static final String FOOTER = "%%EOF";
 	private static final String EOL = "\n";
@@ -101,7 +100,7 @@ class PDFDocument extends SizedDocument {
 		for(Command<?> command : commands) {
 			byte[] pdfStatement = toBytes(command);
 			contents.write(pdfStatement);
-			contents.write(EOL.getBytes(CHARSET));
+			contents.write(EOL.getBytes(StandardCharsets.ISO_8859_1));
 		}
 		close();
 	}
@@ -131,7 +130,7 @@ class PDFDocument extends SizedDocument {
 		objects.add(contents);
 		page.dict.put("Contents", contents);
 		// Initial content
-		try (FormattingWriter string = new FormattingWriter(contents, CHARSET, EOL)) {
+		try (FormattingWriter string = new FormattingWriter(contents, StandardCharsets.ISO_8859_1, EOL)) {
 			double scaleH = MM_IN_UNITS;
 			double scaleV = -MM_IN_UNITS;
 			PageSize pageSize = getPageSize();
@@ -155,7 +154,7 @@ class PDFDocument extends SizedDocument {
 
 	private void setFont(String fontId, float fontSize, Stream contents) throws IOException {
 
-		try (FormattingWriter string = new FormattingWriter(contents, CHARSET, EOL)) {
+		try (FormattingWriter string = new FormattingWriter(contents, StandardCharsets.ISO_8859_1, EOL)) {
 			string.write("/").write(fontId).write(" ").write(fontSize).writeln(" Tf");
 		}
 	}
@@ -237,7 +236,7 @@ class PDFDocument extends SizedDocument {
 
 	public void writeTo(OutputStream out) throws IOException {
 
-		try (FormattingWriter o = new FormattingWriter(out, CHARSET, EOL)) {
+		try (FormattingWriter o = new FormattingWriter(out, StandardCharsets.ISO_8859_1, EOL)) {
 			o.writeln(HEADER);
 			for(PDFObject obj : objects) {
 				crossReferences.put(obj, o.tell());
@@ -293,7 +292,7 @@ class PDFDocument extends SizedDocument {
 	private byte[] toBytes(Resources resources) {
 
 		ByteArrayOutputStream out = new ByteArrayOutputStream();
-		try (FormattingWriter string = new FormattingWriter(out, CHARSET, EOL)) {
+		try (FormattingWriter string = new FormattingWriter(out, StandardCharsets.ISO_8859_1, EOL)) {
 			string.write(getId(resources)).write(" ").write(getVersion(resources)).writeln(" obj");
 			string.writeln("<<");
 			if(!resources.getProcSet().isEmpty()) {
@@ -319,7 +318,7 @@ class PDFDocument extends SizedDocument {
 	private byte[] toBytes(Stream stream) {
 
 		ByteArrayOutputStream out = new ByteArrayOutputStream();
-		try (FormattingWriter string = new FormattingWriter(out, CHARSET, EOL)) {
+		try (FormattingWriter string = new FormattingWriter(out, StandardCharsets.ISO_8859_1, EOL)) {
 			string.write(getId(stream)).write(" ").write(getVersion(stream)).writeln(" obj");
 			string.writeln(serialize(stream));
 			string.write("endobj");
@@ -332,7 +331,7 @@ class PDFDocument extends SizedDocument {
 	protected static byte[] serialize(Stream stream) {
 
 		ByteArrayOutputStream out = new ByteArrayOutputStream();
-		try (FormattingWriter serialized = new FormattingWriter(out, CHARSET, EOL)) {
+		try (FormattingWriter serialized = new FormattingWriter(out, StandardCharsets.ISO_8859_1, EOL)) {
 			serialized.writeln("<<");
 			serialized.write("/Length ").writeln(stream.getLength());
 			if(stream.getFilters().contains(Stream.Filter.FLATE)) {
@@ -351,7 +350,7 @@ class PDFDocument extends SizedDocument {
 	protected static byte[] serialize(TrueTypeFont font) {
 
 		ByteArrayOutputStream out = new ByteArrayOutputStream();
-		try (FormattingWriter serialized = new FormattingWriter(out, CHARSET, EOL)) {
+		try (FormattingWriter serialized = new FormattingWriter(out, StandardCharsets.ISO_8859_1, EOL)) {
 			serialized.writeln("<<");
 			serialized.write("/Type /").writeln(font.getType());
 			serialized.write("/Subtype /").writeln(font.getSubtype());
@@ -368,7 +367,7 @@ class PDFDocument extends SizedDocument {
 
 		DefaultPDFObject obj = (DefaultPDFObject)object;
 		ByteArrayOutputStream out = new ByteArrayOutputStream();
-		try (FormattingWriter string = new FormattingWriter(out, CHARSET, EOL)) {
+		try (FormattingWriter string = new FormattingWriter(out, StandardCharsets.ISO_8859_1, EOL)) {
 			string.write(getId(obj)).write(" ").write(getVersion(obj)).writeln(" obj");
 			if(!obj.dict.isEmpty()) {
 				string.writeln(serialize(obj.dict));
@@ -392,7 +391,7 @@ class PDFDocument extends SizedDocument {
 	private byte[] serialize(Object obj) {
 
 		ByteArrayOutputStream out = new ByteArrayOutputStream();
-		try (FormattingWriter serialized = new FormattingWriter(out, CHARSET, EOL)) {
+		try (FormattingWriter serialized = new FormattingWriter(out, StandardCharsets.ISO_8859_1, EOL)) {
 			if(obj instanceof String) {
 				serialized.write("/").write(obj.toString());
 			} else if(obj instanceof float[]) {
@@ -530,7 +529,7 @@ class PDFDocument extends SizedDocument {
 	private byte[] getOutput(Color color) {
 
 		ByteArrayOutputStream out = new ByteArrayOutputStream();
-		try (FormattingWriter string = new FormattingWriter(out, CHARSET, EOL)) {
+		try (FormattingWriter string = new FormattingWriter(out, StandardCharsets.ISO_8859_1, EOL)) {
 			if(color.getColorSpace().getType() == ColorSpace.TYPE_CMYK) {
 				float[] cmyk = color.getComponents(null);
 				byte[] c = serialize(cmyk[0]);
@@ -555,7 +554,7 @@ class PDFDocument extends SizedDocument {
 	private byte[] getOutput(Shape s) {
 
 		ByteArrayOutputStream out = new ByteArrayOutputStream();
-		try (FormattingWriter string = new FormattingWriter(out, CHARSET, EOL)) {
+		try (FormattingWriter string = new FormattingWriter(out, StandardCharsets.ISO_8859_1, EOL)) {
 			PathIterator segments = s.getPathIterator(null);
 			double[] coordsCur = new double[6];
 			double[] pointPrev = new double[2];
@@ -607,7 +606,7 @@ class PDFDocument extends SizedDocument {
 	private byte[] getOutput(GraphicsState state, Resources resources, boolean first) {
 
 		ByteArrayOutputStream out = new ByteArrayOutputStream();
-		try (FormattingWriter string = new FormattingWriter(out, CHARSET, EOL)) {
+		try (FormattingWriter string = new FormattingWriter(out, StandardCharsets.ISO_8859_1, EOL)) {
 			if(!first) {
 				string.writeln("Q");
 			}
@@ -647,7 +646,7 @@ class PDFDocument extends SizedDocument {
 			throw new UnsupportedOperationException("Only BasicStroke objects are supported.");
 		}
 		ByteArrayOutputStream out = new ByteArrayOutputStream();
-		try (FormattingWriter string = new FormattingWriter(out, CHARSET, EOL)) {
+		try (FormattingWriter string = new FormattingWriter(out, StandardCharsets.ISO_8859_1, EOL)) {
 			BasicStroke strokeDefault = (BasicStroke)GraphicsState.DEFAULT_STROKE;
 			BasicStroke strokeNew = (BasicStroke)s;
 			if(strokeNew.getLineWidth() != strokeDefault.getLineWidth()) {
@@ -690,7 +689,7 @@ class PDFDocument extends SizedDocument {
 		// Restore previous graphics state
 
 		ByteArrayOutputStream out = new ByteArrayOutputStream();
-		try (FormattingWriter string = new FormattingWriter(out, CHARSET, EOL)) {
+		try (FormattingWriter string = new FormattingWriter(out, StandardCharsets.ISO_8859_1, EOL)) {
 			string.write("q 1 0 0 -1 ").write(x).write(" ").write(y).write(" cm BT ").write(getOutput(str)).write(" Tj ET Q");
 			return out.toByteArray();
 		} catch(IOException e) {
@@ -703,7 +702,7 @@ class PDFDocument extends SizedDocument {
 		// Escape string
 		str = str.replaceAll("\\\\", "\\\\\\\\").replaceAll("\t", "\\\\t").replaceAll("\b", "\\\\b").replaceAll("\f", "\\\\f").replaceAll("\\(", "\\\\(").replaceAll("\\)", "\\\\)").replaceAll("[\r\n]", "");
 		ByteArrayOutputStream out = new ByteArrayOutputStream();
-		try (FormattingWriter string = new FormattingWriter(out, CHARSET, EOL)) {
+		try (FormattingWriter string = new FormattingWriter(out, StandardCharsets.ISO_8859_1, EOL)) {
 			string.write("(").write(str).write(")");
 			return out.toByteArray();
 		} catch(IOException e) {
@@ -721,7 +720,7 @@ class PDFDocument extends SizedDocument {
 		// Draw image
 		// Restore old graphics state
 		ByteArrayOutputStream out = new ByteArrayOutputStream();
-		try (FormattingWriter string = new FormattingWriter(out, CHARSET, EOL)) {
+		try (FormattingWriter string = new FormattingWriter(out, StandardCharsets.ISO_8859_1, EOL)) {
 			string.write("q ").write(width).write(" 0 0 ").write(height).write(" ").write(x).write(" ").write(y).write(" cm 1 0 0 -1 0 1 cm /").write(resourceId).write(" Do Q");
 			return out.toByteArray();
 		} catch(IOException e) {

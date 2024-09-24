@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2010, 2019 VectorGraphics2D project.
+ * Copyright (c) 2010, 2024 VectorGraphics2D project.
  *
  * This program and the accompanying materials are made
  * available under the terms of the Eclipse Public License 2.0
@@ -17,6 +17,7 @@ import java.awt.Graphics2D;
 import java.io.IOException;
 import java.nio.charset.Charset;
 import java.nio.charset.CharsetEncoder;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -31,7 +32,7 @@ public class CharacterTest extends TestCase {
 
 		double w = getPageSize().getWidth();
 		double h = getPageSize().getHeight();
-		Charset latin1 = Charset.forName("ISO-8859-1");
+		Charset latin1 = StandardCharsets.ISO_8859_1;
 		CharsetEncoder latin1Encoder = latin1.newEncoder();
 		List<String> charactersInCharset = new ArrayList<>();
 		for(char char_ = Character.MIN_VALUE; char_ < Character.MAX_VALUE; char_++) {
