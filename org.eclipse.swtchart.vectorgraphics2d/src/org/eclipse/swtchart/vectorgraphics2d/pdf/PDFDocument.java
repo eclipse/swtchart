@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2010, 2019 VectorGraphics2D project.
+ * Copyright (c) 2010, 2024 VectorGraphics2D project.
  *
  * This program and the accompanying materials are made
  * available under the terms of the Eclipse Public License 2.0
@@ -28,7 +28,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.io.UnsupportedEncodingException;
+import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -62,6 +62,7 @@ import org.eclipse.swtchart.vectorgraphics2d.util.FormattingWriter;
 import org.eclipse.swtchart.vectorgraphics2d.util.GraphicsUtils;
 import org.eclipse.swtchart.vectorgraphics2d.util.ImageDataStream;
 import org.eclipse.swtchart.vectorgraphics2d.util.ImageDataStream.Interleaving;
+import org.eclipse.swtchart.vectorgraphics2d.util.NonClosingFormattingWriter;
 import org.eclipse.swtchart.vectorgraphics2d.util.PageSize;
 
 /**
@@ -70,7 +71,6 @@ import org.eclipse.swtchart.vectorgraphics2d.util.PageSize;
 // TODO Support for different image formats (binary, grayscale, etc.)
 class PDFDocument extends SizedDocument {
 
-	private static final String CHARSET = "ISO-8859-1";
 	private static final String HEADER = "%PDF-1.4";
 	private static final String FOOTER = "%%EOF";
 	private static final String EOL = "\n";
@@ -89,7 +89,7 @@ class PDFDocument extends SizedDocument {
 	private final Stack<GraphicsState> states;
 	private boolean transformed;
 
-	PDFDocument(CommandSequence commands, PageSize pageSize, boolean compressed) {
+	PDFDocument(CommandSequence commands, PageSize pageSize, boolean compressed) throws IOException {
 
 		super(pageSize, compressed);
 		states = new Stack<>();
@@ -99,13 +99,9 @@ class PDFDocument extends SizedDocument {
 		images = new HashMap<>();
 		contents = initPage();
 		for(Command<?> command : commands) {
-			try {
-				byte[] pdfStatement = toBytes(command);
-				contents.write(pdfStatement);
-				contents.write(EOL.getBytes(CHARSET));
-			} catch(IOException e) {
-				throw new RuntimeException(e);
-			}
+			byte[] pdfStatement = toBytes(command);
+			contents.write(pdfStatement);
+			contents.write(EOL.getBytes(StandardCharsets.ISO_8859_1));
 		}
 		close();
 	}
@@ -119,8 +115,9 @@ class PDFDocument extends SizedDocument {
 	 * Initializes the document and returns a {@code Stream} representing the contents.
 	 * 
 	 * @return {@code Stream} to which the contents are written.
+	 * @throws IOException
 	 */
-	private Stream initPage() {
+	private Stream initPage() throws IOException {
 
 		DefaultPDFObject catalog = addCatalog();
 		List<PDFObject> pagesKids = new LinkedList<>();
@@ -134,7 +131,7 @@ class PDFDocument extends SizedDocument {
 		objects.add(contents);
 		page.dict.put("Contents", contents);
 		// Initial content
-		try (FormattingWriter string = new FormattingWriter(contents, CHARSET, EOL)) {
+		try (FormattingWriter string = new NonClosingFormattingWriter(contents, StandardCharsets.ISO_8859_1, EOL)) {
 			double scaleH = MM_IN_UNITS;
 			double scaleV = -MM_IN_UNITS;
 			PageSize pageSize = getPageSize();
@@ -143,8 +140,6 @@ class PDFDocument extends SizedDocument {
 			string.writeln("q");
 			string.writeln(getOutput(getCurrentState().getColor()));
 			string.write(scaleH).write(" ").write(0.0).write(" ").write(0.0).write(" ").write(scaleV).write(" ").write(translateX).write(" ").write(translateY).writeln(" cm");
-		} catch(IOException e) {
-			throw new RuntimeException(e);
 		}
 		// Resources
 		resources = new Resources();
@@ -158,12 +153,10 @@ class PDFDocument extends SizedDocument {
 		return contents;
 	}
 
-	private void setFont(String fontId, float fontSize, Stream contents) {
+	private void setFont(String fontId, float fontSize, Stream contents) throws IOException {
 
-		try (FormattingWriter string = new FormattingWriter(contents, CHARSET, EOL)) {
+		try (FormattingWriter string = new NonClosingFormattingWriter(contents, StandardCharsets.ISO_8859_1, EOL)) {
 			string.write("/").write(fontId).write(" ").write(fontSize).writeln(" Tf");
-		} catch(IOException e) {
-			throw new RuntimeException(e);
 		}
 	}
 
@@ -205,7 +198,7 @@ class PDFDocument extends SizedDocument {
 		return object;
 	}
 
-	private DefaultPDFObject addObject(Image image) {
+	private DefaultPDFObject addObject(Image image) throws IOException {
 
 		BufferedImage bufferedImage = GraphicsUtils.toBufferedImage(image);
 		int width = bufferedImage.getWidth();
@@ -221,13 +214,8 @@ class PDFDocument extends SizedDocument {
 			imageFilters = new String[]{"FlateDecode"};
 		}
 		InputStream imageDataStream = new ImageDataStream(bufferedImage, Interleaving.WITHOUT_ALPHA);
-		try {
-			DataUtils.transfer(imageDataStream, imagePayload, 1024);
-			imagePayload.close();
-		} catch(IOException e) {
-			// TODO Improve exception handling
-			throw new RuntimeException(e);
-		}
+		DataUtils.transfer(imageDataStream, imagePayload, 1024);
+		imagePayload.close();
 		int length = imagePayload.getBytes().length;
 		Map<String, Object> imageDict = DataUtils.map(new String[]{"Type", "Subtype", "Width", "Height", "ColorSpace", "BitsPerComponent", "Length", "Filter"}, new Object[]{"XObject", "Image", width, height, colorSpaceName, bitsPerSample, length, imageFilters});
 		DefaultPDFObject imageObject = addObject(imageDict, imagePayload);
@@ -247,17 +235,18 @@ class PDFDocument extends SizedDocument {
 		return imageObject;
 	}
 
+	@Override
 	public void writeTo(OutputStream out) throws IOException {
 
-		try (FormattingWriter o = new FormattingWriter(out, CHARSET, EOL)) {
+		try (FormattingWriter o = new FormattingWriter(out, StandardCharsets.ISO_8859_1, EOL)) {
 			o.writeln(HEADER);
 			for(PDFObject obj : objects) {
 				crossReferences.put(obj, o.tell());
 				byte[] objectString;
-				if(obj instanceof Resources) {
-					objectString = toBytes((Resources)obj);
-				} else if(obj instanceof Stream) {
-					objectString = toBytes((Stream)obj);
+				if(obj instanceof Resources resource) {
+					objectString = toBytes(resource);
+				} else if(obj instanceof Stream stream) {
+					objectString = toBytes(stream);
 				} else {
 					objectString = toBytes(obj);
 				}
@@ -305,7 +294,7 @@ class PDFDocument extends SizedDocument {
 	private byte[] toBytes(Resources resources) {
 
 		ByteArrayOutputStream out = new ByteArrayOutputStream();
-		try (FormattingWriter string = new FormattingWriter(out, CHARSET, EOL)) {
+		try (FormattingWriter string = new FormattingWriter(out, StandardCharsets.ISO_8859_1, EOL)) {
 			string.write(getId(resources)).write(" ").write(getVersion(resources)).writeln(" obj");
 			string.writeln("<<");
 			if(!resources.getProcSet().isEmpty()) {
@@ -324,27 +313,27 @@ class PDFDocument extends SizedDocument {
 			string.write("endobj");
 			return out.toByteArray();
 		} catch(IOException e) {
-			return null;
+			return new byte[0];
 		}
 	}
 
 	private byte[] toBytes(Stream stream) {
 
 		ByteArrayOutputStream out = new ByteArrayOutputStream();
-		try (FormattingWriter string = new FormattingWriter(out, CHARSET, EOL)) {
+		try (FormattingWriter string = new FormattingWriter(out, StandardCharsets.ISO_8859_1, EOL)) {
 			string.write(getId(stream)).write(" ").write(getVersion(stream)).writeln(" obj");
 			string.writeln(serialize(stream));
 			string.write("endobj");
 			return out.toByteArray();
 		} catch(IOException e) {
-			return null;
+			return new byte[0];
 		}
 	}
 
 	protected static byte[] serialize(Stream stream) {
 
 		ByteArrayOutputStream out = new ByteArrayOutputStream();
-		try (FormattingWriter serialized = new FormattingWriter(out, CHARSET, EOL)) {
+		try (FormattingWriter serialized = new FormattingWriter(out, StandardCharsets.ISO_8859_1, EOL)) {
 			serialized.writeln("<<");
 			serialized.write("/Length ").writeln(stream.getLength());
 			if(stream.getFilters().contains(Stream.Filter.FLATE)) {
@@ -356,14 +345,14 @@ class PDFDocument extends SizedDocument {
 			serialized.write("endstream");
 			return out.toByteArray();
 		} catch(IOException e) {
-			return null;
+			return new byte[0];
 		}
 	}
 
 	protected static byte[] serialize(TrueTypeFont font) {
 
 		ByteArrayOutputStream out = new ByteArrayOutputStream();
-		try (FormattingWriter serialized = new FormattingWriter(out, CHARSET, EOL)) {
+		try (FormattingWriter serialized = new FormattingWriter(out, StandardCharsets.ISO_8859_1, EOL)) {
 			serialized.writeln("<<");
 			serialized.write("/Type /").writeln(font.getType());
 			serialized.write("/Subtype /").writeln(font.getSubtype());
@@ -372,7 +361,7 @@ class PDFDocument extends SizedDocument {
 			serialized.write(">>");
 			return out.toByteArray();
 		} catch(IOException e) {
-			return null;
+			return new byte[0];
 		}
 	}
 
@@ -380,7 +369,7 @@ class PDFDocument extends SizedDocument {
 
 		DefaultPDFObject obj = (DefaultPDFObject)object;
 		ByteArrayOutputStream out = new ByteArrayOutputStream();
-		try (FormattingWriter string = new FormattingWriter(out, CHARSET, EOL)) {
+		try (FormattingWriter string = new FormattingWriter(out, StandardCharsets.ISO_8859_1, EOL)) {
 			string.write(getId(obj)).write(" ").write(getVersion(obj)).writeln(" obj");
 			if(!obj.dict.isEmpty()) {
 				string.writeln(serialize(obj.dict));
@@ -397,22 +386,22 @@ class PDFDocument extends SizedDocument {
 			string.write("endobj");
 			return out.toByteArray();
 		} catch(IOException e) {
-			return null;
+			return new byte[0];
 		}
 	}
 
 	private byte[] serialize(Object obj) {
 
 		ByteArrayOutputStream out = new ByteArrayOutputStream();
-		try (FormattingWriter serialized = new FormattingWriter(out, CHARSET, EOL)) {
+		try (FormattingWriter serialized = new FormattingWriter(out, StandardCharsets.ISO_8859_1, EOL)) {
 			if(obj instanceof String) {
 				serialized.write("/").write(obj.toString());
-			} else if(obj instanceof float[]) {
-				serialized.write(serialize(DataUtils.asList((float[])obj)));
-			} else if(obj instanceof double[]) {
-				serialized.write(serialize(DataUtils.asList((double[])obj)));
-			} else if(obj instanceof Object[]) {
-				serialized.write(serialize(Arrays.asList((Object[])obj)));
+			} else if(obj instanceof float[] floats) {
+				serialized.write(serialize(DataUtils.asList(floats)));
+			} else if(obj instanceof double[] doubles) {
+				serialized.write(serialize(DataUtils.asList(doubles)));
+			} else if(obj instanceof Object[] objects) {
+				serialized.write(serialize(Arrays.asList(objects)));
 			} else if(obj instanceof List) {
 				List<?> list = (List<?>)obj;
 				serialized.write("[");
@@ -433,30 +422,28 @@ class PDFDocument extends SizedDocument {
 					serialized.write(serialize(key)).write(" ").writeln(serialize(value));
 				}
 				serialized.write(">>");
-			} else if(obj instanceof TrueTypeFont) {
-				serialized.write(serialize((TrueTypeFont)obj));
-			} else if(obj instanceof PDFObject) {
-				PDFObject pdfObj = (PDFObject)obj;
+			} else if(obj instanceof TrueTypeFont trueTypeFont) {
+				serialized.write(serialize(trueTypeFont));
+			} else if(obj instanceof PDFObject pdfObject) {
+				PDFObject pdfObj = pdfObject;
 				serialized.write(getId(pdfObj)).write(" ").write(getVersion(pdfObj)).write(" R");
 			} else {
 				serialized.write(DataUtils.format(obj));
 			}
 			return out.toByteArray();
 		} catch(IOException e) {
-			return null;
+			return new byte[0];
 		}
 	}
 
-	private byte[] toBytes(Command<?> command) {
+	private byte[] toBytes(Command<?> command) throws IOException {
 
 		byte[] s = {};
-		if(command instanceof Group) {
-			Group c = (Group)command;
+		if(command instanceof Group c) {
 			applyStateCommands(c.getValue());
 			s = getOutput(getCurrentState(), resources, !transformed);
 			transformed = true;
-		} else if(command instanceof DrawShapeCommand) {
-			DrawShapeCommand c = (DrawShapeCommand)command;
+		} else if(command instanceof DrawShapeCommand c) {
 			try (ByteArrayOutputStream ba = new ByteArrayOutputStream()) {
 				ba.write(getOutput(c.getValue()));
 				ba.write(serialize(" S"));
@@ -464,11 +451,10 @@ class PDFDocument extends SizedDocument {
 			} catch(IOException e) {
 				throw new IllegalStateException(e);
 			}
-		} else if(command instanceof FillShapeCommand) {
-			FillShapeCommand c = (FillShapeCommand)command;
+		} else if(command instanceof FillShapeCommand c) {
 			String fillMethod = " f";
 			Shape shape = c.getValue();
-			if(shape instanceof Path2D && ((Path2D)shape).getWindingRule() == Path2D.WIND_EVEN_ODD) {
+			if(shape instanceof Path2D path2D && path2D.getWindingRule() == Path2D.WIND_EVEN_ODD) {
 				fillMethod = " f*";
 			}
 			try (ByteArrayOutputStream ba = new ByteArrayOutputStream()) {
@@ -478,11 +464,9 @@ class PDFDocument extends SizedDocument {
 			} catch(IOException e) {
 				throw new IllegalStateException(e);
 			}
-		} else if(command instanceof DrawStringCommand) {
-			DrawStringCommand c = (DrawStringCommand)command;
+		} else if(command instanceof DrawStringCommand c) {
 			s = getOutput(c.getValue(), c.getX(), c.getY());
-		} else if(command instanceof DrawImageCommand) {
-			DrawImageCommand c = (DrawImageCommand)command;
+		} else if(command instanceof DrawImageCommand c) {
 			// Create object for image data
 			Image image = c.getValue();
 			PDFObject imageObject = images.get(image.hashCode());
@@ -498,34 +482,26 @@ class PDFDocument extends SizedDocument {
 	private void applyStateCommands(List<Command<?>> commands) {
 
 		for(Command<?> command : commands) {
-			if(command instanceof SetHintCommand) {
-				SetHintCommand c = (SetHintCommand)command;
+			if(command instanceof SetHintCommand c) {
 				getCurrentState().getHints().put(c.getKey(), c.getValue());
-			} else if(command instanceof SetBackgroundCommand) {
-				SetBackgroundCommand c = (SetBackgroundCommand)command;
+			} else if(command instanceof SetBackgroundCommand c) {
 				getCurrentState().setBackground(c.getValue());
-			} else if(command instanceof SetColorCommand) {
-				SetColorCommand c = (SetColorCommand)command;
+			} else if(command instanceof SetColorCommand c) {
 				getCurrentState().setColor(c.getValue());
-			} else if(command instanceof SetPaintCommand) {
-				SetPaintCommand c = (SetPaintCommand)command;
+			} else if(command instanceof SetPaintCommand c) {
 				getCurrentState().setPaint(c.getValue());
-			} else if(command instanceof SetStrokeCommand) {
-				SetStrokeCommand c = (SetStrokeCommand)command;
+			} else if(command instanceof SetStrokeCommand c) {
 				getCurrentState().setStroke(c.getValue());
-			} else if(command instanceof SetFontCommand) {
-				SetFontCommand c = (SetFontCommand)command;
+			} else if(command instanceof SetFontCommand c) {
 				getCurrentState().setFont(c.getValue());
 			} else if(command instanceof SetTransformCommand) {
 				throw new UnsupportedOperationException("The PDF format has no means of setting the transformation matrix.");
-			} else if(command instanceof AffineTransformCommand) {
-				AffineTransformCommand c = (AffineTransformCommand)command;
+			} else if(command instanceof AffineTransformCommand c) {
 				AffineTransform stateTransform = getCurrentState().getTransform();
 				AffineTransform transformToBeApplied = c.getValue();
 				stateTransform.concatenate(transformToBeApplied);
 				getCurrentState().setTransform(stateTransform);
-			} else if(command instanceof SetClipCommand) {
-				SetClipCommand c = (SetClipCommand)command;
+			} else if(command instanceof SetClipCommand c) {
 				getCurrentState().setClip(c.getValue());
 			} else if(command instanceof CreateCommand) {
 				try {
@@ -542,7 +518,7 @@ class PDFDocument extends SizedDocument {
 	private byte[] getOutput(Color color) {
 
 		ByteArrayOutputStream out = new ByteArrayOutputStream();
-		try (FormattingWriter string = new FormattingWriter(out, CHARSET, EOL)) {
+		try (FormattingWriter string = new FormattingWriter(out, StandardCharsets.ISO_8859_1, EOL)) {
 			if(color.getColorSpace().getType() == ColorSpace.TYPE_CMYK) {
 				float[] cmyk = color.getComponents(null);
 				byte[] c = serialize(cmyk[0]);
@@ -560,14 +536,14 @@ class PDFDocument extends SizedDocument {
 			}
 			return out.toByteArray();
 		} catch(IOException e) {
-			return null;
+			return new byte[0];
 		}
 	}
 
 	private byte[] getOutput(Shape s) {
 
 		ByteArrayOutputStream out = new ByteArrayOutputStream();
-		try (FormattingWriter string = new FormattingWriter(out, CHARSET, EOL)) {
+		try (FormattingWriter string = new FormattingWriter(out, StandardCharsets.ISO_8859_1, EOL)) {
 			PathIterator segments = s.getPathIterator(null);
 			double[] coordsCur = new double[6];
 			double[] pointPrev = new double[2];
@@ -612,14 +588,14 @@ class PDFDocument extends SizedDocument {
 			}
 			return out.toByteArray();
 		} catch(IOException e) {
-			return null;
+			return new byte[0];
 		}
 	}
 
 	private byte[] getOutput(GraphicsState state, Resources resources, boolean first) {
 
 		ByteArrayOutputStream out = new ByteArrayOutputStream();
-		try (FormattingWriter string = new FormattingWriter(out, CHARSET, EOL)) {
+		try (FormattingWriter string = new FormattingWriter(out, StandardCharsets.ISO_8859_1, EOL)) {
 			if(!first) {
 				string.writeln("Q");
 			}
@@ -649,7 +625,7 @@ class PDFDocument extends SizedDocument {
 			}
 			return out.toByteArray();
 		} catch(IOException e) {
-			return null;
+			return new byte[0];
 		}
 	}
 
@@ -659,7 +635,7 @@ class PDFDocument extends SizedDocument {
 			throw new UnsupportedOperationException("Only BasicStroke objects are supported.");
 		}
 		ByteArrayOutputStream out = new ByteArrayOutputStream();
-		try (FormattingWriter string = new FormattingWriter(out, CHARSET, EOL)) {
+		try (FormattingWriter string = new FormattingWriter(out, StandardCharsets.ISO_8859_1, EOL)) {
 			BasicStroke strokeDefault = (BasicStroke)GraphicsState.DEFAULT_STROKE;
 			BasicStroke strokeNew = (BasicStroke)s;
 			if(strokeNew.getLineWidth() != strokeDefault.getLineWidth()) {
@@ -684,7 +660,7 @@ class PDFDocument extends SizedDocument {
 			}
 			return out.toByteArray();
 		} catch(IOException e) {
-			return null;
+			return new byte[0];
 		}
 	}
 
@@ -692,11 +668,7 @@ class PDFDocument extends SizedDocument {
 
 		double[] matrix = new double[6];
 		transform.getMatrix(matrix);
-		try {
-			return DataUtils.join(" ", matrix).getBytes(CHARSET);
-		} catch(UnsupportedEncodingException e) {
-			return null;
-		}
+		return DataUtils.join(" ", matrix).getBytes(StandardCharsets.ISO_8859_1);
 	}
 
 	private static byte[] getOutput(String str, double x, double y) {
@@ -706,24 +678,24 @@ class PDFDocument extends SizedDocument {
 		// Restore previous graphics state
 
 		ByteArrayOutputStream out = new ByteArrayOutputStream();
-		try (FormattingWriter string = new FormattingWriter(out, CHARSET, EOL)) {
+		try (FormattingWriter string = new FormattingWriter(out, StandardCharsets.ISO_8859_1, EOL)) {
 			string.write("q 1 0 0 -1 ").write(x).write(" ").write(y).write(" cm BT ").write(getOutput(str)).write(" Tj ET Q");
 			return out.toByteArray();
 		} catch(IOException e) {
-			return null;
+			return new byte[0];
 		}
 	}
 
 	private static byte[] getOutput(String str) {
 
 		// Escape string
-		str = str.replaceAll("\\\\", "\\\\\\\\").replaceAll("\t", "\\\\t").replaceAll("\b", "\\\\b").replaceAll("\f", "\\\\f").replaceAll("\\(", "\\\\(").replaceAll("\\)", "\\\\)").replaceAll("[\r\n]", "");
+		str = str.replace("\\\\", "\\\\\\\\").replace("\t", "\\\\t").replace("\b", "\\\\b").replace("\f", "\\\\f").replace("\\(", "\\\\(").replace("\\)", "\\\\)").replace("[\r\n]", "");
 		ByteArrayOutputStream out = new ByteArrayOutputStream();
-		try (FormattingWriter string = new FormattingWriter(out, CHARSET, EOL)) {
+		try (FormattingWriter string = new FormattingWriter(out, StandardCharsets.ISO_8859_1, EOL)) {
 			string.write("(").write(str).write(")");
 			return out.toByteArray();
 		} catch(IOException e) {
-			return null;
+			return new byte[0];
 		}
 	}
 
@@ -737,25 +709,21 @@ class PDFDocument extends SizedDocument {
 		// Draw image
 		// Restore old graphics state
 		ByteArrayOutputStream out = new ByteArrayOutputStream();
-		try (FormattingWriter string = new FormattingWriter(out, CHARSET, EOL)) {
+		try (FormattingWriter string = new FormattingWriter(out, StandardCharsets.ISO_8859_1, EOL)) {
 			string.write("q ").write(width).write(" 0 0 ").write(height).write(" ").write(x).write(" ").write(y).write(" cm 1 0 0 -1 0 1 cm /").write(resourceId).write(" Do Q");
 			return out.toByteArray();
 		} catch(IOException e) {
-			return null;
+			return new byte[0];
 		}
 	}
 
-	public void close() {
+	public void close() throws IOException {
 
-		try {
-			String footer = "Q";
-			if(transformed) {
-				footer += EOL + "Q";
-			}
-			contents.write(footer.getBytes(CHARSET));
-			contents.close();
-		} catch(IOException e) {
-			throw new RuntimeException(e);
+		String footer = "Q";
+		if(transformed) {
+			footer += EOL + "Q";
 		}
+		contents.write(footer.getBytes(StandardCharsets.ISO_8859_1));
+		contents.close();
 	}
 }

@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2010, 2019 VectorGraphics2D project.
+ * Copyright (c) 2010, 2024 VectorGraphics2D project.
  *
  * This program and the accompanying materials are made
  * available under the terms of the Eclipse Public License 2.0
@@ -17,13 +17,13 @@ import static org.junit.Assert.assertArrayEquals;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 
 import org.eclipse.swtchart.vectorgraphics2d.util.FormattingWriter;
 import org.junit.Test;
 
 public class PDFDocumentTest {
 
-	private static final String PDF_CHARSET = "ISO-8859-1";
 	private static final String PDF_EOL = "\n";
 
 	@SuppressWarnings("resource")
@@ -35,7 +35,7 @@ public class PDFDocumentTest {
 		TrueTypeFont font = new TrueTypeFont(encoding, baseFont);
 		byte[] serialized = PDFDocument.serialize(font);
 		ByteArrayOutputStream expected = new ByteArrayOutputStream();
-		FormattingWriter expectedString = new FormattingWriter(expected, PDF_CHARSET, PDF_EOL);
+		FormattingWriter expectedString = new FormattingWriter(expected, StandardCharsets.ISO_8859_1, PDF_EOL);
 		expectedString.writeln("<<");
 		expectedString.writeln("/Type /Font");
 		expectedString.writeln("/Subtype /TrueType");
@@ -55,7 +55,7 @@ public class PDFDocumentTest {
 		stream.close();
 		byte[] serialized = PDFDocument.serialize(stream);
 		ByteArrayOutputStream expected = new ByteArrayOutputStream();
-		FormattingWriter expectedString = new FormattingWriter(expected, PDF_CHARSET, PDF_EOL);
+		FormattingWriter expectedString = new FormattingWriter(expected, StandardCharsets.ISO_8859_1, PDF_EOL);
 		expectedString.writeln("<<");
 		expectedString.write("/Length ").writeln(stream.getLength());
 		expectedString.writeln("/Filter /FlateDecode");
@@ -76,7 +76,7 @@ public class PDFDocumentTest {
 		stream.close();
 		byte[] serialized = PDFDocument.serialize(stream);
 		ByteArrayOutputStream expected = new ByteArrayOutputStream();
-		FormattingWriter expectedString = new FormattingWriter(expected, PDF_CHARSET, PDF_EOL);
+		FormattingWriter expectedString = new FormattingWriter(expected, StandardCharsets.ISO_8859_1, PDF_EOL);
 		expectedString.writeln("<<");
 		expectedString.write("/Length ").writeln(stream.getLength());
 		expectedString.writeln(">>");

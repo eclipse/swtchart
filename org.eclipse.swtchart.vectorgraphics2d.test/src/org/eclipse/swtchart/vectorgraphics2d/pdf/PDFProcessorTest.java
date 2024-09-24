@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2010, 2019 VectorGraphics2D project.
+ * Copyright (c) 2010, 2024 VectorGraphics2D project.
  *
  * This program and the accompanying materials are made
  * available under the terms of the Eclipse Public License 2.0
@@ -18,6 +18,7 @@ import static org.junit.Assert.assertTrue;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.util.regex.Pattern;
 
 import org.eclipse.swtchart.vectorgraphics2d.core.Document;
@@ -45,7 +46,7 @@ public class PDFProcessorTest {
 		}
 		Document processed = pdfProcessor.getDocument(sequence, PAGE_SIZE);
 		processed.writeTo(bytes);
-		return bytes.toString("ISO-8859-1");
+		return bytes.toString(StandardCharsets.ISO_8859_1);
 	}
 
 	@Test

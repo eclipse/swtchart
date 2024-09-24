@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2010, 2019 VectorGraphics2D project.
+ * Copyright (c) 2010, 2024 VectorGraphics2D project.
  *
  * This program and the accompanying materials are made
  * available under the terms of the Eclipse Public License 2.0
@@ -19,6 +19,7 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.nio.charset.StandardCharsets;
 
 import org.junit.Test;
 
@@ -34,7 +35,7 @@ public class ASCII85EncodeStreamTest {
 			encodeStream.write(buffer, 0, count);
 		}
 		encodeStream.close();
-		String encoded = outStream.toString("ISO-8859-1");
+		String encoded = outStream.toString(StandardCharsets.ISO_8859_1);
 		assertEquals(expected, encoded);
 	}
 
