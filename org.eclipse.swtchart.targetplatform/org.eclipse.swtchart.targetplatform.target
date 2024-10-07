@@ -19,5 +19,33 @@
 		<unit id="org.apache.batik.dom" version="0.0.0"/>
 		<unit id="org.apache.batik.ext" version="0.0.0"/>
 	</location>
+	<location includeDependencyDepth="none" includeDependencyScopes="compile" includeSource="true" label="org.apache.pdfbox" missingManifest="generate" type="Maven">
+		<dependencies>
+			<dependency>
+				<groupId>org.apache.pdfbox</groupId>
+				<artifactId>fontbox</artifactId>
+				<version>2.0.26</version>
+				<type>jar</type>
+			</dependency>
+			<dependency>
+				<groupId>org.apache.pdfbox</groupId>
+				<artifactId>pdfbox</artifactId>
+				<version>2.0.26</version>
+				<type>jar</type>
+			</dependency>
+			<dependency>
+				<groupId>org.apache.pdfbox</groupId>
+				<artifactId>preflight</artifactId>
+				<version>2.0.26</version>
+				<type>jar</type>
+			</dependency>
+			<dependency>
+				<groupId>org.apache.pdfbox</groupId>
+				<artifactId>xmpbox</artifactId>
+				<version>2.0.26</version>
+				<type>jar</type>
+			</dependency>
+		</dependencies>
+	</location>	
 </locations>
 </target>

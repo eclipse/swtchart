@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2010, 2019 VectorGraphics2D project.
+ * Copyright (c) 2010, 2024 VectorGraphics2D project.
  *
  * This program and the accompanying materials are made
  * available under the terms of the Eclipse Public License 2.0
@@ -10,6 +10,7 @@
  * Contributors:
  * Erich Seifert - initial API and implementation
  * Michael Seifert - initial API and implementation
+ * Philip Wenig - fixed PDF output
  *******************************************************************************/
 package org.eclipse.swtchart.vectorgraphics2d.core;
 

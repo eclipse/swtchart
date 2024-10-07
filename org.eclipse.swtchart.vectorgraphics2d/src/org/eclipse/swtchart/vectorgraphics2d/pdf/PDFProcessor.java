@@ -10,6 +10,7 @@
  * Contributors:
  * Erich Seifert - initial API and implementation
  * Michael Seifert - initial API and implementation
+ * Philip Wenig - fixed PDF output
  *******************************************************************************/
 package org.eclipse.swtchart.vectorgraphics2d.pdf;
 
@@ -18,9 +19,6 @@ import java.io.IOException;
 import org.eclipse.swtchart.vectorgraphics2d.core.Document;
 import org.eclipse.swtchart.vectorgraphics2d.core.Processor;
 import org.eclipse.swtchart.vectorgraphics2d.intermediate.CommandSequence;
-import org.eclipse.swtchart.vectorgraphics2d.intermediate.filters.AbsoluteToRelativeTransformsFilter;
-import org.eclipse.swtchart.vectorgraphics2d.intermediate.filters.FillPaintedShapeAsImageFilter;
-import org.eclipse.swtchart.vectorgraphics2d.intermediate.filters.StateChangeGroupingFilter;
 import org.eclipse.swtchart.vectorgraphics2d.util.PageSize;
 
 /**
@@ -31,30 +29,16 @@ public class PDFProcessor implements Processor {
 
 	private final boolean compressed;
 
-	/**
-	 * Initializes a {@code PDFProcessor} for compressed PDF documents.
-	 */
 	public PDFProcessor() {
 
 		this(true);
 	}
 
-	/**
-	 * Initializes a {@code PDFProcessor} with the specified compression settings.
-	 * 
-	 * @param compressed
-	 *            {@code true} if compression is enabled, {@code false} otherwise.
-	 */
 	public PDFProcessor(boolean compressed) {
 
 		this.compressed = compressed;
 	}
 
-	/**
-	 * Returns whether the current PDF document is compressed.
-	 * 
-	 * @return {@code true} if the document is compressed, {@code false} otherwise.
-	 */
 	public boolean isCompressed() {
 
 		return compressed;
@@ -63,9 +47,6 @@ public class PDFProcessor implements Processor {
 	@Override
 	public Document getDocument(CommandSequence commands, PageSize pageSize) throws IOException {
 
-		AbsoluteToRelativeTransformsFilter absoluteToRelativeTransformsFilter = new AbsoluteToRelativeTransformsFilter(commands);
-		FillPaintedShapeAsImageFilter paintedShapeAsImageFilter = new FillPaintedShapeAsImageFilter(absoluteToRelativeTransformsFilter);
-		CommandSequence filtered = new StateChangeGroupingFilter(paintedShapeAsImageFilter);
-		return new PDFDocument(filtered, pageSize, isCompressed());
+		return new PDFDocument(commands, pageSize, isCompressed());
 	}
 }

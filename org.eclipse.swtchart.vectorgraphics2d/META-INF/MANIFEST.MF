@@ -14,7 +14,9 @@ Export-Package: org.eclipse.swtchart.vectorgraphics2d.core,
  org.eclipse.swtchart.vectorgraphics2d.util
 Bundle-Activator: org.eclipse.swtchart.vectorgraphics2d.Activator
 Require-Bundle: org.eclipse.ui,
- org.eclipse.core.runtime
+ org.eclipse.core.runtime,
+ org.apache.pdfbox;bundle-version="2.0.26",
+ org.apache.pdfbox.fontbox;bundle-version="2.0.26"
 Bundle-RequiredExecutionEnvironment: JavaSE-17
 Automatic-Module-Name: org.eclipse.swtchart.vectorgraphics2d
 Bundle-ActivationPolicy: lazy
