@@ -50,7 +50,7 @@ public class LineChart extends ScrollableChart implements ICompressionSupport {
 	public void addSeriesData(List<ILineSeriesData> lineSeriesDataList, int compressToLength) {
 
 		if(useSliceDataSupplier) {
-			addSeriesDataSlice(lineSeriesDataList, compressToLength);
+			addSeriesDataSlice(lineSeriesDataList);
 		} else {
 			addSeriesDataClassic(lineSeriesDataList, compressToLength);
 		}
@@ -101,7 +101,7 @@ public class LineChart extends ScrollableChart implements ICompressionSupport {
 	/*
 	 * Experimental
 	 */
-	private void addSeriesDataSlice(List<ILineSeriesData> lineSeriesDataList, int compressToLength) {
+	private void addSeriesDataSlice(List<ILineSeriesData> lineSeriesDataList) {
 
 		if(lineSeriesDataList != null && !lineSeriesDataList.isEmpty()) {
 			BaseChart baseChart = getBaseChart();
