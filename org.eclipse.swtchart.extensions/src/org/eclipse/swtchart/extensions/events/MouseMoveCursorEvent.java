@@ -49,7 +49,7 @@ public class MouseMoveCursorEvent extends AbstractHandledEventProcessor {
 			}
 
 			if(tooltip == null) {
-				tooltip = new ToolTip(display.getActiveShell(), SWT.NONE);
+				tooltip = new ToolTip(baseChart.getShell(), SWT.NONE);
 			}
 
 			String selectedSeriesId = baseChart.getSelectedseriesId(event);
